@@ -61,18 +61,34 @@ typedef enum
     blue,
     indigo,
     violet,
-    black,
     white,
     yellow,
     cyan,
     magenta,
     lime,
+    black,
     maroon,
     olive,
     chocolate,
     gold,
     num_colors,
 } color_list_e;
+
+typedef enum
+{
+	disp_red = 0,
+    disp_orange,
+    disp_green,
+    disp_blue,
+    disp_indigo,
+    disp_violet,
+    disp_white,
+    disp_yellow,
+    disp_cyan,
+    disp_magenta,
+    //disp_chocolate,
+    disp_num_colors_disp,
+} display_colors_e;
 
 
 struct colors 
@@ -84,18 +100,18 @@ struct colors
 
 void strip_init(void);
 void show_strip(void);
+void strip_clear(uint16_t strip_size);
 void strip_set_brightness(uint8_t brightness);
 void strip_turn_off_pixel(uint16_t pixel);
-void strip_turn_on_pixel(uint16_t pixel, color_list_e color);
+void strip_turn_on_pixel(uint16_t pixel, display_colors_e color);
 void twinkle(void);
-letters_in_sign_t draw_letter(letters_in_sign_t letter, color_list_e color);
-void crash(color_list_e color_left, color_list_e color_right, color_list_e blend_color, uint16_t delay_time);
-void draw_letters(color_list_e color, uint16_t delay_time);
-void blink_word(color_list_e color, uint16_t strip_size, uint16_t delay_time);
-void fade_letter_l_to_r(letters_in_sign_t letter, color_list_e color, uint16_t delay_time);
-void fade_letter_r_to_l(letters_in_sign_t letter, color_list_e color, uint16_t delay_time);
-void fade_word_bottom_to_top(color_list_e color, uint16_t delay_time);
-void fade_word(color_list_e color, uint16_t delay_time, bool l_to_r);
-void fade_word_top_to_bottom(color_list_e color, uint16_t delay_time);
-void draw_word(color_list_e color, uint16_t strip_size, bool spell, uint32_t delay_time);
-
+letters_in_sign_t draw_letter(letters_in_sign_t letter, display_colors_e color);
+void crash(display_colors_e color_left, display_colors_e color_right, display_colors_e blend_color, uint16_t delay_time);
+void draw_letters(display_colors_e color, uint16_t delay_time);
+void blink_word(display_colors_e color, uint16_t strip_size, uint16_t delay_time);
+void fade_letter_l_to_r(letters_in_sign_t letter, display_colors_e color, uint16_t delay_time);
+void fade_letter_r_to_l(letters_in_sign_t letter, display_colors_e color, uint16_t delay_time);
+void fade_word_bottom_to_top(display_colors_e color, uint16_t delay_time);
+void fade_word(display_colors_e color, uint16_t delay_time, bool l_to_r);
+void fade_word_top_to_bottom(display_colors_e color, uint16_t delay_time);
+void draw_word(display_colors_e color, uint16_t strip_size, bool spell, float speed_factor);
