@@ -1,6 +1,8 @@
+#include "Adafruit_NeoPixel.h"
+
 
 #include <nohbz_sign.h>
-#include <Adafruit_NeoPixel.h>
+
 #include "stdint.h"
 #include "stdbool.h"
 
@@ -19,8 +21,10 @@ typedef enum
     ST_DRAW_LETTERS,
     ST_L_R_FADE,
     ST_R_L_FADE,
+    ST_ALTERNATE_L_R_FADE,
     ST_T_B_FADE,
     ST_B_T_FADE,
+    ST_ALTERNATE_T_B_FADE,
     ST_DRAW_WORD,
     ST_TWINKLE,
     NUM_SIGN_STATES, 
@@ -37,96 +41,32 @@ typedef enum
 
 typedef enum
 {
-    ANIMATION_DELAY_MS_0 = 0,
-    ANIMATION_DELAY_MS_250 = 250,
+    ANIMATION_DELAY_MS_1 = 1, // sizzling
+    ANIMATION_DELAY_MS_100 = 100,
     ANIMATION_DELAY_MS_500 = 500,
     ANIMATION_DELAY_MS_1000 = 1000,
     ANIMATION_DELAY_MS_1500 = 1500,
+    ANIMATION_DELAY_MS_2000 = 2000,
     LAST_ANIMATION_DELAY,
 } animation_delay_ms_t;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 uint8_t z = 0;
 const byte button1 = 2;
 const byte button2 = 3;
 byte pixel_set_flags[STRIP_SIZE] = {0};
 bool rand_flags[8] = {false};
-volatile bool mode_switch_occurred_flag_g = false;
-volatile bool animation_speed_flag_g = false;
 uint8_t st_dev_count = 0;
 //sign_state_master_t master_sign_state = ST_MASTER_DEMO_FIXED_TIME;
-sign_state_master_t master_sign_state = ST_RUN;
-animation_delay_ms_t animation_delay = ANIMATION_DELAY_MS_0;
+sign_state_master_t master_sign_state = ST_MASTER_DEMO_FIXED_TIME;
+animation_delay_ms_t animation_delay = ANIMATION_DELAY_MS_1000;
 color_list_e random_sign_color = num_colors; // set to invalid color initially..
-sign_state_t sign_state = ST_B_T_FADE;
+sign_state_t sign_state = ST_SPELL_WORD;
 color_list_e sign_color = cyan;
 color_list_e twinkle_color = red;
 color_list_e random_twinkle_color = num_colors;
 void mode_switch_isr(void);
 void animation_speed_isr(void);
-
+uint32_t loop_count = 0;
 
 void switch_twinkle_color(void);
 sign_state_t select_random_state(void);
@@ -134,11 +74,10 @@ void switch_sign_color(void);
 uint16_t twinkle_spot(uint16_t minimum, uint16_t maximum, color_list_e color);
 void reset_rand_flags(void);
 bool twinkle_animation(void);
-void demo_loop_count(void);
+void check_loop_count(void);
 bool state_used_flag[NUM_SIGN_STATES] = {false};
 sign_state_t random_state = NUM_SIGN_STATES; // set to an invalid state initially....
 uint8_t state_spot_checker = 0;
-
 
 void setup(void)
 {
@@ -153,10 +92,8 @@ void setup(void)
     Serial.begin(9600);
     strip_init();
     interrupts();
-    //EIFR = (1 << INTF0);   //use before attachInterrupt(0,isr,xxxx) to clear interrupt 0 flag
-    //EIFR = (1 << INTF1);   //use before attachInterrupt(1,isr,xxxx) to clear interrupt 1 flag
-    attachInterrupt(digitalPinToInterrupt(2), mode_switch_isr, RISING);
-    attachInterrupt(digitalPinToInterrupt(3), animation_speed_isr, RISING);
+    attachInterrupt(digitalPinToInterrupt(button1), mode_switch_isr, RISING);
+    attachInterrupt(digitalPinToInterrupt(button2), animation_speed_isr, RISING);
     randomSeed(analogRead(0));
     for (int i = 0; i < STRIP_SIZE; i++) pixel_set_flags[i] = 0;
     for (int i = 0; i < 8; i++) rand_flags[i] = false;
@@ -192,7 +129,6 @@ void switch_sign_color(void)
             else sign_color = (color_list_e)sign_color - 1;
         }
         else sign_color = random_sign_color;
-            
     }
 }
 
@@ -201,48 +137,51 @@ unsigned long animation_last_time = 0;
 unsigned long mode_switch_last_time = 0;
 unsigned long debounceDelay = 50; // ms
 
+bool state_transition_flag_g = false;
 
-void mode_switch_isr(void)
+void mode_switch_isr()
 {
     if ((millis() - mode_switch_last_time) > debounceDelay)
     {
         mode_switch_last_time = millis();
-        mode_switch_occurred_flag_g = true;
     }
+    else return;
+    loop_count = 0;
     switch(master_sign_state)
     {
         case ST_MASTER_DEMO_FIXED_TIME:
             master_sign_state = ST_MASTER_DEMO_VARIABLE_TIME;
+            animation_delay = ANIMATION_DELAY_MS_1000;
+            state_transition_flag_g = true;
         break;
         case ST_MASTER_DEMO_VARIABLE_TIME:
             master_sign_state = ST_RUN;
             sign_state = ST_SPELL_WORD;
+            state_transition_flag_g = true;
         break;
         case ST_RUN:
             sign_state = (sign_state_t)(sign_state + 1);
-            if(NUM_SIGN_STATES == sign_state) master_sign_state = ST_MASTER_DEMO_FIXED_TIME;
+            if(NUM_SIGN_STATES == sign_state) 
+            {
+                master_sign_state = ST_MASTER_DEMO_FIXED_TIME;
+                state_transition_flag_g = true;
+            }
         break;
     }
-    
 }
 
-uint8_t led_count = 1;
-
-void animation_speed_isr(void)
+uint8_t animation_speed_flag = 0;
+void animation_speed_isr()
 { 
-
     if ((millis() - animation_last_time) > debounceDelay)
     {
         animation_last_time = millis();
-        animation_speed_flag_g = true;
     }
-    
-    
-    //sign_state = ST_L_R_FADE;
-    // this interrupt will be used to control speed of animation.  
-    // this will change all animation speeds
+    else return;
+    loop_count = 0;
     animation_delay = (animation_delay_ms_t)animation_delay + 1;
-    if(LAST_ANIMATION_DELAY == animation_delay) animation_delay = ANIMATION_DELAY_MS_0;
+    if(LAST_ANIMATION_DELAY == animation_delay) animation_delay = ANIMATION_DELAY_MS_1;
+    loop_count = 0;
 }
 
 
@@ -325,7 +264,7 @@ bool twinkle_animation(void)
             st_dev_count = 0;
             sign_color = twinkle_color;
             switch_twinkle_color();
-            draw_word(sign_color, STRIP_SIZE, false, 0);
+            draw_word(sign_color, STRIP_SIZE, false);
         }
     }
     if (st_dev_count++ > 25) // 45 random pixel fills before we force entire word on
@@ -334,19 +273,60 @@ bool twinkle_animation(void)
         st_dev_count = 0;
         sign_color = twinkle_color;
         switch_twinkle_color();
-        draw_word(sign_color, STRIP_SIZE, false, 0);
+        draw_word(sign_color, STRIP_SIZE, false);
         return true;
     }
      return false;
 }
 
 
-uint32_t loop_count = 0;
-
-
-void demo_loop_count(void)
+// 10 seconds display time per animation in demo mode
+#define DEMO_ANIMATION_TIME_MS 10000
+bool demo_get_faster_flag = true;
+void check_loop_count(void)
 {
-    if(loop_count >= 20) sign_state = select_random_state();
+    Serial.println(loop_count, DEC);
+    if(ST_MASTER_DEMO_VARIABLE_TIME == master_sign_state)
+    {
+        if(loop_count > (DEMO_ANIMATION_TIME_MS / animation_delay))
+        {
+            loop_count = 0;
+            switch(animation_delay)
+            {
+                case ANIMATION_DELAY_MS_1:
+                    if(demo_get_faster_flag) animation_delay = ANIMATION_DELAY_MS_100;
+                    else 
+                    {
+                        animation_delay = ANIMATION_DELAY_MS_2000;
+                        select_random_state();
+                    }
+                case ANIMATION_DELAY_MS_100:
+                    if(demo_get_faster_flag) animation_delay = ANIMATION_DELAY_MS_500;
+                    else animation_delay = ANIMATION_DELAY_MS_1;
+                case ANIMATION_DELAY_MS_500:
+                    if(demo_get_faster_flag) animation_delay = ANIMATION_DELAY_MS_1000;
+                    else animation_delay = ANIMATION_DELAY_MS_100;
+                case ANIMATION_DELAY_MS_1000:
+                    if(demo_get_faster_flag) animation_delay = ANIMATION_DELAY_MS_2000;
+                    else animation_delay = ANIMATION_DELAY_MS_500;
+                case ANIMATION_DELAY_MS_2000:
+                    if(demo_get_faster_flag) 
+                    {
+                        animation_delay = ANIMATION_DELAY_MS_1;
+                        select_random_state();
+                    }
+                    else animation_delay = ANIMATION_DELAY_MS_1000;
+                break;
+            }
+        }
+    }
+    if(loop_count >= ((uint32_t)DEMO_ANIMATION_TIME_MS / (uint32_t)animation_delay)) 
+    {
+        Serial.println("hi");
+        loop_count = 0;
+        sign_state = select_random_state();
+    }
+    loop_count++; 
 }
 
 
@@ -432,105 +412,77 @@ sign_state_t select_random_state(void)
 }
 
 
+letters_in_sign_t letter = N_LETTER;  
+uint8_t alternate_t_b_flag = 1;
+uint8_t alternate_l_r_flag = 1;
+
 void loop() 
 {
-    
-    // Basic idea...
-    // Demo Mode:
-    //      Demo Mode 1 - Cycle through all animations for fixed time.  Random colors.  Fixed animation speed.
-    //      Demo Mode 2 - Cycle through all animations for fixed time.  Random colors. Variable speed.  Maybe slow to fast for all.
-    //      In Demo Mode the animations are randomly selected.  All animations must have been shown before an animation can be shown again.
-    
-    // Run Mode:
-    //      Stay on animation selected until user switches.  The user can set global speed for all animations through switch.
-    //      User selects animation by remote also.  
-    // put your main code here, to run repeatedly:
-    
-
-    
-    //delay(1000);
-    #if 1
-    static bool first_pass = true;
-    if(first_pass)
+    if(state_transition_flag_g)
     {
-        //sign_state = select_random_state();
-        first_pass = false;
+        // alert the user they are switch master modes.  This occurs only on master transitions 
+        state_transition_flag_g = false;
+        draw_word(red, STRIP_SIZE, false);
+        delay(250);
     }
-    
-    letters_in_sign_t letter = N_LETTER;  
+    //Serial.println(master_sign_state,DEC);
+    if(ST_MASTER_DEMO_FIXED_TIME == master_sign_state || ST_MASTER_DEMO_VARIABLE_TIME == master_sign_state)
+    {
+        check_loop_count();
+    }
     switch (sign_state)
     {
         case ST_SPELL_WORD:
-            draw_word(sign_color, STRIP_SIZE, true, animation_delay);
+            draw_word(sign_color, STRIP_SIZE, true);
+            delay(animation_delay);
         break;
         case ST_DRAW_LETTERS:
-        
             while(letter != NUM_LETTERS)
             {
                 draw_letter((letters_in_sign_t)letter, sign_color);
                 letter = (letters_in_sign_t)(letter + 1);
+                delay(animation_delay/NUM_LETTERS);
             }
-        
         break;
         case ST_L_R_FADE:
             fade_word(sign_color, 10, true);
+            delay(animation_delay);
         break;
         case ST_R_L_FADE:
             fade_word(sign_color, 10, false);
+            delay(animation_delay);
+        break;
+        case ST_ALTERNATE_L_R_FADE:
+            if(alternate_l_r_flag) fade_word(sign_color, 25, false);
+            else  fade_word(sign_color, 25, true);
+            alternate_l_r_flag ^= 1;
+            delay(animation_delay);
         break;
         case ST_T_B_FADE:
-            fade_word_top_to_bottom(sign_color, 1);
+            fade_word_top_to_bottom(sign_color, 25);
+            delay(animation_delay);
         break;
         case ST_B_T_FADE:
-            fade_word_bottom_to_top(sign_color, 1);
+            fade_word_bottom_to_top(sign_color, 25);
+            delay(animation_delay);
+        break;
+        case ST_ALTERNATE_T_B_FADE:
+            if(alternate_t_b_flag) fade_word_top_to_bottom(sign_color, 25);
+            else fade_word_bottom_to_top(sign_color, 25);
+            alternate_t_b_flag ^= 1;
+            delay(animation_delay);
         break;
         case ST_DRAW_WORD:
-            draw_word(sign_color, STRIP_SIZE, false, 0);
+            draw_word(sign_color, STRIP_SIZE, false);
+            delay(animation_delay);
         break;
         case ST_TWINKLE:
            while(!twinkle_animation());
+           delay(animation_delay);
+        break;
+        default:
         break;
     }
-    /*
-    if(animation_speed_flag_g || mode_switch_occurred_flag_g)
-    {
-        animation_delay = (animation_delay_ms_t)animation_delay + 1;
-        if(LAST_ANIMATION_DELAY == animation_delay) animation_delay = ANIMATION_DELAY_MS_0;
-    } 
-    else if(mode_switch_occurred_flag_g)
-    {
-        switch(master_sign_state)
-        {
-            case ST_MASTER_DEMO_FIXED_TIME:
-                master_sign_state = ST_MASTER_DEMO_VARIABLE_TIME;
-            break;
-            case ST_MASTER_DEMO_VARIABLE_TIME:
-                master_sign_state = ST_RUN;
-                sign_state = ST_SPELL_WORD;
-            break;
-            case ST_RUN:
-                sign_state = (sign_state_t)(sign_state + 1);
-                if(NUM_SIGN_STATES == sign_state) master_sign_state = ST_MASTER_DEMO_FIXED_TIME;
-            break;
-        }
-    }
-    */
-    #endif
     
-    if(mode_switch_occurred_flag_g)
-    {
-        
-        mode_switch_occurred_flag_g = false;
-        Serial.println("switch_interrupt");
-    }
-    if(animation_speed_flag_g)
-    {
-        animation_speed_flag_g = false;
-        Serial.println("switch_animation_speed");
-    }
-    
-    loop_count++;
-    delay((uint32_t)animation_delay);        
-    switch_sign_color();
-    //#endif
+    switch_sign_color(); // for all cases switch sign color
 }

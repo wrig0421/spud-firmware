@@ -97,5 +97,4 @@ void fade_letter_r_to_l(letters_in_sign_t letter, color_list_e color, uint16_t d
 void fade_word_bottom_to_top(color_list_e color, uint16_t delay_time);
 void fade_word(color_list_e color, uint16_t delay_time, bool l_to_r);
 void fade_word_top_to_bottom(color_list_e color, uint16_t delay_time);
-void draw_word(color_list_e color, uint16_t strip_size, bool spell, uint32_t delay_time);
-
+void draw_word(color_list_e color, uint16_t strip_size, bool spell);

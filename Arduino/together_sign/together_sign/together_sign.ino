@@ -8,10 +8,11 @@
  *  ASSOCIATED WARRANTY distributed with the code.  Use at your own       *
  *  risk.  Forward any bugs or concerns to wrig0421@umn.edu.              *
  **************************************************************************/
-
-#include <together_sign.h>
 #include <Adafruit_NeoPixel.h>
+#include <together_sign.h>
 
+#include "stdint.h"
+#include "stdbool.h"
 // RF receiver IC pins
 #define VT          1  
 #define D0          2
