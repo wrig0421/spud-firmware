@@ -50,8 +50,8 @@ typedef enum
 {
     ST_MASTER_DEMO_FIXED_TIME = 0,
     ST_MASTER_DEMO_VARIABLE_TIME,
-    ST_RUN,
     ST_SOLID_COLOR,
+    ST_RUN,
 } sign_state_master_t; 
 
 
