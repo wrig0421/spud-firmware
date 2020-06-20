@@ -27,46 +27,47 @@ void strip_init(void)
     ch[black].green = 0;
     ch[black].blue = 0;
     full_strip_color[black] = strip.Color(0, 0, 0);
-    ch[white].red = 255;
-    ch[white].green = 255;
-    ch[white].blue = 255;
-    full_strip_color[white] = strip.Color(255, 255, 255);
-    ch[red].red = 255;
-    ch[red].green = 0;
-    ch[red].blue = 0;
-    full_strip_color[red] = strip.Color(255, 0, 0);
-    ch[blue].red = 0;
-    ch[blue].green = 0;
-    ch[blue].blue = 255;
-    full_strip_color[blue] = strip.Color(0, 0, 255);
-    ch[green].red = 0;
-    ch[green].green = 255;
-    ch[green].blue = 0;
-    full_strip_color[green] = strip.Color(0, 255, 0);
-    ch[orange].red = 255;
-    ch[orange].green = 165;
-    ch[orange].blue = 0;
-    full_strip_color[orange] = strip.Color(255, 165, 0);
-    ch[yellow].red = 255;
-    ch[yellow].green = 255;
-    ch[yellow].blue = 0;
-    full_strip_color[yellow] = strip.Color(255, 255, 0);
-    ch[indigo].red = 75;
-    ch[indigo].green = 0;
-    ch[indigo].blue = 138;
-    full_strip_color[indigo] = strip.Color(75, 0, 138);
-    ch[violet].red = 238;
-    ch[violet].green = 138;
-    ch[violet].blue = 238;
-    full_strip_color[violet] = strip.Color(238, 138, 238);
-    ch[cyan].red = 0;
-    ch[cyan].green = 255;
-    ch[cyan].blue = 255;
-    full_strip_color[cyan] = strip.Color(0, 255, 255);
-    ch[magenta].red = 255;
-    ch[magenta].green = 0;
-    ch[magenta].blue = 255;
-    full_strip_color[magenta] = strip.Color(255, 0, 255);
+    ch[disp_white].red = 255;
+    ch[disp_white].green = 255;
+    ch[disp_white].blue = 255;
+    full_strip_color[disp_white] = strip.Color(255, 255, 255);
+    ch[disp_red].red = 255;
+    ch[disp_red].green = 0;
+    ch[disp_red].blue = 0;
+    full_strip_color[disp_red] = strip.Color(255, 0, 0);
+    ch[disp_blue].red = 0;
+    ch[disp_blue].green = 0;
+    ch[disp_blue].blue = 255;
+    full_strip_color[disp_blue] = strip.Color(0, 0, 255);
+    ch[disp_green].red = 0;
+    ch[disp_green].green = 255;
+    ch[disp_green].blue = 0;
+    full_strip_color[disp_green] = strip.Color(0, 255, 0);
+    ch[disp_orange].red = 255;
+    ch[disp_orange].green = 165;
+    ch[disp_orange].blue = 0;
+    full_strip_color[disp_orange] = strip.Color(255, 165, 0);
+    ch[disp_yellow].red = 255;
+    ch[disp_yellow].green = 255;
+    ch[disp_yellow].blue = 0;
+    full_strip_color[disp_yellow] = strip.Color(255, 255, 0);
+    ch[disp_indigo].red = 75;
+    ch[disp_indigo].green = 0;
+    ch[disp_indigo].blue = 138;
+    full_strip_color[disp_indigo] = strip.Color(75, 0, 138);
+    ch[disp_violet].red = 238;
+    ch[disp_violet].green = 138;
+    ch[disp_violet].blue = 238;
+    full_strip_color[disp_violet] = strip.Color(238, 138, 238);
+    ch[disp_cyan].red = 0;
+    ch[disp_cyan].green = 255;
+    ch[disp_cyan].blue = 255;
+    full_strip_color[disp_cyan] = strip.Color(0, 255, 255);
+    ch[disp_magenta].red = 255;
+    ch[disp_magenta].green = 0;
+    ch[disp_magenta].blue = 255;
+    full_strip_color[disp_magenta] = strip.Color(255, 0, 255);
+    /*
     ch[lime].red = 0;
     ch[lime].green = 255;
     ch[lime].blue = 0;
@@ -79,14 +80,15 @@ void strip_init(void)
     ch[olive].green = 128;
     ch[olive].blue = 0;
     full_strip_color[olive] = strip.Color(128, 128, 0);
-    ch[chocolate].red = 210;
-    ch[chocolate].green = 105;
-    ch[chocolate].blue = 30;
-    full_strip_color[chocolate] = strip.Color(210, 105, 30);
+    ch[disp_chocolate].red = 210;
+    ch[disp_chocolate].green = 105;
+    ch[disp_chocolate].blue = 30;
+    full_strip_color[disp_chocolate] = strip.Color(210, 105, 30);
     ch[gold].red = 255;
     ch[gold].green = 215;
     ch[gold].blue = 0;
     full_strip_color[gold] = strip.Color(255, 215, 30);
+    */
     for(int i = 0; i < STRIP_SIZE; i++)
     {
 		strip.setPixelColor(i, ch[black].red, ch[black].green, ch[black].blue);
@@ -101,7 +103,7 @@ void strip_turn_off_pixel(uint16_t pixel)
 }
 
 
-void strip_turn_on_pixel(uint16_t pixel, color_list_e color)
+void strip_turn_on_pixel(uint16_t pixel, display_colors_e color)
 {
 	strip.setPixelColor(pixel, ch[color].red, ch[color].green, ch[color].blue);
 	strip.show();
@@ -114,6 +116,16 @@ void show_strip(void)
 }
 
 
+void strip_clear(uint16_t strip_size)
+{
+	for(int i = 0; i < strip_size; i++)
+    {
+        strip.setPixelColor(i, ch[black].red, ch[black].green, ch[black].blue);
+	}
+	strip.show();
+}
+
+
 void strip_set_brightness(uint8_t brightness)
 {
 	strip.setBrightness(brightness);
@@ -121,7 +133,7 @@ void strip_set_brightness(uint8_t brightness)
 }
 
 
-letters_in_sign_t draw_letter(letters_in_sign_t letter, color_list_e color)
+letters_in_sign_t draw_letter(letters_in_sign_t letter, display_colors_e color)
 {
     uint16_t lower_bound = 0;
     uint16_t upper_bound = 0;
@@ -148,7 +160,8 @@ letters_in_sign_t draw_letter(letters_in_sign_t letter, color_list_e color)
             upper_bound = Z_BOTTOM_POST_PIXEL_NUM_STOP;
         break;
         default:
-            return;
+        	//strip.show();
+            return letter;
         break;
     }
     for(int i = lower_bound; i <= upper_bound; i++)
@@ -160,7 +173,7 @@ letters_in_sign_t draw_letter(letters_in_sign_t letter, color_list_e color)
 }
 
 
-void draw_letters(color_list_e color, uint16_t delay_time)
+void draw_letters(display_colors_e color, uint16_t delay_time)
 {
     letters_in_sign_t letter = N_LETTER;
     while(Z_LETTER != draw_letter(letter, color))
@@ -171,7 +184,7 @@ void draw_letters(color_list_e color, uint16_t delay_time)
 }
 
 
-void draw_word(color_list_e color, uint16_t strip_size, bool spell)
+void draw_word(display_colors_e color, uint16_t strip_size, bool spell, float speed_factor)
 {
 	if(!spell) strip.clear();
     for(int i = 0; i < strip_size; i++)
@@ -180,13 +193,16 @@ void draw_word(color_list_e color, uint16_t strip_size, bool spell)
         if(spell) 
 		{
 			strip.show();
+			// min speed should be 100 ms.  
+			// max should be 1 ms or 0. 
+			delay(100 * speed_factor);
 		}
     }
     strip.show();
 }
 
 
-void blink_word(color_list_e color, uint16_t strip_size, uint16_t delay_time)
+void blink_word(display_colors_e color, uint16_t strip_size, uint16_t delay_time)
 {
 	strip.fill(full_strip_color[color], 0, strip_size);
 	strip.show();
@@ -197,7 +213,7 @@ void blink_word(color_list_e color, uint16_t strip_size, uint16_t delay_time)
 }
 
 
-void fade_letter_l_to_r(letters_in_sign_t letter, color_list_e color, uint16_t delay_time)
+void fade_letter_l_to_r(letters_in_sign_t letter, display_colors_e color, uint16_t delay_time)
 {
     uint16_t o_forward_count = 0;
     uint16_t o_backward_count = 0;
@@ -238,6 +254,7 @@ void fade_letter_l_to_r(letters_in_sign_t letter, color_list_e color, uint16_t d
     			delay(delay_time);
     			strip.setPixelColor(O_PIXEL_NUM_STOP - o_backward_count++, ch[color].red, ch[color].green, ch[color].blue);
     			strip.setPixelColor(O_PIXEL_NUM_LEFT_START + o_forward_count++, ch[color].red, ch[color].green, ch[color].blue);
+    			strip.show();
     		}
     		strip.setPixelColor(O_PIXEL_NUM_LEFT_START + o_forward_count++, ch[color].red, ch[color].green, ch[color].blue);
     		strip.show();
@@ -288,7 +305,7 @@ void fade_letter_l_to_r(letters_in_sign_t letter, color_list_e color, uint16_t d
 }
 
 
-void fade_letter_r_to_l(letters_in_sign_t letter, color_list_e color, uint16_t delay_time)
+void fade_letter_r_to_l(letters_in_sign_t letter, display_colors_e color, uint16_t delay_time)
 {
     uint16_t o_forward_count = 0;
     uint16_t o_backward_count = 0;
@@ -380,7 +397,7 @@ void fade_letter_r_to_l(letters_in_sign_t letter, color_list_e color, uint16_t d
 }
 
 
-void fade_word_bottom_to_top(color_list_e color, uint16_t delay_time)
+void fade_word_bottom_to_top(display_colors_e color, uint16_t delay_time)
 {
 	// top to bottom..
 	uint8_t h_tail_count = 0;
@@ -451,7 +468,7 @@ void fade_word_bottom_to_top(color_list_e color, uint16_t delay_time)
 }
 
 
-void fade_word_top_to_bottom(color_list_e color, uint16_t delay_time)
+void fade_word_top_to_bottom(display_colors_e color, uint16_t delay_time)
 {
 	// top to bottom..
 	uint8_t h_tail_count = 0;
@@ -518,7 +535,7 @@ void fade_word_top_to_bottom(color_list_e color, uint16_t delay_time)
 }
 
 
-void fade_word(color_list_e color, uint16_t delay_time, bool l_to_r)
+void fade_word(display_colors_e color, uint16_t delay_time, bool l_to_r)
 {
     if(l_to_r)
     {
