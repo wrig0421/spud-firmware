@@ -65,6 +65,7 @@ typedef enum
     yellow,
     cyan,
     magenta,
+    mint,
     lime,
     black,
     maroon,
@@ -86,9 +87,23 @@ typedef enum
     disp_yellow,
     disp_cyan,
     disp_magenta,
+    disp_mint,
     //disp_chocolate,
     disp_num_colors_disp,
 } display_colors_e;
+
+
+typedef enum
+{
+	BRIGHTNESS_DIM_FACTOR_1X = 1,
+	BRIGHTNESS_DIM_FACTOR_2X = 2,
+	BRIGHTNESS_DIM_FACTOR_4X = 4,
+	BRIGHTNESS_DIM_FACTOR_6X = 6,
+	BRIGHTNESS_DIM_FACTOR_8X = 8,
+	BRIGHTNESS_DIM_FACTOR_10X = 10,
+	BRIGHTNESS_DIM_FACTOR_25X = 25,
+	BRIGHTNESS_DIM_FACTOR_50X = 50,
+} brightness_dim_factor_e;
 
 
 struct colors 

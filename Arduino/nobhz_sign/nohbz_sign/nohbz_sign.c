@@ -1,3 +1,5 @@
+#include "nohbz_sign.h"
+
 /**************************************************************************
  *  -|-|-|-|-|-|-|-|-|-|-|-|-|Nohbz Sign-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|- *                                    *
  *                                                                        *
@@ -11,7 +13,6 @@
  **************************************************************************/
 
 #include "Adafruit_NeoPixel.h"
-#include <nohbz_sign.h>
 
 #include "stdint.h"
 #include "stdbool.h"
@@ -33,6 +34,7 @@
 typedef enum
 {
     ST_SPELL_WORD = 0,
+    ST_SPELL_WORD_MINT,
     ST_DRAW_LETTERS,
     ST_L_R_FADE,
     ST_R_L_FADE,
@@ -50,8 +52,8 @@ typedef enum
 {
     ST_MASTER_DEMO_FIXED_TIME = 0,
     ST_MASTER_DEMO_VARIABLE_TIME,
-    ST_RUN,
     ST_SOLID_COLOR,
+    ST_RUN,
 } sign_state_master_t; 
 
 
@@ -63,8 +65,10 @@ typedef enum
     DEMO_VARIABLE_0X_COUNT = 12,
 } demo_variable_time_count_t;
 
-sign_state_master_t master_sign_state = ST_MASTER_DEMO_FIXED_TIME;
-sign_state_t sign_state = ST_SPELL_WORD;
+//sign_state_master_t master_sign_state = ST_MASTER_DEMO_FIXED_TIME;
+sign_state_master_t master_sign_state = ST_RUN;
+//sign_state_t sign_state = ST_SPELL_WORD;
+sign_state_t sign_state = ST_SPELL_WORD_MINT;
 sign_state_t random_state = NUM_SIGN_STATES; // set to an invalid state initially....
 sign_state_t state_checker = sign_state;
 
@@ -73,6 +77,7 @@ letters_in_sign_t letter = N_LETTER;
 demo_variable_time_count_t demo_variable_time_count = DEMO_VARIABLE_0_5X_COUNT;
 
 display_colors_e sign_color = disp_red;
+display_colors_e fixed_alt_color = disp_mint;
 display_colors_e random_sign_color = disp_num_colors_disp; // set to invalid color initially..
 display_colors_e twinkle_color = disp_red;
 display_colors_e random_twinkle_color = disp_num_colors_disp;
@@ -92,7 +97,8 @@ uint8_t alternate_t_b_flag = 1;
 uint8_t alternate_l_r_flag = 1;
 uint8_t state_transition_num_blinks = 0;
 uint8_t animation_speed_num_blinks = 0;
-float animation_speed_factor = ANIMATION_SPEED_UP_FACTOR_0X;
+float animation_speed_factor = ANIMATION_SPEED_UP_FACTOR_0_5X;
+//float animation_speed_factor = ANIMATION_SPEED_UP_FACTOR_0_25X;
 
 // variables used in ISR
 unsigned long animation_last_time = 0;
@@ -633,6 +639,12 @@ void loop()
     {
         case ST_SPELL_WORD:
             draw_word(sign_color, STRIP_SIZE, true, animation_speed_factor);
+            delay(DEFAULT_DELAY_TIME_MS * animation_speed_factor);
+        break;
+        case ST_SPELL_WORD_MINT:
+            draw_word(fixed_alt_color, STRIP_SIZE, true, animation_speed_factor);
+            if (disp_mint == fixed_alt_color) fixed_alt_color = disp_white;
+            else fixed_alt_color = disp_mint;
             delay(DEFAULT_DELAY_TIME_MS * animation_speed_factor);
         break;
         case ST_DRAW_LETTERS:

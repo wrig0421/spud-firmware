@@ -16,13 +16,16 @@ Adafruit_NeoPixel strip = Adafruit_NeoPixel(STRIP_SIZE, PIN, NEO_GRB + NEO_KHZ80
 
 uint32_t full_strip_color[num_colors] = {0}; 
 colors ch[20]; 
-
+brightness_dim_factor_e dim_factor = BRIGHTNESS_DIM_FACTOR_4X;
 void strip_init(void)
 {
-	strip.setBrightness(100);
+	//strip.setBrightness(100);
+	//strip.setBrightness(25); // 25 was used for noble release
+	strip.setBrightness(25); // 25 was used for noble release
     strip.begin();
     strip.show(); 
     
+#if 1
     ch[black].red = 0;
     ch[black].green = 0;
     ch[black].blue = 0;
@@ -67,28 +70,57 @@ void strip_init(void)
     ch[disp_magenta].green = 0;
     ch[disp_magenta].blue = 255;
     full_strip_color[disp_magenta] = strip.Color(255, 0, 255);
-    /*
-    ch[lime].red = 0;
-    ch[lime].green = 255;
-    ch[lime].blue = 0;
-    full_strip_color[lime] = strip.Color(0, 255, 0);
-    ch[maroon].red = 128;
-    ch[maroon].green = 0;
-    ch[maroon].blue = 0;
-    full_strip_color[maroon] = strip.Color(128, 0, 0);
-    ch[olive].red = 128;
-    ch[olive].green = 128;
-    ch[olive].blue = 0;
-    full_strip_color[olive] = strip.Color(128, 128, 0);
-    ch[disp_chocolate].red = 210;
-    ch[disp_chocolate].green = 105;
-    ch[disp_chocolate].blue = 30;
-    full_strip_color[disp_chocolate] = strip.Color(210, 105, 30);
-    ch[gold].red = 255;
-    ch[gold].green = 215;
-    ch[gold].blue = 0;
-    full_strip_color[gold] = strip.Color(255, 215, 30);
-    */
+    ch[disp_mint].red = 78;
+    ch[disp_mint].green = 189;
+    ch[disp_mint].blue = 136;
+    full_strip_color[disp_mint] = strip.Color(255, 0, 255);
+#else
+	ch[black].red = 0;
+    ch[black].green = 0;
+    ch[black].blue = 0;
+    full_strip_color[black] = strip.Color(0, 0, 0);
+    ch[disp_white].red = 255 / dim_factor;
+    ch[disp_white].green = 255 / dim_factor;
+    ch[disp_white].blue = 255 / dim_factor;
+    full_strip_color[disp_white] = strip.Color(255 / dim_factor, 255 / dim_factor, 255 / dim_factor);
+    ch[disp_red].red = 255 / dim_factor;
+    ch[disp_red].green = 0;
+    ch[disp_red].blue = 0;
+    full_strip_color[disp_red] = strip.Color(255 / dim_factor, 0, 0);
+    ch[disp_blue].red = 0;
+    ch[disp_blue].green = 0;
+    ch[disp_blue].blue = 255 / dim_factor;
+    full_strip_color[disp_blue] = strip.Color(0, 0, 255 / dim_factor);
+    ch[disp_green].red = 0;
+    ch[disp_green].green = 255 / dim_factor;
+    ch[disp_green].blue = 0;
+    full_strip_color[disp_green] = strip.Color(0, 255 / dim_factor, 0);
+    ch[disp_orange].red = 255 / dim_factor;
+    ch[disp_orange].green = 165 / dim_factor;
+    ch[disp_orange].blue = 0;
+    full_strip_color[disp_orange] = strip.Color(255 / dim_factor, 165 / dim_factor, 0);
+    ch[disp_yellow].red = 255 / dim_factor;
+    ch[disp_yellow].green = 255 / dim_factor;
+    ch[disp_yellow].blue = 0;
+    full_strip_color[disp_yellow] = strip.Color(255 / dim_factor, 255 / dim_factor, 0);
+    ch[disp_indigo].red = 75 / dim_factor;
+    ch[disp_indigo].green = 0;
+    ch[disp_indigo].blue = 138 / dim_factor;
+    full_strip_color[disp_indigo] = strip.Color(75 / dim_factor, 0, 138 / dim_factor);
+    ch[disp_violet].red = 238 / dim_factor;
+    ch[disp_violet].green = 138 / dim_factor;
+    ch[disp_violet].blue = 238 / dim_factor;
+    full_strip_color[disp_violet] = strip.Color(238 / dim_factor, 138 / dim_factor, 238 / dim_factor);
+    ch[disp_cyan].red = 0;
+    ch[disp_cyan].green = 255 / dim_factor;
+    ch[disp_cyan].blue = 255 / dim_factor;
+    full_strip_color[disp_cyan] = strip.Color(0, 255 / dim_factor, 255 / dim_factor);
+    ch[disp_magenta].red = 255 / dim_factor;
+    ch[disp_magenta].green = 0;
+    ch[disp_magenta].blue = 255 / dim_factor;
+    full_strip_color[disp_magenta] = strip.Color(255 / dim_factor, 0, 255 / dim_factor);
+#endif
+	
     for(int i = 0; i < STRIP_SIZE; i++)
     {
 		strip.setPixelColor(i, ch[black].red, ch[black].green, ch[black].blue);
