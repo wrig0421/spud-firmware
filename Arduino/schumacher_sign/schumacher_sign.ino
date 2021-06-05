@@ -1,10 +1,16 @@
-#include <color_led.h>
 #include <animate_led.h>
+#include <color_led.h>
 #include <FastLED.h>
 
-#define SERIAL_DEBUG
+// static definitions
+//#define SERIAL_DEBUG // define to print debug messages
+
+#if !defined(TOGETHER_SIGN) && !defined(SCHUMACHER_SIGN)
+#pragma error("no sign defined");
+#endif
 
 
+// typedefs, structs, enums
 typedef enum
 {
     MASTER_STATE_DEMO,
@@ -21,21 +27,21 @@ typedef enum
 
 typedef enum
 {
-    INT_BTN_COLOR = 21,
-    INT_BTN_STATE = 20,
-    //INT_BTN_PAUSE = 19,
-    INT_BTN_SPEED = 18,
+#if defined(TOGETHER_SIGN)
+    INT_BTN_PAUSE = 21,
+    INT_BTN_STATE = 20,  // A
+    INT_BTN_SPEED = 19,  // D
+    INT_BTN_COLOR = 18,  // C
+#elif defined(SCHUMACHER_SIGN)
+    INT_BTN_PAUSE = 19,
+    INT_BTN_STATE = 18,  // A
+    INT_BTN_SPEED = 20,  // D
+    INT_BTN_COLOR = 21,  // B
+#endif 
 } interrupt_button_e;
 
 
-master_led_state_e g_master_led_state = MASTER_STATE_DEMO; 
-master_color_state_e g_master_color_state = MASTER_COLOR_DEMO;
-unsigned long isr_times[NUM_ISR] = {0};
-unsigned long debounce_delay = 2000; // ms
-bool g_state_flag = false;
-bool g_master_color_state_change_flag = false;
-bool g_master_led_state_change_flag = false;
-bool g_state_short_circuit_flag = false;
+// local function prototypes
 void handle_count_and_color(void);
 void isr_state_change(void);
 void isr_color_change(void);
@@ -43,54 +49,53 @@ void isr_speed_change(void);
 void isr_pause(void);
 
 
+// global variables
+master_led_state_e g_master_led_state = MASTER_STATE_FIXED; // start solid white for reception
+master_color_state_e g_master_color_state = MASTER_COLOR_DEMO;
+unsigned long isr_times[NUM_ISR] = {0};
+unsigned long debounce_delay = 2000; // ms
+bool g_state_flag = false;
+bool g_master_color_state_change_flag = false;
+bool g_master_led_state_change_flag = false;
+bool g_state_short_circuit_flag = false;
+
+
 void setup() 
 {
+    String msg = "";
 #if defined(SERIAL_DEBUG)
     Serial.begin(9600);
-    Serial.println("Schumacher sign prologue");
+#if defined(TOGETHER_SIGN)
+    msg = "Together sign";
+#elif defined(SCHUMACHER_SIGN)
+    msg = "Schumacher sign";
+#endif
+    Serial.println(msg);
 #endif
     color_led_init();
     animate_led_init();
     pinMode((byte)INT_BTN_SPEED, INPUT);
     pinMode((byte)INT_BTN_STATE, INPUT);
     pinMode((byte)INT_BTN_COLOR, INPUT);
-    //pinMode((byte)INT_BTN_PAUSE, INPUT);
-    attachInterrupt(digitalPinToInterrupt((byte)INT_BTN_SPEED), isr_speed_change, RISING);
-    attachInterrupt(digitalPinToInterrupt((byte)INT_BTN_STATE), isr_state_change, RISING);       
+    //pinMode((byte)INT_BTN_PAUSE, INPUT); 
+    attachInterrupt(digitalPinToInterrupt((byte)INT_BTN_SPEED), isr_speed_change, RISING); 
+    attachInterrupt(digitalPinToInterrupt((byte)INT_BTN_STATE), isr_state_change, RISING); 
     attachInterrupt(digitalPinToInterrupt((byte)INT_BTN_COLOR), isr_color_change, RISING);  
-    //attachInterrupt(digitalPinToInterrupt((byte)INT_BTN_PAUSE), isr_pause, RISING);
+    //attachInterrupt(digitalPinToInterrupt((byte)INT_BTN_PAUSE), isr_pause, RISING); 
 }
 
 
 void loop() 
 {
-
-    animate_led_set_all_pixels(0, 255, 0);
-    while(1);
 #if defined(SERIAL_DEBUG)
-    if (MASTER_STATE_FIXED == g_master_led_state) 
-    {
-        Serial.println("MASTER STATE LED FIXED*******************************************");
-        Serial.println("*****************************************************************************************************");
-        Serial.println("*****************************************************************************************************");
-        Serial.println("*****************************************************************************************************");
-        Serial.println("*****************************************************************************************************");
-        Serial.println("*****************************************************************************************************");
-        Serial.println("*****************************************************************************************************");
-    }
+    // these print on each iteration...simply for quick debug
+    if (MASTER_STATE_FIXED == g_master_led_state) Serial.println("MASTER STATE LED FIXED");
     else Serial.println("MASTER STATE LED DEMO");
     if (MASTER_COLOR_FIXED == g_master_color_state) Serial.println("MASTER COLOR LED FIXED");
     else Serial.println("MASTER COLOR LED DEMO");
-    Serial.println(animate_led_iterations(), DEC);
+    Serial.println(animate_led_iterations(), DEC); // print iteration count
 #endif
-    handle_count_and_color();
-    /*
-    if (g_master_color_state_change_flag)
-    {   
-        master_led_color_state_change();
-        g_master_color_state_change_flag = false;
-    }
-    */
+    handle_count_and_color(); // select state, color based iteration count
     if (g_master_led_state_change_flag)
     {
         animate_led_reset_iterations();
@@ -99,6 +104,14 @@ void loop()
     }
     switch(animate_led_state())
     {
+        case LED_STATE_WHITE_COLOR:
+#if defined(SERIAL_DEBUG)
+            Serial.println("STATE_SOLID_WHITE_COLOR");    
+#endif
+            // the color change doesn't matter for solid white.. 
+            animate_led_set_solid_white_color();
+            delay(animate_led_delay_between_animations());
+        break;
         case LED_STATE_SOLID_COLOR:
 #if defined(SERIAL_DEBUG)
             Serial.println("STATE_SOLID_COLOR");
@@ -118,13 +131,12 @@ void loop()
             Serial.println("STATE_FADE");
 #endif
             animate_led_fade_in_fade_out();
-            //delay(animate_led_delay_between_animations());
         break;
         case LED_STATE_TWINKLE:
 #if defined(SERIAL_DEBUG)
             Serial.println("STATE_TWINKLE");
 #endif
-            animate_led_twinkle(NUM_LEDS - 20, animate_led_delay_in_animations(), false);
+            animate_led_twinkle(NUM_LEDS - 100, animate_led_delay_in_animations(), false);
             delay(animate_led_delay_between_animations());
         break;
         case LED_STATE_SPARKLE:
@@ -139,7 +151,6 @@ void loop()
 #endif
             g_state_short_circuit_flag = true;
             animate_led_running_lights();
-            //animate_led_running_lights(animate_led_delay_in_animations()); // I don't think this is the same!
         break;
         case LED_STATE_RAINBOW_CYCLE:
 #if defined(SERIAL_DEBUG)
@@ -147,7 +158,6 @@ void loop()
 #endif
             g_state_short_circuit_flag = true;
             animate_led_rainbow_cycle(animate_led_delay_in_animations());
-            //animate_led_rainbow_cycle(0);
         break;
         case LED_STATE_THEATER_CHASE:
 #if defined(SERIAL_DEBUG)
@@ -166,36 +176,25 @@ void loop()
 #if defined(SERIAL_DEBUG)
             Serial.println("STATE_METEOR");
 #endif
-            animate_led_meteor_rain(20, 64, true, 5); // 5 represents speed delay.  Might leave at default for now!
+            animate_led_meteor_rain(20, 64, true, 5); // arbitrary selection made here
         break;
         case LED_STATE_STROBE:
 #if defined(SERIAL_DEBUG)
             Serial.println("STATE_STROBE");
 #endif
-            /*
-            g_strobe_speed_factor -= 0.2;
-            if (g_strobe_speed_factor <= 0) g_strobe_speed_factor = 1.2;
-            
-            strobe(g_led_hex_code, 10 * (1 + g_strobe_speed_factor), 100 * g_strobe_speed_factor, 500);
-            */
             animate_led_strobe(10, animate_led_delay_in_animations(), animate_led_delay_in_animations() / 2);
         break;
         case LED_STATE_CYCLONE_BOUNCE:
 #if defined(SERIAL_DEBUG)
             Serial.println("STATE_CYCLONE_BOUNCE");
 #endif
-            /*
-            g_bounce_size *= 2;
-            if (g_bounce_size > NUM_LEDS) g_bounce_size = 4;            
-            cyclone_bounce(color_led_cur_color_hex(), g_bounce_size, 0, 0);
-            */
             uint16_t eye_size = 4;
             animate_led_cyclone_bounce(eye_size, 0, 0);
         break;
-        /*
+        
         default:
         break;
-        */
+        // unused states below
         /*
         case LED_STATE_FIRE:
         break;
@@ -246,6 +245,7 @@ void handle_count_and_color(void)
     animate_led_increment_iterations();
     if (MASTER_STATE_DEMO == g_master_led_state)
     {
+        color_led_randomize(); // randomize the colors for the demo LED state
         if ((!(animate_led_iterations() % 10)) || g_state_short_circuit_flag) \
         {
             g_state_short_circuit_flag = false;
@@ -269,6 +269,10 @@ void isr_state_change(void)
 #if defined(SERIAL_DEBUG)
     Serial.println("**ISR STATE**");
 #endif
+    // if in demo mode then state will be automatically selected.  
+    // if in demo and button pressed then switch to fixed mode. 
+    // if in fixed mode and button pressed then simply adjust the state.
+    // one full cycle of states will automatically switch back to demo state
     if (MASTER_STATE_DEMO == g_master_led_state) 
     {
         animate_led_reset_state();
@@ -309,6 +313,7 @@ void isr_color_change(void)
     {
         g_master_color_state_change_flag = true;
         g_master_color_state = MASTER_COLOR_DEMO;
+        
     }
 }
 

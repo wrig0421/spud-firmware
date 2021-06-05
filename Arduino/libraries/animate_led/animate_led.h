@@ -1,10 +1,16 @@
+// Spud 2021
+
 #include <stdint.h>
-#include <stdbool.h>
+#include <stdbool.h> 
 
-//#define NUM_LEDS 420 //Schumacher sign
-#define NUM_LEDS 292 // Together sign
+// static definitions
+//#define TOGETHER_SIGN
+#define SCHUMACHER_SIGN
+#define NUM_LEDS 420 //Schumacher sign
+//#define NUM_LEDS 292 // Together sign
 
 
+// typedefs, structs, enums
 typedef enum
 {
     ISR_SPEED = 0,
@@ -15,12 +21,11 @@ typedef enum
 } isr_e;
 
 
-
-
 typedef enum
 {
 	LED_STATE_FIRST = 0,
-    LED_STATE_FADE_IN_AND_OUT = LED_STATE_FIRST,
+	LED_STATE_WHITE_COLOR = LED_STATE_FIRST,
+    LED_STATE_FADE_IN_AND_OUT,
     //LED_STATE_FADE_IN_AND_OUT_RANDOM,
     LED_STATE_SOLID_COLOR,
 	LED_STATE_STROBE,
@@ -57,18 +62,16 @@ typedef enum
 	NUM_SPEEDS
 } led_speed_e;
 
+
+// local prototypes
+bool animate_led_adjust_state(void);
+bool animate_led_interrupt_flag(isr_e src);
 void animate_led_solid_color(void);
 void animate_led_set_interrupt_flag(isr_e src);
 void animate_led_reset_iterations(void);
-//void animate_led_clear_interrupt_flag(void);
-bool animate_led_interrupt_flag(isr_e src);
 void animate_led_spell_word(uint16_t speed_delay);
 void animate_led_reset_state(void);
-uint32_t animate_led_iterations(void);
-led_state_e animate_led_state(void);
-byte* animate_led_wheel(byte wheel_pos);
 void animate_led_adjust_speed(void);
-bool animate_led_adjust_state(void);
 void animate_led_init(void);
 void animate_led_increment_iterations(void);
 void animate_led_show_strip(void);
@@ -90,12 +93,14 @@ void animate_led_sparkle(uint16_t speed_delay);
 void animate_led_running_lights(void);
 void animate_led_color_wipe(uint16_t speed_delay);
 void animate_led_rainbow_cycle(uint16_t speed_delay);
-
+void animate_led_set_solid_white_color(void);
 void animate_led_theater_chase(uint16_t speed_delay);
 void animate_led_theater_chase_rainbow(uint16_t speed_delay);
 void animate_led_bouncing_balls(int ball_count);
 void animate_led_meteor_rain(byte meteor_size, byte meteor_trail_decay, bool meteor_random_decay, int speed_delay);
 void animate_led_fade_to_black(int led_no, byte fade_value);
-
 float animate_led_delay_in_animations(void);
 uint16_t animate_led_delay_between_animations(void);
+uint32_t animate_led_iterations(void);
+led_state_e animate_led_state(void);
+byte* animate_led_wheel(byte wheel_pos);
