@@ -138,6 +138,7 @@ bool gt521fx_enrollment(gt_521fx_enrollment_stage_e stage);
 bool gt521fx_capture_finger(void);
 bool gt521fx_finger_is_pressed(void);
 void gt521fx_delete_all_fingerprints(void);
+bool gt521fx_initialized(void);
 
 void gt521fx_nack_state_set(gt_521fx_error_e err);
 void gt521fx_nack_flag_set(bool flag);

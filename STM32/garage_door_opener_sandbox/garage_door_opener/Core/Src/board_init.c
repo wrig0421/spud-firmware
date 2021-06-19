@@ -45,7 +45,7 @@ void board_init(void)
 	port_wakeup();
 
 	ssd1351_init();
-	gt521fx_fingerprint_init();
+	//gt521fx_fingerprint_init();
 }
 
 

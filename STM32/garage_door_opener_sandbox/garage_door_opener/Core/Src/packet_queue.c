@@ -8,65 +8,20 @@
 #define SNS_RX_QUEUE_DEPTH		16 // Pkts
 #define SNS_TX_QUEUE_DEPTH		16 // Pkts
 
-
-
-
 typedef StaticTask_t osStaticThreadDef_t;
 typedef StaticQueue_t osStaticMessageQDef_t;
 
-//sensor_rx_queue
-//sensor_tx_queue
-/* Definitions for sensor_rx_queue */
-/* Definitions for sensor_rx_queue */
-osMessageQueueId_t sensor_rx_queueHandle;
-uint8_t sensor_rx_queueBuffer[ 16 * sizeof( pkt_t ) ];
-osStaticMessageQDef_t sensor_rx_queueControlBlock;
-const osMessageQueueAttr_t sensor_rx_queue_attributes = {
-  .name = "sensor_rx_queue",
-  .cb_mem = &sensor_rx_queueControlBlock,
-  .cb_size = sizeof(sensor_rx_queueControlBlock),
-  .mq_mem = &sensor_rx_queueBuffer,
-  .mq_size = sizeof(sensor_rx_queueBuffer)
-};
-/* Definitions for sensor_tx_queue */
-osMessageQueueId_t sensor_tx_queueHandle;
-uint8_t sensor_tx_queueBuffer[ 16 * sizeof( pkt_t ) ];
-osStaticMessageQDef_t sensor_tx_queueControlBlock;
-const osMessageQueueAttr_t sensor_tx_queue_attributes = {
-  .name = "sensor_tx_queue",
-  .cb_mem = &sensor_tx_queueControlBlock,
-  .cb_size = sizeof(sensor_tx_queueControlBlock),
-  .mq_mem = &sensor_tx_queueBuffer,
-  .mq_size = sizeof(sensor_tx_queueBuffer)
-};
-#if 0
-osMessageQueueId_t sensor_rx_queueHandle;
-const osMessageQueueAttr_t sensor_rx_queue_attributes = {
-  .name = "sensor_rx_queue"
-};
-/* Definitions for sensor_tx_queue */
-osMessageQueueId_t sensor_tx_queueHandle;
-const osMessageQueueAttr_t sensor_tx_queue_attributes = {
-  .name = "sensor_tx_queue"
-};
-#endif
+osMessageQueueId_t sensor_rx_queue;
+osMessageQueueId_t sensor_tx_queue;
+
 
 void packet_rsp_set(void);
 
 
 void packet_queue_init(void)
 {
-	/* creation of sensor_rx_queue */
-	  sensor_rx_queueHandle = osMessageQueueNew (16, sizeof( pkt_t ), &sensor_rx_queue_attributes);
-
-	  /* creation of sensor_tx_queue */
-	  sensor_tx_queueHandle = osMessageQueueNew (16, sizeof( pkt_t ), &sensor_tx_queue_attributes);
-	/* creation of sensor_rx_queue */
-	//sensor_rx_queueHandle = osMessageQueueNew (SNS_RX_QUEUE_DEPTH, sizeof(pkt_t), &sensor_rx_queue_attributes);
-
-	/* creation of sensor_tx_queue */
-	//sensor_tx_queueHandle = osMessageQueueNew (SNS_TX_QUEUE_DEPTH, sizeof(pkt_t), &sensor_tx_queue_attributes);
-
+	sensor_rx_queue = osMessageQueueNew(SNS_RX_QUEUE_DEPTH, sizeof( pkt_t ), NULL);
+	sensor_tx_queue = osMessageQueueNew(SNS_TX_QUEUE_DEPTH, sizeof( pkt_t ), NULL);
 }
 
 void packet_enqueue(p_packet_handle_t pkt_handle, pkt_src_dst_t dst)
@@ -75,19 +30,12 @@ void packet_enqueue(p_packet_handle_t pkt_handle, pkt_src_dst_t dst)
 	switch (dst)
 	{
 		case PKT_SRC_DST_SNS_TX:
-			if (osOK != osMessageQueuePut(sensor_tx_queueHandle, pkt_handle, 0, 0))
-			{
-				while(1); // queue full?
-			}
+			if (osOK != osMessageQueuePut(sensor_tx_queueHandle, pkt_handle, 0, 0)) while(1);
 		break;
 		case PKT_SRC_DST_SNS_RX:
-			if (osOK != osMessageQueuePut(sensor_rx_queueHandle, pkt_handle, 0, 0))
-			{
-				while(1); // queue full?
-			}
+			if (osOK != osMessageQueuePut(sensor_rx_queueHandle, pkt_handle, 0, 0)) while(1); // queue full?
 		break;
-		default:
-			while(1); // wtf
+		default: while(1); // wtf
 		break;
 	}
 }
@@ -98,20 +46,12 @@ void packet_dequeue(p_packet_handle_t pkt_handle, pkt_src_dst_t src)
 	switch(src)
 	{
 		case PKT_SRC_DST_SNS_TX:
-			if (osOK != osMessageQueueGet(sensor_tx_queueHandle, (uint8_t *)pkt_handle, NULL, osWaitForever))
-			{
-				while(1); // wtf
-			}
-			//packet_rsp_set();
+			if (osOK != osMessageQueueGet(sensor_tx_queueHandle, (uint8_t *)pkt_handle, NULL, osWaitForever)) while(1); // wtf
 		break;
 		case PKT_SRC_DST_SNS_RX:
-			if (osOK != osMessageQueueGet(sensor_rx_queueHandle, pkt_handle, NULL, osWaitForever))
-			{
-				while(1); // wtf
-			}
-			//packet_rsp_set();
+			if (osOK != osMessageQueueGet(sensor_rx_queueHandle, pkt_handle, NULL, osWaitForever)) while(1); // wtf
 		break;
-		default:
+		default: while(1); // wtf
 		break;
 	}
 }
@@ -139,8 +79,6 @@ void packet_dequeue_from_sensor_rx(p_packet_handle_t pkt_handle)
 {
 	packet_dequeue(pkt_handle, PKT_SRC_DST_SNS_RX);
 }
-
-//gt_521fx_error_e g_nack_state = GT521FX_NO_ERROR;
 
 
 void packet_parse_rsp(p_packet_handle_t pkt_handle)
@@ -242,5 +180,4 @@ uint16_t packet_calc_check_sum(p_packet_handle_t pkt_handle)
 }
 
 
-// function to enqueue & dequeue
 

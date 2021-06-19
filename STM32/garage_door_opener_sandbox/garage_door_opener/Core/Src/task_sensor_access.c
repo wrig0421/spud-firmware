@@ -15,6 +15,7 @@ typedef enum
 	GT521FX_STATE_ENROLL,
 	GT521FX_STATE_VERIFY,
 	GT521FX_STATE_DELETE,
+	GT521FX_STATE_ERROR,
 	GT521FX_STATE_NOTHING_TO_DO,
 } gt521fx_state_e;
 
@@ -24,21 +25,109 @@ gt521fx_state_e gt521fx_state = GT521FX_STATE_ENROLL;
 
 void task_sensor_access_entry(void *argument)
 {
-
+	bool first_pass = true;
 	while(1)
 	{
-		switch(gt521fx_state)
+		if (first_pass())
 		{
-			case GT521FX_STATE_ENROLL:
-				gt521fx_enroll_finger(5);
-			break;
-			case GT521FX_STATE_VERIFY:
-			break;
-			case GT521FX_STATE_DELETE:
-			break;
-			case GT521FX_STATE_NOTHING_TO_DO:
-				osDelay(1000);
-			break;
+			gt521fx_open();
+			while (!packet_rsp_was_received()) osDelay(500);
+			gt521fx_led_on();
+			while (!packet_rsp_was_received()) osDelay(500);
+			first_pass = false;
+		}
+		else
+		{ 
+			switch(gt521fx_state)
+			{
+				case GT521FX_STATE_ENROLL:
+					// my thoughts are that enroll state would be entered via button press		
+					ssd1351_printf("GT521FX enroll state");
+					
+					gt521fx_start_enrollment(id);
+					while (!packet_rsp_was_received()) osDelay(500);
+					if (gt521fx_nack_flag()) gt521fx_state = GT521FX_STATE_ERROR;
+					
+					ssd1351_printf("\nPlace finger on sensor");
+					while (!gt521fx_finger_is_pressed_flag()) 
+					{
+						gt521fx_finger_is_pressed();
+						while (!packet_rsp_was_received()) osDelay(500);
+					}
+					
+					gt521fx_capture_finger();
+					while (!packet_rsp_was_received()) osDelay(500);
+					if (gt521fx_nack_flag()) gt521fx_state = GT521FX_STATE_ERROR;
+					
+					gt521fx_enrollment(GT521FX_ENROLLMENT_STAGE_FIRST);
+					while (!packet_rsp_was_received()) osDelay(500);
+					if (gt521fx_nack_flag()) gt521fx_state = GT521FX_STATE_ERROR;
+					
+					ssd1351_printf("\nRemove finger");
+					while (gt521fx_finger_is_pressed_flag()) 
+					{
+						gt521fx_finger_is_pressed();
+						while (!packet_rsp_was_received()) osDelay(500);
+					}
+					
+					ssd1351_printf("\nPlace finger on sensor");
+					while (!gt521fx_finger_is_pressed_flag()) 
+					{
+						gt521fx_finger_is_pressed();
+						while (!packet_rsp_was_received()) osDelay(500);
+					}
+					
+					gt521fx_capture_finger();
+					while (!packet_rsp_was_received()) osDelay(500);
+					if (gt521fx_nack_flag()) gt521fx_state = GT521FX_STATE_ERROR;
+					
+					gt521fx_enrollment(GT521FX_ENROLLMENT_STAGE_SECOND);
+					while (!packet_rsp_was_received()) osDelay(500);
+					if (gt521fx_nack_flag()) gt521fx_state = GT521FX_STATE_ERROR;
+					
+					ssd1351_printf("\nRemove finger");
+					while (gt521fx_finger_is_pressed_flag()) 
+					{
+						gt521fx_finger_is_pressed();
+						while (!packet_rsp_was_received()) osDelay(500);
+					}
+					
+					ssd1351_printf("\nPlace finger on sensor");
+					while (!gt521fx_finger_is_pressed_flag()) 
+					{
+						gt521fx_finger_is_pressed();
+						while (!packet_rsp_was_received()) osDelay(500);
+					}
+					
+					gt521fx_capture_finger();
+					while (!packet_rsp_was_received()) osDelay(500);
+					if (gt521fx_nack_flag()) gt521fx_state = GT521FX_STATE_ERROR;
+					
+					gt521fx_enrollment(GT521FX_ENROLLMENT_STAGE_THIRD);
+					while (!packet_rsp_was_received()) osDelay(500);
+					if (gt521fx_nack_flag()) gt521fx_state = GT521FX_STATE_ERROR;
+					
+					ssd1351_printf("\nRemove finger");
+					while (gt521fx_finger_is_pressed_flag()) 
+					{
+						gt521fx_finger_is_pressed();
+						while (!packet_rsp_was_received()) osDelay(500);
+					}
+					gt521fx_state = GT521FX_STATE_VERIFY;
+				break;
+				case GT521FX_STATE_IDENTIFY:
+					
+				break;
+				case GT521FX_STATE_VERIFY:
+				break;
+				case GT521FX_STATE_DELETE:
+				break;
+				case GT521FX_STATE_ERROR:
+				break;
+				case GT521FX_STATE_NOTHING_TO_DO:
+					osDelay(1000);
+				break;
+			}
 		}
 	}
 }
