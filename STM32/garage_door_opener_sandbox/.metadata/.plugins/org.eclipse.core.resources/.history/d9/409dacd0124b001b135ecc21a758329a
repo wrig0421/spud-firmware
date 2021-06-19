@@ -1,0 +1,20 @@
+/*
+ * task_sensor_access.c
+ *
+ *  Created on: Dec 7, 2020
+ *      Author: spud
+ */
+#include "cmsis_os.h"
+
+void task_sensor_access(void *pvParameters)
+{
+	portTickType xLastWakeTime;
+	xLastWakeTime = xTaskGetTickCount();
+
+	const portTickType xDelay = 500 / portTICK_RATE_MS;
+	do
+	{
+		// do stuff
+		vTaskDelay(xDelay); // one pass every 500 ms?
+	} while(1);
+}
