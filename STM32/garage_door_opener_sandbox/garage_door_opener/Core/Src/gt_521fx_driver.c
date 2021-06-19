@@ -47,7 +47,6 @@ void gt521fx_nack_state_set(gt_521fx_error_e err)
 }
 
 
-bool gt521fx_nack_flag(void);
 bool gt521fx_nack_flag(void)
 {
 	return g_nack_flag;
@@ -79,7 +78,6 @@ void gt521fx_finger_is_pressed_set(bool flag)
 }
 
 
-bool gt521fx_finger_is_pressed_flag(void);
 bool gt521fx_finger_is_pressed_flag(void)
 {
 	return g_finger_is_pressed;
@@ -138,13 +136,13 @@ bool gt521fx_check_enrollment_status(uint16_t id)
 }
 
 
-bool gt521fx_start_enrollment(uint16_t id)
+void gt521fx_start_enrollment(uint16_t id)
 {
 	packet_create_cmd_and_send((p_packet_handle_t)&gt521fx_tx_pkt, GT521FX_CMD_ENROLL_START, id);
 }
 
 
-bool gt521fx_enrollment(gt_521fx_enrollment_stage_e stage)
+void gt521fx_enrollment(gt_521fx_enrollment_stage_e stage)
 {
 	gt_521fx_cmd_e cmd_stage = GT521FX_CMD_ENROLL_1;
 	switch (stage)
@@ -218,7 +216,7 @@ bool gt521fx_fingerprint_identify(uint16_t id)
 }
 
 
-bool gt521fx_capture_finger(void)
+void gt521fx_capture_finger(void)
 {
 	packet_create_cmd_and_send((p_packet_handle_t)&gt521fx_tx_pkt, GT521FX_CMD_CAPTURE_FINGER, 0);
 }

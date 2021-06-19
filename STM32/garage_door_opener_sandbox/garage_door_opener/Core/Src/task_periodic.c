@@ -3,6 +3,7 @@
 #include "task_periodic.h"
 #include "ssd1351_driver.h"
 #include "stdbool.h"
+#include "cmsis_os.h"
 
 typedef enum
 {

@@ -30,10 +30,10 @@ void packet_enqueue(p_packet_handle_t pkt_handle, pkt_src_dst_t dst)
 	switch (dst)
 	{
 		case PKT_SRC_DST_SNS_TX:
-			if (osOK != osMessageQueuePut(sensor_tx_queueHandle, pkt_handle, 0, 0)) while(1);
+			if (osOK != osMessageQueuePut(sensor_tx_queue, pkt_handle, 0, 0)) while(1);
 		break;
 		case PKT_SRC_DST_SNS_RX:
-			if (osOK != osMessageQueuePut(sensor_rx_queueHandle, pkt_handle, 0, 0)) while(1); // queue full?
+			if (osOK != osMessageQueuePut(sensor_rx_queue, pkt_handle, 0, 0)) while(1); // queue full?
 		break;
 		default: while(1); // wtf
 		break;
@@ -46,10 +46,10 @@ void packet_dequeue(p_packet_handle_t pkt_handle, pkt_src_dst_t src)
 	switch(src)
 	{
 		case PKT_SRC_DST_SNS_TX:
-			if (osOK != osMessageQueueGet(sensor_tx_queueHandle, (uint8_t *)pkt_handle, NULL, osWaitForever)) while(1); // wtf
+			if (osOK != osMessageQueueGet(sensor_tx_queue, (uint8_t *)pkt_handle, NULL, osWaitForever)) while(1); // wtf
 		break;
 		case PKT_SRC_DST_SNS_RX:
-			if (osOK != osMessageQueueGet(sensor_rx_queueHandle, pkt_handle, NULL, osWaitForever)) while(1); // wtf
+			if (osOK != osMessageQueueGet(sensor_rx_queue, pkt_handle, NULL, osWaitForever)) while(1); // wtf
 		break;
 		default: while(1); // wtf
 		break;

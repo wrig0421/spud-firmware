@@ -128,17 +128,22 @@ typedef enum
 
 void gt521fx_fingerprint_init(void);
 gt_521fx_error_e gt521fx_enroll_finger(uint16_t id);
-gt_521fx_error_e gt521fx_open(void);
-gt_521fx_error_e gt521fx_led_off(void);
-gt_521fx_error_e gt521fx_led_on(void);
+void gt521fx_open(void);
+void gt521fx_led_off(void);
+void gt521fx_led_on(void);
 void gt521fx_delete_all(void);
-gt_521fx_error_e gt521fx_change_baud_rate(uint16_t baud_rate);
-bool gt521fx_start_enrollment(uint16_t id);
-bool gt521fx_enrollment(gt_521fx_enrollment_stage_e stage);
-bool gt521fx_capture_finger(void);
-bool gt521fx_finger_is_pressed(void);
+void gt521fx_change_baud_rate(uint16_t baud_rate);
+void gt521fx_start_enrollment(uint16_t id);
+void gt521fx_enrollment(gt_521fx_enrollment_stage_e stage);
+void gt521fx_capture_finger(void);
+void gt521fx_finger_is_pressed(void);
 void gt521fx_delete_all_fingerprints(void);
 bool gt521fx_initialized(void);
+bool gt521fx_nack_flag(void);
+bool gt521fx_finger_is_pressed_flag(void);
+
+uint16_t flash_access_gt521fx_enroll_count(void);
+uint16_t flash_access_gt521fx_cur_id(void);
 
 void gt521fx_nack_state_set(gt_521fx_error_e err);
 void gt521fx_nack_flag_set(bool flag);

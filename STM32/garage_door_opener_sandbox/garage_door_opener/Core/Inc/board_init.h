@@ -10,7 +10,7 @@
 void board_wakeup(void);
 void port_wakeup(void);
 void board_init(void);
-
+void board_init_set_wkup_src(void);
 
 
 #endif

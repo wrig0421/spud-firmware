@@ -1,1 +1,9 @@
-flash_access.c:18:6:flash_erase	16	static
+flash_access.c:47:6:flash_init	24	static
+flash_access.c:62:6:flash_access_clear_signature_page	8	static
+flash_access.c:69:6:flash_access_enroll_update	16	static
+flash_access.c:79:10:flash_access_gt521fx_last_id	4	static
+flash_access.c:85:10:flash_access_gt521fx_enroll_count	4	static
+flash_access.c:91:10:flash_get_page	24	static
+flash_access.c:106:6:flash_read	24	static
+flash_access.c:118:10:flash_write	40	static
+flash_access.c:158:6:flash_erase	16	static

@@ -3,6 +3,7 @@
 #include "cmsis_os.h"
 #include "ssd1351_driver.h"
 #include "gt_521fx_driver.h"
+#include "flash_access.h"
 #include "board_init.h"
 
 
@@ -43,7 +44,7 @@ void board_init(void)
 {
 	board_wakeup();
 	port_wakeup();
-
+	flash_init();
 	ssd1351_init();
 	//gt521fx_fingerprint_init();
 }
@@ -240,6 +241,17 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
+}
+
+
+void board_init_set_wkup_src(void)
+{
+	/* Disable all used wakeup sources: PWR_WAKEUP_PIN1 */
+	HAL_PWR_DisableWakeUpPin(PWR_WAKEUP_PIN1);//PWR_WAKEUP_PIN1);
+	__HAL_PWR_CLEAR_FLAG(PWR_FLAG_WU);
+	HAL_PWR_EnableWakeUpPin(PWR_WAKEUP_PIN1_LOW);
+	__HAL_PWR_CLEAR_FLAG(PWR_FLAG_WU);
+	__HAL_PWR_CLEAR_FLAG(PWR_WAKEUP_PIN1_LOW);
 }
 
 

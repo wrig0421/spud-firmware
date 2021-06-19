@@ -1,6 +1,7 @@
 
 #include "packet_def.h"
 #include "packet_queue.h"
+#include <string.h>
 #include "main.h"
 #include "cmsis_os.h"
 
