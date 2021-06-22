@@ -8,6 +8,7 @@
 #include "task_display_update.h"
 #include "task_periodic.h"
 #include "task_sensor_access.h"
+#include "task_keypad_access.h"
 #include "serial_com.h"
 
 #include "FreeRTOS.h"
@@ -63,13 +64,28 @@ const osThreadAttr_t task_display_up_attributes = {
   .cb_size = sizeof(task_display_upControlBlock),
   .priority = (osPriority_t) osPriorityNormal,
 };
+/* Definitions for task_sensor_acc */
+osThreadId_t task_keypad_accHandle;
+uint32_t task_keypad_accBuffer[ 128 ];
+osStaticThreadDef_t task_keypad_accControlBlock;
+const osThreadAttr_t task_keypad_acc_attributes = {
+  .name = "task_keypad_acc",
+  .stack_mem = &task_keypad_accBuffer[0],
+  .stack_size = sizeof(task_keypad_accBuffer),
+  .cb_mem = &task_keypad_accControlBlock,
+  .cb_size = sizeof(task_keypad_accControlBlock),
+  .priority = (osPriority_t) osPriorityNormal,
+};
 
 
 void task_create(void)
 {
 	packet_queue_init();
+	/*
 	task_sensor_rxHandle = osThreadNew(sensor_rx_entry, NULL, &task_sensor_rx_attributes);
 	task_sensor_txHandle = osThreadNew(task_sensor_tx_entry, NULL, &task_sensor_tx_attributes);
 	task_sensor_accHandle = osThreadNew(task_sensor_access_entry, NULL, &task_sensor_acc_attributes);
 	task_display_upHandle = osThreadNew(task_display_update_entry, NULL, &task_display_up_attributes);
+	*/
+	task_keypad_accHandle = osThreadNew(task_keypad_access_entry, NULL, &task_keypad_acc_attributes);
 }

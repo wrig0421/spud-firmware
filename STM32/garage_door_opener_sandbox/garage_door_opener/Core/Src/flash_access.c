@@ -38,7 +38,6 @@ FLASH_EraseInitTypeDef flash_erase_struct =
 		.NbPages = FLASH_ACCESS_ERASE_START_PAGE,
 };
 
-
 void flash_read(uint32_t address, uint64_t *rx_buf, uint16_t num_words);
 uint32_t flash_write(uint32_t address, uint64_t *data, uint32_t num_words);
 uint32_t flash_get_page(uint32_t addr);
@@ -46,11 +45,7 @@ uint32_t flash_get_page(uint32_t addr);
 
 void flash_init(void)
 {
-	uint32_t buf;
-	uint32_t start_address = FLASH_ACCESS_STORAGE_ADDR_START;
-	uint32_t end_address = FLASH_ACCESS_STORAGE_ADDR_END;
-	uint32_t num_pages = FLASH_ACCESS_STORAGE_SIZE / FLASH_PAGE_SIZE;
-	flash_read(FLASH_ACCESS_STORAGE_ADDR_START, (uint32_t *)&flash_access_signature_page, sizeof(flash_access_signature_page_t));
+	flash_read(FLASH_ACCESS_STORAGE_ADDR_START, (uint64_t *)&flash_access_signature_page, sizeof(flash_access_signature_page_t));
 	//flash_read(FLASH_ACCESS_STORAGE_ADDR_START, &buf, 1);
 	if (UINT32_MAX == flash_access_signature_page.gt_521fx_enroll_count) // uinitialized
 	{
@@ -68,8 +63,6 @@ void flash_access_clear_signature_page(void)
 
 void flash_access_enroll_update(void)
 {
-	uint32_t start_address = FLASH_ACCESS_STORAGE_ADDR_START;
-	uint32_t end_address = FLASH_ACCESS_STORAGE_ADDR_END;
 	flash_access_signature_page.gt_521fx_last_id++;
 	flash_access_signature_page.gt_521fx_enroll_count++;
 	flash_write(FLASH_ACCESS_STORAGE_ADDR_START, (uint64_t *)&flash_access_signature_page, sizeof(flash_access_signature_page_t));

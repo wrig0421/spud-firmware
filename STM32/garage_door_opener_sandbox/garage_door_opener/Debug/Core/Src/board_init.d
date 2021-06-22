@@ -41,8 +41,8 @@ Core/Src/board_init.o: ../Core/Src/board_init.c ../Core/Inc/main.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h \
  ../Core/Inc/ssd1351_driver.h ../Core/Inc/fonts.h \
- ../Core/Inc/gt_521fx_driver.h ../Core/Inc/flash_access.h \
- ../Core/Inc/board_init.h
+ ../Core/Inc/gt_521fx_driver.h ../Core/Inc/keypad.h \
+ ../Core/Inc/flash_access.h ../Core/Inc/board_init.h
 
 ../Core/Inc/main.h:
 
@@ -133,6 +133,8 @@ Core/Src/board_init.o: ../Core/Src/board_init.c ../Core/Inc/main.h \
 ../Core/Inc/fonts.h:
 
 ../Core/Inc/gt_521fx_driver.h:
+
+../Core/Inc/keypad.h:
 
 ../Core/Inc/flash_access.h:
 

@@ -8,6 +8,7 @@ int main(void)
 {
 	board_init();
 	/* Check and handle if the system was resumed from Standby mode */
+#if 0
 	if (__HAL_PWR_GET_FLAG(PWR_FLAG_SB) != RESET)
 	{
 		/* Clear Standby flag */
@@ -16,6 +17,7 @@ int main(void)
 	HAL_Delay(5000);
 	board_init_set_wkup_src();
 	HAL_PWR_EnterSTOPMode(PWR_MAINREGULATOR_ON, PWR_STOPENTRY_WFE);
+#endif
 	//HAL_PWR_EnterSTANDBYMode();
 	osKernelInitialize();
 	task_create();
