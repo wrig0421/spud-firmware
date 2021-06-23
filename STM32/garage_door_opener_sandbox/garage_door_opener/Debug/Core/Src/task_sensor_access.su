@@ -1,1 +1,3 @@
-task_sensor_access.c:30:6:task_sensor_access_entry	24	static
+task_sensor_access.c:20:17:gt521fx_current_state	4	static
+task_sensor_access.c:25:6:gt521fx_set_state	16	static
+task_sensor_access.c:32:6:task_sensor_access_entry	24	static

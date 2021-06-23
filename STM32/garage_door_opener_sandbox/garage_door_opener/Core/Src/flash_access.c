@@ -75,6 +75,23 @@ uint16_t flash_access_gt521fx_last_id(void)
 }
 
 
+void flash_access_gt521fx_remove_last_id(void)
+{
+	flash_access_signature_page.gt_521fx_last_id -= 1; // I don't care if starting at 1
+	flash_access_signature_page.gt_521fx_enroll_count--;
+	flash_write(FLASH_ACCESS_STORAGE_ADDR_START, (uint64_t *)&flash_access_signature_page, sizeof(flash_access_signature_page_t));
+}
+
+
+void flash_access_gt521fx_reset_id_count(void)
+{
+	flash_access_signature_page.gt_521fx_last_id = 0; // I don't care if starting at 1
+	flash_access_signature_page.gt_521fx_enroll_count = 0;
+	flash_write(FLASH_ACCESS_STORAGE_ADDR_START, (uint64_t *)&flash_access_signature_page, sizeof(flash_access_signature_page_t));
+
+}
+
+
 uint16_t flash_access_gt521fx_enroll_count(void)
 {
 	return flash_access_signature_page.gt_521fx_enroll_count;

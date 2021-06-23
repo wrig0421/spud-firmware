@@ -20,6 +20,8 @@ void flash_access_enroll_update(void);
 void flash_access_clear_signature_page(void);
 uint16_t flash_access_gt521fx_last_id(void);
 void flash_init(void);
+void flash_access_gt521fx_reset_id_count(void);
+void flash_access_gt521fx_remove_last_id(void);
 
 #endif
 

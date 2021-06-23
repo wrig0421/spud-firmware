@@ -200,6 +200,12 @@ void gt521fx_delete_all_fingerprints(void)
 }
 
 
+void gt521fx_delete_fingerprint(uint16_t id)
+{
+	packet_create_cmd_and_send((p_packet_handle_t)&gt521fx_tx_pkt, GT521FX_CMD_DELETE_ID, id);
+}
+
+
 bool gt521fx_fingerprint_verified(uint16_t id)
 {
 	packet_create_cmd_and_send((p_packet_handle_t)&gt521fx_tx_pkt, GT521FX_CMD_VERIFY, 0);
@@ -208,7 +214,7 @@ bool gt521fx_fingerprint_verified(uint16_t id)
 }
 
 
-bool gt521fx_fingerprint_identify(uint16_t id)
+bool gt521fx_fingerprint_identify(void)
 {
 	packet_create_cmd_and_send((p_packet_handle_t)&gt521fx_tx_pkt, GT521FX_CMD_IDENTIFY, 0);
 	if (gt521fx_nack_flag()) return false;

@@ -138,9 +138,11 @@ void gt521fx_enrollment(gt_521fx_enrollment_stage_e stage);
 void gt521fx_capture_finger(void);
 void gt521fx_finger_is_pressed(void);
 void gt521fx_delete_all_fingerprints(void);
+void gt521fx_delete_fingerprint(uint16_t id);
 bool gt521fx_initialized(void);
 bool gt521fx_nack_flag(void);
 bool gt521fx_finger_is_pressed_flag(void);
+bool gt521fx_fingerprint_identify(void);
 
 uint16_t flash_access_gt521fx_enroll_count(void);
 uint16_t flash_access_gt521fx_cur_id(void);

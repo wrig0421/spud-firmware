@@ -84,7 +84,7 @@ void sensor_rx_entry(void *argument)
 			//packet_parse_rsp(&rsp_buffer);
 		}
 
-		//osDelay(1000);
+		osDelay(500);
 	} while(1);
   /* USER CODE END sensor_rx_entry */
 }

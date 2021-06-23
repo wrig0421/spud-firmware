@@ -18,7 +18,8 @@ gt_521fx_driver.c:139:6:gt521fx_start_enrollment	16	static
 gt_521fx_driver.c:145:6:gt521fx_enrollment	24	static
 gt_521fx_driver.c:191:6:gt521fx_finger_is_pressed	8	static
 gt_521fx_driver.c:197:6:gt521fx_delete_all_fingerprints	8	static
-gt_521fx_driver.c:203:6:gt521fx_fingerprint_verified	16	static
-gt_521fx_driver.c:211:6:gt521fx_fingerprint_identify	16	static
-gt_521fx_driver.c:219:6:gt521fx_capture_finger	8	static
-gt_521fx_driver.c:225:6:gt521fx_set_security_level	16	static
+gt_521fx_driver.c:203:6:gt521fx_delete_fingerprint	16	static
+gt_521fx_driver.c:209:6:gt521fx_fingerprint_verified	16	static
+gt_521fx_driver.c:217:6:gt521fx_fingerprint_identify	8	static
+gt_521fx_driver.c:225:6:gt521fx_capture_finger	8	static
+gt_521fx_driver.c:231:6:gt521fx_set_security_level	16	static

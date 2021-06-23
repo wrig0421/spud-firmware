@@ -1,4 +1,5 @@
 #include "task_keypad_access.h"
+#include "task_sensor_access.h"
 #include "ssd1351_driver.h"
 #include "keypad.h"
 #include "cmsis_os.h"
@@ -8,7 +9,7 @@ keypad_row_e keypad_row = KEYPAD_ROW_FIRST;
 keypad_col_e keypad_col = KEYPAD_COL_FIRST;
 keypad_state_e keypad_state = KEYPAD_STATE_SCAN;
 
-uint8_t key_strokes[KEYPAD_PASSWORD_LENGTH] = {0};
+uint8_t password[KEYPAD_PASSWORD_LENGTH] = {0};
 
 void task_keypad_access_entry(void *argument)
 {
@@ -24,47 +25,54 @@ void task_keypad_access_entry(void *argument)
 			break;
 			case KEYPAD_STATE_BTN_PRESS:
 				key_stroke = keypad_button_pressed();
-				//ssd1351_printf("BUTTON PRESSED!\n");
 				keypad_state = KEYPAD_STATE_SCAN;
-				osDelay(1000);
-
-				key_strokes[password_index++] = key_stroke;
-				if (12 == key_stroke)
+				//osDelay(1000);
+				if (GT521FX_STATE_IDENTIFY == gt521fx_current_state())
 				{
-					memset(key_strokes, 0, KEYPAD_PASSWORD_LENGTH);
-					password_index = 0;
-					// print display was cleared..
-				}
-				if (KEYPAD_PASSWORD_LENGTH == password_index)
-				{
-					if (keypad_password_check(key_strokes))
+					// Attempting to enter admin menu
+					password[password_index++] = key_stroke;
+					if (12 == key_stroke)
 					{
-						memset(key_strokes, 0, KEYPAD_PASSWORD_LENGTH);
+						memset(password, 0, KEYPAD_PASSWORD_LENGTH);
 						password_index = 0;
-						keypad_state = KEYPAD_STATE_PASSWORD_MATCH;
+						// print display was cleared..
+					}
+					if (KEYPAD_PASSWORD_LENGTH == password_index)
+					{
+						if (keypad_password_check(password))
+						{
+							memset(password, 0, KEYPAD_PASSWORD_LENGTH);
+							password_index = 0;
+							keypad_state = KEYPAD_STATE_PASSWORD_MATCH;
+						}
+						else
+						{
+							failed_attempts++;
+							memset(password, 0, KEYPAD_PASSWORD_LENGTH);
+							password_index = 0;
+							ssd1351_printf("Wrong. Dumbass!\n");
+							keypad_state = KEYPAD_STATE_SCAN;
+							/*
+							if (KEYPAD_MAX_PASSWORD_ATTEMPTS == failed_attempts) // retry 5 max attempts
+							{
+								keypad_state = KEYPAD_STATE_LOCKOUT;
+							}
+							*/
+						}
 					}
 					else
 					{
-						failed_attempts++;
-						memset(key_strokes, 0, KEYPAD_PASSWORD_LENGTH);
-						password_index = 0;
-						ssd1351_printf("Wrong. Dumbass!\n");
-						/*
-						if (KEYPAD_MAX_PASSWORD_ATTEMPTS == failed_attempts) // retry 5 max attempts
-						{
-							keypad_state = KEYPAD_STATE_LOCKOUT;
-						}
-						*/
+						keypad_state = KEYPAD_STATE_SCAN;
 					}
 				}
-				else
+				else if(GT521FX_STATE_ADMIN == gt521fx_current_state())
 				{
+					gt521fx_set_state(key_stroke);
 					keypad_state = KEYPAD_STATE_SCAN;
 				}
-
 			break;
 			case KEYPAD_STATE_PASSWORD_MATCH:
-				ssd1351_printf("Correct!\n");
+				gt521fx_set_state(0);
 				keypad_state = KEYPAD_STATE_SCAN;
 				// print success message
 				// change state in task_sensor_access

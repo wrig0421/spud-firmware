@@ -81,11 +81,10 @@ const osThreadAttr_t task_keypad_acc_attributes = {
 void task_create(void)
 {
 	packet_queue_init();
-	/*
+
 	task_sensor_rxHandle = osThreadNew(sensor_rx_entry, NULL, &task_sensor_rx_attributes);
 	task_sensor_txHandle = osThreadNew(task_sensor_tx_entry, NULL, &task_sensor_tx_attributes);
 	task_sensor_accHandle = osThreadNew(task_sensor_access_entry, NULL, &task_sensor_acc_attributes);
-	task_display_upHandle = osThreadNew(task_display_update_entry, NULL, &task_display_up_attributes);
-	*/
+	//task_display_upHandle = osThreadNew(task_display_update_entry, NULL, &task_display_up_attributes);
 	task_keypad_accHandle = osThreadNew(task_keypad_access_entry, NULL, &task_keypad_acc_attributes);
 }

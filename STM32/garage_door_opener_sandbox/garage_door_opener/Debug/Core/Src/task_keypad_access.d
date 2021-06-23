@@ -1,6 +1,6 @@
 Core/Src/task_keypad_access.o: ../Core/Src/task_keypad_access.c \
- ../Core/Inc/task_keypad_access.h ../Core/Inc/ssd1351_driver.h \
- ../Core/Inc/fonts.h ../Core/Inc/keypad.h \
+ ../Core/Inc/task_keypad_access.h ../Core/Inc/task_sensor_access.h \
+ ../Core/Inc/ssd1351_driver.h ../Core/Inc/fonts.h ../Core/Inc/keypad.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h \
  ../Core/Inc/FreeRTOSConfig.h \
@@ -14,6 +14,8 @@ Core/Src/task_keypad_access.o: ../Core/Src/task_keypad_access.c \
  ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h
 
 ../Core/Inc/task_keypad_access.h:
+
+../Core/Inc/task_sensor_access.h:
 
 ../Core/Inc/ssd1351_driver.h:
 

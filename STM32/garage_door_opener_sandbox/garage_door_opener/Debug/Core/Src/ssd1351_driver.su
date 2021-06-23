@@ -21,4 +21,4 @@ ssd1351_driver.c:369:6:ssd1351_fill_screen	32	static
 ssd1351_driver.c:388:6:ssd1351_clear_screen	8	static
 ssd1351_driver.c:401:6:ssd1351_write_char	48	static
 ssd1351_driver.c:447:6:ssd1351_printf	48	static
-ssd1351_driver.c:503:6:ssd1351_write_string	32	static
+ssd1351_driver.c:504:6:ssd1351_write_string	32	static

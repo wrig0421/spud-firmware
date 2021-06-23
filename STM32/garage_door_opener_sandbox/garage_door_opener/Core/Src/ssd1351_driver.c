@@ -477,7 +477,7 @@ void ssd1351_printf(char *string)
 				ssd1351_write_char(g_font_color, Font_7x10, mem_string[mem_string_cnt++]);
 			}
 			ssd1351_write_char(g_font_color, Font_7x10, ' ');
-			ssd1351_write_buffer_to_display();
+			//ssd1351_write_buffer_to_display();
 			memset(mem_string, 0, sizeof(mem_string));
 			mem_string_cnt = 0;
 			new_word_flag = true;
@@ -485,6 +485,7 @@ void ssd1351_printf(char *string)
 			// move the row
 		}
 	}
+	//ssd1351_write_buffer_to_display();
 	/*
 	if (NULL == string) return;
 	while (*string != 0)

@@ -106,7 +106,11 @@ bool keypad_scan(void)
 		default: while(1); break;
 	}
 	HAL_GPIO_WritePin(col_port, col_pin, GPIO_PIN_SET);
-	if (GPIO_PIN_SET == HAL_GPIO_ReadPin(GPIOB, row_pin)) ret_val = true;
+	if (GPIO_PIN_SET == HAL_GPIO_ReadPin(GPIOB, row_pin))
+	{
+		while (GPIO_PIN_SET == HAL_GPIO_ReadPin(GPIOB, row_pin));
+		ret_val = true;
+	}
 	HAL_GPIO_WritePin(col_port, col_pin, GPIO_PIN_RESET);
 	if (ret_val)
 	{
