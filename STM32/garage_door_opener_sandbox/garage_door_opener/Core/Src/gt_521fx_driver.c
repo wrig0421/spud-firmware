@@ -18,21 +18,19 @@ extern UART_HandleTypeDef huart1;
 #define LED_ON                  0x01
 #define LED_OFF                 0x00
 
-pkt_t gt521fx_tx_pkt;
-
-//gt521fx_pkt_u tx_pkt;
-//gt521fx_pkt_u rx_pkt;
-
-//bool g_finger_is_pressed = false;
-
-
-uint16_t g_enrolled_fingerprint_count = 0;
-bool g_finger_is_pressed = false;
-uint16_t g_identified_id = 0;
-uint8_t g_security_lvl = 0;
 
 bool g_nack_flag = false;
+bool g_finger_is_pressed = false;
+bool g_gt521fx_initialized = false;
+uint8_t g_security_lvl = 0;
+uint16_t g_identified_id = 0;
+uint16_t g_enrolled_fingerprint_count = 0;
+uint16_t gt521fx_identified_id(void);
+pkt_t gt521fx_tx_pkt;
 gt_521fx_error_e g_nack_state = GT521FX_NO_ERROR_ACK;
+
+
+uint16_t gt521fx_enrolled_fingerprint_count(void);
 
 
 void gt521fx_nack_flag_set(bool flag)
@@ -53,7 +51,6 @@ bool gt521fx_nack_flag(void)
 }
 
 
-uint16_t gt521fx_enrolled_fingerprint_count(void);
 uint16_t gt521fx_enrolled_fingerprint_count(void)
 {
 	return g_enrolled_fingerprint_count;
@@ -66,11 +63,17 @@ void gt521fx_enrolled_fingerprint_count_set(uint16_t count)
 }
 
 
-bool g_gt521fx_initialized = false;
 bool gt521fx_initialized(void)
 {
 	return g_gt521fx_initialized;
 }
+
+
+void gt521fx_finger_is_pressed_clear(void)
+{
+	g_finger_is_pressed = false;
+}
+
 
 void gt521fx_finger_is_pressed_set(bool flag)
 {
@@ -96,7 +99,6 @@ void gt521fx_identified_id_set(uint16_t id)
 }
 
 
-uint16_t gt521fx_identified_id(void);
 uint16_t gt521fx_identified_id(void)
 {
 	return g_identified_id;
@@ -130,7 +132,8 @@ void gt521fx_change_baud_rate(uint16_t baud_rate)
 bool gt521fx_check_enrollment_status(uint16_t id)
 {
 	packet_create_cmd_and_send((p_packet_handle_t)&gt521fx_tx_pkt, GT521FX_CMD_CHECK_ENROLLED, id);
-	
+	while(!pkt_received());
+	clear_pkt_received_flag();
 	if (gt521fx_nack_flag()) return false;
 	else return true;
 }
@@ -163,30 +166,6 @@ void gt521fx_enrollment(gt_521fx_enrollment_stage_e stage)
 	packet_create_cmd_and_send((p_packet_handle_t)&gt521fx_tx_pkt, cmd_stage, 0);
 }
 
-/*
-bool gt521fx_first_enrollment(void)
-{
-	packet_create_cmd_and_send((p_packet_handle_t)&gt521fx_tx_pkt, GT521FX_CMD_ENROLL_1, 0);
-	if (gt521fx_nack_flag()) return false;
-	else return true;
-}
-
-
-bool gt521fx_second_enrollment(void)
-{
-	packet_create_cmd_and_send((p_packet_handle_t)&gt521fx_tx_pkt, GT521FX_CMD_ENROLL_2, 0);
-	if (gt521fx_nack_flag()) return false;
-	else return true;
-}
-
-
-bool gt521fx_third_enrollment(void)
-{
-	packet_create_cmd_and_send((p_packet_handle_t)&gt521fx_tx_pkt, GT521FX_CMD_ENROLL_3, 0);
-	if (gt521fx_nack_flag()) return false;
-	else return true;
-}
-*/
 
 void gt521fx_finger_is_pressed(void)
 {
@@ -209,6 +188,8 @@ void gt521fx_delete_fingerprint(uint16_t id)
 bool gt521fx_fingerprint_verified(uint16_t id)
 {
 	packet_create_cmd_and_send((p_packet_handle_t)&gt521fx_tx_pkt, GT521FX_CMD_VERIFY, 0);
+	while(!pkt_received());
+	clear_pkt_received_flag();
 	if (gt521fx_nack_flag()) return false;
 	else return true;
 }
@@ -217,6 +198,8 @@ bool gt521fx_fingerprint_verified(uint16_t id)
 bool gt521fx_fingerprint_identify(void)
 {
 	packet_create_cmd_and_send((p_packet_handle_t)&gt521fx_tx_pkt, GT521FX_CMD_IDENTIFY, 0);
+	while(!pkt_received());
+	clear_pkt_received_flag();
 	if (gt521fx_nack_flag()) return false;
 	else return true;
 }
@@ -232,7 +215,5 @@ void gt521fx_set_security_level(gt_521fx_security_lvl_e security_lvl)
 {
 	packet_create_cmd_and_send((p_packet_handle_t)&gt521fx_tx_pkt, GT521FX_CMD_SET_SECURITY_LEVEL, 0);
 }
-
-
 
 

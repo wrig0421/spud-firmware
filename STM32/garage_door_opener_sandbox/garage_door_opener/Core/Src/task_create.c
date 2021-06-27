@@ -50,7 +50,7 @@ const osThreadAttr_t task_sensor_acc_attributes = {
   .stack_size = sizeof(task_sensor_accBuffer),
   .cb_mem = &task_sensor_accControlBlock,
   .cb_size = sizeof(task_sensor_accControlBlock),
-  .priority = (osPriority_t) osPriorityNormal,
+  .priority = (osPriority_t) osPriorityLow,
 };
 /* Definitions for task_display_update */
 osThreadId_t task_display_upHandle;
@@ -62,7 +62,7 @@ const osThreadAttr_t task_display_up_attributes = {
   .stack_size = sizeof(task_display_upBuffer),
   .cb_mem = &task_display_upControlBlock,
   .cb_size = sizeof(task_display_upControlBlock),
-  .priority = (osPriority_t) osPriorityNormal,
+  .priority = (osPriority_t) osPriorityLow,
 };
 /* Definitions for task_sensor_acc */
 osThreadId_t task_keypad_accHandle;
@@ -74,17 +74,19 @@ const osThreadAttr_t task_keypad_acc_attributes = {
   .stack_size = sizeof(task_keypad_accBuffer),
   .cb_mem = &task_keypad_accControlBlock,
   .cb_size = sizeof(task_keypad_accControlBlock),
-  .priority = (osPriority_t) osPriorityNormal,
+  .priority = (osPriority_t) osPriorityNormal1,
 };
 
 
 void task_create(void)
 {
 	packet_queue_init();
+	serial_com_init_all();
 
-	task_sensor_rxHandle = osThreadNew(sensor_rx_entry, NULL, &task_sensor_rx_attributes);
 	task_sensor_txHandle = osThreadNew(task_sensor_tx_entry, NULL, &task_sensor_tx_attributes);
+	task_sensor_rxHandle = osThreadNew(sensor_rx_entry, NULL, &task_sensor_rx_attributes);
 	task_sensor_accHandle = osThreadNew(task_sensor_access_entry, NULL, &task_sensor_acc_attributes);
+
 	//task_display_upHandle = osThreadNew(task_display_update_entry, NULL, &task_display_up_attributes);
 	task_keypad_accHandle = osThreadNew(task_keypad_access_entry, NULL, &task_keypad_acc_attributes);
 }

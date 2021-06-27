@@ -19,6 +19,7 @@ typedef enum
 
 
 void task_sensor_access_entry(void *argument);
+void set_screen_refresh(void);
 gt521fx_state_e gt521fx_current_state(void);
 void gt521fx_set_state(uint16_t key);
 

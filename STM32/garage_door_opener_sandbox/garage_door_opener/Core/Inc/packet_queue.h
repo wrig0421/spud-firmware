@@ -8,7 +8,24 @@
 #include "packet_def.h"
 #include "gt_521fx_driver.h"
 
+
+typedef enum
+{
+	PKT_QUEUE_GT521FX_RX,
+	PKT_QUEUE_GT521FX_TX
+} pkt_queue_e;
+
+/*
+typedef enum
+{
+	packet_ptr_t	pkt_ptr;
+} packet_queue_entry_t;
+typedef packet_queue_entry_t	*packet_queue_entry_handle_t;
+*/
+
 void packet_queue_init(void);
+uint32_t packet_queue_get_count(pkt_queue_e selection);
+osMessageQueueId_t packet_queue_get_queue_handle(pkt_queue_e selection);
 void packet_enqueue(p_packet_handle_t pkt_handle, pkt_src_dst_t dst);
 void packet_dequeue(p_packet_handle_t pkt_handle, pkt_src_dst_t src);
 void packet_enqueue_to_sensor_tx(p_packet_handle_t pkt_handle);

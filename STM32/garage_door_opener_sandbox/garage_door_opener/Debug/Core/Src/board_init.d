@@ -27,6 +27,8 @@ Core/Src/board_init.o: ../Core/Src/board_init.c ../Core/Inc/main.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr_ex.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi_ex.h \
+ ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h \
+ ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h \
@@ -42,7 +44,8 @@ Core/Src/board_init.o: ../Core/Src/board_init.c ../Core/Inc/main.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h \
  ../Core/Inc/ssd1351_driver.h ../Core/Inc/fonts.h \
  ../Core/Inc/gt_521fx_driver.h ../Core/Inc/keypad.h \
- ../Core/Inc/flash_access.h ../Core/Inc/board_init.h
+ ../Core/Inc/flash_access.h ../Core/Inc/serial_com.h \
+ ../Core/Inc/board_init.h
 
 ../Core/Inc/main.h:
 
@@ -102,6 +105,10 @@ Core/Src/board_init.o: ../Core/Src/board_init.c ../Core/Inc/main.h \
 
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi_ex.h:
 
+../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h:
+
+../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h:
+
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h:
 
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h:
@@ -137,5 +144,7 @@ Core/Src/board_init.o: ../Core/Src/board_init.c ../Core/Inc/main.h \
 ../Core/Inc/keypad.h:
 
 ../Core/Inc/flash_access.h:
+
+../Core/Inc/serial_com.h:
 
 ../Core/Inc/board_init.h:

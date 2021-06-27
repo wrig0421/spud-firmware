@@ -5,6 +5,7 @@
 #include "gt_521fx_driver.h"
 #include "keypad.h"
 #include "flash_access.h"
+#include "serial_com.h"
 #include "board_init.h"
 
 
@@ -171,6 +172,8 @@ void MX_USART1_UART_Init(void)
     Error_Handler();
   }
   /*
+  __HAL_UART_ENABLE_IT(&huart1, UART_IT_TXE);
+
   HAL_NVIC_SetPriority(USART1_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(USART1_IRQn);
 	*/
@@ -191,10 +194,10 @@ void MX_DMA_Init(void)
 
   /* DMA interrupt init */
   /* DMA1_Channel4_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(DMA1_Channel4_IRQn, 0, 0);
+  HAL_NVIC_SetPriority(DMA1_Channel4_IRQn, 5, 0);
   HAL_NVIC_EnableIRQ(DMA1_Channel4_IRQn);
   /* DMA1_Channel5_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(DMA1_Channel5_IRQn, 0, 0);
+  HAL_NVIC_SetPriority(DMA1_Channel5_IRQn, 5, 0);
   HAL_NVIC_EnableIRQ(DMA1_Channel5_IRQn);
 
 }

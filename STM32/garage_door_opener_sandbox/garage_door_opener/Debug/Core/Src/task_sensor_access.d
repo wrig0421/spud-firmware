@@ -14,7 +14,7 @@ Core/Src/task_sensor_access.o: ../Core/Src/task_sensor_access.c \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h \
  ../Core/Inc/packet_def.h ../Core/Inc/gt_521fx_driver.h \
- ../Core/Inc/task_sensor_access.h
+ ../Core/Inc/serial_com.h ../Core/Inc/task_sensor_access.h
 
 ../Core/Inc/gt_521fx_driver.h:
 
@@ -51,5 +51,7 @@ Core/Src/task_sensor_access.o: ../Core/Src/task_sensor_access.c \
 ../Core/Inc/packet_def.h:
 
 ../Core/Inc/gt_521fx_driver.h:
+
+../Core/Inc/serial_com.h:
 
 ../Core/Inc/task_sensor_access.h:

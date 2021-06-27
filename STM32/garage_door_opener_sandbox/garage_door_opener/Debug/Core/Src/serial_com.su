@@ -1,4 +1,7 @@
-serial_com.c:24:6:USART3_IRQHandler	8	static
-serial_com.c:31:6:HAL_UART_RxCpltCallback	16	static
-serial_com.c:48:6:task_sensor_tx_entry	16	static
-serial_com.c:72:6:sensor_rx_entry	16	static
+serial_com.c:45:6:HAL_UART_TxCpltCallback	16	static
+serial_com.c:54:6:HAL_UART_RxCpltCallback	16	static
+serial_com.c:64:6:serial_com_init_all	8	static
+serial_com.c:75:6:pkt_received	4	static
+serial_com.c:88:6:clear_pkt_received_flag	4	static
+serial_com.c:100:6:task_sensor_tx_entry	16	static
+serial_com.c:122:6:sensor_rx_entry	16	static

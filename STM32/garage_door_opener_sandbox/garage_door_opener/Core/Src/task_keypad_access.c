@@ -50,7 +50,10 @@ void task_keypad_access_entry(void *argument)
 							failed_attempts++;
 							memset(password, 0, KEYPAD_PASSWORD_LENGTH);
 							password_index = 0;
-							ssd1351_printf("Wrong. Dumbass!\n");
+							ssd1351_clear_screen(); // always clear here
+							ssd1351_printf("Wrong password. Dumbass!\n");
+							ssd1351_write_buffer_to_display();
+							osDelay(1000);
 							keypad_state = KEYPAD_STATE_SCAN;
 							/*
 							if (KEYPAD_MAX_PASSWORD_ATTEMPTS == failed_attempts) // retry 5 max attempts
@@ -73,12 +76,21 @@ void task_keypad_access_entry(void *argument)
 			break;
 			case KEYPAD_STATE_PASSWORD_MATCH:
 				gt521fx_set_state(0);
+				ssd1351_clear_screen(); // always clear here
+				ssd1351_printf("Correct password!\n");
+				ssd1351_write_buffer_to_display();
+				osDelay(1000);
+				set_screen_refresh();
 				keypad_state = KEYPAD_STATE_SCAN;
 				// print success message
 				// change state in task_sensor_access
 		    break;
 			case KEYPAD_STATE_LOCKOUT:
-				ssd1351_printf("Wrong. Dumbass!\n");
+				ssd1351_clear_screen(); // always clear here
+				ssd1351_printf("Wrong password. Dumbass!\n");
+				ssd1351_write_buffer_to_display();
+				osDelay(1000);
+				set_screen_refresh();
 				keypad_state = KEYPAD_STATE_SCAN;
 				// if 5 failures in a row then this should lock for like an hour maybe
 		    break;
