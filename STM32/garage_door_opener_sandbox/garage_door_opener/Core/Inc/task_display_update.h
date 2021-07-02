@@ -1,5 +1,3 @@
-
-
 #if !defined(TASK_DISPLAY_UPDATE_H)
 #define TASK_DISPLAY_UPDATE_H
 

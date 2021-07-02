@@ -14,7 +14,7 @@
 #include "ssd1351_driver.h"
 #include "fonts.h"
 
-extern SPI_HandleTypeDef hspi2;
+extern SPI_HandleTypeDef g_hspi2;
 
 
 // On reset...
@@ -25,18 +25,14 @@ extern SPI_HandleTypeDef hspi2;
     // Column address counter is set at 0
     // Normal scan direction of the COM outputs
     // Command A2h, B1h, B3h, BBh, BEh are locked by command FDh
-
 // GDDRAM 128 x 128 x 18 bits
     // Each pixel has 18-bit data.  6 bits A, B, and C.
     // See Table 8-7
-
 // Command Decoder
     // If D/C+ pin is HIGH, data is written to GDDRAM
     // If D/C+ pin is LOW, data is interpreted as a command
-
 // Write RAM Command
     // Data entries will be written into RAM until another cmd is written
-
 
 typedef enum
 {
@@ -48,7 +44,7 @@ typedef enum
 } ssd1351_pins;
 
 
-// local prototypes below
+// local prototypes
 static void ssd1351_spi_byte_write(uint8_t val);
 static void ssd1351_spi_block_write(uint8_t *data, uint32_t len);
 void ssd1351_set_pin(ssd1351_pins pin);
@@ -127,6 +123,7 @@ void ssd1351_clear_pin(ssd1351_pins pin)
 			hal_port = GPIOB;
 			hal_pin = GPIO_PIN_6;
 		break;
+		default: break;
 	}
 	HAL_GPIO_WritePin(hal_port, hal_pin, GPIO_PIN_RESET);
 }
@@ -150,6 +147,7 @@ void ssd1351_set_pin(ssd1351_pins pin)
 			hal_port = GPIOB;
 			hal_pin = GPIO_PIN_6;
 		break;
+		default: break;
 	}
 	HAL_GPIO_WritePin(hal_port, hal_pin, GPIO_PIN_SET);
 }
@@ -162,79 +160,57 @@ void ssd1351_init(void)
 	ssd1351_clear_pin(SSD1351_PIN_RST); // clear DC (cmd mode)
 	ssd1351_delay_ms(100); // how long to pause after reset?
 	ssd1351_set_pin(SSD1351_PIN_RST); // clear DC (cmd mode)
-
 	ssd1351_write_cmd(SSD1351_CMD_SET_CMD_LOCK);
 	ssd1351_byte_write_data(SSD1351_CMD_UNLOCK_BYTE);
 	ssd1351_write_cmd(SSD1351_CMD_SET_CMD_LOCK);
 	ssd1351_byte_write_data(0xB1); // WHY?????
-
 	ssd1351_write_cmd(SSD1351_CMD_SET_SLEEP_MODE_ON);
 	ssd1351_write_cmd(SSD1351_CMD_SET_DISP_MODE_OFF);
-
 	ssd1351_write_cmd(SSD1351_CMD_SET_COLUMN_ADDRESS);
 	ssd1351_byte_write_data(0x00);
 	ssd1351_byte_write_data(0x7F);
-
 	ssd1351_write_cmd(SSD1351_CMD_SET_ROW_ADDRESS);
 	ssd1351_byte_write_data(0x00);
 	ssd1351_byte_write_data(0x7F);
-
 	ssd1351_write_cmd(SSD1351_CMD_FRONT_CLOCK_DIVIDER);
 	ssd1351_byte_write_data(0xF1); // highest frequency (div by 1)
-
 	ssd1351_write_cmd(SSD1351_CMD_SET_MUX_RATIO);
 	ssd1351_byte_write_data(0x7F); // 128 MUX (Reset value)
-
 	ssd1351_write_cmd(SSD1351_CMD_SET_REMAP_COLOR_DEPTH);
 	ssd1351_byte_write_data(0x74);
-
 	ssd1351_write_cmd(SSD1351_CMD_SET_DISP_START_LINE);
 	ssd1351_byte_write_data(0x00);
-
 	ssd1351_write_cmd(SSD1351_CMD_SET_DISP_OFFSET);
 	ssd1351_byte_write_data(0x00);
-
 	ssd1351_write_cmd(SSD1351_CMD_FUNCTION_SELECTION);
 	ssd1351_byte_write_data(0x01);
-
 	ssd1351_write_cmd(SSD1351_CMD_SET_SEGMENT_LOW_VOLTAGE);
 	ssd1351_byte_write_data(0xA0);
 	ssd1351_byte_write_data(0xB5);
 	ssd1351_byte_write_data(0x55);
-
 	ssd1351_write_cmd(SSD1351_CMD_SET_CONTRAST_CURRENT);
 	ssd1351_byte_write_data(0xC8);
 	ssd1351_byte_write_data(0x80);
 	ssd1351_byte_write_data(0xC0);
-
 	ssd1351_write_cmd(SSD1351_CMD_MASTER_CONTRAST_CURRENT_CTRL);
 	ssd1351_byte_write_data(0x0F);
-
 	ssd1351_write_cmd(SSD1351_CMD_SET_RESET_PRECHARGE_PERIOD);
 	ssd1351_byte_write_data(0x32);
-
 	ssd1351_write_cmd(SSD1351_CMD_DISP_ENHANCEMENT);
 	ssd1351_byte_write_data(0xA4);
 	ssd1351_byte_write_data(0x00);
 	ssd1351_byte_write_data(0x00);
-
 	ssd1351_write_cmd(SSD1351_CMD_SET_PRECHARGE_VOLTAGE);
 	ssd1351_byte_write_data(0x17);
-
 	ssd1351_write_cmd(SSD1351_CMD_SET_SECOND_PRECHARGE_PERIOD);
 	ssd1351_byte_write_data(0x01);
-
 	ssd1351_write_cmd(SSD1351_CMD_SET_VCOMH_VOLTAGE);
 	ssd1351_byte_write_data(0x05);
-
 	ssd1351_write_cmd(SSD1351_CMD_SET_DISP_MODE_NORMAL);
-
 	ssd1351_clear_screen();
 	ssd1351_write_cmd(SSD1351_CMD_SET_SLEEP_MODE_OFF);
-
 	ssd1351_clear_screen();
 	ssd1351_reset_ram_address();
-
 	ssd1351_clear_screen();
 }
 

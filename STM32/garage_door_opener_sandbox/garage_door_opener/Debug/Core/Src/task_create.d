@@ -44,9 +44,8 @@ Core/Src/task_create.o: ../Core/Src/task_create.c ../Core/Inc/main.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h \
  ../Core/Inc/task_create.h ../Core/Inc/packet_queue.h \
  ../Core/Inc/packet_def.h ../Core/Inc/gt_521fx_driver.h \
- ../Core/Inc/task_display_update.h ../Core/Inc/task_periodic.h \
- ../Core/Inc/task_sensor_access.h ../Core/Inc/task_keypad_access.h \
- ../Core/Inc/serial_com.h
+ ../Core/Inc/task_display_update.h ../Core/Inc/task_sensor_access.h \
+ ../Core/Inc/task_keypad_access.h ../Core/Inc/serial_com.h
 
 ../Core/Inc/main.h:
 
@@ -145,8 +144,6 @@ Core/Src/task_create.o: ../Core/Src/task_create.c ../Core/Inc/main.h \
 ../Core/Inc/gt_521fx_driver.h:
 
 ../Core/Inc/task_display_update.h:
-
-../Core/Inc/task_periodic.h:
 
 ../Core/Inc/task_sensor_access.h:
 

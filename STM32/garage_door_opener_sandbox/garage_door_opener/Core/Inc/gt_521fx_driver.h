@@ -10,67 +10,9 @@
 
 #include <stdbool.h>
 
-/*
-typedef struct
-{
-	uint8_t  	start_code_1;
-	uint8_t 	start_code_2;
-	uint16_t    dev_id;
-	uint32_t    input_parameter;
-	union
-	{
-		uint16_t    cmd_code;
-		uint16_t    rsp;
-	};
-	uint16_t    check_sum; // sum of offset[0] + ... + offset[9] = check sum
-	//uint32_t    check_sum; // sum of offset[0] + ... + offset[9] = check sum
-} gt521fx_pkt_t;
 
-
-typedef struct
-{
-	union
-	{
-		gt521fx_pkt_t pkt;
-		uint8_t flat_data[sizeof(gt521fx_pkt_t)];
-	};
-} gt521fx_pkt_u;
-*/
-
-
-typedef enum
-{
-	GT521FX_CMD_COUNT_OPEN = 0,
-	GT521FX_CMD_COUNT_CLOSE,
-	GT521FX_CMD_COUNT_USB_INTERNAL_CHECK,
-	GT521FX_CMD_COUNT_CHANGE_BAUD_RATE,
-	GT521FX_CMD_COUNT_CMOS_LED,
-	GT521FX_CMD_COUNT_GET_ENROLL_COUNT,
-	GT521FX_CMD_COUNT_CHECK_ENROLLED,
-	GT521FX_CMD_COUNT_ENROLL_START,
-	GT521FX_CMD_COUNT_ENROLL_1,
-	GT521FX_CMD_COUNT_ENROLL_2,
-	GT521FX_CMD_COUNT_ENROLL_3,
-	GT521FX_CMD_COUNT_IS_PRESS_FINGER,
-	GT521FX_CMD_COUNT_DELETE_ID,
-	GT521FX_CMD_COUNT_DELETE_ALL,
-	GT521FX_CMD_COUNT_VERIFY,
-	GT521FX_CMD_IDENTIFY,
-	GT521FX_CMD_VERIFY_TEMPLATE,
-	GT521FX_CMD_IDENTIFY_TEMPLATE,
-	GT521FX_CMD_MAKE_TEMPLATE,
-	GT521FX_CMD_GET_IMAGE,
-	GT521FX_CMD_GET_RAW_IMAGE,
-	GT521FX_CMD_GET_TEMPLATE,
-	GT521FX_CMD_SET_TEMPLATE,
-	GT521FX_CMD_GET_DATABASE_START ,
-	GT521FX_CMD_GET_DATABASE_END,
-	GT521FX_CMD_SECURITY_LEVEL,
-	GT521FX_CMD_GET_SECURITY_LEVEL,
-	GT521FX_CMD_IDENFITY_TEMPLATE_2,
-	GT521FX_CMD_ENTER_STANDBY,
-	GT521FX_CMD_COUNT
-} gt_521fx_cmd_count_e;
+#define GT521FX_CAPTURE_FINGER_FAST		0
+#define GT521FX_CAPTURE_FINGER_SLOW		1
 
 
 typedef enum
@@ -140,9 +82,7 @@ typedef enum
 	GT521FX_ERROR_CAPTURE_CANCELLED        = 0x1010,
 	GT521FX_ERROR_INVALID_PARAM            = 0x1011,
 	GT521FX_ERROR_FINGER_IS_NOT_PRESSED    = 0x1012,
-
 	GT521FX_ERROR_SRW_ENROLL_FAILURE	   = 0x2000,
-
 	// duplicate ID error is [0,2999] I believe this is because there can be 3000 fingerprints saved
 	GT521FX_NO_ERROR_ACK				   = 0xFFFF,
 } gt_521fx_error_e;
@@ -159,11 +99,7 @@ typedef enum
 } gt_521fx_security_lvl_e;
 
 
-#define GT521FX_CAPTURE_FINGER_FAST		0
-#define GT521FX_CAPTURE_FINGER_SLOW		1
-
 void gt521fx_fingerprint_init(void);
-gt_521fx_error_e gt521fx_enroll_finger(uint16_t id);
 void gt521fx_open(void);
 void gt521fx_led_off(void);
 void gt521fx_led_on(void);
@@ -171,32 +107,32 @@ void gt521fx_delete_all(void);
 void gt521fx_change_baud_rate(uint16_t baud_rate);
 void gt521fx_start_enrollment(uint16_t id);
 void gt521fx_enrollment(gt_521fx_enrollment_stage_e stage);
-void gt521fx_capture_finger(void);
+void gt521fx_capture_finger(bool enroll_stage);
 void gt521fx_finger_is_pressed(void);
 void gt521fx_delete_all_fingerprints(void);
 void gt521fx_delete_fingerprint(uint16_t id);
-bool gt521fx_initialized(void);
-bool gt521fx_nack_flag(void);
-bool gt521fx_finger_is_pressed_flag(void);
-bool gt521fx_fingerprint_identify(void);
-void gt521fx_finger_is_pressed_clear(void);
-
-uint16_t flash_access_gt521fx_enroll_count(void);
-uint16_t flash_access_gt521fx_cur_id(void);
-
 void gt521fx_nack_state_set(gt_521fx_error_e err);
 void gt521fx_nack_flag_set(bool flag);
 void gt521fx_finger_is_pressed_set(bool flag);
 void gt521fx_security_lvl_set(uint8_t lvl);
 void gt521fx_identified_id_set(uint16_t id);
 void gt521fx_enrolled_fingerprint_count_set(uint16_t count);
-
 void identified_id_set(uint16_t id);
 void security_lvl_set(uint8_t lvl);
 void finger_is_pressed_set(bool flag);
 void enrolled_fingerprint_count_set(uint16_t count);
 void nack_state_set(gt_521fx_error_e err);
 void nack_flag_set(bool flag);
+void gt521fx_finger_is_pressed_clear(void);
 
+bool gt521fx_initialized(void);
+bool gt521fx_nack_flag(void);
+bool gt521fx_finger_is_pressed_flag(void);
+bool gt521fx_fingerprint_identify(void);
+
+uint16_t flash_access_gt521fx_enroll_count(void);
+uint16_t flash_access_gt521fx_cur_id(void);
+
+gt_521fx_error_e gt521fx_enroll_finger(uint16_t id);
 
 #endif /* INC_GT_521FX_DRIVER_H_ */

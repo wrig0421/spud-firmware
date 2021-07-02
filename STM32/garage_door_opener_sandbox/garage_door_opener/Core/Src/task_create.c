@@ -6,7 +6,6 @@
 
 #include "task_create.h"
 #include "task_display_update.h"
-#include "task_periodic.h"
 #include "task_sensor_access.h"
 #include "task_keypad_access.h"
 #include "serial_com.h"
@@ -18,7 +17,7 @@ typedef StaticQueue_t osStaticMessageQDef_t;
 
 /* Definitions for task_sensor_rx */
 osThreadId_t task_sensor_rxHandle;
-uint32_t task_sensor_rxBuffer[ 128 ];
+uint32_t task_sensor_rxBuffer[ 512 ];
 osStaticThreadDef_t task_sensor_rxControlBlock;
 const osThreadAttr_t task_sensor_rx_attributes = {
   .name = "task_sensor_rx",
@@ -30,7 +29,7 @@ const osThreadAttr_t task_sensor_rx_attributes = {
 };
 /* Definitions for task_sensor_tx */
 osThreadId_t task_sensor_txHandle;
-uint32_t task_sensor_txBuffer[ 128 ];
+uint32_t task_sensor_txBuffer[ 512 ];
 osStaticThreadDef_t task_sensor_txControlBlock;
 const osThreadAttr_t task_sensor_tx_attributes = {
   .name = "task_sensor_tx",
@@ -42,7 +41,7 @@ const osThreadAttr_t task_sensor_tx_attributes = {
 };
 /* Definitions for task_sensor_acc */
 osThreadId_t task_sensor_accHandle;
-uint32_t task_sensor_accBuffer[ 128 ];
+uint32_t task_sensor_accBuffer[ 512 ];
 osStaticThreadDef_t task_sensor_accControlBlock;
 const osThreadAttr_t task_sensor_acc_attributes = {
   .name = "task_sensor_acc",
@@ -54,7 +53,7 @@ const osThreadAttr_t task_sensor_acc_attributes = {
 };
 /* Definitions for task_display_update */
 osThreadId_t task_display_upHandle;
-uint32_t task_display_upBuffer[ 128 ];
+uint32_t task_display_upBuffer[ 512 ];
 osStaticThreadDef_t task_display_upControlBlock;
 const osThreadAttr_t task_display_up_attributes = {
   .name = "task_display_up",
@@ -66,7 +65,7 @@ const osThreadAttr_t task_display_up_attributes = {
 };
 /* Definitions for task_sensor_acc */
 osThreadId_t task_keypad_accHandle;
-uint32_t task_keypad_accBuffer[ 128 ];
+uint32_t task_keypad_accBuffer[ 512 ];
 osStaticThreadDef_t task_keypad_accControlBlock;
 const osThreadAttr_t task_keypad_acc_attributes = {
   .name = "task_keypad_acc",
@@ -74,7 +73,8 @@ const osThreadAttr_t task_keypad_acc_attributes = {
   .stack_size = sizeof(task_keypad_accBuffer),
   .cb_mem = &task_keypad_accControlBlock,
   .cb_size = sizeof(task_keypad_accControlBlock),
-  .priority = (osPriority_t) osPriorityNormal1,
+  .priority = (osPriority_t) osPriorityNormal,
+  //.priority = (osPriority_t) osPriorityNormal1,
 };
 
 

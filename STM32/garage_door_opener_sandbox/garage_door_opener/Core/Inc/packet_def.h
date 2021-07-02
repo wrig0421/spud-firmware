@@ -7,8 +7,6 @@
 #include <stdint.h>
 
 
-
-
 typedef enum
 {
 	RSP_RSP_ACK = 0x30,
@@ -47,20 +45,11 @@ typedef struct
 typedef pkt_t *p_packet_handle_t;
 
 
-/*
-typedef struct
-{
-	p_packet_handle_t p_pkt;
-} packet_ptr_t;
-*/
-
 typedef enum
 {
 	PKT_SRC_DST_SNS_TX,
 	PKT_SRC_DST_SNS_RX,
 } pkt_src_dst_t;
-
-
 
 
 typedef struct

@@ -4,6 +4,7 @@
 #define TASK_SENSOR_ACCESS_H
 
 #include <stdint.h>
+#include <stdbool.h>
 typedef enum
 {
 	GT521FX_STATE_ADMIN,
@@ -22,5 +23,7 @@ void task_sensor_access_entry(void *argument);
 void set_screen_refresh(void);
 gt521fx_state_e gt521fx_current_state(void);
 void gt521fx_set_state(uint16_t key);
+void task_sensor_access_set_btn_pause(void);
+bool task_sensor_access_btn_pause(void);
 
 #endif

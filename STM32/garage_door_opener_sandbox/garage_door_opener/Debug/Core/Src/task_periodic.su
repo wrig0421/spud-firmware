@@ -1,4 +1,0 @@
-task_periodic.c:35:6:reset_update_display_flag	4	static
-task_periodic.c:42:6:set_update_display_flag	4	static
-task_periodic.c:49:6:update_display	8	static
-task_periodic.c:68:6:task_periodic	16	static

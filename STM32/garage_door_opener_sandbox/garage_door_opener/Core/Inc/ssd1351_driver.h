@@ -13,11 +13,6 @@
 #define SSD1351_CMD_UNLOCK_BYTE		0x12
 #define COLUMNS 128 // Not sure of this SRW
 #define ROWS 128
-/*
-#define SSD1351_PIXEL_WIDTH			128
-#define SSD1351_PIXEL_HEIGHT		128
-#define SSD1351_BYTES_PER_PIXEL		2
-*/
 #define SSD1351_PIXEL_WIDTH			128
 #define SSD1351_PIXEL_HEIGHT		128
 #define SSD1351_BYTES_PER_PIXEL		2
@@ -100,9 +95,6 @@ typedef struct
 	uint8_t y;
 } ssd1351_coordinates_t;
 
-ssd1351_coordinates_t ssd1351_coordinates;
-ssd1351_buffer_t ssd1351_buffer; // I don't like this global def
-
 
 void ssd1351_init(void);
 void ssd1351_fill_screen(color_16bit_e color);
@@ -119,11 +111,13 @@ void ssd1351_draw_line(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t 
 void ssd1351_write_buffer_to_display(void);
 void ssd1351_clear_screen(void);
 void ssd1351_reset_ram_address(void);
-//void ssd1351_printf(color_16bit_e color, font_t font, const char *format, ...);
 void ssd1351_write_int(color_16bit_e color, font_t font, int8_t n);
 void ssd1351_write_string(color_16bit_e color, font_t font, char *line);
 void ssd1351_write_char(color_16bit_e color, font_t font, char c);
 void ssd1351_printf(char *string);
+//void ssd1351_printf(color_16bit_e color, font_t font, const char *format, ...);
 
+ssd1351_coordinates_t ssd1351_coordinates;
+ssd1351_buffer_t ssd1351_buffer; // I don't like this global def
 
 #endif /* INC_SSD1351_DRIVER_H_ */

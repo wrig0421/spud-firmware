@@ -45,7 +45,7 @@ Core/Src/gt_521fx_driver.o: ../Core/Src/gt_521fx_driver.c \
  ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h \
  ../Core/Inc/packet_def.h ../Core/Inc/gt_521fx_driver.h \
  ../Core/Inc/gt_521fx_driver.h ../Core/Inc/ssd1351_driver.h \
- ../Core/Inc/fonts.h
+ ../Core/Inc/fonts.h ../Core/Inc/serial_com.h
 
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
 
@@ -144,3 +144,5 @@ Core/Src/gt_521fx_driver.o: ../Core/Src/gt_521fx_driver.c \
 ../Core/Inc/ssd1351_driver.h:
 
 ../Core/Inc/fonts.h:
+
+../Core/Inc/serial_com.h:

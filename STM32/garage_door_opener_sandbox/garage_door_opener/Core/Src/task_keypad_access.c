@@ -25,11 +25,13 @@ void task_keypad_access_entry(void *argument)
 			break;
 			case KEYPAD_STATE_BTN_PRESS:
 				key_stroke = keypad_button_pressed();
+				task_sensor_access_set_btn_pause();
 				keypad_state = KEYPAD_STATE_SCAN;
 				//osDelay(1000);
 				if (GT521FX_STATE_IDENTIFY == gt521fx_current_state())
 				{
 					// Attempting to enter admin menu
+
 					password[password_index++] = key_stroke;
 					if (12 == key_stroke)
 					{
@@ -47,6 +49,12 @@ void task_keypad_access_entry(void *argument)
 						}
 						else
 						{
+							memset(password, 0, KEYPAD_PASSWORD_LENGTH);
+							password_index = 0;
+						}
+#if 0
+						else
+						{
 							failed_attempts++;
 							memset(password, 0, KEYPAD_PASSWORD_LENGTH);
 							password_index = 0;
@@ -54,6 +62,7 @@ void task_keypad_access_entry(void *argument)
 							ssd1351_printf("Wrong password. Dumbass!\n");
 							ssd1351_write_buffer_to_display();
 							osDelay(1000);
+							set_screen_refresh();
 							keypad_state = KEYPAD_STATE_SCAN;
 							/*
 							if (KEYPAD_MAX_PASSWORD_ATTEMPTS == failed_attempts) // retry 5 max attempts
@@ -62,6 +71,7 @@ void task_keypad_access_entry(void *argument)
 							}
 							*/
 						}
+#endif
 					}
 					else
 					{
@@ -80,7 +90,6 @@ void task_keypad_access_entry(void *argument)
 				ssd1351_printf("Correct password!\n");
 				ssd1351_write_buffer_to_display();
 				osDelay(1000);
-				set_screen_refresh();
 				keypad_state = KEYPAD_STATE_SCAN;
 				// print success message
 				// change state in task_sensor_access
