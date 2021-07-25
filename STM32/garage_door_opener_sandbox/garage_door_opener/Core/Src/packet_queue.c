@@ -100,8 +100,10 @@ void packet_enqueue(p_packet_handle_t pkt_handle, pkt_src_dst_t dst)
 	{
 		case PKT_SRC_DST_SNS_TX:
 			if (osOK != osMessageQueuePut(g_gt521fx_tx_queue.handle, pkt_handle, 0, 0)) while(1);
+		break;
 		case PKT_SRC_DST_SNS_RX:
 			if (osOK != osMessageQueuePut(g_gt521fx_rx_queue.handle, pkt_handle, 0, 0)) while(1);
+		break;
 		default: while(1);
 	}
 }
@@ -113,8 +115,13 @@ void packet_dequeue(p_packet_handle_t pkt_handle, pkt_src_dst_t src)
 	{
 		case PKT_SRC_DST_SNS_TX:
 			if (osOK != osMessageQueueGet(g_gt521fx_tx_queue.handle, (uint8_t *)pkt_handle, NULL, osWaitForever)) while(1); // wtf
+		break;
 		case PKT_SRC_DST_SNS_RX:
-			if (osOK != osMessageQueueGet(g_gt521fx_rx_queue.handle, (uint8_t *)pkt_handle, NULL, osWaitForever)) while(1); // wtf
+			if (osOK != osMessageQueueGet(g_gt521fx_rx_queue.handle, (uint8_t *)pkt_handle, NULL, osWaitForever))
+			{
+				while(1); // wtf
+			}
+		break;
 		default: while(1); // wtf
 	}
 }

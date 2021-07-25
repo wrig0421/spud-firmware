@@ -5,6 +5,8 @@ board_init.c:57:6:SystemClock_Config	192	static
 board_init.c:90:6:MX_SPI2_Init	8	static
 board_init.c:114:6:MX_USART1_UART_Init	8	static
 board_init.c:135:6:MX_DMA_Init	16	static
-board_init.c:150:6:MX_GPIO_Init	40	static
-board_init.c:188:6:board_init_set_wkup_src	8	static
-board_init.c:202:6:Error_Handler	4	static
+board_init.c:151:6:MX_GPIO_Init	40	static
+board_init.c:202:6:board_init_set_wkup_src	8	static
+board_init.c:212:6:board_init_activate_garage_door	8	static
+board_init.c:218:6:board_init_deactivate_garage_door	8	static
+board_init.c:228:6:Error_Handler	4	static

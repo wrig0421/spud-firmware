@@ -117,7 +117,4 @@ void ssd1351_write_char(color_16bit_e color, font_t font, char c);
 void ssd1351_printf(char *string);
 //void ssd1351_printf(color_16bit_e color, font_t font, const char *format, ...);
 
-ssd1351_coordinates_t ssd1351_coordinates;
-ssd1351_buffer_t ssd1351_buffer; // I don't like this global def
-
 #endif /* INC_SSD1351_DRIVER_H_ */

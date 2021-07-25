@@ -34,7 +34,7 @@ typedef struct
 gt521fx_uart_tx_rec_t gt521fx_uart_tx;
 gt521fx_uart_rx_rec_t gt521fx_uart_rx;
 
-extern UART_HandleTypeDef huart1;
+extern UART_HandleTypeDef g_huart1;
 
 
 uint32_t rx_callback_passes = 0;
@@ -45,7 +45,7 @@ bool rx_callback_first_pass = true;
 bool ok = true;
 void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
 {
-	if (HAL_OK != HAL_UART_Receive_DMA(&huart1, gt521fx_uart_rx.pkt.flat_data, sizeof(pkt_t)))
+	if (HAL_OK != HAL_UART_Receive_DMA(&g_huart1, gt521fx_uart_rx.pkt.flat_data, sizeof(pkt_t)))
 	{
 		while(1);
 	}
@@ -66,9 +66,9 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 void serial_com_init_all(void)
 {
 	gt521fx_uart_rx.gt521fx_rx_queue_handle = packet_queue_get_queue_handle(PKT_QUEUE_GT521FX_RX);
-	gt521fx_uart_rx.rx_uart_handle = huart1;
+	gt521fx_uart_rx.rx_uart_handle = g_huart1;
 	gt521fx_uart_tx.gt521fx_tx_queue_handle = packet_queue_get_queue_handle(PKT_QUEUE_GT521FX_TX);
-	gt521fx_uart_tx.tx_uart_handle = huart1;
+	gt521fx_uart_tx.tx_uart_handle = g_huart1;
 }
 
 
@@ -109,7 +109,7 @@ void task_sensor_tx_entry(void *argument)
 	  packet_dequeue_from_sensor_tx(&gt521fx_uart_tx.pkt);
 	  clear_pkt_received_flag();
 	  g_last_cmd = gt521fx_uart_tx.pkt.cmd_code;
-	  HAL_UART_Transmit(&huart1, gt521fx_uart_tx.pkt.flat_data, sizeof(pkt_t), 5000);
+	  HAL_UART_Transmit(&g_huart1, gt521fx_uart_tx.pkt.flat_data, sizeof(pkt_t), 5000);
   }
   /* USER CODE END task_sensor_tx_entry */
 }
@@ -124,11 +124,10 @@ void sensor_rx_entry(void *argument)
 {
 	for(;;)
 	{
-		HAL_UART_Receive_DMA(&huart1, gt521fx_uart_rx.pkt.flat_data, sizeof(pkt_t));
+		HAL_UART_Receive_DMA(&g_huart1, gt521fx_uart_rx.pkt.flat_data, sizeof(pkt_t));
 		packet_dequeue_from_sensor_rx(&gt521fx_uart_rx.pkt);
 		packet_parse_rsp(&gt521fx_uart_rx.pkt);
 		g_rx_pkt_received = true;
-
 	}
   /* USER CODE END sensor_rx_entry */
 }

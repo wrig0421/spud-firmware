@@ -14,8 +14,26 @@
 #include "ssd1351_driver.h"
 #include "fonts.h"
 
+#define SPECIAL_CHAR_OFFSET 	32
+
+// external local global variables
 extern SPI_HandleTypeDef g_hspi2;
 
+// local global variables
+uint16_t g_color_16bit = 0;
+color_16bit_e g_background_color = COLOR_16BIT_BLACK;
+color_16bit_e g_font_color = COLOR_16BIT_RED;
+ssd1351_coordinates_t ssd1351_coordinates;
+ssd1351_buffer_t ssd1351_buffer;
+
+typedef enum
+{
+	//SSD1351_PIN_DIN,
+	//SSD1351_PIN_CLK,
+	SSD1351_PIN_CS, // D10 (PA_11)
+	SSD1351_PIN_DC, // D9 (PA_8)
+	SSD1351_PIN_RST, // D8 (PB_6)
+} ssd1351_pins;
 
 // On reset...
     // Display off
@@ -34,34 +52,25 @@ extern SPI_HandleTypeDef g_hspi2;
 // Write RAM Command
     // Data entries will be written into RAM until another cmd is written
 
-typedef enum
-{
-	//SSD1351_PIN_DIN,
-	//SSD1351_PIN_CLK,
-	SSD1351_PIN_CS, // D10 (PA_11)
-	SSD1351_PIN_DC, // D9 (PA_8)
-	SSD1351_PIN_RST, // D8 (PB_6)
-} ssd1351_pins;
-
-
 // local prototypes
 static void ssd1351_spi_byte_write(uint8_t val);
 static void ssd1351_spi_block_write(uint8_t *data, uint32_t len);
 void ssd1351_set_pin(ssd1351_pins pin);
 void ssd1351_clear_pin(ssd1351_pins pin);
 void ssd1351_reset_pixel_address(void);
+void swap(uint8_t *val_1, uint8_t *val_2);
 
 
 static void ssd1351_spi_byte_write(uint8_t val)
 {
 	uint8_t data = val;
-	HAL_SPI_Transmit(&hspi2, &data, 1, 10000);
+	HAL_SPI_Transmit(&g_hspi2, &data, 1, 10000);
 }
 
 
 static void ssd1351_spi_block_write(uint8_t *data, uint32_t len)
 {
-	HAL_SPI_Transmit(&hspi2, data, len, 10000);
+	HAL_SPI_Transmit(&g_hspi2, data, len, 10000);
 }
 
 
@@ -226,7 +235,6 @@ void ssd1351_draw_pixel(uint8_t x, uint8_t y, color_16bit_e color)
 	if((x >= SSD1351_PIXEL_WIDTH - 1) || (y >= SSD1351_PIXEL_HEIGHT - 1)) return;
 	else if((x < 0) || (y < 0)) return;
 	// there are 128 columns and 128 row.  2 bytes stored per pixel
-	//uint16_t index = ((SSD1351_PIXEL_WIDTH - 1) - x) + (y * (SSD1351_PIXEL_WIDTH - 1))
 	uint16_t index = x + y * 128;
 	ssd1351_buffer.ssd1351_disp_buffer_uint16[index] = color;
 }
@@ -239,12 +247,8 @@ void ssd1351_draw_line(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t 
 	int16_t dy = abs(y1 - y0);
 	int16_t sign_y = y0 < y1 ? 1 : -1;
 	int16_t err = (dx>dy ? dx : -dy)/2;
-	int16_t err2;
-
-	int16_t x;
-	int16_t y;
-
-	while(1) // hate while(1) loops...
+	int16_t x, y, err2;
+	while(1)
 	{
 		ssd1351_draw_pixel(x, y, color);
 		if(x == x1 && y == y1) break;
@@ -272,35 +276,12 @@ void ssd1351_draw_rectangle(uint16_t x, uint16_t y, uint16_t width, uint16_t hei
 }
 
 
-void swap(uint8_t *val_1, uint8_t *val_2);
 void swap(uint8_t *val_1, uint8_t *val_2)
 {
 	uint8_t temp_val = *val_1;
 	*val_1 = *val_2;
 	*val_2 = temp_val;
 }
-
-
-/*
-void ssd1351_draw_horizontal_line(uint8_t x0, uint8_t x1);
-void ssd1351_draw_horizontal_line(uint8_t x0, uint8_t x1)
-{
-	if((x0 < 0) || (x0 > SSD1351_PIXEL_WIDTH)) return;
-	else if((x1 < 0) || (x1 > SSD1351_PIXEL_WIDTH)) return;
-
-	if(x0 > x1)
-	{
-#warning x1 > x0
-		swap(&x0, &x1);
-	}
-	ssd1351_set_pixel_address(ssd1351_coordinates.x, x0);
-	ssd1351_write_cmd(SSD1351_CMD_WRITE_RAM);
-	for(uint8_t pixel = x0; pixel < x1; pixel++)
-	{
-		ssd1351_draw_pixel(ssd1351_coordinates.x, pixel);
-	}
-}
-*/
 
 
 void ssd1351_set_pixel_address(uint8_t column, uint8_t row)
@@ -341,13 +322,11 @@ void ssd1351_reset_ram_address(void)
 }
 
 
-uint16_t g_color_16bit = 0;
 void ssd1351_fill_screen(color_16bit_e color)
 {
 	uint8_t clear_byte[] = {((color & 0xFF00) >> 8), (color & 0x00FF)};
 	ssd1351_write_cmd(SSD1351_CMD_SET_SLEEP_MODE_ON);
 	ssd1351_reset_ram_address();
-
 	ssd1351_write_cmd(SSD1351_CMD_WRITE_RAM);
 	for(int i = 0; i < 128; i++)
 	{
@@ -356,24 +335,20 @@ void ssd1351_fill_screen(color_16bit_e color)
 			ssd1351_block_write_data(clear_byte, 2);
 		}
 	}
-
 	ssd1351_write_cmd(SSD1351_CMD_SET_SLEEP_MODE_OFF);
 }
 
 
 void ssd1351_clear_screen(void)
 {
-	//uint8_t clear_byte[128*128] = {0x00, 0x00};
 	ssd1351_reset_ram_address();
 	ssd1351_write_cmd(SSD1351_CMD_WRITE_RAM);
 	memset(ssd1351_buffer.ssd1351_disp_buffer_uint8, 0, sizeof(ssd1351_buffer.ssd1351_disp_buffer_uint8));
 	ssd1351_block_write_data(ssd1351_buffer.ssd1351_disp_buffer_uint8, sizeof(ssd1351_buffer));
-	//ssd1351_reset_ram_address();
 	ssd1351_reset_pixel_address();
 }
 
 
-#define SPECIAL_CHAR_OFFSET 	32
 void ssd1351_write_char(color_16bit_e color, font_t font, char c)
 {
 	// basic idea for writing a character is as follows:
@@ -385,11 +360,11 @@ void ssd1351_write_char(color_16bit_e color, font_t font, char c)
 	uint16_t height = font.height;
 	uint16_t width = font.width;
 
-	if((SSD1351_PIXEL_WIDTH <= ssd1351_coordinates.x + width) || (SSD1351_PIXEL_HEIGHT <= ssd1351_coordinates.y + height))
+	if((SSD1351_PIXEL_WIDTH <= ssd1351_coordinates.x + width) || (SSD1351_PIXEL_HEIGHT <= ssd1351_coordinates.y + height)) return;
+	if (c == '\n')
 	{
-		return;
+		ssd1351_coordinates.x = SSD1351_PIXEL_WIDTH - 1; // if new line simply
 	}
-	if (c == '\n') ssd1351_coordinates.x = SSD1351_PIXEL_WIDTH - 1; // if new line simply
 	else
 	{
 		while(char_pix_vert_pos < height)
@@ -418,8 +393,6 @@ void ssd1351_write_char(color_16bit_e color, font_t font, char c)
 }
 
 
-color_16bit_e g_background_color = COLOR_16BIT_BLACK;
-color_16bit_e g_font_color = COLOR_16BIT_RED;
 void ssd1351_printf(char *string)
 {
 	char mem_string[18] = "";
@@ -473,7 +446,6 @@ void ssd1351_printf(char *string)
 	}
 	*/
 	//ssd1351_write_buffer_to_display();
-
 }
 
 
@@ -533,9 +505,25 @@ void ssd1351_printf(color_16bit_e color, font_t font, const char *format, ...)
 		}
 	}
 }
+
+
+void ssd1351_draw_horizontal_line(uint8_t x0, uint8_t x1);
+void ssd1351_draw_horizontal_line(uint8_t x0, uint8_t x1)
+{
+	if((x0 < 0) || (x0 > SSD1351_PIXEL_WIDTH)) return;
+	else if((x1 < 0) || (x1 > SSD1351_PIXEL_WIDTH)) return;
+
+	if(x0 > x1)
+	{
+#warning x1 > x0
+		swap(&x0, &x1);
+	}
+	ssd1351_set_pixel_address(ssd1351_coordinates.x, x0);
+	ssd1351_write_cmd(SSD1351_CMD_WRITE_RAM);
+	for(uint8_t pixel = x0; pixel < x1; pixel++)
+	{
+		ssd1351_draw_pixel(ssd1351_coordinates.x, pixel);
+	}
+}
 */
-
-
-
-
 

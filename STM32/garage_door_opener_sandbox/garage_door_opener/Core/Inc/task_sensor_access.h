@@ -1,5 +1,3 @@
-
-
 #if !defined(TASK_SENSOR_ACCESS_H)
 #define TASK_SENSOR_ACCESS_H
 
