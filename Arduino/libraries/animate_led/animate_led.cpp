@@ -1,22 +1,21 @@
-// Spud 2021
-
 #include <stdint.h>
 #include <stdbool.h>
 #include "FastLED.h"
 #include "color_led.h"
+//#include <FastLED>
 #include "animate_led.h"
 
-// static definitions
-#define PIN 8
+#define PIN 12
 
-// global variables
 bool g_interrupt_flag[NUM_ISR] = {false};
+CRGB leds[NUM_LEDS];
+led_speed_e g_led_speed = LED_SPEED_1X;
+//led_state_e g_led_state = LED_STATE_FIRST;
+led_state_e g_led_state = LED_STATE_SPELL;
+
 uint16_t g_delay_between_animations_ms = 1000;
 uint16_t g_delay_in_animation_ms = 100; // where applicable of course
 uint32_t g_iterations = 0; 
-CRGB leds[NUM_LEDS];
-led_speed_e g_led_speed = LED_SPEED_1X;
-led_state_e g_led_state = LED_STATE_FIRST;
 
 
 void animate_led_reset_state(void)
@@ -91,10 +90,10 @@ float animate_led_speed_factor(void)
 	return speed_factor;
 }
 
-
 uint16_t animate_led_delay_between_animations(void)
 {
 	return ((float)g_delay_between_animations_ms / animate_led_speed_factor());
+	//return g_delay_between_animations_ms;
 }
 
 
@@ -127,6 +126,15 @@ bool animate_led_adjust_state(void)
 void animate_led_init(void)
 {
 	FastLED.addLeds<WS2812, PIN, GRB>(leds, NUM_LEDS).setCorrection( TypicalLEDStrip );
+	/*
+	g_led_speeds[LED_SPEED_10X] = g_led_delay_ms / 10;
+	g_led_speeds[LED_SPEED_5X] = g_led_delay_ms / 5;
+	g_led_speeds[LED_SPEED_2X] = g_led_delay_ms / 2;
+	g_led_speeds[LED_SPEED_1X] = g_led_delay_ms / 1;
+	g_led_speeds[LED_SPEED_0P5X] = g_led_delay_ms / 0.5f;
+	g_led_speeds[LED_SPEED_0P25X] = g_led_delay_ms / 0.25f;
+	g_led_speeds[LED_SPEED_0P1X] = g_led_delay_ms / 0.1f;
+	*/
 }
 
 
@@ -193,16 +201,6 @@ void animate_led_state_randomize(void)
 }
 
 
-void animate_led_set_solid_white_color(void)
-{
-	// the fix below is a power supply statement.  Not enough power on Schumacher sign to drive all 
-	// LEDs simultaneously.  I reduced brightness of each color for solid white.  This is not 
-	// very noticeable to human eye... A mosquito wouldn't think the same.  
-	animate_led_set_all_pixels(106 / 3, 106  / 3, 106 / 3);
-	//animate_led_set_all_pixels(color_led_white_hex(), color_led_white_hex(), color_led_white_hex());
-}
-
-
 void animate_led_solid_color(void)
 {
 	animate_led_set_all_pixels(color_led_cur_color_red_hex(), color_led_cur_color_green_hex(), color_led_cur_color_blue_hex());
@@ -253,6 +251,14 @@ void animate_led_fade_in_fade_out(void)
 			animate_led_set_all_pixels(0, 0, 0);
 			return;
 		}
+		/*
+		else if(animate_led_interrupt_flag_color())
+		{
+			red = color_led_cur_color_red_hex();
+			green = color_led_cur_color_green_hex();
+			blue = color_led_cur_color_blue_hex();
+		}
+		*/
         r = (i / 256.0) * red;
         g = (i / 256.0) * green;
         b = (i / 256.0) * blue;
@@ -267,6 +273,14 @@ void animate_led_fade_in_fade_out(void)
 			animate_led_set_all_pixels(0, 0, 0);
 			return;
 		}
+		/*
+		else if(animate_led_interrupt_flag_color())
+		{
+			red = color_led_cur_color_red_hex();
+			green = color_led_cur_color_green_hex();
+			blue = color_led_cur_color_blue_hex();
+		}
+		*/
         r = (i / 256.0) * red;
         g = (i / 256.0) * green;
         b = (i / 256.0) * blue;

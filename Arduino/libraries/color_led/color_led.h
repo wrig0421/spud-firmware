@@ -1,9 +1,9 @@
-// Spud 2021
 
-// typedefs, structs, enums
+
+
 typedef enum
 {
-    // R(8 bit)G(8 bit)B(8 bit)
+    // RGB
     COLOR_HEX_BLACK = 0x000000,
     COLOR_HEX_WHITE = 0xFFFFFF,
     COLOR_HEX_RED = 0xFF0000,
@@ -29,7 +29,6 @@ typedef enum
     //COLORS_WHITE,
 	COLORS_FIRST = 0,
     COLORS_RED = COLORS_FIRST,
-    COLORS_WHITE,
     COLORS_LIME,
     COLORS_BLUE,
     COLORS_YELLOW,
@@ -47,18 +46,14 @@ typedef enum
     NUM_COLORS
 } all_colors_e;
 
-
-// local prototypes
-bool color_led_adjust_color(void);
 void color_led_reset_color(void);
-void color_led_randomize(void);
-void color_led_init(void);
+bool color_led_adjust_color(void);
+color_hex_code_e color_led_cur_color_hex(void);
 uint8_t color_led_cur_color_red_hex(void);
 uint8_t color_led_cur_color_green_hex(void);
 uint8_t color_led_cur_color_blue_hex(void);
-uint8_t color_led_white_hex(void);
-color_hex_code_e color_led_cur_color_hex(void);
 
-
-
+//color_hex_code_e color_led_random(all_colors_e cur_color);
+void color_led_randomize(void);
+void color_led_init(void);
 

@@ -5,8 +5,10 @@
 
 // static definitions
 //#define TOGETHER_SIGN
-#define SCHUMACHER_SIGN
-#define NUM_LEDS 420 //Schumacher sign
+//#define SCHUMACHER_SIGN
+#define SPUDS_PUB_SIGN
+//#define NUM_LEDS 420 //Schumacher sign
+#define NUM_LEDS 212 // Spud's pub sign
 //#define NUM_LEDS 292 // Together sign
 
 
@@ -16,7 +18,7 @@ typedef enum
     ISR_SPEED = 0,
     ISR_STATE,
     ISR_COLOR,
-    //ISR_PAUSE,
+    ISR_PAUSE,
     NUM_ISR
 } isr_e;
 
@@ -24,8 +26,8 @@ typedef enum
 typedef enum
 {
 	LED_STATE_FIRST = 0,
-	LED_STATE_WHITE_COLOR = LED_STATE_FIRST,
-    LED_STATE_FADE_IN_AND_OUT,
+	//LED_STATE_WHITE_COLOR = LED_STATE_FIRST,
+    LED_STATE_FADE_IN_AND_OUT = LED_STATE_FIRST,
     //LED_STATE_FADE_IN_AND_OUT_RANDOM,
     LED_STATE_SOLID_COLOR,
 	LED_STATE_STROBE,

@@ -1,678 +1,372 @@
-/**************************************************************************
- *  -|-|-|-|-|-|-|-|-|-|-|-|-|Nohbz Sign-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|- *                                    *
- *                                                                        *
- *  @brief      Nohbz LED Strip Sign Code                                 *
- *  @note       Flashed to Arduino Uno                                    *
- *  @author     Spencer Wright                                            *
- *  @copyright  Copyright (C) 2020 Spencer Wright                         *
- *                                                                        *
- *  All code was written for a good buddy.  Feel free to disribute.       *                             
- *  Forward any bugs to wrig0421@umn.edu                                  *           
- **************************************************************************/
+#include <animate_led.h>
+#include <color_led.h>
+#include <FastLED.h>
 
-#include "Adafruit_NeoPixel.h"
-#include <spud_sign.h>
+// static definitions
+#define SERIAL_DEBUG // define to print debug messages
 
-#include "stdint.h"
-#include "stdbool.h"
+#if !defined(TOGETHER_SIGN) && !defined(SCHUMACHER_SIGN) && !defined(SPUDS_PUB_SIGN)
+#pragma error("no sign defined");
+#endif
 
-// RF receiver IC pins
-#define VT          1
-#define D0          2
-#define D1          3
-#define D2          4
-#define D3          5
-#define PWR_ENABLE  6
 
-#define ANIMATION_SPEED_UP_FACTOR_0_5X          (float)0.5
-#define ANIMATION_SPEED_UP_FACTOR_0_25X         (float)0.25
-#define ANIMATION_SPEED_UP_FACTOR_0_1X          (float)0.1
-#define ANIMATION_SPEED_UP_FACTOR_0X            0
-#define DEFAULT_DELAY_TIME_MS                   1000
-
+// typedefs, structs, enums
 typedef enum
 {
-    ST_SPELL_WORD = 0,
-    ST_DRAW_LETTERS,
-    ST_L_R_FADE,
-    ST_R_L_FADE,
-    ST_ALTERNATE_L_R_FADE,
-    ST_T_B_FADE,
-    ST_B_T_FADE,
-    ST_ALTERNATE_T_B_FADE,
-    ST_DRAW_WORD,
-    ST_TWINKLE,
-    NUM_SIGN_STATES, 
-} sign_state_t;
+    MASTER_STATE_DEMO,
+    MASTER_STATE_FIXED
+} master_led_state_e;
 
 
 typedef enum
 {
-    ST_MASTER_DEMO_FIXED_TIME = 0,
-    ST_MASTER_DEMO_VARIABLE_TIME,
-    ST_RUN,
-    ST_SOLID_COLOR,
-} sign_state_master_t; 
+    MASTER_COLOR_DEMO,
+    MASTER_COLOR_FIXED
+} master_color_state_e;
 
 
 typedef enum
 {
-    DEMO_VARIABLE_0_5X_COUNT = 6,
-    DEMO_VARIABLE_0_25X_COUNT = 8,
-    DEMO_VARIABLE_0_1X_COUNT = 10,
-    DEMO_VARIABLE_0X_COUNT = 12,
-} demo_variable_time_count_t;
+#if defined(TOGETHER_SIGN)
+    INT_BTN_PAUSE = 21,
+    INT_BTN_STATE = 20,  // A
+    INT_BTN_SPEED = 19,  // D
+    INT_BTN_COLOR = 18,  // C
+#elif defined(SCHUMACHER_SIGN)
+    INT_BTN_PAUSE = 19,
+    INT_BTN_STATE = 18,  // A
+    INT_BTN_SPEED = 20,  // D
+    INT_BTN_COLOR = 21,  // B
+#elif defined(SPUDS_PUB_SIGN)
+    INT_BTN_SPEED = 18,
+    INT_BTN_STATE = 19,  
+    INT_BTN_PAUSE = 20,  
+    INT_BTN_COLOR = 21,  
+#endif 
+} interrupt_button_e;
 
-sign_state_master_t master_sign_state = ST_MASTER_DEMO_FIXED_TIME;
-sign_state_t sign_state = ST_SPELL_WORD;
-sign_state_t random_state = NUM_SIGN_STATES; // set to an invalid state initially....
-sign_state_t state_checker = sign_state;
 
-letters_in_sign_t letter = S_LETTER;  
+// local function prototypes
+void handle_count_and_color(void);
+void isr_state_change(void);
+void isr_color_change(void);
+void isr_speed_change(void);
+void isr_pause(void);
 
-demo_variable_time_count_t demo_variable_time_count = DEMO_VARIABLE_0_5X_COUNT;
 
-display_colors_e sign_color = disp_red;
-display_colors_e random_sign_color = disp_num_colors_disp; // set to invalid color initially..
-display_colors_e twinkle_color = disp_red;
-display_colors_e random_twinkle_color = disp_num_colors_disp;
+// global variables
+//master_led_state_e g_master_led_state = MASTER_STATE_DEMO; // start solid white for reception
+master_led_state_e g_master_led_state = MASTER_STATE_FIXED;
+//master_color_state_e g_master_color_state = MASTER_COLOR_DEMO;
+master_color_state_e g_master_color_state = MASTER_COLOR_FIXED;
 
-bool rand_flags[8] = {false}; // used in twinkle function..
-bool down_flag = true; // used for demo modes
-byte pixel_set_flags[STRIP_SIZE] = {0}; // used in twinkle function..
+unsigned long isr_times[NUM_ISR] = {0};
+unsigned long debounce_delay = 2000; // ms
+bool g_state_flag = false;
+bool g_master_color_state_change_flag = false;
+bool g_master_led_state_change_flag = false;
+bool g_state_short_circuit_flag = false;
 
-const byte button1 = 2;
-const byte button2 = 3;
 
-uint32_t loop_count = 0;
-uint8_t z = 0; // use in twinkle function.. 
-uint8_t st_dev_count = 0; // used in twinkle function.. 
-uint8_t state_spot_checker = 0;
-uint8_t alternate_t_b_flag = 1;
-uint8_t alternate_l_r_flag = 1;
-uint8_t state_transition_num_blinks = 0;
-uint8_t animation_speed_num_blinks = 0;
-float animation_speed_factor = ANIMATION_SPEED_UP_FACTOR_0X;
-
-// variables used in ISR
-unsigned long animation_last_time = 0;
-unsigned long mode_switch_last_time = 0;
-unsigned long debounceDelay = 50; // ms
-
-bool state_transition_flag_g = false;
-bool run_state_transition_flag_g = false;
-bool animation_speed_change_flag_g = false;
-
-// local function defs
-void mode_switch_isr(void);
-void animation_speed_isr(void);
-void switch_twinkle_color(void);
-void clear_random_state_flags(void);
-void switch_sign_color_in_order(void);
-void switch_sign_color(void);
-void reset_rand_flags(void);
-void check_loop_count(void);
-
-bool state_used_flag[NUM_SIGN_STATES] = {false};
-bool twinkle_animation(void);
-
-sign_state_t select_random_state(void);
-
-uint16_t twinkle_spot(uint16_t minimum, uint16_t maximum, display_colors_e color);
-
-void setup(void)
+void setup() 
 {
-    pinMode(VT, INPUT); 
-    pinMode(D3, INPUT);
-    pinMode(D2, INPUT);
-    pinMode(D1, INPUT);
-    pinMode(D0, INPUT);
     Serial.begin(9600);
-    strip_init();
-    interrupts();
-    attachInterrupt(digitalPinToInterrupt(button1), mode_switch_isr, RISING);
-    attachInterrupt(digitalPinToInterrupt(button2), animation_speed_isr, RISING);
-    randomSeed(analogRead(0));
-    for (int i = 0; i < STRIP_SIZE; i++) pixel_set_flags[i] = 0;
-    for (int i = 0; i < 8; i++) rand_flags[i] = false;
+    String msg = "";
+#if defined(SERIAL_DEBUG)
+#if defined(TOGETHER_SIGN)
+    msg = "Together sign";
+#elif defined(SCHUMACHER_SIGN)
+    msg = "Schumacher sign";
+#elif defined(SPUDS_PUB_SIGN)
+    msg = "Spud's Pub Sign";
+#endif
+    Serial.println(msg);
+#endif
+    pinMode(LED_BUILTIN, OUTPUT);
+    color_led_init();
+    animate_led_init();
+    delay(10000);
+    pinMode((byte)INT_BTN_SPEED, INPUT);
+    pinMode((byte)INT_BTN_STATE, INPUT);
+    pinMode((byte)INT_BTN_COLOR, INPUT);
+    pinMode((byte)INT_BTN_PAUSE, INPUT); 
+    attachInterrupt(digitalPinToInterrupt((byte)INT_BTN_SPEED), isr_speed_change, LOW);  // speed is 18
+    attachInterrupt(digitalPinToInterrupt((byte)INT_BTN_STATE), isr_state_change, LOW); 
+    attachInterrupt(digitalPinToInterrupt((byte)INT_BTN_COLOR), isr_color_change, LOW);  
+    attachInterrupt(digitalPinToInterrupt((byte)INT_BTN_PAUSE), isr_pause, LOW); 
 }
 
-
-void switch_twinkle_color(void)
-{
-    random_twinkle_color = (display_colors_e) random(disp_red, disp_num_colors_disp);
-    if(random_twinkle_color == twinkle_color)
-    {
-        if(disp_magenta != twinkle_color) twinkle_color = (display_colors_e)twinkle_color + 1;
-        else twinkle_color = (display_colors_e)twinkle_color - 1;
-    }
-    else twinkle_color = random_twinkle_color;
-}
-
-
-void switch_sign_color_in_order(void)
-{
-    sign_color = (display_colors_e) sign_color + 1;
-    if(disp_num_colors_disp == sign_color) sign_color = disp_red;
-}
-
-
-void switch_sign_color(void)
-{
-    static bool first_pass = true;
-    if(!first_pass)
-    {
-        sign_color = disp_red;
-        first_pass = false;
-    }
-    else
-    {
-        random_sign_color = (display_colors_e) random(disp_red, disp_num_colors_disp);
-        if(random_sign_color == sign_color)
-        {
-            if(disp_magenta != sign_color) sign_color = (display_colors_e)sign_color + 1;
-            else sign_color = (display_colors_e)sign_color - 1;
-        }
-        else sign_color = random_sign_color;
-    }
-}
-
-
-void mode_switch_isr()
-{
-    if ((millis() - mode_switch_last_time) > debounceDelay)
-    {
-        mode_switch_last_time = millis();
-    }
-    else return;
-    loop_count = 0;
-    clear_random_state_flags(); // best option just to clear flags for random states on mode switch
-    switch(master_sign_state)
-    {
-        case ST_MASTER_DEMO_FIXED_TIME:
-            master_sign_state = ST_MASTER_DEMO_VARIABLE_TIME;
-            sign_state = ST_SPELL_WORD;
-            state_transition_flag_g = true;
-        break;
-        case ST_MASTER_DEMO_VARIABLE_TIME:
-            master_sign_state = ST_SOLID_COLOR;
-            sign_state = ST_DRAW_WORD;
-            state_transition_flag_g = true;
-        break;
-        case ST_SOLID_COLOR:
-            sign_state = ST_SPELL_WORD;
-            master_sign_state = ST_RUN;
-            state_transition_flag_g = true;
-        break;
-        case ST_RUN:
-            sign_state = (sign_state_t)(sign_state + 1);
-            if(NUM_SIGN_STATES == sign_state) 
-            {
-                sign_state = ST_SPELL_WORD;
-                master_sign_state = ST_MASTER_DEMO_FIXED_TIME;
-                state_transition_flag_g = true;
-            }
-            else run_state_transition_flag_g = true;   
-        break;
-    }
-}
-
-
-void animation_speed_isr()
-{ 
-    if ((millis() - animation_last_time) > debounceDelay)
-    {
-        animation_last_time = millis();
-    }
-    else return;
-    loop_count = 0;
-    if(ST_SOLID_COLOR == master_sign_state)
-    {
-        switch_sign_color_in_order();
-        animation_speed_change_flag_g = false;
-    }
-    else
-    {
-        animation_speed_change_flag_g = true;
-        if(ANIMATION_SPEED_UP_FACTOR_0_5X == animation_speed_factor)
-        {
-            animation_speed_factor = ANIMATION_SPEED_UP_FACTOR_0_25X;
-        }
-        else if(ANIMATION_SPEED_UP_FACTOR_0_25X == animation_speed_factor)
-        {
-            animation_speed_factor = ANIMATION_SPEED_UP_FACTOR_0_1X;
-        }
-        else if(ANIMATION_SPEED_UP_FACTOR_0_1X == animation_speed_factor)
-        {
-            animation_speed_factor = ANIMATION_SPEED_UP_FACTOR_0X;
-        }
-        else if(ANIMATION_SPEED_UP_FACTOR_0X == animation_speed_factor)
-        {
-            animation_speed_factor = ANIMATION_SPEED_UP_FACTOR_0_5X;
-        }
-    }
-}
-
-
-uint16_t twinkle_spot(uint16_t minimum, uint16_t maximum, display_colors_e color)
-{
-    uint8_t start_pixel = 0;
-    uint8_t stop_pixel = 0;
-    uint16_t rand_pixel = 0;
-    
-    rand_pixel = random(minimum, maximum);
-    
-    if (!pixel_set_flags[rand_pixel])
-    {
-        pixel_set_flags[rand_pixel] = 1;
-        strip_turn_on_pixel(rand_pixel, color);
-        return 0;
-    }
-    else
-    {
-        while (pixel_set_flags[minimum + start_pixel] && (((minimum + start_pixel) < rand_pixel) && ((minimum + start_pixel) < maximum))) start_pixel++;
-        start_pixel = stop_pixel;
-        while (!pixel_set_flags[minimum + stop_pixel] && (((minimum + start_pixel) < rand_pixel) && ((minimum + start_pixel) < maximum))) stop_pixel++;
-        if (!start_pixel && !stop_pixel)
-        {
-            while (pixel_set_flags[rand_pixel + start_pixel] && ((rand_pixel + start_pixel) < maximum)) start_pixel++;
-            stop_pixel = start_pixel;
-            while (!pixel_set_flags[rand_pixel + stop_pixel] && ((minimum + stop_pixel) < maximum)) stop_pixel++;
-            if (start_pixel == stop_pixel)
-            {
-                if (stop_pixel != maximum) stop_pixel = start_pixel + 1;
-            }
-            if ((rand_pixel + stop_pixel) > maximum) return;
-            return (twinkle_spot(rand_pixel + start_pixel, rand_pixel + stop_pixel, color));
-        }
-        else
-        {
-            if (start_pixel == stop_pixel)
-            {
-                if (stop_pixel != maximum) stop_pixel = start_pixel + 1;
-            }
-            if ((minimum + stop_pixel) > maximum) return;
-            return (twinkle_spot(minimum + start_pixel, minimum + stop_pixel, color));
-        }
-    }
-}
-
-
-void reset_rand_flags(void)
-{
-    for (int i = 0; i < 8; i++) rand_flags[i] = false;
-    for (int i = 0; i < STRIP_SIZE; i++) pixel_set_flags[i] = 0;
-}
-
-
-bool twinkle_animation(void)
-{
-    for (z = S_PIXEL_NUM_START; z <= S_PIXEL_NUM_STOP; z++) if (!pixel_set_flags[z]) break; 
-    if (z == S_PIXEL_NUM_STOP) rand_flags[S_LETTER] = true;
-    else twinkle_spot(S_PIXEL_NUM_START, S_PIXEL_NUM_STOP, twinkle_color);
-    for (z = P_PIXEL_NUM_START; z < P_PIXEL_NUM_STOP; z++) if (!pixel_set_flags[z]) break;
-    if (z == 60) rand_flags[P_LETTER] = true;
-    else twinkle_spot(P_PIXEL_NUM_START, P_PIXEL_NUM_STOP, twinkle_color);
-    for (z = U_PIXEL_NUM_START; z < U_PIXEL_NUM_STOP; z++) if (!pixel_set_flags[z]) break;
-    if (z == U_PIXEL_NUM_STOP) rand_flags[U_LETTER] = true;
-    else twinkle_spot(D_PIXEL_NUM_START, D_PIXEL_NUM_STOP, twinkle_color);
-    for (z = D_PIXEL_NUM_START; z < D_PIXEL_NUM_STOP; z++) if (!pixel_set_flags[z]) break;
-    if (z == D_PIXEL_NUM_STOP) rand_flags[D_LETTER] = true;
-    else twinkle_spot(D_PIXEL_NUM_START, D_PIXEL_NUM_STOP, twinkle_color);
-    delay(250 * animation_speed_factor + 10);
-    if ((rand_flags[S_LETTER] && rand_flags[P_LETTER]) && (rand_flags[U_LETTER] && rand_flags[D_LETTER]))
-    {
-        reset_rand_flags();
-        st_dev_count = 0;
-        sign_color = twinkle_color;
-        switch_twinkle_color();
-        draw_word(sign_color, STRIP_SIZE, false, animation_speed_factor);
-    }
-    if (st_dev_count++ > 28) // force word fill if not found by this point
-    {
-        reset_rand_flags();
-        st_dev_count = 0;
-        sign_color = twinkle_color;
-        switch_twinkle_color();
-        draw_word(sign_color, STRIP_SIZE, false, animation_speed_factor);
-        return true;
-    }
-    return false;
-}
-
-
-void check_loop_count(void)
-{
-    if(ST_MASTER_DEMO_VARIABLE_TIME == master_sign_state)
-    {
-        switch(demo_variable_time_count)
-        {
-            case DEMO_VARIABLE_0_5X_COUNT:
-                if(loop_count >= DEMO_VARIABLE_0_5X_COUNT)
-                {
-                    if(!down_flag) 
-                    {
-                        down_flag = true;
-                        select_random_state();
-                    }
-                    loop_count = 0;
-                    demo_variable_time_count = DEMO_VARIABLE_0_25X_COUNT;
-                    animation_speed_factor = ANIMATION_SPEED_UP_FACTOR_0_25X;
-                }
-            break;
-            case DEMO_VARIABLE_0_25X_COUNT:
-                if(loop_count >= DEMO_VARIABLE_0_25X_COUNT)
-                {
-                    loop_count = 0;
-                    if(down_flag)
-                    {
-                        demo_variable_time_count = DEMO_VARIABLE_0_1X_COUNT;
-                        animation_speed_factor = ANIMATION_SPEED_UP_FACTOR_0_1X;
-                    }
-                    else
-                    {
-                        demo_variable_time_count = DEMO_VARIABLE_0_5X_COUNT;
-                        animation_speed_factor = ANIMATION_SPEED_UP_FACTOR_0_5X;
-                    }
-                }
-            break;
-            case DEMO_VARIABLE_0_1X_COUNT:
-                if(loop_count >= DEMO_VARIABLE_0_1X_COUNT)
-                {
-                    loop_count = 0;
-                    if(down_flag)
-                    {
-                        demo_variable_time_count = DEMO_VARIABLE_0X_COUNT;
-                        animation_speed_factor = ANIMATION_SPEED_UP_FACTOR_0X;
-                    }
-                    else
-                    {
-                        demo_variable_time_count = DEMO_VARIABLE_0_25X_COUNT;
-                        animation_speed_factor = ANIMATION_SPEED_UP_FACTOR_0_25X;
-                    }
-                }
-            break;
-            case DEMO_VARIABLE_0X_COUNT:
-                if(loop_count >= DEMO_VARIABLE_0X_COUNT)
-                {
-                    loop_count = 0;
-                    if(down_flag) 
-                    {
-                        down_flag = false;
-                        select_random_state();
-                    }
-                    demo_variable_time_count = DEMO_VARIABLE_0_1X_COUNT;
-                    animation_speed_factor = ANIMATION_SPEED_UP_FACTOR_0_1X;
-                }
-            break;
-            default:
-            break;
-        }
-    }
-    else if(ST_MASTER_DEMO_FIXED_TIME == master_sign_state)
-    {
-        if(ANIMATION_SPEED_UP_FACTOR_0X == animation_speed_factor)
-        {
-            if(loop_count > DEMO_VARIABLE_0X_COUNT)
-            {
-                loop_count = 0;
-                select_random_state();
-            }
-        }
-        else if(ANIMATION_SPEED_UP_FACTOR_0_1X == animation_speed_factor)
-        {
-            if(loop_count > DEMO_VARIABLE_0_1X_COUNT)
-            {
-                loop_count = 0;
-                select_random_state();
-            }
-        }
-        else if(ANIMATION_SPEED_UP_FACTOR_0_25X == animation_speed_factor)
-        {
-            if(loop_count > DEMO_VARIABLE_0_25X_COUNT)
-            {
-                loop_count = 0;
-                select_random_state();
-            }
-        }
-        else if(ANIMATION_SPEED_UP_FACTOR_0_5X == animation_speed_factor)
-        {
-            if(loop_count > DEMO_VARIABLE_0_5X_COUNT)
-            {
-                loop_count = 0;
-                select_random_state();
-            }
-        }
-    }
-    loop_count++; 
-}
-
-
-
-void clear_random_state_flags(void)
-{
-    for(sign_state_t i = ST_SPELL_WORD; i < NUM_SIGN_STATES;)
-    {
-        state_used_flag[i] = false;
-        i = (sign_state_t)i + 1;
-    }
-}
-
-
-sign_state_t select_random_state(void)
-{
-    if(sign_state != ST_TWINKLE)
-    {
-        random_state = (sign_state_t)random(sign_state, NUM_SIGN_STATES);
-    }
-    else
-    {
-        random_state = (sign_state_t)random(ST_SPELL_WORD, sign_state);
-    }
-    Serial.println("Trying to change state");
-    if(state_used_flag[random_state])
-    {
-        if(random_state != ST_TWINKLE)
-        {
-            random_state = (sign_state_t)random_state + 1;
-            state_checker = random_state;
-        }
-        else
-        {
-            random_state = (sign_state_t)random_state - 1;
-            state_checker = random_state;
-        }
-        while(state_used_flag[state_checker]) // try to find first unused state.. 
-        {
-            state_checker = (sign_state_t)state_checker + 1;
-            if(NUM_SIGN_STATES == state_checker)
-            {
-                state_checker = random_state;
-                while(state_used_flag[state_checker])
-                {
-                    if(ST_SPELL_WORD == state_checker)
-                    {
-                        for(sign_state_t i = ST_SPELL_WORD; i < NUM_SIGN_STATES;)
-                        {
-                            state_used_flag[i] = false;
-                            i = (sign_state_t)i + 1;
-                        }
-                        random_state = random(ST_SPELL_WORD, NUM_SIGN_STATES);
-                        sign_state = (sign_state_t)random_state;
-                        state_used_flag[sign_state] = true;
-                        return sign_state;
-                    }
-                    state_checker = (sign_state_t)state_checker - 1;
-                }
-            }
-        }
-        random_state = state_checker;
-        state_checker = ST_SPELL_WORD;
-        while(state_used_flag[state_checker])
-        {
-            if(state_checker == ST_TWINKLE)
-            {
-                for(sign_state_t i = ST_SPELL_WORD; i < NUM_SIGN_STATES;)
-                {
-                    state_used_flag[i] = false;
-                    i = (sign_state_t)i + 1;
-                }
-                random_state = random(ST_SPELL_WORD, NUM_SIGN_STATES);
-                sign_state = (sign_state_t)random_state;
-                state_used_flag[sign_state] = true;
-                return sign_state;
-            }
-            state_checker = (sign_state_t)state_checker + 1;
-        }
-        sign_state = random_state;
-        state_used_flag[sign_state] = true;
-        return sign_state;
-    }
-    else
-    {
-        state_checker = ST_SPELL_WORD;
-        while(state_used_flag[state_checker])
-        {
-            if(state_checker == ST_TWINKLE)
-            {
-                for(sign_state_t i = ST_SPELL_WORD; i < NUM_SIGN_STATES;)
-                {
-                    state_used_flag[i] = false;
-                    i = (sign_state_t)i + 1;
-                }
-                random_state = random(ST_SPELL_WORD, NUM_SIGN_STATES);
-                sign_state = (sign_state_t)random_state;
-                state_used_flag[sign_state] = true;
-                return sign_state;
-            }
-            state_checker = (sign_state_t)state_checker + 1;
-        }
-        sign_state = random_state;
-        state_used_flag[sign_state] = true;
-        return sign_state;
-    }
-}
-
-
+uint8_t g_toggle = 1;
 void loop() 
 {
-    if(state_transition_flag_g)
+#if defined(SERIAL_DEBUG)
+    // these print on each iteration...simply for quick debug
+    if (MASTER_STATE_FIXED == g_master_led_state) Serial.println("MASTER STATE LED FIXED");
+    else Serial.println("MASTER STATE LED DEMO");
+    if (MASTER_COLOR_FIXED == g_master_color_state) Serial.println("MASTER COLOR LED FIXED");
+    else Serial.println("MASTER COLOR LED DEMO");
+    Serial.println(animate_led_iterations(), DEC); // print iteration count
+#endif
+    handle_count_and_color(); // select state, color based iteration count
+    if (g_master_led_state_change_flag)
     {
-        // alert the user they are switch master modes.  This occurs only on master transitions 
-        state_transition_flag_g = false;
-        if(ST_MASTER_DEMO_FIXED_TIME == master_sign_state) state_transition_num_blinks = 1;
-        else if(ST_MASTER_DEMO_VARIABLE_TIME == master_sign_state) state_transition_num_blinks = 2;
-        else if(ST_SOLID_COLOR == master_sign_state) state_transition_num_blinks = 3;
-        else state_transition_num_blinks = 4;
-        for(uint8_t i = 0; i < state_transition_num_blinks; i++)
-        {
-            strip_clear(STRIP_SIZE);
-            delay(500);
-            draw_word(disp_red, STRIP_SIZE, false, animation_speed_factor);
-            delay(250);
-        }
-        strip_clear(STRIP_SIZE);
-        delay(500);
+        animate_led_reset_iterations();
+        master_led_state_change();
+        g_master_led_state_change_flag = false;
     }
-    else if(run_state_transition_flag_g)
+    switch(animate_led_state())
     {
-        run_state_transition_flag_g = false;
-        strip_clear(STRIP_SIZE);
-        delay(500);
-        draw_word(disp_blue, STRIP_SIZE, false, animation_speed_factor);
-        delay(250);
-        strip_clear(STRIP_SIZE);
-        delay(500);
-    }
-    else if(animation_speed_change_flag_g)
-    {
-        animation_speed_change_flag_g = false;
-        if(ANIMATION_SPEED_UP_FACTOR_0_5X == animation_speed_factor)
-        {
-            animation_speed_num_blinks = 1;
-        }
-        else if(ANIMATION_SPEED_UP_FACTOR_0_25X == animation_speed_factor)
-        {
-            animation_speed_num_blinks = 2;
-        }
-        else if(ANIMATION_SPEED_UP_FACTOR_0_1X == animation_speed_factor)
-        {
-            animation_speed_num_blinks = 3;
-        }
-        else 
-        {
-            animation_speed_num_blinks = 4;
-        }
-        for(uint8_t i = 0; i < animation_speed_num_blinks; i++)
-        {
-            strip_clear(STRIP_SIZE);
-            delay(500);
-            draw_word(disp_green, STRIP_SIZE, false, animation_speed_factor);
-            delay(250);
-        }
-        strip_clear(STRIP_SIZE);
-        delay(500);
-        draw_word(sign_color, STRIP_SIZE, false, animation_speed_factor);
-    }
-    if(master_sign_state != ST_SOLID_COLOR)
-    {
-        switch_sign_color();
-    }
-    if(ST_MASTER_DEMO_FIXED_TIME == master_sign_state || ST_MASTER_DEMO_VARIABLE_TIME == master_sign_state)
-    {
-        check_loop_count();
-    }
-    switch (sign_state)
-    {
-        case ST_SPELL_WORD:
-            draw_word(sign_color, STRIP_SIZE, true, animation_speed_factor);
-            delay(DEFAULT_DELAY_TIME_MS * animation_speed_factor);
+        
+//        case LED_STATE_WHITE_COLOR:
+//#if defined(SERIAL_DEBUG)
+//            Serial.println("STATE_SOLID_WHITE_COLOR");    
+//#endif
+//            // the color change doesn't matter for solid white.. 
+//            animate_led_set_solid_white_color();
+//            delay(animate_led_delay_between_animations());
+//        break;
+        case LED_STATE_SOLID_COLOR:
+#if defined(SERIAL_DEBUG)
+            Serial.println("STATE_SOLID_COLOR");
+#endif
+            animate_led_solid_color();
+            delay(animate_led_delay_between_animations());
         break;
-        case ST_DRAW_LETTERS:
-            while(NUM_LETTERS != draw_letter(letter, sign_color))
-            {
-                letter = (uint8_t)letter + 1;
-                delay(2000 * animation_speed_factor + 50);
-            }
-            letter = S_LETTER;
+        case LED_STATE_SPELL:
+#if defined(SERIAL_DEBUG)
+            Serial.println("STATE_SPELL");
+#endif
+            animate_led_spell_word(animate_led_delay_in_animations());
+            delay(animate_led_delay_between_animations());
         break;
-        case ST_L_R_FADE:
-            fade_word(sign_color, 250*animation_speed_factor + 10, true);
-            delay(DEFAULT_DELAY_TIME_MS * animation_speed_factor);
+        case LED_STATE_FADE_IN_AND_OUT:
+#if defined(SERIAL_DEBUG)
+            Serial.println("STATE_FADE");
+#endif
+            animate_led_fade_in_fade_out();
         break;
-        case ST_R_L_FADE:
-            fade_word(sign_color, 250*animation_speed_factor + 10, false);
-            delay(DEFAULT_DELAY_TIME_MS * animation_speed_factor);
+        case LED_STATE_TWINKLE:
+#if defined(SERIAL_DEBUG)
+            Serial.println("STATE_TWINKLE");
+#endif
+            animate_led_twinkle(NUM_LEDS - 100, animate_led_delay_in_animations(), false);
+            delay(animate_led_delay_between_animations());
         break;
-        case ST_ALTERNATE_L_R_FADE:
-            if(alternate_l_r_flag) fade_word(sign_color, 250*animation_speed_factor + 10, false);
-            else  fade_word(sign_color, 250*animation_speed_factor + 10, true);
-            alternate_l_r_flag ^= 1;
-            delay(DEFAULT_DELAY_TIME_MS * animation_speed_factor + 10);
+        case LED_STATE_SPARKLE:
+#if defined(SERIAL_DEBUG)
+            Serial.println("STATE_SPARKLE");
+#endif
+            animate_led_sparkle(animate_led_delay_in_animations());
         break;
-        case ST_T_B_FADE:
-            fade_word_top_to_bottom(sign_color, 250*animation_speed_factor + 10);
-            delay(DEFAULT_DELAY_TIME_MS * animation_speed_factor);
+        case LED_STATE_RUNNING_LIGHTS:
+#if defined(SERIAL_DEBUG)
+            Serial.println("STATE_RUNNING_LIGHTS");
+#endif
+            g_state_short_circuit_flag = true;
+            animate_led_running_lights();
         break;
-        case ST_B_T_FADE:
-            fade_word_bottom_to_top(sign_color, 250*animation_speed_factor + 10);
-            delay(DEFAULT_DELAY_TIME_MS * animation_speed_factor);
+        case LED_STATE_RAINBOW_CYCLE:
+#if defined(SERIAL_DEBUG)
+            Serial.println("STATE_RAINBOW_CYCLE");
+#endif
+            g_state_short_circuit_flag = true;
+            animate_led_rainbow_cycle(animate_led_delay_in_animations());
         break;
-        case ST_ALTERNATE_T_B_FADE:
-            if(alternate_t_b_flag) fade_word_top_to_bottom(sign_color, 250*animation_speed_factor + 10);
-            else fade_word_bottom_to_top(sign_color, 250*animation_speed_factor + 10);
-            alternate_t_b_flag ^= 1;
-            delay(DEFAULT_DELAY_TIME_MS * animation_speed_factor);
+        case LED_STATE_THEATER_CHASE:
+#if defined(SERIAL_DEBUG)
+            Serial.println("STATE_THEATER_CHASE");
+#endif
+            animate_led_theater_chase(animate_led_delay_in_animations());
         break;
-        case ST_DRAW_WORD:
-            draw_word(sign_color, STRIP_SIZE, false, animation_speed_factor);
-            delay(DEFAULT_DELAY_TIME_MS * animation_speed_factor + 100);
+        case LED_STATE_THEATER_CHASE_RAINBOW:
+#if defined(SERIAL_DEBUG)
+            Serial.println("STATE_RAINBOW");
+#endif
+            g_state_short_circuit_flag = true;
+            animate_led_theater_chase_rainbow(animate_led_delay_in_animations());
         break;
-        case ST_TWINKLE:
-           while(!twinkle_animation());
-           delay(DEFAULT_DELAY_TIME_MS * animation_speed_factor + 100);
+        case LED_STATE_METEOR: 
+#if defined(SERIAL_DEBUG)
+            Serial.println("STATE_METEOR");
+#endif
+            animate_led_meteor_rain(20, 64, true, 5); // arbitrary selection made here
         break;
+        case LED_STATE_STROBE:
+#if defined(SERIAL_DEBUG)
+            Serial.println("STATE_STROBE");
+#endif
+            animate_led_strobe(10, animate_led_delay_in_animations(), animate_led_delay_in_animations() / 2);
+        break;
+        case LED_STATE_CYCLONE_BOUNCE:
+#if defined(SERIAL_DEBUG)
+            Serial.println("STATE_CYCLONE_BOUNCE");
+#endif
+            uint16_t eye_size = 4;
+            animate_led_cyclone_bounce(eye_size, 0, 0);
+        break;
+        
         default:
         break;
+        // unused states below
+        /*
+        case LED_STATE_FIRE:
+        break;
+        case LED_STATE_BOUNCING_BALLS:
+            animate_led_bouncing_balls(10);
+        break;
+        case LED_STATE_BOUNCING_BALLS_RANDOM:
+        break;
+        case LED_STATE_TWINKLE_RANDOM:
+            animate_led_twinkle_random(100, 10, true);
+        break;
+        case LED_STATE_KITT:
+            animate_led_new_kitt(20, 1, 1);
+        break;
+        */
+        
     }
+    
+}
+
+
+void master_led_state_change(void)
+{
+    for (int i = 0; i < 5; i++)
+    {
+        animate_led_set_all_pixels(0,0,0);
+        delay(250);
+        animate_led_set_all_pixels(0,255,0);
+        delay(250);
+    }
+}
+
+
+void master_led_color_state_change(void)
+{
+    for (int i = 0; i < 5; i++)
+    {
+        animate_led_set_all_pixels(0,0,0);
+        delay(250);
+        animate_led_set_all_pixels(255,0,0);
+        delay(250);
+    }
+}
+
+
+void handle_count_and_color(void)
+{
+    animate_led_increment_iterations();
+    if (MASTER_STATE_DEMO == g_master_led_state)
+    {
+        color_led_randomize(); // randomize the colors for the demo LED state
+        if ((!(animate_led_iterations() % 10)) || g_state_short_circuit_flag) \
+        {
+            g_state_short_circuit_flag = false;
+            //if(LED_STATE_TWINKLE == g_led_state) twinkle_toggle ^=1;
+            animate_led_state_randomize();
+        }
+    }
+    if ((MASTER_COLOR_DEMO == g_master_color_state) || (LED_STATE_SPELL == animate_led_state())) color_led_randomize();
+    //else animate_led_set_all_pixels(0, 0, 0); // fixed color, clear pixels before next cycle
+}
+
+
+void isr_state_change(void)
+{
+    if ((millis() - isr_times[ISR_STATE]) > debounce_delay)
+    {
+        isr_times[ISR_STATE] = millis();
+        animate_led_set_interrupt_flag(ISR_STATE);
+    }
+    else return;
+//    if (g_toggle ^= 1) digitalWrite(LED_BUILTIN, HIGH);
+//    else digitalWrite(LED_BUILTIN, LOW);
+#if defined(SERIAL_DEBUG)
+    Serial.println("**ISR STATE**");
+#endif
+    // if in demo mode then state will be automatically selected.  
+    // if in demo and button pressed then switch to fixed mode. 
+    // if in fixed mode and button pressed then simply adjust the state.
+    // one full cycle of states will automatically switch back to demo state
+    if (MASTER_STATE_DEMO == g_master_led_state) 
+    {
+        animate_led_reset_state();
+        g_master_led_state_change_flag = false;
+        g_master_led_state = MASTER_STATE_FIXED;
+    }
+    else if (animate_led_adjust_state())
+    {
+        g_master_led_state_change_flag = true;
+        g_master_led_state = MASTER_STATE_DEMO;
+    }
+}
+
+
+void isr_color_change(void)
+{
+    if ((millis() - isr_times[ISR_COLOR]) > debounce_delay)
+    {
+        isr_times[ISR_COLOR] = millis();
+        animate_led_set_interrupt_flag(ISR_COLOR);
+    }
+    else return;
+//    if (g_toggle ^= 1) digitalWrite(LED_BUILTIN, HIGH);
+//    else digitalWrite(LED_BUILTIN, LOW);    
+#if defined(SERIAL_DEBUG)
+    Serial.println("**ISR COLOR**");
+#endif
+    // if in demo mode then color will be automatically selected.  
+    // if in demo and button pressed then switch to fixed mode. 
+    // if in fixed mode and button pressed then simply adjust the color.
+    // one full cycle of colors will automatically switch back to demo colors
+    if (MASTER_COLOR_DEMO == g_master_color_state) 
+    {
+        color_led_reset_color();
+        animate_led_reset_iterations();
+        g_master_color_state_change_flag = false;
+        g_master_color_state = MASTER_COLOR_FIXED;
+    }
+    else if (color_led_adjust_color())
+    {
+        g_master_color_state_change_flag = true;
+        g_master_color_state = MASTER_COLOR_DEMO;
+        
+    }
+}
+
+//uint8_t g_toggle = 1;
+void isr_speed_change(void)
+{
+    if ((millis() - isr_times[ISR_SPEED]) > debounce_delay)
+    {
+        isr_times[ISR_SPEED] = millis();
+        animate_led_set_interrupt_flag(ISR_SPEED);
+    }
+    else return;
+//    if (g_toggle ^= 1) digitalWrite(LED_BUILTIN, HIGH);
+//    else digitalWrite(LED_BUILTIN, LOW);
+
+#if defined(SERIAL_DEBUG)
+    Serial.println("**ISR SPEED**");
+#endif  
+    // no demo mode for state, simply adjust the speed
+    animate_led_reset_iterations(); // if speed adjusted then reset iterations also
+    animate_led_adjust_speed();
+}
+
+
+
+void isr_pause(void)
+{
+    if ((millis() - isr_times[ISR_PAUSE]) > debounce_delay)
+    {
+        isr_times[ISR_PAUSE] = millis();
+        animate_led_set_interrupt_flag(ISR_PAUSE);
+    }
+    else return;
+//    if (g_toggle ^= 1) digitalWrite(LED_BUILTIN, HIGH);
+//    else digitalWrite(LED_BUILTIN, LOW);
+#if defined(SERIAL_DEBUG)
+    Serial.println("PAUSE");
+#endif
 }
