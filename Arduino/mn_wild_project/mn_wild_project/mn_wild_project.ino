@@ -12,8 +12,10 @@ typedef enum
 
 #define STROBE_ON   LOW
 #define STROBE_OFF  HIGH
+#define AUDIO_ON    LOW
+#define AUDIO_OFF   HIGH
 
-unsigned long g_debounce_delay_ms = 2000; // ms
+unsigned long g_debounce_delay_ms = 1000; // ms
 unsigned long g_isr_timestamp_ms = 0; // ms
 unsigned long g_active_time_ms = 3000;
 //unsigned long g_active_time_ms = (1000 * 60 * 3);
@@ -24,6 +26,7 @@ bool g_remote_interrupt_detected = false;
 static bool remote_interrupt_detected(void)
 {
     bool return_val = false;
+    //g_isr_timestamp_ms = millis();
     if (g_remote_interrupt_detected)
     {
         return_val = true;
@@ -35,18 +38,21 @@ static bool remote_interrupt_detected(void)
 
 static void handle_interrupt(void)
 {
-    digitalWrite(PIN_RELAY_LEFT_STROBE, HIGH);
-    digitalWrite(PIN_RELAY_RIGHT_STROBE, HIGH);
-    digitalWrite(PIN_AUDIO_TRIG_0, HIGH);
-    //digitalWrite(PIN_AUDIO_TRIG_1, LOW);    
+    digitalWrite(PIN_RELAY_LEFT_STROBE, STROBE_ON);
+    digitalWrite(PIN_RELAY_RIGHT_STROBE, STROBE_ON);
+    pinMode(PIN_AUDIO_TRIG_0, OUTPUT);
+    digitalWrite(PIN_AUDIO_TRIG_0, AUDIO_ON);
+    delay(125);
+    //delay(10000);
+    pinMode(PIN_AUDIO_TRIG_0, INPUT);
+    //delay(3000);
+    pinMode(PIN_AUDIO_TRIG_0, OUTPUT);
 }
 
 static void reset_io(void)
 {
-    digitalWrite(PIN_RELAY_LEFT_STROBE, LOW);
-    digitalWrite(PIN_RELAY_RIGHT_STROBE, LOW);
-    digitalWrite(PIN_AUDIO_TRIG_0, LOW);
-    //digitalWrite(PIN_AUDIO_TRIG_1, LOW);  
+    digitalWrite(PIN_RELAY_LEFT_STROBE, STROBE_OFF);
+    digitalWrite(PIN_RELAY_RIGHT_STROBE, STROBE_OFF); 
 }
 
 
@@ -59,35 +65,54 @@ void setup()
     // put your setup code here, to run once:
     pinMode((byte)PIN_RELAY_LEFT_STROBE, OUTPUT);
     pinMode((byte)PIN_RELAY_RIGHT_STROBE, OUTPUT);
-    pinMode((byte)PIN_REMOTE_INTERRUPT, INPUT);
+    pinMode((byte)PIN_REMOTE_INTERRUPT, INPUT_PULLUP);
     pinMode((byte)PIN_AUDIO_TRIG_0, OUTPUT);
     pinMode((byte)PIN_AUDIO_TRIG_1, OUTPUT);
     digitalWrite(PIN_RELAY_LEFT_STROBE, HIGH);
     digitalWrite(PIN_RELAY_RIGHT_STROBE, HIGH);
-    digitalWrite(PIN_AUDIO_TRIG_0, LOW);
-    digitalWrite(PIN_AUDIO_TRIG_1, LOW);    
+    digitalWrite(PIN_AUDIO_TRIG_0, AUDIO_OFF);
+    digitalWrite(PIN_AUDIO_TRIG_1, AUDIO_OFF);    
     //interrupts(); // only needed for the case where interrupts have been disabled w/ `noInterrupts` call
     attachInterrupt(digitalPinToInterrupt((byte)PIN_REMOTE_INTERRUPT), isr_remote, LOW); 
 }
 
 void loop() 
 {
+    digitalWrite(PIN_AUDIO_TRIG_1, AUDIO_OFF); 
+#if 0
+    digitalWrite(PIN_AUDIO_TRIG_1, AUDIO_OFF); 
+    while(1)
+    {
+
+        digitalWrite(PIN_AUDIO_TRIG_0, AUDIO_ON);
+        delay(125);
+        //delay(10000);
+        pinMode(PIN_AUDIO_TRIG_0, INPUT);
+        delay(3000);
+        pinMode(PIN_AUDIO_TRIG_0, OUTPUT);
+        
+    }
+#endif
+#if 1
     // put your main code here, to run repeatedly:
     if (remote_interrupt_detected())
     {
-        noInterrupts();
+        //noInterrupts();
         handle_interrupt();
 #if defined(ENABLE_SERIAL_DEBUG)
         Serial.println("Interrupts handled");
         Serial.println("delaying");
 #endif
-        delay(g_active_time_ms);
+        delay(60000);
+        //delay(g_active_time_ms);
         reset_io();
 #if defined(ENABLE_SERIAL_DEBUG)
         Serial.println("IO reset");
 #endif
-        interrupts();
+        //delay(3000);
+        //interrupts();
     }
+#endif
 }
 
 
@@ -100,12 +125,12 @@ void isr_remote(void)
 #endif
         g_isr_timestamp_ms = millis();
         g_remote_interrupt_detected = true;
-        //handle_interrupt(); 
-        //while(1);
     }
     else 
     {
         return;
     }
+    //handle_interrupt(); 
+
     
 }
