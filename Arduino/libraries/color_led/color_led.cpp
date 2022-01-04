@@ -21,24 +21,6 @@ void color_led_init(void)
     g_color_hex_codes[COLORS_PURPLE] = COLOR_HEX_PURPLE;
     g_color_hex_codes[COLORS_TEAL] = COLOR_HEX_TEAL;
     g_color_hex_codes[COLORS_NAVY] = COLOR_HEX_NAVY;
-    /*
-    g_colors[COLORS_BLACK] = COLOR_HEX_BLACK;
-    g_colors[COLORS_WHITE] = COLOR_HEX_WHITE;
-    g_colors[COLORS_RED] = COLOR_HEX_RED;
-    g_colors[COLORS_LIME] = COLOR_HEX_LIME;
-    g_colors[COLORS_BLUE] = COLOR_HEX_BLUE;
-    g_colors[COLORS_YELLOW] = COLOR_HEX_YELLOW;
-    g_colors[COLORS_CYAN] = COLOR_HEX_CYAN;
-    g_colors[COLORS_MAGENTA] = COLOR_HEX_MAGENTA;
-    g_colors[COLORS_SILVER] = COLOR_HEX_SILVER;
-    g_colors[COLORS_GRAY] = COLOR_HEX_GRAY;
-    g_colors[COLORS_MAROON] = COLOR_HEX_MAROON;
-    g_colors[COLORS_OLIVE] = COLOR_HEX_OLIVE;
-    g_colors[COLORS_GREEN] = COLOR_HEX_GREEN;
-    g_colors[COLORS_PURPLE] = COLOR_HEX_PURPLE;
-    g_colors[COLORS_TEAL] = COLOR_HEX_TEAL;
-    g_colors[COLORS_NAVY] = COLOR_HEX_NAVY;
-	*/
 }
 
 void color_led_reset_color(void)
@@ -103,18 +85,3 @@ void color_led_randomize(void)
 	}
 }
 
-/*
-color_hex_code_e color_led_random(all_colors_e cur_color)
-{
-    all_colors_e color = (all_colors_e)(random(COLORS_NAVY));
-    if (cur_color == color)
-    {
-        if ((NUM_COLORS - 1) == color) color = (all_colors_e)(color - 1);
-        {
-            
-        }
-        else color = (all_colors_e)(color + 1);
-    }
-	return g_color_hex_codes[color];
-}
-*/

@@ -1,5 +1,6 @@
 
-
+#if !defined(COLOR_LED_H)
+#define COLOR_LED_H
 
 typedef enum
 {
@@ -56,4 +57,7 @@ uint8_t color_led_cur_color_blue_hex(void);
 //color_hex_code_e color_led_random(all_colors_e cur_color);
 void color_led_randomize(void);
 void color_led_init(void);
+
+
+#endif
 
