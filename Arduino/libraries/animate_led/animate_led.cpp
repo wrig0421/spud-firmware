@@ -201,6 +201,69 @@ void animate_led_init(void)
 }
 
 
+static void animate_led_internal_set_led_color(CRGB *buf, uint16_t led, uint8_t red, uint8_t green, uint8_t blue)
+{
+	buf[led].red = red;
+	buf[led].green = green;
+	buf[led].blue = blue;
+}
+
+
+static bool animate_led_check_interrupts(uint16_t *speed_delay, uint8_t *red, uint8_t *green, uint8_t *blue)
+{
+	bool return_val = false;
+	if(animate_led_interrupt_flag_speed())
+	{
+		*speed_delay = animate_led_delay_in_animations();
+	}
+	else if(animate_led_interrupt_flag_color())
+	{
+		*red = color_led_cur_color_red_hex();
+		*green = color_led_cur_color_green_hex();
+		*blue = color_led_cur_color_blue_hex();
+	}
+	else if (animate_led_interrupt_flag_state())
+	{
+		return_val = true;
+	}
+	return return_val;
+}
+
+
+
+static uint16_t animate_led_get_strip_size(strip_num_e strip)
+{
+	uint16_t strip_size = 0;
+	if (STRIP_NUM_1 == strip) strip_size = STRIP_1_LENGTH;
+#if defined(STRIP_2_LENGTH)
+	else if (STRIP_NUM_2 == strip) strip_size = STRIP_2_LENGTH;
+#endif
+#if defined(STRIP_3_LENGTH)
+	else if (STRIP_NUM_3 == strip) strip_size = STRIP_3_LENGTH;
+#endif
+#if defined(STRIP_4_LENGTH)
+	else if (STRIP_NUM_4 == strip) strip_size = STRIP_4_LENGTH;
+#endif
+#if defined(STRIP_5_LENGTH)
+	else if (STRIP_NUM_5 == strip) strip_size = STRIP_5_LENGTH;
+#endif
+#if defined(STRIP_6_LENGTH)
+	else if (STRIP_NUM_6 == strip) strip_size = STRIP_6_LENGTH;
+#endif
+#if defined(STRIP_7_LENGTH)
+	else if (STRIP_NUM_7 == strip) strip_size = STRIP_7_LENGTH;
+#endif
+#if defined(STRIP_8_LENGTH)
+	else if (STRIP_NUM_8 == strip) strip_size = STRIP_8_LENGTH;
+#endif
+#if defined(STRIP_9_LENGTH)
+	else if (STRIP_NUM_9 == strip) strip_size = STRIP_9_LENGTH;
+#endif
+	else if (ALL_STRIPS == strip) strip_size = g_max_strip_length;
+	return strip_size;
+}
+
+
 void animate_led_reset_iterations(void)
 {
 	g_iterations = 0;
@@ -231,376 +294,6 @@ void animate_led_show_strip(void)
 }
 
 
-void animate_led_set_pixel(strip_num_e strip, int i, byte red, byte green, byte blue)
-{
-	if (ALL_STRIPS == strip)
-	{
-#if defined(MULTIPLE_STRIPS)
-		if (i < STRIP_1_LENGTH)
-		{
-			led_strip_1[i].r = red;
-			led_strip_1[i].g = green;
-			led_strip_1[i].b = blue;
-		}
-		if (i  < STRIP_2_LENGTH)
-		{
-			led_strip_2[i].r = red;
-			led_strip_2[i].g = green;
-			led_strip_2[i].b = blue;
-		}
-#if defined(STRIP_3_LENGTH)
-		if (i < STRIP_3_LENGTH)
-		{
-			led_strip_3[i].r = red;
-			led_strip_3[i].g = green;
-			led_strip_3[i].b = blue;
-		}
-#endif
-#if defined(STRIP_4_LENGTH)
-		if (i < STRIP_4_LENGTH)
-		{
-			led_strip_4[i].r = red;
-			led_strip_4[i].g = green;
-			led_strip_4[i].b = blue;
-		}
-#endif
-#if defined(STRIP_5_LENGTH)
-		if (i < STRIP_5_LENGTH)
-		{
-			led_strip_5[i].r = red;
-			led_strip_5[i].g = green;
-			led_strip_5[i].b = blue;
-		}
-#endif
-#if defined(STRIP_6_LENGTH)
-		if (i < STRIP_6_LENGTH)
-		{
-			led_strip_6[i].r = red;
-			led_strip_6[i].g = green;
-			led_strip_6[i].b = blue;
-		}
-#endif
-#if defined(STRIP_7_LENGTH)
-		if (i < STRIP_7_LENGTH)
-		{
-			led_strip_7[i].r = red;
-			led_strip_7[i].g = green;
-			led_strip_7[i].b = blue;
-		}
-#endif
-#if defined(STRIP_8_LENGTH)
-		if (i < STRIP_8_LENGTH)
-		{
-			led_strip_8[i].r = red;
-			led_strip_8[i].g = green;
-			led_strip_8[i].b = blue;
-		}
-#endif
-#if defined(STRIP_9_LENGTH)
-		if (i < STRIP_9_LENGTH)
-		{
-			led_strip_9[i].r = red;
-			led_strip_9[i].g = green;
-			led_strip_9[i].b = blue;
-		}
-#endif
-#else
-		led_strip_1[i].r = red;
-		led_strip_1[i].g = green;
-		led_strip_1[i].b = blue;
-#endif
-	}
-	else
-	{
-		switch (strip)
-		{
-#if defined(STRIP_1_LENGTH)
-			case STRIP_NUM_1:
-				if (i < STRIP_1_LENGTH)
-				{
-					led_strip_1[i].r = red;
-					led_strip_1[i].g = green;
-					led_strip_1[i].b = blue;
-				}
-			break;
-#endif
-#if defined(STRIP_2_LENGTH)
-			case STRIP_NUM_2:
-				if (i < STRIP_2_LENGTH)
-				{
-					led_strip_2[i].r = red;
-					led_strip_2[i].g = green;
-					led_strip_2[i].b = blue;
-				}
-			break;
-#endif
-#if defined(STRIP_3_LENGTH)
-			case STRIP_NUM_3:
-				if (i < STRIP_3_LENGTH)
-				{
-					led_strip_3[i].r = red;
-					led_strip_3[i].g = green;
-					led_strip_3[i].b = blue;
-				}
-			break;
-#endif
-#if defined(STRIP_4_LENGTH)
-			case STRIP_NUM_4:
-				if (i < STRIP_4_LENGTH)
-				{
-					led_strip_4[i].r = red;
-					led_strip_4[i].g = green;
-					led_strip_4[i].b = blue;
-				}
-			break;
-#endif
-#if defined(STRIP_5_LENGTH)
-			case STRIP_NUM_5:
-				if (i < STRIP_5_LENGTH)
-				{
-					led_strip_5[i].r = red;
-					led_strip_5[i].g = green;
-					led_strip_5[i].b = blue;
-				}
-			break;
-#endif
-#if defined(STRIP_6_LENGTH)
-			case STRIP_NUM_6:
-				if (i < STRIP_6_LENGTH)
-				{
-					led_strip_6[i].r = red;
-					led_strip_6[i].g = green;
-					led_strip_6[i].b = blue;
-				}
-			break;
-#endif
-#if defined(STRIP_7_LENGTH)
-			case STRIP_NUM_7:
-				if (i < STRIP_7_LENGTH)
-				{
-					led_strip_7[i].r = red;
-					led_strip_7[i].g = green;
-					led_strip_7[i].b = blue;
-				}
-			break;
-#endif
-#if defined(STRIP_8_LENGTH)
-			case STRIP_NUM_8:
-				if (i < STRIP_8_LENGTH)
-				{
-					led_strip_8[i].r = red;
-					led_strip_8[i].g = green;
-					led_strip_8[i].b = blue;
-				}
-			break;
-#endif
-#if defined(STRIP_9_LENGTH)
-			case STRIP_NUM_9:
-				if (i < STRIP_9_LENGTH)
-				{
-					led_strip_9[i].r = red;
-					led_strip_9[i].g = green;
-					led_strip_9[i].b = blue;
-				}
-			break;
-#endif
-			default:
-			break;
-		}
-		
-	}
-    //animate_led_show_strip();
-}
-
-
-void animate_led_set_all_pixels(strip_num_e strip, byte red, byte green, byte blue) 
-{
-	for (int i = 0; i < g_max_strip_length; i++)
-    {
-    	if (ALL_STRIPS == strip)
-		{
-    	//delay(1);
-#if defined(MULTIPLE_STRIPS)
-			if (i < STRIP_1_LENGTH)
-			{
-				// strip 1
-				led_strip_1[i].r = red;
-				led_strip_1[i].g = green;
-				led_strip_1[i].b = blue;
-			}
-			if (i  < STRIP_2_LENGTH)
-			{
-				// strip 2
-				led_strip_2[i].r = red;
-				led_strip_2[i].g = green;
-				led_strip_2[i].b = blue;
-			}
-#if defined(STRIP_3_LENGTH)
-			if (i < STRIP_3_LENGTH)
-			{
-				led_strip_3[i].r = red;
-				led_strip_3[i].g = green;
-				led_strip_3[i].b = blue;
-			}
-#endif
-#if defined(STRIP_4_LENGTH)
-			if (i < STRIP_4_LENGTH)
-			{
-				led_strip_4[i].r = red;
-				led_strip_4[i].g = green;
-				led_strip_4[i].b = blue;
-			}
-#endif
-#if defined(STRIP_5_LENGTH)
-			if (i < STRIP_5_LENGTH)
-			{
-				led_strip_5[i].r = red;
-				led_strip_5[i].g = green;
-				led_strip_5[i].b = blue;
-			}
-#endif
-#if defined(STRIP_6_LENGTH)
-			if (i < STRIP_6_LENGTH)
-			{
-				led_strip_6[i].r = red;
-				led_strip_6[i].g = green;
-				led_strip_6[i].b = blue;
-			}
-#endif
-#if defined(STRIP_7_LENGTH)
-			if (i < STRIP_7_LENGTH)
-			{
-				led_strip_7[i].r = red;
-				led_strip_7[i].g = green;
-				led_strip_7[i].b = blue;
-			}
-#endif
-#if defined(STRIP_8_LENGTH)
-			if (i < STRIP_8_LENGTH)
-			{
-				led_strip_8[i].r = red;
-				led_strip_8[i].g = green;
-				led_strip_8[i].b = blue;
-			}
-#endif
-#if defined(STRIP_9_LENGTH)
-			if (i < STRIP_9_LENGTH)
-			{
-				led_strip_9[i].r = red;
-				led_strip_9[i].g = green;
-				led_strip_9[i].b = blue;
-			}
-#endif
-#else
-			led_strip_1[i].r = red;
-			led_strip_1[i].g = green;
-			led_strip_1[i].b = blue;
-#endif
-		}	
-		else
-		{
-			switch (strip)
-			{
-#if defined(STRIP_1_LENGTH)
-				case STRIP_NUM_1:
-					if (i < STRIP_1_LENGTH)
-					{
-						led_strip_1[i].r = red;
-						led_strip_1[i].g = green;
-						led_strip_1[i].b = blue;
-					}
-				break;
-#endif
-#if defined(STRIP_2_LENGTH)
-				case STRIP_NUM_2:
-					if (i < STRIP_2_LENGTH)
-					{
-						led_strip_2[i].r = red;
-						led_strip_2[i].g = green;
-						led_strip_2[i].b = blue;
-					}
-				break;
-#endif
-#if defined(STRIP_3_LENGTH)
-				case STRIP_NUM_3:
-					if (i < STRIP_3_LENGTH)
-					{
-						led_strip_3[i].r = red;
-						led_strip_3[i].g = green;
-						led_strip_3[i].b = blue;
-					}
-				break;
-#endif
-#if defined(STRIP_4_LENGTH)
-				case STRIP_NUM_4:
-					if (i < STRIP_4_LENGTH)
-					{
-						led_strip_4[i].r = red;
-						led_strip_4[i].g = green;
-						led_strip_4[i].b = blue;
-					}
-				break;
-#endif
-#if defined(STRIP_5_LENGTH)
-				case STRIP_NUM_5:
-					if (i < STRIP_5_LENGTH)
-					{
-						led_strip_5[i].r = red;
-						led_strip_5[i].g = green;
-						led_strip_5[i].b = blue;
-					}
-				break;
-#endif
-#if defined(STRIP_6_LENGTH)
-				case STRIP_NUM_6:
-					if (i < STRIP_6_LENGTH)
-					{
-						led_strip_6[i].r = red;
-						led_strip_6[i].g = green;
-						led_strip_6[i].b = blue;
-					}
-				break;
-#endif
-#if defined(STRIP_7_LENGTH)
-				case STRIP_NUM_7:
-					if (i < STRIP_7_LENGTH)
-					{
-						led_strip_7[i].r = red;
-						led_strip_7[i].g = green;
-						led_strip_7[i].b = blue;
-					}
-				break;
-#endif
-#if defined(STRIP_8_LENGTH)
-				case STRIP_NUM_8:
-					if (i < STRIP_8_LENGTH)
-					{
-						led_strip_8[i].r = red;
-						led_strip_8[i].g = green;
-						led_strip_8[i].b = blue;
-					}
-				break;
-#endif
-#if defined(STRIP_9_LENGTH)
-				case STRIP_NUM_9:
-					if (i < STRIP_9_LENGTH)
-					{
-						led_strip_9[i].r = red;
-						led_strip_9[i].g = green;
-						led_strip_9[i].b = blue;
-					}
-				break;
-#endif
-				default:
-				break;
-			}
-		
-		}
-    }
-    animate_led_show_strip();
-}
-
-
 void animate_led_state_randomize(void)
 {
     led_state_e state = (led_state_e)(random());
@@ -628,58 +321,45 @@ void animate_led_solid_color(strip_num_e strip)
 }
 
 
-void animate_led_spell_word(strip_num_e strip, uint16_t speed_delay)
+void animate_led_spell_and_sparkle(strip_num_e spell_strip, strip_num_e sparkle_strip, bool fill, uint16_t speed_delay)
 {
-	uint16_t strip_size = 0;
+	uint16_t strip_size = animate_led_get_strip_size(spell_strip);
 	uint8_t red, green, blue; 
 	red = color_led_cur_color_red_hex();
 	green = color_led_cur_color_green_hex();
 	blue = color_led_cur_color_blue_hex();
-	if (STRIP_NUM_1 == strip) strip_size = STRIP_1_LENGTH;
-#if defined(STRIP_2_LENGTH)
-	else if (STRIP_NUM_2 == strip) strip_size = STRIP_2_LENGTH;
-#endif
-#if defined(STRIP_3_LENGTH)
-	else if (STRIP_NUM_3 == strip) strip_size = STRIP_3_LENGTH;
-#endif
-#if defined(STRIP_4_LENGTH)
-	else if (STRIP_NUM_4 == strip) strip_size = STRIP_4_LENGTH;
-#endif
-#if defined(STRIP_5_LENGTH)
-	else if (STRIP_NUM_5 == strip) strip_size = STRIP_5_LENGTH;
-#endif
-#if defined(STRIP_6_LENGTH)
-	else if (STRIP_NUM_6 == strip) strip_size = STRIP_6_LENGTH;
-#endif
-#if defined(STRIP_7_LENGTH)
-	else if (STRIP_NUM_7 == strip) strip_size = STRIP_7_LENGTH;
-#endif
-#if defined(STRIP_8_LENGTH)
-	else if (STRIP_NUM_8 == strip) strip_size = STRIP_8_LENGTH;
-#endif
-#if defined(STRIP_9_LENGTH)
-	else if (STRIP_NUM_9 == strip) strip_size = STRIP_9_LENGTH;
-#endif
-	else if (ALL_STRIPS == strip) strip_size = g_max_strip_length;
-
+	if (!fill) animate_led_set_all_pixels(sparkle_strip, 0, 0, 0);
 	for (int i = 0; i < strip_size; i++)
 	{
-		//xanimate_led_sparkle_random_color(STRIP_NUM_1, 0);
-		if (animate_led_interrupt_flag_state())
-		{
-			animate_led_set_all_pixels(ALL_STRIPS, 0, 0, 0);
+		if (animate_led_check_interrupts(&speed_delay, &red, &green, &blue))
+        {
+        	animate_led_set_all_pixels(ALL_STRIPS, 0, 0, 0);
 			return;
-		}
-		else if(animate_led_interrupt_flag_speed())
-		{
-			speed_delay = animate_led_delay_in_animations();
-		}
-		else if(animate_led_interrupt_flag_color())
-		{
-			red = color_led_cur_color_red_hex();
-			green = color_led_cur_color_green_hex();
-			blue = color_led_cur_color_blue_hex();
-		}
+        }
+        animate_led_sparkle_random_color(sparkle_strip, fill, 0);
+        
+        animate_led_set_pixel(spell_strip, i, red, green, blue);
+		animate_led_show_strip();
+        delay(speed_delay);
+	}	
+}
+
+
+void animate_led_spell_word(strip_num_e strip, uint16_t speed_delay)
+{
+	uint16_t strip_size = animate_led_get_strip_size(strip);
+	uint8_t red, green, blue; 
+	red = color_led_cur_color_red_hex();
+	green = color_led_cur_color_green_hex();
+	blue = color_led_cur_color_blue_hex();
+	
+	for (int i = 0; i < strip_size; i++)
+	{
+		if (animate_led_check_interrupts(&speed_delay, &red, &green, &blue))
+        {
+        	animate_led_set_all_pixels(ALL_STRIPS, 0, 0, 0);
+			return;
+        }
 		animate_led_set_pixel(strip, i, red, green, blue);
 		animate_led_show_strip();
         delay(speed_delay);
@@ -689,6 +369,7 @@ void animate_led_spell_word(strip_num_e strip, uint16_t speed_delay)
 
 void animate_led_fade_in_fade_out(strip_num_e strip)
 {
+	uint16_t dummy_speed;
     float r, g, b;
     uint8_t red, green, blue; 
 	red = color_led_cur_color_red_hex();
@@ -696,41 +377,23 @@ void animate_led_fade_in_fade_out(strip_num_e strip)
 	blue = color_led_cur_color_blue_hex();
     for (int i = 0; i < 256; i++)
     {
-		if (animate_led_interrupt_flag_state())
-		{
-			animate_led_set_all_pixels(ALL_STRIPS, 0, 0, 0);
+		if (animate_led_check_interrupts(&dummy_speed, &red, &green, &blue))
+        {
+        	animate_led_set_all_pixels(ALL_STRIPS, 0, 0, 0);
 			return;
-		}
-		/*
-		else if(animate_led_interrupt_flag_color())
-		{
-			red = color_led_cur_color_red_hex();
-			green = color_led_cur_color_green_hex();
-			blue = color_led_cur_color_blue_hex();
-		}
-		*/
+        }
         r = (i / 256.0) * red;
         g = (i / 256.0) * green;
         b = (i / 256.0) * blue;
         animate_led_set_all_pixels(strip, r, g, b);
-        //delay(10 / animate_led_speed_factor());
     }
-    //for (int i = 255; i >= 0; i = i - 2)
     for (int i = 255; i >= 0; i = i-2)
     {
-		if (animate_led_interrupt_flag_state())
-		{
-			animate_led_set_all_pixels(strip, 0, 0, 0);
+		if (animate_led_check_interrupts(&dummy_speed, &red, &green, &blue))
+        {
+        	animate_led_set_all_pixels(ALL_STRIPS, 0, 0, 0);
 			return;
-		}
-		/*
-		else if(animate_led_interrupt_flag_color())
-		{
-			red = color_led_cur_color_red_hex();
-			green = color_led_cur_color_green_hex();
-			blue = color_led_cur_color_blue_hex();
-		}
-		*/
+        }
         r = (i / 256.0) * red;
         g = (i / 256.0) * green;
         b = (i / 256.0) * blue;
@@ -742,26 +405,17 @@ void animate_led_fade_in_fade_out(strip_num_e strip)
 void animate_led_strobe(strip_num_e strip, uint16_t animate_led_strobe_count, uint16_t flash_delay, uint16_t end_pause)
 {
 	uint8_t red, green, blue; 
+	uint16_t dummy_speed;
 	red = color_led_cur_color_red_hex();
 	green = color_led_cur_color_green_hex();
 	blue = color_led_cur_color_blue_hex();
     for (int i = 0; i < animate_led_strobe_count; i++)
     {
-		if(animate_led_interrupt_flag_color())
-		{
-			red = color_led_cur_color_red_hex();
-			green = color_led_cur_color_green_hex();
-			blue = color_led_cur_color_blue_hex();
-		}
-		else if(animate_led_interrupt_flag_speed())
-		{
-			flash_delay = animate_led_delay_in_animations();
-		}
-		else if (animate_led_interrupt_flag_state())
-		{
-			animate_led_set_all_pixels(strip, 0, 0, 0);
+		if (animate_led_check_interrupts(&dummy_speed, &red, &green, &blue))
+        {
+        	animate_led_set_all_pixels(ALL_STRIPS, 0, 0, 0);
 			return;
-		}
+        }
         animate_led_set_all_pixels(strip, red, green, blue);
         animate_led_show_strip();
         delay(flash_delay);
@@ -776,49 +430,18 @@ void animate_led_strobe(strip_num_e strip, uint16_t animate_led_strobe_count, ui
 void animate_led_cyclone_bounce(strip_num_e strip, uint16_t eye_size, uint16_t speed_delay, uint16_t return_delay)
 {
 	uint8_t red, green, blue; 
-	uint16_t strip_size = 0;
-	if (STRIP_NUM_1 == strip) strip_size = STRIP_1_LENGTH;
-#if defined(STRIP_2_LENGTH)
-	else if (STRIP_NUM_2 == strip) strip_size = STRIP_2_LENGTH;
-#endif
-#if defined(STRIP_3_LENGTH)
-	else if (STRIP_NUM_3 == strip) strip_size = STRIP_3_LENGTH;
-#endif
-#if defined(STRIP_4_LENGTH)
-	else if (STRIP_NUM_4 == strip) strip_size = STRIP_4_LENGTH;
-#endif
-#if defined(STRIP_5_LENGTH)
-	else if (STRIP_NUM_5 == strip) strip_size = STRIP_5_LENGTH;
-#endif
-#if defined(STRIP_6_LENGTH)
-	else if (STRIP_NUM_6 == strip) strip_size = STRIP_6_LENGTH;
-#endif
-#if defined(STRIP_7_LENGTH)
-	else if (STRIP_NUM_7 == strip) strip_size = STRIP_7_LENGTH;
-#endif
-#if defined(STRIP_8_LENGTH)
-	else if (STRIP_NUM_8 == strip) strip_size = STRIP_8_LENGTH;
-#endif
-#if defined(STRIP_9_LENGTH)
-	else if (STRIP_NUM_9 == strip) strip_size = STRIP_9_LENGTH;
-#endif
-	else if (ALL_STRIPS == strip) strip_size = g_max_strip_length;
+	uint16_t strip_size = animate_led_get_strip_size(strip);
+	uint16_t dummy_speed;
 	red = color_led_cur_color_red_hex();
 	green = color_led_cur_color_green_hex();
 	blue = color_led_cur_color_blue_hex();
-    for (int i = 0; i < strip_size - eye_size - 2; i++) // I think the -2 is CYA if someone says eye_size is 0
+    for (int i = 0; i < strip_size - eye_size - 2; i++) // "-2" is CYA
     {
-		if(animate_led_interrupt_flag_color())
-		{
-			red = color_led_cur_color_red_hex();
-			green = color_led_cur_color_green_hex();
-			blue = color_led_cur_color_blue_hex();
-		}
-		else if (animate_led_interrupt_flag_state())
-		{
-			animate_led_set_all_pixels(strip, 0, 0, 0);
+		if (animate_led_check_interrupts(&dummy_speed, &red, &green, &blue))
+        {
+        	animate_led_set_all_pixels(ALL_STRIPS, 0, 0, 0);
 			return;
-		}
+        }
         animate_led_set_all_pixels(strip, 0, 0, 0);
         animate_led_set_pixel(strip, i, red/10, green/10, blue/10);
         for (int j = 1; j <= eye_size; j++)
@@ -832,17 +455,11 @@ void animate_led_cyclone_bounce(strip_num_e strip, uint16_t eye_size, uint16_t s
     delay(return_delay);
     for (int i = g_max_strip_length - eye_size - 2; i > 0; i--)
     {
-		if(animate_led_interrupt_flag_color())
-		{
-			red = color_led_cur_color_red_hex();
-			green = color_led_cur_color_green_hex();
-			blue = color_led_cur_color_blue_hex();
-		}
-		else if (animate_led_interrupt_flag_state())
-		{
-			animate_led_set_all_pixels(strip, 0, 0, 0);
+		if (animate_led_check_interrupts(&speed_delay, &red, &green, &blue))
+        {
+        	animate_led_set_all_pixels(ALL_STRIPS, 0, 0, 0);
 			return;
-		}
+        }
         animate_led_set_all_pixels(strip, 0, 0, 0); 
         animate_led_set_pixel(strip, i , red/10, green/10, blue/10);
         for (int j = 1; j <= eye_size; j++)
@@ -860,33 +477,7 @@ void animate_led_cyclone_bounce(strip_num_e strip, uint16_t eye_size, uint16_t s
 
 void animate_led_center_to_outside(strip_num_e strip, uint16_t eye_size, uint16_t speed_delay, uint16_t return_delay)
 {
-	uint16_t strip_size = 0;
-	if (STRIP_NUM_1 == strip) strip_size = STRIP_1_LENGTH;
-#if defined(STRIP_2_LENGTH)
-	else if (STRIP_NUM_2 == strip) strip_size = STRIP_2_LENGTH;
-#endif
-#if defined(STRIP_3_LENGTH)
-	else if (STRIP_NUM_3 == strip) strip_size = STRIP_3_LENGTH;
-#endif
-#if defined(STRIP_4_LENGTH)
-	else if (STRIP_NUM_4 == strip) strip_size = STRIP_4_LENGTH;
-#endif
-#if defined(STRIP_5_LENGTH)
-	else if (STRIP_NUM_5 == strip) strip_size = STRIP_5_LENGTH;
-#endif
-#if defined(STRIP_6_LENGTH)
-	else if (STRIP_NUM_6 == strip) strip_size = STRIP_6_LENGTH;
-#endif
-#if defined(STRIP_7_LENGTH)
-	else if (STRIP_NUM_7 == strip) strip_size = STRIP_7_LENGTH;
-#endif
-#if defined(STRIP_8_LENGTH)
-	else if (STRIP_NUM_8 == strip) strip_size = STRIP_8_LENGTH;
-#endif
-#if defined(STRIP_9_LENGTH)
-	else if (STRIP_NUM_9 == strip) strip_size = STRIP_9_LENGTH;
-#endif
-	else if (ALL_STRIPS == strip) strip_size = g_max_strip_length;
+	uint16_t strip_size = animate_led_get_strip_size(strip);
     uint8_t red, green, blue; 
 	red = color_led_cur_color_red_hex();
 	green = color_led_cur_color_green_hex();
@@ -915,33 +506,7 @@ void animate_led_center_to_outside(strip_num_e strip, uint16_t eye_size, uint16_
 
 void animate_led_outside_to_center(strip_num_e strip, uint16_t eye_size, uint16_t speed_delay, uint16_t return_delay)
 {
-	uint16_t strip_size = 0;
-	if (STRIP_NUM_1 == strip) strip_size = STRIP_1_LENGTH;
-#if defined(STRIP_2_LENGTH)
-	else if (STRIP_NUM_2 == strip) strip_size = STRIP_2_LENGTH;
-#endif
-#if defined(STRIP_3_LENGTH)
-	else if (STRIP_NUM_3 == strip) strip_size = STRIP_3_LENGTH;
-#endif
-#if defined(STRIP_4_LENGTH)
-	else if (STRIP_NUM_4 == strip) strip_size = STRIP_4_LENGTH;
-#endif
-#if defined(STRIP_5_LENGTH)
-	else if (STRIP_NUM_5 == strip) strip_size = STRIP_5_LENGTH;
-#endif
-#if defined(STRIP_6_LENGTH)
-	else if (STRIP_NUM_6 == strip) strip_size = STRIP_6_LENGTH;
-#endif
-#if defined(STRIP_7_LENGTH)
-	else if (STRIP_NUM_7 == strip) strip_size = STRIP_7_LENGTH;
-#endif
-#if defined(STRIP_8_LENGTH)
-	else if (STRIP_NUM_8 == strip) strip_size = STRIP_8_LENGTH;
-#endif
-#if defined(STRIP_9_LENGTH)
-	else if (STRIP_NUM_9 == strip) strip_size = STRIP_9_LENGTH;
-#endif
-	else if (ALL_STRIPS == strip) strip_size = g_max_strip_length;
+	uint16_t strip_size = animate_led_get_strip_size(strip);
     uint8_t red, green, blue; 
 	red = color_led_cur_color_red_hex();
 	green = color_led_cur_color_green_hex();
@@ -970,33 +535,7 @@ void animate_led_outside_to_center(strip_num_e strip, uint16_t eye_size, uint16_
 
 void animate_led_left_to_right(strip_num_e strip, uint16_t eye_size, uint16_t speed_delay, uint16_t return_delay)
 {
-	uint16_t strip_size = 0;
-	if (STRIP_NUM_1 == strip) strip_size = STRIP_1_LENGTH;
-#if defined(STRIP_2_LENGTH)
-	else if (STRIP_NUM_2 == strip) strip_size = STRIP_2_LENGTH;
-#endif
-#if defined(STRIP_3_LENGTH)
-	else if (STRIP_NUM_3 == strip) strip_size = STRIP_3_LENGTH;
-#endif
-#if defined(STRIP_4_LENGTH)
-	else if (STRIP_NUM_4 == strip) strip_size = STRIP_4_LENGTH;
-#endif
-#if defined(STRIP_5_LENGTH)
-	else if (STRIP_NUM_5 == strip) strip_size = STRIP_5_LENGTH;
-#endif
-#if defined(STRIP_6_LENGTH)
-	else if (STRIP_NUM_6 == strip) strip_size = STRIP_6_LENGTH;
-#endif
-#if defined(STRIP_7_LENGTH)
-	else if (STRIP_NUM_7 == strip) strip_size = STRIP_7_LENGTH;
-#endif
-#if defined(STRIP_8_LENGTH)
-	else if (STRIP_NUM_8 == strip) strip_size = STRIP_8_LENGTH;
-#endif
-#if defined(STRIP_9_LENGTH)
-	else if (STRIP_NUM_9 == strip) strip_size = STRIP_9_LENGTH;
-#endif
-	else if (ALL_STRIPS == strip) strip_size = g_max_strip_length;
+	uint16_t strip_size = animate_led_get_strip_size(strip);
     uint8_t red, green, blue; 
 	red = color_led_cur_color_red_hex();
 	green = color_led_cur_color_green_hex();
@@ -1019,33 +558,7 @@ void animate_led_left_to_right(strip_num_e strip, uint16_t eye_size, uint16_t sp
 
 void animate_led_right_to_left(strip_num_e strip, uint16_t eye_size, uint16_t speed_delay, uint16_t return_delay)
 {
-	uint16_t strip_size = 0;
-	if (STRIP_NUM_1 == strip) strip_size = STRIP_1_LENGTH;
-#if defined(STRIP_2_LENGTH)
-	else if (STRIP_NUM_2 == strip) strip_size = STRIP_2_LENGTH;
-#endif
-#if defined(STRIP_3_LENGTH)
-	else if (STRIP_NUM_3 == strip) strip_size = STRIP_3_LENGTH;
-#endif
-#if defined(STRIP_4_LENGTH)
-	else if (STRIP_NUM_4 == strip) strip_size = STRIP_4_LENGTH;
-#endif
-#if defined(STRIP_5_LENGTH)
-	else if (STRIP_NUM_5 == strip) strip_size = STRIP_5_LENGTH;
-#endif
-#if defined(STRIP_6_LENGTH)
-	else if (STRIP_NUM_6 == strip) strip_size = STRIP_6_LENGTH;
-#endif
-#if defined(STRIP_7_LENGTH)
-	else if (STRIP_NUM_7 == strip) strip_size = STRIP_7_LENGTH;
-#endif
-#if defined(STRIP_8_LENGTH)
-	else if (STRIP_NUM_8 == strip) strip_size = STRIP_8_LENGTH;
-#endif
-#if defined(STRIP_9_LENGTH)
-	else if (STRIP_NUM_9 == strip) strip_size = STRIP_9_LENGTH;
-#endif
-	else if (ALL_STRIPS == strip) strip_size = g_max_strip_length;
+	uint16_t strip_size = animate_led_get_strip_size(strip);
     uint8_t red, green, blue; 
 	red = color_led_cur_color_red_hex();
 	green = color_led_cur_color_green_hex();
@@ -1087,21 +600,11 @@ void animate_led_twinkle(strip_num_e strip, uint16_t count, uint16_t speed_delay
     //animate_led_set_all_pixels(ALL_STRIPS, 0, 0, 0);
     for (int i = 0; i < count; i++)
     {
-		if(animate_led_interrupt_flag_speed())
-		{
-			speed_delay = animate_led_delay_in_animations();
-		}
-		else if(animate_led_interrupt_flag_color())
-		{
-			red = color_led_cur_color_red_hex();
-			green = color_led_cur_color_green_hex();
-			blue = color_led_cur_color_blue_hex();
-		}
-		else if (animate_led_interrupt_flag_state())
-		{
-			animate_led_set_all_pixels(strip, 0, 0, 0);
+		if (animate_led_check_interrupts(&speed_delay, &red, &green, &blue))
+        {
+        	animate_led_set_all_pixels(ALL_STRIPS, 0, 0, 0);
 			return;
-		}
+        }
         animate_led_set_pixel(strip, random(g_max_strip_length), red, green, blue);
         animate_led_show_strip();
         delay(speed_delay);
@@ -1117,17 +620,14 @@ void animate_led_twinkle(strip_num_e strip, uint16_t count, uint16_t speed_delay
 void animate_led_twinkle_random(strip_num_e strip, uint16_t count, uint16_t speed_delay, bool only_one)
 {
     animate_led_set_all_pixels(ALL_STRIPS, 0, 0, 0);
+    uint8_t dummy_red, dummy_green, dummy_blue;
     for (int i = 0; i < count; i++)
     {
-		if(animate_led_interrupt_flag_speed())
-		{
-			speed_delay = animate_led_delay_in_animations();
-		}
-		else if (animate_led_interrupt_flag_state())
-		{
-			animate_led_set_all_pixels(strip, 0, 0, 0);
+		if (animate_led_check_interrupts(&speed_delay, &dummy_red, &dummy_green, &dummy_blue))
+        {
+        	animate_led_set_all_pixels(ALL_STRIPS, 0, 0, 0);
 			return;
-		}
+        }
         animate_led_set_pixel(strip, random(g_max_strip_length), random(0, 255), random(0, 255), random(0, 255));
         animate_led_show_strip();
         delay(speed_delay);
@@ -1140,80 +640,25 @@ void animate_led_twinkle_random(strip_num_e strip, uint16_t count, uint16_t spee
 }
 
 
-void animate_led_sparkle_random_color(strip_num_e strip, uint16_t speed_delay)
+void animate_led_sparkle_random_color(strip_num_e strip, bool fill, uint16_t speed_delay)
 {
-	uint16_t strip_size = 0;
-	if (STRIP_NUM_1 == strip) strip_size = STRIP_1_LENGTH;
-#if defined(STRIP_2_LENGTH)
-	else if (STRIP_NUM_2 == strip) strip_size = STRIP_2_LENGTH;
-#endif
-#if defined(STRIP_3_LENGTH)
-	else if (STRIP_NUM_3 == strip) strip_size = STRIP_3_LENGTH;
-#endif
-#if defined(STRIP_4_LENGTH)
-	else if (STRIP_NUM_4 == strip) strip_size = STRIP_4_LENGTH;
-#endif
-#if defined(STRIP_5_LENGTH)
-	else if (STRIP_NUM_5 == strip) strip_size = STRIP_5_LENGTH;
-#endif
-#if defined(STRIP_6_LENGTH)
-	else if (STRIP_NUM_6 == strip) strip_size = STRIP_6_LENGTH;
-#endif
-#if defined(STRIP_7_LENGTH)
-	else if (STRIP_NUM_7 == strip) strip_size = STRIP_7_LENGTH;
-#endif
-#if defined(STRIP_8_LENGTH)
-	else if (STRIP_NUM_8 == strip) strip_size = STRIP_8_LENGTH;
-#endif
-#if defined(STRIP_9_LENGTH)
-	else if (STRIP_NUM_9 == strip) strip_size = STRIP_9_LENGTH;
-#endif
-	else if (ALL_STRIPS == strip) strip_size = g_max_strip_length;
-	uint8_t red, green, blue; 
+	uint16_t strip_size = animate_led_get_strip_size(strip);
     int pix = random(strip_size);
-	// should this be wrapped in for loop for NUM_LEDS
     animate_led_set_pixel(strip, pix, random(0, 255), random(0, 255), random(0, 255));
     animate_led_show_strip();
     delay(speed_delay);
-    animate_led_set_pixel(strip, pix, 0, 0, 0);
+    if (!fill) animate_led_set_pixel(strip, pix, 0, 0, 0);
 }
 
 
 void animate_led_sparkle(strip_num_e strip, uint16_t speed_delay)
 {
-	uint16_t strip_size = 0;
-	if (STRIP_NUM_1 == strip) strip_size = STRIP_1_LENGTH;
-#if defined(STRIP_2_LENGTH)
-	else if (STRIP_NUM_2 == strip) strip_size = STRIP_2_LENGTH;
-#endif
-#if defined(STRIP_3_LENGTH)
-	else if (STRIP_NUM_3 == strip) strip_size = STRIP_3_LENGTH;
-#endif
-#if defined(STRIP_4_LENGTH)
-	else if (STRIP_NUM_4 == strip) strip_size = STRIP_4_LENGTH;
-#endif
-#if defined(STRIP_5_LENGTH)
-	else if (STRIP_NUM_5 == strip) strip_size = STRIP_5_LENGTH;
-#endif
-#if defined(STRIP_6_LENGTH)
-	else if (STRIP_NUM_6 == strip) strip_size = STRIP_6_LENGTH;
-#endif
-#if defined(STRIP_7_LENGTH)
-	else if (STRIP_NUM_7 == strip) strip_size = STRIP_7_LENGTH;
-#endif
-#if defined(STRIP_8_LENGTH)
-	else if (STRIP_NUM_8 == strip) strip_size = STRIP_8_LENGTH;
-#endif
-#if defined(STRIP_9_LENGTH)
-	else if (STRIP_NUM_9 == strip) strip_size = STRIP_9_LENGTH;
-#endif
-	else if (ALL_STRIPS == strip) strip_size = g_max_strip_length;
+	uint16_t strip_size = animate_led_get_strip_size(strip);
 	uint8_t red, green, blue; 
 	red = color_led_cur_color_red_hex();
 	green = color_led_cur_color_green_hex();
 	blue = color_led_cur_color_blue_hex();
     int pix = random(strip_size);
-	// should this be wrapped in for loop for NUM_LEDS
     animate_led_set_pixel(strip, pix, red, green, blue);
     animate_led_show_strip();
     delay(speed_delay);
@@ -1223,33 +668,8 @@ void animate_led_sparkle(strip_num_e strip, uint16_t speed_delay)
 
 void animate_led_running_lights(strip_num_e strip)
 {
-	uint16_t strip_size = 0;
-	if (STRIP_NUM_1 == strip) strip_size = STRIP_1_LENGTH;
-#if defined(STRIP_2_LENGTH)
-	else if (STRIP_NUM_2 == strip) strip_size = STRIP_2_LENGTH;
-#endif
-#if defined(STRIP_3_LENGTH)
-	else if (STRIP_NUM_3 == strip) strip_size = STRIP_3_LENGTH;
-#endif
-#if defined(STRIP_4_LENGTH)
-	else if (STRIP_NUM_4 == strip) strip_size = STRIP_4_LENGTH;
-#endif
-#if defined(STRIP_5_LENGTH)
-	else if (STRIP_NUM_5 == strip) strip_size = STRIP_5_LENGTH;
-#endif
-#if defined(STRIP_6_LENGTH)
-	else if (STRIP_NUM_6 == strip) strip_size = STRIP_6_LENGTH;
-#endif
-#if defined(STRIP_7_LENGTH)
-	else if (STRIP_NUM_7 == strip) strip_size = STRIP_7_LENGTH;
-#endif
-#if defined(STRIP_8_LENGTH)
-	else if (STRIP_NUM_8 == strip) strip_size = STRIP_8_LENGTH;
-#endif
-#if defined(STRIP_9_LENGTH)
-	else if (STRIP_NUM_9 == strip) strip_size = STRIP_9_LENGTH;
-#endif
-	else if (ALL_STRIPS == strip) strip_size = g_max_strip_length;
+	uint16_t strip_size = animate_led_get_strip_size(strip);
+	uint16_t dummy_delay;
 	uint8_t red, green, blue; 
 	red = color_led_cur_color_red_hex();
 	green = color_led_cur_color_green_hex();
@@ -1257,17 +677,11 @@ void animate_led_running_lights(strip_num_e strip)
     uint16_t pos = 0;
     for (int i = 0; i < strip_size * 2; i++)
     {
-		if(animate_led_interrupt_flag_color())
-		{
-			red = color_led_cur_color_red_hex();
-			green = color_led_cur_color_green_hex();
-			blue = color_led_cur_color_blue_hex();
-		}
-		else if (animate_led_interrupt_flag_state())
-		{
-			animate_led_set_all_pixels(strip, 0, 0, 0);
+		if (animate_led_check_interrupts(&dummy_delay, &red, &green, &blue))
+        {
+        	animate_led_set_all_pixels(ALL_STRIPS, 0, 0, 0);
 			return;
-		}
+        }
         pos++;
         for(int i = 0; i < g_max_strip_length; i++)
         {
@@ -1281,33 +695,7 @@ void animate_led_running_lights(strip_num_e strip)
 
 void animate_led_color_wipe(strip_num_e strip, uint16_t speed_delay)
 {
-	uint16_t strip_size = 0;
-	if (STRIP_NUM_1 == strip) strip_size = STRIP_1_LENGTH;
-#if defined(STRIP_2_LENGTH)
-	else if (STRIP_NUM_2 == strip) strip_size = STRIP_2_LENGTH;
-#endif
-#if defined(STRIP_3_LENGTH)
-	else if (STRIP_NUM_3 == strip) strip_size = STRIP_3_LENGTH;
-#endif
-#if defined(STRIP_4_LENGTH)
-	else if (STRIP_NUM_4 == strip) strip_size = STRIP_4_LENGTH;
-#endif
-#if defined(STRIP_5_LENGTH)
-	else if (STRIP_NUM_5 == strip) strip_size = STRIP_5_LENGTH;
-#endif
-#if defined(STRIP_6_LENGTH)
-	else if (STRIP_NUM_6 == strip) strip_size = STRIP_6_LENGTH;
-#endif
-#if defined(STRIP_7_LENGTH)
-	else if (STRIP_NUM_7 == strip) strip_size = STRIP_7_LENGTH;
-#endif
-#if defined(STRIP_8_LENGTH)
-	else if (STRIP_NUM_8 == strip) strip_size = STRIP_8_LENGTH;
-#endif
-#if defined(STRIP_9_LENGTH)
-	else if (STRIP_NUM_9 == strip) strip_size = STRIP_9_LENGTH;
-#endif
-	else if (ALL_STRIPS == strip) strip_size = g_max_strip_length;
+	uint16_t strip_size = animate_led_get_strip_size(strip);
 	uint8_t red, green, blue; 
 	red = color_led_cur_color_red_hex();
 	green = color_led_cur_color_green_hex();
@@ -1329,46 +717,18 @@ void animate_led_color_wipe(strip_num_e strip, uint16_t speed_delay)
 
 void animate_led_rainbow_cycle(strip_num_e strip, uint16_t speed_delay)
 {
-	uint16_t strip_size = 0;
-	if (STRIP_NUM_1 == strip) strip_size = STRIP_1_LENGTH;
-#if defined(STRIP_2_LENGTH)
-	else if (STRIP_NUM_2 == strip) strip_size = STRIP_2_LENGTH;
-#endif
-#if defined(STRIP_3_LENGTH)
-	else if (STRIP_NUM_3 == strip) strip_size = STRIP_3_LENGTH;
-#endif
-#if defined(STRIP_4_LENGTH)
-	else if (STRIP_NUM_4 == strip) strip_size = STRIP_4_LENGTH;
-#endif
-#if defined(STRIP_5_LENGTH)
-	else if (STRIP_NUM_5 == strip) strip_size = STRIP_5_LENGTH;
-#endif
-#if defined(STRIP_6_LENGTH)
-	else if (STRIP_NUM_6 == strip) strip_size = STRIP_6_LENGTH;
-#endif
-#if defined(STRIP_7_LENGTH)
-	else if (STRIP_NUM_7 == strip) strip_size = STRIP_7_LENGTH;
-#endif
-#if defined(STRIP_8_LENGTH)
-	else if (STRIP_NUM_8 == strip) strip_size = STRIP_8_LENGTH;
-#endif
-#if defined(STRIP_9_LENGTH)
-	else if (STRIP_NUM_9 == strip) strip_size = STRIP_9_LENGTH;
-#endif
-	else if (ALL_STRIPS == strip) strip_size = g_max_strip_length;
+	uint8_t dummy_red, dummy_green, dummy_blue;
+	uint16_t strip_size = animate_led_get_strip_size(strip);
     byte *c;
     uint16_t i, j;
     for (j = 0; j < 256 * 5; j++)
     {
-		if(animate_led_interrupt_flag_speed())
-		{
-			speed_delay = animate_led_delay_in_animations();
-		}
-		else if (animate_led_interrupt_flag_state())
-		{
-			//animate_led_set_all_pixels(strip, 0, 0, 0);
+    	
+		if (animate_led_check_interrupts(&speed_delay, &dummy_red, &dummy_green, &dummy_blue))
+        {
+        	animate_led_set_all_pixels(ALL_STRIPS, 0, 0, 0);
 			return;
-		}
+        }
         for (i = 0; i < strip_size; i++)
         {
             c = animate_led_wheel(((i * 256 / strip_size) + j) & 255);
@@ -1409,33 +769,7 @@ byte* animate_led_wheel(byte wheel_pos)
 
 void animate_led_theater_chase(strip_num_e strip, uint16_t speed_delay)
 {
-	uint16_t strip_size = 0;
-	if (STRIP_NUM_1 == strip) strip_size = STRIP_1_LENGTH;
-#if defined(STRIP_2_LENGTH)
-	else if (STRIP_NUM_2 == strip) strip_size = STRIP_2_LENGTH;
-#endif
-#if defined(STRIP_3_LENGTH)
-	else if (STRIP_NUM_3 == strip) strip_size = STRIP_3_LENGTH;
-#endif
-#if defined(STRIP_4_LENGTH)
-	else if (STRIP_NUM_4 == strip) strip_size = STRIP_4_LENGTH;
-#endif
-#if defined(STRIP_5_LENGTH)
-	else if (STRIP_NUM_5 == strip) strip_size = STRIP_5_LENGTH;
-#endif
-#if defined(STRIP_6_LENGTH)
-	else if (STRIP_NUM_6 == strip) strip_size = STRIP_6_LENGTH;
-#endif
-#if defined(STRIP_7_LENGTH)
-	else if (STRIP_NUM_7 == strip) strip_size = STRIP_7_LENGTH;
-#endif
-#if defined(STRIP_8_LENGTH)
-	else if (STRIP_NUM_8 == strip) strip_size = STRIP_8_LENGTH;
-#endif
-#if defined(STRIP_9_LENGTH)
-	else if (STRIP_NUM_9 == strip) strip_size = STRIP_9_LENGTH;
-#endif
-	else if (ALL_STRIPS == strip) strip_size = g_max_strip_length;
+	uint16_t strip_size = animate_led_get_strip_size(strip);
 	uint8_t red, green, blue; 
 	red = color_led_cur_color_red_hex();
 	green = color_led_cur_color_green_hex();
@@ -1444,35 +778,22 @@ void animate_led_theater_chase(strip_num_e strip, uint16_t speed_delay)
     {
         for (int q = 0; q < 3; q++)
         {
-			if(animate_led_interrupt_flag_speed())
-			{
-				speed_delay = animate_led_delay_in_animations();
-			}
-			else if(animate_led_interrupt_flag_color())
-			{
-				red = color_led_cur_color_red_hex();
-				green = color_led_cur_color_green_hex();
-				blue = color_led_cur_color_blue_hex();
-			}
-			else if (animate_led_interrupt_flag_state())
-			{
-				animate_led_set_all_pixels(strip, 0, 0, 0);
-				return;
-			}
+        	if (animate_led_check_interrupts(&speed_delay, &red, &green, &blue))
+        	{
+        	 	// state change interrupt
+        		animate_led_set_all_pixels(strip, 0, 0, 0);
+        		return;
+        	}
+			
             for (int i = 0; i < strip_size; i += 3)
             {
                 animate_led_set_pixel(strip, i + q, red, green, blue); // turn every third pixel on
             }
             animate_led_show_strip();
-			if(animate_led_interrupt_flag_speed())
+			if (animate_led_check_interrupts(&speed_delay, &red, &green, &blue))
 			{
-				speed_delay = animate_led_delay_in_animations();
-			}
-			if(animate_led_interrupt_flag_color())
-			{
-				red = color_led_cur_color_red_hex();
-				green = color_led_cur_color_green_hex();
-				blue = color_led_cur_color_blue_hex();
+				animate_led_set_all_pixels(ALL_STRIPS, 0, 0, 0);
+				return;
 			}
             delay(speed_delay);
             for (int i = 0; i < strip_size; i += 3)
@@ -1486,45 +807,16 @@ void animate_led_theater_chase(strip_num_e strip, uint16_t speed_delay)
 
 void animate_led_theater_chase_rainbow(strip_num_e strip, uint16_t speed_delay)
 {
-	uint16_t strip_size = 0;
-	if (STRIP_NUM_1 == strip) strip_size = STRIP_1_LENGTH;
-#if defined(STRIP_2_LENGTH)
-	else if (STRIP_NUM_2 == strip) strip_size = STRIP_2_LENGTH;
-#endif
-#if defined(STRIP_3_LENGTH)
-	else if (STRIP_NUM_3 == strip) strip_size = STRIP_3_LENGTH;
-#endif
-#if defined(STRIP_4_LENGTH)
-	else if (STRIP_NUM_4 == strip) strip_size = STRIP_4_LENGTH;
-#endif
-#if defined(STRIP_5_LENGTH)
-	else if (STRIP_NUM_5 == strip) strip_size = STRIP_5_LENGTH;
-#endif
-#if defined(STRIP_6_LENGTH)
-	else if (STRIP_NUM_6 == strip) strip_size = STRIP_6_LENGTH;
-#endif
-#if defined(STRIP_7_LENGTH)
-	else if (STRIP_NUM_7 == strip) strip_size = STRIP_7_LENGTH;
-#endif
-#if defined(STRIP_8_LENGTH)
-	else if (STRIP_NUM_8 == strip) strip_size = STRIP_8_LENGTH;
-#endif
-#if defined(STRIP_9_LENGTH)
-	else if (STRIP_NUM_9 == strip) strip_size = STRIP_9_LENGTH;
-#endif
-	else if (ALL_STRIPS == strip) strip_size = g_max_strip_length;
+	uint8_t dummy_red, dummy_green, dummy_blue;
+	uint16_t strip_size = animate_led_get_strip_size(strip);
     byte *c;
     for (int j = 0; j < 256; j++) // cycel all 256 colors in the animate_led_wheel
     {
         for (int q = 0; q < 3; q++)
         {
-			if(animate_led_interrupt_flag_speed())
+			if (animate_led_check_interrupts(&speed_delay, &dummy_red, &dummy_green, &dummy_blue))
 			{
-				speed_delay = animate_led_delay_in_animations();
-			}
-			else if (animate_led_interrupt_flag_state())
-			{
-				animate_led_set_all_pixels(strip, 0, 0, 0);
+				animate_led_set_all_pixels(ALL_STRIPS, 0, 0, 0);
 				return;
 			}
             for (int i = 0; i < strip_size; i = i + 3)
@@ -1546,33 +838,7 @@ void animate_led_theater_chase_rainbow(strip_num_e strip, uint16_t speed_delay)
 
 void animate_led_bouncing_balls(strip_num_e strip, int ball_count)
 {
-	uint16_t strip_size = 0;
-	if (STRIP_NUM_1 == strip) strip_size = STRIP_1_LENGTH;
-#if defined(STRIP_2_LENGTH)
-	else if (STRIP_NUM_2 == strip) strip_size = STRIP_2_LENGTH;
-#endif
-#if defined(STRIP_3_LENGTH)
-	else if (STRIP_NUM_3 == strip) strip_size = STRIP_3_LENGTH;
-#endif
-#if defined(STRIP_4_LENGTH)
-	else if (STRIP_NUM_4 == strip) strip_size = STRIP_4_LENGTH;
-#endif
-#if defined(STRIP_5_LENGTH)
-	else if (STRIP_NUM_5 == strip) strip_size = STRIP_5_LENGTH;
-#endif
-#if defined(STRIP_6_LENGTH)
-	else if (STRIP_NUM_6 == strip) strip_size = STRIP_6_LENGTH;
-#endif
-#if defined(STRIP_7_LENGTH)
-	else if (STRIP_NUM_7 == strip) strip_size = STRIP_7_LENGTH;
-#endif
-#if defined(STRIP_8_LENGTH)
-	else if (STRIP_NUM_8 == strip) strip_size = STRIP_8_LENGTH;
-#endif
-#if defined(STRIP_9_LENGTH)
-	else if (STRIP_NUM_9 == strip) strip_size = STRIP_9_LENGTH;
-#endif
-	else if (ALL_STRIPS == strip) strip_size = g_max_strip_length;
+	uint16_t strip_size = animate_led_get_strip_size(strip);
     float gravity = -9.81;
     int start_height = 1;
     float height[ball_count];
@@ -1596,63 +862,34 @@ void animate_led_bouncing_balls(strip_num_e strip, int ball_count)
         dampening[i] = 0.90 - float(i) / pow(ball_count, 2);
     }
 
-    //while (1)
-    //{
-        for (int i = 0; i < ball_count; i++)
-        {
-            time_since_last_bounce[i] = millis() - clock_time_since_last_bounce[i];
-            height[i] = 0.5 * gravity * pow(time_since_last_bounce[i] / 1000, 2.0) + impact_velocity[i] * time_since_last_bounce[i] / 1000;
-            if (height[i] < 0)
-            {
-                height[i] = 0;
-                impact_velocity[i] = dampening[i] * impact_velocity[i];
-                clock_time_since_last_bounce[i] = millis();
-                if (impact_velocity[i] < 0.01)
-                {
-                    impact_velocity[i] = impact_velocity_start;
-                }
-            }
-            pos[i] = round(height[i] * (strip_size - 1) / start_height);
-        }
-        for (int i = 0; i < ball_count; i++)
-        {
-            animate_led_set_pixel(strip, pos[i], red, green, blue);
-        }
-        animate_led_show_strip();
-        animate_led_set_all_pixels(strip, 0, 0, 0);
-    //}
+	for (int i = 0; i < ball_count; i++)
+	{
+		time_since_last_bounce[i] = millis() - clock_time_since_last_bounce[i];
+		height[i] = 0.5 * gravity * pow(time_since_last_bounce[i] / 1000, 2.0) + impact_velocity[i] * time_since_last_bounce[i] / 1000;
+		if (height[i] < 0)
+		{
+			height[i] = 0;
+			impact_velocity[i] = dampening[i] * impact_velocity[i];
+			clock_time_since_last_bounce[i] = millis();
+			if (impact_velocity[i] < 0.01)
+			{
+				impact_velocity[i] = impact_velocity_start;
+			}
+		}
+		pos[i] = round(height[i] * (strip_size - 1) / start_height);
+	}
+	for (int i = 0; i < ball_count; i++)
+	{
+		animate_led_set_pixel(strip, pos[i], red, green, blue);
+	}
+	animate_led_show_strip();
+	animate_led_set_all_pixels(strip, 0, 0, 0);
 }
 
 
 void animate_led_meteor_rain(strip_num_e strip, byte meteor_size, byte meteor_trail_decay, bool meteor_random_decay, int speed_delay)
 {
-	uint16_t strip_size = 0;
-	if (STRIP_NUM_1 == strip) strip_size = STRIP_1_LENGTH;
-#if defined(STRIP_2_LENGTH)
-	else if (STRIP_NUM_2 == strip) strip_size = STRIP_2_LENGTH;
-#endif
-#if defined(STRIP_3_LENGTH)
-	else if (STRIP_NUM_3 == strip) strip_size = STRIP_3_LENGTH;
-#endif
-#if defined(STRIP_4_LENGTH)
-	else if (STRIP_NUM_4 == strip) strip_size = STRIP_4_LENGTH;
-#endif
-#if defined(STRIP_5_LENGTH)
-	else if (STRIP_NUM_5 == strip) strip_size = STRIP_5_LENGTH;
-#endif
-#if defined(STRIP_6_LENGTH)
-	else if (STRIP_NUM_6 == strip) strip_size = STRIP_6_LENGTH;
-#endif
-#if defined(STRIP_7_LENGTH)
-	else if (STRIP_NUM_7 == strip) strip_size = STRIP_7_LENGTH;
-#endif
-#if defined(STRIP_8_LENGTH)
-	else if (STRIP_NUM_8 == strip) strip_size = STRIP_8_LENGTH;
-#endif
-#if defined(STRIP_9_LENGTH)
-	else if (STRIP_NUM_9 == strip) strip_size = STRIP_9_LENGTH;
-#endif
-	else if (ALL_STRIPS == strip) strip_size = g_max_strip_length;
+	uint16_t strip_size = animate_led_get_strip_size(strip);
 	uint8_t red, green, blue; 
 	red = color_led_cur_color_red_hex();
 	green = color_led_cur_color_green_hex();
@@ -1674,203 +911,16 @@ void animate_led_meteor_rain(strip_num_e strip, byte meteor_size, byte meteor_tr
                 animate_led_set_pixel(strip, i - j, red, green, blue);
             }
         }
-		if(animate_led_interrupt_flag_color())
-		{
-			red = color_led_cur_color_red_hex();
-			green = color_led_cur_color_green_hex();
-			blue = color_led_cur_color_blue_hex();
-		}
-		else if (animate_led_interrupt_flag_state())
-		{
-			animate_led_set_all_pixels(ALL_STRIPS, 0, 0, 0);
+        if (animate_led_check_interrupts(&speed_delay, &red, &green, &blue))
+        {
+        	animate_led_set_all_pixels(ALL_STRIPS, 0, 0, 0);
 			return;
-		}
-		// don't allow speed change!
+        }
         animate_led_show_strip();
         delay(speed_delay);
     }
 }
 
-
-void animate_led_fade_to_black(strip_num_e strip, int i, byte fade_value)
-{
-	if (ALL_STRIPS == strip)
-	{
-    	//delay(1);
-#if defined(MULTIPLE_STRIPS)
-		if (i < STRIP_1_LENGTH)
-		{
-			led_strip_1[i].fadeToBlackBy(fade_value);
-    		led_strip_1[i].fadeToBlackBy(fade_value);
-    		led_strip_1[i].fadeToBlackBy(fade_value);
-		}
-		if (i  < STRIP_2_LENGTH)
-		{
-			led_strip_2[i].fadeToBlackBy(fade_value);
-    		led_strip_2[i].fadeToBlackBy(fade_value);
-    		led_strip_2[i].fadeToBlackBy(fade_value);
-		}
-#if defined(STRIP_3_LENGTH)
-		if (i < STRIP_3_LENGTH)
-		{
-			led_strip_3[i].fadeToBlackBy(fade_value);
-    		led_strip_3[i].fadeToBlackBy(fade_value);
-    		led_strip_3[i].fadeToBlackBy(fade_value);
-		}
-#endif
-#if defined(STRIP_4_LENGTH)
-		if (i < STRIP_4_LENGTH)
-		{
-			led_strip_4[i].fadeToBlackBy(fade_value);
-    		led_strip_4[i].fadeToBlackBy(fade_value);
-    		led_strip_4[i].fadeToBlackBy(fade_value);
-		}
-#endif
-#if defined(STRIP_5_LENGTH)
-		if (i < STRIP_5_LENGTH)
-		{
-			led_strip_5[i].fadeToBlackBy(fade_value);
-    		led_strip_5[i].fadeToBlackBy(fade_value);
-    		led_strip_5[i].fadeToBlackBy(fade_value);
-		}
-#endif
-#if defined(STRIP_6_LENGTH)
-		if (i < STRIP_6_LENGTH)
-		{
-			led_strip_6[i].fadeToBlackBy(fade_value);
-    		led_strip_6[i].fadeToBlackBy(fade_value);
-    		led_strip_6[i].fadeToBlackBy(fade_value);
-		}
-#endif
-#if defined(STRIP_7_LENGTH)
-		if (i < STRIP_7_LENGTH)
-		{
-			led_strip_7[i].fadeToBlackBy(fade_value);
-    		led_strip_7[i].fadeToBlackBy(fade_value);
-    		led_strip_7[i].fadeToBlackBy(fade_value);
-		}
-#endif
-#if defined(STRIP_8_LENGTH)
-		if (i < STRIP_8_LENGTH)
-		{
-			led_strip_8[i].fadeToBlackBy(fade_value);
-    		led_strip_8[i].fadeToBlackBy(fade_value);
-    		led_strip_8[i].fadeToBlackBy(fade_value);
-		}
-#endif
-#if defined(STRIP_9_LENGTH)
-		if (i < STRIP_9_LENGTH)
-		{
-			led_strip_9[i].fadeToBlackBy(fade_value);
-    		led_strip_9[i].fadeToBlackBy(fade_value);
-    		led_strip_9[i].fadeToBlackBy(fade_value);
-		}
-#endif
-#else
-		led_strip_1[i].fadeToBlackBy(fade_value);
-		led_strip_1[i].fadeToBlackBy(fade_value);
-		led_strip_1[i].fadeToBlackBy(fade_value);
-#endif
-	}	
-	else
-	{
-		switch (strip)
-		{
-#if defined(STRIP_1_LENGTH)
-			case STRIP_NUM_1:
-				if (i < STRIP_1_LENGTH)
-				{
-					led_strip_1[i].fadeToBlackBy(fade_value);
-    				led_strip_1[i].fadeToBlackBy(fade_value);
-    				led_strip_1[i].fadeToBlackBy(fade_value);
-				}
-			break;
-#endif
-#if defined(STRIP_2_LENGTH)
-			case STRIP_NUM_2:
-				if (i < STRIP_2_LENGTH)
-				{
-					led_strip_2[i].fadeToBlackBy(fade_value);
-    				led_strip_2[i].fadeToBlackBy(fade_value);
-    				led_strip_2[i].fadeToBlackBy(fade_value);
-				}
-			break;
-#endif
-#if defined(STRIP_3_LENGTH)
-			case STRIP_NUM_3:
-				if (i < STRIP_3_LENGTH)
-				{
-					led_strip_3[i].fadeToBlackBy(fade_value);
-    				led_strip_3[i].fadeToBlackBy(fade_value);
-    				led_strip_3[i].fadeToBlackBy(fade_value);
-				}
-			break;
-#endif
-#if defined(STRIP_4_LENGTH)
-			case STRIP_NUM_4:
-				if (i < STRIP_4_LENGTH)
-				{
-					led_strip_4[i].fadeToBlackBy(fade_value);
-    				led_strip_4[i].fadeToBlackBy(fade_value);
-    				led_strip_4[i].fadeToBlackBy(fade_value);
-				}
-			break;
-#endif
-#if defined(STRIP_5_LENGTH)
-			case STRIP_NUM_5:
-				if (i < STRIP_5_LENGTH)
-				{
-					led_strip_5[i].fadeToBlackBy(fade_value);
-    				led_strip_5[i].fadeToBlackBy(fade_value);
-    				led_strip_5[i].fadeToBlackBy(fade_value);
-				}
-			break;
-#endif
-#if defined(STRIP_6_LENGTH)
-			case STRIP_NUM_6:
-				if (i < STRIP_6_LENGTH)
-				{
-					led_strip_6[i].fadeToBlackBy(fade_value);
-    				led_strip_6[i].fadeToBlackBy(fade_value);
-    				led_strip_6[i].fadeToBlackBy(fade_value);
-				}
-			break;
-#endif
-#if defined(STRIP_7_LENGTH)
-			case STRIP_NUM_7:
-				if (i < STRIP_7_LENGTH)
-				{
-					led_strip_7[i].fadeToBlackBy(fade_value);
-    				led_strip_7[i].fadeToBlackBy(fade_value);
-    				led_strip_7[i].fadeToBlackBy(fade_value);
-				}
-			break;
-#endif
-#if defined(STRIP_8_LENGTH)
-			case STRIP_NUM_8:
-				if (i < STRIP_8_LENGTH)
-				{
-					led_strip_8[i].fadeToBlackBy(fade_value);
-    				led_strip_8[i].fadeToBlackBy(fade_value);
-    				led_strip_8[i].fadeToBlackBy(fade_value);
-				}
-			break;
-#endif
-#if defined(STRIP_9_LENGTH)
-			case STRIP_NUM_9:
-				if (i < STRIP_9_LENGTH)
-				{
-					led_strip_9[i].fadeToBlackBy(fade_value);
-    				led_strip_9[i].fadeToBlackBy(fade_value);
-    				led_strip_9[i].fadeToBlackBy(fade_value);
-				}
-			break;
-#endif
-			default:
-			break;
-		}
-	}
-}
 
 void animate_led_two_tone(uint32_t color_strip_1, uint32_t color_strip_2)
 {
@@ -1886,25 +936,202 @@ void animate_led_two_tone(uint32_t color_strip_1, uint32_t color_strip_2)
 #if defined(MULTIPLE_STRIPS)
 	for (int i = 0; i < g_max_strip_length; i++)
     {
-    	//delay(1);
-		if (i < STRIP_1_LENGTH)
-		{
-			// strip 1
-    		led_strip_1[i].r = red_1;
-    		led_strip_1[i].g = green_1;
-    		led_strip_1[i].b = blue_1;
-    	}
-    	if (i  < STRIP_2_LENGTH)
-    	{
-    		// strip 2
-    		led_strip_2[i].r = red_2;
-    		led_strip_2[i].g = green_2;
-    		led_strip_2[i].b = blue_2;
-		}
+		if (i < STRIP_1_LENGTH) animate_led_internal_set_led_color(led_strip_1, i, red_1, green_1, blue_1);
+		if (i < STRIP_2_LENGTH) animate_led_internal_set_led_color(led_strip_2, i, red_2, green_2, blue_2);
 	}
 #endif
 	animate_led_show_strip();
-	// no support for single strip case
+}
+
+
+void animate_led_fade_to_black(strip_num_e strip, int i, byte fade_value)
+{
+	if (ALL_STRIPS == strip)
+	{
+#if defined(STRIP_1_LENGTH)
+		if (i < STRIP_1_LENGTH) led_strip_1[i].fadeToBlackBy(fade_value);
+#endif
+#if defined(STRIP_2_LENGTH)
+		if (i  < STRIP_2_LENGTH) led_strip_2[i].fadeToBlackBy(fade_value);
+#endif
+#if defined(STRIP_3_LENGTH)
+		if (i < STRIP_3_LENGTH) led_strip_3[i].fadeToBlackBy(fade_value);
+#endif
+#if defined(STRIP_4_LENGTH)
+		if (i < STRIP_4_LENGTH) led_strip_4[i].fadeToBlackBy(fade_value);
+#endif
+#if defined(STRIP_5_LENGTH)
+		if (i < STRIP_5_LENGTH) led_strip_5[i].fadeToBlackBy(fade_value);
+#endif
+#if defined(STRIP_6_LENGTH)
+		if (i < STRIP_6_LENGTH) led_strip_6[i].fadeToBlackBy(fade_value);
+#endif
+#if defined(STRIP_7_LENGTH)
+		if (i < STRIP_7_LENGTH) led_strip_7[i].fadeToBlackBy(fade_value);
+#endif
+#if defined(STRIP_8_LENGTH)
+		if (i < STRIP_8_LENGTH) led_strip_8[i].fadeToBlackBy(fade_value);
+#endif
+#if defined(STRIP_9_LENGTH)
+		if (i < STRIP_9_LENGTH) led_strip_9[i].fadeToBlackBy(fade_value);
+#endif
+	}	
+#if defined(STRIP_1_LENGTH)
+	else if ((STRIP_NUM_1 == strip) && (i < STRIP_1_LENGTH)) led_strip_1[i].fadeToBlackBy(fade_value);
+#endif
+#if defined(STRIP_2_LENGTH)
+	else if ((STRIP_NUM_2 == strip) && (i < STRIP_2_LENGTH)) led_strip_2[i].fadeToBlackBy(fade_value);
+#endif
+#if defined(STRIP_3_LENGTH)
+	else if ((STRIP_NUM_3 == strip) && (i < STRIP_3_LENGTH)) led_strip_3[i].fadeToBlackBy(fade_value);
+#endif
+#if defined(STRIP_4_LENGTH)
+	else if ((STRIP_NUM_4 == strip) && (i < STRIP_4_LENGTH)) led_strip_4[i].fadeToBlackBy(fade_value);
+#endif
+#if defined(STRIP_5_LENGTH)
+	else if ((STRIP_NUM_5 == strip) && (i < STRIP_5_LENGTH)) led_strip_5[i].fadeToBlackBy(fade_value);
+#endif
+#if defined(STRIP_6_LENGTH)
+	else if ((STRIP_NUM_6 == strip) && (i < STRIP_6_LENGTH)) led_strip_6[i].fadeToBlackBy(fade_value);
+#endif
+#if defined(STRIP_7_LENGTH)
+	else if ((STRIP_NUM_7 == strip) && (i < STRIP_7_LENGTH)) led_strip_7[i].fadeToBlackBy(fade_value);
+#endif
+#if defined(STRIP_8_LENGTH)
+	else if ((STRIP_NUM_8 == strip) && (i < STRIP_8_LENGTH)) led_strip_8[i].fadeToBlackBy(fade_value);
+#endif
+#if defined(STRIP_9_LENGTH)
+	else if ((STRIP_NUM_9 == strip) && (i < STRIP_9_LENGTH)) led_strip_9[i].fadeToBlackBy(fade_value);
+#endif
+}
+
+
+void animate_led_set_pixel(strip_num_e strip, int i, byte red, byte green, byte blue)
+{
+	if (ALL_STRIPS == strip)
+	{
+#if defined(STRIP_1_LENGTH)
+		if (i < STRIP_1_LENGTH) animate_led_internal_set_led_color(led_strip_1, i, red, green, blue);
+#endif
+#if defined(STRIP_2_LENGTH)
+		if (i < STRIP_2_LENGTH) animate_led_internal_set_led_color(led_strip_2, i, red, green, blue);
+#endif
+#if defined(STRIP_3_LENGTH)
+		if (i < STRIP_3_LENGTH) animate_led_internal_set_led_color(led_strip_3, i, red, green, blue);
+#endif
+#if defined(STRIP_4_LENGTH)
+		if (i < STRIP_4_LENGTH) animate_led_internal_set_led_color(led_strip_4, i, red, green, blue);
+#endif
+#if defined(STRIP_5_LENGTH)
+		if (i < STRIP_5_LENGTH) animate_led_internal_set_led_color(led_strip_5, i, red, green, blue);
+#endif
+#if defined(STRIP_6_LENGTH)
+		if (i < STRIP_6_LENGTH) animate_led_internal_set_led_color(led_strip_6, i, red, green, blue);
+#endif
+#if defined(STRIP_7_LENGTH)
+		if (i < STRIP_7_LENGTH) animate_led_internal_set_led_color(led_strip_7, i, red, green, blue);
+#endif
+#if defined(STRIP_8_LENGTH)
+		if (i < STRIP_8_LENGTH) animate_led_internal_set_led_color(led_strip_8, i, red, green, blue);
+#endif
+#if defined(STRIP_9_LENGTH)
+		if (i < STRIP_9_LENGTH) animate_led_internal_set_led_color(led_strip_9, i, red, green, blue);
+#endif
+	}
+#if defined(STRIP_1_LENGTH)
+	else if ((STRIP_NUM_1 == strip) && (i < STRIP_1_LENGTH)) animate_led_internal_set_led_color(led_strip_1, i, red, green, blue);
+#endif
+#if defined(STRIP_2_LENGTH)
+	else if ((STRIP_NUM_2 == strip) && (i < STRIP_2_LENGTH)) animate_led_internal_set_led_color(led_strip_2, i, red, green, blue);
+#endif
+#if defined(STRIP_3_LENGTH)
+	else if ((STRIP_NUM_3 == strip) && (i < STRIP_3_LENGTH)) animate_led_internal_set_led_color(led_strip_3, i, red, green, blue);
+#endif
+#if defined(STRIP_4_LENGTH) 
+	else if ((STRIP_NUM_4 == strip) && (i < STRIP_4_LENGTH)) animate_led_internal_set_led_color(led_strip_4, i, red, green, blue);
+#endif
+#if defined(STRIP_5_LENGTH)
+	else if ((STRIP_NUM_5 == strip) && (i < STRIP_5_LENGTH)) animate_led_internal_set_led_color(led_strip_5, i, red, green, blue);
+#endif
+#if defined(STRIP_6_LENGTH)
+	else if ((STRIP_NUM_6 == strip) && (i < STRIP_6_LENGTH)) animate_led_internal_set_led_color(led_strip_6, i, red, green, blue);
+#endif
+#if defined(STRIP_7_LENGTH)
+	else if ((STRIP_NUM_7 == strip) && (i < STRIP_7_LENGTH)) animate_led_internal_set_led_color(led_strip_7, i, red, green, blue);
+#endif
+#if defined(STRIP_8_LENGTH)
+	else if ((STRIP_NUM_8 == strip) && (i < STRIP_8_LENGTH)) animate_led_internal_set_led_color(led_strip_8, i, red, green, blue);
+#endif
+#if defined(STRIP_9_LENGTH) 
+	else if ((STRIP_NUM_9 == strip) && (i < STRIP_9_LENGTH)) animate_led_internal_set_led_color(led_strip_9, i, red, green, blue);
+#endif
+}
+
+
+void animate_led_set_all_pixels(strip_num_e strip, byte red, byte green, byte blue) 
+{
+	uint16_t strip_size = animate_led_get_strip_size(strip);
+	for (int i = 0; i < strip_size; i++)
+    {
+    	if (ALL_STRIPS == strip)
+		{
+#if defined(STRIP_1_LENGTH)
+			if (i < STRIP_1_LENGTH) animate_led_internal_set_led_color(led_strip_1, i, red, green, blue);
+#endif
+#if defined(STRIP_2_LENGTH)
+			if (i  < STRIP_2_LENGTH) animate_led_internal_set_led_color(led_strip_2, i, red, green, blue);
+#endif
+#if defined(STRIP_3_LENGTH)
+			if (i < STRIP_3_LENGTH) animate_led_internal_set_led_color(led_strip_3, i, red, green, blue);
+#endif
+#if defined(STRIP_4_LENGTH)
+			if (i < STRIP_4_LENGTH) animate_led_internal_set_led_color(led_strip_4, i, red, green, blue);
+#endif
+#if defined(STRIP_5_LENGTH)
+			if (i < STRIP_5_LENGTH) animate_led_internal_set_led_color(led_strip_5, i, red, green, blue);
+#endif
+#if defined(STRIP_6_LENGTH)
+			if (i < STRIP_6_LENGTH) animate_led_internal_set_led_color(led_strip_6, i, red, green, blue);
+#endif
+#if defined(STRIP_7_LENGTH)
+			if (i < STRIP_7_LENGTH) animate_led_internal_set_led_color(led_strip_7, i, red, green, blue);
+#endif
+#if defined(STRIP_8_LENGTH)
+			if (i < STRIP_8_LENGTH) animate_led_internal_set_led_color(led_strip_8, i, red, green, blue);
+#endif
+#if defined(STRIP_9_LENGTH)
+			if (i < STRIP_9_LENGTH) animate_led_internal_set_led_color(led_strip_9, i, red, green, blue);
+#endif
+		}	
+#if defined(STRIP_1_LENGTH)
+		else if ((STRIP_NUM_1 == strip) && (i < STRIP_1_LENGTH)) animate_led_internal_set_led_color(led_strip_1, i, red, green, blue);	
+#endif
+#if defined(STRIP_2_LENGTH)
+		else if ((STRIP_NUM_2 == strip) && (i < STRIP_2_LENGTH)) animate_led_internal_set_led_color(led_strip_2, i, red, green, blue);	
+#endif
+#if defined(STRIP_3_LENGTH)
+		else if ((STRIP_NUM_3 == strip) && (i < STRIP_3_LENGTH)) animate_led_internal_set_led_color(led_strip_3, i, red, green, blue);	
+#endif
+#if defined(STRIP_4_LENGTH)
+		else if ((STRIP_NUM_4 == strip) && (i < STRIP_4_LENGTH)) animate_led_internal_set_led_color(led_strip_4, i, red, green, blue);	
+#endif
+#if defined(STRIP_5_LENGTH)
+		else if ((STRIP_NUM_5 == strip) && (i < STRIP_5_LENGTH)) animate_led_internal_set_led_color(led_strip_5, i, red, green, blue);
+#endif
+#if defined(STRIP_6_LENGTH)
+		else if ((STRIP_NUM_6 == strip) && (i < STRIP_6_LENGTH)) animate_led_internal_set_led_color(led_strip_6, i, red, green, blue);	
+#endif
+#if defined(STRIP_7_LENGTH)
+		else if ((STRIP_NUM_7 == strip) && (i < STRIP_7_LENGTH)) animate_led_internal_set_led_color(led_strip_7, i, red, green, blue);	
+#endif
+#if defined(STRIP_8_LENGTH)
+		else if ((STRIP_NUM_8 == strip) && (i < STRIP_8_LENGTH)) animate_led_internal_set_led_color(led_strip_8, i, red, green, blue);
+#endif
+#if defined(STRIP_9_LENGTH)
+		else if ((STRIP_NUM_9 == strip) && (i < STRIP_9_LENGTH)) animate_led_internal_set_led_color(led_strip_9, i, red, green, blue);	
+#endif
+	}
+    animate_led_show_strip();
 }
 
 

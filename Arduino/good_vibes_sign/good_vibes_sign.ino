@@ -3,7 +3,7 @@
 #include <FastLED.h>
 
 // static definitions
-#define SERIAL_DEBUG // define to print debug messages
+//#define SERIAL_DEBUG // define to print debug messages
 
 //#if !defined(TOGETHER_SIGN) && !defined(SCHUMACHER_SIGN)
 //#pragma error("no sign defined");
@@ -95,7 +95,7 @@ int val3 = 0;
 int val4 = 0;
 uint16_t eye_size = 4;
 int16_t animation_iterations = 0;
-led_state_e g_loop_led_state = LED_STATE_RAINBOW_CYCLE;
+led_state_e g_loop_led_state = LED_STATE_SPELL_SOLID_WHITE_COLOR;
 
 // for good vibes sign... no random state changes simply advance all states and repeat
 
@@ -199,17 +199,69 @@ void loop()
 #if defined(SERIAL_DEBUG)
             Serial.println("STATE_SPELL");
 #endif
-            animate_led_solid_custom_color(STRIP_NUM_1, 255, 255, 255);
-            //animate_led_solid_custom_color(STRIP_NUM_1, 255, 255, 255);
             animate_led_spell_word(STRIP_NUM_2, 0);
+            if (animation_iterations >= 10)
+            {
+                g_loop_led_state = LED_STATE_CYCLONE_BOUNCE;
+                animation_iterations = -1;
+            }
+            //animate_led_solid_custom_color(STRIP_NUM_1, 255, 255, 255);
+            //animate_led_solid_custom_color(STRIP_NUM_1, 255, 255, 255);
             //animate_led_spell_word(STRIP_NUM_2, animate_led_delay_in_animations());
             //delay(animate_led_delay_between_animations());
+            
+        break;
+
+        case LED_STATE_SPELL_SOLID_RANDOM_COLOR:
+            animate_led_solid_custom_color(STRIP_NUM_1, random(0, 255), random(0, 255), random(0, 255));
+            animate_led_spell_word(STRIP_NUM_2, 0);
             if (animation_iterations >= 10)
             {
                 g_loop_led_state = LED_STATE_CYCLONE_BOUNCE;
                 animation_iterations = -1;
             }
         break;
+        
+        case LED_STATE_SPELL_SOLID_WHITE_COLOR:
+            animate_led_solid_custom_color(STRIP_NUM_1, 255, 255, 255);
+            animate_led_spell_word(STRIP_NUM_2, 0);
+            if (animation_iterations >= 10)
+            {
+                g_loop_led_state = LED_STATE_CYCLONE_BOUNCE;
+                animation_iterations = -1;
+            }
+        break;
+        
+        case LED_STATE_SPELL_SPARKLE_FILL:
+            animate_led_spell_and_sparkle(STRIP_NUM_2, STRIP_NUM_1, true, 0);
+            color_led_randomize();
+            animate_led_spell_and_sparkle(STRIP_NUM_2, STRIP_NUM_1, true, 0);
+            color_led_randomize();
+            animate_led_spell_and_sparkle(STRIP_NUM_1, STRIP_NUM_2, true, 0);
+            color_led_randomize();
+            animate_led_spell_and_sparkle(STRIP_NUM_1, STRIP_NUM_2, true, 0);
+            if (animation_iterations >= 2)
+            {
+                g_loop_led_state = LED_STATE_CYCLONE_BOUNCE;
+                animation_iterations = -1;
+            }
+        break;
+
+        case LED_STATE_SPELL_SPARKLE_NO_FILL:
+            animate_led_spell_and_sparkle(STRIP_NUM_2, STRIP_NUM_1, false, 0);
+            color_led_randomize();
+            animate_led_spell_and_sparkle(STRIP_NUM_2, STRIP_NUM_1, false, 0);
+            color_led_randomize();
+            animate_led_spell_and_sparkle(STRIP_NUM_1, STRIP_NUM_2, false, 0);
+            color_led_randomize();
+            animate_led_spell_and_sparkle(STRIP_NUM_1, STRIP_NUM_2, false, 0);
+            if (animation_iterations >= 2)
+            {
+                g_loop_led_state = LED_STATE_CYCLONE_BOUNCE;
+                animation_iterations = -1;
+            }
+        break;
+        
         
         case LED_STATE_CYCLONE_BOUNCE:
 #if defined(SERIAL_DEBUG)
@@ -218,22 +270,25 @@ void loop()
             animate_led_cyclone_bounce(ALL_STRIPS, eye_size, 0, 0);
             if (animation_iterations >= 4)
             {
-                g_loop_led_state = LED_STATE_SPARKLE;
+                g_loop_led_state = LED_STATE_SPARKLE_FILL;
                 animation_iterations = -1;
             }
         break;
 
-        case LED_STATE_SPARKLE:
+        case LED_STATE_SPARKLE_NO_FILL:
 #if defined(SERIAL_DEBUG)
             Serial.println("STATE_SPARKLE");
 #endif
             Serial.println("TEST");
-            animate_led_sparkle(ALL_STRIPS, animate_led_delay_in_animations());
-            if (animation_iterations >= 200)
-            {
-                g_loop_led_state = LED_STATE_RAINBOW_CYCLE;
-                animation_iterations = -1;
-            }
+            animate_led_sparkle_random_color(ALL_STRIPS, false, 100);
+        break;
+
+        case LED_STATE_SPARKLE_FILL:
+#if defined(SERIAL_DEBUG)
+            Serial.println("STATE_SPARKLE");
+#endif
+            Serial.println("TEST");
+            animate_led_sparkle_random_color(ALL_STRIPS, true, 0);
         break;
         /*
         case LED_STATE_RUNNING_LIGHTS:
@@ -253,7 +308,7 @@ void loop()
 #if defined(SERIAL_DEBUG)
             Serial.println("STATE_RAINBOW_CYCLE");
 #endif
-            g_state_short_circuit_flag = true;
+            //g_state_short_circuit_flag = true;
             animate_led_solid_custom_color(STRIP_NUM_2, 255, 0, 0);
             animate_led_rainbow_cycle(STRIP_NUM_1, 0);//animate_led_delay_in_animations());
             g_loop_led_state = LED_STATE_THEATER_CHASE;
@@ -325,7 +380,7 @@ void loop()
 #endif        
         break;
     }
-    color_led_randomize();color_led_randomize();
+    color_led_randomize();
     animation_iterations++;
 }
 

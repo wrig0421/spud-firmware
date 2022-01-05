@@ -86,12 +86,17 @@ typedef enum
     //LED_STATE_FADE_IN_AND_OUT_RANDOM,
     LED_STATE_SOLID_COLOR,
 	LED_STATE_STROBE,
+	LED_STATE_SPELL_SOLID_RANDOM_COLOR,
+	LED_STATE_SPELL_SOLID_WHITE_COLOR,
+	LED_STATE_SPELL_SPARKLE_FILL,
+	LED_STATE_SPELL_SPARKLE_NO_FILL,
 	LED_STATE_SPELL,
     //LED_STATE_KITT,
     LED_STATE_CYCLONE_BOUNCE,
     //LED_STATE_RANDOM,
-    LED_STATE_SPARKLE,
-    LED_STATE_RUNNING_LIGHTS,
+    LED_STATE_SPARKLE_NO_FILL,
+    LED_STATE_SPARKLE_FILL,
+   //LED_STATE_RUNNING_LIGHTS,
     LED_STATE_RAINBOW_CYCLE,
     LED_STATE_THEATER_CHASE,
     LED_STATE_THEATER_CHASE_RAINBOW,
@@ -139,7 +144,7 @@ void animate_led_set_all_pixels(strip_num_e strip, byte red, byte green, byte bl
 void animate_led_state_randomize(void);
 void animate_led_cyclone_bounce(strip_num_e strip);
 void animate_led_fade_in_fade_out(strip_num_e strip);
-void animate_led_sparkle_random_color(strip_num_e strip, uint16_t speed_delay);
+void animate_led_sparkle_random_color(strip_num_e strip, bool fill, uint16_t speed_delay);
 void animate_led_strobe(strip_num_e strip, uint16_t animate_led_strobe_count, uint16_t flash_delay, uint16_t end_pause);
 void animate_led_cyclone_bounce(strip_num_e strip, uint16_t eye_size, uint16_t speed_delay, uint16_t return_delay);
 void animate_led_new_kitt(strip_num_e strip, uint16_t eye_size, uint16_t speed_delay, uint16_t return_delay);
@@ -159,6 +164,7 @@ void animate_led_theater_chase_rainbow(strip_num_e strip, uint16_t speed_delay);
 void animate_led_bouncing_balls(strip_num_e strip, int ball_count);
 void animate_led_meteor_rain(strip_num_e strip, byte meteor_size, byte meteor_trail_decay, bool meteor_random_decay, int speed_delay);
 void animate_led_fade_to_black(strip_num_e strip, int led_no, byte fade_value);
+void animate_led_spell_and_sparkle(strip_num_e spell_strip, strip_num_e sparkle_strip, bool fill, uint16_t speed_delay);
 float animate_led_delay_in_animations(void);
 uint16_t animate_led_delay_between_animations(void);
 uint32_t animate_led_iterations(void);
