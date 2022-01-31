@@ -2,7 +2,6 @@
 #include "color_led.h"
 
 //#define COLOR_LED_MAX_BRIGHTNESS_DIVISOR	(10)
-#define COLOR_LED_MAX_BRIGHTNESS_DIVISOR	(2)
 
 
 color_hex_code_e g_color_hex_codes[NUM_COLORS];;
