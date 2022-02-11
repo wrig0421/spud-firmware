@@ -49,6 +49,7 @@ typedef enum
     NUM_COLORS
 } all_colors_e;
 
+uint32_t color_led_get_random_color(void);
 void color_led_reset_color(void);
 bool color_led_adjust_color(void);
 color_hex_code_e color_led_cur_color_hex(void);

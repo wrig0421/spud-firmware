@@ -1,3 +1,5 @@
+// MN WILD SRW
+
 typedef enum
 {
     PIN_RELAY_LEFT_STROBE = 10, // or 9,10,11
@@ -43,9 +45,7 @@ static void handle_interrupt(void)
     pinMode(PIN_AUDIO_TRIG_0, OUTPUT);
     digitalWrite(PIN_AUDIO_TRIG_0, AUDIO_ON);
     delay(125);
-    //delay(10000);
     pinMode(PIN_AUDIO_TRIG_0, INPUT);
-    //delay(3000);
     pinMode(PIN_AUDIO_TRIG_0, OUTPUT);
 }
 
@@ -53,13 +53,17 @@ static void reset_io(void)
 {
     digitalWrite(PIN_RELAY_LEFT_STROBE, STROBE_OFF);
     digitalWrite(PIN_RELAY_RIGHT_STROBE, STROBE_OFF); 
+    pinMode((byte)PIN_AUDIO_TRIG_0, OUTPUT);
+    pinMode((byte)PIN_AUDIO_TRIG_1, OUTPUT);
+    digitalWrite(PIN_AUDIO_TRIG_0, AUDIO_OFF);
+    digitalWrite(PIN_AUDIO_TRIG_1, AUDIO_OFF);  
 }
 
 
 void setup() 
 {
 #if defined(ENABLE_SERIAL_DEBUG)
-    Serial.begin(9600);
+    Serial.begin(115200);
 #endif
     //delay(3000);
     // put your setup code here, to run once:
@@ -79,31 +83,19 @@ void setup()
 void loop() 
 {
     digitalWrite(PIN_AUDIO_TRIG_1, AUDIO_OFF); 
-#if 0
-    digitalWrite(PIN_AUDIO_TRIG_1, AUDIO_OFF); 
-    while(1)
-    {
-
-        digitalWrite(PIN_AUDIO_TRIG_0, AUDIO_ON);
-        delay(125);
-        //delay(10000);
-        pinMode(PIN_AUDIO_TRIG_0, INPUT);
-        delay(3000);
-        pinMode(PIN_AUDIO_TRIG_0, OUTPUT);
-        
-    }
-#endif
-#if 1
     // put your main code here, to run repeatedly:
     if (remote_interrupt_detected())
     {
+        
         //noInterrupts();
         handle_interrupt();
 #if defined(ENABLE_SERIAL_DEBUG)
         Serial.println("Interrupts handled");
         Serial.println("delaying");
 #endif
-        delay(60000);
+        delay(168000);
+        Serial.println("After 60 second delay");
+        g_remote_interrupt_detected = false;
         //delay(g_active_time_ms);
         reset_io();
 #if defined(ENABLE_SERIAL_DEBUG)
@@ -112,7 +104,6 @@ void loop()
         //delay(3000);
         //interrupts();
     }
-#endif
 }
 
 
@@ -120,9 +111,11 @@ void isr_remote(void)
 {
     if ((millis() - g_isr_timestamp_ms) > g_debounce_delay_ms)
     {
+        /*
 #if defined(ENABLE_SERIAL_DEBUG)
-    Serial.println("REMOTE_ISR");
+        Serial.println("REMOTE_ISR");
 #endif
+        */
         g_isr_timestamp_ms = millis();
         g_remote_interrupt_detected = true;
     }

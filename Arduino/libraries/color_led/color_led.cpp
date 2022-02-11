@@ -22,6 +22,14 @@ void color_led_init(void)
     g_color_hex_codes[COLORS_NAVY] = COLOR_HEX_NAVY;
 }
 
+
+uint32_t color_led_get_random_color(void)
+{
+	uint32_t random_color = (random(0, 255) << 16) | (random(0, 255) << 8) | (random(0, 255));
+	return random_color;
+}
+
+
 void color_led_reset_color(void)
 {
 	g_led_color = COLORS_RED;
