@@ -2,7 +2,7 @@
 #if !defined(COLOR_LED_H)
 #define COLOR_LED_H
 
-#define COLOR_LED_MAX_BRIGHTNESS_DIVISOR	(2)
+#define COLOR_LED_MAX_BRIGHTNESS_DIVISOR	(1)
 
 typedef enum
 {
