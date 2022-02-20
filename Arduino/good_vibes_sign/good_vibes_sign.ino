@@ -3,7 +3,8 @@
 #include <FastLED.h>
 
 // static definitions
-//#define SERIAL_DEBUG // define to print debug messages
+#define SERIAL_DEBUG // define to print debug messages
+//#define TEST_MODE // increment through each state.. 
 //#define ENABLE_EXT_INTERRUPTS
 
 // typedefs, structs, enums
@@ -33,7 +34,9 @@ typedef enum
     ANIMATION_LOOP_ITERATIONS_7,
     ANIMATION_LOOP_ITERATIONS_8,
     ANIMATION_LOOP_ITERATIONS_9,
-    ANIMATION_LOOP_ITERATIONS_10
+    ANIMATION_LOOP_ITERATIONS_10,
+    ANIMATION_LOOP_ITERATIONS_50 = 50,
+    ANIMATION_LOOP_ITERATIONS_100 = 100
 } animation_loop_iterations_e;
 
 
@@ -62,7 +65,7 @@ void isr_pause(void);
 master_led_state_e g_master_led_state = MASTER_LED_STATE_DEMO; 
 master_color_state_e g_master_color_state = MASTER_COLOR_STATE_DEMO;
 uint8_t g_animation_iterations = 0;
-led_state_e g_loop_led_state = LED_STATE_SPELL_SOLID_RANDOM_COLOR;
+led_state_e g_loop_led_state = LED_STATE_FADE_IN_AND_OUT_MULTIPLE_COLORS;
 
 unsigned long g_isr_times[NUM_ISR] = {0};
 unsigned long g_debounce_delay = 2000; // ms
@@ -109,7 +112,7 @@ void dbg_serial_print(void)
     if (MASTER_COLOR_STATE_FIXED == g_master_color_state) Serial.println("MASTER LED COLOR STATE FIXED");
     else Serial.println("MASTER LED COLOR DEMO");
     Serial.println("Animation_iteration: ");
-    Serial.println(animate_led_iterations(), DEC); // print iteration count
+    Serial.println(g_animation_iterations, DEC); // print iteration count
     switch (g_loop_led_state)
     {
         case LED_STATE_WHITE_COLOR:
@@ -163,6 +166,9 @@ void dbg_serial_print(void)
         case LED_STATE_FADE_IN_AND_OUT_MULTIPLE_COLORS:
             Serial.println("LED_STATE_FADE_IN_AND_OUT_MULTIPLE_COLORS");
         break;
+        case LED_STATE_TWINKLE_MULTIPLE_COLORS:
+            Serial.println("LED_STATE_TWINKLE_MULTIPLE_COLORS");
+        break;
         case LED_STATE_TWINKLE:
             Serial.println("LED_STATE_TWINKLE");
         break;
@@ -181,7 +187,12 @@ void handle_count_color_delay(const animation_loop_iterations_e max_iterations, 
     {
         if (max_iterations == g_animation_iterations)
         {
+#if defined(TEST_MODE)
+            g_loop_led_state = (led_state_e) (g_loop_led_state + 1);
+            if (NUM_LED_STATES == g_loop_led_state) g_loop_led_state = LED_STATE_FIRST;
+#else
             g_loop_led_state = animate_led_state_randomize(g_loop_led_state);
+#endif
             g_animation_iterations = 0;
         }
     }
@@ -203,6 +214,9 @@ void setup(void)
 #endif
     color_led_init();
     animate_led_init();
+    animate_led_turn_all_pixels_off();
+    g_loop_led_state = animate_led_state_randomize(g_loop_led_state);
+    delay(1000);
 }
 
 
@@ -260,7 +274,7 @@ void loop(void)
         break;
         case LED_STATE_TWINKLE:
             animate_led_turn_all_pixels_off();
-            animate_led_twinkle(STRIP_BIT_ALL_SET, color_led_get_random_color(), NUM_LEDS - 160, animate_led_delay_in_animations(), false);
+            animate_led_twinkle(STRIP_BIT_ALL_SET, color_led_get_random_color(), (uint32_t)((float)NUM_LEDS * (float)0.1), animate_led_delay_in_animations(), false);
             handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_3, ANIMATION_DELAY_MS_0);
         break;
         case LED_STATE_SPELL:
@@ -275,19 +289,22 @@ void loop(void)
 #endif
 #if defined(MULTIPLE_STRIPS)
         case LED_STATE_FADE_IN_AND_OUT_MULTIPLE_COLORS:
+            animate_led_turn_all_pixels_off();
             // only works when more than one strip is defined
-            for (int iii = 0; iii < animate_led_get_number_of_active_strips(STRIP_BIT_2 | STRIP_BIT_1); iii++)
+            for (int iii = 0; iii <= animate_led_get_number_of_active_strips(STRIP_BIT_2 | STRIP_BIT_1); iii++)
             {
                 g_random_color_array[iii] = color_led_get_random_color();
             }
             animate_led_fade_in_fade_out_multiple_colors(STRIP_BIT_1 | STRIP_BIT_2, g_random_color_array);
-            handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_5, ANIMATION_DELAY_MS_0);
+            handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_5, ANIMATION_DELAY_MS_1000);
         break;
         case LED_STATE_MULTIPLE_COLORS:  
-            for (int iii = 0; iii < animate_led_get_number_of_active_strips(STRIP_BIT_2 | STRIP_BIT_1); iii++) g_random_color_array[iii] = color_led_get_random_color();
+            for (int iii = 0; iii <= animate_led_get_number_of_active_strips(STRIP_BIT_2 | STRIP_BIT_1); iii++) 
+            {
+                g_random_color_array[iii] = color_led_get_random_color();
+            }
             animate_led_multiple_solid_custom_colors(STRIP_BIT_1 | STRIP_BIT_2, g_random_color_array);
-            delay(5000);
-            handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_5, ANIMATION_DELAY_MS_0);
+            handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_5, ANIMATION_DELAY_MS_5000);
         break;
         case LED_STATE_RAINBOW_CYCLE_TWO_TONE:
             animate_led_solid_custom_color(STRIP_BIT_2, color_led_get_random_color());
@@ -295,21 +312,25 @@ void loop(void)
             handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_2, ANIMATION_DELAY_MS_0);
         break;
         case LED_STATE_THEATER_CHASE_MULTIPLE_COLORS:
-            animate_led_theater_chase_multiple_colors(STRIP_BIT_1 | STRIP_BIT_2, g_random_color_array, 0);
-            g_loop_led_state = LED_STATE_TWINKLE;
-            handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_2, ANIMATION_DELAY_MS_0);
-        break;
-        case LED_STATE_TWINKLE_MULTIPLE_COLORS:
-            for (int iii = 0; iii < animate_led_get_number_of_active_strips(STRIP_BIT_2 | STRIP_BIT_1); iii++)
+            for (int iii = 0; iii <= animate_led_get_number_of_active_strips(STRIP_BIT_2 | STRIP_BIT_1); iii++) 
             {
                 g_random_color_array[iii] = color_led_get_random_color();
             }
-            animate_led_twinkle_multiple_colors(STRIP_BIT_ALL_SET, g_random_color_array, NUM_LEDS - 160, animate_led_delay_in_animations(), false);
+            animate_led_theater_chase_multiple_colors(STRIP_BIT_1 | STRIP_BIT_2, g_random_color_array, 0);
+            handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_5, ANIMATION_DELAY_MS_0);
+        break;
+        case LED_STATE_TWINKLE_MULTIPLE_COLORS:
+            animate_led_turn_all_pixels_off();
+            for (int iii = 0; iii <= animate_led_get_number_of_active_strips(STRIP_BIT_2 | STRIP_BIT_1); iii++)
+            {
+                g_random_color_array[iii] = color_led_get_random_color();
+            }
+            animate_led_twinkle_multiple_colors(STRIP_BIT_ALL_SET, g_random_color_array, (uint32_t)((float)NUM_LEDS * (float)0.1), ANIMATION_DELAY_MS_0, false);
             handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_3, ANIMATION_DELAY_MS_0);
         break;
         case LED_STATE_SPELL_MULTIPLE_COLORS:
             // only works when more than one strip is defined
-            for (int iii = 0; iii < animate_led_get_number_of_active_strips(STRIP_BIT_2 | STRIP_BIT_1); iii++)
+            for (int iii = 0; iii <= animate_led_get_number_of_active_strips(STRIP_BIT_2 | STRIP_BIT_1); iii++)
             {
                 g_random_color_array[iii] = color_led_get_random_color();
             }
@@ -328,7 +349,7 @@ void loop(void)
         break;
         case LED_STATE_SPELL_SPARKLE_NO_FILL:
             if (random_true_or_false()) animate_led_spell_and_sparkle(STRIP_BIT_2, STRIP_BIT_1, color_led_get_random_color(), true, 0);
-            else animate_led_spell_and_sparkle(STRIP_BIT_1, STRIP_BIT_2, color_led_get_random_color(), true, 0);
+            else animate_led_spell_and_sparkle(STRIP_BIT_1, STRIP_BIT_2, color_led_get_random_color(), false, 0);
             handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_5, ANIMATION_DELAY_MS_0);
         break;
 #endif
