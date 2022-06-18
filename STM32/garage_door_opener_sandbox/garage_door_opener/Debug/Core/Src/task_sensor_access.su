@@ -1,7 +1,0 @@
-task_sensor_access.c:32:6:task_sensor_access_reset_btn_pause	4	static
-task_sensor_access.c:38:6:task_sensor_access_set_btn_pause	4	static
-task_sensor_access.c:44:6:task_sensor_access_btn_pause	4	static
-task_sensor_access.c:50:6:set_screen_refresh	4	static
-task_sensor_access.c:56:17:gt521fx_current_state	4	static
-task_sensor_access.c:62:6:gt521fx_set_state	16	static
-task_sensor_access.c:70:6:task_sensor_access_entry	24	static

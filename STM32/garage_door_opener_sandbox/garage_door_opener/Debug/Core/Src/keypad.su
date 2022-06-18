@@ -1,5 +1,0 @@
-keypad.c:35:6:keypad_init	16	static
-keypad.c:46:6:keypad_password_check	24	static
-keypad.c:53:9:keypad_lookup	16	static
-keypad.c:59:9:keypad_button_pressed	4	static
-keypad.c:65:6:keypad_scan	24	static

@@ -1,0 +1,84 @@
+/*
+ * board.h
+ *
+ *  Created on: Mar 31, 2021
+ *      Author: spud
+ */
+
+#ifndef SRC_BOARD_H_
+#define SRC_BOARD_H_
+
+#include "stm32l4xx_hal.h"
+
+#define PORTA		GPIOA
+#define PIOA_PIN0	GPIO_PIN_0
+#define PIOA_PIN1	GPIO_PIN_1
+#define PIOA_PIN2	GPIO_PIN_2
+#define PIOA_PIN3	GPIO_PIN_3
+#define PIOA_PIN4	GPIO_PIN_4
+#define PIOA_PIN5	GPIO_PIN_5
+#define PIOA_PIN6	GPIO_PIN_6
+#define PIOA_PIN7	GPIO_PIN_7
+#define PIOA_PIN8	GPIO_PIN_8
+#define PIOA_PIN9	GPIO_PIN_9
+#define PIOA_PIN10	GPIO_PIN_10
+#define PIOA_PIN11	GPIO_PIN_11
+#define PIOA_PIN12	GPIO_PIN_12
+#define PIOA_PIN13	GPIO_PIN_13
+#define PIOA_PIN14	GPIO_PIN_14
+#define PIOA_PIN15	GPIO_PIN_15
+
+#define PORTB		GPIOB
+#define PIOB_PIN0	GPIO_PIN_0
+#define PIOB_PIN1	GPIO_PIN_1
+#define PIOB_PIN2	GPIO_PIN_2
+#define PIOB_PIN3	GPIO_PIN_3
+#define PIOB_PIN4	GPIO_PIN_4
+#define PIOB_PIN5	GPIO_PIN_5
+#define PIOB_PIN6	GPIO_PIN_6
+#define PIOB_PIN7	GPIO_PIN_7
+#define PIOB_PIN8	GPIO_PIN_8
+#define PIOB_PIN9	GPIO_PIN_9
+#define PIOB_PIN10	GPIO_PIN_10
+#define PIOB_PIN11	GPIO_PIN_11
+#define PIOB_PIN12	GPIO_PIN_12
+#define PIOB_PIN13	GPIO_PIN_13
+#define PIOB_PIN14	GPIO_PIN_14
+#define PIOB_PIN15	GPIO_PIN_15
+
+#define PORTC		GPIOC
+#define PIOC_PIN13	GPIO_PIN_13
+#define PIOC_PIN14	GPIO_PIN_14
+#define PIOC_PIN15	GPIO_PIN_15
+
+#define PORTH		GPIOH
+#define PIOH_PIN0	GPIO_PIN_0
+#define PIOH_PIN1	GPIO_PIN_1
+#define PIOH_PIN3	GPIO_PIN_3
+
+// PORTA
+#define INT2						PIOA_PIN0
+#define INT3						PIOA_PIN2
+#define LVL_SHIFTER_EN				PIOA_PIN4
+#define STM32_LED_STRIP_OUT			PIOA_PIN5
+#define SWDIO						PIOA_PIN13
+#define SWCLK						PIOA_PIN14
+#define TDI							PIOA_PIN15
+
+// PORTB
+#define RED_LED						PIOB_PIN0
+#define GRN_LED						PIOB_PIN1
+#define SWO							PIOB_PIN3
+#define NJTRST						PIOB_PIN4
+#define I2C1_SCL					PIOB_PIN6
+#define I2C1_SDA					PIOB_PIN7
+#define STM32_LED_STRIP_OUT_BACKUP	PIOB_PIN10
+
+// PORTC
+#define INT1						PIOC_PIN13
+
+#define	IOPORT_PIN_LEVEL_LOW		GPIO_PIN_RESET
+#define	IOPORT_PIN_LEVEL_HIGH		GPIO_PIN_SET
+
+
+#endif /* SRC_BOARD_H_ */

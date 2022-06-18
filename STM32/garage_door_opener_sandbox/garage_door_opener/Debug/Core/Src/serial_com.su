@@ -1,6 +1,0 @@
-serial_com.c:57:6:HAL_UART_RxCpltCallback	16	static
-serial_com.c:66:6:serial_com_init_all	8	static
-serial_com.c:77:6:pkt_received	4	static
-serial_com.c:90:6:clear_pkt_received_flag	4	static
-serial_com.c:103:6:task_sensor_tx_entry	16	static
-serial_com.c:123:6:sensor_rx_entry	16	static

@@ -1,0 +1,630 @@
+/* USER CODE BEGIN Header */
+/**
+  ******************************************************************************
+  * @file           : main.c
+  * @brief          : Main program body
+  ******************************************************************************
+  * @attention
+  *
+  * <h2><center>&copy; Copyright (c) 2020 STMicroelectronics.
+  * All rights reserved.</center></h2>
+  *
+  * This software component is licensed by ST under Ultimate Liberty license
+  * SLA0044, the "License"; You may not use this file except in compliance with
+  * the License. You may obtain a copy of the License at:
+  *                             www.st.com/SLA0044
+  *
+  ******************************************************************************
+  */
+/* USER CODE END Header */
+/* Includes ------------------------------------------------------------------*/
+#include "main.h"
+#include "cmsis_os.h"
+
+/* Private includes ----------------------------------------------------------*/
+/* USER CODE BEGIN Includes */
+#include "packet_def.h"
+#include "packet_queue.h"
+#include <string.h>
+#include "gt_521fx_driver.h"
+#include "ssd1351_driver.h"
+/* USER CODE END Includes */
+
+/* Private typedef -----------------------------------------------------------*/
+typedef StaticTask_t osStaticThreadDef_t;
+typedef StaticQueue_t osStaticMessageQDef_t;
+/* USER CODE BEGIN PTD */
+
+/* USER CODE END PTD */
+
+/* Private define ------------------------------------------------------------*/
+/* USER CODE BEGIN PD */
+/* USER CODE END PD */
+
+/* Private macro -------------------------------------------------------------*/
+/* USER CODE BEGIN PM */
+
+/* USER CODE END PM */
+
+/* Private variables ---------------------------------------------------------*/
+SPI_HandleTypeDef hspi2;
+
+UART_HandleTypeDef huart1;
+DMA_HandleTypeDef hdma_usart1_rx;
+DMA_HandleTypeDef hdma_usart1_tx;
+
+/* Definitions for defaultTask */
+osThreadId_t defaultTaskHandle;
+uint32_t defaultTaskBuffer[ 128 ];
+osStaticThreadDef_t defaultTaskControlBlock;
+const osThreadAttr_t defaultTask_attributes = {
+  .name = "defaultTask",
+  .stack_mem = &defaultTaskBuffer[0],
+  .stack_size = sizeof(defaultTaskBuffer),
+  .cb_mem = &defaultTaskControlBlock,
+  .cb_size = sizeof(defaultTaskControlBlock),
+  .priority = (osPriority_t) osPriorityNormal,
+};
+
+
+/* Definitions for task_sensor_rx */
+osThreadId_t task_sensor_rxHandle;
+uint32_t task_sensor_rxBuffer[ 128 ];
+osStaticThreadDef_t task_sensor_rxControlBlock;
+const osThreadAttr_t task_sensor_rx_attributes = {
+  .name = "task_sensor_rx",
+  .stack_mem = &task_sensor_rxBuffer[0],
+  .stack_size = sizeof(task_sensor_rxBuffer),
+  .cb_mem = &task_sensor_rxControlBlock,
+  .cb_size = sizeof(task_sensor_rxControlBlock),
+  .priority = (osPriority_t) osPriorityLow,
+};
+/* Definitions for task_sensor_tx */
+osThreadId_t task_sensor_txHandle;
+uint32_t task_sensor_txBuffer[ 128 ];
+osStaticThreadDef_t task_sensor_txControlBlock;
+const osThreadAttr_t task_sensor_tx_attributes = {
+  .name = "task_sensor_tx",
+  .stack_mem = &task_sensor_txBuffer[0],
+  .stack_size = sizeof(task_sensor_txBuffer),
+  .cb_mem = &task_sensor_txControlBlock,
+  .cb_size = sizeof(task_sensor_txControlBlock),
+  .priority = (osPriority_t) osPriorityLow,
+};
+/* Definitions for task_sensor_acc */
+osThreadId_t task_sensor_accHandle;
+uint32_t task_sensor_accBuffer[ 128 ];
+osStaticThreadDef_t task_sensor_accControlBlock;
+const osThreadAttr_t task_sensor_acc_attributes = {
+  .name = "task_sensor_acc",
+  .stack_mem = &task_sensor_accBuffer[0],
+  .stack_size = sizeof(task_sensor_accBuffer),
+  .cb_mem = &task_sensor_accControlBlock,
+  .cb_size = sizeof(task_sensor_accControlBlock),
+  .priority = (osPriority_t) osPriorityLow,
+};
+/* Definitions for task_display_update */
+osThreadId_t task_display_upHandle;
+uint32_t task_display_upBuffer[ 128 ];
+osStaticThreadDef_t task_display_upControlBlock;
+const osThreadAttr_t task_display_up_attributes = {
+  .name = "task_display_up",
+  .stack_mem = &task_display_upBuffer[0],
+  .stack_size = sizeof(task_display_upBuffer),
+  .cb_mem = &task_display_upControlBlock,
+  .cb_size = sizeof(task_display_upControlBlock),
+  .priority = (osPriority_t) osPriorityLow,
+};
+
+
+#if 0
+/* Definitions for sensor_rx_queue */
+osMessageQueueId_t sensor_rx_queueHandle;
+uint8_t sensor_rx_queueBuffer[ 16 * sizeof( uint16_t ) ];
+osStaticMessageQDef_t sensor_rx_queueControlBlock;
+const osMessageQueueAttr_t sensor_rx_queue_attributes = {
+  .name = "sensor_rx_queue",
+  .cb_mem = &sensor_rx_queueControlBlock,
+  .cb_size = sizeof(sensor_rx_queueControlBlock),
+  .mq_mem = &sensor_rx_queueBuffer,
+  .mq_size = sizeof(sensor_rx_queueBuffer)
+};
+/* Definitions for sensor_tx_queue */
+osMessageQueueId_t sensor_tx_queueHandle;
+uint8_t sensor_tx_queueBuffer[ 16 * sizeof( uint16_t ) ];
+osStaticMessageQDef_t sensor_tx_queueControlBlock;
+const osMessageQueueAttr_t sensor_tx_queue_attributes = {
+  .name = "sensor_tx_queue",
+  .cb_mem = &sensor_tx_queueControlBlock,
+  .cb_size = sizeof(sensor_tx_queueControlBlock),
+  .mq_mem = &sensor_tx_queueBuffer,
+  .mq_size = sizeof(sensor_tx_queueBuffer)
+};
+#endif
+/* USER CODE BEGIN PV */
+
+/* USER CODE END PV */
+
+/* Private function prototypes -----------------------------------------------*/
+void SystemClock_Config(void);
+static void MX_GPIO_Init(void);
+static void MX_DMA_Init(void);
+static void MX_SPI2_Init(void);
+static void MX_USART1_UART_Init(void);
+void StartDefaultTask(void *argument);
+void sensor_rx_entry(void *argument);
+void task_sensor_tx_entry(void *argument);
+void task_sensor_access_entry(void *argument);
+void task_display_update_entry(void *argument);
+
+/* USER CODE BEGIN PFP */
+
+/* USER CODE END PFP */
+
+/* Private user code ---------------------------------------------------------*/
+/* USER CODE BEGIN 0 */
+
+/* USER CODE END 0 */
+
+/**
+  * @brief  The application entry point.
+  * @retval int
+  */
+int main(void)
+{
+  /* USER CODE BEGIN 1 */
+
+  /* USER CODE END 1 */
+
+  /* MCU Configuration--------------------------------------------------------*/
+
+  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+  HAL_Init();
+
+  /* USER CODE BEGIN Init */
+
+  /* USER CODE END Init */
+
+  /* Configure the system clock */
+  SystemClock_Config();
+
+  /* USER CODE BEGIN SysInit */
+
+  /* USER CODE END SysInit */
+
+  /* Initialize all configured peripherals */
+  MX_GPIO_Init();
+  MX_DMA_Init();
+  MX_SPI2_Init();
+  MX_USART1_UART_Init();
+  /* USER CODE BEGIN 2 */
+
+  /* USER CODE END 2 */
+
+  /* Init scheduler */
+  osKernelInitialize();
+
+  /* USER CODE BEGIN RTOS_MUTEX */
+  /* add mutexes, ... */
+  /* USER CODE END RTOS_MUTEX */
+
+  /* USER CODE BEGIN RTOS_SEMAPHORES */
+  /* add semaphores, ... */
+  /* USER CODE END RTOS_SEMAPHORES */
+
+  /* USER CODE BEGIN RTOS_TIMERS */
+  /* start timers, add new ones, ... */
+  /* USER CODE END RTOS_TIMERS */
+
+  /* Create the queue(s) */
+  packet_queue_init();
+  ssd1351_init();
+
+  ssd1351_printf("123456789123456789123456789123456789");
+  while(1);
+
+  /* USER CODE BEGIN RTOS_QUEUES */
+  /* add queues, ... */
+  /* USER CODE END RTOS_QUEUES */
+
+  /* Create the thread(s) */
+  /* creation of defaultTask */
+  defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
+
+  /* creation of task_sensor_rx */
+  task_sensor_rxHandle = osThreadNew(sensor_rx_entry, NULL, &task_sensor_rx_attributes);
+
+  /* creation of task_sensor_tx */
+  task_sensor_txHandle = osThreadNew(task_sensor_tx_entry, NULL, &task_sensor_tx_attributes);
+
+  /* creation of task_sensor_acc */
+  task_sensor_accHandle = osThreadNew(task_sensor_access_entry, NULL, &task_sensor_acc_attributes);
+
+  /* create task_display_up */
+  task_display_upHandle = osThreadNew(task_display_update_entry, NULL, &task_display_up_attributes);
+
+  /* USER CODE BEGIN RTOS_THREADS */
+  /* add threads, ... */
+  /* USER CODE END RTOS_THREADS */
+
+  /* Start scheduler */
+  osKernelStart();
+
+  /* We should never get here as control is now taken by the scheduler */
+  /* Infinite loop */
+  /* USER CODE BEGIN WHILE */
+  while (1)
+  {
+    /* USER CODE END WHILE */
+
+    /* USER CODE BEGIN 3 */
+  }
+  /* USER CODE END 3 */
+}
+
+/**
+  * @brief System Clock Configuration
+  * @retval None
+  */
+void SystemClock_Config(void)
+{
+  RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+  RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+  RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
+
+  /** Initializes the RCC Oscillators according to the specified parameters
+  * in the RCC_OscInitTypeDef structure.
+  */
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_MSI;
+  RCC_OscInitStruct.MSIState = RCC_MSI_ON;
+  RCC_OscInitStruct.MSICalibrationValue = 0;
+  RCC_OscInitStruct.MSIClockRange = RCC_MSIRANGE_6;
+  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
+  if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /** Initializes the CPU, AHB and APB buses clocks
+  */
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_MSI;
+  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
+  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART1;
+  PeriphClkInit.Usart1ClockSelection = RCC_USART1CLKSOURCE_PCLK2;
+  if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /** Configure the main internal regulator output voltage
+  */
+  if (HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+}
+
+/**
+  * @brief SPI2 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_SPI2_Init(void)
+{
+
+  /* USER CODE BEGIN SPI2_Init 0 */
+
+  /* USER CODE END SPI2_Init 0 */
+
+  /* USER CODE BEGIN SPI2_Init 1 */
+
+  /* USER CODE END SPI2_Init 1 */
+  /* SPI2 parameter configuration*/
+  hspi2.Instance = SPI2;
+  hspi2.Init.Mode = SPI_MODE_MASTER;
+  hspi2.Init.Direction = SPI_DIRECTION_2LINES;
+  hspi2.Init.DataSize = SPI_DATASIZE_8BIT;
+  hspi2.Init.CLKPolarity = SPI_POLARITY_LOW;
+  hspi2.Init.CLKPhase = SPI_PHASE_1EDGE;
+  hspi2.Init.NSS = SPI_NSS_SOFT;
+  hspi2.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_2;
+  hspi2.Init.FirstBit = SPI_FIRSTBIT_MSB;
+  hspi2.Init.TIMode = SPI_TIMODE_DISABLE;
+  hspi2.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
+  hspi2.Init.CRCPolynomial = 7;
+  hspi2.Init.CRCLength = SPI_CRC_LENGTH_DATASIZE;
+  hspi2.Init.NSSPMode = SPI_NSS_PULSE_ENABLE;
+  if (HAL_SPI_Init(&hspi2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN SPI2_Init 2 */
+
+  /* USER CODE END SPI2_Init 2 */
+
+}
+
+/**
+  * @brief USART1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_USART1_UART_Init(void)
+{
+
+  /* USER CODE BEGIN USART1_Init 0 */
+
+  /* USER CODE END USART1_Init 0 */
+
+  /* USER CODE BEGIN USART1_Init 1 */
+
+  /* USER CODE END USART1_Init 1 */
+  huart1.Instance = USART1;
+  huart1.Init.BaudRate = 9600;
+  huart1.Init.WordLength = UART_WORDLENGTH_8B;
+  huart1.Init.StopBits = UART_STOPBITS_1;
+  huart1.Init.Parity = UART_PARITY_NONE;
+  huart1.Init.Mode = UART_MODE_TX_RX;
+  huart1.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart1.Init.OverSampling = UART_OVERSAMPLING_16;
+  huart1.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
+  huart1.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
+  if (HAL_UART_Init(&huart1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN USART1_Init 2 */
+
+  /* USER CODE END USART1_Init 2 */
+
+}
+
+/**
+  * Enable DMA controller clock
+  */
+static void MX_DMA_Init(void)
+{
+
+  /* DMA controller clock enable */
+  __HAL_RCC_DMA1_CLK_ENABLE();
+
+  /* DMA interrupt init */
+  /* DMA1_Channel4_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA1_Channel4_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(DMA1_Channel4_IRQn);
+  /* DMA1_Channel5_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA1_Channel5_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(DMA1_Channel5_IRQn);
+
+}
+
+/**
+  * @brief GPIO Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_GPIO_Init(void)
+{
+  GPIO_InitTypeDef GPIO_InitStruct = {0};
+
+  /* GPIO Ports Clock Enable */
+  __HAL_RCC_GPIOC_CLK_ENABLE();
+  __HAL_RCC_GPIOB_CLK_ENABLE();
+  __HAL_RCC_GPIOA_CLK_ENABLE();
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_8, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8|GPIO_PIN_11, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_6, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin : PC8 */
+  GPIO_InitStruct.Pin = GPIO_PIN_8;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : PA8 PA11 */
+  GPIO_InitStruct.Pin = GPIO_PIN_8|GPIO_PIN_11;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : PB6 */
+  GPIO_InitStruct.Pin = GPIO_PIN_6;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+}
+
+/* USER CODE BEGIN 4 */
+
+
+/*
+void task_usart_rx(void *arg)
+{
+	uint32_t tick_delay = pdMS_TO_TICKS(2000);
+	while(1)
+	{
+		vTaskDelay(tick_delay);
+	}
+}
+
+`
+void task_usart_tx(void *arg)
+{
+	uint32_t tick_delay = pdMS_TO_TICKS(2000);
+	while(1)
+	{
+		vTaskDelay(tick_delay);
+	}
+}
+*/
+
+/* USER CODE END 4 */
+
+/* USER CODE BEGIN Header_StartDefaultTask */
+/**
+  * @brief  Function implementing the defaultTask thread.
+  * @param  argument: Not used
+  * @retval None
+  */
+/* USER CODE END Header_StartDefaultTask */
+void StartDefaultTask(void *argument)
+{
+  /* USER CODE BEGIN 5 */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END 5 */
+}
+
+#define FREE_BUFFER_LENGTH 		20// in number of pkts
+#define CMD_BUFFER_LENGTH 		20// in number of pkts
+#define RSP_BUFFER_LENGTH 		20// in number of pkts
+
+p_packet_handle_t free_buffer[FREE_BUFFER_LENGTH];
+p_packet_handle_t cmd_buffer[CMD_BUFFER_LENGTH];
+//p_packet_handle_t rsp_buffer[RSP_BUFFER_LENGTH];
+p_packet_handle_t rsp_buffer;
+
+
+uint16_t g_free_buffer_index = 0;
+uint8_t rx_data[sizeof(pkt_t)] = {0};
+
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+	HAL_UART_Receive_DMA(&huart1, rx_data, sizeof(pkt_t));
+	memcpy(&rsp_buffer, rx_data, sizeof(pkt_t));
+	packet_enqueue_to_sensor_rx(rsp_buffer);
+}
+
+
+pkt_t sns_rx_pkt;
+/* USER CODE BEGIN Header_sensor_rx_entry */
+/**
+* @brief Function implementing the task_sensor_rx thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_sensor_rx_entry */
+void sensor_rx_entry(void *argument)
+{
+  /* USER CODE BEGIN sensor_rx_entry */
+  /* Infinite loop */
+	do
+	{
+		packet_dequeue_from_sensor_rx(&sns_rx_pkt);
+		packet_parse_rsp(&sns_rx_pkt);
+
+		osDelay(1);
+	} while(1);
+  /* USER CODE END sensor_rx_entry */
+}
+
+
+pkt_t sns_tx_pkt;
+
+/* USER CODE BEGIN Header_task_sensor_tx_entry */
+/**
+* @brief Function implementing the task_sensor_tx thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_task_sensor_tx_entry */
+void task_sensor_tx_entry(void *argument)
+{
+  /* USER CODE BEGIN task_sensor_tx_entry */
+  /* Infinite loop */
+  for(;;)
+  {
+	  packet_dequeue_from_sensor_tx(&sns_tx_pkt);
+	  HAL_UART_Transmit_DMA(&huart1, (uint8_t *)&sns_tx_pkt, sizeof(sns_tx_pkt));
+
+	  osDelay(1);
+  }
+  /* USER CODE END task_sensor_tx_entry */
+}
+
+/* USER CODE BEGIN Header_task_sensor_access_entry */
+/**
+* @brief Function implementing the task_sensor_acc thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_task_sensor_access_entry */
+void task_sensor_access_entry(void *argument)
+{
+  /* USER CODE BEGIN task_sensor_access_entry */
+  /* Infinite loop */
+  for(;;)
+  {
+	  osDelay(1);
+	  gt521fx_fingerprint_init();
+	  gt521fx_enroll_finger(3);
+	  while(1);
+
+  }
+  /* USER CODE END task_sensor_access_entry */
+}
+
+
+void task_display_update_entry(void *argument)
+{
+  /* USER CODE BEGIN task_sensor_access_entry */
+  /* Infinite loop */
+  for(;;)
+  {
+	  osDelay(1);
+	  gt521fx_fingerprint_init();
+	  gt521fx_enroll_finger(3);
+	  while(1);
+
+  }
+  /* USER CODE END task_sensor_access_entry */
+}
+
+
+/**
+  * @brief  This function is executed in case of error occurrence.
+  * @retval None
+  */
+void Error_Handler(void)
+{
+  /* USER CODE BEGIN Error_Handler_Debug */
+  /* User can add his own implementation to report the HAL error return state */
+
+  /* USER CODE END Error_Handler_Debug */
+}
+
+#ifdef  USE_FULL_ASSERT
+/**
+  * @brief  Reports the name of the source file and the source line number
+  *         where the assert_param error has occurred.
+  * @param  file: pointer to the source file name
+  * @param  line: assert_param error line source number
+  * @retval None
+  */
+void assert_failed(uint8_t *file, uint32_t line)
+{
+  /* USER CODE BEGIN 6 */
+  /* USER CODE END 6 */
+}
+#endif /* USE_FULL_ASSERT */
+/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
