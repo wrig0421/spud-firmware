@@ -3,23 +3,22 @@
 #include <stdbool.h>
 #include "FastLED.h"
 #include "color_led.h"
-#include "ws2812b.h"
 //#include <FastLED>
 #include "animate_led.h"
 
-//#define PIN_STRIP_1 8
-////#define PIN_STRIP_1 12
-//
-//#if defined(MULTIPLE_STRIPS)
-////#define PIN_STRIP_2 8
-//#define PIN_STRIP_2 12
-////#define PIN_STRIP_3
-////#define PIN_STRIP_5
-////#define PIN_STRIP_6
-////#define PIN_STRIP_7
-////#define PIN_STRIP_8
-////#define PIN_STRIP_9
-//#endif
+#define PIN_STRIP_1 8
+//#define PIN_STRIP_1 12
+
+#if defined(MULTIPLE_STRIPS)
+//#define PIN_STRIP_2 8 
+#define PIN_STRIP_2 12
+//#define PIN_STRIP_3 
+//#define PIN_STRIP_5 
+//#define PIN_STRIP_6 
+//#define PIN_STRIP_7 
+//#define PIN_STRIP_8  
+//#define PIN_STRIP_9 
+#endif
 
 // if strip is not in use then offset is 0 
 
@@ -519,7 +518,7 @@ led_state_e animate_led_state(void)
 
 void animate_led_show_strip(const strip_mask_t strip_mask)
 {
-	ws2812b_show(strip_mask);
+    FastLED.show();
 }
 
 

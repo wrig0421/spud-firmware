@@ -3,23 +3,22 @@
 #include <stdbool.h>
 #include "FastLED.h"
 #include "color_led.h"
-#include "ws2812b.h"
 //#include <FastLED>
 #include "animate_led.h"
 
-//#define PIN_STRIP_1 8
-////#define PIN_STRIP_1 12
-//
-//#if defined(MULTIPLE_STRIPS)
-////#define PIN_STRIP_2 8
-//#define PIN_STRIP_2 12
-////#define PIN_STRIP_3
-////#define PIN_STRIP_5
-////#define PIN_STRIP_6
-////#define PIN_STRIP_7
-////#define PIN_STRIP_8
-////#define PIN_STRIP_9
-//#endif
+#define PIN_STRIP_1 8
+//#define PIN_STRIP_1 12
+
+#if defined(MULTIPLE_STRIPS)
+//#define PIN_STRIP_2 8 
+#define PIN_STRIP_2 12
+//#define PIN_STRIP_3 
+//#define PIN_STRIP_5 
+//#define PIN_STRIP_6 
+//#define PIN_STRIP_7 
+//#define PIN_STRIP_8  
+//#define PIN_STRIP_9 
+#endif
 
 // if strip is not in use then offset is 0 
 
@@ -46,210 +45,210 @@ uint32_t g_iterations = 0;
 uint16_t g_num_leds = 0;
 uint16_t g_all_strip_mask = 0;
 
-//uint16_t animate_led_get_number_of_active_strips(const strip_mask_t strip_mask)
-//{
-//	uint16_t num_active_strips = 0;
-//	for (strip_bit_e iii = STRIP_BIT_1; iii < STRIP_BIT_NUM_STRIPS; iii = (strip_bit_e)(iii + 1))
-//	{
-//		if (iii & strip_mask) num_active_strips++;
-//	}
-//	return num_active_strips;
-//}
-//
-//// if STRIP_BIT_NO_MORE_SET returned then all bits have been encountered
-//static strip_bit_e animate_led_get_next_active_strip(const strip_mask_t strip_mask, const strip_bit_e prev_strip_bit)
-//{
-//	static bool first_pass = true;
-//	// STRIP_BIT_ALL_SET is not a valid option!
-//
-//	for (strip_bit_e iii = prev_strip_bit; iii <= STRIP_BIT_NUM_STRIPS; iii = (strip_bit_e)(iii + 1))
-//	{
-//		if (iii & strip_mask) return iii;
-//	}
-//	return STRIP_BIT_NO_MORE_SET;  // if this is returned
-//}
+uint16_t animate_led_get_number_of_active_strips(const strip_mask_t strip_mask)
+{
+	uint16_t num_active_strips = 0;
+	for (strip_bit_e iii = STRIP_BIT_1; iii < STRIP_BIT_NUM_STRIPS; iii = (strip_bit_e)(iii + 1))
+	{
+		if (iii & strip_mask) num_active_strips++;
+	}
+	return num_active_strips;
+}
+
+// if STRIP_BIT_NO_MORE_SET returned then all bits have been encountered 
+static strip_bit_e animate_led_get_next_active_strip(const strip_mask_t strip_mask, const strip_bit_e prev_strip_bit)
+{
+	static bool first_pass = true;
+	// STRIP_BIT_ALL_SET is not a valid option!  
+	
+	for (strip_bit_e iii = prev_strip_bit; iii <= STRIP_BIT_NUM_STRIPS; iii = (strip_bit_e)(iii + 1))
+	{
+		if (iii & strip_mask) return iii;
+	}
+	return STRIP_BIT_NO_MORE_SET;  // if this is returned 
+}
 
 
-//static uint16_t animate_led_get_num_active_animation_leds(const strip_mask_t strip_mask)
-//{
-//	uint16_t strip_size = 0;
-//	if (STRIP_BIT_ALL_SET == strip_mask) strip_size = g_num_leds;
-//	else
-//	{
-//#if defined(STRIP_1_LENGTH)
-//		if (STRIP_BIT_1 & strip_mask) strip_size += STRIP_1_LENGTH;
-//#endif
-//#if defined(STRIP_2_LENGTH)
-//		if (STRIP_BIT_2 & strip_mask) strip_size += STRIP_2_LENGTH;
-//#endif
-//#if defined(STRIP_3_LENGTH)
-//		if (STRIP_BIT_3 & strip_mask) strip_size += STRIP_3_LENGTH;
-//#endif
-//#if defined(STRIP_4_LENGTH)
-//		if (STRIP_BIT_4 & strip_mask) strip_size += STRIP_4_LENGTH;
-//#endif
-//#if defined(STRIP_5_LENGTH)
-//		if (STRIP_BIT_5 & strip_mask) strip_size += STRIP_5_LENGTH;
-//#endif
-//#if defined(STRIP_6_LENGTH)
-//		if (STRIP_BIT_6 & strip_mask) strip_size += STRIP_6_LENGTH;
-//#endif
-//#if defined(STRIP_7_LENGTH)
-//		if (STRIP_BIT_7 & strip_mask) strip_size += STRIP_7_LENGTH;
-//#endif
-//#if defined(STRIP_8_LENGTH)
-//		if (STRIP_BIT_8 & strip_mask) strip_size += STRIP_8_LENGTH;
-//#endif
-//#if defined(STRIP_9_LENGTH)
-//		if (STRIP_BIT_9 & strip_mask) strip_size += STRIP_9_LENGTH;
-//#endif
-//	}
-//	return strip_size;
-//}
+static uint16_t animate_led_get_num_active_animation_leds(const strip_mask_t strip_mask)
+{
+	uint16_t strip_size = 0;
+	if (STRIP_BIT_ALL_SET == strip_mask) strip_size = g_num_leds;
+	else
+	{
+#if defined(STRIP_1_LENGTH)
+		if (STRIP_BIT_1 & strip_mask) strip_size += STRIP_1_LENGTH;
+#endif
+#if defined(STRIP_2_LENGTH)
+		if (STRIP_BIT_2 & strip_mask) strip_size += STRIP_2_LENGTH;
+#endif
+#if defined(STRIP_3_LENGTH)
+		if (STRIP_BIT_3 & strip_mask) strip_size += STRIP_3_LENGTH;
+#endif
+#if defined(STRIP_4_LENGTH)
+		if (STRIP_BIT_4 & strip_mask) strip_size += STRIP_4_LENGTH;
+#endif
+#if defined(STRIP_5_LENGTH)
+		if (STRIP_BIT_5 & strip_mask) strip_size += STRIP_5_LENGTH;
+#endif
+#if defined(STRIP_6_LENGTH)
+		if (STRIP_BIT_6 & strip_mask) strip_size += STRIP_6_LENGTH;
+#endif
+#if defined(STRIP_7_LENGTH)
+		if (STRIP_BIT_7 & strip_mask) strip_size += STRIP_7_LENGTH;
+#endif
+#if defined(STRIP_8_LENGTH)
+		if (STRIP_BIT_8 & strip_mask) strip_size += STRIP_8_LENGTH;
+#endif
+#if defined(STRIP_9_LENGTH)
+		if (STRIP_BIT_9 & strip_mask) strip_size += STRIP_9_LENGTH;
+#endif
+	}
+	return strip_size;
+}
 
 
-//static uint16_t animate_led_get_max_strip_size(const strip_mask_t strip_mask)
-//{
-//	uint16_t strip_size = 0;
-//	if (STRIP_BIT_ALL_SET == strip_mask) strip_size = g_max_strip_length;
-//	else
-//	{
-//#if defined(STRIP_1_LENGTH)
-//		if ((STRIP_BIT_1 & strip_mask) && (strip_size < STRIP_1_LENGTH)) strip_size = STRIP_1_LENGTH;
-//#endif
-//#if defined(STRIP_2_LENGTH)
-//		if ((STRIP_BIT_2 & strip_mask) && (strip_size < STRIP_2_LENGTH)) strip_size = STRIP_2_LENGTH;
-//#endif
-//#if defined(STRIP_3_LENGTH)
-//		if ((STRIP_BIT_3 & strip_mask) && (strip_size < STRIP_3_LENGTH)) strip_size = STRIP_3_LENGTH;
-//#endif
-//#if defined(STRIP_4_LENGTH)
-//		if ((STRIP_BIT_4 & strip_mask) && (strip_size < STRIP_4_LENGTH)) strip_size = STRIP_4_LENGTH;
-//#endif
-//#if defined(STRIP_5_LENGTH)
-//		if ((STRIP_BIT_5 & strip_mask) && (strip_size < STRIP_5_LENGTH)) strip_size = STRIP_5_LENGTH;
-//#endif
-//#if defined(STRIP_6_LENGTH)
-//		if ((STRIP_BIT_6 & strip_mask) && (strip_size < STRIP_6_LENGTH)) strip_size = STRIP_6_LENGTH;
-//#endif
-//#if defined(STRIP_7_LENGTH)
-//		if ((STRIP_BIT_7 & strip_mask) && (strip_size < STRIP_7_LENGTH)) strip_size = STRIP_7_LENGTH;
-//#endif
-//#if defined(STRIP_8_LENGTH)
-//		if ((STRIP_BIT_8 & strip_mask) && (strip_size < STRIP_8_LENGTH)) strip_size = STRIP_8_LENGTH;
-//#endif
-//#if defined(STRIP_9_LENGTH)
-//		if ((STRIP_BIT_9 & strip_mask) && (strip_size < STRIP_9_LENGTH)) strip_size = STRIP_9_LENGTH;
-//#endif
-//	}
-//	return strip_size;
-//}
+static uint16_t animate_led_get_max_strip_size(const strip_mask_t strip_mask)
+{
+	uint16_t strip_size = 0;
+	if (STRIP_BIT_ALL_SET == strip_mask) strip_size = g_max_strip_length;
+	else 
+	{
+#if defined(STRIP_1_LENGTH)
+		if ((STRIP_BIT_1 & strip_mask) && (strip_size < STRIP_1_LENGTH)) strip_size = STRIP_1_LENGTH;
+#endif
+#if defined(STRIP_2_LENGTH)
+		if ((STRIP_BIT_2 & strip_mask) && (strip_size < STRIP_2_LENGTH)) strip_size = STRIP_2_LENGTH;
+#endif
+#if defined(STRIP_3_LENGTH)
+		if ((STRIP_BIT_3 & strip_mask) && (strip_size < STRIP_3_LENGTH)) strip_size = STRIP_3_LENGTH;
+#endif
+#if defined(STRIP_4_LENGTH)
+		if ((STRIP_BIT_4 & strip_mask) && (strip_size < STRIP_4_LENGTH)) strip_size = STRIP_4_LENGTH;
+#endif
+#if defined(STRIP_5_LENGTH)
+		if ((STRIP_BIT_5 & strip_mask) && (strip_size < STRIP_5_LENGTH)) strip_size = STRIP_5_LENGTH;
+#endif
+#if defined(STRIP_6_LENGTH)
+		if ((STRIP_BIT_6 & strip_mask) && (strip_size < STRIP_6_LENGTH)) strip_size = STRIP_6_LENGTH;
+#endif
+#if defined(STRIP_7_LENGTH)
+		if ((STRIP_BIT_7 & strip_mask) && (strip_size < STRIP_7_LENGTH)) strip_size = STRIP_7_LENGTH;
+#endif
+#if defined(STRIP_8_LENGTH)
+		if ((STRIP_BIT_8 & strip_mask) && (strip_size < STRIP_8_LENGTH)) strip_size = STRIP_8_LENGTH;
+#endif
+#if defined(STRIP_9_LENGTH)
+		if ((STRIP_BIT_9 & strip_mask) && (strip_size < STRIP_9_LENGTH)) strip_size = STRIP_9_LENGTH;
+#endif
+	}
+	return strip_size;
+}
 
 
-//static uint16_t animate_led_get_strip_size(const strip_bit_e strip_bit)
-//{
-//	uint16_t strip_size = 0;
-//	if (STRIP_BIT_ALL_SET == strip_bit) strip_size = g_max_strip_length;
-//	else
-//	{
-//#if defined(STRIP_1_LENGTH)
-//		if (STRIP_BIT_1 == strip_bit) strip_size = STRIP_1_LENGTH;
-//#endif
-//#if defined(STRIP_2_LENGTH)
-//		else if (STRIP_BIT_2 == strip_bit) strip_size = STRIP_2_LENGTH;
-//#endif
-//#if defined(STRIP_3_LENGTH)
-//		else if (STRIP_BIT_3 == strip_bit) strip_size = STRIP_3_LENGTH;
-//#endif
-//#if defined(STRIP_4_LENGTH)
-//		else if (STRIP_BIT_4 == strip_bit) strip_size = STRIP_4_LENGTH;
-//#endif
-//#if defined(STRIP_5_LENGTH)
-//		else if (STRIP_BIT_5 == strip_bit) strip_size = STRIP_5_LENGTH;
-//#endif
-//#if defined(STRIP_6_LENGTH)
-//		else if (STRIP_BIT_6 == strip_bit) strip_size = STRIP_6_LENGTH;
-//#endif
-//#if defined(STRIP_7_LENGTH)
-//		else if (STRIP_BIT_7 == strip_bit) strip_size = STRIP_7_LENGTH;
-//#endif
-//#if defined(STRIP_8_LENGTH)
-//		else if (STRIP_BIT_8 == strip_bit) strip_size = STRIP_8_LENGTH;
-//#endif
-//#if defined(STRIP_9_LENGTH)
-//		else if (STRIP_BIT_9 == strip_bit) strip_size = STRIP_9_LENGTH;
-//#endif
-//	}
-//	return strip_size;
-//}
+static uint16_t animate_led_get_strip_size(const strip_bit_e strip_bit)
+{
+	uint16_t strip_size = 0;
+	if (STRIP_BIT_ALL_SET == strip_bit) strip_size = g_max_strip_length;
+	else 
+	{
+#if defined(STRIP_1_LENGTH)
+		if (STRIP_BIT_1 == strip_bit) strip_size = STRIP_1_LENGTH;
+#endif
+#if defined(STRIP_2_LENGTH)
+		else if (STRIP_BIT_2 == strip_bit) strip_size = STRIP_2_LENGTH;
+#endif
+#if defined(STRIP_3_LENGTH)
+		else if (STRIP_BIT_3 == strip_bit) strip_size = STRIP_3_LENGTH;
+#endif
+#if defined(STRIP_4_LENGTH)
+		else if (STRIP_BIT_4 == strip_bit) strip_size = STRIP_4_LENGTH;
+#endif
+#if defined(STRIP_5_LENGTH)
+		else if (STRIP_BIT_5 == strip_bit) strip_size = STRIP_5_LENGTH;
+#endif
+#if defined(STRIP_6_LENGTH)
+		else if (STRIP_BIT_6 == strip_bit) strip_size = STRIP_6_LENGTH;
+#endif
+#if defined(STRIP_7_LENGTH)
+		else if (STRIP_BIT_7 == strip_bit) strip_size = STRIP_7_LENGTH;
+#endif
+#if defined(STRIP_8_LENGTH)
+		else if (STRIP_BIT_8 == strip_bit) strip_size = STRIP_8_LENGTH;
+#endif
+#if defined(STRIP_9_LENGTH)
+		else if (STRIP_BIT_9 == strip_bit) strip_size = STRIP_9_LENGTH;
+#endif
+	}
+	return strip_size;
+}
 
 
-//static bool animate_led_pixel_is_in_strip_range(strip_bit_e strip_bit, uint16_t pixel)
-//{
-//	bool return_val = false;
-//#if defined(STRIP_1_LENGTH)
-//	if ((STRIP_BIT_1 == strip_bit) && (pixel < STRIP_1_LENGTH)) return_val = true;
-//#endif
-//#if defined(STRIP_2_LENGTH)
-//	else if ((STRIP_BIT_2 == strip_bit) && (pixel < STRIP_2_LENGTH)) return_val = true;
-//#endif
-//#if defined(STRIP_3_LENGTH)
-//	else if ((STRIP_BIT_3 == strip_bit) && (pixel < STRIP_3_LENGTH)) return_val = true;
-//#endif
-//#if defined(STRIP_4_LENGTH)
-//	else if ((STRIP_BIT_4 == strip_bit) && (pixel < STRIP_4_LENGTH)) return_val = true;
-//#endif
-//#if defined(STRIP_5_LENGTH)
-//	else if ((STRIP_BIT_5 == strip_bit) && (pixel < STRIP_5_LENGTH)) return_val = true;
-//#endif
-//#if defined(STRIP_6_LENGTH)
-//	else if ((STRIP_BIT_6 == strip_bit) && (pixel < STRIP_6_LENGTH)) return_val = true;
-//#endif
-//#if defined(STRIP_7_LENGTH)
-//	else if ((STRIP_BIT_7 == strip_bit) && (pixel < STRIP_7_LENGTH)) return_val = true;
-//#endif
-//#if defined(STRIP_8_LENGTH)
-//	else if ((STRIP_BIT_8 == strip_bit) && (pixel < STRIP_8_LENGTH)) return_val = true;
-//#endif
-//#if defined(STRIP_9_LENGTH)
-//	else if ((STRIP_BIT_9 == strip_bit) && (pixel < STRIP_9_LENGTH)) return_val = true;
-//#endif
-//	return return_val;
-//}
+static bool animate_led_pixel_is_in_strip_range(strip_bit_e strip_bit, uint16_t pixel)
+{
+	bool return_val = false;
+#if defined(STRIP_1_LENGTH)
+	if ((STRIP_BIT_1 == strip_bit) && (pixel < STRIP_1_LENGTH)) return_val = true;
+#endif
+#if defined(STRIP_2_LENGTH)
+	else if ((STRIP_BIT_2 == strip_bit) && (pixel < STRIP_2_LENGTH)) return_val = true;
+#endif
+#if defined(STRIP_3_LENGTH)
+	else if ((STRIP_BIT_3 == strip_bit) && (pixel < STRIP_3_LENGTH)) return_val = true;
+#endif
+#if defined(STRIP_4_LENGTH)
+	else if ((STRIP_BIT_4 == strip_bit) && (pixel < STRIP_4_LENGTH)) return_val = true;
+#endif
+#if defined(STRIP_5_LENGTH)
+	else if ((STRIP_BIT_5 == strip_bit) && (pixel < STRIP_5_LENGTH)) return_val = true;
+#endif
+#if defined(STRIP_6_LENGTH)
+	else if ((STRIP_BIT_6 == strip_bit) && (pixel < STRIP_6_LENGTH)) return_val = true;
+#endif
+#if defined(STRIP_7_LENGTH) 
+	else if ((STRIP_BIT_7 == strip_bit) && (pixel < STRIP_7_LENGTH)) return_val = true;
+#endif
+#if defined(STRIP_8_LENGTH)
+	else if ((STRIP_BIT_8 == strip_bit) && (pixel < STRIP_8_LENGTH)) return_val = true;
+#endif
+#if defined(STRIP_9_LENGTH)
+	else if ((STRIP_BIT_9 == strip_bit) && (pixel < STRIP_9_LENGTH)) return_val = true;
+#endif
+	return return_val;
+}
 
 
-//static uint16_t animate_led_get_strip_offset(const strip_bit_e strip_bit)
-//{
-//	uint16_t offset = 0;
-//#if defined(STRIP_1_LENGTH)
-//	if (STRIP_BIT_1 == strip_bit) offset = g_strip_offset[STRIP_NUM_1];
-//#endif
-//#if defined(STRIP_2_LENGTH)
-//	else if (STRIP_BIT_2 == strip_bit) offset = g_strip_offset[STRIP_NUM_2];
-//#endif
-//#if defined(STRIP_3_LENGTH)
-//	else if (STRIP_BIT_3 == strip_bit) offset = g_strip_offset[STRIP_NUM_3];
-//#endif
-//#if defined(STRIP_4_LENGTH)
-//	else if (STRIP_BIT_4 == strip_bit) offset = g_strip_offset[STRIP_NUM_4];
-//#endif
-//#if defined(STRIP_5_LENGTH)
-//	else if (STRIP_BIT_5 == strip_bit) offset = g_strip_offset[STRIP_NUM_5];
-//#endif
-//#if defined(STRIP_6_LENGTH)
-//	else if (STRIP_BIT_6 == strip_bit) offset = g_strip_offset[STRIP_NUM_6];
-//#endif
-//#if defined(STRIP_7_LENGTH)
-//	else if (STRIP_BIT_7 == strip_bit) offset = g_strip_offset[STRIP_NUM_7];
-//#endif
-//#if defined(STRIP_8_LENGTH)
-//	else if (STRIP_BIT_8 == strip_bit) offset = g_strip_offset[STRIP_NUM_8];
-//#endif
-//#if defined(STRIP_9_LENGTH)
-//	else if (STRIP_BIT_9 == strip_bit) offset = g_strip_offset[STRIP_NUM_9];
-//#endif
-//	return offset;
-//}
+static uint16_t animate_led_get_strip_offset(const strip_bit_e strip_bit)
+{
+	uint16_t offset = 0;
+#if defined(STRIP_1_LENGTH)
+	if (STRIP_BIT_1 == strip_bit) offset = g_strip_offset[STRIP_NUM_1];
+#endif
+#if defined(STRIP_2_LENGTH)
+	else if (STRIP_BIT_2 == strip_bit) offset = g_strip_offset[STRIP_NUM_2];
+#endif
+#if defined(STRIP_3_LENGTH)
+	else if (STRIP_BIT_3 == strip_bit) offset = g_strip_offset[STRIP_NUM_3];
+#endif
+#if defined(STRIP_4_LENGTH)
+	else if (STRIP_BIT_4 == strip_bit) offset = g_strip_offset[STRIP_NUM_4];
+#endif
+#if defined(STRIP_5_LENGTH)
+	else if (STRIP_BIT_5 == strip_bit) offset = g_strip_offset[STRIP_NUM_5];
+#endif
+#if defined(STRIP_6_LENGTH)
+	else if (STRIP_BIT_6 == strip_bit) offset = g_strip_offset[STRIP_NUM_6];
+#endif
+#if defined(STRIP_7_LENGTH)
+	else if (STRIP_BIT_7 == strip_bit) offset = g_strip_offset[STRIP_NUM_7];
+#endif
+#if defined(STRIP_8_LENGTH)
+	else if (STRIP_BIT_8 == strip_bit) offset = g_strip_offset[STRIP_NUM_8];
+#endif
+#if defined(STRIP_9_LENGTH)
+	else if (STRIP_BIT_9 == strip_bit) offset = g_strip_offset[STRIP_NUM_9];
+#endif
+	return offset;
+}
 
 
 void animate_led_reset_state(void)
@@ -464,12 +463,12 @@ void animate_led_init(void)
 }
 
 
-//static void animate_led_internal_set_led_color(CRGB *buf, uint16_t led, uint8_t red, uint8_t green, uint8_t blue)
-//{
-//	buf[led].red = red;
-//	buf[led].green = green;
-//	buf[led].blue = blue;
-//}
+static void animate_led_internal_set_led_color(CRGB *buf, uint16_t led, uint8_t red, uint8_t green, uint8_t blue)
+{
+	buf[led].red = red;
+	buf[led].green = green;
+	buf[led].blue = blue;
+}
 
 
 static bool animate_led_check_interrupts(uint16_t *speed_delay, uint8_t *red, uint8_t *green, uint8_t *blue)
@@ -517,9 +516,9 @@ led_state_e animate_led_state(void)
 }
 
 
-void animate_led_show_strip(const strip_mask_t strip_mask)
+void animate_led_show_strip(void)
 {
-	ws2812b_show(strip_mask);
+    FastLED.show();
 }
 
 
@@ -614,7 +613,7 @@ void animate_led_spell_and_sparkle(const strip_mask_t spell_mask, const strip_ma
         */
         animate_led_sparkle_random_color(sparkle_mask, fill, 0);
         animate_led_set_pixel(spell_mask, i, red, green, blue);
-		animate_led_show_strip(strip_mask);
+		animate_led_show_strip();
         delay(speed_delay);
 	}	
 }
@@ -638,7 +637,7 @@ void animate_led_spell_and_solid_color(const strip_mask_t spell_mask, const stri
         }
         */
         animate_led_set_pixel(spell_mask, i, red, green, blue);
-		animate_led_show_strip(spell_mask | solid_color_mask);
+		animate_led_show_strip();
         delay(speed_delay);
 	}	
 }
@@ -669,7 +668,7 @@ void animate_led_spell_word_multiple_colors(strip_mask_t strip_mask, uint32_t* c
 		{
 			animate_led_set_pixel(active_strip_array[yyy], i, ((color_array[yyy] & 0xFF0000) >> 16), ((color_array[yyy] & 0x00FF00) >> 8), (color_array[yyy] & 0x0000FF));
 		}
-		animate_led_show_strip(strip_mask);
+		animate_led_show_strip();
         delay(speed_delay);
 	}
 }
@@ -692,7 +691,7 @@ void animate_led_only_spell_word(strip_mask_t strip_mask, color_hex_code_e color
         }
         */
 		animate_led_set_pixel(strip_mask, i, red, green, blue);
-		animate_led_show_strip(strip_mask);
+		animate_led_show_strip();
         delay(speed_delay);
 	}
 }
@@ -795,10 +794,10 @@ void animate_led_strobe(strip_mask_t strip_mask, color_hex_code_e color, uint16_
 			return;
         }
         animate_led_set_all_pixels(strip_mask, red, green, blue);
-        animate_led_show_strip(strip_mask);
+        animate_led_show_strip();
         delay(flash_delay);
         animate_led_set_all_pixels(strip_mask, 0, 0, 0);
-        animate_led_show_strip(strip_mask);
+        animate_led_show_strip();
         delay(flash_delay);
     }
     delay(end_pause);
@@ -827,7 +826,7 @@ void animate_led_cyclone_bounce(strip_mask_t strip_mask, color_hex_code_e color,
             animate_led_set_pixel(strip_mask,(i + j), red, green, blue);
         }
         animate_led_set_pixel(strip_mask, i + eye_size + 1, red/10, green/10, blue/10);
-        animate_led_show_strip(strip_mask);
+        animate_led_show_strip();
         delay(speed_delay);
     }
     delay(return_delay);
@@ -845,7 +844,7 @@ void animate_led_cyclone_bounce(strip_mask_t strip_mask, color_hex_code_e color,
             animate_led_set_pixel(strip_mask, i + j, red, green, blue);
         }
         animate_led_set_pixel(strip_mask, i + eye_size + 1, red/10, green/10, blue/10);
-        animate_led_show_strip(strip_mask);
+        animate_led_show_strip();
         delay(speed_delay);
     }
     delay(return_delay);
@@ -875,7 +874,7 @@ void animate_led_center_to_outside(strip_mask_t strip_mask, color_hex_code_e col
             animate_led_set_pixel(strip_mask, strip_size - i - j, red, green, blue);
         }
         animate_led_set_pixel(strip_mask, strip_size - i - eye_size - 1, red/10, green/10, blue/10);
-        animate_led_show_strip(strip_mask);
+        animate_led_show_strip();
         delay(speed_delay);
     }
     delay(return_delay);
@@ -904,7 +903,7 @@ void animate_led_outside_to_center(strip_mask_t strip_mask, color_hex_code_e col
             animate_led_set_pixel(strip_mask, strip_size - i - j, red, green, blue);
         }
         animate_led_set_pixel(strip_mask, strip_size - i - eye_size - 1, red/10, green/10, blue/10);
-        animate_led_show_strip(strip_mask);
+        animate_led_show_strip();
         delay(speed_delay);
     }
     delay(return_delay);
@@ -924,7 +923,7 @@ void animate_led_left_to_right(strip_mask_t strip_mask, color_hex_code_e color, 
         animate_led_set_pixel(strip_mask, i, red/10, green/10, blue/10);
         for (int j = 1; j <= eye_size; j++) animate_led_set_pixel(strip_mask, i + j, red, green, blue);
         animate_led_set_pixel(strip_mask, i + eye_size + 1, red/10, green/10, blue/10);
-        animate_led_show_strip(strip_mask);
+        animate_led_show_strip();
         delay(speed_delay);
     }
     delay(return_delay);
@@ -943,7 +942,7 @@ void animate_led_right_to_left(strip_mask_t strip_mask, color_hex_code_e color, 
         animate_led_set_all_pixels(strip_mask, 0, 0, 0);
         animate_led_set_pixel(strip_mask, i, red/10, green/10, blue/10);
         for (int j = 1; j <= eye_size; j++) animate_led_set_pixel(strip_mask, i + j, red, green, blue);
-        animate_led_show_strip(strip_mask);
+        animate_led_show_strip();
         delay(speed_delay);
     }
     delay(return_delay);
@@ -993,7 +992,7 @@ void animate_led_twinkle_multiple_colors(strip_mask_t strip_mask, uint32_t* colo
         for (int yyy = 0; yyy < num_active_strips; yyy++)
 		{
 			animate_led_set_pixel(active_strip_array[yyy], random(animate_led_get_strip_size(active_strip_array[yyy])), (((color_array[yyy] & 0xFF0000) >> 16)), (((color_array[yyy] & 0x00FF00) >> 8)), ((color_array[yyy] & 0x0000FF)));
-			animate_led_show_strip(strip_mask);
+			animate_led_show_strip();
 		}
         if (only_one) animate_led_set_all_pixels(strip_mask, 0, 0, 0);
     }
@@ -1017,7 +1016,7 @@ void animate_led_twinkle(strip_mask_t strip_mask, color_hex_code_e color, uint16
 			return;
         }
         animate_led_set_pixel(strip_mask, random(strip_size), red, green, blue);
-        animate_led_show_strip(strip_mask);
+        animate_led_show_strip();
         delay(speed_delay);
         if (only_one) animate_led_set_all_pixels(strip_mask, 0, 0, 0);
     }
@@ -1037,7 +1036,7 @@ void animate_led_twinkle_random(strip_mask_t strip_mask, uint16_t count, uint16_
 			return;
         }
         animate_led_set_pixel(strip_mask, random(g_max_strip_length), random(0, 255), random(0, 255), random(0, 255));
-        animate_led_show_strip(strip_mask);
+        animate_led_show_strip();
         delay(speed_delay);
         if (only_one) animate_led_set_all_pixels(strip_mask, 0, 0, 0);
     }
@@ -1053,7 +1052,7 @@ void animate_led_sparkle_only_random_color(strip_mask_t strip_mask, bool fill, u
 	{
 		int pix = random(strip_size);
 		animate_led_set_pixel(strip_mask, pix, random(0, 255), random(0, 255), random(0, 255));
-		animate_led_show_strip(strip_mask);
+		animate_led_show_strip();
 		delay(speed_delay);
 		if (!fill) animate_led_set_pixel(strip_mask, pix, 0, 0, 0);
 	}
@@ -1068,7 +1067,7 @@ void animate_led_sparkle_random_color(strip_mask_t strip_mask, bool fill, uint16
 	///{
 		int pix = random(strip_size);
 		animate_led_set_pixel(strip_mask, pix, random(0, 255), random(0, 255), random(0, 255));
-		animate_led_show_strip(strip_mask);
+		animate_led_show_strip();
 		delay(speed_delay);
 		if (!fill) animate_led_set_pixel(strip_mask, pix, 0, 0, 0);
 	//}
@@ -1084,7 +1083,7 @@ void animate_led_sparkle(strip_mask_t strip_mask, color_hex_code_e color, uint16
 	blue = (color & 0x0000FF);
     int pix = random(strip_size);
     animate_led_set_pixel(strip_mask, pix, red, green, blue);
-    animate_led_show_strip(strip_mask);
+    animate_led_show_strip();
     delay(speed_delay);
     animate_led_set_pixel(strip_mask, pix, 0, 0, 0);
 }
@@ -1111,7 +1110,7 @@ void animate_led_running_lights(strip_mask_t strip_mask, color_hex_code_e color)
         {
             animate_led_set_pixel(strip_mask, i, ((sin(i + pos) * 127 + 128) / 255) * red, ((sin(i + pos) * 127 + 128) / 255) * green, ((sin(i + pos) * 127 + 128) / 255) * blue); 
         }
-        animate_led_show_strip(strip_mask);
+        animate_led_show_strip();
 		delay(100 /animate_led_speed_factor());
     }
 }
@@ -1127,13 +1126,13 @@ void animate_led_color_wipe(strip_mask_t strip_mask, color_hex_code_e color, uin
     for (uint16_t i = 0; i < strip_size; i++)
     {
         animate_led_set_pixel(strip_mask, i, red, green, blue);
-        animate_led_show_strip(strip_mask);
+        animate_led_show_strip();
         delay(speed_delay);
     }
     for (uint16_t i = 0; i < g_max_strip_length; i++)
     {
         animate_led_set_pixel(strip_mask, i, 0, 0, 0);
-        animate_led_show_strip(strip_mask);
+        animate_led_show_strip();
         delay(speed_delay);
     }
 }
@@ -1158,7 +1157,7 @@ void animate_led_rainbow_cycle(strip_mask_t strip_mask, uint16_t speed_delay)
             c = animate_led_wheel(((i * 256 / strip_size) + j) & 255);
             animate_led_set_pixel(strip_mask, i, *c, *(c + 1), *(c + 2));
         }
-        animate_led_show_strip(strip_mask);
+        animate_led_show_strip();
         delay(speed_delay);
     }
 }
@@ -1227,7 +1226,7 @@ void animate_led_theater_chase_multiple_colors(strip_mask_t strip_mask, uint32_t
 					animate_led_set_pixel(active_strip_array[yyy], i + 	q, (((color_array[yyy] & 0xFF0000) >> 16)), (((color_array[yyy] & 0x00FF00) >> 8)), ((color_array[yyy] & 0x0000FF)));
 				}
             }
-            animate_led_show_strip(strip_mask);
+            animate_led_show_strip();
 			if (animate_led_check_interrupts(&speed_delay, &red, &green, &blue))
 			{
         		animate_led_set_all_pixels((strip_mask_t)STRIP_BIT_ALL_SET, 0, 0, 0);
@@ -1263,7 +1262,7 @@ void animate_led_theater_chase(strip_mask_t strip_mask, color_hex_code_e color, 
         		return;
         	}
             for (int i = 0; i < strip_size; i += 3) animate_led_set_pixel(strip_mask, i + q, red, green, blue); // turn every third pixel on
-            animate_led_show_strip(strip_mask);
+            animate_led_show_strip();
 			if (animate_led_check_interrupts(&speed_delay, &red, &green, &blue))
 			{
         		animate_led_set_all_pixels((strip_mask_t)STRIP_BIT_ALL_SET, 0, 0, 0);
@@ -1295,7 +1294,7 @@ void animate_led_theater_chase_rainbow(strip_mask_t strip_mask, uint16_t speed_d
                 c = animate_led_wheel((i + j) % 255);
                 animate_led_set_pixel(strip_mask, i + q, *c, *(c + 1), *(c + 2)); // turn every third pixel on
             }
-            animate_led_show_strip(strip_mask);
+            animate_led_show_strip();
             delay(speed_delay);
             for (int i = 0; i < strip_size; i = i + 3) animate_led_set_pixel(strip_mask, i + q, 0, 0, 0); // turn every third pixel off
         }
@@ -1349,7 +1348,7 @@ void animate_led_bouncing_balls(strip_mask_t strip_mask, color_hex_code_e color,
 	{
 		animate_led_set_pixel(strip_mask, pos[i], red, green, blue);
 	}
-	animate_led_show_strip(strip_mask);
+	animate_led_show_strip();
 	animate_led_set_all_pixels(strip_mask, 0, 0, 0);
 }
 
@@ -1420,7 +1419,7 @@ void animate_led_meteor_rain(strip_mask_t strip_mask, color_hex_code_e color, by
         	animate_led_set_all_pixels((strip_mask_t)STRIP_BIT_ALL_SET, 0, 0, 0);
 			return;
         }
-        animate_led_show_strip(strip_mask);
+        animate_led_show_strip();
         delay(speed_delay);
     }
 }
@@ -1508,7 +1507,7 @@ void animate_led_set_all_pixels(strip_mask_t strip_mask, byte red, byte green, b
 			}
 		}
 	}
-    animate_led_show_strip(strip_mask);
+    animate_led_show_strip();
 }
 
 

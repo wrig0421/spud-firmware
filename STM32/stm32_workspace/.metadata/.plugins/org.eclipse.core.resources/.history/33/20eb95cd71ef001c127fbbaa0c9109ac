@@ -71,24 +71,24 @@ int main(void)
 	ws2812b_show(1);
 	while (1)
 	{
-        animate_led_only_spell_word(STRIP_BIT_1, COLOR_HEX_BLUE, 0);
-        ws2812b_show(1);
-        HAL_Delay(1000);
-//		ws2812b_set_led(1, 0, 255, 0, 0);
-//		ws2812b_set_led(1, 1, 0, 255, 0);
-//		ws2812b_set_led(1, 2, 0, 0, 255);
-//		ws2812b_show(1);
-//		HAL_Delay(100);
-//		ws2812b_set_led(1, 0, 0, 255, 0);
-//		ws2812b_set_led(1, 1, 0, 0, 255);
-//		ws2812b_set_led(1, 2, 255, 0, 0);
-//		ws2812b_show(1);
-//		HAL_Delay(100);
-//		ws2812b_set_led(1, 0, 0, 0, 255);
-//		ws2812b_set_led(1, 1, 255, 0, 0);
-//		ws2812b_set_led(1, 2, 0, 255, 0);
-//		ws2812b_show(1);
-//		HAL_Delay(100);
+        animate_led_only_spell_word(STRIP_BIT_1 | STRIP_BIT_2, color_led_get_random_color(), 0);
+        handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_5, ANIMATION_DELAY_MS_0);
+
+		ws2812b_set_led(1, 0, 255, 0, 0);
+		ws2812b_set_led(1, 1, 0, 255, 0);
+		ws2812b_set_led(1, 2, 0, 0, 255);
+		ws2812b_show(1);
+		HAL_Delay(100);
+		ws2812b_set_led(1, 0, 0, 255, 0);
+		ws2812b_set_led(1, 1, 0, 0, 255);
+		ws2812b_set_led(1, 2, 255, 0, 0);
+		ws2812b_show(1);
+		HAL_Delay(100);
+		ws2812b_set_led(1, 0, 0, 0, 255);
+		ws2812b_set_led(1, 1, 255, 0, 0);
+		ws2812b_set_led(1, 2, 0, 255, 0);
+		ws2812b_show(1);
+		HAL_Delay(100);
 
 //	  HAL_GPIO_WritePin(GPIOC, LED_OUT_1_Pin, GPIO_PIN_RESET);
 //	  HAL_GPIO_WritePin(GPIOC, LED_OUT_2_Pin, GPIO_PIN_SET);

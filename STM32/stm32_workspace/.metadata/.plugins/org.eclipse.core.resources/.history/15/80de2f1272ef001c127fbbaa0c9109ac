@@ -6,36 +6,36 @@
 #include <stdint.h>
 #include <stdbool.h> 
 
-//// static definitions
-////#define TOGETHER_SIGN
-////#define SCHUMACHER_SIGN
-////#define SPUDS_PUB_SIGN
-//#define GOOD_VIBES_SIGN
-//
-////#define SRW_DEBUG
-//
-//#if defined(GOOD_VIBES_SIGN)
-//#define MULTIPLE_STRIPS
-//#endif
-//
-//#if defined(GOOD_VIBES_SIGN)
-//#define STRIP_1_LENGTH	294
-//#define STRIP_2_LENGTH	452
-////#define STRIP_1_LENGTH	452
-////#define STRIP_2_LENGTH	294
-//#define NUM_LEDS STRIP_1_LENGTH + STRIP_2_LENGTH // 294 (from upper) + 450 (from lower)
-//#elif defined(SCHUMACHER_SIGN)
-//#define STRIP_1_LENGTH	420
-//#define NUM_LEDS 420 //Schumacher sign
-//#elif defined(SPUDS_PUB_SIGN)
-//#define STRIP_1_LENGTH	212
-//#define NUM_LEDS 212 // Spud's pub sign
-//#elif defined(TOGETHER_SIGN)
-//#define STRIP_1_LENGTH	292
-//#define NUM_LEDS 292 // Together sign
-//#else
-//#error "No sign definition"
-//#endif
+// static definitions
+//#define TOGETHER_SIGN
+//#define SCHUMACHER_SIGN
+//#define SPUDS_PUB_SIGN
+#define GOOD_VIBES_SIGN
+
+//#define SRW_DEBUG
+
+#if defined(GOOD_VIBES_SIGN)
+#define MULTIPLE_STRIPS
+#endif
+
+#if defined(GOOD_VIBES_SIGN)
+#define STRIP_1_LENGTH	294
+#define STRIP_2_LENGTH	452
+//#define STRIP_1_LENGTH	452
+//#define STRIP_2_LENGTH	294
+#define NUM_LEDS STRIP_1_LENGTH + STRIP_2_LENGTH // 294 (from upper) + 450 (from lower)
+#elif defined(SCHUMACHER_SIGN)
+#define STRIP_1_LENGTH	420
+#define NUM_LEDS 420 //Schumacher sign
+#elif defined(SPUDS_PUB_SIGN)
+#define STRIP_1_LENGTH	212
+#define NUM_LEDS 212 // Spud's pub sign
+#elif defined(TOGETHER_SIGN)
+#define STRIP_1_LENGTH	292
+#define NUM_LEDS 292 // Together sign
+#else
+#error "No sign definition"
+#endif
 
 
 
