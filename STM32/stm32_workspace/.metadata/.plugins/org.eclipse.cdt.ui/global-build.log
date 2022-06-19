@@ -1901,3 +1901,240 @@ arm-none-eabi-size   small_led_driver.elf
   18124	    124	   1908	  20156	   4ebc	small_led_driver.elf
 Finished building: default.size.stdout
  
+20:08:47 **** Incremental Build of configuration Debug for project small_led_driver ****
+make -j8 all 
+arm-none-eabi-gcc "../src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L431xx -c -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/startup" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/CMSIS/Include" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/CMSIS/Device/ST/STM32L4xx/Include" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/STM32l4xx_HAL_Driver/Src" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/STM32l4xx_HAL_Driver/Inc" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/STM32l4xx_HAL_Driver/Inc/Legacy" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/src" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/src/stm32_bloat" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/color_led" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"src/main.d" -MT"src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "src/main.o"
+arm-none-eabi-gcc "C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L431xx -c -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/startup" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/CMSIS/Include" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/CMSIS/Device/ST/STM32L4xx/Include" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/STM32l4xx_HAL_Driver/Src" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/STM32l4xx_HAL_Driver/Inc" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/STM32l4xx_HAL_Driver/Inc/Legacy" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/src" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/src/stm32_bloat" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/color_led" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"fw_common/ws2812b_driver/ws2812b.d" -MT"fw_common/ws2812b_driver/ws2812b.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "fw_common/ws2812b_driver/ws2812b.o"
+arm-none-eabi-gcc -o "small_led_driver.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\splat\Documents\GitHub\Spud_code_collection\STM32\stm32_workspace\small_led_driver\STM32L431RCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="small_led_driver.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: small_led_driver.elf
+ 
+arm-none-eabi-objdump -h -S  small_led_driver.elf  > "small_led_driver.list"
+arm-none-eabi-objcopy  -O binary  small_led_driver.elf  "small_led_driver.bin"
+arm-none-eabi-size   small_led_driver.elf 
+   text	   data	    bss	    dec	    hex	filename
+  18124	    124	   1908	  20156	   4ebc	small_led_driver.elf
+Finished building: default.size.stdout
+ 
+Finished building: small_led_driver.bin
+ 
+Finished building: small_led_driver.list
+ 
+20:12:12 **** Incremental Build of configuration Debug for project small_led_driver ****
+make -j8 all 
+arm-none-eabi-gcc "C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L431xx -c -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/startup" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/CMSIS/Include" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/CMSIS/Device/ST/STM32L4xx/Include" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/STM32l4xx_HAL_Driver/Src" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/STM32l4xx_HAL_Driver/Inc" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/STM32l4xx_HAL_Driver/Inc/Legacy" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/src" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/src/stm32_bloat" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/color_led" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"fw_common/ws2812b_driver/ws2812b.d" -MT"fw_common/ws2812b_driver/ws2812b.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "fw_common/ws2812b_driver/ws2812b.o"
+arm-none-eabi-gcc -o "small_led_driver.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\splat\Documents\GitHub\Spud_code_collection\STM32\stm32_workspace\small_led_driver\STM32L431RCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="small_led_driver.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: small_led_driver.elf
+ 
+arm-none-eabi-objdump -h -S  small_led_driver.elf  > "small_led_driver.list"
+arm-none-eabi-objcopy  -O binary  small_led_driver.elf  "small_led_driver.bin"
+arm-none-eabi-size   small_led_driver.elf 
+   text	   data	    bss	    dec	    hex	filename
+  18304	    124	   1908	  20336	   4f70	small_led_driver.elf
+Finished building: default.size.stdout
+ 
+Finished building: small_led_driver.bin
+ 
+Finished building: small_led_driver.list
+ 
+20:13:27 **** Incremental Build of configuration Debug for project small_led_driver ****
+make -j8 all 
+arm-none-eabi-gcc "C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L431xx -c -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/startup" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/CMSIS/Include" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/CMSIS/Device/ST/STM32L4xx/Include" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/STM32l4xx_HAL_Driver/Src" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/STM32l4xx_HAL_Driver/Inc" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/STM32l4xx_HAL_Driver/Inc/Legacy" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/src" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/src/stm32_bloat" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/color_led" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"fw_common/ws2812b_driver/ws2812b.d" -MT"fw_common/ws2812b_driver/ws2812b.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "fw_common/ws2812b_driver/ws2812b.o"
+C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.c: In function 'ws2812b_fill_pwm_buffer':
+C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.c:15:45: error: 'WS2812B_RESET_TIME_MICROSECONDS' undeclared (first use in this function); did you mean 'WS2812B_RESET_TIME_NANOSECONDS'?
+   15 | #define WS2812B_RESET_TIME_CYCLES   (float)(WS2812B_RESET_TIME_MICROSECONDS / WS2812B_TIM_TIME_CYCLES) / 1000.0f)
+      |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.c:151:31: note: in expansion of macro 'WS2812B_RESET_TIME_CYCLES'
+  151 |  for (uint16_t iii = 0; iii < WS2812B_RESET_TIME_CYCLES; iii++)
+      |                               ^~~~~~~~~~~~~~~~~~~~~~~~~
+C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.c:15:45: note: each undeclared identifier is reported only once for each function it appears in
+   15 | #define WS2812B_RESET_TIME_CYCLES   (float)(WS2812B_RESET_TIME_MICROSECONDS / WS2812B_TIM_TIME_CYCLES) / 1000.0f)
+      |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.c:151:31: note: in expansion of macro 'WS2812B_RESET_TIME_CYCLES'
+  151 |  for (uint16_t iii = 0; iii < WS2812B_RESET_TIME_CYCLES; iii++)
+      |                               ^~~~~~~~~~~~~~~~~~~~~~~~~
+C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.c:15:113: error: expected ';' before ')' token
+   15 | #define WS2812B_RESET_TIME_CYCLES   (float)(WS2812B_RESET_TIME_MICROSECONDS / WS2812B_TIM_TIME_CYCLES) / 1000.0f)
+      |                                                                                                                 ^
+C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.c:151:31: note: in expansion of macro 'WS2812B_RESET_TIME_CYCLES'
+  151 |  for (uint16_t iii = 0; iii < WS2812B_RESET_TIME_CYCLES; iii++)
+      |                               ^~~~~~~~~~~~~~~~~~~~~~~~~
+C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.c:151:2: warning: this 'for' clause does not guard... [-Wmisleading-indentation]
+  151 |  for (uint16_t iii = 0; iii < WS2812B_RESET_TIME_CYCLES; iii++)
+      |  ^~~
+C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.c:151:58: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'for'
+  151 |  for (uint16_t iii = 0; iii < WS2812B_RESET_TIME_CYCLES; iii++)
+      |                                                          ^~~
+C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.c:151:58: error: 'iii' undeclared (first use in this function)
+C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.c:151:63: error: expected ';' before ')' token
+  151 |  for (uint16_t iii = 0; iii < WS2812B_RESET_TIME_CYCLES; iii++)
+      |                                                               ^
+      |                                                               ;
+C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.c:151:63: error: expected statement before ')' token
+C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.c: In function 'ws2812b_init':
+C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.c:15:45: error: 'WS2812B_RESET_TIME_MICROSECONDS' undeclared (first use in this function); did you mean 'WS2812B_RESET_TIME_NANOSECONDS'?
+   15 | #define WS2812B_RESET_TIME_CYCLES   (float)(WS2812B_RESET_TIME_MICROSECONDS / WS2812B_TIM_TIME_CYCLES) / 1000.0f)
+      |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.c:236:91: note: in expansion of macro 'WS2812B_RESET_TIME_CYCLES'
+  236 |  gp_pwm_data_ping = malloc((sizeof(ws2812b_led_t) * BITS_PER_BYTE * g_max_strip_length) + WS2812B_RESET_TIME_CYCLES);
+      |                                                                                           ^~~~~~~~~~~~~~~~~~~~~~~~~
+C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.c:236:116: error: expected ';' before ')' token
+  236 |  gp_pwm_data_ping = malloc((sizeof(ws2812b_led_t) * BITS_PER_BYTE * g_max_strip_length) + WS2812B_RESET_TIME_CYCLES);
+      |                                                                                                                    ^
+C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.c:236:116: error: expected statement before ')' token
+C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.c:237:116: error: expected ';' before ')' token
+  237 |  gp_pwm_data_pong = malloc((sizeof(ws2812b_led_t) * BITS_PER_BYTE * g_max_strip_length) + WS2812B_RESET_TIME_CYCLES);
+      |                                                                                                                    ^
+C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.c:237:116: error: expected statement before ')' token
+make: *** [fw_common/ws2812b_driver/subdir.mk:19: fw_common/ws2812b_driver/ws2812b.o] Error 1
+"make -j8 all" terminated with exit code 2. Build might be incomplete.
+20:13:40 **** Incremental Build of configuration Debug for project small_led_driver ****
+make -j8 all 
+arm-none-eabi-gcc "C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L431xx -c -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/startup" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/CMSIS/Include" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/CMSIS/Device/ST/STM32L4xx/Include" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/STM32l4xx_HAL_Driver/Src" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/STM32l4xx_HAL_Driver/Inc" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/STM32l4xx_HAL_Driver/Inc/Legacy" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/src" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/src/stm32_bloat" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/color_led" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"fw_common/ws2812b_driver/ws2812b.d" -MT"fw_common/ws2812b_driver/ws2812b.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "fw_common/ws2812b_driver/ws2812b.o"
+C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.c: In function 'ws2812b_fill_pwm_buffer':
+C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.c:15:46: error: 'WS2812B_RESET_TIME_MICROSECONDS' undeclared (first use in this function); did you mean 'WS2812B_RESET_TIME_NANOSECONDS'?
+   15 | #define WS2812B_RESET_TIME_CYCLES   (float)((WS2812B_RESET_TIME_MICROSECONDS / WS2812B_TIM_TIME_CYCLES) / 1000.0f)
+      |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.c:151:31: note: in expansion of macro 'WS2812B_RESET_TIME_CYCLES'
+  151 |  for (uint16_t iii = 0; iii < WS2812B_RESET_TIME_CYCLES; iii++)
+      |                               ^~~~~~~~~~~~~~~~~~~~~~~~~
+C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.c:15:46: note: each undeclared identifier is reported only once for each function it appears in
+   15 | #define WS2812B_RESET_TIME_CYCLES   (float)((WS2812B_RESET_TIME_MICROSECONDS / WS2812B_TIM_TIME_CYCLES) / 1000.0f)
+      |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.c:151:31: note: in expansion of macro 'WS2812B_RESET_TIME_CYCLES'
+  151 |  for (uint16_t iii = 0; iii < WS2812B_RESET_TIME_CYCLES; iii++)
+      |                               ^~~~~~~~~~~~~~~~~~~~~~~~~
+C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.c: In function 'ws2812b_init':
+C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.c:15:46: error: 'WS2812B_RESET_TIME_MICROSECONDS' undeclared (first use in this function); did you mean 'WS2812B_RESET_TIME_NANOSECONDS'?
+   15 | #define WS2812B_RESET_TIME_CYCLES   (float)((WS2812B_RESET_TIME_MICROSECONDS / WS2812B_TIM_TIME_CYCLES) / 1000.0f)
+      |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.c:236:91: note: in expansion of macro 'WS2812B_RESET_TIME_CYCLES'
+  236 |  gp_pwm_data_ping = malloc((sizeof(ws2812b_led_t) * BITS_PER_BYTE * g_max_strip_length) + WS2812B_RESET_TIME_CYCLES);
+      |                                                                                           ^~~~~~~~~~~~~~~~~~~~~~~~~
+make: *** [fw_common/ws2812b_driver/subdir.mk:19: fw_common/ws2812b_driver/ws2812b.o] Error 1
+"make -j8 all" terminated with exit code 2. Build might be incomplete.
+20:14:06 **** Incremental Build of configuration Debug for project small_led_driver ****
+make -j8 all 
+arm-none-eabi-gcc "C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L431xx -c -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/startup" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/CMSIS/Include" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/CMSIS/Device/ST/STM32L4xx/Include" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/STM32l4xx_HAL_Driver/Src" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/STM32l4xx_HAL_Driver/Inc" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/STM32l4xx_HAL_Driver/Inc/Legacy" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/src" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/src/stm32_bloat" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/color_led" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"fw_common/ws2812b_driver/ws2812b.d" -MT"fw_common/ws2812b_driver/ws2812b.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "fw_common/ws2812b_driver/ws2812b.o"
+arm-none-eabi-gcc -o "small_led_driver.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\splat\Documents\GitHub\Spud_code_collection\STM32\stm32_workspace\small_led_driver\STM32L431RCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="small_led_driver.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: small_led_driver.elf
+ 
+arm-none-eabi-objdump -h -S  small_led_driver.elf  > "small_led_driver.list"
+arm-none-eabi-objcopy  -O binary  small_led_driver.elf  "small_led_driver.bin"
+arm-none-eabi-size   small_led_driver.elf 
+   text	   data	    bss	    dec	    hex	filename
+  18332	    124	   1908	  20364	   4f8c	small_led_driver.elf
+Finished building: default.size.stdout
+ 
+Finished building: small_led_driver.bin
+ 
+Finished building: small_led_driver.list
+ 
+20:14:30 **** Incremental Build of configuration Debug for project small_led_driver ****
+make -j8 all 
+arm-none-eabi-size   small_led_driver.elf 
+   text	   data	    bss	    dec	    hex	filename
+  18332	    124	   1908	  20364	   4f8c	small_led_driver.elf
+Finished building: default.size.stdout
+ 
+20:15:21 **** Incremental Build of configuration Debug for project small_led_driver ****
+make -j8 all 
+arm-none-eabi-gcc "C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L431xx -c -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/startup" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/CMSIS/Include" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/CMSIS/Device/ST/STM32L4xx/Include" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/STM32l4xx_HAL_Driver/Src" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/STM32l4xx_HAL_Driver/Inc" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/STM32l4xx_HAL_Driver/Inc/Legacy" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/src" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/src/stm32_bloat" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/color_led" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"fw_common/ws2812b_driver/ws2812b.d" -MT"fw_common/ws2812b_driver/ws2812b.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "fw_common/ws2812b_driver/ws2812b.o"
+arm-none-eabi-gcc -o "small_led_driver.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\splat\Documents\GitHub\Spud_code_collection\STM32\stm32_workspace\small_led_driver\STM32L431RCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="small_led_driver.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: small_led_driver.elf
+ 
+arm-none-eabi-objdump -h -S  small_led_driver.elf  > "small_led_driver.list"
+arm-none-eabi-objcopy  -O binary  small_led_driver.elf  "small_led_driver.bin"
+arm-none-eabi-size   small_led_driver.elf 
+   text	   data	    bss	    dec	    hex	filename
+  18180	    124	   1908	  20212	   4ef4	small_led_driver.elf
+Finished building: default.size.stdout
+ 
+Finished building: small_led_driver.bin
+ 
+Finished building: small_led_driver.list
+ 
+20:16:37 **** Incremental Build of configuration Debug for project small_led_driver ****
+make -j8 all 
+arm-none-eabi-gcc "C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L431xx -c -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/startup" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/CMSIS/Include" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/CMSIS/Device/ST/STM32L4xx/Include" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/STM32l4xx_HAL_Driver/Src" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/STM32l4xx_HAL_Driver/Inc" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/STM32l4xx_HAL_Driver/Inc/Legacy" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/src" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/src/stm32_bloat" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/color_led" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"fw_common/ws2812b_driver/ws2812b.d" -MT"fw_common/ws2812b_driver/ws2812b.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "fw_common/ws2812b_driver/ws2812b.o"
+arm-none-eabi-gcc -o "small_led_driver.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\splat\Documents\GitHub\Spud_code_collection\STM32\stm32_workspace\small_led_driver\STM32L431RCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="small_led_driver.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: small_led_driver.elf
+ 
+arm-none-eabi-objdump -h -S  small_led_driver.elf  > "small_led_driver.list"
+arm-none-eabi-objcopy  -O binary  small_led_driver.elf  "small_led_driver.bin"
+arm-none-eabi-size   small_led_driver.elf 
+   text	   data	    bss	    dec	    hex	filename
+  18180	    124	   1908	  20212	   4ef4	small_led_driver.elf
+Finished building: default.size.stdout
+ 
+Finished building: small_led_driver.bin
+ 
+Finished building: small_led_driver.list
+ 
+20:18:00 **** Incremental Build of configuration Debug for project small_led_driver ****
+make -j8 all 
+arm-none-eabi-gcc "C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L431xx -c -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/startup" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/CMSIS/Include" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/CMSIS/Device/ST/STM32L4xx/Include" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/STM32l4xx_HAL_Driver/Src" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/STM32l4xx_HAL_Driver/Inc" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/STM32l4xx_HAL_Driver/Inc/Legacy" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/src" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/src/stm32_bloat" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/color_led" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"fw_common/ws2812b_driver/ws2812b.d" -MT"fw_common/ws2812b_driver/ws2812b.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "fw_common/ws2812b_driver/ws2812b.o"
+arm-none-eabi-gcc -o "small_led_driver.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\splat\Documents\GitHub\Spud_code_collection\STM32\stm32_workspace\small_led_driver\STM32L431RCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="small_led_driver.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: small_led_driver.elf
+ 
+arm-none-eabi-objdump -h -S  small_led_driver.elf  > "small_led_driver.list"
+arm-none-eabi-objcopy  -O binary  small_led_driver.elf  "small_led_driver.bin"
+arm-none-eabi-size   small_led_driver.elf 
+   text	   data	    bss	    dec	    hex	filename
+  18180	    124	   1908	  20212	   4ef4	small_led_driver.elf
+Finished building: default.size.stdout
+ 
+Finished building: small_led_driver.bin
+ 
+Finished building: small_led_driver.list
+ 
+20:21:15 **** Incremental Build of configuration Debug for project small_led_driver ****
+make -j8 all 
+arm-none-eabi-gcc "C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L431xx -c -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/startup" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/CMSIS/Include" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/CMSIS/Device/ST/STM32L4xx/Include" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/STM32l4xx_HAL_Driver/Src" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/STM32l4xx_HAL_Driver/Inc" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/STM32l4xx_HAL_Driver/Inc/Legacy" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/src" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/src/stm32_bloat" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/color_led" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"fw_common/ws2812b_driver/ws2812b.d" -MT"fw_common/ws2812b_driver/ws2812b.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "fw_common/ws2812b_driver/ws2812b.o"
+arm-none-eabi-gcc -o "small_led_driver.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\splat\Documents\GitHub\Spud_code_collection\STM32\stm32_workspace\small_led_driver\STM32L431RCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="small_led_driver.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: small_led_driver.elf
+ 
+arm-none-eabi-objdump -h -S  small_led_driver.elf  > "small_led_driver.list"
+arm-none-eabi-objcopy  -O binary  small_led_driver.elf  "small_led_driver.bin"
+arm-none-eabi-size   small_led_driver.elf 
+   text	   data	    bss	    dec	    hex	filename
+  18180	    124	   1908	  20212	   4ef4	small_led_driver.elf
+Finished building: default.size.stdout
+ 
+Finished building: small_led_driver.bin
+ 
+Finished building: small_led_driver.list
+ 
+20:21:58 **** Incremental Build of configuration Debug for project small_led_driver ****
+make -j8 all 
+arm-none-eabi-gcc "C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L431xx -c -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/startup" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/CMSIS/Include" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/CMSIS/Device/ST/STM32L4xx/Include" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/STM32l4xx_HAL_Driver/Src" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/STM32l4xx_HAL_Driver/Inc" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/STM32l4xx_HAL_Driver/Inc/Legacy" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/src" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/src/stm32_bloat" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/color_led" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"fw_common/ws2812b_driver/ws2812b.d" -MT"fw_common/ws2812b_driver/ws2812b.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "fw_common/ws2812b_driver/ws2812b.o"
+arm-none-eabi-gcc -o "small_led_driver.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\splat\Documents\GitHub\Spud_code_collection\STM32\stm32_workspace\small_led_driver\STM32L431RCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="small_led_driver.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: small_led_driver.elf
+ 
+arm-none-eabi-objdump -h -S  small_led_driver.elf  > "small_led_driver.list"
+arm-none-eabi-objcopy  -O binary  small_led_driver.elf  "small_led_driver.bin"
+arm-none-eabi-size   small_led_driver.elf 
+   text	   data	    bss	    dec	    hex	filename
+  18180	    124	   1908	  20212	   4ef4	small_led_driver.elf
+Finished building: default.size.stdout
+ 
+Finished building: small_led_driver.bin
+ 
+Finished building: small_led_driver.list
+ 
+20:22:44 **** Incremental Build of configuration Debug for project small_led_driver ****
+make -j8 all 
+arm-none-eabi-gcc "C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L431xx -c -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/startup" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/CMSIS/Include" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/CMSIS/Device/ST/STM32L4xx/Include" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/STM32l4xx_HAL_Driver/Src" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/STM32l4xx_HAL_Driver/Inc" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/STM32l4xx_HAL_Driver/Inc/Legacy" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/src" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/src/stm32_bloat" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/color_led" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"fw_common/ws2812b_driver/ws2812b.d" -MT"fw_common/ws2812b_driver/ws2812b.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "fw_common/ws2812b_driver/ws2812b.o"
+arm-none-eabi-gcc -o "small_led_driver.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\splat\Documents\GitHub\Spud_code_collection\STM32\stm32_workspace\small_led_driver\STM32L431RCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="small_led_driver.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: small_led_driver.elf
+ 
+arm-none-eabi-objdump -h -S  small_led_driver.elf  > "small_led_driver.list"
+arm-none-eabi-objcopy  -O binary  small_led_driver.elf  "small_led_driver.bin"
+arm-none-eabi-size   small_led_driver.elf 
+   text	   data	    bss	    dec	    hex	filename
+  18124	    124	   1908	  20156	   4ebc	small_led_driver.elf
+Finished building: default.size.stdout
+ 
+Finished building: small_led_driver.bin
+ 
+Finished building: small_led_driver.list
+ 

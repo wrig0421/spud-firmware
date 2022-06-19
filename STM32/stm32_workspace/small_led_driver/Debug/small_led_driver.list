@@ -35,15 +35,15 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  15 .debug_ranges 00000d48  00000000  00000000  000348e0  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_macro  000220be  00000000  00000000  00035628  2**0
+ 16 .debug_macro  000220d0  00000000  00000000  00035628  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   00011be8  00000000  00000000  000576e6  2**0
+ 17 .debug_line   00011be8  00000000  00000000  000576f8  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    000d1520  00000000  00000000  000692ce  2**0
+ 18 .debug_str    000d15f6  00000000  00000000  000692e0  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000053  00000000  00000000  0013a7ee  2**0
+ 19 .comment      00000053  00000000  00000000  0013a8d6  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00003cc4  00000000  00000000  0013a844  2**2
+ 20 .debug_frame  00003cc4  00000000  00000000  0013a92c  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -311,7 +311,7 @@ void ws2812b_fill_pwm_buffer(const strip_bit_e strip_bit)
  8000352:	757b      	strb	r3, [r7, #21]
  8000354:	e01e      	b.n	8000394 <ws2812b_fill_pwm_buffer+0xd0>
 		{
-			gp_pwm_data_fill[(iii * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + yyy] = (color & (1 << (23 - yyy))) ? WS2812B_BIT_SET_CYCLES : WS2812B_BIT_RESET_CYCLES;
+			gp_pwm_data_fill[(iii * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + yyy] = (color & (1 << (23 - yyy))) ? (uint16_t)(WS2812B_BIT_SET_CYCLES + 1) : (uint16_t)WS2812B_BIT_RESET_CYCLES;
  8000356:	7d7b      	ldrb	r3, [r7, #21]
  8000358:	f1c3 0317 	rsb	r3, r3, #23
  800035c:	2201      	movs	r2, #1
@@ -321,7 +321,7 @@ void ws2812b_fill_pwm_buffer(const strip_bit_e strip_bit)
  8000366:	4013      	ands	r3, r2
  8000368:	2b00      	cmp	r3, #0
  800036a:	d001      	beq.n	8000370 <ws2812b_fill_pwm_buffer+0xac>
- 800036c:	2027      	movs	r0, #39	; 0x27
+ 800036c:	2028      	movs	r0, #40	; 0x28
  800036e:	e000      	b.n	8000372 <ws2812b_fill_pwm_buffer+0xae>
  8000370:	2014      	movs	r0, #20
  8000372:	4b2b      	ldr	r3, [pc, #172]	; (8000420 <ws2812b_fill_pwm_buffer+0x15c>)
@@ -10566,8 +10566,8 @@ int main(void)
 		ws2812b_show(1);
  8003ca6:	2001      	movs	r0, #1
  8003ca8:	f7fc fc26 	bl	80004f8 <ws2812b_show>
-		HAL_Delay(10);
- 8003cac:	200a      	movs	r0, #10
+		HAL_Delay(100);
+ 8003cac:	2064      	movs	r0, #100	; 0x64
  8003cae:	f7fc fcb9 	bl	8000624 <HAL_Delay>
 		ws2812b_set_led(1, 0, 0, 255, 0);
  8003cb2:	2300      	movs	r3, #0
@@ -10596,8 +10596,8 @@ int main(void)
 		ws2812b_show(1);
  8003ce2:	2001      	movs	r0, #1
  8003ce4:	f7fc fc08 	bl	80004f8 <ws2812b_show>
-		HAL_Delay(10);
- 8003ce8:	200a      	movs	r0, #10
+		HAL_Delay(100);
+ 8003ce8:	2064      	movs	r0, #100	; 0x64
  8003cea:	f7fc fc9b 	bl	8000624 <HAL_Delay>
 		ws2812b_set_led(1, 0, 0, 0, 255);
  8003cee:	23ff      	movs	r3, #255	; 0xff
@@ -10626,8 +10626,8 @@ int main(void)
 		ws2812b_show(1);
  8003d1e:	2001      	movs	r0, #1
  8003d20:	f7fc fbea 	bl	80004f8 <ws2812b_show>
-		HAL_Delay(10);
- 8003d24:	200a      	movs	r0, #10
+		HAL_Delay(100);
+ 8003d24:	2064      	movs	r0, #100	; 0x64
  8003d26:	f7fc fc7d 	bl	8000624 <HAL_Delay>
 		ws2812b_set_led(1, 0, 255, 0, 0);
  8003d2a:	e7a4      	b.n	8003c76 <main+0x6a>
