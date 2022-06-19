@@ -9,8 +9,7 @@
 
 #define WS2812B_PULSE_FREQ_KHZ				800
 #define WS2812B_PULSE_TIME_NANOSECONDS		1250
-#define WS2812B_PULSE_TIME_CYCLES			((WS2812B_PULSE_TIME_NANOSECONDS / (1.0f / WS2812B_TIM_FREQ_MHZ)) / 1000.0f)
-
+#define WS2812B_PULSE_TIME_CYCLES			((WS2812B_PULSE_TIME_NANOSECONDS / (1 / WS2812B_TIM_FREQ_MHZ)) / 1000)
 
 
 
@@ -21,8 +20,7 @@
 #define WS2812B_T1L_TIME_NANOSECONDS		450
 #define WS2812B_TIME_CUSHION_NANOSECONDS	150 // +/-
 
-
-#define WS2812B_BIT_SET_CYCLES 				((((WS2812B_T1H_TIME_NANOSECONDS + WS2812B_T0L_TIME_NANOSECONDS) / 2.0f) / (1.0f / WS2812B_TIM_FREQ_MHZ)) / 1000.0f)
+#define WS2812B_BIT_SET_CYCLES 				((((WS2812B_T1H_TIME_NANOSECONDS + WS2812B_T0L_TIME_NANOSECONDS) / 2) / (1 / WS2812B_TIM_FREQ_MHZ)) / 1000)
 #define WS2812B_BIT_RESET_CYCLES			(WS2812B_PULSE_TIME_CYCLES - WS2812B_BIT_SET_CYCLES)
 
 #define BITS_PER_BYTE	8
@@ -60,31 +58,31 @@ uint16_t strip_length[NUM_STRIPS] =
 
 
 #if defined(STRIP_1_LENGTH)
-ws2812b_led_t g_strip_1[STRIP_1_LENGTH];
+ws2812b_led_t g_strip_1[strip_length[STRIP_NUM_1]];
 #endif
 #if defined(STRIP_2_LENGTH)
-ws2812b_led_t g_strip_2[STRIP_2_LENGTH];
+ws2812b_led_t g_strip_2[strip_length[STRIP_NUM_2]];
 #endif
 #if defined(STRIP_3_LENGTH)
-ws2812b_led_t g_strip_3[STRIP_3_LENGTH];
+ws2812b_led_t g_strip_3[strip_length[STRIP_NUM_3]];
 #endif
 #if defined(STRIP_4_LENGTH)
-ws2812b_led_t g_strip_4[STRIP_4_LENGTH];
+ws2812b_led_t g_strip_4[strip_length[STRIP_NUM_4]];
 #endif
 #if defined(STRIP_5_LENGTH)
-ws2812b_led_t g_strip_5[STRIP_5_LENGTH];
+ws2812b_led_t g_strip_5[strip_length[STRIP_NUM_5]];
 #endif
 #if defined(STRIP_6_LENGTH)
-ws2812b_led_t g_strip_6[STRIP_6_LENGTH];
+ws2812b_led_t g_strip_6[strip_length[STRIP_NUM_6]];
 #endif
 #if defined(STRIP_7_LENGTH)
-ws2812b_led_t g_strip_7[STRIP_7_LENGTH];
+ws2812b_led_t g_strip_7[strip_length[STRIP_NUM_7]];
 #endif
 #if defined(STRIP_8_LENGTH)
-ws2812b_led_t g_strip_8[STRIP_8_LENGTH];
+ws2812b_led_t g_strip_8[strip_length[STRIP_NUM_8]];
 #endif
 #if defined(STRIP_9_LENGTH)
-ws2812b_led_t g_strip_9[STRIP_9_LENGTH];
+ws2812b_led_t g_strip_9[strip_length[STRIP_NUM_9]];
 #endif
 p_ws2812b_led_t gp_ws28128b_strip[NUM_STRIPS];
 

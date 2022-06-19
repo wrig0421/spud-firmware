@@ -1,7 +1,8 @@
-ws2812b.c:40:20:ws2812_convert_strip_bit_to_strip_num	24	static
-ws2812b.c:96:17:animate_led_get_strip_size	24	static
-ws2812b.c:134:6:ws2812b_set_led	32	static
-ws2812b.c:143:6:ws2812b_fill_pwm_buffer	32	static
-ws2812b.c:178:6:ws2812b_reset	4	static
-ws2812b.c:184:6:ws2812b_init	16	static
-ws2812b.c:256:6:ws2812b_show	24	static
+ws2812b.c:107:20:ws2812_convert_strip_num_to_strip_bit	16	static
+ws2812b.c:113:20:ws2812_convert_strip_bit_to_strip_num	16	static
+ws2812b.c:118:17:animate_led_get_strip_size	24	static
+ws2812b.c:127:6:ws2812b_set_led	32	static
+ws2812b.c:136:6:ws2812b_fill_pwm_buffer	32	static
+ws2812b.c:163:6:ws2812b_reset	4	static
+ws2812b.c:169:6:ws2812b_init	16	static
+ws2812b.c:241:6:ws2812b_show	24	static

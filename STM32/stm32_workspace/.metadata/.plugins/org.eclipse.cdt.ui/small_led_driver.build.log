@@ -1,20 +1,10 @@
-19:24:58 **** Incremental Build of configuration Debug for project small_led_driver ****
+20:05:32 **** Incremental Build of configuration Debug for project small_led_driver ****
 make -j8 all 
-arm-none-eabi-gcc "../src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L431xx -c -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/startup" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/CMSIS/Include" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/CMSIS/Device/ST/STM32L4xx/Include" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/STM32l4xx_HAL_Driver/Src" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/STM32l4xx_HAL_Driver/Inc" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/STM32l4xx_HAL_Driver/Inc/Legacy" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/src" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/src/stm32_bloat" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led" -I"C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/color_led" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"src/main.d" -MT"src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "src/main.o"
-arm-none-eabi-gcc -o "small_led_driver.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\splat\Documents\GitHub\Spud_code_collection\STM32\stm32_workspace\small_led_driver\STM32L431RCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="small_led_driver.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: small_led_driver.elf
- 
-arm-none-eabi-objdump -h -S  small_led_driver.elf  > "small_led_driver.list"
-arm-none-eabi-objcopy  -O binary  small_led_driver.elf  "small_led_driver.bin"
 arm-none-eabi-size   small_led_driver.elf 
    text	   data	    bss	    dec	    hex	filename
-  18084	    120	   8360	  26564	   67c4	small_led_driver.elf
+  18124	    124	   1908	  20156	   4ebc	small_led_driver.elf
 Finished building: default.size.stdout
  
-Finished building: small_led_driver.bin
- 
-Finished building: small_led_driver.list
- 
 
-19:24:59 Build Finished. 0 errors, 0 warnings. (took 1s.153ms)
+20:05:33 Build Finished. 0 errors, 0 warnings. (took 280ms)
 

@@ -1,7 +1,6 @@
 #if !defined(WS2812B_H)
 #define WS2812B_H
 
-
 #define STRIP_1_LENGTH    7
 //#define STRIP_2_LENGTH    7
 //#define STRIP_3_LENGTH    7
