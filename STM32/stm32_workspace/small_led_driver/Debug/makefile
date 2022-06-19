@@ -9,9 +9,11 @@ RM := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
--include Drivers/STM32L4xx_HAL_Driver/Src/subdir.mk
--include Core/Startup/subdir.mk
--include Core/Src/subdir.mk
+-include startup/subdir.mk
+-include src/stm32_bloat/subdir.mk
+-include src/subdir.mk
+-include sdk/STM32L4xx_HAL_Driver/Src/subdir.mk
+-include fw_common/ws2812b_driver/subdir.mk
 -include subdir.mk
 -include objects.mk
 

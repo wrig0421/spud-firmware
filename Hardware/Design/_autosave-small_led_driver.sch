@@ -350,6 +350,8 @@ Wire Wire Line
 Wire Wire Line
 	4100 1650 4100 1550
 Wire Wire Line
+	4100 4600 2450 3800
+Wire Wire Line
 	4100 5650 4100 5700
 Wire Wire Line
 	4100 5700 4200 5700
@@ -419,6 +421,8 @@ Wire Wire Line
 	5400 1150 5500 1150
 Wire Wire Line
 	5400 1250 5500 1250
+Wire Wire Line
+	5400 2000 3750 1200
 Wire Wire Line
 	5650 4900 6200 4900
 Wire Wire Line
@@ -2176,12 +2180,12 @@ $EndComp
 $Comp
 L MCU_ST_STM32L4:STM32L431RCTx U2
 U 1 1 6271DE66
-P 3150 2800
-F 0 "U2" H 4175 -139 50  0000 C CNN
-F 1 "STM32L431RCTx" H 4175 -230 50  0000 C CNN
-F 2 "Package_QFP:LQFP-64_10x10mm_P0.5mm" H 2550 2450 50  0001 R CNN
-F 3 "http://www.st.com/st-web-ui/static/active/en/resource/technical/document/datasheet/DM00257211.pdf" H 3300 1350 50  0001 C CNN
-	1    3150 2800
+P 4800 3600
+F 0 "U2" H 5825 661 50  0000 C CNN
+F 1 "STM32L431RCTx" H 5825 570 50  0000 C CNN
+F 2 "Package_QFP:LQFP-64_10x10mm_P0.5mm" H 4200 3250 50  0001 R CNN
+F 3 "http://www.st.com/st-web-ui/static/active/en/resource/technical/document/datasheet/DM00257211.pdf" H 4950 2150 50  0001 C CNN
+	1    4800 3600
 	1    0    0    -1  
 $EndComp
 $EndSCHEMATC

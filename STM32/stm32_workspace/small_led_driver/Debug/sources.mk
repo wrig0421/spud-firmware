@@ -20,7 +20,9 @@ OBJCOPY_BIN :=
 
 # Every subdirectory with source files must be described here
 SUBDIRS := \
-Core/Src \
-Core/Startup \
-Drivers/STM32L4xx_HAL_Driver/Src \
+fw_common/ws2812b_driver \
+sdk/STM32L4xx_HAL_Driver/Src \
+src \
+src/stm32_bloat \
+startup \
 
