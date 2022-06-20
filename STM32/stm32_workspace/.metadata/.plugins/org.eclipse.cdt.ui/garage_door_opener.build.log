@@ -1,0 +1,10 @@
+13:04:35 **** Incremental Build of configuration Debug for project garage_door_opener ****
+make -j8 all 
+arm-none-eabi-size   garage_door_opener.elf 
+   text	   data	    bss	    dec	    hex	filename
+  40388	     84	  51108	  91580	  165bc	garage_door_opener.elf
+Finished building: default.size.stdout
+ 
+
+13:04:35 Build Finished. 0 errors, 0 warnings. (took 399ms)
+

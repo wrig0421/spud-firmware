@@ -108,7 +108,7 @@ static strip_num_e ws2812_convert_strip_bit_to_strip_num(strip_bit_e strip_bit)
 	return (strip_num_e)(strip_bit - 1);
 }
 
-static uint16_t ws2812_get_strip_size(const strip_bit_e strip_bit)
+uint16_t ws2812_get_strip_size(const strip_bit_e strip_bit)
 {
 	uint16_t strip_size = 0;
 	if (STRIP_BIT_ALL_SET == strip_bit) strip_size = g_max_strip_length;
@@ -128,9 +128,8 @@ uint16_t ws2812_get_number_of_active_strips(const strip_mask_t strip_mask)
 }
 
 // if STRIP_BIT_NO_MORE_SET returned then all bits have been encountered
-static strip_bit_e ws2812_get_next_active_strip(const strip_mask_t strip_mask, const strip_bit_e prev_strip_bit)
+strip_bit_e ws2812_get_next_active_strip(const strip_mask_t strip_mask, const strip_bit_e prev_strip_bit)
 {
-	static bool first_pass = true;
 	// STRIP_BIT_ALL_SET is not a valid option!
 
 	for (strip_bit_e iii = prev_strip_bit; iii <= STRIP_BIT_NUM_STRIPS; iii = (strip_bit_e)(iii + 1))
@@ -141,7 +140,7 @@ static strip_bit_e ws2812_get_next_active_strip(const strip_mask_t strip_mask, c
 }
 
 
-static uint16_t ws2812_get_num_active_animation_leds(const strip_mask_t strip_mask)
+uint16_t ws2812_get_num_active_animation_leds(const strip_mask_t strip_mask)
 {
 	uint16_t strip_size = 0;
 	if (STRIP_BIT_ALL_SET == strip_mask) strip_size = g_num_leds;
@@ -179,7 +178,7 @@ static uint16_t ws2812_get_num_active_animation_leds(const strip_mask_t strip_ma
 }
 
 
-static uint16_t ws2812_led_get_max_strip_size(const strip_mask_t strip_mask)
+uint16_t ws2812_led_get_max_strip_size(const strip_mask_t strip_mask)
 {
 	uint16_t strip_size = 0;
 	if (STRIP_BIT_ALL_SET == strip_mask) strip_size = g_max_strip_length;
@@ -217,7 +216,7 @@ static uint16_t ws2812_led_get_max_strip_size(const strip_mask_t strip_mask)
 }
 
 
-static bool ws2812_pixel_is_in_strip_range(strip_bit_e strip_bit, uint16_t pixel)
+bool ws2812_pixel_is_in_strip_range(strip_bit_e strip_bit, uint16_t pixel)
 {
 	bool return_val = false;
 #if defined(STRIP_1_LENGTH)

@@ -5,39 +5,7 @@
 #define ANIMATE_LED_H
 #include <stdint.h>
 #include <stdbool.h> 
-
-//// static definitions
-////#define TOGETHER_SIGN
-////#define SCHUMACHER_SIGN
-////#define SPUDS_PUB_SIGN
-//#define GOOD_VIBES_SIGN
-//
-////#define SRW_DEBUG
-//
-//#if defined(GOOD_VIBES_SIGN)
-//#define MULTIPLE_STRIPS
-//#endif
-//
-//#if defined(GOOD_VIBES_SIGN)
-//#define STRIP_1_LENGTH	294
-//#define STRIP_2_LENGTH	452
-////#define STRIP_1_LENGTH	452
-////#define STRIP_2_LENGTH	294
-//#define NUM_LEDS STRIP_1_LENGTH + STRIP_2_LENGTH // 294 (from upper) + 450 (from lower)
-//#elif defined(SCHUMACHER_SIGN)
-//#define STRIP_1_LENGTH	420
-//#define NUM_LEDS 420 //Schumacher sign
-//#elif defined(SPUDS_PUB_SIGN)
-//#define STRIP_1_LENGTH	212
-//#define NUM_LEDS 212 // Spud's pub sign
-//#elif defined(TOGETHER_SIGN)
-//#define STRIP_1_LENGTH	292
-//#define NUM_LEDS 292 // Together sign
-//#else
-//#error "No sign definition"
-//#endif
-
-
+#include "ws2812b.h"
 
 // typedefs, structs, enums
 typedef enum
@@ -80,7 +48,7 @@ typedef enum
 #elif defined(SRW_DEBUG)
 	LED_STATE_LAST = LED_STATE_SRW_DEBUG,
 #else
-	LED_STATE_LAST = LED_STATE_SPELL
+	LED_STATE_LAST = LED_STATE_SPELL,
 #endif
 	NUM_LED_STATES,
 	// future states below 
@@ -112,7 +80,8 @@ typedef enum
 	NUM_SPEEDS
 } led_speed_e;
 
-
+uint32_t random_num(uint32_t min, uint32_t max);
+void task_animate_led(void *argument);
 void animate_led_reset_state(void);
 void animate_led_set_interrupt_flag(isr_e src);
 bool animate_led_interrupt_flag(isr_e src);

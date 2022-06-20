@@ -13,7 +13,13 @@ RM := rm -rf
 -include src/stm32_bloat/subdir.mk
 -include src/subdir.mk
 -include sdk/STM32L4xx_HAL_Driver/Src/subdir.mk
+-include sdk/FreeRTOS/Source/portable/MemMang/subdir.mk
+-include sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F/subdir.mk
+-include sdk/FreeRTOS/Source/CMSIS_RTOS_V2/subdir.mk
+-include sdk/FreeRTOS/Source/subdir.mk
 -include fw_common/ws2812b_driver/subdir.mk
+-include fw_common/color_led/subdir.mk
+-include fw_common/animate_led/subdir.mk
 -include subdir.mk
 -include objects.mk
 

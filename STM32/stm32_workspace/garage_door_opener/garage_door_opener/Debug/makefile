@@ -65,8 +65,8 @@ all: main-build
 main-build: garage_door_opener.elf secondary-outputs
 
 # Tool invocations
-garage_door_opener.elf: $(OBJS) $(USER_OBJS) C:\Users\splat\Documents\GitHub\Spud_code_collection\STM32\garage_door_opener_sandbox\garage_door_opener\STM32L433RCTXP_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "garage_door_opener.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\splat\Documents\GitHub\Spud_code_collection\STM32\garage_door_opener_sandbox\garage_door_opener\STM32L433RCTXP_FLASH.ld" --specs=nosys.specs -Wl,-Map="garage_door_opener.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+garage_door_opener.elf: $(OBJS) $(USER_OBJS) C:\Users\splat\Documents\GitHub\Spud_code_collection\STM32\stm32_workspace\garage_door_opener\garage_door_opener\STM32L433RCTXP_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "garage_door_opener.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\splat\Documents\GitHub\Spud_code_collection\STM32\stm32_workspace\garage_door_opener\garage_door_opener\STM32L433RCTXP_FLASH.ld" --specs=nosys.specs -Wl,-Map="garage_door_opener.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

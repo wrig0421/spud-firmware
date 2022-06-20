@@ -122,6 +122,11 @@ typedef struct
 typedef ws2812b_led_t* p_ws2812b_led_t;
 typedef uint16_t* p_pwm_data_t;
 
+bool ws2812_pixel_is_in_strip_range(strip_bit_e strip_bit, uint16_t pixel);
+uint16_t ws2812_led_get_max_strip_size(const strip_mask_t strip_mask);
+strip_bit_e ws2812_get_next_active_strip(const strip_mask_t strip_mask, const strip_bit_e prev_strip_bit);
+uint16_t ws2812_get_num_active_animation_leds(const strip_mask_t strip_mask);
+uint16_t ws2812_get_strip_size(const strip_bit_e strip_bit);
 void ws2812b_reset(void);
 void ws2812b_init(void);
 void ws2812b_show(const strip_mask_t strip_mask);

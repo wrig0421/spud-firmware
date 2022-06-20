@@ -1,7 +1,9 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include "ws2812b.h"
+#include "cmsis_os.h"
 #include "main.h"
+#include "task_create.h"
 #include <stdbool.h>
 #include "color_led.h"
 #include "animate_led.h"
@@ -46,23 +48,25 @@ void reset_ws2812b(void)
   */
 int main(void)
 {
+	color_hex_code_e color = COLOR_HEX_RED;
+	/* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+	HAL_Init();
 
-  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  HAL_Init();
+	/* Configure the system clock */
+	SystemClock_Config();
+	ws2812b_init();
+	/* Initialize all configured peripherals */
+	MX_GPIO_Init();
+	MX_DMA_Init();
+	MX_RTC_Init();
+	MX_TIM2_Init();
+	MX_TIM1_Init();
+	HAL_GPIO_WritePin(GPIOB, LEVEL_SHIFTER_EN_Pin, GPIO_PIN_SET);
+	HAL_TIM_PWM_Stop_DMA(&htim1, TIM_CHANNEL_1);
 
-  /* Configure the system clock */
-  SystemClock_Config();
-  ws2812b_init();
-  /* Initialize all configured peripherals */
-  MX_GPIO_Init();
-  MX_DMA_Init();
-  MX_RTC_Init();
-  MX_TIM2_Init();
-  MX_TIM1_Init();
-  HAL_GPIO_WritePin(GPIOB, LEVEL_SHIFTER_EN_Pin, GPIO_PIN_SET);
-  HAL_TIM_PWM_Stop_DMA(&htim1, TIM_CHANNEL_1);
-
-  HAL_Delay(1000);
+	osKernelInitialize();
+	task_create();
+	osKernelStart();
 
 	for(int i = 0; i < STRIP_1_LENGTH; i++)
 	{
@@ -71,9 +75,14 @@ int main(void)
 	ws2812b_show(1);
 	while (1)
 	{
-        animate_led_only_spell_word(STRIP_BIT_1, COLOR_HEX_BLUE, 0);
+        animate_led_only_spell_word(STRIP_BIT_1, color, 0);
         ws2812b_show(1);
-        HAL_Delay(1000);
+        //HAL_Delay(1000);
+        color = COLOR_HEX_RED;
+        animate_led_only_spell_word(STRIP_BIT_1, color, 0);
+		ws2812b_show(1);
+		//HAL_Delay(1000);
+        color = COLOR_HEX_YELLOW;
 //		ws2812b_set_led(1, 0, 255, 0, 0);
 //		ws2812b_set_led(1, 1, 0, 255, 0);
 //		ws2812b_set_led(1, 2, 0, 0, 255);

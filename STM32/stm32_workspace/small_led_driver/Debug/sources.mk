@@ -20,7 +20,13 @@ OBJCOPY_BIN :=
 
 # Every subdirectory with source files must be described here
 SUBDIRS := \
+fw_common/animate_led \
+fw_common/color_led \
 fw_common/ws2812b_driver \
+sdk/FreeRTOS/Source/CMSIS_RTOS_V2 \
+sdk/FreeRTOS/Source \
+sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F \
+sdk/FreeRTOS/Source/portable/MemMang \
 sdk/STM32L4xx_HAL_Driver/Src \
 src \
 src/stm32_bloat \
