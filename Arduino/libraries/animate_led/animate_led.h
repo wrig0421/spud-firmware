@@ -8,17 +8,32 @@
 
 // static definitions
 //#define TOGETHER_SIGN
-#define SCHUMACHER_SIGN
+//#define SCHUMACHER_SIGN
 //#define SPUDS_PUB_SIGN
 //#define GOOD_VIBES_SIGN
+#define PATTYS_PUB_SIGN
+//#define DEBUG
 
 //#define SRW_DEBUG
 
-#if defined(GOOD_VIBES_SIGN)
-#define MULTIPLE_STRIPS
+#if defined(GOOD_VIBES_SIGN) || defined (DEBUG)
+//#define MULTIPLE_STRIPS
 #endif
 
-#if defined(GOOD_VIBES_SIGN)
+#if defined(DEBUG)
+#define STRIP_1_LENGTH	300
+//#define STRIP_2_LENGTH	18*10
+//#define STRIP_3_LENGTH	18*10
+//#define STRIP_4_LENGTH	18*10
+//#define STRIP_5_LENGTH	18*10
+//#define NUM_LEDS STRIP_1_LENGTH + STRIP_2_LENGTH + STRIP_3_LENGTH + STRIP_4_LENGTH
+#define NUM_LEDS 300 // Together sign
+
+#elif defined(PATTYS_PUB_SIGN)
+#define STRIP_1_LENGTH 	210 // ???? VERIFY THE FUCKING VALUE
+#define NUM_LEDS 		STRIP_1_LENGTH
+
+#elif defined(GOOD_VIBES_SIGN)
 #define STRIP_1_LENGTH	294
 #define STRIP_2_LENGTH	452
 //#define STRIP_1_LENGTH	452
@@ -174,7 +189,7 @@ typedef enum
 #elif defined(SRW_DEBUG)
 	LED_STATE_LAST = LED_STATE_SRW_DEBUG,
 #else
-	LED_STATE_LAST = LED_STATE_SPELL
+	LED_STATE_LAST = LED_STATE_SPELL,
 #endif
 	NUM_LED_STATES,
 	// future states below 

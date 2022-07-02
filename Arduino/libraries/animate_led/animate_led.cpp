@@ -6,16 +6,16 @@
 //#include <FastLED>
 #include "animate_led.h"
 
-#define PIN_STRIP_1 8
-//#define PIN_STRIP_1 12
+//#define PIN_STRIP_1 8
+#define PIN_STRIP_1 12
 
 #if defined(MULTIPLE_STRIPS)
 //#define PIN_STRIP_2 8 
-#define PIN_STRIP_2 12
-//#define PIN_STRIP_3 
-//#define PIN_STRIP_5 
-//#define PIN_STRIP_6 
-//#define PIN_STRIP_7 
+#define PIN_STRIP_2 10
+#define PIN_STRIP_3 11
+#define PIN_STRIP_4 12
+#define PIN_STRIP_5 13
+#define PIN_STRIP_6 9 
 //#define PIN_STRIP_8  
 //#define PIN_STRIP_9 
 #endif
@@ -33,7 +33,7 @@ CLEDController *controller[NUM_STRIPS];
 
 CRGB *led_strip;
 
-led_speed_e g_led_speed = LED_SPEED_5X;
+led_speed_e g_led_speed = LED_SPEED_2X;
 //led_speed_e g_led_speed = LED_SPEED_1X;
 //led_state_e g_led_state = LED_STATE_FIRST;
 //led_state_e g_led_state = LED_STATE_TWO_TONE;
@@ -1252,7 +1252,7 @@ void animate_led_theater_chase(strip_mask_t strip_mask, color_hex_code_e color, 
 	red = ((color & 0xFF0000) >> 16);
 	green = ((color & 0x00FF00) >> 8);
 	blue = (color & 0x0000FF);
-    for (int j = 0; j < 10; j++)
+    for (int j = 0; j < 50; j++)
     {
         for (int q = 0; q < 3; q++)
         {
