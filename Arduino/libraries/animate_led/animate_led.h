@@ -8,9 +8,9 @@
 
 // static definitions
 //#define TOGETHER_SIGN
-//#define SCHUMACHER_SIGN
+#define SCHUMACHER_SIGN
 //#define SPUDS_PUB_SIGN
-#define GOOD_VIBES_SIGN
+//#define GOOD_VIBES_SIGN
 
 //#define SRW_DEBUG
 

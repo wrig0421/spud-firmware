@@ -569,129 +569,131 @@ sign_state_t select_random_state(void)
 
 void loop() 
 {
-    if(state_transition_flag_g)
-    {
-        // alert the user they are switch master modes.  This occurs only on master transitions 
-        state_transition_flag_g = false;
-        if(ST_MASTER_DEMO_FIXED_TIME == master_sign_state) state_transition_num_blinks = 1;
-        else if(ST_MASTER_DEMO_VARIABLE_TIME == master_sign_state) state_transition_num_blinks = 2;
-        else if(ST_SOLID_COLOR == master_sign_state) state_transition_num_blinks = 3;
-        else state_transition_num_blinks = 4;
-        for(uint8_t i = 0; i < state_transition_num_blinks; i++)
-        {
-            strip_clear(STRIP_SIZE);
-            delay(500);
-            draw_word(disp_red, STRIP_SIZE, false, animation_speed_factor);
-            delay(250);
-        }
-        strip_clear(STRIP_SIZE);
-        delay(500);
-    }
-    else if(run_state_transition_flag_g)
-    {
-        run_state_transition_flag_g = false;
-        strip_clear(STRIP_SIZE);
-        delay(500);
-        draw_word(disp_blue, STRIP_SIZE, false, animation_speed_factor);
-        delay(250);
-        strip_clear(STRIP_SIZE);
-        delay(500);
-    }
-    else if(animation_speed_change_flag_g)
-    {
-        animation_speed_change_flag_g = false;
-        if(ANIMATION_SPEED_UP_FACTOR_0_5X == animation_speed_factor)
-        {
-            animation_speed_num_blinks = 1;
-        }
-        else if(ANIMATION_SPEED_UP_FACTOR_0_25X == animation_speed_factor)
-        {
-            animation_speed_num_blinks = 2;
-        }
-        else if(ANIMATION_SPEED_UP_FACTOR_0_1X == animation_speed_factor)
-        {
-            animation_speed_num_blinks = 3;
-        }
-        else 
-        {
-            animation_speed_num_blinks = 4;
-        }
-        for(uint8_t i = 0; i < animation_speed_num_blinks; i++)
-        {
-            strip_clear(STRIP_SIZE);
-            delay(500);
-            draw_word(disp_green, STRIP_SIZE, false, animation_speed_factor);
-            delay(250);
-        }
-        strip_clear(STRIP_SIZE);
-        delay(500);
-        draw_word(sign_color, STRIP_SIZE, false, animation_speed_factor);
-    }
-    if(master_sign_state != ST_SOLID_COLOR)
-    {
-        switch_sign_color();
-    }
-    if(ST_MASTER_DEMO_FIXED_TIME == master_sign_state || ST_MASTER_DEMO_VARIABLE_TIME == master_sign_state)
-    {
-        check_loop_count();
-    }
-    switch (sign_state)
-    {
-        case ST_SPELL_WORD:
-            draw_word(sign_color, STRIP_SIZE, true, animation_speed_factor);
-            delay(DEFAULT_DELAY_TIME_MS * animation_speed_factor);
-        break;
-        case ST_SPELL_WORD_MINT:
-            draw_word(fixed_alt_color, STRIP_SIZE, true, animation_speed_factor);
-            if (disp_mint == fixed_alt_color) fixed_alt_color = disp_white;
-            else fixed_alt_color = disp_mint;
-            delay(DEFAULT_DELAY_TIME_MS * animation_speed_factor);
-        break;
-        case ST_DRAW_LETTERS:
-            while(NUM_LETTERS != draw_letter(letter, sign_color))
-            {
-                letter = (uint8_t)letter + 1;
-                delay(2000 * animation_speed_factor + 50);
-            }
-            letter = N_LETTER;
-        break;
-        case ST_L_R_FADE:
-            fade_word(sign_color, 250*animation_speed_factor + 10, true);
-            delay(DEFAULT_DELAY_TIME_MS * animation_speed_factor);
-        break;
-        case ST_R_L_FADE:
-            fade_word(sign_color, 250*animation_speed_factor + 10, false);
-            delay(DEFAULT_DELAY_TIME_MS * animation_speed_factor);
-        break;
-        case ST_ALTERNATE_L_R_FADE:
-            if(alternate_l_r_flag) fade_word(sign_color, 250*animation_speed_factor + 10, false);
-            else  fade_word(sign_color, 250*animation_speed_factor + 10, true);
-            alternate_l_r_flag ^= 1;
-            delay(DEFAULT_DELAY_TIME_MS * animation_speed_factor + 10);
-        break;
-        case ST_T_B_FADE:
-            fade_word_top_to_bottom(sign_color, 250*animation_speed_factor + 10);
-            delay(DEFAULT_DELAY_TIME_MS * animation_speed_factor);
-        break;
-        case ST_B_T_FADE:
-            fade_word_bottom_to_top(sign_color, 250*animation_speed_factor + 10);
-            delay(DEFAULT_DELAY_TIME_MS * animation_speed_factor);
-        break;
-        case ST_ALTERNATE_T_B_FADE:
-            if(alternate_t_b_flag) fade_word_top_to_bottom(sign_color, 250*animation_speed_factor + 10);
-            else fade_word_bottom_to_top(sign_color, 250*animation_speed_factor + 10);
-            alternate_t_b_flag ^= 1;
-            delay(DEFAULT_DELAY_TIME_MS * animation_speed_factor);
-        break;
-        case ST_DRAW_WORD:
-            draw_word(sign_color, STRIP_SIZE, false, animation_speed_factor);
-            delay(DEFAULT_DELAY_TIME_MS * animation_speed_factor + 100);
-        break;
-        case ST_TWINKLE:
-           while(!twinkle_animation());
-           delay(DEFAULT_DELAY_TIME_MS * animation_speed_factor + 100);
-        break;
-        default:
-        break;
-    }
+
+    draw_word(sign_color, STRIP_SIZE, true, animation_speed_factor);
+//    if(state_transition_flag_g)
+//    {
+//        // alert the user they are switch master modes.  This occurs only on master transitions 
+//        state_transition_flag_g = false;
+//        if(ST_MASTER_DEMO_FIXED_TIME == master_sign_state) state_transition_num_blinks = 1;
+//        else if(ST_MASTER_DEMO_VARIABLE_TIME == master_sign_state) state_transition_num_blinks = 2;
+//        else if(ST_SOLID_COLOR == master_sign_state) state_transition_num_blinks = 3;
+//        else state_transition_num_blinks = 4;
+//        for(uint8_t i = 0; i < state_transition_num_blinks; i++)
+//        {
+//            strip_clear(STRIP_SIZE);
+//            delay(500);
+//            draw_word(disp_red, STRIP_SIZE, false, animation_speed_factor);
+//            delay(250);
+//        }
+//        strip_clear(STRIP_SIZE);
+//        delay(500);
+//    }
+//    else if(run_state_transition_flag_g)
+//    {
+//        run_state_transition_flag_g = false;
+//        strip_clear(STRIP_SIZE);
+//        delay(500);
+//        draw_word(disp_blue, STRIP_SIZE, false, animation_speed_factor);
+//        delay(250);
+//        strip_clear(STRIP_SIZE);
+//        delay(500);
+//    }
+//    else if(animation_speed_change_flag_g)
+//    {
+//        animation_speed_change_flag_g = false;
+//        if(ANIMATION_SPEED_UP_FACTOR_0_5X == animation_speed_factor)
+//        {
+//            animation_speed_num_blinks = 1;
+//        }
+//        else if(ANIMATION_SPEED_UP_FACTOR_0_25X == animation_speed_factor)
+//        {
+//            animation_speed_num_blinks = 2;
+//        }
+//        else if(ANIMATION_SPEED_UP_FACTOR_0_1X == animation_speed_factor)
+//        {
+//            animation_speed_num_blinks = 3;
+//        }
+//        else 
+//        {
+//            animation_speed_num_blinks = 4;
+//        }
+//        for(uint8_t i = 0; i < animation_speed_num_blinks; i++)
+//        {
+//            strip_clear(STRIP_SIZE);
+//            delay(500);
+//            draw_word(disp_green, STRIP_SIZE, false, animation_speed_factor);
+//            delay(250);
+//        }
+//        strip_clear(STRIP_SIZE);
+//        delay(500);
+//        draw_word(sign_color, STRIP_SIZE, false, animation_speed_factor);
+//    }
+//    if(master_sign_state != ST_SOLID_COLOR)
+//    {
+//        switch_sign_color();
+//    }
+//    if(ST_MASTER_DEMO_FIXED_TIME == master_sign_state || ST_MASTER_DEMO_VARIABLE_TIME == master_sign_state)
+//    {
+//        check_loop_count();
+//    }
+//    switch (sign_state)
+//    {
+//        case ST_SPELL_WORD:
+//            draw_word(sign_color, STRIP_SIZE, true, animation_speed_factor);
+//            delay(DEFAULT_DELAY_TIME_MS * animation_speed_factor);
+//        break;
+//        case ST_SPELL_WORD_MINT:
+//            draw_word(fixed_alt_color, STRIP_SIZE, true, animation_speed_factor);
+//            if (disp_mint == fixed_alt_color) fixed_alt_color = disp_white;
+//            else fixed_alt_color = disp_mint;
+//            delay(DEFAULT_DELAY_TIME_MS * animation_speed_factor);
+//        break;
+//        case ST_DRAW_LETTERS:
+//            while(NUM_LETTERS != draw_letter(letter, sign_color))
+//            {
+//                letter = (uint8_t)letter + 1;
+//                delay(2000 * animation_speed_factor + 50);
+//            }
+//            letter = N_LETTER;
+//        break;
+//        case ST_L_R_FADE:
+//            fade_word(sign_color, 250*animation_speed_factor + 10, true);
+//            delay(DEFAULT_DELAY_TIME_MS * animation_speed_factor);
+//        break;
+//        case ST_R_L_FADE:
+//            fade_word(sign_color, 250*animation_speed_factor + 10, false);
+//            delay(DEFAULT_DELAY_TIME_MS * animation_speed_factor);
+//        break;
+//        case ST_ALTERNATE_L_R_FADE:
+//            if(alternate_l_r_flag) fade_word(sign_color, 250*animation_speed_factor + 10, false);
+//            else  fade_word(sign_color, 250*animation_speed_factor + 10, true);
+//            alternate_l_r_flag ^= 1;
+//            delay(DEFAULT_DELAY_TIME_MS * animation_speed_factor + 10);
+//        break;
+//        case ST_T_B_FADE:
+//            fade_word_top_to_bottom(sign_color, 250*animation_speed_factor + 10);
+//            delay(DEFAULT_DELAY_TIME_MS * animation_speed_factor);
+//        break;
+//        case ST_B_T_FADE:
+//            fade_word_bottom_to_top(sign_color, 250*animation_speed_factor + 10);
+//            delay(DEFAULT_DELAY_TIME_MS * animation_speed_factor);
+//        break;
+//        case ST_ALTERNATE_T_B_FADE:
+//            if(alternate_t_b_flag) fade_word_top_to_bottom(sign_color, 250*animation_speed_factor + 10);
+//            else fade_word_bottom_to_top(sign_color, 250*animation_speed_factor + 10);
+//            alternate_t_b_flag ^= 1;
+//            delay(DEFAULT_DELAY_TIME_MS * animation_speed_factor);
+//        break;
+//        case ST_DRAW_WORD:
+//            draw_word(sign_color, STRIP_SIZE, false, animation_speed_factor);
+//            delay(DEFAULT_DELAY_TIME_MS * animation_speed_factor + 100);
+//        break;
+//        case ST_TWINKLE:
+//           while(!twinkle_animation());
+//           delay(DEFAULT_DELAY_TIME_MS * animation_speed_factor + 100);
+//        break;
+//        default:
+//        break;
+//    }
 }

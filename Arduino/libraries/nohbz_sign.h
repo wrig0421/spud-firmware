@@ -1,7 +1,7 @@
 #include "stdint.h"
 #include "stdbool.h"
 
-#define STRIP_SIZE  132 // [0, 131]
+#define STRIP_SIZE  300 // [0, 131]
 
 // 'T' [0, 21]
 #define N_LEFT_POST_PIXEL_NUM_START		0

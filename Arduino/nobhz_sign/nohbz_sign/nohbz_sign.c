@@ -70,7 +70,7 @@ sign_state_master_t master_sign_state = ST_RUN;
 //sign_state_t sign_state = ST_SPELL_WORD;
 sign_state_t sign_state = ST_SPELL_WORD_MINT;
 sign_state_t random_state = NUM_SIGN_STATES; // set to an invalid state initially....
-sign_state_t state_checker = sign_state;
+sign_state_t state_checker = ST_SPELL_WORD_MINT;
 
 letters_in_sign_t letter = N_LETTER;  
 
@@ -133,7 +133,7 @@ void setup(void)
     pinMode(D2, INPUT);
     pinMode(D1, INPUT);
     pinMode(D0, INPUT);
-    Serial.begin(9600);
+    //Serial.begin(9600);
     strip_init();
     interrupts();
     attachInterrupt(digitalPinToInterrupt(button1), mode_switch_isr, RISING);
@@ -266,7 +266,7 @@ uint16_t twinkle_spot(uint16_t minimum, uint16_t maximum, display_colors_e color
     uint8_t stop_pixel = 0;
     uint16_t rand_pixel = 0;
     
-    rand_pixel = random(minimum, maximum);
+   // rand_pixel = random(minimum, maximum);
     
     if (!pixel_set_flags[rand_pixel])
     {
@@ -476,13 +476,13 @@ sign_state_t select_random_state(void)
 {
     if(sign_state != ST_TWINKLE)
     {
-        random_state = (sign_state_t)random(sign_state, NUM_SIGN_STATES);
+        //random_state = (sign_state_t)random(sign_state, NUM_SIGN_STATES);
     }
     else
     {
-        random_state = (sign_state_t)random(ST_SPELL_WORD, sign_state);
+        //random_state = (sign_state_t)random(ST_SPELL_WORD, sign_state);
     }
-    Serial.println("Trying to change state");
+    //Serial.println("Trying to change state");
     if(state_used_flag[random_state])
     {
         if(random_state != ST_TWINKLE)
@@ -510,7 +510,7 @@ sign_state_t select_random_state(void)
                             state_used_flag[i] = false;
                             i = (sign_state_t)i + 1;
                         }
-                        random_state = random(ST_SPELL_WORD, NUM_SIGN_STATES);
+                        //random_state = random(ST_SPELL_WORD, NUM_SIGN_STATES);
                         sign_state = (sign_state_t)random_state;
                         state_used_flag[sign_state] = true;
                         return sign_state;
@@ -530,7 +530,7 @@ sign_state_t select_random_state(void)
                     state_used_flag[i] = false;
                     i = (sign_state_t)i + 1;
                 }
-                random_state = random(ST_SPELL_WORD, NUM_SIGN_STATES);
+                //random_state = random(ST_SPELL_WORD, NUM_SIGN_STATES);
                 sign_state = (sign_state_t)random_state;
                 state_used_flag[sign_state] = true;
                 return sign_state;
@@ -553,7 +553,7 @@ sign_state_t select_random_state(void)
                     state_used_flag[i] = false;
                     i = (sign_state_t)i + 1;
                 }
-                random_state = random(ST_SPELL_WORD, NUM_SIGN_STATES);
+                //random_state = random(ST_SPELL_WORD, NUM_SIGN_STATES);
                 sign_state = (sign_state_t)random_state;
                 state_used_flag[sign_state] = true;
                 return sign_state;

@@ -3,7 +3,7 @@
 #include <FastLED.h>
 
 // static definitions
-#define SERIAL_DEBUG // define to print debug messages
+//#define SERIAL_DEBUG // define to print debug messages
 //#define TEST_MODE // increment through each state.. 
 //#define ENABLE_EXT_INTERRUPTS
 
@@ -64,8 +64,9 @@ void isr_pause(void);
 // global variables
 master_led_state_e g_master_led_state = MASTER_LED_STATE_DEMO; 
 master_color_state_e g_master_color_state = MASTER_COLOR_STATE_DEMO;
+
 uint8_t g_animation_iterations = 0;
-led_state_e g_loop_led_state = LED_STATE_SOLID_COLOR;
+led_state_e g_loop_led_state = LED_STATE_SPELL;
 
 unsigned long g_isr_times[NUM_ISR] = {0};
 unsigned long g_debounce_delay = 2000; // ms
@@ -124,18 +125,6 @@ void dbg_serial_print(void)
         case LED_STATE_SOLID_COLOR:
             Serial.println("LED_STATE_SOLID_COLOR");
         break;
-        case LED_STATE_SPELL_MULTIPLE_COLORS:
-            Serial.println("LED_STATE_SPELL_MULTIPLE_COLORS");
-        break;
-        case LED_STATE_SPELL_SOLID_RANDOM_COLOR:
-            Serial.println("LED_STATE_SPELL_SOLID_RANDOM_COLOR");
-        break;
-        case LED_STATE_SPELL_SPARKLE_FILL:
-            Serial.println("LED_STATE_SPELL_SPARKLE_FILL");
-        break;
-        case LED_STATE_SPELL_SPARKLE_NO_FILL:
-            Serial.println("LED_STATE_SPELL_SPARKLE_NO_FILL");
-        break;
         case LED_STATE_SPELL:
             Serial.println("LED_STATE_SPELL");
         break;
@@ -148,30 +137,46 @@ void dbg_serial_print(void)
         case LED_STATE_RAINBOW_CYCLE:
             Serial.println("LED_STATE_RAINBOW_CYCLE");
         break;
-        case LED_STATE_RAINBOW_CYCLE_TWO_TONE:
-            Serial.println("LED_STATE_RAINBOW_CYCLE_TWO_TONE");
-        break;
+        
         case LED_STATE_THEATER_CHASE:
             Serial.println("LED_STATE_THEATER_CHASE");
         break;
-        case LED_STATE_THEATER_CHASE_MULTIPLE_COLORS:
-            Serial.println("LED_STATE_THEATER_CHASE_MULTIPLE_COLORS");
-        break;
+        
         case LED_STATE_THEATER_CHASE_RAINBOW:
             Serial.println("LED_STATE_THEATER_CHASE_RAINBOW");
+        break;
+        case LED_STATE_TWINKLE:
+            Serial.println("LED_STATE_TWINKLE");
+        break;  
+#if defined(MULTIPLE_STRIPS)
+        case LED_STATE_FADE_IN_AND_OUT_MULTIPLE_COLORS:
+            Serial.println("LED_STATE_FADE_IN_AND_OUT_MULTIPLE_COLORS");
         break;
         case LED_STATE_MULTIPLE_COLORS:
             Serial.println("LED_STATE_MULTIPLE_SOLID_COLORS");
         break;
-        case LED_STATE_FADE_IN_AND_OUT_MULTIPLE_COLORS:
-            Serial.println("LED_STATE_FADE_IN_AND_OUT_MULTIPLE_COLORS");
+        case LED_STATE_RAINBOW_CYCLE_TWO_TONE:
+            Serial.println("LED_STATE_RAINBOW_CYCLE_TWO_TONE");
+        break;
+        case LED_STATE_THEATER_CHASE_MULTIPLE_COLORS:
+            Serial.println("LED_STATE_THEATER_CHASE_MULTIPLE_COLORS");
         break;
         case LED_STATE_TWINKLE_MULTIPLE_COLORS:
             Serial.println("LED_STATE_TWINKLE_MULTIPLE_COLORS");
         break;
-        case LED_STATE_TWINKLE:
-            Serial.println("LED_STATE_TWINKLE");
+        case LED_STATE_SPELL_MULTIPLE_COLORS:
+            Serial.println("LED_STATE_SPELL_MULTIPLE_COLORS");
         break;
+        case LED_STATE_SPELL_SOLID_RANDOM_COLOR:
+            Serial.println("LED_STATE_SPELL_SOLID_RANDOM_COLOR");
+        break;
+        case LED_STATE_SPELL_SPARKLE_FILL:
+            Serial.println("LED_STATE_SPELL_SPARKLE_FILL");
+        break;
+        case LED_STATE_SPELL_SPARKLE_NO_FILL:
+            Serial.println("LED_STATE_SPELL_SPARKLE_NO_FILL");
+        break;
+#endif
         default:
             Serial.println("LED_STATE_FDEFAULT **BAD**");
         break;
@@ -204,7 +209,7 @@ void setup(void)
     String msg = "";
 #if defined(SERIAL_DEBUG)
     Serial.begin(115200);
-    Serial.println("Good Vibes Sign");
+    Serial.println("Patty's Pub Sign");
     Serial.println("Author: Spencer Wright");
 #endif
     pinMode(A1, INPUT);
@@ -237,56 +242,65 @@ void loop(void)
     switch(g_loop_led_state)
     {
         case LED_STATE_WHITE_COLOR:
-            animate_led_solid_custom_color((uint16_t)STRIP_BIT_1, COLOR_HEX_WHITE);
-            animate_led_solid_custom_color((uint16_t)STRIP_BIT_2, COLOR_HEX_WHITE);
-            handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_1, ANIMATION_DELAY_MS_20000);
+            animate_led_solid_custom_color((uint16_t)STRIP_BIT_ALL_SET, COLOR_HEX_WHITE);
+            handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_1, ANIMATION_DELAY_MS_5000);
         break;
         case LED_STATE_SOLID_COLOR:
-            animate_led_solid_custom_color((uint16_t)STRIP_BIT_ALL_SET, color_led_get_random_color());
+            animate_led_solid_custom_color((uint16_t)STRIP_BIT_ALL_SET, (color_hex_code_e)color_led_get_random_color());
             handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_5, ANIMATION_DELAY_MS_5000);
         break;
         case LED_STATE_SPARKLE_NO_FILL:
+            // SRW OK!!!
             // need to force all colors off before transitioning to this state
             animate_led_turn_all_pixels_off();
-            animate_led_sparkle_only_random_color(STRIP_BIT_ALL_SET, false, random(0, 50));
-            handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_2, ANIMATION_DELAY_MS_0);
+            animate_led_sparkle_only_random_color(STRIP_BIT_ALL_SET, false, random(20,80));//random(0, 50));
+            handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_5, ANIMATION_DELAY_MS_0);
         break;
         case LED_STATE_SPARKLE_FILL:
-            animate_led_sparkle_only_random_color(STRIP_BIT_ALL_SET, true, random(0, 50));
-            handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_2, ANIMATION_DELAY_MS_0);
+            // SRW ok!!!
+            animate_led_sparkle_only_random_color(STRIP_BIT_ALL_SET, true, random(20,80));
+            handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_10, ANIMATION_DELAY_MS_0);
         break;
         case LED_STATE_RAINBOW_CYCLE:
+            // SRW OK!!! 
             animate_led_rainbow_cycle(STRIP_BIT_ALL_SET, 0);
-            handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_2, ANIMATION_DELAY_MS_0);
+            handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_5, ANIMATION_DELAY_MS_0);
         break;
         case LED_STATE_THEATER_CHASE:
+            // SRW ok !!!
             animate_led_theater_chase(STRIP_BIT_ALL_SET, color_led_get_random_color(), animate_led_delay_in_animations());
             handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_10, ANIMATION_DELAY_MS_0);
         break;
         case LED_STATE_THEATER_CHASE_RAINBOW:
+            // SRW ok!!!! 
             animate_led_theater_chase_rainbow(STRIP_BIT_ALL_SET, animate_led_delay_in_animations());
             g_loop_led_state = LED_STATE_TWINKLE;
             handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_2, ANIMATION_DELAY_MS_0);
         break;
         case LED_STATE_FADE_IN_AND_OUT:
+            // SRW ok!!!
             animate_led_fade_in_fade_out((uint16_t)STRIP_BIT_ALL_SET, color_led_get_random_color());
-            handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_5, ANIMATION_DELAY_MS_0);
+            handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_10, ANIMATION_DELAY_MS_0);
         break;
         case LED_STATE_TWINKLE:
+            // SRW ok!!!
             animate_led_turn_all_pixels_off();
-            animate_led_twinkle(STRIP_BIT_ALL_SET, color_led_get_random_color(), (uint32_t)((float)NUM_LEDS * (float)0.1), animate_led_delay_in_animations(), false);
-            handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_3, ANIMATION_DELAY_MS_0);
-        break;
-        case LED_STATE_SPELL:
-            animate_led_only_spell_word(STRIP_BIT_1 | STRIP_BIT_2, color_led_get_random_color(), 0);
+            animate_led_twinkle(STRIP_BIT_ALL_SET, color_led_get_random_color(), (uint32_t)((float)NUM_LEDS * (float)0.8), animate_led_delay_in_animations(), false);
             handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_5, ANIMATION_DELAY_MS_0);
         break;
+        case LED_STATE_SPELL:
+            // SRW ok!!!
+            animate_led_only_spell_word(STRIP_BIT_ALL_SET, color_led_get_random_color(), 30);
+            handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_10, ANIMATION_DELAY_MS_0);
+        break;
+        
 #if defined(SRW_DEBUG)
         case LED_STATE_SRW_DEBUG:
             // a state strictlty for debugging new animations also there's no state change here...
             animate_led_solid_custom_color((uint16_t)STRIP_BIT_1, color_led_get_random_color());
         break;
 #endif
+
 #if defined(MULTIPLE_STRIPS)
         case LED_STATE_FADE_IN_AND_OUT_MULTIPLE_COLORS:
             animate_led_turn_all_pixels_off();
@@ -353,6 +367,7 @@ void loop(void)
             handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_5, ANIMATION_DELAY_MS_0);
         break;
 #endif
+
 //        case LED_STATE_STROBE:
 //#if defined(SERIAL_DEBUG)
 //            Serial.println("STATE_STROBE");

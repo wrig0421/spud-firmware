@@ -87,132 +87,133 @@ void setup()
 
 void loop() 
 {
-#if defined(SERIAL_DEBUG)
-    // these print on each iteration...simply for quick debug
-    if (MASTER_STATE_FIXED == g_master_led_state) Serial.println("MASTER STATE LED FIXED");
-    else Serial.println("MASTER STATE LED DEMO");
-    if (MASTER_COLOR_FIXED == g_master_color_state) Serial.println("MASTER COLOR LED FIXED");
-    else Serial.println("MASTER COLOR LED DEMO");
-    Serial.println(animate_led_iterations(), DEC); // print iteration count
-#endif
-    handle_count_and_color(); // select state, color based iteration count
-    if (g_master_led_state_change_flag)
-    {
-        animate_led_reset_iterations();
-        master_led_state_change();
-        g_master_led_state_change_flag = false;
-    }
-    switch(animate_led_state())
-    {
-        case LED_STATE_WHITE_COLOR:
-#if defined(SERIAL_DEBUG)
-            Serial.println("STATE_SOLID_WHITE_COLOR");    
-#endif
-            // the color change doesn't matter for solid white.. 
-            animate_led_set_solid_white_color();
-            delay(animate_led_delay_between_animations());
-        break;
-        case LED_STATE_SOLID_COLOR:
-#if defined(SERIAL_DEBUG)
-            Serial.println("STATE_SOLID_COLOR");
-#endif
-            animate_led_solid_color();
-            delay(animate_led_delay_between_animations());
-        break;
-        case LED_STATE_SPELL:
-#if defined(SERIAL_DEBUG)
-            Serial.println("STATE_SPELL");
-#endif
-            animate_led_spell_word(animate_led_delay_in_animations());
-            delay(animate_led_delay_between_animations());
-        break;
-        case LED_STATE_FADE_IN_AND_OUT:
-#if defined(SERIAL_DEBUG)
-            Serial.println("STATE_FADE");
-#endif
-            animate_led_fade_in_fade_out();
-        break;
-        case LED_STATE_TWINKLE:
-#if defined(SERIAL_DEBUG)
-            Serial.println("STATE_TWINKLE");
-#endif
-            animate_led_twinkle(NUM_LEDS - 100, animate_led_delay_in_animations(), false);
-            delay(animate_led_delay_between_animations());
-        break;
-        case LED_STATE_SPARKLE:
-#if defined(SERIAL_DEBUG)
-            Serial.println("STATE_SPARKLE");
-#endif
-            animate_led_sparkle(animate_led_delay_in_animations());
-        break;
-        case LED_STATE_RUNNING_LIGHTS:
-#if defined(SERIAL_DEBUG)
-            Serial.println("STATE_RUNNING_LIGHTS");
-#endif
-            g_state_short_circuit_flag = true;
-            animate_led_running_lights();
-        break;
-        case LED_STATE_RAINBOW_CYCLE:
-#if defined(SERIAL_DEBUG)
-            Serial.println("STATE_RAINBOW_CYCLE");
-#endif
-            g_state_short_circuit_flag = true;
-            animate_led_rainbow_cycle(animate_led_delay_in_animations());
-        break;
-        case LED_STATE_THEATER_CHASE:
-#if defined(SERIAL_DEBUG)
-            Serial.println("STATE_THEATER_CHASE");
-#endif
-            animate_led_theater_chase(animate_led_delay_in_animations());
-        break;
-        case LED_STATE_THEATER_CHASE_RAINBOW:
-#if defined(SERIAL_DEBUG)
-            Serial.println("STATE_RAINBOW");
-#endif
-            g_state_short_circuit_flag = true;
-            animate_led_theater_chase_rainbow(animate_led_delay_in_animations());
-        break;
-        case LED_STATE_METEOR: 
-#if defined(SERIAL_DEBUG)
-            Serial.println("STATE_METEOR");
-#endif
-            animate_led_meteor_rain(20, 64, true, 5); // arbitrary selection made here
-        break;
-        case LED_STATE_STROBE:
-#if defined(SERIAL_DEBUG)
-            Serial.println("STATE_STROBE");
-#endif
-            animate_led_strobe(10, animate_led_delay_in_animations(), animate_led_delay_in_animations() / 2);
-        break;
-        case LED_STATE_CYCLONE_BOUNCE:
-#if defined(SERIAL_DEBUG)
-            Serial.println("STATE_CYCLONE_BOUNCE");
-#endif
-            uint16_t eye_size = 4;
-            animate_led_cyclone_bounce(eye_size, 0, 0);
-        break;
-        
-        default:
-        break;
-        // unused states below
-        /*
-        case LED_STATE_FIRE:
-        break;
-        case LED_STATE_BOUNCING_BALLS:
-            animate_led_bouncing_balls(10);
-        break;
-        case LED_STATE_BOUNCING_BALLS_RANDOM:
-        break;
-        case LED_STATE_TWINKLE_RANDOM:
-            animate_led_twinkle_random(100, 10, true);
-        break;
-        case LED_STATE_KITT:
-            animate_led_new_kitt(20, 1, 1);
-        break;
-        */
-        
-    }
-    
+    animate_led_solid_color();
+//#if defined(SERIAL_DEBUG)
+//    // these print on each iteration...simply for quick debug
+//    if (MASTER_STATE_FIXED == g_master_led_state) Serial.println("MASTER STATE LED FIXED");
+//    else Serial.println("MASTER STATE LED DEMO");
+//    if (MASTER_COLOR_FIXED == g_master_color_state) Serial.println("MASTER COLOR LED FIXED");
+//    else Serial.println("MASTER COLOR LED DEMO");
+//    Serial.println(animate_led_iterations(), DEC); // print iteration count
+//#endif
+//    handle_count_and_color(); // select state, color based iteration count
+//    if (g_master_led_state_change_flag)
+//    {
+//        animate_led_reset_iterations();
+//        master_led_state_change();
+//        g_master_led_state_change_flag = false;
+//    }
+//    switch(animate_led_state())
+//    {
+//        case LED_STATE_WHITE_COLOR:
+//#if defined(SERIAL_DEBUG)
+//            Serial.println("STATE_SOLID_WHITE_COLOR");    
+//#endif
+//            // the color change doesn't matter for solid white.. 
+//            animate_led_set_solid_white_color();
+//            delay(animate_led_delay_between_animations());
+//        break;
+//        case LED_STATE_SOLID_COLOR:
+//#if defined(SERIAL_DEBUG)
+//            Serial.println("STATE_SOLID_COLOR");
+//#endif
+//            animate_led_solid_color();
+//            delay(animate_led_delay_between_animations());
+//        break;
+//        case LED_STATE_SPELL:
+//#if defined(SERIAL_DEBUG)
+//            Serial.println("STATE_SPELL");
+//#endif
+//            animate_led_spell_word(animate_led_delay_in_animations());
+//            delay(animate_led_delay_between_animations());
+//        break;
+//        case LED_STATE_FADE_IN_AND_OUT:
+//#if defined(SERIAL_DEBUG)
+//            Serial.println("STATE_FADE");
+//#endif
+//            animate_led_fade_in_fade_out();
+//        break;
+//        case LED_STATE_TWINKLE:
+//#if defined(SERIAL_DEBUG)
+//            Serial.println("STATE_TWINKLE");
+//#endif
+//            animate_led_twinkle(NUM_LEDS - 100, animate_led_delay_in_animations(), false);
+//            delay(animate_led_delay_between_animations());
+//        break;
+//        case LED_STATE_SPARKLE:
+//#if defined(SERIAL_DEBUG)
+//            Serial.println("STATE_SPARKLE");
+//#endif
+//            animate_led_sparkle(animate_led_delay_in_animations());
+//        break;
+//        case LED_STATE_RUNNING_LIGHTS:
+//#if defined(SERIAL_DEBUG)
+//            Serial.println("STATE_RUNNING_LIGHTS");
+//#endif
+//            g_state_short_circuit_flag = true;
+//            animate_led_running_lights();
+//        break;
+//        case LED_STATE_RAINBOW_CYCLE:
+//#if defined(SERIAL_DEBUG)
+//            Serial.println("STATE_RAINBOW_CYCLE");
+//#endif
+//            g_state_short_circuit_flag = true;
+//            animate_led_rainbow_cycle(animate_led_delay_in_animations());
+//        break;
+//        case LED_STATE_THEATER_CHASE:
+//#if defined(SERIAL_DEBUG)
+//            Serial.println("STATE_THEATER_CHASE");
+//#endif
+//            animate_led_theater_chase(animate_led_delay_in_animations());
+//        break;
+//        case LED_STATE_THEATER_CHASE_RAINBOW:
+//#if defined(SERIAL_DEBUG)
+//            Serial.println("STATE_RAINBOW");
+//#endif
+//            g_state_short_circuit_flag = true;
+//            animate_led_theater_chase_rainbow(animate_led_delay_in_animations());
+//        break;
+//        case LED_STATE_METEOR: 
+//#if defined(SERIAL_DEBUG)
+//            Serial.println("STATE_METEOR");
+//#endif
+//            animate_led_meteor_rain(20, 64, true, 5); // arbitrary selection made here
+//        break;
+//        case LED_STATE_STROBE:
+//#if defined(SERIAL_DEBUG)
+//            Serial.println("STATE_STROBE");
+//#endif
+//            animate_led_strobe(10, animate_led_delay_in_animations(), animate_led_delay_in_animations() / 2);
+//        break;
+//        case LED_STATE_CYCLONE_BOUNCE:
+//#if defined(SERIAL_DEBUG)
+//            Serial.println("STATE_CYCLONE_BOUNCE");
+//#endif
+//            uint16_t eye_size = 4;
+//            animate_led_cyclone_bounce(eye_size, 0, 0);
+//        break;
+//        
+//        default:
+//        break;
+//        // unused states below
+//        /*
+//        case LED_STATE_FIRE:
+//        break;
+//        case LED_STATE_BOUNCING_BALLS:
+//            animate_led_bouncing_balls(10);
+//        break;
+//        case LED_STATE_BOUNCING_BALLS_RANDOM:
+//        break;
+//        case LED_STATE_TWINKLE_RANDOM:
+//            animate_led_twinkle_random(100, 10, true);
+//        break;
+//        case LED_STATE_KITT:
+//            animate_led_new_kitt(20, 1, 1);
+//        break;
+//        */
+//        
+//    }
+//    
 }
 
 

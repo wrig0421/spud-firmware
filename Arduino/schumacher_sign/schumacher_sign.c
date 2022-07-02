@@ -62,7 +62,7 @@ bool g_state_short_circuit_flag = false;
 
 void setup() 
 {
-    String msg = "";
+    //String msg = "";
 #if defined(SERIAL_DEBUG)
     Serial.begin(9600);
 #if defined(TOGETHER_SIGN)

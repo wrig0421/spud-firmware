@@ -1,6 +1,7 @@
 #include <animate_led.h>
 #include <color_led.h>
 #include <FastLED.h>
+#include <Arduino.h>
 
 // static definitions
 #define SERIAL_DEBUG // define to print debug messages
