@@ -1,5 +1,7 @@
 #include <stdint.h>
 #include <stdbool.h>
+#include <stdlib.h>
+#include "numbers.h"
 #include "color_led.h"
 
 //#define COLOR_LED_MAX_BRIGHTNESS_DIVISOR	(10)
@@ -26,7 +28,7 @@ void color_led_init(void)
 
 uint32_t color_led_get_random_color(void)
 {
-	uint32_t random_color = (random_num(0, 255) << 16) | (random(0, 255) << 8) | (random(0, 255));
+	uint32_t random_color = (random_num(0, 255) << 16) | (random_num(0, 255) << 8) | (random_num(0, 255));
 	return random_color;
 }
 
@@ -81,7 +83,7 @@ color_hex_code_e color_led_hex(all_colors_e color)
 
 void color_led_randomize(void)
 {
-	all_colors_e color = (all_colors_e)(random(NUM_COLORS));
+	all_colors_e color = (all_colors_e)(random_num(0, NUM_COLORS));
 	if (g_led_color == color)
     {
         if ((COLORS_LAST) == color) g_led_color = (all_colors_e)(color - 1);

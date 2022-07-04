@@ -16,50 +16,25 @@
   *
   ******************************************************************************
   */
-/* USER CODE END Header */
-
-/* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32l4xx_it.h"
-/* Private includes ----------------------------------------------------------*/
-/* USER CODE BEGIN Includes */
-/* USER CODE END Includes */
+#include <stdbool.h>
 
-/* Private typedef -----------------------------------------------------------*/
-/* USER CODE BEGIN TD */
+uint32_t g_int_count = 0;
+extern volatile int datasentflag;
+extern bool g_dma_done_flag;
 
-/* USER CODE END TD */
+bool gb_a_flag = false;
+bool gb_b_flag = false;
+bool gb_c_flag = false;
+bool gb_d_flag = false;
 
-/* Private define ------------------------------------------------------------*/
-/* USER CODE BEGIN PD */
-
-/* USER CODE END PD */
-
-/* Private macro -------------------------------------------------------------*/
-/* USER CODE BEGIN PM */
-
-/* USER CODE END PM */
-
-/* Private variables ---------------------------------------------------------*/
-/* USER CODE BEGIN PV */
-
-/* USER CODE END PV */
-
-/* Private function prototypes -----------------------------------------------*/
-/* USER CODE BEGIN PFP */
-
-/* USER CODE END PFP */
-
-/* Private user code ---------------------------------------------------------*/
-/* USER CODE BEGIN 0 */
-
-/* USER CODE END 0 */
-
-/* External variables --------------------------------------------------------*/
 extern DMA_HandleTypeDef hdma_tim1_ch1;
-/* USER CODE BEGIN EV */
+extern DMA_HandleTypeDef hdma_tim1_ch2;
+extern DMA_HandleTypeDef hdma_tim1_ch3;
+extern DMA_HandleTypeDef hdma_tim15_ch1_up_trig_com;
+extern DMA_HandleTypeDef hdma_tim16_ch1_up;
 
-/* USER CODE END EV */
 
 /******************************************************************************/
 /*           Cortex-M4 Processor Interruption and Exception Handlers          */
@@ -69,14 +44,7 @@ extern DMA_HandleTypeDef hdma_tim1_ch1;
   */
 void NMI_Handler(void)
 {
-  /* USER CODE BEGIN NonMaskableInt_IRQn 0 */
-
-  /* USER CODE END NonMaskableInt_IRQn 0 */
-  /* USER CODE BEGIN NonMaskableInt_IRQn 1 */
-  while (1)
-  {
-  }
-  /* USER CODE END NonMaskableInt_IRQn 1 */
+    while (1);
 }
 
 /**
@@ -84,14 +52,7 @@ void NMI_Handler(void)
   */
 void HardFault_Handler(void)
 {
-  /* USER CODE BEGIN HardFault_IRQn 0 */
-
-  /* USER CODE END HardFault_IRQn 0 */
-  while (1)
-  {
-    /* USER CODE BEGIN W1_HardFault_IRQn 0 */
-    /* USER CODE END W1_HardFault_IRQn 0 */
-  }
+    while (1);
 }
 
 /**
@@ -99,14 +60,7 @@ void HardFault_Handler(void)
   */
 void MemManage_Handler(void)
 {
-  /* USER CODE BEGIN MemoryManagement_IRQn 0 */
-
-  /* USER CODE END MemoryManagement_IRQn 0 */
-  while (1)
-  {
-    /* USER CODE BEGIN W1_MemoryManagement_IRQn 0 */
-    /* USER CODE END W1_MemoryManagement_IRQn 0 */
-  }
+    while (1);
 }
 
 /**
@@ -114,14 +68,7 @@ void MemManage_Handler(void)
   */
 void BusFault_Handler(void)
 {
-  /* USER CODE BEGIN BusFault_IRQn 0 */
-
-  /* USER CODE END BusFault_IRQn 0 */
-  while (1)
-  {
-    /* USER CODE BEGIN W1_BusFault_IRQn 0 */
-    /* USER CODE END W1_BusFault_IRQn 0 */
-  }
+    while (1);
 }
 
 /**
@@ -129,31 +76,37 @@ void BusFault_Handler(void)
   */
 void UsageFault_Handler(void)
 {
-  /* USER CODE BEGIN UsageFault_IRQn 0 */
-
-  /* USER CODE END UsageFault_IRQn 0 */
-  while (1)
-  {
-    /* USER CODE BEGIN W1_UsageFault_IRQn 0 */
-    /* USER CODE END W1_UsageFault_IRQn 0 */
-  }
+    while (1);
 }
 
+///**
+//  * @brief This function handles System service call via SWI instruction.
+//  */
+//void SVC_Handler(void)
+//{
+//}
 
 /**
   * @brief This function handles Debug monitor.
   */
 void DebugMon_Handler(void)
 {
-  /* USER CODE BEGIN DebugMonitor_IRQn 0 */
-
-  /* USER CODE END DebugMonitor_IRQn 0 */
-  /* USER CODE BEGIN DebugMonitor_IRQn 1 */
-
-  /* USER CODE END DebugMonitor_IRQn 1 */
 }
 
+///**
+//  * @brief This function handles Pendable request for system service.
+//  */
+//void PendSV_Handler(void)
+//{
+//}
 
+///**
+//  * @brief This function handles System tick timer.
+//  */
+//void SysTick_Handler(void)
+//{
+//  HAL_IncTick();
+//}
 
 /******************************************************************************/
 /* STM32L4xx Peripheral Interrupt Handlers                                    */
@@ -162,21 +115,125 @@ void DebugMon_Handler(void)
 /* please refer to the startup file (startup_stm32l4xx.s).                    */
 /******************************************************************************/
 
+
+/**
+  * @brief This function handles EXTI line2 interrupt.
+  */
+void EXTI2_IRQHandler(void)
+{
+    // A
+    HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_2);
+    gb_a_flag = true;
+
+    g_int_count++;
+}
+
+
+/**
+  * @brief This function handles EXTI line[9:5] interrupts.
+  */
+void EXTI9_5_IRQHandler(void)
+{
+    // B
+    HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_5);
+    gb_b_flag = true;
+
+    g_int_count++;
+}
+
+
+/**
+  * @brief This function handles EXTI line[15:10] interrupts.
+  */
+void EXTI15_10_IRQHandler(void)
+{
+    // C
+    HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_13);
+    gb_c_flag = true;
+    g_int_count++;
+}
+
+
+/**
+  * @brief This function handles EXTI line0 interrupt.
+  */
+void EXTI0_IRQHandler(void)
+{
+    // D
+    HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_0);
+    gb_d_flag = true;
+    g_int_count++;
+}
+
+
+void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim)
+{
+    static uint32_t count = 0;
+    switch (htim->Channel)
+    {
+        case HAL_TIM_ACTIVE_CHANNEL_1:
+            HAL_TIM_PWM_Stop_DMA(htim, TIM_CHANNEL_1);
+        break;
+        case HAL_TIM_ACTIVE_CHANNEL_2:
+            HAL_TIM_PWM_Stop_DMA(htim, TIM_CHANNEL_2);
+        break;
+        case HAL_TIM_ACTIVE_CHANNEL_3:
+            HAL_TIM_PWM_Stop_DMA(htim, TIM_CHANNEL_3);
+
+
+        break;
+        default:
+        break;
+    }
+    //datasentflag = 1;
+    //g_dma_done_flag = true;
+    count++;
+//  if (0 == (count % 3))
+//  {
+        datasentflag=1;
+        g_dma_done_flag = true;
+//  }
+}
+
+
 /**
   * @brief This function handles DMA1 channel2 global interrupt.
   */
 void DMA1_Channel2_IRQHandler(void)
 {
-  /* USER CODE BEGIN DMA1_Channel2_IRQn 0 */
-
-  /* USER CODE END DMA1_Channel2_IRQn 0 */
-  HAL_DMA_IRQHandler(&hdma_tim1_ch1);
-  /* USER CODE BEGIN DMA1_Channel2_IRQn 1 */
-
-  /* USER CODE END DMA1_Channel2_IRQn 1 */
+    HAL_DMA_IRQHandler(&hdma_tim1_ch1);
 }
 
-/* USER CODE BEGIN 1 */
+/**
+  * @brief This function handles DMA1 channel3 global interrupt.
+  */
+void DMA1_Channel3_IRQHandler(void)
+{
+    HAL_DMA_IRQHandler(&hdma_tim1_ch2);
+}
 
-/* USER CODE END 1 */
+/**
+  * @brief This function handles DMA1 channel5 global interrupt.
+  */
+void DMA1_Channel5_IRQHandler(void)
+{
+    HAL_DMA_IRQHandler(&hdma_tim15_ch1_up_trig_com);
+}
+
+/**
+  * @brief This function handles DMA1 channel6 global interrupt.
+  */
+void DMA1_Channel6_IRQHandler(void)
+{
+    HAL_DMA_IRQHandler(&hdma_tim16_ch1_up);
+}
+
+/**
+  * @brief This function handles DMA1 channel7 global interrupt.
+  */
+void DMA1_Channel7_IRQHandler(void)
+{
+    HAL_DMA_IRQHandler(&hdma_tim1_ch3);
+}
+
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

@@ -28,6 +28,7 @@ sdk/FreeRTOS/Source \
 sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F \
 sdk/FreeRTOS/Source/portable/MemMang \
 sdk/STM32L4xx_HAL_Driver/Src \
+src/bsp \
 src \
 src/stm32_bloat \
 startup \

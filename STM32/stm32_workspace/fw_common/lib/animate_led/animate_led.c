@@ -24,10 +24,64 @@
 ////#define PIN_STRIP_9
 //#endif
 
+typedef enum
+{
+    MASTER_LED_STATE_DEMO,
+    MASTER_LED_STATE_FIXED
+} master_led_state_e;
+
+
+typedef enum
+{
+    MASTER_COLOR_STATE_DEMO,
+    MASTER_COLOR_STATE_FIXED
+} master_color_state_e;
+
+
+typedef enum
+{
+    ANIMATION_LOOP_ITERATIONS_0 = 0,
+    ANIMATION_LOOP_ITERATIONS_1,
+    ANIMATION_LOOP_ITERATIONS_2,
+    ANIMATION_LOOP_ITERATIONS_3,
+    ANIMATION_LOOP_ITERATIONS_4,
+    ANIMATION_LOOP_ITERATIONS_5,
+    ANIMATION_LOOP_ITERATIONS_6,
+    ANIMATION_LOOP_ITERATIONS_7,
+    ANIMATION_LOOP_ITERATIONS_8,
+    ANIMATION_LOOP_ITERATIONS_9,
+    ANIMATION_LOOP_ITERATIONS_10,
+    ANIMATION_LOOP_ITERATIONS_50 = 50,
+    ANIMATION_LOOP_ITERATIONS_100 = 100
+} animation_loop_iterations_e;
+
+
+typedef enum
+{
+    ANIMATION_DELAY_MS_0 = 0,
+    ANIMATION_DELAY_MS_1000 = 1000,
+    ANIMATION_DELAY_MS_2000 = 2000,
+    ANIMATION_DELAY_MS_3000 = 3000,
+    ANIMATION_DELAY_MS_4000 = 4000,
+    ANIMATION_DELAY_MS_5000 = 5000,
+    ANIMATION_DELAY_MS_10000 = 10000,
+    ANIMATION_DELAY_MS_15000 = 15000,
+    ANIMATION_DELAY_MS_20000 = 20000
+} animation_delay_ms_e;
+
+
+
 // if strip is not in use then offset is 0 
 
 bool g_interrupt_flag[NUM_ISR] = {false};
 extern uint32_t g_max_strip_length;
+
+extern bool gb_a_flag;
+extern bool gb_b_flag;
+extern bool gb_c_flag;
+extern bool gb_d_flag;
+
+
 
 uint16_t g_strip_offset[NUM_STRIPS] = {0};
 
@@ -41,10 +95,11 @@ uint16_t g_delay_between_animations_ms = 1000;
 uint16_t g_delay_in_animation_ms = 100; // where applicable of course
 uint32_t g_iterations = 0; 
 extern uint16_t g_all_strip_mask;
+extern volatile int datasentflag;
 
 static uint32_t millis(void)
 {
-
+    return 0; // TODO FIX THIS!
 }
 
 
@@ -1211,18 +1266,158 @@ void animate_led_set_all_pixels(strip_mask_t strip_mask, uint8_t red, uint8_t gr
 }
 
 
+// global variables
+master_led_state_e g_master_led_state = MASTER_LED_STATE_DEMO;
+master_color_state_e g_master_color_state = MASTER_COLOR_STATE_DEMO;
+
+uint8_t g_animation_iterations = 0;
+led_state_e g_loop_led_state = LED_STATE_SOLID_COLOR;
+
+unsigned long g_isr_times[NUM_ISR] = {0};
+unsigned long g_debounce_delay = 2000; // ms
+bool g_master_color_state_change_flag = false;
+bool g_master_led_state_change_flag = false;
+uint32_t g_random_color_array[NUM_STRIPS];
+
+#define TEST_MODE
+static void handle_count_color_delay(const animation_loop_iterations_e max_iterations, const animation_delay_ms_e animation_delay_ms)
+{
+    if (ANIMATION_DELAY_MS_0 != animation_delay_ms) delay(animation_delay_ms);
+    g_animation_iterations++;
+    if (MASTER_LED_STATE_DEMO == g_master_led_state)
+    {
+        if (max_iterations == g_animation_iterations)
+        {
+#if defined(TEST_MODE)
+            g_loop_led_state = (led_state_e) (g_loop_led_state + 1);
+            if (NUM_LED_STATES == g_loop_led_state) g_loop_led_state = LED_STATE_FIRST;
+#else
+            g_loop_led_state = animate_led_state_randomize(g_loop_led_state);
+#endif
+            g_animation_iterations = 0;
+        }
+    }
+}
+
+
+
 void task_animate_led(void *argument)
 {
-	color_hex_code_e color = COLOR_HEX_RED;
+	color_hex_code_e color = COLOR_HEX_MAROON;
 	while (1)
 	{
-		animate_led_only_spell_word(STRIP_BIT_1, color, 0);
-		ws2812b_show(1);
-		color = COLOR_HEX_RED;
-		animate_led_only_spell_word(STRIP_BIT_1, color, 0);
-		ws2812b_show(1);
-		color = COLOR_HEX_YELLOW;
-		osDelay(1000);
+	    switch(g_loop_led_state)
+	        {
+	            case LED_STATE_WHITE_COLOR:
+	                animate_led_solid_custom_color((uint16_t)STRIP_BIT_ALL_SET, COLOR_HEX_WHITE);
+	                handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_1, ANIMATION_DELAY_MS_5000);
+	            break;
+	            case LED_STATE_SOLID_COLOR:
+	                animate_led_solid_custom_color((uint16_t)STRIP_BIT_ALL_SET, (color_hex_code_e)color_led_get_random_color());
+	                handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_5, ANIMATION_DELAY_MS_5000);
+	            break;
+	            case LED_STATE_SPARKLE_NO_FILL:
+	                // SRW OK!!!
+	                // need to force all colors off before transitioning to this state
+	                animate_led_turn_all_pixels_off();
+	                animate_led_sparkle_only_random_color(STRIP_BIT_ALL_SET, false, random_num(20,80));//random(0, 50));
+	                handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_5, ANIMATION_DELAY_MS_0);
+	            break;
+	            case LED_STATE_SPARKLE_FILL:
+	                // SRW ok!!!
+	                animate_led_sparkle_only_random_color(STRIP_BIT_ALL_SET, true, random_num(20,80));
+	                handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_10, ANIMATION_DELAY_MS_0);
+	            break;
+	            case LED_STATE_RAINBOW_CYCLE:
+	                // SRW OK!!!
+	                animate_led_rainbow_cycle(STRIP_BIT_ALL_SET, 0);
+	                handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_5, ANIMATION_DELAY_MS_0);
+	            break;
+	            case LED_STATE_THEATER_CHASE:
+	                // SRW ok !!!
+	                animate_led_theater_chase(STRIP_BIT_ALL_SET, color_led_get_random_color(), animate_led_delay_in_animations());
+	                handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_10, ANIMATION_DELAY_MS_0);
+	            break;
+	            case LED_STATE_THEATER_CHASE_RAINBOW:
+	                // SRW ok!!!!
+	                animate_led_theater_chase_rainbow(STRIP_BIT_ALL_SET, animate_led_delay_in_animations());
+	                g_loop_led_state = LED_STATE_TWINKLE;
+	                handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_2, ANIMATION_DELAY_MS_0);
+	            break;
+	            case LED_STATE_FADE_IN_AND_OUT:
+	                // SRW ok!!!
+	                animate_led_fade_in_fade_out((uint16_t)STRIP_BIT_ALL_SET, color_led_get_random_color());
+	                handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_10, ANIMATION_DELAY_MS_0);
+	            break;
+	            case LED_STATE_TWINKLE:
+	                // SRW ok!!!
+	                animate_led_turn_all_pixels_off();
+	                animate_led_twinkle(STRIP_BIT_ALL_SET, color_led_get_random_color(), (uint32_t)((float)NUM_LEDS * (float)0.8), animate_led_delay_in_animations(), false);
+	                handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_5, ANIMATION_DELAY_MS_0);
+	            break;
+	            case LED_STATE_SPELL:
+	                // SRW ok!!!
+	                animate_led_only_spell_word(STRIP_BIT_ALL_SET, color_led_get_random_color(), 30);
+	                handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_10, ANIMATION_DELAY_MS_0);
+	            break;
+	            default:
+	            break;
+	        }
+	        while(!datasentflag) osDelay(10);
+	        datasentflag = 0;
+	        osDelay(10);
+
+//	    if (gb_a_flag)
+//	    {
+//	        gb_a_flag = false;
+//	        color = COLOR_HEX_MAROON;
+//	    }
+//	    else if (gb_b_flag)
+//	    {
+//	        gb_b_flag = false;
+//	        color = COLOR_HEX_NAVY;
+//	    }
+//	    else if (gb_c_flag)
+//        {
+//	        gb_c_flag = false;
+//	        color = COLOR_HEX_PURPLE;
+//        }
+//	    else if (gb_d_flag)
+//        {
+//	        gb_d_flag = false;
+//	        color = COLOR_HEX_GREEN;
+//        }
+//        animate_led_only_spell_word(STRIP_BIT_1, color, 10);
+//        ws2812b_show(1);
+//        osDelay(100);
+//        while(!datasentflag) osDelay(10);
+//        datasentflag = 0;
+//
+//        animate_led_only_spell_word(STRIP_BIT_1, COLOR_HEX_BLACK, 10);
+//        ws2812b_show(1);
+//        osDelay(100);
+//        while(!datasentflag) osDelay(10);
+//        datasentflag = 0;
+//		color = COLOR_HEX_MAROON;
+//		animate_led_only_spell_word(STRIP_BIT_1, color, 10);
+//		ws2812b_show(1);
+//		osDelay(50);
+//		while(!datasentflag) osDelay(10);
+//		datasentflag = 0;
+//
+//		color = COLOR_HEX_PURPLE;
+//		animate_led_only_spell_word(STRIP_BIT_1, color, 10);
+//		ws2812b_show(1);
+//		osDelay(50);
+//		while(!datasentflag) osDelay(10);
+//		datasentflag = 0;
+//
+//		color = COLOR_HEX_NAVY;
+//		animate_led_only_spell_word(STRIP_BIT_1, color, 10);
+//		ws2812b_show(1);
+//		osDelay(50);
+//		while(!datasentflag) osDelay(10);
+//		datasentflag = 0;
 	}
 }
 

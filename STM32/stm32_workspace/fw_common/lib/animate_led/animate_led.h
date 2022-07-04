@@ -80,7 +80,6 @@ typedef enum
 	NUM_SPEEDS
 } led_speed_e;
 
-uint32_t random_num(uint32_t min, uint32_t max);
 void task_animate_led(void *argument);
 void animate_led_reset_state(void);
 void animate_led_set_interrupt_flag(isr_e src);

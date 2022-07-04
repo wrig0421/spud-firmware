@@ -19,17 +19,17 @@ Comment8 ""
 Comment9 ""
 $EndDescr
 Connection ~ 650  2950
-Connection ~ 900  4150
+Connection ~ 700  4300
 Connection ~ 1050 1050
-Connection ~ 1400 3700
-Connection ~ 1400 4150
+Connection ~ 1200 3850
+Connection ~ 1200 4300
 Connection ~ 1600 1100
+Connection ~ 1950 3100
 Connection ~ 1950 5700
-Connection ~ 2150 2950
+Connection ~ 2100 3400
 Connection ~ 2150 5700
-Connection ~ 2300 3250
+Connection ~ 2250 3950
 Connection ~ 2400 1750
-Connection ~ 2450 3800
 Connection ~ 2500 850 
 Connection ~ 2500 1200
 Connection ~ 2800 850 
@@ -80,14 +80,14 @@ Connection ~ 9500 5700
 Connection ~ 9500 5900
 Connection ~ 9950 1550
 Connection ~ 10350 1900
-NoConn ~ 2700 2750
-NoConn ~ 2700 2950
-NoConn ~ 2700 3050
-NoConn ~ 2700 3150
-NoConn ~ 2700 3250
-NoConn ~ 2700 3350
-NoConn ~ 2700 3450
-NoConn ~ 2700 3550
+NoConn ~ 2500 2900
+NoConn ~ 2500 3100
+NoConn ~ 2500 3200
+NoConn ~ 2500 3300
+NoConn ~ 2500 3400
+NoConn ~ 2500 3500
+NoConn ~ 2500 3600
+NoConn ~ 2500 3700
 NoConn ~ 2700 4600
 NoConn ~ 5650 2650
 NoConn ~ 5650 3400
@@ -108,19 +108,23 @@ Wire Wire Line
 Wire Wire Line
 	650  2950 600  2950
 Wire Wire Line
+	650  4300 700  4300
+Wire Wire Line
+	650  4400 650  4300
+Wire Wire Line
 	700  2950 650  2950
 Wire Wire Line
-	850  4150 900  4150
+	700  3850 750  3850
 Wire Wire Line
-	850  4250 850  4150
+	700  4300 700  3850
+Wire Wire Line
+	700  4300 750  4300
 Wire Wire Line
 	900  1050 1050 1050
 Wire Wire Line
-	900  3700 950  3700
+	950  3850 1200 3850
 Wire Wire Line
-	900  4150 900  3700
-Wire Wire Line
-	900  4150 950  4150
+	950  4300 1200 4300
 Wire Wire Line
 	1050 750  1050 700 
 Wire Wire Line
@@ -128,15 +132,11 @@ Wire Wire Line
 Wire Wire Line
 	1050 1450 1050 1400
 Wire Wire Line
-	1150 3700 1400 3700
+	1200 3850 1800 3850
 Wire Wire Line
-	1150 4150 1400 4150
+	1200 3900 1200 3850
 Wire Wire Line
-	1400 3700 2000 3700
-Wire Wire Line
-	1400 3750 1400 3700
-Wire Wire Line
-	1400 4050 1400 4150
+	1200 4200 1200 4300
 Wire Wire Line
 	1450 1100 1600 1100
 Wire Wire Line
@@ -168,45 +168,47 @@ Wire Wire Line
 Wire Wire Line
 	1600 1800 1600 1750
 Wire Wire Line
+	1650 4000 1650 4300
+Wire Wire Line
+	1650 4300 1200 4300
+Wire Wire Line
 	1650 6650 1550 6650
+Wire Wire Line
+	1800 3850 1800 3950
+Wire Wire Line
+	1800 3950 2250 3950
 Wire Wire Line
 	1800 5700 1950 5700
 Wire Wire Line
-	1850 3850 1850 4150
+	1900 3300 2000 3300
 Wire Wire Line
-	1850 4150 1400 4150
+	1950 3000 1950 3100
+Wire Wire Line
+	1950 3100 1900 3100
 Wire Wire Line
 	1950 5850 1950 5700
 Wire Wire Line
-	2000 3700 2000 3800
+	2000 3300 2000 3400
 Wire Wire Line
-	2000 3800 2450 3800
+	2000 3400 2100 3400
 Wire Wire Line
-	2100 3150 2200 3150
+	2100 3100 1950 3100
 Wire Wire Line
-	2150 2850 2150 2950
+	2100 3150 2100 3100
 Wire Wire Line
-	2150 2950 2100 2950
+	2100 3400 2100 3350
+Wire Wire Line
+	2100 3450 2100 3400
 Wire Wire Line
 	2150 5700 2150 5850
 Wire Wire Line
 	2150 5700 2300 5700
 Wire Wire Line
-	2200 3150 2200 3250
-Wire Wire Line
-	2200 3250 2300 3250
-Wire Wire Line
 	2200 7250 2050 7250
 Wire Wire Line
 	2200 7350 2200 7250
 Wire Wire Line
-	2300 2950 2150 2950
-Wire Wire Line
-	2300 3000 2300 2950
-Wire Wire Line
-	2300 3250 2300 3200
-Wire Wire Line
-	2300 3300 2300 3250
+	2250 3950 2500 3950
 Wire Wire Line
 	2400 1750 2300 1750
 Wire Wire Line
@@ -214,9 +216,25 @@ Wire Wire Line
 Wire Wire Line
 	2400 2050 2400 2000
 Wire Wire Line
-	2400 7350 2200 7350
+	2400 2500 2500 2500
 Wire Wire Line
-	2450 3800 2700 3800
+	2400 2600 2500 2600
+Wire Wire Line
+	2400 2700 2500 2700
+Wire Wire Line
+	2400 2800 2500 2800
+Wire Wire Line
+	2400 3000 2500 3000
+Wire Wire Line
+	2400 3800 2500 3800
+Wire Wire Line
+	2400 4350 2500 4350
+Wire Wire Line
+	2400 4450 2500 4450
+Wire Wire Line
+	2400 4550 2500 4550
+Wire Wire Line
+	2400 7350 2200 7350
 Wire Wire Line
 	2450 6650 2550 6650
 Wire Wire Line
@@ -231,6 +249,10 @@ Wire Wire Line
 	2500 1200 2500 1250
 Wire Wire Line
 	2500 1200 2800 1200
+Wire Wire Line
+	2500 3950 2700 3750
+Wire Wire Line
+	2500 4000 1650 4000
 Wire Wire Line
 	2500 5700 2650 5700
 Wire Wire Line
@@ -248,23 +270,9 @@ Wire Wire Line
 Wire Wire Line
 	2550 6950 2450 6950
 Wire Wire Line
-	2600 2350 2700 2350
+	2600 4750 2250 3950
 Wire Wire Line
-	2600 2450 2700 2450
-Wire Wire Line
-	2600 2550 2700 2550
-Wire Wire Line
-	2600 2650 2700 2650
-Wire Wire Line
-	2600 2850 2700 2850
-Wire Wire Line
-	2600 3650 2700 3650
-Wire Wire Line
-	2600 4200 2700 4200
-Wire Wire Line
-	2600 4300 2700 4300
-Wire Wire Line
-	2600 4400 2700 4400
+	2600 4750 2800 4600
 Wire Wire Line
 	2650 1750 2400 1750
 Wire Wire Line
@@ -273,10 +281,6 @@ Wire Wire Line
 	2650 5800 2650 5700
 Wire Wire Line
 	2700 2000 2650 2000
-Wire Wire Line
-	2700 3800 2700 3750
-Wire Wire Line
-	2700 3850 1850 3850
 Wire Wire Line
 	2800 850  3100 850 
 Wire Wire Line
@@ -350,7 +354,7 @@ Wire Wire Line
 Wire Wire Line
 	4100 1650 4100 1550
 Wire Wire Line
-	4100 4600 2450 3800
+	4100 2000 3750 1200
 Wire Wire Line
 	4100 5650 4100 5700
 Wire Wire Line
@@ -421,8 +425,6 @@ Wire Wire Line
 	5400 1150 5500 1150
 Wire Wire Line
 	5400 1250 5500 1250
-Wire Wire Line
-	5400 2000 3750 1200
 Wire Wire Line
 	5650 4900 6200 4900
 Wire Wire Line
@@ -721,10 +723,28 @@ Text Label 1550 6850 2    50   ~ 0
 GPIO_2
 Text Label 1550 6950 2    50   ~ 0
 GPIO_3
-Text Label 2150 2850 1    50   ~ 0
+Text Label 1950 3000 1    50   ~ 0
 OSC48_HI
 Text Label 2300 1750 2    50   ~ 0
 NRST
+Text Label 2400 2500 2    50   ~ 0
+GPIO_2
+Text Label 2400 2600 2    50   ~ 0
+GPIO_3
+Text Label 2400 2700 2    50   ~ 0
+LED_OUT_1
+Text Label 2400 2800 2    50   ~ 0
+LED_OUT_2
+Text Label 2400 3000 2    50   ~ 0
+WKUP3
+Text Label 2400 3800 2    50   ~ 0
+WKUP2
+Text Label 2400 4350 2    50   ~ 0
+OSC48_HI
+Text Label 2400 4450 2    50   ~ 0
+OSC48_LO
+Text Label 2400 4550 2    50   ~ 0
+BOOT0
 Text Label 2550 6250 0    50   ~ 0
 TIM16_CH1_SHIFT
 Text Label 2550 6350 0    50   ~ 0
@@ -741,24 +761,6 @@ Text Label 2550 6850 0    50   ~ 0
 GPIO_2_SHIFT
 Text Label 2550 6950 0    50   ~ 0
 GPIO_3_SHIFT
-Text Label 2600 2350 2    50   ~ 0
-GPIO_2
-Text Label 2600 2450 2    50   ~ 0
-GPIO_3
-Text Label 2600 2550 2    50   ~ 0
-LED_OUT_1
-Text Label 2600 2650 2    50   ~ 0
-LED_OUT_2
-Text Label 2600 2850 2    50   ~ 0
-WKUP3
-Text Label 2600 3650 2    50   ~ 0
-WKUP2
-Text Label 2600 4200 2    50   ~ 0
-OSC48_HI
-Text Label 2600 4300 2    50   ~ 0
-OSC48_LO
-Text Label 2600 4400 2    50   ~ 0
-BOOT0
 Text Label 5400 950  2    50   ~ 0
 SPI1_CSN
 Text Label 5400 1050 2    50   ~ 0
@@ -1281,12 +1283,12 @@ $EndComp
 $Comp
 L power:GND1 #PWR0110
 U 1 1 6276CC22
-P 850 4250
-F 0 "#PWR0110" H 850 4000 50  0001 C CNN
-F 1 "GND1" H 855 4077 50  0000 C CNN
-F 2 "" H 850 4250 50  0001 C CNN
-F 3 "" H 850 4250 50  0001 C CNN
-	1    850  4250
+P 650 4400
+F 0 "#PWR0110" H 650 4150 50  0001 C CNN
+F 1 "GND1" H 655 4227 50  0000 C CNN
+F 2 "" H 650 4400 50  0001 C CNN
+F 3 "" H 650 4400 50  0001 C CNN
+	1    650  4400
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -1325,12 +1327,12 @@ $EndComp
 $Comp
 L power:GND1 #PWR05
 U 1 1 628EE203
-P 2300 3300
-F 0 "#PWR05" H 2300 3050 50  0001 C CNN
-F 1 "GND1" H 2305 3127 50  0000 C CNN
-F 2 "" H 2300 3300 50  0001 C CNN
-F 3 "" H 2300 3300 50  0001 C CNN
-	1    2300 3300
+P 2100 3450
+F 0 "#PWR05" H 2100 3200 50  0001 C CNN
+F 1 "GND1" H 2105 3277 50  0000 C CNN
+F 2 "" H 2100 3450 50  0001 C CNN
+F 3 "" H 2100 3450 50  0001 C CNN
+	1    2100 3450
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -1338,7 +1340,7 @@ L power:GND1 #PWR0107
 U 1 1 6274D297
 P 2400 2050
 F 0 "#PWR0107" H 2400 1800 50  0001 C CNN
-F 1 "GND1" H 2405 1877 50  0000 C CNN
+F 1 "GND1" H 2205 1727 50  0000 C CNN
 F 2 "" H 2400 2050 50  0001 C CNN
 F 3 "" H 2400 2050 50  0001 C CNN
 	1    2400 2050
@@ -1831,12 +1833,12 @@ $EndComp
 $Comp
 L Device:Crystal Y2
 U 1 1 6275CA7A
-P 1400 3900
-F 0 "Y2" V 1354 4031 50  0000 L CNN
-F 1 "ECS-.327-9-1210-TR" V 1445 4031 50  0000 L CNN
-F 2 "ECS-:XTAL_ECS-.327-9-1210-TR" H 1400 3900 50  0001 C CNN
-F 3 "~" H 1400 3900 50  0001 C CNN
-	1    1400 3900
+P 1200 4050
+F 0 "Y2" V 1154 4181 50  0000 L CNN
+F 1 "ECS-.327-9-1210-TR" V 1245 4181 50  0000 L CNN
+F 2 "ECS-:XTAL_ECS-.327-9-1210-TR" H 1200 4050 50  0001 C CNN
+F 3 "~" H 1200 4050 50  0001 C CNN
+	1    1200 4050
 	0    1    1    0   
 $EndComp
 $Comp
@@ -1963,42 +1965,42 @@ $EndComp
 $Comp
 L Device:CP_Small C3
 U 1 1 62760644
-P 1050 3700
-F 0 "C3" V 825 3700 50  0000 C CNN
-F 1 "8p" V 916 3700 50  0000 C CNN
-F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 1050 3700 50  0001 C CNN
-F 3 "~" H 1050 3700 50  0001 C CNN
-	1    1050 3700
+P 850 3850
+F 0 "C3" V 625 3850 50  0000 C CNN
+F 1 "8p" V 716 3850 50  0000 C CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 850 3850 50  0001 C CNN
+F 3 "~" H 850 3850 50  0001 C CNN
+	1    850  3850
 	0    1    1    0   
 $EndComp
 $Comp
 L Device:CP_Small C4
 U 1 1 62761FBC
-P 1050 4150
-F 0 "C4" V 825 4150 50  0000 C CNN
-F 1 "8p" V 916 4150 50  0000 C CNN
-F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 1050 4150 50  0001 C CNN
-F 3 "~" H 1050 4150 50  0001 C CNN
-	1    1050 4150
+P 850 4300
+F 0 "C4" V 625 4300 50  0000 C CNN
+F 1 "8p" V 716 4300 50  0000 C CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 850 4300 50  0001 C CNN
+F 3 "~" H 850 4300 50  0001 C CNN
+	1    850  4300
 	0    1    1    0   
 $EndComp
 $Comp
 L ECS-480-8-36-RWN-TR:ECS-480-8-36-RWN-TR Y1
 U 1 1 627D6BFE
-P 1400 3050
-F 0 "Y1" H 1400 3517 50  0000 C CNN
-F 1 "ECS-480-8-36-RWN-TR" H 1400 3426 50  0000 C CNN
-F 2 "XTAL_ECS-480-8-36-RWN-TR" H 1400 3050 50  0001 L BNN
-F 3 "" H 1400 3050 50  0001 L BNN
-F 4 "ECS INC" H 1400 3050 50  0001 L BNN "MF"
-F 5 "The minature ECX-2236 is a compact SMD Crystal. The industry standard 2.5 x 2.0 x 0.55 mm ceramic package is ideal for today’s SMD manufacturing environment." H 1400 3050 50  0001 L BNN "DESCRIPTION"
-F 6 "Manufacturer Recommendation" H 1400 3050 50  0001 L BNN "STANDARD"
-F 7 "ECX-2236" H 1400 3050 50  0001 L BNN "MP"
-F 8 "" H 1400 3050 50  0001 L BNN "PRICE"
-F 9 "SMD-4 ECX" H 1400 3050 50  0001 L BNN "PACKAGE"
-F 10 "Good" H 1400 3050 50  0001 L BNN "AVAILABILITY"
-F 11 "2017" H 1400 3050 50  0001 L BNN "PARTREV"
-	1    1400 3050
+P 1200 3200
+F 0 "Y1" H 1200 3667 50  0000 C CNN
+F 1 "ECS-480-8-36-RWN-TR" H 1200 3576 50  0000 C CNN
+F 2 "XTAL_ECS-480-8-36-RWN-TR" H 1200 3200 50  0001 L BNN
+F 3 "" H 1200 3200 50  0001 L BNN
+F 4 "ECS INC" H 1200 3200 50  0001 L BNN "MF"
+F 5 "The minature ECX-2236 is a compact SMD Crystal. The industry standard 2.5 x 2.0 x 0.55 mm ceramic package is ideal for today’s SMD manufacturing environment." H 1200 3200 50  0001 L BNN "DESCRIPTION"
+F 6 "Manufacturer Recommendation" H 1200 3200 50  0001 L BNN "STANDARD"
+F 7 "ECX-2236" H 1200 3200 50  0001 L BNN "MP"
+F 8 "" H 1200 3200 50  0001 L BNN "PRICE"
+F 9 "SMD-4 ECX" H 1200 3200 50  0001 L BNN "PACKAGE"
+F 10 "Good" H 1200 3200 50  0001 L BNN "AVAILABILITY"
+F 11 "2017" H 1200 3200 50  0001 L BNN "PARTREV"
+	1    1200 3200
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -2015,12 +2017,12 @@ $EndComp
 $Comp
 L Device:CP_Small C2
 U 1 1 627781FF
-P 2300 3100
-F 0 "C2" V 2075 3100 50  0000 C CNN
-F 1 "6p" V 2166 3100 50  0000 C CNN
-F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 2300 3100 50  0001 C CNN
-F 3 "~" H 2300 3100 50  0001 C CNN
-	1    2300 3100
+P 2100 3250
+F 0 "C2" V 1875 3250 50  0000 C CNN
+F 1 "6p" V 1966 3250 50  0000 C CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 2100 3250 50  0001 C CNN
+F 3 "~" H 2100 3250 50  0001 C CNN
+	1    2100 3250
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -2180,12 +2182,12 @@ $EndComp
 $Comp
 L MCU_ST_STM32L4:STM32L431RCTx U2
 U 1 1 6271DE66
-P 4800 3600
-F 0 "U2" H 5825 661 50  0000 C CNN
-F 1 "STM32L431RCTx" H 5825 570 50  0000 C CNN
-F 2 "Package_QFP:LQFP-64_10x10mm_P0.5mm" H 4200 3250 50  0001 R CNN
-F 3 "http://www.st.com/st-web-ui/static/active/en/resource/technical/document/datasheet/DM00257211.pdf" H 4950 2150 50  0001 C CNN
-	1    4800 3600
+P 3500 3600
+F 0 "U2" H 4525 661 50  0000 C CNN
+F 1 "STM32L431RCTx" H 4525 570 50  0000 C CNN
+F 2 "Package_QFP:LQFP-64_10x10mm_P0.5mm" H 2900 3250 50  0001 R CNN
+F 3 "http://www.st.com/st-web-ui/static/active/en/resource/technical/document/datasheet/DM00257211.pdf" H 3650 2150 50  0001 C CNN
+	1    3500 3600
 	1    0    0    -1  
 $EndComp
 $EndSCHEMATC

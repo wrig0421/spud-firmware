@@ -1,0 +1,4 @@
+#if !defined(BOARD_INIT_H)
+#define BOARD_INIT_H
+
+#endif

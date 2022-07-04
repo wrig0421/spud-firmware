@@ -1,0 +1,92 @@
+#include <stdbool.h>
+#include <stdint.h>
+#include "ws2812b.h"
+#include "cmsis_os.h"
+#include "main.h"
+#include "task_create.h"
+#include <stdbool.h>
+#include "color_led.h"
+#include "animate_led.h"
+
+
+void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim)
+{
+	static uint32_t count = 0;
+	switch (htim->Channel)
+	{
+		case HAL_TIM_ACTIVE_CHANNEL_1:
+			HAL_TIM_PWM_Stop_DMA(htim, TIM_CHANNEL_1);
+		break;
+		case HAL_TIM_ACTIVE_CHANNEL_2:
+			HAL_TIM_PWM_Stop_DMA(htim, TIM_CHANNEL_2);
+		break;
+		case HAL_TIM_ACTIVE_CHANNEL_3:
+			HAL_TIM_PWM_Stop_DMA(htim, TIM_CHANNEL_3);
+
+
+		break;
+		default:
+		break;
+	}
+	//datasentflag = 1;
+	//g_dma_done_flag = true;
+	count++;
+//	if (0 == (count % 3))
+//	{
+		datasentflag=1;
+		g_dma_done_flag = true;
+//	}
+}
+
+
+uint16_t pwm_reset[50] = {0};
+void reset_ws2812b(void)
+{
+	HAL_TIM_PWM_Start_DMA(&htim1, TIM_CHANNEL_1, (uint32_t *)pwm_reset, 50);
+	HAL_TIM_PWM_Start_DMA(&htim1, TIM_CHANNEL_2, (uint32_t *)pwm_reset, 50);
+	HAL_TIM_PWM_Start_DMA(&htim1, TIM_CHANNEL_3, (uint32_t *)pwm_reset, 50);
+	HAL_TIM_PWM_Start_DMA(&htim15, TIM_CHANNEL_1, (uint32_t *)pwm_reset, 50);
+	HAL_TIM_PWM_Start_DMA(&htim16, TIM_CHANNEL_1, (uint32_t *)pwm_reset, 50);
+}
+
+
+/**
+  * @brief  The application entry point.
+  * @retval int
+  */
+int main(void)
+{
+
+	osKernelInitialize();
+	task_create();
+	osKernelStart();
+}
+
+
+/**
+  * @brief  This function is executed in case of error occurrence.
+  * @retval None
+  */
+void Error_Handler(void)
+{
+    /* User can add his own implementation to report the HAL error return state */
+    __disable_irq();
+    while (1);
+}
+
+#ifdef  USE_FULL_ASSERT
+/**
+  * @brief  Reports the name of the source file and the source line number
+  *         where the assert_param error has occurred.
+  * @param  file: pointer to the source file name
+  * @param  line: assert_param error line source number
+  * @retval None
+  */
+void assert_failed(uint8_t *file, uint32_t line)
+{
+  /* User can add his own implementation to report the file name and line number,
+     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+}
+#endif /* USE_FULL_ASSERT */
+
+/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

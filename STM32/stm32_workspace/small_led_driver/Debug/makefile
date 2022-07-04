@@ -11,6 +11,7 @@ RM := rm -rf
 -include sources.mk
 -include startup/subdir.mk
 -include src/stm32_bloat/subdir.mk
+-include src/bsp/subdir.mk
 -include src/subdir.mk
 -include sdk/STM32L4xx_HAL_Driver/Src/subdir.mk
 -include sdk/FreeRTOS/Source/portable/MemMang/subdir.mk
