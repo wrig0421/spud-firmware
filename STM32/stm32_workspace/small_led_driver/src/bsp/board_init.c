@@ -50,8 +50,21 @@ void board_init(void)
     HAL_TIM_PWM_Stop_DMA(&htim16, TIM_CHANNEL_1);
 
     ws2812b_init();
+    HAL_GPIO_WritePin(GPIOB, LVL_SHIFTER_EN_Pin, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(GPIOB, LVL_SHIFTER_EN_Pin, GPIO_PIN_SET);
+    reset_ws2812b();
+
     //ws2812b_reset();
 
+}
+
+void board_init_stop_timer(void)
+{
+    HAL_TIM_PWM_Stop_DMA(&htim1, TIM_CHANNEL_1);
+    HAL_TIM_PWM_Stop_DMA(&htim1, TIM_CHANNEL_2);
+    HAL_TIM_PWM_Stop_DMA(&htim1, TIM_CHANNEL_3);
+    HAL_TIM_PWM_Stop_DMA(&htim15, TIM_CHANNEL_1);
+    HAL_TIM_PWM_Stop_DMA(&htim16, TIM_CHANNEL_1);
 }
 
 
@@ -358,7 +371,7 @@ static void MX_GPIO_Init(void)
     HAL_GPIO_WritePin(GPIOC, GPIO_2_Pin|GPIO_3_Pin|LED_OUT_1_Pin|LED_OUT_2_Pin, GPIO_PIN_RESET);
 
     /*Configure GPIO pin Output Level */
-    //HAL_GPIO_WritePin(GPIOB, LEVEL_SHIFTER_EN_Pin|GPIO_0_Pin, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(GPIOB, LVL_SHIFTER_EN_Pin|GPIO_0_Pin, GPIO_PIN_RESET);
 
     /*Configure GPIO pin Output Level */
     HAL_GPIO_WritePin(GPIO_0_GPIO_Port, GPIO_0_Pin, GPIO_PIN_RESET);
@@ -382,12 +395,12 @@ static void MX_GPIO_Init(void)
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-    /*Configure GPIO pin : GPIO_0_Pin */
-    GPIO_InitStruct.Pin = GPIO_0_Pin;
+    /*Configure GPIO pins : LVL_SHIFTER_EN_Pin GPIO_0_Pin */
+    GPIO_InitStruct.Pin = LVL_SHIFTER_EN_Pin|GPIO_0_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-    HAL_GPIO_Init(GPIO_0_GPIO_Port, &GPIO_InitStruct);
+    HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
     /* EXTI interrupt init*/
     HAL_NVIC_SetPriority(EXTI0_IRQn, 0, 0);
@@ -401,6 +414,9 @@ static void MX_GPIO_Init(void)
 
     HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);
     HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
+
+    HAL_GPIO_WritePin(GPIOB, LVL_SHIFTER_EN_Pin, GPIO_PIN_SET);
+
 }
 
 

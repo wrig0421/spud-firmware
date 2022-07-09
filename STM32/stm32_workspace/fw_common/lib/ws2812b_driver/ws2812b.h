@@ -2,7 +2,7 @@
 #define WS2812B_H
 
 
-#define STRIP_1_LENGTH    6
+#define STRIP_1_LENGTH    210
 //#define STRIP_2_LENGTH    7
 //#define STRIP_3_LENGTH    7
 //#define STRIP_4_LENGTH    7
@@ -133,6 +133,7 @@ void ws2812b_init(void);
 void ws2812b_show(const strip_mask_t strip_mask);
 void ws2812b_fill_pwm_buffer(const strip_bit_e strip_bit);
 void ws2812b_set_led(const strip_bit_e strip_bit, uint16_t led_num, color_t red, color_t green, color_t blue);
+void reset_ws2812b(void);
 
 #endif
 

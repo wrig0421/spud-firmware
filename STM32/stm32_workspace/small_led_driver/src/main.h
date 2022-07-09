@@ -55,6 +55,10 @@ void Error_Handler(void);
 #define TIM1_CH1_GPIO_Port GPIOA
 #define GPIO_0_Pin GPIO_PIN_8
 #define GPIO_0_GPIO_Port GPIOB
+#define TIM15_CH1_Pin GPIO_PIN_14
+#define TIM15_CH1_GPIO_Port GPIOB
+#define LVL_SHIFTER_EN_Pin GPIO_PIN_0
+#define LVL_SHIFTER_EN_Port GPIOB
 
 #ifdef __cplusplus
 }

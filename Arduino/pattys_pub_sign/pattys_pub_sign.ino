@@ -220,7 +220,8 @@ void setup(void)
     color_led_init();
     animate_led_init();
     animate_led_turn_all_pixels_off();
-    g_loop_led_state = animate_led_state_randomize(g_loop_led_state);
+    g_loop_led_state = LED_STATE_THEATER_CHASE_RAINBOW;
+    //g_loop_led_state = animate_led_state_randomize(g_loop_led_state);
     delay(1000);
 }
 

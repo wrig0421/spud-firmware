@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
+	<item key="org.eclipse.cdt.ui.codeformatter.create_profile_dialog.open_edit" value="true"/>
+	<item key="org.eclipse.cdt.uiformatter_page.white_space.c_view.inner" value="76"/>
+	<item key="org.eclipse.cdt.uiformatter_page.white_space_tab_page.node" value="0"/>
+	<item key="org.eclipse.cdt.uiformatter_page.line_wrapping_tab_page.last_category_index" value="1"/>
+	<item key="formatter_page.modify_dialog_tab_page.last_focus_index" value="-1"/>
+	<item key="org.eclipse.cdt.uiformatter_pagemodify_dialog.last_focus" value="5"/>
+	<item key="org.eclipse.cdt.uiformatter_page.white_space.c_view.option" value="53"/>
+	<item key="org.eclipse.cdt.uiformatter_pagemodify_dialog.preferred_width" value="1117"/>
+	<item key="org.eclipse.cdt.uiformatter_pagemodify_dialog.preferred_height" value="894"/>
+	<item key="org.eclipse.cdt.uiformatter_pagemodify_dialog.preferred_x" value="2322"/>
+	<item key="org.eclipse.cdt.uiformatter_pagemodify_dialog.preferred_y" value="0"/>
 	<section name="completion_proposal_size">
 	</section>
 	<section name="org.eclipse.cdt.ui.text.hover.CMacroExpansionExploration">
@@ -7,5 +18,30 @@
 	<section name="OptionalMessageDialog.hide.">
 		<item key="askReindex" value="true"/>
 		<item key="askReindex.detail" value="0"/>
+	</section>
+	<section name="PDOMSearchPage">
+		<item key="caseSensitive" value="false"/>
+		<item key="searchFlags" value="227191"/>
+		<list key="previousPatterns">
+			<item value="datasentflag"/>
+			<item value="numbersh"/>
+			<item value="random_num"/>
+			<item value="HAL_TIM_PWM_PulseFinishedCallback"/>
+			<item value="WKUP1_Pin"/>
+			<item value="WKUP1"/>
+			<item value="SYS_WKUP1"/>
+			<item value="gp_pwm_data_fill"/>
+			<item value="g_dma_done_flag"/>
+			<item value="HAL_TIM_PWM_Stop_DMA"/>
+			<item value="htim1"/>
+			<item value="SVC_Handler"/>
+			<item value="TIM16_CH1_Pin"/>
+			<item value="TIM2_CH2_GPIO_Port"/>
+			<item value="TIM15_CH1_Pin"/>
+		</list>
+	</section>
+	<section name="org.eclipse.cdt.ui.text.hover.CMacroExpansionExploration.internal">
+		<item key="size.width" value="384"/>
+		<item key="size.height" value="180"/>
 	</section>
 </section>

@@ -48,6 +48,6 @@ const osThreadAttr_t g_task_animate_led_attributes =
 void task_create(void)
 {
     osKernelInitialize();
-	g_dma_transfer_handle = osThreadNew(task_dma_transfer, NULL, &g_task_dma_transfer_attributes);
+	//g_dma_transfer_handle = osThreadNew(task_dma_transfer, NULL, &g_task_dma_transfer_attributes);
 	g_animate_led_handle = osThreadNew(task_animate_led, NULL, &g_task_animate_led_attributes);
 }

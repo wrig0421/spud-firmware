@@ -5,6 +5,7 @@
 
 void board_init(void);
 
+void board_init_stop_timer(void);
 
 
 

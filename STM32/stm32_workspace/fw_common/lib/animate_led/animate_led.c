@@ -8,6 +8,7 @@
 #include "numbers.h"
 #include "color_led.h"
 #include "ws2812b.h"
+#include "board_init.h"
 #include "animate_led.h"
 
 //#define PIN_STRIP_1 8
@@ -1271,7 +1272,7 @@ master_led_state_e g_master_led_state = MASTER_LED_STATE_DEMO;
 master_color_state_e g_master_color_state = MASTER_COLOR_STATE_DEMO;
 
 uint8_t g_animation_iterations = 0;
-led_state_e g_loop_led_state = LED_STATE_SOLID_COLOR;
+led_state_e g_loop_led_state = LED_STATE_SPELL;
 
 unsigned long g_isr_times[NUM_ISR] = {0};
 unsigned long g_debounce_delay = 2000; // ms
@@ -1304,6 +1305,9 @@ static void handle_count_color_delay(const animation_loop_iterations_e max_itera
 void task_animate_led(void *argument)
 {
 	color_hex_code_e color = COLOR_HEX_MAROON;
+	board_init_stop_timer();
+    animate_led_solid_custom_color((uint16_t)STRIP_BIT_ALL_SET, COLOR_HEX_BLACK);
+    osDelay(1000);
 	while (1)
 	{
 	    switch(g_loop_led_state)
@@ -1313,7 +1317,8 @@ void task_animate_led(void *argument)
 	                handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_1, ANIMATION_DELAY_MS_5000);
 	            break;
 	            case LED_STATE_SOLID_COLOR:
-	                animate_led_solid_custom_color((uint16_t)STRIP_BIT_ALL_SET, (color_hex_code_e)color_led_get_random_color());
+	                color = COLOR_HEX_MAROON;
+	                animate_led_solid_custom_color((uint16_t)STRIP_BIT_ALL_SET, (color_hex_code_e)color);
 	                handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_5, ANIMATION_DELAY_MS_5000);
 	            break;
 	            case LED_STATE_SPARKLE_NO_FILL:
@@ -1358,14 +1363,13 @@ void task_animate_led(void *argument)
 	            case LED_STATE_SPELL:
 	                // SRW ok!!!
 	                animate_led_only_spell_word(STRIP_BIT_ALL_SET, color_led_get_random_color(), 30);
-	                handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_10, ANIMATION_DELAY_MS_0);
+	                handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_100, ANIMATION_DELAY_MS_0);
 	            break;
 	            default:
 	            break;
 	        }
-	        while(!datasentflag) osDelay(10);
-	        datasentflag = 0;
-	        osDelay(10);
+
+	        //osDelay(1000);
 
 //	    if (gb_a_flag)
 //	    {

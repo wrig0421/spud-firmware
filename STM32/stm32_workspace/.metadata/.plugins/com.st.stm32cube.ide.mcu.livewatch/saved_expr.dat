@@ -1,0 +1,6 @@
+g_int_count
+g_loop_led_state
+g_animation_iterations
+gp_pwm_data_fill
+sizeof(ws2812b_led_t)
+status

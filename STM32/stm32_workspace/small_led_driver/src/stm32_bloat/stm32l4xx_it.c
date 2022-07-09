@@ -179,8 +179,6 @@ void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim)
         break;
         case HAL_TIM_ACTIVE_CHANNEL_3:
             HAL_TIM_PWM_Stop_DMA(htim, TIM_CHANNEL_3);
-
-
         break;
         default:
         break;
@@ -188,10 +186,12 @@ void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim)
     //datasentflag = 1;
     //g_dma_done_flag = true;
     count++;
-//  if (0 == (count % 3))
+    datasentflag=1;
+//
+//  if (0 == (count % 2))
 //  {
-        datasentflag=1;
-        g_dma_done_flag = true;
+//        datasentflag=1;
+//        g_dma_done_flag = true;
 //  }
 }
 
