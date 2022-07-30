@@ -301,20 +301,20 @@ void ws2812b_fill_pwm_buffer(const strip_bit_e strip_bit)
 //	while (!datasentflag);//{HAL_Delay(1);};
 //    datasentflag = 0;
 
-//	HAL_TIM_PWM_Start_DMA(&htim15, TIM_CHANNEL_1, (uint32_t *)gp_pwm_data_fill, (strip_size * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + WS2812B_RESET_TIME_CYCLES);
-//	datasentflag = 0;
-//	while (!datasentflag);//{HAL_Delay(1);};
-//	datasentflag = 0;
+	HAL_TIM_PWM_Start_DMA(&htim15, TIM_CHANNEL_1, (uint32_t *)gp_pwm_data_fill, (strip_size * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + WS2812B_RESET_TIME_CYCLES);
+	datasentflag = 0;
+	while (!datasentflag);//{HAL_Delay(1);};
+	datasentflag = 0;
 
 //	HAL_TIM_PWM_Start_DMA(&htim1, TIM_CHANNEL_1, (uint32_t *)gp_pwm_data_fill, (strip_size * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + WS2812B_RESET_TIME_CYCLES);
 //	datasentflag = 0;
 //	while (!datasentflag);//{HAL_Delay(1);};
 //	datasentflag = 0;
 
-	HAL_TIM_PWM_Start_DMA(&htim16, TIM_CHANNEL_1, (uint32_t *)gp_pwm_data_fill, (strip_size * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + WS2812B_RESET_TIME_CYCLES);
-	datasentflag = 0;
-	while (!datasentflag);//{HAL_Delay(1);};
-	datasentflag = 0;
+//	HAL_TIM_PWM_Start_DMA(&htim16, TIM_CHANNEL_1, (uint32_t *)gp_pwm_data_fill, (strip_size * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + WS2812B_RESET_TIME_CYCLES);
+//	datasentflag = 0;
+//	while (!datasentflag);//{HAL_Delay(1);};
+//	datasentflag = 0;
 
 //	HAL_TIM_PWM_Start_DMA(&htim1, TIM_CHANNEL_3, (uint32_t *)gp_pwm_data_fill, (strip_size * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + WS2812B_RESET_TIME_CYCLES);
 //	datasentflag = 0;

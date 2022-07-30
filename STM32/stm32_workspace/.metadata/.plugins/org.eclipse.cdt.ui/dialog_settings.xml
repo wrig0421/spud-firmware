@@ -23,6 +23,12 @@
 		<item key="caseSensitive" value="false"/>
 		<item key="searchFlags" value="227191"/>
 		<list key="previousPatterns">
+			<item value="GPIO_PIN_5"/>
+			<item value="GPIO_PIN_13"/>
+			<item value="EXTI0_IRQHandler"/>
+			<item value="EXTI2_IRQHandler"/>
+			<item value="HAL_GPIO_EXTI_IRQHandler"/>
+			<item value="GPIO_PIN_2"/>
 			<item value="datasentflag"/>
 			<item value="numbersh"/>
 			<item value="random_num"/>
@@ -43,5 +49,22 @@
 	<section name="org.eclipse.cdt.ui.text.hover.CMacroExpansionExploration.internal">
 		<item key="size.width" value="384"/>
 		<item key="size.height" value="180"/>
+	</section>
+	<section name="org.eclipse.cdt.internal.ui.typehierarchy.OpenTypeInHierarchyActionSettings">
+		<item key="show_namespaces" value="false"/>
+		<item key="show_classes" value="true"/>
+		<item key="show_structs" value="true"/>
+		<item key="show_typedefs" value="true"/>
+		<item key="show_enums" value="true"/>
+		<item key="show_unions" value="true"/>
+		<item key="show_functions" value="false"/>
+		<item key="show_variables" value="false"/>
+		<item key="show_enumerators" value="false"/>
+		<item key="show_macros" value="false"/>
+		<item key="show_lowlevel" value="true"/>
+		<item key="x" value="744"/>
+		<item key="y" value="78"/>
+		<item key="width" value="432"/>
+		<item key="height" value="663"/>
 	</section>
 </section>

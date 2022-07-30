@@ -121,7 +121,7 @@ void DebugMon_Handler(void)
   */
 void EXTI2_IRQHandler(void)
 {
-    // A
+    // B
     HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_2);
     gb_a_flag = true;
 
@@ -134,7 +134,7 @@ void EXTI2_IRQHandler(void)
   */
 void EXTI9_5_IRQHandler(void)
 {
-    // B
+    // D
     HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_5);
     gb_b_flag = true;
 
@@ -159,7 +159,7 @@ void EXTI15_10_IRQHandler(void)
   */
 void EXTI0_IRQHandler(void)
 {
-    // D
+    // A
     HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_0);
     gb_d_flag = true;
     g_int_count++;
