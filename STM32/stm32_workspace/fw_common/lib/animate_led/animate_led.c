@@ -1248,6 +1248,7 @@ void animate_led_set_all_pixels(strip_mask_t strip_mask, uint8_t red, uint8_t gr
 		for (strip_bit_e strip_bit = STRIP_BIT_1; strip_bit <= STRIP_BIT_NUM_STRIPS; strip_bit = (strip_bit_e)(strip_bit + 1))
 		{
 			//offset = animate_led_get_strip_offset(strip_bit);
+		    strip_size = ws2812_get_strip_size(strip_bit);
 			for (uint16_t iii = 0; iii < strip_size; iii++) ws2812b_set_led(strip_bit, iii, adj_red, adj_green, adj_blue);
 		}
 	}
@@ -1269,7 +1270,7 @@ void animate_led_set_all_pixels(strip_mask_t strip_mask, uint8_t red, uint8_t gr
 
 // global variables
 master_led_state_e g_master_led_state = MASTER_LED_STATE_DEMO;
-master_color_state_e g_master_color_state = MASTER_COLOR_STATE_DEMO;
+master_color_state_e g_master_color_state = MASTER_LED_STATE_FIXED;
 
 uint8_t g_animation_iterations = 0;
 led_state_e g_loop_led_state = LED_STATE_SPELL;
@@ -1306,7 +1307,9 @@ void task_animate_led(void *argument)
 {
 	color_hex_code_e color = COLOR_HEX_MAROON;
 	board_init_stop_timer();
-    animate_led_solid_custom_color((uint16_t)STRIP_BIT_ALL_SET, COLOR_HEX_BLACK);
+    animate_led_only_spell_word(STRIP_BIT_ALL_SET, COLOR_HEX_BLUE, 0);
+
+    //animate_led_solid_custom_color((uint16_t)STRIP_BIT_1, COLOR_HEX_BLACK);
     osDelay(1000);
 	while (1)
 	{
@@ -1318,7 +1321,7 @@ void task_animate_led(void *argument)
 	            break;
 	            case LED_STATE_SOLID_COLOR:
 	                color = COLOR_HEX_MAROON;
-	                animate_led_solid_custom_color((uint16_t)STRIP_BIT_ALL_SET, (color_hex_code_e)color);
+	                animate_led_solid_custom_color((uint16_t)STRIP_BIT_1, (color_hex_code_e)color);
 	                handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_5, ANIMATION_DELAY_MS_5000);
 	            break;
 	            case LED_STATE_SPARKLE_NO_FILL:

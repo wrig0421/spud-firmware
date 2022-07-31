@@ -33,7 +33,7 @@
 		<link>
 			<name>fw_common</name>
 			<type>2</type>
-			<location>C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib</location>
+			<location>/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common</location>
 		</link>
 	</linkedResources>
 </projectDescription>
