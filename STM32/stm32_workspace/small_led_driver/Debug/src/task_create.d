@@ -44,7 +44,7 @@ src/task_create.o: ../src/task_create.c ../src/main.h \
  C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/color_led/color_led.h \
  C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.h \
  C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.h \
- ../src/task_dma_transfer.h
+ ../src/task_dma_transfer.h ../src/task_pin_level_count.h
 
 ../src/main.h:
 
@@ -139,3 +139,5 @@ C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_co
 C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.h:
 
 ../src/task_dma_transfer.h:
+
+../src/task_pin_level_count.h:

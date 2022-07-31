@@ -3,6 +3,8 @@
 #include <stdbool.h>
 #include <time.h>
 #include "ws2812b.h"
+#include "animate_led.h"
+#include "color_led.h"
 #include "board_init.h"
 
 RTC_HandleTypeDef hrtc;
@@ -55,6 +57,8 @@ void board_init(void)
 
 
     HAL_GPIO_WritePin(GPIOC, LED_OUT_1_Pin|LED_OUT_2_Pin, GPIO_PIN_SET);
+    color_led_init();
+    animate_led_init();
 //    HAL_Delay(1000);
 //    HAL_GPIO_WritePin(GPIOC, LED_OUT_1_Pin|LED_OUT_2_Pin, GPIO_PIN_RESET);
 //    HAL_Delay(1000);
@@ -64,6 +68,65 @@ void board_init(void)
     //ws2812b_reset();
 
 }
+
+
+uint32_t g_button_on_count[NUM_PUSH_BUTTONS] = {0};
+
+
+void board_init_button_on_count_increment(board_init_push_buttons_e button)
+{
+    g_button_on_count[(uint8_t)button] += 1;
+}
+
+
+uint32_t board_init_button_on_count(board_init_push_buttons_e button)
+{
+    return g_button_on_count[(uint8_t)button];
+}
+
+
+void board_init_button_on_count_clear(board_init_push_buttons_e button)
+{
+    g_button_on_count[(uint8_t)button] = 0;
+}
+
+
+bool board_init_button_is_pressed(board_init_push_buttons_e button)
+{
+    bool return_val = false;
+    switch (button)
+    {
+        case PUSH_BUTTON_A:
+            if (GPIO_PIN_RESET == HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0)) return_val = true;
+        break;
+        case PUSH_BUTTON_B:
+            if (GPIO_PIN_RESET == HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_2)) return_val = true;
+        break;
+        case PUSH_BUTTON_C:
+            if (GPIO_PIN_RESET == HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13)) return_val = true;
+        break;
+        case PUSH_BUTTON_D:
+            if (GPIO_PIN_RESET == HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_5)) return_val = true;
+        break;
+        default:
+        break;
+    }
+    return return_val;
+}
+
+bool board_init_any_button_is_pressed(void)
+{
+    bool return_val = false;
+    if ((GPIO_PIN_SET == HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13)) || \
+        (GPIO_PIN_SET == HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_5)) || \
+        (GPIO_PIN_SET == HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0)) || \
+        (GPIO_PIN_SET == HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_2)))
+    {
+        return_val = true;
+    }
+    return return_val;
+}
+
 
 void board_init_stop_timer(void)
 {

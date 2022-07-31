@@ -25,18 +25,8 @@
 ////#define PIN_STRIP_9
 //#endif
 
-typedef enum
-{
-    MASTER_LED_STATE_DEMO,
-    MASTER_LED_STATE_FIXED
-} master_led_state_e;
 
 
-typedef enum
-{
-    MASTER_COLOR_STATE_DEMO,
-    MASTER_COLOR_STATE_FIXED
-} master_color_state_e;
 
 
 typedef enum
@@ -71,18 +61,26 @@ typedef enum
 } animation_delay_ms_e;
 
 
+// global variables
+master_led_state_e g_master_led_state = MASTER_LED_STATE_DEMO;
+extern master_color_state_e g_master_color_state;
+extern bool g_color_led_demo_state_exit_flag;
+extern bool g_color_led_demo_state_enter_flag;
+
+uint8_t g_animation_iterations = 0;
+led_state_e g_led_state = LED_STATE_SPELL;
+
+unsigned long g_isr_times[NUM_ISR] = {0};
+unsigned long g_debounce_delay = 2000; // ms
+bool g_master_color_state_change_flag = false;
+bool g_master_led_state_change_flag = false;
+uint32_t g_random_color_array[NUM_STRIPS];
+
 
 // if strip is not in use then offset is 0 
 
 bool g_interrupt_flag[NUM_ISR] = {false};
 extern uint32_t g_max_strip_length;
-
-extern bool gb_a_flag;
-extern bool gb_b_flag;
-extern bool gb_c_flag;
-extern bool gb_d_flag;
-
-
 
 uint16_t g_strip_offset[NUM_STRIPS] = {0};
 
@@ -90,13 +88,60 @@ led_speed_e g_led_speed = LED_SPEED_5X;
 //led_speed_e g_led_speed = LED_SPEED_1X;
 //led_state_e g_led_state = LED_STATE_FIRST;
 //led_state_e g_led_state = LED_STATE_TWO_TONE;
-led_state_e g_led_state = LED_STATE_WHITE_COLOR;
 
 uint16_t g_delay_between_animations_ms = 1000;
 uint16_t g_delay_in_animation_ms = 100; // where applicable of course
 uint32_t g_iterations = 0; 
 extern uint16_t g_all_strip_mask;
-extern volatile int datasentflag;
+
+bool g_master_led_demo_state_exit_flag = false;
+bool g_master_led_demo_state_enter_flag = false;
+bool g_animate_led_pause_flag = false;
+bool g_animate_led_interrupt = false;
+
+void animate_led_interrupt(void)
+{
+    g_animate_led_interrupt = true;
+}
+
+
+void animate_led_reset_animate_iteration_count(void)
+{
+    g_animation_iterations = 0;
+}
+
+
+void animate_led_pause(void)
+{
+    static uint8_t flip_or_flop = 1;
+    if (flip_or_flop) g_animate_led_pause_flag = true;
+    else g_animate_led_pause_flag = false;
+    flip_or_flop ^= 1;
+}
+
+
+void animate_led_enter_demo_state(void)
+{
+    g_master_led_demo_state_enter_flag = true;
+    g_master_led_state = MASTER_LED_STATE_DEMO;
+    g_animation_iterations = 0;
+}
+
+
+void animate_led_exit_demo_state(void)
+{
+    g_master_led_demo_state_exit_flag = true;
+    g_master_led_state = MASTER_LED_STATE_FIXED;
+    g_led_state = LED_STATE_FIRST; // set first state
+    g_animation_iterations = 0;
+}
+
+
+master_led_state_e animate_led_master_state(void)
+{
+    return g_master_led_state;
+}
+
 
 static uint32_t millis(void)
 {
@@ -106,7 +151,12 @@ static uint32_t millis(void)
 
 static void delay(uint32_t time)
 {
-	osDelay(time);
+    uint32_t count = 0;
+    while (!animate_led_interrupt_occurred() && ((count * 10) < time))
+    {
+        osDelay(time / 100);
+        count++;
+    }
 }
 
 
@@ -122,9 +172,25 @@ void animate_led_reset_state(void)
 }
 
 
+
+
 void animate_led_set_interrupt_flag(isr_e src)
 {
-	g_interrupt_flag[src] = true;
+    g_animate_led_interrupt = true; // global indicator that intterupt occured
+    g_interrupt_flag[src] = true;
+}
+
+
+bool animate_led_interrupt_occurred(void)
+{
+//    bool return_val = false;
+//    if (g_animate_led_interrupt)
+//    {
+//        return_val = true;
+//        g_animate_led_interrupt = false;
+//    }
+//    return return_val;
+    return g_animate_led_interrupt;
 }
 
 
@@ -236,22 +302,34 @@ void animate_led_init(void)
 //}
 
 
-static bool animate_led_check_interrupts(uint16_t *speed_delay, uint8_t *red, uint8_t *green, uint8_t *blue)
+// animate led will have the following interrupts
+// A - speed
+// B - state
+// C - color
+// D - pause
+static bool animate_led_check_interrupts(uint8_t *red, uint8_t *green, uint8_t *blue)
 {
 	bool return_val = false;
-	if(animate_led_interrupt_flag_speed())
+	g_animate_led_interrupt = false; // this is only called after interrupt has occurred... so flag gets reset here
+	if (animate_led_interrupt_flag(ISR_STATE))
+    {
+        return_val = true;
+	    animate_led_solid_custom_color((uint16_t)STRIP_BIT_ALL_SET, COLOR_HEX_BLACK);
+        //osDelay(500); // some dormant time?
+    }
+	else if (animate_led_interrupt_flag(ISR_PAUSE))
 	{
-		*speed_delay = animate_led_delay_in_animations();
+	    while (g_animate_led_pause_flag)
+	    {
+	        osDelay(10);
+	    }
 	}
-	else if(animate_led_interrupt_flag_color())
+	else if (animate_led_interrupt_flag(ISR_COLOR))
 	{
-		*red = color_led_cur_color_red_hex();
-		*green = color_led_cur_color_green_hex();
-		*blue = color_led_cur_color_blue_hex();
-	}
-	else if (animate_led_interrupt_flag_state())
-	{
-		return_val = true;
+	    // interrupt modifies the current color... apply it to the animation!
+	    *red = color_led_cur_color_red_hex();
+        *green = color_led_cur_color_green_hex();
+        *blue = color_led_cur_color_blue_hex();
 	}
 	return return_val;
 }
@@ -318,6 +396,8 @@ void animate_led_state_randomize(void)
 
 void animate_led_multiple_solid_custom_colors(strip_mask_t strip_mask, uint32_t* color_array)
 {
+    // not checking for interrupts in this function the solid color is too fast.  No way a user
+    // would be able to tell if caught or not.
 	strip_bit_e active_strip = STRIP_BIT_1; 
 	strip_bit_e pre_strip = STRIP_BIT_1;
 	uint8_t num_active_strips = 0;
@@ -348,6 +428,7 @@ void animate_led_solid_custom_color(const strip_mask_t strip_mask, color_hex_cod
 	green = ((color & 0x00FF00) >> 8);
 	blue = (color & 0x0000FF);
 	animate_led_set_all_pixels(strip_mask, red, green, blue);
+	animate_led_show_strip(strip_mask);
 }
 
 
@@ -368,17 +449,11 @@ void animate_led_spell_and_sparkle(const strip_mask_t spell_mask, const strip_ma
 	if (!fill) animate_led_set_all_pixels(sparkle_mask, 0, 0, 0);
 	for (int i = 0; i < strip_size; i++)
 	{
-		/*
-		if (animate_led_check_interrupts(&speed_delay, &red, &green, &blue))
-        {
-        	animate_led_set_all_pixels((strip_mask_t)STRIP_BIT_ALL_SET, 0, 0, 0);
-			return;
-        }
-        */
+	    if (g_animate_led_interrupt) if (animate_led_check_interrupts(&red, &green, &blue)) return;
         animate_led_sparkle_random_color(sparkle_mask, fill, 0);
         animate_led_set_pixel(spell_mask, i, red, green, blue);
 		animate_led_show_strip(sparkle_mask|spell_mask);
-        delay(speed_delay);
+        delay((float_t)speed_delay / animate_led_speed_factor());
 	}	
 }
 
@@ -393,16 +468,10 @@ void animate_led_spell_and_solid_color(const strip_mask_t spell_mask, const stri
 	animate_led_solid_custom_color(solid_color_mask, color_led_get_random_color());
 	for (int i = 0; i < strip_size; i++)
 	{
-		/*
-		if (animate_led_check_interrupts(&speed_delay, &red, &green, &blue))
-        {
-        	animate_led_set_all_pixels((strip_mask_t)STRIP_BIT_ALL_SET, 0, 0, 0);
-			return;
-        }
-        */
+	    if (g_animate_led_interrupt) if (animate_led_check_interrupts(&red, &green, &blue)) return;
         animate_led_set_pixel(spell_mask, i, red, green, blue);
 		animate_led_show_strip(spell_mask | solid_color_mask);
-        delay(speed_delay);
+		delay((float_t)speed_delay / animate_led_speed_factor());
 	}	
 }
 
@@ -430,10 +499,11 @@ void animate_led_spell_word_multiple_colors(strip_mask_t strip_mask, uint32_t* c
 	{
 		for (int yyy = 0; yyy < num_active_strips; yyy++)
 		{
+		    //if (g_animate_led_interrupt) if (animate_led_check_interrupts(&red, &green, &blue)) return;
 			animate_led_set_pixel(active_strip_array[yyy], i, ((color_array[yyy] & 0xFF0000) >> 16), ((color_array[yyy] & 0x00FF00) >> 8), (color_array[yyy] & 0x0000FF));
 		}
 		animate_led_show_strip(strip_mask);
-        delay(speed_delay);
+		delay((float_t)speed_delay / animate_led_speed_factor());
 	}
 }
 
@@ -447,24 +517,18 @@ void animate_led_only_spell_word(strip_mask_t strip_mask, color_hex_code_e color
 	blue = (color & 0x0000FF);
 	for (int i = 0; i < strip_size; i++)
 	{
-		/*
-		if (animate_led_check_interrupts(&speed_delay, &red, &green, &blue))
-        {
-        	animate_led_set_all_pixels((strip_mask_t)STRIP_BIT_ALL_SET, 0, 0, 0);
-			return;
-        }
-        */
+	    if (g_animate_led_interrupt) if (animate_led_check_interrupts(&red, &green, &blue)) return;
 		animate_led_set_pixel(strip_mask, i, red, green, blue);
 		animate_led_show_strip(strip_mask);
-        delay(speed_delay);
+		delay((float_t)speed_delay / animate_led_speed_factor());
 	}
 }
 
 
 void animate_led_fade_in_fade_out_multiple_colors(strip_mask_t strip_mask, uint32_t* color_array)
 {
+    // interrupts not handled yet!
 	uint8_t red, green, blue; 
-	uint16_t dummy_speed;
 	strip_bit_e active_strip = STRIP_BIT_1; 
 	strip_bit_e pre_strip = STRIP_BIT_1;
 	uint8_t num_active_strips = 0;
@@ -486,11 +550,7 @@ void animate_led_fade_in_fade_out_multiple_colors(strip_mask_t strip_mask, uint3
 		{
 			animate_led_set_all_pixels(active_strip_array[yyy], (((color_array[yyy] & 0xFF0000) >> 16)) * (i / 256.0), (((color_array[yyy] & 0x00FF00) >> 8)) * (i / 256.0), ((color_array[yyy] & 0x0000FF)) * (i / 256.0));
 		}
-		if (animate_led_check_interrupts(&dummy_speed, &red, &green, &blue))
-        {
-        	animate_led_set_all_pixels((strip_mask_t)STRIP_BIT_ALL_SET, 0, 0, 0);
-			return;
-        }
+        if (g_animate_led_interrupt) if (animate_led_check_interrupts(&red, &green, &blue)) return;
     }
     for (int i = 255; i >= 0; i -= 5)
     {
@@ -498,18 +558,13 @@ void animate_led_fade_in_fade_out_multiple_colors(strip_mask_t strip_mask, uint3
 		{
 			animate_led_set_all_pixels(active_strip_array[yyy], (((color_array[yyy] & 0xFF0000) >> 16)) * (i / 256.0), (((color_array[yyy] & 0x00FF00) >> 8)) * (i / 256.0), ((color_array[yyy] & 0x0000FF)) * (i / 256.0));
 		}
-		if (animate_led_check_interrupts(&dummy_speed, &red, &green, &blue))
-        {
-        	animate_led_set_all_pixels((strip_mask_t)STRIP_BIT_ALL_SET, 0, 0, 0);
-			return;
-        }
+        if (g_animate_led_interrupt) if (animate_led_check_interrupts(&red, &green, &blue)) return;
     }
 }
 
 
 void animate_led_fade_in_fade_out(strip_mask_t strip_mask, color_hex_code_e color)
 {
-	uint16_t dummy_speed;
     float r, g, b;
     uint8_t red, green, blue; 
 	red = ((color & 0xFF0000) >> 16);
@@ -517,11 +572,7 @@ void animate_led_fade_in_fade_out(strip_mask_t strip_mask, color_hex_code_e colo
 	blue = (color & 0x0000FF);
     for (int i = 0; i < 256; i++)
     {
-		if (animate_led_check_interrupts(&dummy_speed, &red, &green, &blue))
-        {
-        	animate_led_set_all_pixels((strip_mask_t)STRIP_BIT_ALL_SET, 0, 0, 0);
-			return;
-        }
+        if (g_animate_led_interrupt) if (animate_led_check_interrupts(&red, &green, &blue)) return;
         r = (i / 256.0) * red;
         g = (i / 256.0) * green;
         b = (i / 256.0) * blue;
@@ -529,11 +580,7 @@ void animate_led_fade_in_fade_out(strip_mask_t strip_mask, color_hex_code_e colo
     }
     for (int i = 255; i >= 0; i = i-2)
     {
-		if (animate_led_check_interrupts(&dummy_speed, &red, &green, &blue))
-        {
-        	animate_led_set_all_pixels((strip_mask_t)STRIP_BIT_ALL_SET, 0, 0, 0);
-			return;
-        }
+        if (g_animate_led_interrupt) if (animate_led_check_interrupts(&red, &green, &blue)) return;
         r = (i / 256.0) * red;
         g = (i / 256.0) * green;
         b = (i / 256.0) * blue;
@@ -544,18 +591,14 @@ void animate_led_fade_in_fade_out(strip_mask_t strip_mask, color_hex_code_e colo
 
 void animate_led_strobe(strip_mask_t strip_mask, color_hex_code_e color, uint16_t animate_led_strobe_count, uint16_t flash_delay, uint16_t end_pause)
 {
+    // speed is not handled here currently
 	uint8_t red, green, blue; 
-	uint16_t dummy_speed;
 	red = ((color & 0xFF0000) >> 16);
 	green = ((color & 0x00FF00) >> 8);
 	blue = (color & 0x0000FF);
     for (int i = 0; i < animate_led_strobe_count; i++)
     {
-		if (animate_led_check_interrupts(&dummy_speed, &red, &green, &blue))
-        {
-        	animate_led_set_all_pixels((strip_mask_t)STRIP_BIT_ALL_SET, 0, 0, 0);
-			return;
-        }
+        if (g_animate_led_interrupt) if (animate_led_check_interrupts(&red, &green, &blue)) return;
         animate_led_set_all_pixels(strip_mask, red, green, blue);
         animate_led_show_strip(strip_mask);
         delay(flash_delay);
@@ -571,17 +614,12 @@ void animate_led_cyclone_bounce(strip_mask_t strip_mask, color_hex_code_e color,
 {
 	uint8_t red, green, blue; 
 	uint16_t strip_size = ws2812_led_get_max_strip_size(strip_mask);
-	uint16_t dummy_speed;
 	red = ((color & 0xFF0000) >> 16);
 	green = ((color & 0x00FF00) >> 8);
 	blue = (color & 0x0000FF);
     for (int i = 0; i < strip_size - eye_size - 2; i++) // "-2" is CYA
     {
-		if (animate_led_check_interrupts(&dummy_speed, &red, &green, &blue))
-        {
-        	animate_led_set_all_pixels((strip_mask_t)STRIP_BIT_ALL_SET, 0, 0, 0);
-			return;
-        }
+        if (g_animate_led_interrupt) if (animate_led_check_interrupts(&red, &green, &blue)) return;
         animate_led_set_all_pixels(strip_mask, 0, 0, 0);
         animate_led_set_pixel(strip_mask, i, red/10, green/10, blue/10);
         for (int j = 1; j <= eye_size; j++)
@@ -595,11 +633,7 @@ void animate_led_cyclone_bounce(strip_mask_t strip_mask, color_hex_code_e color,
     delay(return_delay);
     for (int i = strip_size - eye_size - 2; i > 0; i--)
     {
-		if (animate_led_check_interrupts(&speed_delay, &red, &green, &blue))
-        {
-        	animate_led_set_all_pixels((strip_mask_t)STRIP_BIT_ALL_SET, 0, 0, 0);
-			return;
-        }
+        if (g_animate_led_interrupt) if (animate_led_check_interrupts(&red, &green, &blue)) return;
         animate_led_set_all_pixels(strip_mask, 0, 0, 0); 
         animate_led_set_pixel(strip_mask, i , red/10, green/10, blue/10);
         for (int j = 1; j <= eye_size; j++)
@@ -617,6 +651,7 @@ void animate_led_cyclone_bounce(strip_mask_t strip_mask, color_hex_code_e color,
 
 void animate_led_center_to_outside(strip_mask_t strip_mask, color_hex_code_e color, uint16_t eye_size, uint16_t speed_delay, uint16_t return_delay)
 {
+    // interrupts not handled yet!
 	uint16_t strip_size = ws2812_led_get_max_strip_size(strip_mask);
     uint8_t red, green, blue; 
 	red = ((color & 0xFF0000) >> 16);
@@ -638,7 +673,7 @@ void animate_led_center_to_outside(strip_mask_t strip_mask, color_hex_code_e col
         }
         animate_led_set_pixel(strip_mask, strip_size - i - eye_size - 1, red/10, green/10, blue/10);
         animate_led_show_strip(strip_mask);
-        delay(speed_delay);
+        delay((float_t)speed_delay / animate_led_speed_factor());
     }
     delay(return_delay);
 }
@@ -646,6 +681,7 @@ void animate_led_center_to_outside(strip_mask_t strip_mask, color_hex_code_e col
 
 void animate_led_outside_to_center(strip_mask_t strip_mask, color_hex_code_e color, uint16_t eye_size, uint16_t speed_delay, uint16_t return_delay)
 {
+    // interrupts not handled yet!
 	uint16_t strip_size = ws2812_led_get_max_strip_size(strip_mask);
     uint8_t red, green, blue; 
 	red = ((color & 0xFF0000) >> 16);
@@ -667,7 +703,7 @@ void animate_led_outside_to_center(strip_mask_t strip_mask, color_hex_code_e col
         }
         animate_led_set_pixel(strip_mask, strip_size - i - eye_size - 1, red/10, green/10, blue/10);
         animate_led_show_strip(strip_mask);
-        delay(speed_delay);
+        delay((float_t)speed_delay / animate_led_speed_factor());
     }
     delay(return_delay);
 }
@@ -675,6 +711,7 @@ void animate_led_outside_to_center(strip_mask_t strip_mask, color_hex_code_e col
 
 void animate_led_left_to_right(strip_mask_t strip_mask, color_hex_code_e color, uint16_t eye_size, uint16_t speed_delay, uint16_t return_delay)
 {
+    // interrupts not handled yet!
 	uint16_t strip_size = ws2812_led_get_max_strip_size(strip_mask);
     uint8_t red, green, blue; 
 	red = ((color & 0xFF0000) >> 16);
@@ -687,7 +724,7 @@ void animate_led_left_to_right(strip_mask_t strip_mask, color_hex_code_e color, 
         for (int j = 1; j <= eye_size; j++) animate_led_set_pixel(strip_mask, i + j, red, green, blue);
         animate_led_set_pixel(strip_mask, i + eye_size + 1, red/10, green/10, blue/10);
         animate_led_show_strip(strip_mask);
-        delay(speed_delay);
+        delay((float_t)speed_delay / animate_led_speed_factor());
     }
     delay(return_delay);
 }
@@ -695,6 +732,7 @@ void animate_led_left_to_right(strip_mask_t strip_mask, color_hex_code_e color, 
 
 void animate_led_right_to_left(strip_mask_t strip_mask, color_hex_code_e color, uint16_t eye_size, uint16_t speed_delay, uint16_t return_delay)
 {
+    // interrupts not handled yet!
 	uint16_t strip_size = ws2812_led_get_max_strip_size(strip_mask);
     uint8_t red, green, blue; 
 	red = ((color & 0xFF0000) >> 16);
@@ -706,7 +744,7 @@ void animate_led_right_to_left(strip_mask_t strip_mask, color_hex_code_e color, 
         animate_led_set_pixel(strip_mask, i, red/10, green/10, blue/10);
         for (int j = 1; j <= eye_size; j++) animate_led_set_pixel(strip_mask, i + j, red, green, blue);
         animate_led_show_strip(strip_mask);
-        delay(speed_delay);
+        delay((float_t)speed_delay / animate_led_speed_factor());
     }
     delay(return_delay);
 }
@@ -714,6 +752,7 @@ void animate_led_right_to_left(strip_mask_t strip_mask, color_hex_code_e color, 
 
 void animate_led_new_kitt(uint16_t eye_size, uint16_t speed_delay, uint16_t return_delay)
 {
+    // interrupts not handled yet!
     animate_led_right_to_left((uint16_t)STRIP_BIT_ALL_SET, color_led_cur_color_hex(), eye_size, speed_delay, return_delay);
     animate_led_left_to_right((uint16_t)STRIP_BIT_ALL_SET, color_led_cur_color_hex(), eye_size, speed_delay, return_delay);
     animate_led_outside_to_center((uint16_t)STRIP_BIT_ALL_SET, color_led_cur_color_hex(), eye_size, speed_delay, return_delay);
@@ -745,11 +784,7 @@ void animate_led_twinkle_multiple_colors(strip_mask_t strip_mask, uint32_t* colo
 	}
 	for (int i = 0; i < count; i++)
     {
-		if (animate_led_check_interrupts(&speed_delay, &red, &green, &blue))
-        {
-        	animate_led_set_all_pixels((strip_mask_t)STRIP_BIT_ALL_SET, 0, 0, 0);
-			return;
-        }
+	    if (g_animate_led_interrupt) if (animate_led_check_interrupts(&red, &green, &blue)) return;
         for (int yyy = 0; yyy < num_active_strips; yyy++)
 		{
 			animate_led_set_pixel(active_strip_array[yyy], random_num(0, ws2812_get_strip_size(active_strip_array[yyy])), (((color_array[yyy] & 0xFF0000) >> 16)), (((color_array[yyy] & 0x00FF00) >> 8)), ((color_array[yyy] & 0x0000FF)));
@@ -757,7 +792,7 @@ void animate_led_twinkle_multiple_colors(strip_mask_t strip_mask, uint32_t* colo
 		}
         if (only_one) animate_led_set_all_pixels(strip_mask, 0, 0, 0);
     }
-	delay(speed_delay);
+	delay((float_t)speed_delay / animate_led_speed_factor());
 }
 
 
@@ -771,37 +806,29 @@ void animate_led_twinkle(strip_mask_t strip_mask, color_hex_code_e color, uint16
     //animate_led_set_all_pixels(ALL_STRIPS, 0, 0, 0);
     for (int i = 0; i < count; i++)
     {
-		if (animate_led_check_interrupts(&speed_delay, &red, &green, &blue))
-        {
-        	animate_led_set_all_pixels((strip_mask_t)STRIP_BIT_ALL_SET, 0, 0, 0);
-			return;
-        }
+        if (g_animate_led_interrupt) if (animate_led_check_interrupts(&red, &green, &blue)) return;
         animate_led_set_pixel(strip_mask, random_num(0, strip_size), red, green, blue);
         animate_led_show_strip(strip_mask);
         delay(speed_delay);
         if (only_one) animate_led_set_all_pixels(strip_mask, 0, 0, 0);
     }
-    delay(speed_delay);
+    delay((float_t)speed_delay / animate_led_speed_factor());
 }
 
 
 void animate_led_twinkle_random(strip_mask_t strip_mask, uint16_t count, uint16_t speed_delay, bool only_one)
 {
     animate_led_set_all_pixels(strip_mask, 0, 0, 0);
-    uint8_t dummy_red, dummy_green, dummy_blue;
+    uint8_t dummy_red, dummy_green, dummy_blue; // not used but not worth creating a unique function IMO
     for (int i = 0; i < count; i++)
     {
-		if (animate_led_check_interrupts(&speed_delay, &dummy_red, &dummy_green, &dummy_blue))
-        {
-        	animate_led_set_all_pixels((strip_mask_t)STRIP_BIT_ALL_SET, 0, 0, 0);
-			return;
-        }
+        if (g_animate_led_interrupt) if (animate_led_check_interrupts(&dummy_red, &dummy_green, &dummy_blue)) return;
         animate_led_set_pixel(strip_mask, random_num(0, g_max_strip_length), random_num(0, 255), random_num(0, 255), random_num(0, 255));
         animate_led_show_strip(strip_mask);
         delay(speed_delay);
         if (only_one) animate_led_set_all_pixels(strip_mask, 0, 0, 0);
     }
-    delay(speed_delay);
+    delay((float_t)speed_delay / animate_led_speed_factor());
 }
 
 
@@ -810,8 +837,10 @@ void animate_led_sparkle_only_random_color(strip_mask_t strip_mask, bool fill, u
 	float percent_to_fill = 0.7;
 	uint16_t strip_size = ws2812_led_get_max_strip_size(strip_mask);
 	uint16_t num_active_leds = ws2812_get_num_active_animation_leds(strip_mask);
+    uint8_t dummy_red, dummy_green, dummy_blue; // not used but not worth creating a unique function IMO
 	for (uint16_t iii = 0; iii < (percent_to_fill * (float)num_active_leds); iii++)
 	{
+	    if (g_animate_led_interrupt) if (animate_led_check_interrupts(&dummy_red, &dummy_green, &dummy_blue)) return;
 		int pix = random_num(0, strip_size);
 		animate_led_set_pixel(strip_mask, pix, random_num(0, 255), random_num(0, 255), random_num(0, 255));
 		animate_led_show_strip(strip_mask);
@@ -845,7 +874,7 @@ void animate_led_sparkle(strip_mask_t strip_mask, color_hex_code_e color, uint16
     int pix = random_num(0, strip_size);
     animate_led_set_pixel(strip_mask, pix, red, green, blue);
     animate_led_show_strip(strip_mask);
-    delay(speed_delay);
+    delay((float_t)speed_delay / animate_led_speed_factor());
     animate_led_set_pixel(strip_mask, pix, 0, 0, 0);
 }
 
@@ -853,7 +882,6 @@ void animate_led_sparkle(strip_mask_t strip_mask, color_hex_code_e color, uint16
 void animate_led_running_lights(strip_mask_t strip_mask, color_hex_code_e color)
 {
 	uint16_t strip_size = ws2812_led_get_max_strip_size(strip_mask);
-	uint16_t dummy_delay;
 	uint8_t red, green, blue; 
 	red = ((color & 0xFF0000) >> 16);
 	green = ((color & 0x00FF00) >> 8);
@@ -861,18 +889,14 @@ void animate_led_running_lights(strip_mask_t strip_mask, color_hex_code_e color)
     uint16_t pos = 0;
     for (int i = 0; i < strip_size * 2; i++)
     {
-		if (animate_led_check_interrupts(&dummy_delay, &red, &green, &blue))
-        {
-        	animate_led_set_all_pixels((strip_mask_t)STRIP_BIT_ALL_SET, 0, 0, 0);
-			return;
-        }
+        if (g_animate_led_interrupt) if (animate_led_check_interrupts(&red, &green, &blue)) return;
         pos++;
         for(int i = 0; i < strip_size; i++)
         {
             animate_led_set_pixel(strip_mask, i, ((sin(i + pos) * 127 + 128) / 255) * red, ((sin(i + pos) * 127 + 128) / 255) * green, ((sin(i + pos) * 127 + 128) / 255) * blue); 
         }
         animate_led_show_strip(strip_mask);
-		delay(100 /animate_led_speed_factor());
+		delay(100 / animate_led_speed_factor()); // TODO remove the magic number here!!!
     }
 }
 
@@ -888,13 +912,13 @@ void animate_led_color_wipe(strip_mask_t strip_mask, color_hex_code_e color, uin
     {
         animate_led_set_pixel(strip_mask, i, red, green, blue);
         animate_led_show_strip(strip_mask);
-        delay(speed_delay);
+        delay((float_t)speed_delay / animate_led_speed_factor());
     }
     for (uint16_t i = 0; i < g_max_strip_length; i++)
     {
         animate_led_set_pixel(strip_mask, i, 0, 0, 0);
         animate_led_show_strip(strip_mask);
-        delay(speed_delay);
+        delay((float_t)speed_delay / animate_led_speed_factor());
     }
 }
 
@@ -908,18 +932,15 @@ void animate_led_rainbow_cycle(strip_mask_t strip_mask, uint16_t speed_delay)
     //for (j = 0; j < 256 * 5; j++)
     for (j = 0; j < 256 * 5; j++)
     {
-		if (animate_led_check_interrupts(&speed_delay, &dummy_red, &dummy_green, &dummy_blue))
-        {
-        	animate_led_set_all_pixels((strip_mask_t)STRIP_BIT_ALL_SET, 0, 0, 0);
-			return;
-        }
+        if (g_animate_led_interrupt) if (animate_led_check_interrupts(&dummy_red, &dummy_green, &dummy_blue)) return;
         for (i = 0; i < strip_size; i++)
         {
+            if (g_animate_led_interrupt) if (animate_led_check_interrupts(&dummy_red, &dummy_green, &dummy_blue)) return;
             c = animate_led_wheel(((i * 256 / strip_size) + j) & 255);
             animate_led_set_pixel(strip_mask, i, *c, *(c + 1), *(c + 2));
         }
         animate_led_show_strip(strip_mask);
-        delay(speed_delay);
+        delay((float_t)speed_delay / animate_led_speed_factor());
     }
 }
 
@@ -974,11 +995,7 @@ void animate_led_theater_chase_multiple_colors(strip_mask_t strip_mask, uint32_t
     {
         for (int q = 0; q < 3; q++)
         {
-        	if (animate_led_check_interrupts(&speed_delay, &red, &green, &blue))
-        	{
-        		animate_led_set_all_pixels((strip_mask_t)STRIP_BIT_ALL_SET, 0, 0, 0);
-        		return;
-        	}
+            if (g_animate_led_interrupt) if (animate_led_check_interrupts(&red, &green, &blue)) return;
             for (int i = 0; i < strip_size; i += 3) 
             {
             	for (int yyy = 0; yyy < num_active_strips; yyy++)
@@ -987,12 +1004,8 @@ void animate_led_theater_chase_multiple_colors(strip_mask_t strip_mask, uint32_t
 				}
             }
             animate_led_show_strip(strip_mask);
-			if (animate_led_check_interrupts(&speed_delay, &red, &green, &blue))
-			{
-        		animate_led_set_all_pixels((strip_mask_t)STRIP_BIT_ALL_SET, 0, 0, 0);
-				return;
-			}
-            delay(speed_delay);
+            if (g_animate_led_interrupt) if (animate_led_check_interrupts(&red, &green, &blue)) return;
+            delay((float_t)speed_delay / animate_led_speed_factor());
             for (int i = 0; i < strip_size; i += 3) 
             {
             	for (int yyy = 0; yyy < num_active_strips; yyy++)
@@ -1016,19 +1029,11 @@ void animate_led_theater_chase(strip_mask_t strip_mask, color_hex_code_e color, 
     {
         for (int q = 0; q < 3; q++)
         {
-        	if (animate_led_check_interrupts(&speed_delay, &red, &green, &blue))
-        	{
-        		animate_led_set_all_pixels((strip_mask_t)STRIP_BIT_ALL_SET, 0, 0, 0);
-        		return;
-        	}
+            if (g_animate_led_interrupt) if (animate_led_check_interrupts(&red, &green, &blue)) return;
             for (int i = 0; i < strip_size; i += 3) animate_led_set_pixel(strip_mask, i + q, red, green, blue); // turn every third pixel on
             animate_led_show_strip(strip_mask);
-			if (animate_led_check_interrupts(&speed_delay, &red, &green, &blue))
-			{
-        		animate_led_set_all_pixels((strip_mask_t)STRIP_BIT_ALL_SET, 0, 0, 0);
-				return;
-			}
-            delay(speed_delay);
+            if (g_animate_led_interrupt) if (animate_led_check_interrupts(&red, &green, &blue)) return;
+            delay((float_t)speed_delay / animate_led_speed_factor());
             for (int i = 0; i < strip_size; i += 3) animate_led_set_pixel(strip_mask, i + q, 0, 0, 0); // turn everty third pixel off
         }
     }
@@ -1044,18 +1049,15 @@ void animate_led_theater_chase_rainbow(strip_mask_t strip_mask, uint16_t speed_d
     {
         for (int q = 0; q < 3; q++)
         {
-			if (animate_led_check_interrupts(&speed_delay, &dummy_red, &dummy_green, &dummy_blue))
-			{
-				animate_led_set_all_pixels((strip_mask_t)STRIP_BIT_ALL_SET, 0, 0, 0);
-				return;
-			}
+            if (g_animate_led_interrupt) if (animate_led_check_interrupts(&dummy_red, &dummy_green, &dummy_blue)) return;
             for (int i = 0; i < strip_size; i = i + 3)
             {
+                if (g_animate_led_interrupt) if (animate_led_check_interrupts(&dummy_red, &dummy_green, &dummy_blue)) return;
                 c = animate_led_wheel((i + j) % 255);
                 animate_led_set_pixel(strip_mask, i + q, *c, *(c + 1), *(c + 2)); // turn every third pixel on
             }
             animate_led_show_strip(strip_mask);
-            delay(speed_delay);
+            delay((float_t)speed_delay / animate_led_speed_factor());
             for (int i = 0; i < strip_size; i = i + 3) animate_led_set_pixel(strip_mask, i + q, 0, 0, 0); // turn every third pixel off
         }
     }
@@ -1115,6 +1117,7 @@ void animate_led_bouncing_balls(strip_mask_t strip_mask, color_hex_code_e color,
 
 void animate_led_meteor_rain(strip_mask_t strip_mask, color_hex_code_e color, uint8_t meteor_size, uint8_t meteor_trail_decay, bool meteor_random_decay, int speed_delay)
 {
+    // interrupts not handled yet!
 	//uint16_t offset = 0;
 	uint16_t strip_size = ws2812_led_get_max_strip_size(strip_mask);
 	uint8_t red, green, blue; 
@@ -1180,13 +1183,14 @@ void animate_led_meteor_rain(strip_mask_t strip_mask, color_hex_code_e color, ui
 //			return;
 //        }
         animate_led_show_strip(strip_mask);
-        delay(speed_delay);
+        delay((float_t)speed_delay / animate_led_speed_factor());
     }
 }
 
 
 void animate_led_fade_to_black(strip_mask_t strip_mask, uint16_t pixel, uint8_t fade_value)
 {
+    // wtf?  update?
 	if (STRIP_BIT_ALL_SET == strip_mask)
 	{
 		for (strip_bit_e strip_bit = STRIP_BIT_1; strip_bit < STRIP_BIT_NUM_STRIPS; strip_bit = (strip_bit_e)(strip_bit + 1))
@@ -1247,6 +1251,7 @@ void animate_led_set_all_pixels(strip_mask_t strip_mask, uint8_t red, uint8_t gr
 	{
 		for (strip_bit_e strip_bit = STRIP_BIT_1; strip_bit <= STRIP_BIT_NUM_STRIPS; strip_bit = (strip_bit_e)(strip_bit + 1))
 		{
+		    strip_size = ws2812_get_strip_size(strip_bit);
 			//offset = animate_led_get_strip_offset(strip_bit);
 			for (uint16_t iii = 0; iii < strip_size; iii++) ws2812b_set_led(strip_bit, iii, adj_red, adj_green, adj_blue);
 		}
@@ -1267,19 +1272,6 @@ void animate_led_set_all_pixels(strip_mask_t strip_mask, uint8_t red, uint8_t gr
 }
 
 
-// global variables
-master_led_state_e g_master_led_state = MASTER_LED_STATE_DEMO;
-master_color_state_e g_master_color_state = MASTER_COLOR_STATE_DEMO;
-
-uint8_t g_animation_iterations = 0;
-led_state_e g_loop_led_state = LED_STATE_SPELL;
-
-unsigned long g_isr_times[NUM_ISR] = {0};
-unsigned long g_debounce_delay = 2000; // ms
-bool g_master_color_state_change_flag = false;
-bool g_master_led_state_change_flag = false;
-uint32_t g_random_color_array[NUM_STRIPS];
-
 #define TEST_MODE
 static void handle_count_color_delay(const animation_loop_iterations_e max_iterations, const animation_delay_ms_e animation_delay_ms)
 {
@@ -1290,84 +1282,192 @@ static void handle_count_color_delay(const animation_loop_iterations_e max_itera
         if (max_iterations == g_animation_iterations)
         {
 #if defined(TEST_MODE)
-            g_loop_led_state = (led_state_e) (g_loop_led_state + 1);
-            if (NUM_LED_STATES == g_loop_led_state) g_loop_led_state = LED_STATE_FIRST;
+            g_led_state = (led_state_e) (g_led_state + 1);
+            if (NUM_LED_STATES == g_led_state) g_led_state = LED_STATE_FIRST;
 #else
-            g_loop_led_state = animate_led_state_randomize(g_loop_led_state);
+            g_led_state = animate_led_state_randomize(g_led_state);
 #endif
             g_animation_iterations = 0;
         }
     }
+    if (MASTER_COLOR_STATE_DEMO == g_master_color_state) color_led_randomize();
+    //else color_led_adjust_color();
+    // if not demo state then stay in current LED state forever until switched by user
 }
 
 
 
 void task_animate_led(void *argument)
 {
-	color_hex_code_e color = COLOR_HEX_MAROON;
+    uint32_t button_pressed_count = 0;
 	board_init_stop_timer();
     animate_led_solid_custom_color((uint16_t)STRIP_BIT_ALL_SET, COLOR_HEX_BLACK);
     osDelay(1000);
+    bool button_press_b_detected = false;
+    bool button_press_c_detected = false;
 	while (1)
 	{
-	    switch(g_loop_led_state)
-	        {
-	            case LED_STATE_WHITE_COLOR:
-	                animate_led_solid_custom_color((uint16_t)STRIP_BIT_ALL_SET, COLOR_HEX_WHITE);
-	                handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_1, ANIMATION_DELAY_MS_5000);
-	            break;
-	            case LED_STATE_SOLID_COLOR:
-	                color = COLOR_HEX_MAROON;
-	                animate_led_solid_custom_color((uint16_t)STRIP_BIT_ALL_SET, (color_hex_code_e)color);
-	                handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_5, ANIMATION_DELAY_MS_5000);
-	            break;
-	            case LED_STATE_SPARKLE_NO_FILL:
-	                // SRW OK!!!
-	                // need to force all colors off before transitioning to this state
-	                animate_led_turn_all_pixels_off();
-	                animate_led_sparkle_only_random_color(STRIP_BIT_ALL_SET, false, random_num(20,80));//random(0, 50));
-	                handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_5, ANIMATION_DELAY_MS_0);
-	            break;
-	            case LED_STATE_SPARKLE_FILL:
-	                // SRW ok!!!
-	                animate_led_sparkle_only_random_color(STRIP_BIT_ALL_SET, true, random_num(20,80));
-	                handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_10, ANIMATION_DELAY_MS_0);
-	            break;
-	            case LED_STATE_RAINBOW_CYCLE:
-	                // SRW OK!!!
-	                animate_led_rainbow_cycle(STRIP_BIT_ALL_SET, 0);
-	                handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_5, ANIMATION_DELAY_MS_0);
-	            break;
-	            case LED_STATE_THEATER_CHASE:
-	                // SRW ok !!!
-	                animate_led_theater_chase(STRIP_BIT_ALL_SET, color_led_get_random_color(), animate_led_delay_in_animations());
-	                handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_10, ANIMATION_DELAY_MS_0);
-	            break;
-	            case LED_STATE_THEATER_CHASE_RAINBOW:
-	                // SRW ok!!!!
-	                animate_led_theater_chase_rainbow(STRIP_BIT_ALL_SET, animate_led_delay_in_animations());
-	                g_loop_led_state = LED_STATE_TWINKLE;
-	                handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_2, ANIMATION_DELAY_MS_0);
-	            break;
-	            case LED_STATE_FADE_IN_AND_OUT:
-	                // SRW ok!!!
-	                animate_led_fade_in_fade_out((uint16_t)STRIP_BIT_ALL_SET, color_led_get_random_color());
-	                handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_10, ANIMATION_DELAY_MS_0);
-	            break;
-	            case LED_STATE_TWINKLE:
-	                // SRW ok!!!
-	                animate_led_turn_all_pixels_off();
-	                animate_led_twinkle(STRIP_BIT_ALL_SET, color_led_get_random_color(), (uint32_t)((float)NUM_LEDS * (float)0.8), animate_led_delay_in_animations(), false);
-	                handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_5, ANIMATION_DELAY_MS_0);
-	            break;
-	            case LED_STATE_SPELL:
-	                // SRW ok!!!
-	                animate_led_only_spell_word(STRIP_BIT_ALL_SET, color_led_get_random_color(), 30);
-	                handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_100, ANIMATION_DELAY_MS_0);
-	            break;
-	            default:
-	            break;
-	        }
+
+	    if (!button_press_c_detected && board_init_button_is_pressed(PUSH_BUTTON_C))
+	    {
+	        button_press_c_detected = true;
+	    }
+	    else if (button_press_c_detected && board_init_button_is_pressed(PUSH_BUTTON_C))
+	    {
+	        button_press_c_detected = false;
+	        while (board_init_button_is_pressed(PUSH_BUTTON_C))
+            {
+                if ((board_init_button_on_count(PUSH_BUTTON_C) > button_pressed_count) && \
+                                board_init_button_on_count(PUSH_BUTTON_C) > 50)
+                {
+                    // the button is being held down!
+                    color_led_enter_demo_state();
+                    while(board_init_button_is_pressed(PUSH_BUTTON_C)); // wait for release
+                    // clear the counts..
+                    board_init_button_on_count_clear(PUSH_BUTTON_C);
+                    for (uint8_t iii = 0; iii < 3; iii++)
+                    {
+                        animate_led_solid_custom_color((uint16_t)STRIP_BIT_ALL_SET, COLOR_HEX_BLUE);
+                        osDelay(100);
+                        animate_led_solid_custom_color((uint16_t)STRIP_BIT_ALL_SET, COLOR_HEX_BLACK);
+                        osDelay(100);
+                    }
+                    osDelay(500);
+                    break;
+                }
+                else if (!board_init_button_on_count(PUSH_BUTTON_C))
+                {
+                    break;
+                }
+            }
+	    }
+        if (!button_press_b_detected && board_init_button_is_pressed(PUSH_BUTTON_B))
+        {
+            button_press_b_detected = true;
+        }
+        else if (button_press_c_detected && board_init_button_is_pressed(PUSH_BUTTON_C))
+        {
+            button_press_b_detected = false;
+            while (board_init_button_is_pressed(PUSH_BUTTON_B))
+            {
+                if ((board_init_button_on_count(PUSH_BUTTON_B) > button_pressed_count) && \
+                                board_init_button_on_count(PUSH_BUTTON_B) > 50)
+                {
+                    // the button is being held down!
+                    animate_led_enter_demo_state();
+                    while(board_init_button_is_pressed(PUSH_BUTTON_B)); // wait for release
+                    // clear the counts..
+                    board_init_button_on_count_clear(PUSH_BUTTON_B);
+                    for (uint8_t iii = 0; iii < 3; iii++)
+                    {
+                        animate_led_solid_custom_color((uint16_t)STRIP_BIT_ALL_SET, COLOR_HEX_BLUE);
+                        osDelay(100);
+                        animate_led_solid_custom_color((uint16_t)STRIP_BIT_ALL_SET, COLOR_HEX_BLACK);
+                        osDelay(100);
+                    }
+                    osDelay(500);
+                    break;
+                }
+                else if (!board_init_button_on_count(PUSH_BUTTON_B))
+                {
+                    break;
+                }
+            }
+	    }
+//	    if (g_master_led_demo_state_exit_flag || g_color_led_demo_state_exit_flag)
+//	    {
+//	        g_color_led_demo_state_exit_flag = false;
+//	        g_master_led_demo_state_exit_flag = false;
+//	        for (uint8_t iii = 0; iii < 3; iii++)
+//	        {
+//                animate_led_solid_custom_color((uint16_t)STRIP_BIT_ALL_SET, COLOR_HEX_RED);
+//                osDelay(100);
+//                animate_led_solid_custom_color((uint16_t)STRIP_BIT_ALL_SET, COLOR_HEX_BLACK);
+//                osDelay(100);
+//	        }
+//	        osDelay(500); // ehh needed?
+//	    }
+//	    else if (g_master_led_demo_state_enter_flag)
+//	    {
+//	        g_master_led_demo_state_enter_flag = false;
+//	        for (uint8_t iii = 0; iii < 3; iii++)
+//            {
+//                animate_led_solid_custom_color((uint16_t)STRIP_BIT_ALL_SET, COLOR_HEX_GREEN);
+//                osDelay(100);
+//                animate_led_solid_custom_color((uint16_t)STRIP_BIT_ALL_SET, COLOR_HEX_BLACK);
+//                osDelay(100);
+//            }
+//	        osDelay(500); // ehh needed?
+//	    }
+//	    else if (g_color_led_demo_state_enter_flag)
+//        {
+//	        g_color_led_demo_state_enter_flag = false;
+//            for (uint8_t iii = 0; iii < 3; iii++)
+//            {
+//                animate_led_solid_custom_color((uint16_t)STRIP_BIT_ALL_SET, COLOR_HEX_BLUE);
+//                osDelay(100);
+//                animate_led_solid_custom_color((uint16_t)STRIP_BIT_ALL_SET, COLOR_HEX_BLACK);
+//                osDelay(100);
+//            }
+//            osDelay(500); // ehh needed?
+//        }
+	    switch(g_led_state)
+        {
+            case LED_STATE_WHITE_COLOR:
+                animate_led_solid_custom_color((uint16_t)STRIP_BIT_ALL_SET, COLOR_HEX_WHITE);
+                handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_1, ANIMATION_DELAY_MS_5000);
+            break;
+            case LED_STATE_SOLID_COLOR:
+                animate_led_solid_custom_color((uint16_t)STRIP_BIT_ALL_SET, color_led_cur_color_hex());
+                handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_5, ANIMATION_DELAY_MS_5000);
+            break;
+            case LED_STATE_SPARKLE_NO_FILL:
+                // SRW OK!!!
+                // need to force all colors off before transitioning to this state
+                animate_led_turn_all_pixels_off();
+                animate_led_sparkle_only_random_color(STRIP_BIT_ALL_SET, false, random_num(20,80));//random(0, 50));
+                handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_5, ANIMATION_DELAY_MS_0);
+            break;
+            case LED_STATE_SPARKLE_FILL:
+                // SRW ok!!!
+                animate_led_sparkle_only_random_color(STRIP_BIT_ALL_SET, true, random_num(20,80));
+                handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_10, ANIMATION_DELAY_MS_0);
+            break;
+            case LED_STATE_RAINBOW_CYCLE:
+                // SRW OK!!!
+                animate_led_rainbow_cycle(STRIP_BIT_ALL_SET, 0);
+                handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_5, ANIMATION_DELAY_MS_0);
+            break;
+            case LED_STATE_THEATER_CHASE:
+                // SRW ok !!!
+                animate_led_theater_chase(STRIP_BIT_ALL_SET, color_led_cur_color_hex(), animate_led_delay_in_animations());
+                handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_10, ANIMATION_DELAY_MS_0);
+            break;
+            case LED_STATE_THEATER_CHASE_RAINBOW:
+                // SRW ok!!!!
+                animate_led_theater_chase_rainbow(STRIP_BIT_ALL_SET, animate_led_delay_in_animations());
+                g_led_state = LED_STATE_TWINKLE;
+                handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_2, ANIMATION_DELAY_MS_0);
+            break;
+            case LED_STATE_FADE_IN_AND_OUT:
+                // SRW ok!!!
+                animate_led_fade_in_fade_out((uint16_t)STRIP_BIT_ALL_SET, color_led_cur_color_hex());
+                handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_10, ANIMATION_DELAY_MS_0);
+            break;
+            case LED_STATE_TWINKLE:
+                // SRW ok!!!
+                animate_led_turn_all_pixels_off();
+                animate_led_twinkle(STRIP_BIT_ALL_SET, color_led_cur_color_hex(), (uint32_t)((float)NUM_LEDS * (float)0.9), animate_led_delay_in_animations(), false);
+                handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_5, ANIMATION_DELAY_MS_0);
+            break;
+            case LED_STATE_SPELL:
+                // SRW ok!!!
+                animate_led_only_spell_word(STRIP_BIT_ALL_SET, color_led_cur_color_hex(), 30);
+                handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_10, ANIMATION_DELAY_MS_0);
+            break;
+            default:
+            break;
+        }
 
 	        //osDelay(1000);
 

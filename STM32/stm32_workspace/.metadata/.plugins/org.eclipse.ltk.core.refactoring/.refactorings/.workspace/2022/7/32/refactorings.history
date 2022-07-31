@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Delete resource &apos;small_led_driver/src/task_pin_level_count&apos;" deleteContents="false" description="Delete resource &apos;small_led_driver/src/task_pin_level_count&apos;" element1="/small_led_driver/src/task_pin_level_count" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1659288858493"/>
+</session>

@@ -6,9 +6,33 @@
 
 //#define COLOR_LED_MAX_BRIGHTNESS_DIVISOR	(10)
 
+master_color_state_e g_master_color_state = MASTER_COLOR_STATE_DEMO;
+bool g_color_led_demo_state_exit_flag = false;
+bool g_color_led_demo_state_enter_flag = false;
 
 color_hex_code_e g_color_hex_codes[NUM_COLORS];;
 all_colors_e g_led_color = COLORS_RED;
+
+
+master_color_state_e color_led_cur_state(void)
+{
+    return g_master_color_state;
+}
+
+
+void color_led_enter_demo_state(void)
+{
+    g_color_led_demo_state_enter_flag = true;
+    g_master_color_state = MASTER_COLOR_STATE_DEMO;
+}
+
+
+void color_led_exit_demo_state(void)
+{
+    g_color_led_demo_state_exit_flag = true;
+    g_master_color_state = MASTER_COLOR_STATE_FIXED;
+    g_led_color = COLORS_FIRST;
+}
 
 void color_led_init(void)
 {
@@ -51,6 +75,11 @@ bool color_led_adjust_color(void)
 	return return_val;
 }
 
+
+all_colors_e color_led_cur_color(void)
+{
+    return g_led_color;
+}
 
 color_hex_code_e color_led_cur_color_hex(void)
 {

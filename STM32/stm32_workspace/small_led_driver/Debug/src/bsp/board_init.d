@@ -31,6 +31,8 @@ src/bsp/board_init.o: ../src/bsp/board_init.c \
  C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h \
  C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h \
  C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.h \
+ C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.h \
+ C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/color_led/color_led.h \
  ../src/bsp/board_init.h
 
 C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/src/main.h:
@@ -96,5 +98,9 @@ C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small
 C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h:
 
 C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.h:
+
+C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.h:
+
+C:/Users/splat/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/color_led/color_led.h:
 
 ../src/bsp/board_init.h:

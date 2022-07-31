@@ -17,17 +17,14 @@
   ******************************************************************************
   */
 #include "main.h"
+#include "board_init.h"
 #include "stm32l4xx_it.h"
+#include "animate_led.h"
+#include "color_led.h"
 #include <stdbool.h>
 
-uint32_t g_int_count = 0;
 extern volatile int datasentflag;
 extern bool g_dma_done_flag;
-
-bool gb_a_flag = false;
-bool gb_b_flag = false;
-bool gb_c_flag = false;
-bool gb_d_flag = false;
 
 extern DMA_HandleTypeDef hdma_tim1_ch1;
 extern DMA_HandleTypeDef hdma_tim1_ch2;
@@ -62,7 +59,6 @@ void MemManage_Handler(void)
 {
     while (1);
 }
-
 /**
   * @brief This function handles Prefetch fault, memory access fault.
   */
@@ -117,28 +113,40 @@ void DebugMon_Handler(void)
 
 
 /**
+  * @brief This function handles EXTI line0 interrupt.
+  */
+void EXTI0_IRQHandler(void)
+{
+    // A
+    HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_0);
+    animate_led_set_interrupt_flag(ISR_SPEED);
+    board_init_button_on_count_clear(PUSH_BUTTON_A);
+    animate_led_adjust_speed();
+}
+
+uint32_t g_dbg_b_interrupt_count = 0;
+/**
   * @brief This function handles EXTI line2 interrupt.
   */
 void EXTI2_IRQHandler(void)
 {
     // B
     HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_2);
-    gb_a_flag = true;
-
-    g_int_count++;
-}
-
-
-/**
-  * @brief This function handles EXTI line[9:5] interrupts.
-  */
-void EXTI9_5_IRQHandler(void)
-{
-    // D
-    HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_5);
-    gb_b_flag = true;
-
-    g_int_count++;
+    animate_led_set_interrupt_flag(ISR_STATE);
+    board_init_button_on_count_clear(PUSH_BUTTON_B);
+    animate_led_reset_animate_iteration_count();
+    // in demo state the states will be randomly selected
+    // in single state the states should be selected IN ORDER.
+        // when the last state is reached we automatically enter back into demo mode
+    if (MASTER_LED_STATE_DEMO == animate_led_master_state())
+    {
+        animate_led_exit_demo_state();
+        animate_led_adjust_state();
+    }
+    else
+    {
+        animate_led_adjust_state();
+    }
 }
 
 
@@ -149,20 +157,30 @@ void EXTI15_10_IRQHandler(void)
 {
     // C
     HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_13);
-    gb_c_flag = true;
-    g_int_count++;
+    animate_led_set_interrupt_flag(ISR_COLOR);
+    board_init_button_on_count_clear(PUSH_BUTTON_C);
+    if (MASTER_COLOR_STATE_DEMO == color_led_cur_state())
+    {
+        color_led_exit_demo_state();
+        color_led_adjust_color();
+    }
+    else
+    {
+        color_led_adjust_color();
+    }
 }
 
 
 /**
-  * @brief This function handles EXTI line0 interrupt.
+  * @brief This function handles EXTI line[9:5] interrupts.
   */
-void EXTI0_IRQHandler(void)
+void EXTI9_5_IRQHandler(void)
 {
-    // A
-    HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_0);
-    gb_d_flag = true;
-    g_int_count++;
+    // D
+    HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_5);
+    animate_led_set_interrupt_flag(ISR_PAUSE);
+    board_init_button_on_count_clear(PUSH_BUTTON_D);
+    animate_led_pause();
 }
 
 

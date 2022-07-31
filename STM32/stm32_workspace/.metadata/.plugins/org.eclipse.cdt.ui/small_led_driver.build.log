@@ -1,10 +1,10 @@
-11:45:06 **** Incremental Build of configuration Debug for project small_led_driver ****
+17:52:32 **** Incremental Build of configuration Debug for project small_led_driver ****
 make -j8 all 
 arm-none-eabi-size   small_led_driver.elf 
    text	   data	    bss	    dec	    hex	filename
-  41284	    136	  13744	  55164	   d77c	small_led_driver.elf
+  43316	    136	  15904	  59356	   e7dc	small_led_driver.elf
 Finished building: default.size.stdout
  
 
-11:45:06 Build Finished. 0 errors, 0 warnings. (took 435ms)
+17:52:32 Build Finished. 0 errors, 0 warnings. (took 362ms)
 

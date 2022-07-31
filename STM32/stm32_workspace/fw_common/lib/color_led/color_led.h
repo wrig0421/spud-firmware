@@ -4,6 +4,14 @@
 
 #define COLOR_LED_MAX_BRIGHTNESS_DIVISOR	(4)
 
+
+typedef enum
+{
+    MASTER_COLOR_STATE_DEMO,
+    MASTER_COLOR_STATE_FIXED
+} master_color_state_e;
+
+
 typedef enum
 {
     // RGB
@@ -49,6 +57,10 @@ typedef enum
     NUM_COLORS
 } all_colors_e;
 
+master_color_state_e color_led_cur_state(void);
+void color_led_exit_demo_state(void);
+void color_led_enter_demo_state(void);
+all_colors_e color_led_cur_color(void);
 uint32_t color_led_get_random_color(void);
 void color_led_reset_color(void);
 bool color_led_adjust_color(void);
