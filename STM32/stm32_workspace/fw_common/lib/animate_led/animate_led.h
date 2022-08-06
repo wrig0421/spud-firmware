@@ -6,6 +6,7 @@
 #include <stdint.h>
 #include <stdbool.h> 
 #include "ws2812b.h"
+#include "color_led.h"
 
 // typedefs, structs, enums
 typedef enum
@@ -17,6 +18,12 @@ typedef enum
     NUM_ISR
 } isr_e;
 
+
+typedef enum
+{
+    MASTER_LED_STATE_DEMO,
+    MASTER_LED_STATE_FIXED
+} master_led_state_e;
 
 typedef enum
 {
@@ -80,9 +87,16 @@ typedef enum
 	NUM_SPEEDS
 } led_speed_e;
 
+master_led_state_e animate_led_master_state(void);
+void animate_led_reset_animate_iteration_count(void);
+void animate_led_set_interrupt_flag(isr_e src);
+bool animate_led_interrupt_occurred(void);
+void animate_led_pause(void);
+void animate_led_interrupt(void);
+void animate_led_enter_demo_state(void);
+void animate_led_exit_demo_state(void);
 void task_animate_led(void *argument);
 void animate_led_reset_state(void);
-void animate_led_set_interrupt_flag(isr_e src);
 bool animate_led_interrupt_flag(isr_e src);
 bool animate_led_interrupt_flag_speed(void);
 bool animate_led_interrupt_flag_state(void);
