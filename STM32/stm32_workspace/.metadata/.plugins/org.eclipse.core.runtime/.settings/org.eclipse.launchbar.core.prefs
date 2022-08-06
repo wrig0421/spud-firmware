@@ -5,3 +5,5 @@ configDescList=org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:small_led_driver
 eclipse.preferences.version=1
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:small_led_driver\ Debug/activeLaunchMode=debug
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:small_led_driver\ Debug/activeLaunchTarget=null\:---
+org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:small_led_driver_mac\ Debug/activeLaunchMode=debug
+org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:small_led_driver_mac\ Debug/activeLaunchTarget=null\:---

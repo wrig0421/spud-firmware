@@ -4,5 +4,5 @@
 ../src/stm32_bloat/stm32l4xx_hal_msp.c:91:6:HAL_TIM_Base_MspInit	24	static
 ../src/stm32_bloat/stm32l4xx_hal_msp.c:185:6:HAL_TIM_PWM_MspInit	24	static
 ../src/stm32_bloat/stm32l4xx_hal_msp.c:218:6:HAL_TIM_MspPostInit	48	static
-../src/stm32_bloat/stm32l4xx_hal_msp.c:270:6:HAL_TIM_Base_MspDeInit	16	static
-../src/stm32_bloat/stm32l4xx_hal_msp.c:300:6:HAL_TIM_PWM_MspDeInit	16	static
+../src/stm32_bloat/stm32l4xx_hal_msp.c:257:6:HAL_TIM_Base_MspDeInit	16	static
+../src/stm32_bloat/stm32l4xx_hal_msp.c:287:6:HAL_TIM_PWM_MspDeInit	16	static

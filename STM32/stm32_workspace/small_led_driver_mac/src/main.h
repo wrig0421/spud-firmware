@@ -17,6 +17,8 @@
   *
   ******************************************************************************
   */
+/* USER CODE END Header */
+
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __MAIN_H
 #define __MAIN_H
@@ -25,14 +27,39 @@
 extern "C" {
 #endif
 
+/* Includes ------------------------------------------------------------------*/
 #include "stm32l4xx_hal.h"
+
+/* Private includes ----------------------------------------------------------*/
+/* USER CODE BEGIN Includes */
+
+/* USER CODE END Includes */
+
+/* Exported types ------------------------------------------------------------*/
+/* USER CODE BEGIN ET */
+
+/* USER CODE END ET */
+
+/* Exported constants --------------------------------------------------------*/
+/* USER CODE BEGIN EC */
+
+/* USER CODE END EC */
+
+/* Exported macro ------------------------------------------------------------*/
+/* USER CODE BEGIN EM */
+
+/* USER CODE END EM */
 
 void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
 
+/* Exported functions prototypes ---------------------------------------------*/
 void Error_Handler(void);
 
-#define WKUP2_Pin GPIO_PIN_13
-#define WKUP2_GPIO_Port GPIOC
+/* USER CODE BEGIN EFP */
+
+/* USER CODE END EFP */
+
+/* Private defines -----------------------------------------------------------*/
 #define GPIO_2_Pin GPIO_PIN_0
 #define GPIO_2_GPIO_Port GPIOC
 #define GPIO_3_Pin GPIO_PIN_1
@@ -41,24 +68,15 @@ void Error_Handler(void);
 #define LED_OUT_1_GPIO_Port GPIOC
 #define LED_OUT_2_Pin GPIO_PIN_3
 #define LED_OUT_2_GPIO_Port GPIOC
-#define WKUP1_Pin GPIO_PIN_0
-#define WKUP1_GPIO_Port GPIOA
-#define WKUP4_Pin GPIO_PIN_2
-#define WKUP4_GPIO_Port GPIOA
-#define TIM16_CH1_Pin GPIO_PIN_6
-#define TIM16_CH1_GPIO_Port GPIOA
-#define TIM15_CH1_Pin GPIO_PIN_14
-#define TIM15_CH1_GPIO_Port GPIOB
-#define WKUP3_Pin GPIO_PIN_5
-#define WKUP3_GPIO_Port GPIOC
+#define LVL_DIR_CTRL_Pin GPIO_PIN_6
+#define LVL_DIR_CTRL_GPIO_Port GPIOA
 #define TIM1_CH1_Pin GPIO_PIN_8
 #define TIM1_CH1_GPIO_Port GPIOA
 #define GPIO_0_Pin GPIO_PIN_8
 #define GPIO_0_GPIO_Port GPIOB
-#define TIM15_CH1_Pin GPIO_PIN_14
-#define TIM15_CH1_GPIO_Port GPIOB
-#define LVL_SHIFTER_EN_Pin GPIO_PIN_7
-#define LVL_SHIFTER_EN_Port GPIOC
+/* USER CODE BEGIN Private defines */
+
+/* USER CODE END Private defines */
 
 #ifdef __cplusplus
 }

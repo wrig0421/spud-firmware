@@ -1,10 +1,10 @@
-22:33:35 **** Incremental Build of configuration Debug for project small_led_driver_mac ****
+07:47:36 **** Incremental Build of configuration Debug for project small_led_driver_mac ****
 make -j7 all 
 arm-none-eabi-size   small_led_driver_mac.elf 
    text	   data	    bss	    dec	    hex	filename
-  41632	    136	  11584	  53352	   d068	small_led_driver_mac.elf
+  41376	    136	  11584	  53096	   cf68	small_led_driver_mac.elf
 Finished building: default.size.stdout
  
 
-22:33:37 Build Finished. 0 errors, 0 warnings. (took 1s.770ms)
+07:47:36 Build Finished. 0 errors, 0 warnings. (took 285ms)
 
