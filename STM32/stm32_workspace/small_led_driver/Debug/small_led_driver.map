@@ -4468,6 +4468,66 @@ Discarded input sections
  .debug_macro   0x0000000000000000       0x22 src/bsp/board_init.o
  .debug_macro   0x0000000000000000       0x16 src/bsp/board_init.o
  .debug_macro   0x0000000000000000       0x10 src/bsp/board_init.o
+ .group         0x0000000000000000        0xc src/bsp/board_init_common.o
+ .text          0x0000000000000000        0x0 src/bsp/board_init_common.o
+ .data          0x0000000000000000        0x0 src/bsp/board_init_common.o
+ .bss           0x0000000000000000        0x0 src/bsp/board_init_common.o
+ .debug_info    0x0000000000000000       0x21 src/bsp/board_init_common.o
+ .debug_abbrev  0x0000000000000000       0x13 src/bsp/board_init_common.o
+ .debug_aranges
+                0x0000000000000000       0x18 src/bsp/board_init_common.o
+ .debug_macro   0x0000000000000000       0x11 src/bsp/board_init_common.o
+ .debug_macro   0x0000000000000000      0xaa8 src/bsp/board_init_common.o
+ .debug_line    0x0000000000000000       0x3f src/bsp/board_init_common.o
+ .debug_str     0x0000000000000000     0x2de7 src/bsp/board_init_common.o
+ .comment       0x0000000000000000       0x54 src/bsp/board_init_common.o
+ .ARM.attributes
+                0x0000000000000000       0x39 src/bsp/board_init_common.o
+ .group         0x0000000000000000        0xc src/bsp/board_specific/board_init_spud_glo_v1/board_init_spud_glo_v1.o
+ .text          0x0000000000000000        0x0 src/bsp/board_specific/board_init_spud_glo_v1/board_init_spud_glo_v1.o
+ .data          0x0000000000000000        0x0 src/bsp/board_specific/board_init_spud_glo_v1/board_init_spud_glo_v1.o
+ .bss           0x0000000000000000        0x0 src/bsp/board_specific/board_init_spud_glo_v1/board_init_spud_glo_v1.o
+ .debug_info    0x0000000000000000       0x21 src/bsp/board_specific/board_init_spud_glo_v1/board_init_spud_glo_v1.o
+ .debug_abbrev  0x0000000000000000       0x13 src/bsp/board_specific/board_init_spud_glo_v1/board_init_spud_glo_v1.o
+ .debug_aranges
+                0x0000000000000000       0x18 src/bsp/board_specific/board_init_spud_glo_v1/board_init_spud_glo_v1.o
+ .debug_macro   0x0000000000000000       0x11 src/bsp/board_specific/board_init_spud_glo_v1/board_init_spud_glo_v1.o
+ .debug_macro   0x0000000000000000      0xaa8 src/bsp/board_specific/board_init_spud_glo_v1/board_init_spud_glo_v1.o
+ .debug_line    0x0000000000000000       0x6a src/bsp/board_specific/board_init_spud_glo_v1/board_init_spud_glo_v1.o
+ .debug_str     0x0000000000000000     0x2e12 src/bsp/board_specific/board_init_spud_glo_v1/board_init_spud_glo_v1.o
+ .comment       0x0000000000000000       0x54 src/bsp/board_specific/board_init_spud_glo_v1/board_init_spud_glo_v1.o
+ .ARM.attributes
+                0x0000000000000000       0x39 src/bsp/board_specific/board_init_spud_glo_v1/board_init_spud_glo_v1.o
+ .group         0x0000000000000000        0xc src/bsp/board_specific/board_init_spud_glo_v2/board_init_spud_glo_v2.o
+ .text          0x0000000000000000        0x0 src/bsp/board_specific/board_init_spud_glo_v2/board_init_spud_glo_v2.o
+ .data          0x0000000000000000        0x0 src/bsp/board_specific/board_init_spud_glo_v2/board_init_spud_glo_v2.o
+ .bss           0x0000000000000000        0x0 src/bsp/board_specific/board_init_spud_glo_v2/board_init_spud_glo_v2.o
+ .debug_info    0x0000000000000000       0x21 src/bsp/board_specific/board_init_spud_glo_v2/board_init_spud_glo_v2.o
+ .debug_abbrev  0x0000000000000000       0x13 src/bsp/board_specific/board_init_spud_glo_v2/board_init_spud_glo_v2.o
+ .debug_aranges
+                0x0000000000000000       0x18 src/bsp/board_specific/board_init_spud_glo_v2/board_init_spud_glo_v2.o
+ .debug_macro   0x0000000000000000       0x11 src/bsp/board_specific/board_init_spud_glo_v2/board_init_spud_glo_v2.o
+ .debug_macro   0x0000000000000000      0xaa8 src/bsp/board_specific/board_init_spud_glo_v2/board_init_spud_glo_v2.o
+ .debug_line    0x0000000000000000       0x6a src/bsp/board_specific/board_init_spud_glo_v2/board_init_spud_glo_v2.o
+ .debug_str     0x0000000000000000     0x2e12 src/bsp/board_specific/board_init_spud_glo_v2/board_init_spud_glo_v2.o
+ .comment       0x0000000000000000       0x54 src/bsp/board_specific/board_init_spud_glo_v2/board_init_spud_glo_v2.o
+ .ARM.attributes
+                0x0000000000000000       0x39 src/bsp/board_specific/board_init_spud_glo_v2/board_init_spud_glo_v2.o
+ .group         0x0000000000000000        0xc src/bsp/board_specific/board_init_spud_glo_v3/board_init_spud_glo_v3.o
+ .text          0x0000000000000000        0x0 src/bsp/board_specific/board_init_spud_glo_v3/board_init_spud_glo_v3.o
+ .data          0x0000000000000000        0x0 src/bsp/board_specific/board_init_spud_glo_v3/board_init_spud_glo_v3.o
+ .bss           0x0000000000000000        0x0 src/bsp/board_specific/board_init_spud_glo_v3/board_init_spud_glo_v3.o
+ .debug_info    0x0000000000000000       0x21 src/bsp/board_specific/board_init_spud_glo_v3/board_init_spud_glo_v3.o
+ .debug_abbrev  0x0000000000000000       0x13 src/bsp/board_specific/board_init_spud_glo_v3/board_init_spud_glo_v3.o
+ .debug_aranges
+                0x0000000000000000       0x18 src/bsp/board_specific/board_init_spud_glo_v3/board_init_spud_glo_v3.o
+ .debug_macro   0x0000000000000000       0x11 src/bsp/board_specific/board_init_spud_glo_v3/board_init_spud_glo_v3.o
+ .debug_macro   0x0000000000000000      0xaa8 src/bsp/board_specific/board_init_spud_glo_v3/board_init_spud_glo_v3.o
+ .debug_line    0x0000000000000000       0x6a src/bsp/board_specific/board_init_spud_glo_v3/board_init_spud_glo_v3.o
+ .debug_str     0x0000000000000000     0x2e12 src/bsp/board_specific/board_init_spud_glo_v3/board_init_spud_glo_v3.o
+ .comment       0x0000000000000000       0x54 src/bsp/board_specific/board_init_spud_glo_v3/board_init_spud_glo_v3.o
+ .ARM.attributes
+                0x0000000000000000       0x39 src/bsp/board_specific/board_init_spud_glo_v3/board_init_spud_glo_v3.o
  .group         0x0000000000000000        0xc src/main.o
  .group         0x0000000000000000        0xc src/main.o
  .group         0x0000000000000000        0xc src/main.o
@@ -5764,6 +5824,10 @@ LOAD sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.o
 LOAD sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim.o
 LOAD sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim_ex.o
 LOAD src/bsp/board_init.o
+LOAD src/bsp/board_init_common.o
+LOAD src/bsp/board_specific/board_init_spud_glo_v1/board_init_spud_glo_v1.o
+LOAD src/bsp/board_specific/board_init_spud_glo_v2/board_init_spud_glo_v2.o
+LOAD src/bsp/board_specific/board_init_spud_glo_v3/board_init_spud_glo_v3.o
 LOAD src/main.o
 LOAD src/numbers.o
 LOAD src/task_create.o

@@ -1,0 +1,13 @@
+/*
+ * board_init_common.h
+ *
+ *  Created on: Aug 6, 2022
+ *      Author: splat
+ */
+
+#ifndef SRC_BSP_BOARD_INIT_COMMON_H_
+#define SRC_BSP_BOARD_INIT_COMMON_H_
+
+
+
+#endif /* SRC_BSP_BOARD_INIT_COMMON_H_ */

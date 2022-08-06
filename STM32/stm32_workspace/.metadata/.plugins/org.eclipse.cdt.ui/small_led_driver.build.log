@@ -1,10 +1,19 @@
-17:52:32 **** Incremental Build of configuration Debug for project small_led_driver ****
+11:39:45 **** Incremental Build of configuration Debug for project small_led_driver ****
 make -j8 all 
+arm-none-eabi-gcc -o "small_led_driver.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\splat\Documents\GitHub\Spud_code_collection\STM32\stm32_workspace\small_led_driver\STM32L431RCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="small_led_driver.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: small_led_driver.elf
+ 
+arm-none-eabi-objdump -h -S  small_led_driver.elf  > "small_led_driver.list"
+arm-none-eabi-objcopy  -O binary  small_led_driver.elf  "small_led_driver.bin"
 arm-none-eabi-size   small_led_driver.elf 
    text	   data	    bss	    dec	    hex	filename
   43316	    136	  15904	  59356	   e7dc	small_led_driver.elf
 Finished building: default.size.stdout
  
+Finished building: small_led_driver.bin
+ 
+Finished building: small_led_driver.list
+ 
 
-17:52:32 Build Finished. 0 errors, 0 warnings. (took 362ms)
+11:39:46 Build Finished. 0 errors, 0 warnings. (took 930ms)
 
