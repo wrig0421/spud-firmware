@@ -1,0 +1,10 @@
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/color_led/color_led.c:13:6:color_led_init	4	static
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/color_led/color_led.c:29:10:color_led_get_random_color	24	static
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/color_led/color_led.c:36:6:color_led_reset_color	4	static
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/color_led/color_led.c:42:6:color_led_adjust_color	16	static
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/color_led/color_led.c:55:18:color_led_cur_color_hex	4	static
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/color_led/color_led.c:61:9:color_led_cur_color_red_hex	4	static
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/color_led/color_led.c:67:9:color_led_cur_color_green_hex	4	static
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/color_led/color_led.c:73:9:color_led_cur_color_blue_hex	4	static
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/color_led/color_led.c:79:18:color_led_hex	16	static
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/color_led/color_led.c:84:6:color_led_randomize	16	static
