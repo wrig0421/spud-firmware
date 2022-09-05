@@ -1,16 +1,12 @@
-/*
- * board_specific.h
- *
- *  Created on: Aug 6, 2022
- *      Author: splat
- */
+// SRW
 
-#ifndef SRC_BSP_BOARD_SPECIFIC_BOARD_SPECIFIC_H_
-#define SRC_BSP_BOARD_SPECIFIC_BOARD_SPECIFIC_H_
+#if !defined(BOARD_SPECIFIC_H)
+#define BOARD_SPECIFIC_H
 
 #include "config.h"
 #include "board_init_common.h"
 
+#if 1
 #if defined(BOARD_SPUD_GLO_V1)
 #include "board_init_spud_glo_v1/board_init_spud_glo_v1.h"
 #elif defined(BOARD_SPUD_GLO_V2)
@@ -20,5 +16,6 @@
 #else
 #error "Error - None or unknown board defined!"
 #endif
+#endif
 
-#endif /* SRC_BSP_BOARD_SPECIFIC_BOARD_SPECIFIC_H_ */
+#endif

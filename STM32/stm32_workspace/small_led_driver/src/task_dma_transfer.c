@@ -1,4 +1,4 @@
-#include "main.h"
+#if 0
 #include "cmsis_os.h"
 #include "FreeRTOS.h"
 #include "task_dma_transfer.h"
@@ -10,3 +10,4 @@ void task_dma_transfer(void *argument)
 		osDelay(1000);
 	}
 }
+#endif

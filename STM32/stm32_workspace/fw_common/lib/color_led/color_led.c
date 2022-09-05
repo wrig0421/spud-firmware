@@ -2,41 +2,14 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include "numbers.h"
-#include "color_led.h"
+#include "task_led_ctrl.h"
 
-//#define COLOR_LED_MAX_BRIGHTNESS_DIVISOR	(10)
+color_hex_code_e g_color_hex_codes[NUM_COLORS];
 
-master_color_state_e g_master_color_state = MASTER_COLOR_STATE_DEMO;
-bool g_color_led_demo_state_exit_flag = false;
-bool g_color_led_demo_state_enter_flag = false;
-
-color_hex_code_e g_color_hex_codes[NUM_COLORS];;
-all_colors_e g_led_color = COLORS_RED;
-
-
-master_color_state_e color_led_cur_state(void)
-{
-    return g_master_color_state;
-}
-
-
-void color_led_enter_demo_state(void)
-{
-    g_color_led_demo_state_enter_flag = true;
-    g_master_color_state = MASTER_COLOR_STATE_DEMO;
-}
-
-
-void color_led_exit_demo_state(void)
-{
-    g_color_led_demo_state_exit_flag = true;
-    g_master_color_state = MASTER_COLOR_STATE_FIXED;
-    g_led_color = COLORS_FIRST;
-}
 
 void color_led_init(void)
 {
-	// initialize color arrays
+    // initialize color arrays
     g_color_hex_codes[COLORS_RED] = COLOR_HEX_RED;
     g_color_hex_codes[COLORS_LIME] = COLOR_HEX_LIME;
     g_color_hex_codes[COLORS_BLUE] = COLOR_HEX_BLUE;
@@ -49,78 +22,4 @@ void color_led_init(void)
     g_color_hex_codes[COLORS_NAVY] = COLOR_HEX_NAVY;
 }
 
-
-uint32_t color_led_get_random_color(void)
-{
-	uint32_t random_color = (random_num(0, 255) << 16) | (random_num(0, 255) << 8) | (random_num(0, 255));
-	return random_color;
-}
-
-
-void color_led_reset_color(void)
-{
-	g_led_color = COLORS_RED;
-}
-
-
-bool color_led_adjust_color(void)
-{
-	bool return_val = false;
-	if (COLORS_LAST == g_led_color) 
-	{
-		g_led_color = COLORS_FIRST;
-		return_val = true;
-	}
-	else g_led_color = (all_colors_e) (g_led_color + 1);
-	return return_val;
-}
-
-
-all_colors_e color_led_cur_color(void)
-{
-    return g_led_color;
-}
-
-color_hex_code_e color_led_cur_color_hex(void)
-{
-	return g_color_hex_codes[g_led_color];
-}
-
-
-uint8_t color_led_cur_color_red_hex(void)
-{
-	return (((g_color_hex_codes[g_led_color] & 0xFF0000) >> 16) / COLOR_LED_MAX_BRIGHTNESS_DIVISOR);
-}
-
-
-uint8_t color_led_cur_color_green_hex(void)
-{
-	return (((g_color_hex_codes[g_led_color] & 0x00FF00) >> 8) / COLOR_LED_MAX_BRIGHTNESS_DIVISOR);
-}
-
-
-uint8_t color_led_cur_color_blue_hex(void)
-{
-	return ((g_color_hex_codes[g_led_color] & 0x0000FF) / COLOR_LED_MAX_BRIGHTNESS_DIVISOR);
-}
-
-
-color_hex_code_e color_led_hex(all_colors_e color)
-{
-	return g_color_hex_codes[color];
-}
-
-void color_led_randomize(void)
-{
-	all_colors_e color = (all_colors_e)(random_num(0, NUM_COLORS));
-	if (g_led_color == color)
-    {
-        if ((COLORS_LAST) == color) g_led_color = (all_colors_e)(color - 1);
-        else g_led_color = (all_colors_e)(color + 1);
-    }
-	else
-	{
-		g_led_color = color;
-	}
-}
 

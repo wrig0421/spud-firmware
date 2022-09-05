@@ -1,0 +1,83 @@
+/*
+ * task_pin_level_count.c
+ *
+ *  Created on: Jul 31, 2022
+ *      Author: splat
+ */
+#include "main.h"
+#include "cmsis_os.h"
+#include "animate_led.h"
+#include "board_init_common.h"
+#include "task_button_press.h"
+
+
+
+
+// holding 'A' results in speed demo state?
+// holding 'B' results in state change to demo mode
+// holding 'C' results in demo color state
+// holding 'D' does nothing...
+
+void task_button_press(void *argument)
+{
+    while (1)
+    {
+        // wait on flag to unblock..
+        for (int iii = 0; iii < NUM_PUSH_BUTTONS; iii++)
+        {
+            if (board_init_button_is_pressed(PUSH_BUTTON_A))
+            {
+                board_init_button_on_count_clear(PUSH_BUTTON_A);
+                animate_led_set_interrupt_flag(ISR_SPEED);
+                animate_led_adjust_speed();
+                board_init_button_on_count_increment(PUSH_BUTTON_A);
+            }
+            else if (board_init_button_is_pressed(PUSH_BUTTON_B))
+            {
+                board_init_button_on_count_clear(PUSH_BUTTON_B);
+                animate_led_set_interrupt_flag(ISR_STATE);
+                animate_led_reset_animate_iteration_count();
+                if (MASTER_LED_STATE_DEMO == animate_led_master_state())
+                {
+                    animate_led_exit_demo_state();
+                    animate_led_adjust_state();
+                }
+                else
+                {
+                    animate_led_adjust_state();
+                }
+                board_init_button_on_count_increment(PUSH_BUTTON_B);
+            }
+            else if (board_init_button_is_pressed(PUSH_BUTTON_C))
+            {
+                board_init_button_on_count_clear(PUSH_BUTTON_C);
+                board_init_button_on_count_increment(PUSH_BUTTON_C);
+                animate_led_set_interrupt_flag(ISR_COLOR);
+
+                if (MASTER_COLOR_STATE_DEMO == color_led_cur_state())
+                {
+                    color_led_exit_demo_state();
+                    color_led_adjust_color();
+                }
+                else
+                {
+                    color_led_adjust_color();
+                }
+            }
+            else if (board_init_button_is_pressed(PUSH_BUTTON_D))
+            {
+                board_init_button_on_count_clear(PUSH_BUTTON_D);
+
+                while (board_init_button_is_pressed(PUSH_BUTTON_D))
+                {
+                    board_init_button_on_count_increment(PUSH_BUTTON_D);
+                    osDelay(10);
+                }
+                animate_led_set_interrupt_flag(ISR_PAUSE);
+                animate_led_pause();
+            }
+        }
+        osDelay(100);
+    }
+
+}

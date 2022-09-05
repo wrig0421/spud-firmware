@@ -5,18 +5,9 @@
 #define ANIMATE_LED_H
 #include <stdint.h>
 #include <stdbool.h> 
+#include "board_init_common.h"
 #include "ws2812b.h"
 #include "color_led.h"
-
-// typedefs, structs, enums
-typedef enum
-{
-    ISR_SPEED = 0,
-    ISR_STATE,
-    ISR_COLOR,
-    ISR_PAUSE,
-    NUM_ISR
-} isr_e;
 
 
 typedef enum
@@ -28,7 +19,8 @@ typedef enum
 typedef enum
 {
 	LED_STATE_FIRST = 0,
-	LED_STATE_WHITE_COLOR = LED_STATE_FIRST,
+	LED_STATE_SPELL = LED_STATE_FIRST,
+	LED_STATE_WHITE_COLOR,
 	LED_STATE_SOLID_COLOR,
 	LED_STATE_SPARKLE_NO_FILL,
     LED_STATE_SPARKLE_FILL,
@@ -37,7 +29,6 @@ typedef enum
     LED_STATE_THEATER_CHASE_RAINBOW,
     LED_STATE_FADE_IN_AND_OUT,
     LED_STATE_TWINKLE,
-    LED_STATE_SPELL,
 #if defined(SRW_DEBUG)
     LED_STATE_SRW_DEBUG,
 #endif
@@ -87,34 +78,9 @@ typedef enum
 	NUM_SPEEDS
 } led_speed_e;
 
-master_led_state_e animate_led_master_state(void);
-void animate_led_reset_animate_iteration_count(void);
-void animate_led_set_interrupt_flag(isr_e src);
-bool animate_led_interrupt_occurred(void);
-void animate_led_pause(void);
-void animate_led_interrupt(void);
-void animate_led_enter_demo_state(void);
-void animate_led_exit_demo_state(void);
-void task_animate_led(void *argument);
-void animate_led_reset_state(void);
-bool animate_led_interrupt_flag(isr_e src);
-bool animate_led_interrupt_flag_speed(void);
-bool animate_led_interrupt_flag_state(void);
-bool animate_led_interrupt_flag_color(void);
-uint16_t animate_led_delay_between_animations(void);
-float animate_led_delay_in_animations(void);
-void animate_led_adjust_speed(void);
-bool animate_led_adjust_state(void);
-void animate_led_init(void);
-void animate_led_reset_iterations(void);
-void animate_led_increment_iterations(void);
-uint32_t animate_led_iterations(void);
-led_state_e animate_led_state(void);
 void animate_led_show_strip(const strip_mask_t strip_mask);
-led_state_e animate_led_state_randomize(led_state_e cur_state);
 void animate_led_solid_custom_color(const strip_mask_t strip_mask, color_hex_code_e color);
 void animate_led_turn_all_pixels_off(void);
-void animate_led_two_tone(uint32_t color_strip_1, uint32_t color_strip_2);
 void animate_led_spell_word_multiple_colors(strip_mask_t strip_mask, uint32_t* color_array, uint16_t speed_delay);
 void animate_led_spell_and_sparkle(const strip_mask_t spell_mask, const strip_mask_t sparkle_mask, color_hex_code_e color, bool fill, uint16_t speed_delay);
 void animate_led_only_spell_word(strip_mask_t strip_mask, color_hex_code_e color, uint16_t speed_delay);void animate_led_fade_in_fade_out(strip_mask_t strip_mask, color_hex_code_e color);
@@ -142,7 +108,6 @@ void animate_led_fade_to_black(strip_mask_t strip_mask, uint16_t pixel, uint8_t 
 void animate_led_set_pixel(strip_mask_t strip_mask, uint16_t pixel, uint8_t red, uint8_t green, uint8_t blue);
 void animate_led_spell_and_solid_color(const strip_mask_t spell_mask, const strip_mask_t solid_color_mask, color_hex_code_e color, uint16_t speed_delay);
 void animate_led_set_all_pixels(strip_mask_t strip_mask, uint8_t red, uint8_t green, uint8_t blue);
-uint16_t animate_led_get_number_of_active_strips(const strip_mask_t strip_mask);
 void animate_led_fade_in_fade_out_multiple_colors(strip_mask_t strip_mask, uint32_t* color_array);
 void animate_led_theater_chase_multiple_colors(strip_mask_t strip_mask, uint32_t* color, uint16_t speed_delay);
 void animate_led_multiple_solid_custom_colors(strip_mask_t strip_mask, uint32_t* color_array);

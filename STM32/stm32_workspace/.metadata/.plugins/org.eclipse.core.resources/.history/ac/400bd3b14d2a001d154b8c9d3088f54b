@@ -1,0 +1,422 @@
+// SRW
+#include <stdint.h>
+#include <stdbool.h>
+#include <stdlib.h>
+#include <math.h>
+#include "main.h"
+#include "cmsis_os.h"
+#include "numbers.h"
+#include "color_led.h"
+#include "ws2812b.h"
+#include "board_specific.h"
+#include "board_init_common.h"
+#include "animate_led.h"
+#include "task_animate_led.h"
+
+typedef enum
+{
+    ANIMATION_LOOP_ITERATIONS_0 = 0,
+    ANIMATION_LOOP_ITERATIONS_1,
+    ANIMATION_LOOP_ITERATIONS_2,
+    ANIMATION_LOOP_ITERATIONS_3,
+    ANIMATION_LOOP_ITERATIONS_4,
+    ANIMATION_LOOP_ITERATIONS_5,
+    ANIMATION_LOOP_ITERATIONS_6,
+    ANIMATION_LOOP_ITERATIONS_7,
+    ANIMATION_LOOP_ITERATIONS_8,
+    ANIMATION_LOOP_ITERATIONS_9,
+    ANIMATION_LOOP_ITERATIONS_10,
+    ANIMATION_LOOP_ITERATIONS_50 = 50,
+    ANIMATION_LOOP_ITERATIONS_100 = 100
+} animation_loop_iterations_e;
+
+
+typedef enum
+{
+    ANIMATION_DELAY_MS_0 = 0,
+    ANIMATION_DELAY_MS_1000 = 1000,
+    ANIMATION_DELAY_MS_2000 = 2000,
+    ANIMATION_DELAY_MS_3000 = 3000,
+    ANIMATION_DELAY_MS_4000 = 4000,
+    ANIMATION_DELAY_MS_5000 = 5000,
+    ANIMATION_DELAY_MS_10000 = 10000,
+    ANIMATION_DELAY_MS_15000 = 15000,
+    ANIMATION_DELAY_MS_20000 = 20000
+} animation_delay_ms_e;
+
+uint8_t g_animation_iterations = 0;
+master_led_state_e g_master_led_state = MASTER_LED_STATE_DEMO;
+bool g_animate_led_pause_flag = false;
+led_state_e g_led_state = LED_STATE_FIRST;
+bool g_animate_led_interrupt = false;
+bool g_interrupt_flag[NUM_ISR] = {false};
+led_speed_e g_led_speed = LED_SPEED_5X;
+uint16_t g_delay_in_animation_ms = 100; // where applicable of course
+
+
+led_state_e animate_led_state(void)
+{
+    return g_led_state;
+}
+
+
+bool task_animate_led_check_interrupts(uint8_t *red, uint8_t *green, uint8_t *blue)
+{
+    bool return_val = false;
+    task_animate_led_animate_led_interrupt_flag_clear();
+    if (animate_led_interrupt_flag(ISR_STATE))
+    {
+        return_val = true;
+        animate_led_solid_custom_color((uint16_t)STRIP_BIT_ALL_SET, COLOR_HEX_BLACK);
+        //osDelay(500); // some dormant time?
+    }
+    else if (animate_led_interrupt_flag(ISR_PAUSE))
+    {
+        while (g_animate_led_pause_flag)
+        {
+            osDelay(10);
+        }
+    }
+    else if (animate_led_interrupt_flag(ISR_COLOR))
+    {
+        // interrupt modifies the current color... apply it to the animation!
+        *red = color_led_cur_color_red_hex();
+        *green = color_led_cur_color_green_hex();
+        *blue = color_led_cur_color_blue_hex();
+    }
+    return return_val;
+}
+
+
+void task_animate_led_animate_led_interrupt_flag_clear(void)
+{
+    g_animate_led_interrupt = false;
+}
+
+
+bool task_animate_led_animate_led_interrupt_occurred(void)
+{
+    return g_animate_led_interrupt;
+}
+
+
+void task_animate_led_pause(void)
+{
+    static uint8_t flip_or_flop = 1;
+    if (flip_or_flop) g_animate_led_pause_flag = true;
+    else g_animate_led_pause_flag = false;
+    flip_or_flop ^= 1;
+}
+
+
+void task_animate_led_reset_state(void)
+{
+    g_led_state = LED_STATE_FIRST;
+}
+
+
+isr_e task_animate_led_button_to_isr(board_init_push_buttons_e button)
+{
+    isr_e return_val;
+    switch (button)
+    {
+        case PUSH_BUTTON_A:
+            return_val = ISR_SPEED;
+        break;
+        case PUSH_BUTTON_B:
+            return_val = ISR_STATE;
+        break;
+        case PUSH_BUTTON_C:
+            return_val = ISR_COLOR;
+        break;
+        case PUSH_BUTTON_D:
+            return_val = ISR_PAUSE;
+        break;
+        default: // do nothing!
+        break;
+    }
+    return return_val;
+}
+
+
+void task_animate_led_set_interrupt_flag(isr_e src)
+{
+    g_animate_led_interrupt = true; // global indicator that interrupt occurred
+    g_interrupt_flag[src] = true;
+}
+
+
+bool task_animate_led_interrupt_occurred(void)
+{
+//    bool return_val = false;
+//    if (g_animate_led_interrupt)
+//    {
+//        return_val = true;
+//        g_animate_led_interrupt = false;
+//    }
+//    return return_val;
+    return g_animate_led_interrupt;
+}
+
+
+bool task_animate_led_interrupt_flag(isr_e src)
+{
+    bool return_val = g_interrupt_flag[src];
+    if (return_val) g_interrupt_flag[src] = false; // auto clear
+    return return_val;
+}
+
+
+float task_animate_led_speed_factor(void)
+{
+    float speed_factor = 0.0;
+    switch(g_led_speed)
+    {
+        case LED_SPEED_10X:
+            speed_factor = 10;
+        break;
+        case LED_SPEED_5X:
+            speed_factor = 5;
+        break;
+        case LED_SPEED_2X:
+            speed_factor = 2;
+        break;
+        case LED_SPEED_1X:
+            speed_factor = 1;
+        break;
+        case LED_SPEED_0P5X:
+            speed_factor = 0.5;
+        break;
+        case LED_SPEED_0P25X:
+            speed_factor = 0.25;
+        break;
+        default:
+        break;
+        /*
+        case LED_SPEED_0P1X:
+            speed_factor = 0.1;
+        break;
+        */
+    }
+    return speed_factor;
+}
+
+
+static void task_animate_led_adjust_speed(void)
+{
+    if (LED_SPEED_LAST == g_led_speed) g_led_speed = LED_SPEED_FIRST;
+    else g_led_speed = (led_speed_e) (g_led_speed + 1);
+}
+
+
+float task_animate_led_delay_in_animations(void)
+{
+    return ((float)g_delay_in_animation_ms / task_animate_led_speed_factor());
+}
+
+
+static uint32_t task_animate_led_millis(void)
+{
+    return 0; // TODO FIX THIS!
+}
+
+
+void task_animate_led_reset_animate_iteration_count(void)
+{
+    g_animation_iterations = 0;
+}
+
+
+bool animate_led_adjust_state(void)
+{
+    bool return_val = false;
+    if (LED_STATE_LAST == g_led_state)
+    {
+        g_led_state = LED_STATE_FIRST;
+        return_val = true;
+    }
+    else g_led_state = (led_state_e) (g_led_state + 1);
+    return return_val;
+}
+
+
+void task_animate_led_enter_demo_state(void)
+{
+    g_master_led_state = MASTER_LED_STATE_DEMO;
+    g_animation_iterations = 0;
+}
+
+
+void task_animate_led_exit_demo_state(void)
+{
+    g_master_led_state = MASTER_LED_STATE_FIXED;
+    g_led_state = LED_STATE_FIRST; // set first state
+    g_animation_iterations = 0;
+}
+
+
+master_led_state_e task_animate_led_master_state(void)
+{
+    return g_master_led_state;
+}
+
+
+#define TEST_MODE
+static void task_animate_led_handle_count_color_delay(const animation_loop_iterations_e max_iterations, const animation_delay_ms_e animation_delay_ms)
+{
+    if (ANIMATION_DELAY_MS_0 != animation_delay_ms) delay(animation_delay_ms);
+    g_animation_iterations++;
+    if (MASTER_LED_STATE_DEMO == g_master_led_state)
+    {
+        if (max_iterations == g_animation_iterations)
+        {
+#if defined(TEST_MODE)
+            g_led_state = (led_state_e) (g_led_state + 1);
+            if (NUM_LED_STATES == g_led_state) g_led_state = LED_STATE_FIRST;
+#else
+            g_led_state = animate_led_state_randomize(g_led_state);
+#endif
+            g_animation_iterations = 0;
+        }
+    }
+    if (MASTER_COLOR_STATE_DEMO == g_master_color_state) color_led_randomize();
+    //else color_led_adjust_color();
+    // if not demo state then stay in current LED state forever until switched by user
+}
+
+
+void task_animate_led(void *argument)
+{
+    uint32_t button_pressed_count = 0;
+    board_init_stop_timer();
+    animate_led_solid_custom_color((uint16_t)STRIP_BIT_ALL_SET, COLOR_HEX_BLACK);
+    osDelay(1000);
+    bool button_press_b_detected = false;
+    bool button_press_c_detected = false;
+    while (1)
+    {
+        if (!button_press_c_detected && board_init_button_is_pressed(PUSH_BUTTON_C))
+        {
+            button_press_c_detected = true;
+        }
+        else if (button_press_c_detected && board_init_button_is_pressed(PUSH_BUTTON_C))
+        {
+            button_press_c_detected = false;
+            while (board_init_button_is_pressed(PUSH_BUTTON_C))
+            {
+                if ((board_init_button_on_count(PUSH_BUTTON_C) > button_pressed_count) && \
+                                board_init_button_on_count(PUSH_BUTTON_C) > 50)
+                {
+                    // the button is being held down!
+                    color_led_enter_demo_state();
+                    while(board_init_button_is_pressed(PUSH_BUTTON_C)); // wait for release
+                    // clear the counts..
+                    board_init_button_on_count_clear(PUSH_BUTTON_C);
+                    for (uint8_t iii = 0; iii < 3; iii++)
+                    {
+                        animate_led_solid_custom_color((uint16_t)STRIP_BIT_ALL_SET, COLOR_HEX_BLUE);
+                        osDelay(100);
+                        animate_led_solid_custom_color((uint16_t)STRIP_BIT_ALL_SET, COLOR_HEX_BLACK);
+                        osDelay(100);
+                    }
+                    osDelay(500);
+                    break;
+                }
+                else if (!board_init_button_on_count(PUSH_BUTTON_C))
+                {
+                    break;
+                }
+            }
+        }
+        if (!button_press_b_detected && board_init_button_is_pressed(PUSH_BUTTON_B))
+        {
+            button_press_b_detected = true;
+        }
+        else if (button_press_c_detected && board_init_button_is_pressed(PUSH_BUTTON_C))
+        {
+            button_press_b_detected = false;
+            while (board_init_button_is_pressed(PUSH_BUTTON_B))
+            {
+                if ((board_init_button_on_count(PUSH_BUTTON_B) > button_pressed_count) && \
+                                board_init_button_on_count(PUSH_BUTTON_B) > 50)
+                {
+                    // the button is being held down!
+                    animate_led_enter_demo_state();
+                    while(board_init_button_is_pressed(PUSH_BUTTON_B)); // wait for release
+                    // clear the counts..
+                    board_init_button_on_count_clear(PUSH_BUTTON_B);
+                    for (uint8_t iii = 0; iii < 3; iii++)
+                    {
+                        animate_led_solid_custom_color((uint16_t)STRIP_BIT_ALL_SET, COLOR_HEX_BLUE);
+                        osDelay(100);
+                        animate_led_solid_custom_color((uint16_t)STRIP_BIT_ALL_SET, COLOR_HEX_BLACK);
+                        osDelay(100);
+                    }
+                    osDelay(500);
+                    break;
+                }
+                else if (!board_init_button_on_count(PUSH_BUTTON_B))
+                {
+                    break;
+                }
+            }
+        }
+        switch(g_led_state)
+        {
+            case LED_STATE_WHITE_COLOR:
+                animate_led_solid_custom_color((uint16_t)STRIP_BIT_ALL_SET, COLOR_HEX_WHITE);
+                task_animate_led_handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_1, ANIMATION_DELAY_MS_5000);
+            break;
+            case LED_STATE_SOLID_COLOR:
+                animate_led_solid_custom_color((uint16_t)STRIP_BIT_ALL_SET, color_led_cur_color_hex());
+                task_animate_led_handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_5, ANIMATION_DELAY_MS_5000);
+            break;
+            case LED_STATE_SPARKLE_NO_FILL:
+                // SRW OK!!!
+                // need to force all colors off before transitioning to this state
+                animate_led_turn_all_pixels_off();
+                animate_led_sparkle_only_random_color(STRIP_BIT_ALL_SET, false, random_num(20,80));//random(0, 50));
+                task_animate_led_handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_5, ANIMATION_DELAY_MS_0);
+            break;
+            case LED_STATE_SPARKLE_FILL:
+                // SRW ok!!!
+                animate_led_sparkle_only_random_color(STRIP_BIT_ALL_SET, true, random_num(20,80));
+                task_animate_led_handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_10, ANIMATION_DELAY_MS_0);
+            break;
+            case LED_STATE_RAINBOW_CYCLE:
+                // SRW OK!!!
+                animate_led_rainbow_cycle(STRIP_BIT_ALL_SET, 0);
+                task_animate_led_handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_5, ANIMATION_DELAY_MS_0);
+            break;
+            case LED_STATE_THEATER_CHASE:
+                // SRW ok !!!
+                animate_led_theater_chase(STRIP_BIT_ALL_SET, color_led_cur_color_hex(), animate_led_delay_in_animations());
+                task_animate_led_handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_10, ANIMATION_DELAY_MS_0);
+            break;
+            case LED_STATE_THEATER_CHASE_RAINBOW:
+                // SRW ok!!!!
+                animate_led_theater_chase_rainbow(STRIP_BIT_ALL_SET, animate_led_delay_in_animations());
+                g_led_state = LED_STATE_TWINKLE;
+                task_animate_led_handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_2, ANIMATION_DELAY_MS_0);
+            break;
+            case LED_STATE_FADE_IN_AND_OUT:
+                // SRW ok!!!
+                animate_led_fade_in_fade_out((uint16_t)STRIP_BIT_ALL_SET, color_led_cur_color_hex());
+                task_animate_led_handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_10, ANIMATION_DELAY_MS_0);
+            break;
+            case LED_STATE_TWINKLE:
+                // SRW ok!!!
+                animate_led_turn_all_pixels_off();
+                animate_led_twinkle(STRIP_BIT_ALL_SET, color_led_cur_color_hex(), (uint32_t)((float)NUM_LEDS * (float)0.9), animate_led_delay_in_animations(), false);
+                task_animate_led_handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_5, ANIMATION_DELAY_MS_0);
+            break;
+            case LED_STATE_SPELL:
+                // SRW ok!!!
+                animate_led_only_spell_word(STRIP_BIT_ALL_SET, color_led_cur_color_hex(), 30);
+                task_animate_led_handle_count_color_delay(ANIMATION_LOOP_ITERATIONS_10, ANIMATION_DELAY_MS_0);
+            break;
+            default:
+            break;
+        }
+    }
+}

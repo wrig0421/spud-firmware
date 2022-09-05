@@ -57,20 +57,7 @@ typedef enum
     NUM_COLORS
 } all_colors_e;
 
-master_color_state_e color_led_cur_state(void);
-void color_led_exit_demo_state(void);
-void color_led_enter_demo_state(void);
-all_colors_e color_led_cur_color(void);
-uint32_t color_led_get_random_color(void);
-void color_led_reset_color(void);
-bool color_led_adjust_color(void);
-color_hex_code_e color_led_cur_color_hex(void);
-uint8_t color_led_cur_color_red_hex(void);
-uint8_t color_led_cur_color_green_hex(void);
-uint8_t color_led_cur_color_blue_hex(void);
 
-//color_hex_code_e color_led_random(all_colors_e cur_color);
-void color_led_randomize(void);
 void color_led_init(void);
 
 

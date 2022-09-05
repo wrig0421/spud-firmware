@@ -1,0 +1,29 @@
+// SRW
+
+#ifndef SRC_TASK_LED_CTRL_H_
+#define SRC_TASK_LED_CTRL_H_
+
+void task_led_ctrl(void *argument);
+void task_led_ctrl_led_ctrl_interrupt_flag_clear(void);
+bool task_led_ctrl_check_interrupts(uint8_t *red, uint8_t *green, uint8_t *blue);
+bool task_led_ctrl_led_ctrl_interrupt_occurred(void);
+float task_led_ctrl_speed_factor(void);
+float task_led_ctrl_speed_factor(void);
+void task_led_ctrl_pause(void);
+void task_led_ctrl_reset_animate_iteration_count(void);
+void task_led_ctrl_exit_demo_state(void);
+master_led_state_e task_led_ctrl_master_state(void);
+void task_led_ctrl_adjust_speed(void);
+void task_led_ctrl_adjust_speed(void);
+void task_led_ctrl_set_interrupt_flag(isr_e src);
+isr_e task_led_ctrl_button_to_isr(board_init_push_buttons_e button);
+void task_led_ctrl_enter_demo_state(void);
+bool task_led_ctrl_interrupt_flag(isr_e src);
+float task_led_ctrl_delay_in_animations(void);
+void task_led_ctrl_enter_demo_state(void);
+void task_led_ctrl_delay(uint32_t time);
+bool task_led_ctrl_check_interrupts(uint8_t *red, uint8_t *green, uint8_t *blue);
+bool task_led_ctrl_interrupt_occurred(void);
+bool task_led_ctrl_adjust_state(void);
+
+#endif /* SRC_TASK_led_ctrl_H_ */

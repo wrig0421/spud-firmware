@@ -1,9 +1,12 @@
+// SRW
+#include "main.h"
 #include <stdbool.h>
 #include <stdint.h>
-#include "board_init.h"
+
+#include "board_init_common.h"
+//#include "board_specific.h"
 #include "ws2812b.h"
 #include "cmsis_os.h"
-#include "main.h"
 #include "task_create.h"
 #include <stdbool.h>
 #include "color_led.h"

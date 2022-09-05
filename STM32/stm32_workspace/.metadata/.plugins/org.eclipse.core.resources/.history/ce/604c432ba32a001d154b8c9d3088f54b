@@ -1,0 +1,21 @@
+// SRW
+
+#ifndef SRC_TASK_ANIMATE_LED_H_
+#define SRC_TASK_ANIMATE_LED_H_
+
+#include "animate_led.h"
+void task_animate_led(void *argument);
+void task_animate_led_animate_led_interrupt_flag_clear(void);
+bool task_animate_led_check_interrupts(uint8_t *red, uint8_t *green, uint8_t *blue);
+bool task_animate_led_animate_led_interrupt_occurred(void);
+float task_animate_led_speed_factor(void);
+float task_animate_led_speed_factor(void);
+void task_animate_led_pause(void);
+void task_animate_led_reset_animate_iteration_count(void);
+void task_animate_led_exit_demo_state(void);
+master_led_state_e task_animate_led_master_state(void);
+void task_animate_led_adjust_speed(void);
+void task_animate_led_adjust_speed(void);
+void task_animate_led_set_interrupt_flag(isr_e src);
+
+#endif /* SRC_TASK_ANIMATE_LED_H_ */

@@ -1,41 +1,29 @@
-/*
- * board_init_common.h
- *
- *  Created on: Aug 6, 2022
- *      Author: splat
- */
+// SRW
 
-#ifndef SRC_BSP_BOARD_INIT_COMMON_H_
-#define SRC_BSP_BOARD_INIT_COMMON_H_
+#if !defined(BOARD_INIT_COMMON_H)
+#define BOARD_INIT_COMMON_H
 
-// PORT A pins
-#define PIN_PORT_A              GPIOA
-#define PIN_WKUP_1              GPIO_PIN_0
-
-#define PIN_WKUP_4              GPIO_PIN_2
-
-#define PIN_TIM16_CH1           GPIO_PIN_6
-
-#define PIN_TIM1_CH1            GPIO_PIN_8
-#define PIN_TIM1_CH2            GPIO_PIN_9
-#define PIN_TIM1_CH3            GPIO_PIN_10
-
-// PORT B pins
-#define PIN_PORT_B              GPIOB
-
-#define PIN_TIM15_CH1           GPIO_PIN_14
+#include <stdint.h>
+#include <stdbool.h>
 
 
-// PORT C pins
-#define PIN_PORT_C              GPIOC
-#define PIN_LED_OUT_1           GPIO_PIN_2
-#define PIN_LED_OUT_2           GPIO_PIN_3
+typedef enum
+{
+    PUSH_BUTTON_A = 0,
+    PUSH_BUTTON_B,
+    PUSH_BUTTON_C,
+    PUSH_BUTTON_D,
+    NUM_PUSH_BUTTONS
+} board_init_push_buttons_e;
 
-#define PIN_WKUP_3              GPIO_PIN_5
+void board_init(void);
 
-#define PIN_LVL_EN              GPIO_PIN_7
+void button_pressed(board_init_push_buttons_e button);
+void board_init_stop_timer(void);
+bool board_init_any_button_is_pressed(void);
+bool board_init_button_is_pressed(board_init_push_buttons_e button);
+void board_init_button_on_count_increment(board_init_push_buttons_e button);
+uint32_t board_init_button_on_count(board_init_push_buttons_e button);
+void board_init_button_on_count_clear(board_init_push_buttons_e button);
 
-#define PIN_WKUP_2              GPIO_PIN_13
-
-
-#endif /* SRC_BSP_BOARD_INIT_COMMON_H_ */
+#endif

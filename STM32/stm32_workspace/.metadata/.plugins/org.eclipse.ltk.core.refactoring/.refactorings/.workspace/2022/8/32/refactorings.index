@@ -1,2 +1,6 @@
 1659802146245	Delete resource 'small_led_driver/src/bsp/board_specific/board_init_spud_glo_v2'
 1659803982086	Delete 2 resources
+1659806874924	Delete resource 'small_led_driver/Core'
+1659807288070	Delete resource 'small_led_driver/Debug'
+1659808155405	Delete resource 'small_led_driver/src/bsp/board_init.h'
+1659808176071	Delete resource 'small_led_driver/src/bsp/board_init.c'
