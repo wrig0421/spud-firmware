@@ -1,5 +1,6 @@
 "./fw_common/lib/animate_led/animate_led.o"
 "./fw_common/lib/color_led/color_led.o"
+"./fw_common/lib/current_monitor/current_monitor.o"
 "./fw_common/lib/task/task_led_ctrl.o"
 "./fw_common/lib/ws2812b_driver/ws2812b.o"
 "./sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.o"

@@ -23,6 +23,7 @@ RM := rm -rf
 -include sdk/FreeRTOS/Source/subdir.mk
 -include fw_common/lib/ws2812b_driver/subdir.mk
 -include fw_common/lib/task/subdir.mk
+-include fw_common/lib/current_monitor/subdir.mk
 -include fw_common/lib/color_led/subdir.mk
 -include fw_common/lib/animate_led/subdir.mk
 -include objects.mk

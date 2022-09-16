@@ -271,6 +271,21 @@ Discarded input sections
  .debug_macro   0x0000000000000000      0x341 ./fw_common/lib/color_led/color_led.o
  .debug_macro   0x0000000000000000       0x10 ./fw_common/lib/color_led/color_led.o
  .debug_macro   0x0000000000000000       0x16 ./fw_common/lib/color_led/color_led.o
+ .group         0x0000000000000000        0xc ./fw_common/lib/current_monitor/current_monitor.o
+ .text          0x0000000000000000        0x0 ./fw_common/lib/current_monitor/current_monitor.o
+ .data          0x0000000000000000        0x0 ./fw_common/lib/current_monitor/current_monitor.o
+ .bss           0x0000000000000000        0x0 ./fw_common/lib/current_monitor/current_monitor.o
+ .debug_info    0x0000000000000000       0x21 ./fw_common/lib/current_monitor/current_monitor.o
+ .debug_abbrev  0x0000000000000000       0x13 ./fw_common/lib/current_monitor/current_monitor.o
+ .debug_aranges
+                0x0000000000000000       0x18 ./fw_common/lib/current_monitor/current_monitor.o
+ .debug_macro   0x0000000000000000       0x11 ./fw_common/lib/current_monitor/current_monitor.o
+ .debug_macro   0x0000000000000000      0xa78 ./fw_common/lib/current_monitor/current_monitor.o
+ .debug_line    0x0000000000000000       0x98 ./fw_common/lib/current_monitor/current_monitor.o
+ .debug_str     0x0000000000000000     0x2d5f ./fw_common/lib/current_monitor/current_monitor.o
+ .comment       0x0000000000000000       0x51 ./fw_common/lib/current_monitor/current_monitor.o
+ .ARM.attributes
+                0x0000000000000000       0x34 ./fw_common/lib/current_monitor/current_monitor.o
  .group         0x0000000000000000        0xc ./fw_common/lib/task/task_led_ctrl.o
  .group         0x0000000000000000        0xc ./fw_common/lib/task/task_led_ctrl.o
  .group         0x0000000000000000        0xc ./fw_common/lib/task/task_led_ctrl.o
@@ -5651,6 +5666,7 @@ LOAD /Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.id
 LOAD /Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.macos64_1.0.0.202111181127/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/crt0.o
 LOAD ./fw_common/lib/animate_led/animate_led.o
 LOAD ./fw_common/lib/color_led/color_led.o
+LOAD ./fw_common/lib/current_monitor/current_monitor.o
 LOAD ./fw_common/lib/task/task_led_ctrl.o
 LOAD ./fw_common/lib/ws2812b_driver/ws2812b.o
 LOAD ./sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.o

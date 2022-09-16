@@ -7592,3 +7592,19 @@ java.lang.Exception: Resource '/small_led_driver/Debug/sdk/STM32L4xx_HAL_Driver/
 
 !ENTRY org.eclipse.cdt.core 1 0 2022-09-03 13:58:40.723
 !MESSAGE Indexed 'small_led_driver' (45 sources, 151 headers) in 2.52 sec: 15,714 declarations; 80,818 references; 3 unresolved inclusions; 169 syntax errors; 173 unresolved names (0.18%)
+!SESSION 2022-09-16 18:28:39.213 -----------------------------------------------
+eclipse.buildId=Version 1.9.0
+java.version=11.0.11
+java.vendor=AdoptOpenJDK
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
+Framework arguments:  -keyring /Users/spud/.eclipse_keyring
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -keyring /Users/spud/.eclipse_keyring
+
+!ENTRY org.eclipse.core.resources 2 10035 2022-09-16 18:28:49.428
+!MESSAGE The workspace exited with unsaved changes in the previous session; refreshing workspace to recover changes.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2022-09-16 18:28:52.137
+!MESSAGE Log4j initialized with config file /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/.metadata/.log4j.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2022-09-16 18:29:05.167
+!MESSAGE Started RMI Server, listening on port 41337
