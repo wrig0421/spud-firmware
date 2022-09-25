@@ -37,11 +37,11 @@ src/task_create.o: ../src/task_create.c ../src/main.h \
  ../sdk/FreeRTOS/Source/include/task.h \
  ../sdk/FreeRTOS/Source/include/list.h \
  ../sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h ../src/task_create.h \
- /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/color_led/color_led.h \
- /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/task/task_led_ctrl.h \
- /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.h \
+ C:/work/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/color_led/color_led.h \
+ C:/work/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/task/task_led_ctrl.h \
+ C:/work/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.h \
  ../src/bsp/board_init_common.h \
- /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.h \
+ C:/work/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.h \
  ../src/task_dma_transfer.h ../src/task_button_press.h
 ../src/main.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
@@ -86,10 +86,10 @@ src/task_create.o: ../src/task_create.c ../src/main.h \
 ../sdk/FreeRTOS/Source/include/list.h:
 ../sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h:
 ../src/task_create.h:
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/color_led/color_led.h:
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/task/task_led_ctrl.h:
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.h:
+C:/work/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/color_led/color_led.h:
+C:/work/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/task/task_led_ctrl.h:
+C:/work/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.h:
 ../src/bsp/board_init_common.h:
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.h:
+C:/work/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.h:
 ../src/task_dma_transfer.h:
 ../src/task_button_press.h:
