@@ -2,7 +2,7 @@
 #define WS2812B_H
 
 
-#define STRIP_1_LENGTH    210
+#define STRIP_1_LENGTH    250
 //#define STRIP_2_LENGTH    7
 //#define STRIP_3_LENGTH    7
 //#define STRIP_4_LENGTH    7

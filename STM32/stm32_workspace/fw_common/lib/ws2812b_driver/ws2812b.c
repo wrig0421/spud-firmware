@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include "current_monitor.h"
 #include "ws2812b.h"
 
 #define WS2812B_TIM_FREQ_MHZ				48
@@ -25,6 +26,8 @@
 #define WS2812B_BIT_SET_CYCLES 				((((WS2812B_T1H_TIME_NANOSECONDS + WS2812B_T0L_TIME_NANOSECONDS) / 2.0f) / WS2812B_TIM_TIME_CYCLES) / 1000.0f)
 #define WS2812B_BIT_RESET_CYCLES			(WS2812B_PULSE_TIME_CYCLES - WS2812B_BIT_SET_CYCLES)
 #define BITS_PER_BYTE	8
+
+extern float g_max_current_ratio;
 
 uint16_t strip_length[NUM_STRIPS] = 
 {
@@ -269,9 +272,9 @@ bool ws2812_pixel_is_in_strip_range(strip_bit_e strip_bit, uint16_t pixel)
 void ws2812b_set_led(const strip_bit_e strip_bit, uint16_t led_num, color_t red, color_t green, color_t blue)
 {
 	strip_num_e strip_num = ws2812_convert_strip_bit_to_strip_num(strip_bit);
-	(gp_ws28128b_strip[strip_num] + led_num)->red = red;
-	(gp_ws28128b_strip[strip_num] + led_num)->green = green;
-	(gp_ws28128b_strip[strip_num] + led_num)->blue = blue;
+	(gp_ws28128b_strip[strip_num] + led_num)->red = red * g_max_current_ratio;
+	(gp_ws28128b_strip[strip_num] + led_num)->green = green * g_max_current_ratio;
+	(gp_ws28128b_strip[strip_num] + led_num)->blue = blue * g_max_current_ratio;
 }
 
 
@@ -296,16 +299,16 @@ void ws2812b_fill_pwm_buffer(const strip_bit_e strip_bit)
 		gp_pwm_data_fill[(strip_size * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + iii] = 0;
 	}
 
-//	HAL_TIM_PWM_Start_DMA(&htim1, TIM_CHANNEL_2, (uint32_t *)gp_pwm_data_fill, (strip_size * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + WS2812B_RESET_TIME_CYCLES);
+	HAL_TIM_PWM_Start_DMA(&htim1, TIM_CHANNEL_2, (uint32_t *)gp_pwm_data_fill, (strip_size * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + WS2812B_RESET_TIME_CYCLES);
+	datasentflag = 0;
+	while (!datasentflag);//{HAL_Delay(1);};
+    datasentflag = 0;
+
+//	HAL_TIM_PWM_Start_DMA(&htim15, TIM_CHANNEL_1, (uint32_t *)gp_pwm_data_fill, (strip_size * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + WS2812B_RESET_TIME_CYCLES);
 //	datasentflag = 0;
-//	while (!datasentflag);//{HAL_Delay(1);};
-//    datasentflag = 0;
-
-	HAL_TIM_PWM_Start_DMA(&htim15, TIM_CHANNEL_1, (uint32_t *)gp_pwm_data_fill, (strip_size * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + WS2812B_RESET_TIME_CYCLES);
-	datasentflag = 0;
-	while (!datasentflag) osDelay(10);
-	datasentflag = 0;
-
+//	while (!datasentflag) osDelay(10);
+//	datasentflag = 0;
+//
 //	HAL_TIM_PWM_Start_DMA(&htim1, TIM_CHANNEL_1, (uint32_t *)gp_pwm_data_fill, (strip_size * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + WS2812B_RESET_TIME_CYCLES);
 //	datasentflag = 0;
 //	while (!datasentflag);//{HAL_Delay(1);};
@@ -400,6 +403,8 @@ void ws2812b_init(void)
 	gp_pwm_data_fill = malloc((sizeof(ws2812b_led_t) * BITS_PER_BYTE * g_max_strip_length) + WS2812B_RESET_TIME_CYCLES);
 //	gp_pwm_data_ping = malloc((sizeof(ws2812b_led_t) * BITS_PER_BYTE * g_max_strip_length) + WS2812B_RESET_TIME_CYCLES);
 //	gp_pwm_data_pong = malloc((sizeof(ws2812b_led_t) * BITS_PER_BYTE * g_max_strip_length) + WS2812B_RESET_TIME_CYCLES);
+
+	current_monitor_init();
 }
 
 void ws2812b_show(const strip_mask_t strip_mask)

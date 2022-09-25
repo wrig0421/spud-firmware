@@ -6,12 +6,14 @@
 //#include "main.h"
 #include "cmsis_os.h"
 #include "numbers.h"
+#include "board_init_common.h"
 //#include "color_led.h"
 //#include "ws2812b.h"
 //#include "board_specific.h"
 //#include "board_init_common.h"
 //#include "led_ctrl.h"
 #include "color_led.h"
+#include "task_button_press.h"
 #include "task_led_ctrl.h"
 
 
@@ -47,15 +49,21 @@ typedef enum
 } task_led_ctrl_delay_ms_e;
 
 master_led_state_e g_master_led_state = MASTER_LED_STATE_DEMO;
-led_state_e g_led_state = LED_STATE_FIRST;
+led_state_e g_led_state = LED_STATE_WHITE_COLOR;
 led_speed_e g_led_speed = LED_SPEED_5X;
 
 master_color_state_e g_master_color_state = MASTER_COLOR_STATE_DEMO;
 all_colors_e g_led_color = COLORS_RED;
-extern color_hex_code_e *g_color_hex_codes;
+//extern color_hex_code_e *g_color_hex_codes;
+extern bool g_animate_led_pause_flag;
+extern bool g_animate_led_interrupt;
+extern color_hex_code_e g_color_hex_codes[NUM_COLORS];
+
 
 uint8_t g_animation_iterations = 0;
 uint16_t g_delay_in_animation_ms = 100; // where applicable of course
+
+
 
 
 void task_led_ctrl_delay(uint32_t time)
@@ -68,6 +76,15 @@ void task_led_ctrl_delay(uint32_t time)
     }
 }
 
+
+
+void task_led_ctrl_pause(void)
+{
+    static uint8_t flip_or_flop = 1;
+    if (flip_or_flop) g_animate_led_pause_flag = true;
+    else g_animate_led_pause_flag = false;
+    flip_or_flop ^= 1;
+}
 
 // COLOR CONTROL
 

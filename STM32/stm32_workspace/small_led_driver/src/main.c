@@ -20,7 +20,7 @@
 int main(void)
 {
     board_init();
-    reset_ws2812b();
+    //reset_ws2812b();
 	task_create();
 	osKernelStart();
 }

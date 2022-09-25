@@ -5,9 +5,15 @@
  *      Author: spud
  */
 
-#ifndef FW_COMMON_LIB_CURRENT_MONITOR_CURRENT_MONITOR_H_
-#define FW_COMMON_LIB_CURRENT_MONITOR_CURRENT_MONITOR_H_
+#ifndef CURRENT_MONITOR_H
+#define CURRENT_MONITOR_H
 
 
+#define CURRENT_MONITOR_MAX_CURRENT_DRAW_A      3
+#define CURRENT_MONITOR_MAX_CURRENT_PER_LED_MA  40
+typedef float current_t;
 
-#endif /* FW_COMMON_LIB_CURRENT_MONITOR_CURRENT_MONITOR_H_ */
+
+void current_monitor_init(void);
+
+#endif /* CURRENT_MONITOR_H */

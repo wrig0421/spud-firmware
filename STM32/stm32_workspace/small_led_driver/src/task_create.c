@@ -69,5 +69,5 @@ void task_create(void)
     osKernelInitialize();
 	//g_dma_transfer_handle = osThreadNew(task_dma_transfer, NULL, &g_task_dma_transfer_attributes);
     g_led_ctrl_handle = osThreadNew(task_led_ctrl, NULL, &g_task_led_ctrl_attributes);
-	g_button_press_handle = osThreadNew(task_button_press, NULL, &g_task_button_press_attributes);
+	//g_button_press_handle = osThreadNew(task_button_press, NULL, &g_task_button_press_attributes);
 }

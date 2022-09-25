@@ -48,6 +48,7 @@
 									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/fw_common/lib/color_led&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/fw_common/lib/animate_led&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/fw_common/lib/task&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/fw_common/lib/current_monitor&quot;"/>
 									<listOptionValue builtIn="false" value="../src/stm32_bloat"/>
 									<listOptionValue builtIn="false" value="../sdk/CMSIS/Device/ST/STM32L4xx/Include"/>
 									<listOptionValue builtIn="false" value="../sdk/CMSIS/Include"/>

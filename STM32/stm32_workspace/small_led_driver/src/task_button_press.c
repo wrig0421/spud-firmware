@@ -12,16 +12,13 @@ bool g_animate_led_interrupt = false;
 bool g_interrupt_flag[NUM_ISR] = {false};
 
 
-void task_button_press_pause(void)
+bool task_button_press_interrupt_occurred(void)
 {
-    static uint8_t flip_or_flop = 1;
-    if (flip_or_flop) g_animate_led_pause_flag = true;
-    else g_animate_led_pause_flag = false;
-    flip_or_flop ^= 1;
+    return g_animate_led_interrupt;
 }
 
 
-isr_e task_button_press_button_to_isr(board_init_push_buttons_e button)
+isr_e task_led_ctrl_button_to_isr(board_init_push_buttons_e button)
 {
     isr_e return_val;
     switch (button)
@@ -64,20 +61,20 @@ bool task_button_press_check_interrupts(uint8_t *red, uint8_t *green, uint8_t *b
 {
     bool return_val = false;
     task_button_press_interrupt_flag_clear();
-    if (task_led_ctrl_interrupt_flag(ISR_STATE))
+    if (task_button_press_ctrl_interrupt_flag(ISR_STATE))
     {
         return_val = true;
         animate_led_solid_custom_color((uint16_t)STRIP_BIT_ALL_SET, COLOR_HEX_BLACK);
         //osDelay(500); // some dormant time?
     }
-    else if (task_button_press_interrupt_flag(ISR_PAUSE))
+    else if (task_button_press_ctrl_interrupt_flag(ISR_PAUSE))
     {
         while (g_animate_led_pause_flag)
         {
             osDelay(10);
         }
     }
-    else if (task_button_press_interrupt_flag(ISR_COLOR))
+    else if (task_button_press_ctrl_interrupt_flag(ISR_COLOR))
     {
         // interrupt modifies the current color... apply it to the animation!
         *red = task_led_ctrl_cur_color_red_hex();
@@ -94,10 +91,6 @@ void task_button_press_interrupt_flag_clear(void)
 }
 
 
-bool task_button_press_interrupt_occurred(void)
-{
-    return g_animate_led_interrupt;
-}
 
 
 void task_button_press(void *argument)
@@ -167,7 +160,7 @@ void task_button_press(void *argument)
                 else
                 {
                     // set ISR flag
-                    task_led_ctrl_set_interrupt_flag(task_led_ctrl_button_to_isr(button));
+                    task_button_press_ctrl_set_interrupt_flag(task_led_ctrl_button_to_isr(button));
                     switch (button)
                     {
                         case PUSH_BUTTON_A:

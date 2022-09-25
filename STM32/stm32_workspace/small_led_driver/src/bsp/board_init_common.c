@@ -127,7 +127,7 @@ static void board_init_timer_init(timer_e timer)
             HAL_TIM_PWM_Stop_DMA(&htim1, TIM_CHANNEL_2);
             HAL_TIM_PWM_Stop_DMA(&htim1, TIM_CHANNEL_3);
 
-            GPIO_InitStruct.Pin = PIN_TIM1_CH1|GPIO_PIN_9|GPIO_PIN_10;
+            GPIO_InitStruct.Pin = PIN_TIM1_CH1|PIN_TIM1_CH2|PIN_TIM1_CH3;
             GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
             GPIO_InitStruct.Pull = GPIO_NOPULL;
             GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -177,7 +177,7 @@ static void board_init_timer_init(timer_e timer)
             }
             HAL_TIM_PWM_Stop_DMA(&htim15, TIM_CHANNEL_1);
             __HAL_RCC_GPIOB_CLK_ENABLE();
-            GPIO_InitStruct.Pin = GPIO_PIN_14;
+            GPIO_InitStruct.Pin = PIN_TIM15_CH1;
             GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
             GPIO_InitStruct.Pull = GPIO_NOPULL;
             GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -262,10 +262,10 @@ void board_init(void)
     HAL_NVIC_EnableIRQ(DMA1_Channel7_IRQn);
     board_init_rtc_init();
     ws2812b_init();
-    HAL_GPIO_WritePin(GPIOA, PIN_LVL_DIR, GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(GPIOA, PIN_LVL_DIR, GPIO_PIN_SET);
+    HAL_GPIO_WritePin(PIN_PORT_C, PIN_LVL_DIR, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(PIN_PORT_C, PIN_LVL_DIR, GPIO_PIN_SET);
     reset_ws2812b();
-    HAL_GPIO_WritePin(GPIOC, PIN_LED_OUT_1|PIN_LED_OUT_2, GPIO_PIN_SET);
+    HAL_GPIO_WritePin(GPIOC, PIN_LED_OUT_1|PIN_LED_OUT_2, GPIO_PIN_RESET);
     color_led_init();
     //animate_led_init(); // not yet defined..
 }

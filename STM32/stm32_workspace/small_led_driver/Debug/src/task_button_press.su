@@ -1,8 +1,7 @@
-../src/task_button_press.c:15:6:task_button_press_pause	4	static
-../src/task_button_press.c:24:7:task_button_press_button_to_isr	24	static
-../src/task_button_press.c:48:6:task_button_press_ctrl_set_interrupt_flag	16	static
-../src/task_button_press.c:55:6:task_button_press_ctrl_interrupt_flag	24	static
-../src/task_button_press.c:63:6:task_button_press_check_interrupts	32	static
-../src/task_button_press.c:91:6:task_button_press_interrupt_flag_clear	4	static
-../src/task_button_press.c:97:6:task_button_press_interrupt_occurred	4	static
-../src/task_button_press.c:103:6:task_button_press	24	static
+../src/task_button_press.c:15:6:task_button_press_interrupt_occurred	4	static
+../src/task_button_press.c:21:7:task_led_ctrl_button_to_isr	24	static
+../src/task_button_press.c:45:6:task_button_press_ctrl_set_interrupt_flag	16	static
+../src/task_button_press.c:52:6:task_button_press_ctrl_interrupt_flag	24	static
+../src/task_button_press.c:60:6:task_button_press_check_interrupts	32	static
+../src/task_button_press.c:88:6:task_button_press_interrupt_flag_clear	4	static
+../src/task_button_press.c:96:6:task_button_press	24	static
