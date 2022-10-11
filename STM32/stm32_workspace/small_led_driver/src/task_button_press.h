@@ -3,6 +3,8 @@
 #ifndef TASK_BUTTON_PRESS_H
 #define TASK_BUTTON_PRESS_H
 
+
+#include "board_init_common.h"
 // typedefs, structs, enums
 typedef enum
 {
@@ -15,8 +17,9 @@ typedef enum
 
 void task_button_press_pause(void);
 isr_e task_button_press_button_to_isr(board_init_push_buttons_e button);
-void task_button_press_ctrl_set_interrupt_flag(isr_e src);
-bool task_button_press_ctrl_interrupt_flag(isr_e src);
+void task_button_press_set_interrupt_flag(isr_e src);
+bool task_button_press_interrupt_flag(isr_e src);
+bool task_button_press_pause_flag_is_set(void);
 
 void task_button_press_set_interrupt_flag(isr_e src);
 bool task_button_press_check_interrupts(uint8_t *red, uint8_t *green, uint8_t *blue);

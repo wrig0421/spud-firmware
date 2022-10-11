@@ -12,6 +12,12 @@ bool g_animate_led_interrupt = false;
 bool g_interrupt_flag[NUM_ISR] = {false};
 
 
+bool task_button_press_pause_flag_is_set(void)
+{
+    return g_animate_led_pause_flag;
+}
+
+
 void task_button_press_pause(void)
 {
     static uint8_t flip_or_flop = 1;
@@ -45,14 +51,14 @@ isr_e task_button_press_button_to_isr(board_init_push_buttons_e button)
 }
 
 
-void task_button_press_ctrl_set_interrupt_flag(isr_e src)
+void task_button_press_set_interrupt_flag(isr_e src)
 {
     g_animate_led_interrupt = true; // global indicator that interrupt occurred
     g_interrupt_flag[src] = true;
 }
 
 
-bool task_button_press_ctrl_interrupt_flag(isr_e src)
+bool task_button_press_interrupt_flag(isr_e src)
 {
     bool return_val = g_interrupt_flag[src];
     if (return_val) g_interrupt_flag[src] = false; // auto clear
@@ -64,7 +70,7 @@ bool task_button_press_check_interrupts(uint8_t *red, uint8_t *green, uint8_t *b
 {
     bool return_val = false;
     task_button_press_interrupt_flag_clear();
-    if (task_led_ctrl_interrupt_flag(ISR_STATE))
+    if (task_button_press_interrupt_flag(ISR_STATE))
     {
         return_val = true;
         animate_led_solid_custom_color((uint16_t)STRIP_BIT_ALL_SET, COLOR_HEX_BLACK);
@@ -72,10 +78,7 @@ bool task_button_press_check_interrupts(uint8_t *red, uint8_t *green, uint8_t *b
     }
     else if (task_button_press_interrupt_flag(ISR_PAUSE))
     {
-        while (g_animate_led_pause_flag)
-        {
-            osDelay(10);
-        }
+        task_led_ctrl_pause();
     }
     else if (task_button_press_interrupt_flag(ISR_COLOR))
     {
@@ -167,7 +170,7 @@ void task_button_press(void *argument)
                 else
                 {
                     // set ISR flag
-                    task_led_ctrl_set_interrupt_flag(task_led_ctrl_button_to_isr(button));
+                    task_button_press_set_interrupt_flag(task_button_press_button_to_isr(button));
                     switch (button)
                     {
                         case PUSH_BUTTON_A:
