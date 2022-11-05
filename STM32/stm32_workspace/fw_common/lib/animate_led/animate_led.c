@@ -4,18 +4,33 @@
 #include "numbers.h"
 #include "task_led_ctrl.h"
 #include "animate_led.h"
+#include "task_button_press.h"
+
 
 extern uint32_t g_max_strip_length;
 extern uint16_t g_all_strip_mask;
 
 
+/**
+ * @brief   Write data stored in `gp_ws28128b_strip` array to the strip
+ * @param   strip_mask - the strip to write to
+ * @return  void
+ */
 void animate_led_show_strip(const strip_mask_t strip_mask)
 {
     ws2812b_show(strip_mask);
 }
 
 
-void animate_led_multiple_solid_custom_colors(strip_mask_t strip_mask, uint32_t* color_array)
+/**
+ * @brief   Write solid color data to the strip(s)
+ * @param   strip_mask - the strip to write to
+ * @param   color_array - the color to write to the strip
+ * @return  void
+ * @note    The least significant bit set in strip_mask will be set to the color defined
+ *          at the first entry in `color_array`.
+ */
+void animate_led_multiple_solid_custom_colors(strip_mask_t mask_solid, uint32_t* color_array)
 {
     // not checking for interrupts in this function the solid color is too fast.  No way a user
     // would be able to tell if caught or not.
@@ -23,10 +38,10 @@ void animate_led_multiple_solid_custom_colors(strip_mask_t strip_mask, uint32_t*
 	strip_bit_e pre_strip = STRIP_BIT_1;
 	uint8_t num_active_strips = 0;
 	strip_bit_e active_strip_array[NUM_STRIPS] = {STRIP_BIT_NONE_SET};
-
+    uint8_t color_solid_rgb[sizeof(ws2812b_led_t)] = {0};
 	for (uint8_t iii = 0; iii < NUM_STRIPS; iii++)
 	{
-		active_strip = ws2812_get_next_active_strip(strip_mask, pre_strip);
+		active_strip = ws2812_get_next_active_strip(mask_solid, pre_strip);
 		if ((active_strip != STRIP_BIT_NO_MORE_SET) && (active_strip != (1 << (NUM_STRIPS - 1))))
 		{
 			pre_strip = active_strip + 1;
@@ -37,76 +52,111 @@ void animate_led_multiple_solid_custom_colors(strip_mask_t strip_mask, uint32_t*
 	}
 	for (int yyy = 0; yyy < num_active_strips; yyy++)
 	{
-		animate_led_set_all_pixels(active_strip_array[yyy], ((color_array[yyy] & 0xFF0000) >> 16) / COLOR_LED_MAX_BRIGHTNESS_DIVISOR, ((color_array[yyy] & 0x00FF00) >> 8) / COLOR_LED_MAX_BRIGHTNESS_DIVISOR, (color_array[yyy] & 0x0000FF) / COLOR_LED_MAX_BRIGHTNESS_DIVISOR);
+        color_led_hex_to_rgb(color_array[yyy], color_solid_rgb);
+		animate_led_set_all_pixels(active_strip_array[yyy],
+		                           (color_solid_rgb[offsetof(ws2812b_led_t, red)]),
+		                           (color_solid_rgb[offsetof(ws2812b_led_t, green)]),
+		                           (color_solid_rgb[offsetof(ws2812b_led_t, blue)]));
 	}
 }
 
 
-void animate_led_solid_custom_color(const strip_mask_t strip_mask, color_hex_code_e color)
+void animate_led_solid_custom_color(const strip_mask_t mask_solid, color_hex_code_e color_spell)
 {
-	uint8_t red, green, blue; 
-	red = ((color & 0xFF0000) >> 16);
-	green = ((color & 0x00FF00) >> 8);
-	blue = (color & 0x0000FF);
-	animate_led_set_all_pixels(strip_mask, red, green, blue);
-	animate_led_show_strip(strip_mask);
+    uint8_t color_solid_rgb[sizeof(ws2812b_led_t)] = {0};
+    color_led_hex_to_rgb(color_spell, color_solid_rgb);
+    animate_led_set_all_pixels(mask_solid, color_solid_rgb[offsetof(ws2812b_led_t, red)],
+                               color_solid_rgb[offsetof(ws2812b_led_t, green)],
+                               color_solid_rgb[offsetof(ws2812b_led_t, blue)]);
+    animate_led_show_strip(mask_solid);
 }
 
 
+/**
+ * @brief   Set all pixels to black and show the strips
+ * @param   void
+ * @return  void
+ * @note    This function will set `gp_ws28128b_strip` array and write it to the strip(s).
+ */
 void animate_led_turn_all_pixels_off(void)
 {
 	animate_led_set_all_pixels((strip_mask_t)STRIP_BIT_ALL_SET, 0, 0, 0);
 }
 
 
-void animate_led_spell_and_sparkle(const strip_mask_t spell_mask, const strip_mask_t sparkle_mask, color_hex_code_e color, bool fill, uint16_t speed_delay)
+/**
+ * @brief   Execute spell animation on `mask_spell` strip(s).  Execute sparkle animationn on `mask_sparkle` strip(s).
+ * @param   mask_spell strip(s) to show spell animation
+ * @param   mask_sparkle strip(s) to show sparkle animation
+ * @param   color color to display on spell animation strip(s)
+ * @param   fill if true every pixel remains lit after set in mask_sparkle strip(s) else pixel off after turned on
+ * @param   speed_delay speed to delay between each pixel turn on
+ * @return  void
+ */
+void animate_led_spell_and_sparkle(const strip_mask_t mask_spell, const strip_mask_t mask_sparkle,
+                                   color_hex_code_e color_spell, bool fill, uint16_t speed_delay)
 {
-	uint16_t strip_size = ws2812_led_get_max_strip_size(spell_mask); // this makes more sense... SRW
-	uint8_t red, green, blue; 
-	red = ((color & 0xFF0000) >> 16);
-	green = ((color & 0x00FF00) >> 8);
-	blue = (color & 0x0000FF);
-	if (!fill) animate_led_set_all_pixels(sparkle_mask, 0, 0, 0);
-	for (int i = 0; i < strip_size; i++)
+	uint16_t strip_size = ws2812_led_get_max_strip_size(mask_spell); // this makes more sense... SRW
+    uint8_t color_spell_rgb[sizeof(ws2812b_led_t)] = {0};
+    color_led_hex_to_rgb(color_spell, color_spell_rgb);
+	if (!fill) animate_led_set_all_pixels(mask_sparkle, 0, 0, 0);
+	for (int iii = 0; iii < strip_size; iii++)
 	{
 	    if (task_button_press_interrupt_occurred()) if (task_button_press_check_interrupts(&red, &green, &blue)) return;
-        animate_led_sparkle_random_color(sparkle_mask, fill, 0);
-        animate_led_set_pixel(spell_mask, i, red, green, blue);
-		animate_led_show_strip(sparkle_mask|spell_mask);
-		task_led_ctrl_delay((float_t)speed_delay / task_led_ctrl_speed_factor());
+        animate_led_sparkle_random_color(mask_sparkle, fill, 0);
+        animate_led_set_pixel(mask_spell, iii,
+                              color_spell_rgb[offsetof(ws2812b_led_t, red)],
+                              color_spell_rgb[offsetof(ws2812b_led_t, green)],
+                              color_spell_rgb[offsetof(ws2812b_led_t, blue)]);
+		animate_led_show_strip(mask_sparkle | mask_spell);
+		task_led_ctrl_delay((float_t)speed_delay / task_led_ctrl_speed());
 	}	
 }
 
 
-void animate_led_spell_and_solid_color(const strip_mask_t spell_mask, const strip_mask_t solid_color_mask, color_hex_code_e color, uint16_t speed_delay)
+/**
+ * @brief   Execute spell animation on `mask_spell` strip(s).  Execute solid animationn on `mask_solid_color` strip(s).
+ * @param   mask_spell strip(s) to show spell animation
+ * @param   mask_sparkle strip(s) to show solid color animation
+ * @param   color color to display on spell animation strip(s)
+ * @param   fill if true every pixel remains lit after set in mask_sparkle strip(s) else pixel off after turned on
+ * @param   speed_delay speed to delay between each pixel turn on
+ * @return  void
+ */
+void animate_led_spell_and_solid_color(const strip_mask_t mask_spell, const strip_mask_t mask_solid,
+                                       color_hex_code_e color_spell, color_hex_code_e color_solid,
+                                       uint16_t speed_delay)
 {
-	uint16_t strip_size = ws2812_led_get_max_strip_size(spell_mask); // this makes more sense... SRW
-	uint8_t red, green, blue; 
-	red = ((color & 0xFF0000) >> 16);
-	green = ((color & 0x00FF00) >> 8);
-	blue = (color & 0x0000FF);
-	animate_led_solid_custom_color(solid_color_mask, task_led_ctrl_get_random_color());
-	for (int i = 0; i < strip_size; i++)
+	uint16_t strip_size = ws2812_led_get_max_strip_size(mask_spell); // this makes more sense... SRW
+	uint8_t color_spell_rgb[sizeof(ws2812b_led_t)] = {0};
+    color_led_hex_to_rgb(color_spell, color_spell_rgb);
+	//task_led_ctrl_color_random();
+	animate_led_solid_custom_color(mask_solid, color_solid);
+	for (int iii = 0; iii < strip_size; iii++)
 	{
 	    if (task_button_press_interrupt_occurred()) if (task_button_press_check_interrupts(&red, &green, &blue)) return;
-        animate_led_set_pixel(spell_mask, i, red, green, blue);
-		animate_led_show_strip(spell_mask | solid_color_mask);
-		task_led_ctrl_delay((float_t)speed_delay / task_led_ctrl_speed_factor());
+        animate_led_set_pixel(mask_spell, iii,
+                              color_spell_rgb[offsetof(ws2812b_led_t, red)],
+                              color_spell_rgb[offsetof(ws2812b_led_t, green)],
+                              color_spell_rgb[offsetof(ws2812b_led_t, blue)]);
+		animate_led_show_strip(mask_spell | mask_solid);
+		task_led_ctrl_delay((float_t)speed_delay / task_led_ctrl_speed());
 	}	
 }
 
 
-void animate_led_spell_word_multiple_colors(strip_mask_t strip_mask, uint32_t* color_array, uint16_t speed_delay)
+void animate_led_spell_word_multiple_colors(strip_mask_t mask_spell, color_hex_code_e* color_array,
+                                            uint16_t speed_delay)
 {
 	strip_bit_e active_strip = STRIP_BIT_1; 
 	strip_bit_e pre_strip = STRIP_BIT_1;
-	uint16_t strip_size = ws2812_led_get_max_strip_size(strip_mask);
+	uint16_t strip_size = ws2812_led_get_max_strip_size(mask_spell);
 	uint8_t num_active_strips = 0;
 	strip_bit_e active_strip_array[NUM_STRIPS] = {STRIP_BIT_NONE_SET};
-
+    uint8_t color_spell_rgb[sizeof(ws2812b_led_t)] = {0};
 	for (uint8_t iii = 0; iii < NUM_STRIPS; iii++)
 	{
-		active_strip = ws2812_get_next_active_strip(strip_mask, pre_strip);
+		active_strip = ws2812_get_next_active_strip(mask_spell, pre_strip);
 		if ((active_strip != STRIP_BIT_NO_MORE_SET) && (active_strip != (1 << (NUM_STRIPS - 1))))
 		{
 			pre_strip = active_strip + 1;
@@ -115,32 +165,36 @@ void animate_led_spell_word_multiple_colors(strip_mask_t strip_mask, uint32_t* c
 		num_active_strips++;
 		active_strip_array[iii] = active_strip;
 	}
-	for (int i = 0; i < strip_size; i++)
+	for (int iii = 0; iii < strip_size; iii++)
 	{
 		for (int yyy = 0; yyy < num_active_strips; yyy++)
 		{
-		    //if (g_animate_led_interrupt) if (task_button_press_check_interrupts(&red, &green, &blue)) return;
-			animate_led_set_pixel(active_strip_array[yyy], i, ((color_array[yyy] & 0xFF0000) >> 16), ((color_array[yyy] & 0x00FF00) >> 8), (color_array[yyy] & 0x0000FF));
+		    color_led_hex_to_rgb(color_array[yyy], color_spell_rgb);
+	        animate_led_set_pixel(active_strip_array[yyy], iii,
+	                              color_spell_rgb[offsetof(ws2812b_led_t, red)],
+	                              color_spell_rgb[offsetof(ws2812b_led_t, green)],
+	                              color_spell_rgb[offsetof(ws2812b_led_t, blue)]);
 		}
-		animate_led_show_strip(strip_mask);
-		task_led_ctrl_delay((float_t)speed_delay / task_led_ctrl_speed_factor());
+		animate_led_show_strip(mask_spell);
+		task_led_ctrl_delay((float_t)speed_delay / task_led_ctrl_speed());
 	}
 }
 
 
-void animate_led_only_spell_word(strip_mask_t strip_mask, color_hex_code_e color, uint16_t speed_delay)
+void animate_led_only_spell_word(strip_mask_t mask_spell, color_hex_code_e color_spell, uint16_t time_ms)
 {
-	uint16_t strip_size = ws2812_led_get_max_strip_size(strip_mask);
-	uint8_t red, green, blue; 
-	red = ((color & 0xFF0000) >> 16);
-	green = ((color & 0x00FF00) >> 8);
-	blue = (color & 0x0000FF);
+	uint16_t strip_size = ws2812_led_get_max_strip_size(mask_spell);
+    uint8_t color_spell_rgb[sizeof(ws2812b_led_t)] = {0};
+    color_led_hex_to_rgb(color_spell, color_spell_rgb);
 	for (int i = 0; i < strip_size; i++)
 	{
 	    if (task_button_press_interrupt_occurred()) if (task_button_press_check_interrupts(&red, &green, &blue)) return;
-		animate_led_set_pixel(strip_mask, i, red, green, blue);
-		animate_led_show_strip(strip_mask);
-		task_led_ctrl_delay((float_t)speed_delay / task_led_ctrl_speed_factor());
+        animate_led_set_pixel(mask_spell, i,
+                              color_spell_rgb[offsetof(ws2812b_led_t, red)],
+                              color_spell_rgb[offsetof(ws2812b_led_t, green)],
+                              color_spell_rgb[offsetof(ws2812b_led_t, blue)]);
+        animate_led_show_strip(strip_mask);
+		task_led_ctrl_delay(time_ms / task_led_ctrl_speed());
 	}
 }
 
@@ -153,6 +207,7 @@ void animate_led_fade_in_fade_out_multiple_colors(strip_mask_t strip_mask, uint3
 	strip_bit_e pre_strip = STRIP_BIT_1;
 	uint8_t num_active_strips = 0;
 	strip_bit_e active_strip_array[NUM_STRIPS] = {STRIP_BIT_NONE_SET};
+    uint8_t color_rgb[sizeof(ws2812b_led_t)] = {0};
 	for (uint8_t iii = 0; iii < NUM_STRIPS; iii++)
 	{
 		active_strip = ws2812_get_next_active_strip(strip_mask, pre_strip);
@@ -168,7 +223,11 @@ void animate_led_fade_in_fade_out_multiple_colors(strip_mask_t strip_mask, uint3
     {
     	for (int yyy = 0; yyy < num_active_strips; yyy++)
 		{
-			animate_led_set_all_pixels(active_strip_array[yyy], (((color_array[yyy] & 0xFF0000) >> 16)) * (i / 256.0), (((color_array[yyy] & 0x00FF00) >> 8)) * (i / 256.0), ((color_array[yyy] & 0x0000FF)) * (i / 256.0));
+            color_led_hex_to_rgb(color_array[yyy], color_rgb);
+            animate_led_set_all_pixels(active_strip_array[yyy],
+                                       (color_rgb[offsetof(ws2812b_led_t, red)]) * (i / 256.0),
+                                       (color_rgb[offsetof(ws2812b_led_t, green)]) * (i / 256.0),
+                                       (color_rgb[offsetof(ws2812b_led_t, blue)]) * (i / 256.0));
 		}
         if (task_button_press_interrupt_occurred()) if (task_button_press_check_interrupts(&red, &green, &blue)) return;
     }
@@ -176,224 +235,74 @@ void animate_led_fade_in_fade_out_multiple_colors(strip_mask_t strip_mask, uint3
     {
     	for (int yyy = 0; yyy < num_active_strips; yyy++)
 		{
-			animate_led_set_all_pixels(active_strip_array[yyy], (((color_array[yyy] & 0xFF0000) >> 16)) * (i / 256.0), (((color_array[yyy] & 0x00FF00) >> 8)) * (i / 256.0), ((color_array[yyy] & 0x0000FF)) * (i / 256.0));
+            color_led_hex_to_rgb(color_array[yyy], color_rgb);
+            animate_led_set_all_pixels(active_strip_array[yyy],
+                                       (color_rgb[offsetof(ws2812b_led_t, red)]) * (i / 256.0),
+                                       (color_rgb[offsetof(ws2812b_led_t, green)]) * (i / 256.0),
+                                       (color_rgb[offsetof(ws2812b_led_t, blue)]) * (i / 256.0));
 		}
         if (task_button_press_interrupt_occurred()) if (task_button_press_check_interrupts(&red, &green, &blue)) return;
     }
 }
 
 
-void animate_led_fade_in_fade_out(strip_mask_t strip_mask, color_hex_code_e color)
+void animate_led_fade_in_fade_out(strip_mask_t mask_fade, color_hex_code_e color_fade)
 {
     float r, g, b;
-    uint8_t red, green, blue; 
-	red = ((color & 0xFF0000) >> 16);
-	green = ((color & 0x00FF00) >> 8);
-	blue = (color & 0x0000FF);
-    for (int i = 0; i < 256; i++)
+    uint8_t color_fade_rgb[sizeof(ws2812b_led_t)] = {0};
+    color_led_hex_to_rgb(color_fade, color_fade_rgb);
+    for (int iii = 0; iii < 256; iii++)
     {
         if (task_button_press_interrupt_occurred()) if (task_button_press_check_interrupts(&red, &green, &blue)) return;
-        r = (i / 256.0) * red;
-        g = (i / 256.0) * green;
-        b = (i / 256.0) * blue;
-        animate_led_set_all_pixels(strip_mask, r, g, b);
+        r = (iii / 256.0) * color_fade_rgb[offsetof(ws2812b_led_t, red)];
+        g = (iii / 256.0) * color_fade_rgb[offsetof(ws2812b_led_t, green)];
+        b = (iii / 256.0) * color_fade_rgb[offsetof(ws2812b_led_t, blue)];
+        animate_led_set_all_pixels(mask_fade, r, g, b);
     }
-    for (int i = 255; i >= 0; i = i-2)
+    for (int iii = 255; iii >= 0; iii = iii-2)
     {
         if (task_button_press_interrupt_occurred()) if (task_button_press_check_interrupts(&red, &green, &blue)) return;
-        r = (i / 256.0) * red;
-        g = (i / 256.0) * green;
-        b = (i / 256.0) * blue;
-        animate_led_set_all_pixels(strip_mask, r, g, b);
+        r = (iii / 256.0) * color_fade_rgb[offsetof(ws2812b_led_t, red)];
+        g = (iii / 256.0) * color_fade_rgb[offsetof(ws2812b_led_t, green)];
+        b = (iii / 256.0) * color_fade_rgb[offsetof(ws2812b_led_t, blue)];
+        animate_led_set_all_pixels(mask_fade, r, g, b);
     }
 }
 
 
-void animate_led_strobe(strip_mask_t strip_mask, color_hex_code_e color, uint16_t animate_led_strobe_count, uint16_t flash_delay, uint16_t end_pause)
+void animate_led_strobe(strip_mask_t mask_strobe, color_hex_code_e color_strobe, uint16_t animate_led_strobe_count,
+                        uint16_t flash_delay, uint16_t end_pause)
 {
-    // speed is not handled here currently
-	uint8_t red, green, blue; 
-	red = ((color & 0xFF0000) >> 16);
-	green = ((color & 0x00FF00) >> 8);
-	blue = (color & 0x0000FF);
-    for (int i = 0; i < animate_led_strobe_count; i++)
+    uint8_t color_strobe_rgb[sizeof(ws2812b_led_t)] = {0};
+    color_led_hex_to_rgb(color_strobe, color_strobe_rgb);
+    for (int iii = 0; iii < animate_led_strobe_count; iii++)
     {
         if (task_button_press_interrupt_occurred()) if (task_button_press_check_interrupts(&red, &green, &blue)) return;
-        animate_led_set_all_pixels(strip_mask, red, green, blue);
-        animate_led_show_strip(strip_mask);
+        animate_led_set_all_pixels(mask_strobe,
+                                   (color_rgb[offsetof(ws2812b_led_t, red)]),
+                                   (color_rgb[offsetof(ws2812b_led_t, green)]),
+                                   (color_rgb[offsetof(ws2812b_led_t, blue)]));
+        animate_led_show_strip(mask_strobe);
         task_led_ctrl_delay(flash_delay);
-        animate_led_set_all_pixels(strip_mask, 0, 0, 0);
-        animate_led_show_strip(strip_mask);
+        animate_led_set_all_pixels(mask_strobe, 0, 0, 0);
+        animate_led_show_strip(mask_strobe);
         task_led_ctrl_delay(flash_delay);
     }
     task_led_ctrl_delay(end_pause);
 }
 
 
-void animate_led_cyclone_bounce(strip_mask_t strip_mask, color_hex_code_e color, uint16_t eye_size, uint16_t speed_delay, uint16_t return_delay)
+void animate_led_twinkle_multiple_colors(strip_mask_t mask_twinkle, uint32_t* color_array, uint16_t count,
+                                         uint16_t speed_delay, bool only_one)
 {
-	uint8_t red, green, blue; 
-	uint16_t strip_size = ws2812_led_get_max_strip_size(strip_mask);
-	red = ((color & 0xFF0000) >> 16);
-	green = ((color & 0x00FF00) >> 8);
-	blue = (color & 0x0000FF);
-    for (int i = 0; i < strip_size - eye_size - 2; i++) // "-2" is CYA
-    {
-        if (task_button_press_interrupt_occurred()) if (task_button_press_check_interrupts(&red, &green, &blue)) return;
-        animate_led_set_all_pixels(strip_mask, 0, 0, 0);
-        animate_led_set_pixel(strip_mask, i, red/10, green/10, blue/10);
-        for (int j = 1; j <= eye_size; j++)
-        {
-            animate_led_set_pixel(strip_mask,(i + j), red, green, blue);
-        }
-        animate_led_set_pixel(strip_mask, i + eye_size + 1, red/10, green/10, blue/10);
-        animate_led_show_strip(strip_mask);
-        task_led_ctrl_delay(speed_delay);
-    }
-    task_led_ctrl_delay(return_delay);
-    for (int i = strip_size - eye_size - 2; i > 0; i--)
-    {
-        if (task_button_press_interrupt_occurred()) if (task_button_press_check_interrupts(&red, &green, &blue)) return;
-        animate_led_set_all_pixels(strip_mask, 0, 0, 0); 
-        animate_led_set_pixel(strip_mask, i , red/10, green/10, blue/10);
-        for (int j = 1; j <= eye_size; j++)
-        {
-            animate_led_set_pixel(strip_mask, i + j, red, green, blue);
-        }
-        animate_led_set_pixel(strip_mask, i + eye_size + 1, red/10, green/10, blue/10);
-        animate_led_show_strip(strip_mask);
-        task_led_ctrl_delay(speed_delay);
-    }
-    task_led_ctrl_delay(return_delay);
-	animate_led_set_all_pixels(strip_mask, 0, 0, 0);
-}
-
-
-void animate_led_center_to_outside(strip_mask_t strip_mask, color_hex_code_e color, uint16_t eye_size, uint16_t speed_delay, uint16_t return_delay)
-{
-    // interrupts not handled yet!
-	uint16_t strip_size = ws2812_led_get_max_strip_size(strip_mask);
-    uint8_t red, green, blue; 
-	red = ((color & 0xFF0000) >> 16);
-	green = ((color & 0x00FF00) >> 8);
-	blue = (color & 0x0000FF);
-    for (int i = ((strip_size - eye_size) / 2); i >= 0; i--)
-    {
-        animate_led_set_all_pixels(strip_mask, 0,0,0);
-        animate_led_set_pixel(strip_mask, i, red/10, green/10, blue/10);
-        for (int j = 1; j<= eye_size; j++)
-        {
-            animate_led_set_pixel(strip_mask, i + j, red, green, blue);
-        }
-        animate_led_set_pixel(strip_mask, i + eye_size + 1, red/10, green/10, blue/10);
-        animate_led_set_pixel(strip_mask, strip_size - i, red/10, green/10, blue/10);
-        for (int j = 1; j<= eye_size; j++)
-        {
-            animate_led_set_pixel(strip_mask, strip_size - i - j, red, green, blue);
-        }
-        animate_led_set_pixel(strip_mask, strip_size - i - eye_size - 1, red/10, green/10, blue/10);
-        animate_led_show_strip(strip_mask);
-        task_led_ctrl_delay((float_t)speed_delay / task_led_ctrl_speed_factor());
-    }
-    task_led_ctrl_delay(return_delay);
-}
-
-
-void animate_led_outside_to_center(strip_mask_t strip_mask, color_hex_code_e color, uint16_t eye_size, uint16_t speed_delay, uint16_t return_delay)
-{
-    // interrupts not handled yet!
-	uint16_t strip_size = ws2812_led_get_max_strip_size(strip_mask);
-    uint8_t red, green, blue; 
-	red = ((color & 0xFF0000) >> 16);
-	green = ((color & 0x00FF00) >> 8);
-	blue = (color & 0x0000FF);
-    for (int i = 0; i <= ((strip_size - eye_size) / 2 ); i++)
-    {
-        animate_led_set_all_pixels(strip_mask, 0, 0, 0);
-        animate_led_set_pixel(strip_mask, i, red/10, green/10, blue/10);
-        for (int j = 1; j <= eye_size; j++)
-        {
-            animate_led_set_pixel(strip_mask, i+j, red, green, blue);
-        }
-        animate_led_set_pixel(strip_mask, i + eye_size + 1, red/10, green/10, blue/10);
-        animate_led_set_pixel(strip_mask, strip_size - i, red/10, green/10, blue/10);
-        for (int j = 1; j <= eye_size; j++)
-        {
-            animate_led_set_pixel(strip_mask, strip_size - i - j, red, green, blue);
-        }
-        animate_led_set_pixel(strip_mask, strip_size - i - eye_size - 1, red/10, green/10, blue/10);
-        animate_led_show_strip(strip_mask);
-        task_led_ctrl_delay((float_t)speed_delay / task_led_ctrl_speed_factor());
-    }
-    task_led_ctrl_delay(return_delay);
-}
-
-
-void animate_led_left_to_right(strip_mask_t strip_mask, color_hex_code_e color, uint16_t eye_size, uint16_t speed_delay, uint16_t return_delay)
-{
-    // interrupts not handled yet!
-	uint16_t strip_size = ws2812_led_get_max_strip_size(strip_mask);
-    uint8_t red, green, blue; 
-	red = ((color & 0xFF0000) >> 16);
-	green = ((color & 0x00FF00) >> 8);
-	blue = (color & 0x0000FF);
-    for (int i = 0; i < strip_size - eye_size - 2; i++)
-    {
-        animate_led_set_all_pixels(strip_mask, 0, 0, 0);
-        animate_led_set_pixel(strip_mask, i, red/10, green/10, blue/10);
-        for (int j = 1; j <= eye_size; j++) animate_led_set_pixel(strip_mask, i + j, red, green, blue);
-        animate_led_set_pixel(strip_mask, i + eye_size + 1, red/10, green/10, blue/10);
-        animate_led_show_strip(strip_mask);
-        task_led_ctrl_delay((float_t)speed_delay / task_led_ctrl_speed_factor());
-    }
-    task_led_ctrl_delay(return_delay);
-}
-
-
-void animate_led_right_to_left(strip_mask_t strip_mask, color_hex_code_e color, uint16_t eye_size, uint16_t speed_delay, uint16_t return_delay)
-{
-    // interrupts not handled yet!
-	uint16_t strip_size = ws2812_led_get_max_strip_size(strip_mask);
-    uint8_t red, green, blue; 
-	red = ((color & 0xFF0000) >> 16);
-	green = ((color & 0x00FF00) >> 8);
-	blue = (color & 0x0000FF);
-    for (int i = strip_size - eye_size - 2; i > 0; i--)
-    {
-        animate_led_set_all_pixels(strip_mask, 0, 0, 0);
-        animate_led_set_pixel(strip_mask, i, red/10, green/10, blue/10);
-        for (int j = 1; j <= eye_size; j++) animate_led_set_pixel(strip_mask, i + j, red, green, blue);
-        animate_led_show_strip(strip_mask);
-        task_led_ctrl_delay((float_t)speed_delay / task_led_ctrl_speed_factor());
-    }
-    task_led_ctrl_delay(return_delay);
-}
-
-
-void animate_led_new_kitt(uint16_t eye_size, uint16_t speed_delay, uint16_t return_delay)
-{
-    // interrupts not handled yet!
-    animate_led_right_to_left((uint16_t)STRIP_BIT_ALL_SET, task_led_ctrl_cur_color_hex(), eye_size, speed_delay, return_delay);
-    animate_led_left_to_right((uint16_t)STRIP_BIT_ALL_SET, task_led_ctrl_cur_color_hex(), eye_size, speed_delay, return_delay);
-    animate_led_outside_to_center((uint16_t)STRIP_BIT_ALL_SET, task_led_ctrl_cur_color_hex(), eye_size, speed_delay, return_delay);
-    animate_led_center_to_outside((uint16_t)STRIP_BIT_ALL_SET, task_led_ctrl_cur_color_hex(), eye_size, speed_delay, return_delay);
-    animate_led_left_to_right((uint16_t)STRIP_BIT_ALL_SET, task_led_ctrl_cur_color_hex(), eye_size, speed_delay, return_delay);
-    animate_led_right_to_left((uint16_t)STRIP_BIT_ALL_SET, task_led_ctrl_cur_color_hex(), eye_size, speed_delay, return_delay);
-    animate_led_outside_to_center((uint16_t)STRIP_BIT_ALL_SET, task_led_ctrl_cur_color_hex(), eye_size, speed_delay, return_delay);
-    animate_led_center_to_outside((uint16_t)STRIP_BIT_ALL_SET, task_led_ctrl_cur_color_hex(), eye_size, speed_delay, return_delay);
-}
-
-
-void animate_led_twinkle_multiple_colors(strip_mask_t strip_mask, uint32_t* color_array, uint16_t count, uint16_t speed_delay, bool only_one)
-{
-	uint8_t red, green, blue; 
 	strip_bit_e active_strip = STRIP_BIT_1; 
 	strip_bit_e pre_strip = STRIP_BIT_1;
 	uint8_t num_active_strips = 0;
 	strip_bit_e active_strip_array[NUM_STRIPS] = {STRIP_BIT_NONE_SET};
+    uint8_t color_twinkle_rgb[sizeof(ws2812b_led_t)] = {0};
 	for (uint8_t iii = 0; iii < NUM_STRIPS; iii++)
 	{
-		active_strip = ws2812_get_next_active_strip(strip_mask, pre_strip);
+		active_strip = ws2812_get_next_active_strip(mask_twinkle, pre_strip);
 		if ((active_strip != STRIP_BIT_NO_MORE_SET) && (active_strip != (1 << (NUM_STRIPS - 1))))
 		{
 			pre_strip = active_strip + 1;
@@ -402,91 +311,95 @@ void animate_led_twinkle_multiple_colors(strip_mask_t strip_mask, uint32_t* colo
 		num_active_strips++;
 		active_strip_array[iii] = active_strip;
 	}
-	for (int i = 0; i < count; i++)
+	for (int iii = 0; iii < count; iii++)
     {
         if (task_button_press_interrupt_occurred()) if (task_button_press_check_interrupts(&red, &green, &blue)) return;
         for (int yyy = 0; yyy < num_active_strips; yyy++)
 		{
-			animate_led_set_pixel(active_strip_array[yyy], random_num(0, ws2812_get_strip_size(active_strip_array[yyy])), (((color_array[yyy] & 0xFF0000) >> 16)), (((color_array[yyy] & 0x00FF00) >> 8)), ((color_array[yyy] & 0x0000FF)));
-			animate_led_show_strip(strip_mask);
+            color_led_hex_to_rgb(color_array[yyy], color_twinkle_rgb);
+			animate_led_set_pixel(active_strip_array[yyy], random_num(0,
+			                ws2812_get_strip_size(active_strip_array[yyy])),
+			                (color_twinkle_rgb[offsetof(ws2812b_led_t, red)]),
+			                (color_twinkle_rgb[offsetof(ws2812b_led_t, green)]),
+			                (color_twinkle_rgb[offsetof(ws2812b_led_t, blue)]));
+			animate_led_show_strip(mask_twinkle);
 		}
-        if (only_one) animate_led_set_all_pixels(strip_mask, 0, 0, 0);
+        if (only_one) animate_led_set_all_pixels(mask_twinkle, 0, 0, 0);
     }
-	task_led_ctrl_delay((float_t)speed_delay / task_led_ctrl_speed_factor());
+	task_led_ctrl_delay((float_t)speed_delay / task_led_ctrl_speed());
 }
 
 
-void animate_led_twinkle(strip_mask_t strip_mask, color_hex_code_e color, uint16_t count, uint16_t speed_delay, bool only_one)
+void animate_led_twinkle(strip_mask_t twinkle_mask, color_hex_code_e color_twinkle, uint16_t count,
+                         uint16_t speed_delay, bool only_one)
 {
-	uint16_t strip_size = ws2812_led_get_max_strip_size(strip_mask);
-	uint8_t red, green, blue; 
-	red = ((color & 0xFF0000) >> 16);
-	green = ((color & 0x00FF00) >> 8);
-	blue = (color & 0x0000FF);
+	uint16_t strip_size = ws2812_led_get_max_strip_size(twinkle_mask);
+    uint8_t color_twinkle_rgb[sizeof(ws2812b_led_t)] = {0};
     //animate_led_set_all_pixels(ALL_STRIPS, 0, 0, 0);
-    for (int i = 0; i < count; i++)
+    for (int iii = 0; iii < count; iii++)
     {
         if (task_button_press_interrupt_occurred()) if (task_button_press_check_interrupts(&red, &green, &blue)) return;
-        animate_led_set_pixel(strip_mask, random_num(0, strip_size), red, green, blue);
-        animate_led_show_strip(strip_mask);
-        task_led_ctrl_delay(speed_delay);
-        if (only_one) animate_led_set_all_pixels(strip_mask, 0, 0, 0);
+        animate_led_set_pixel(twinkle_mask, random_num(0, strip_size),
+                              (color_twinkle_rgb[offsetof(ws2812b_led_t, red)]),
+                              (color_twinkle_rgb[offsetof(ws2812b_led_t, green)]),
+                              (color_twinkle_rgb[offsetof(ws2812b_led_t, blue)]));
+        animate_led_show_strip(twinkle_mask);
+        task_led_ctrl_delay(speed_delay / task_led_ctrl_speed());
+        if (only_one) animate_led_set_all_pixels(twinkle_mask, 0, 0, 0);
     }
-    task_led_ctrl_delay((float_t)speed_delay / task_led_ctrl_speed_factor());
+
+    //task_led_ctrl_delay(speed_delay / task_led_ctrl_speed());
 }
 
 
-void animate_led_twinkle_random(strip_mask_t strip_mask, uint16_t count, uint16_t speed_delay, bool only_one)
+void animate_led_twinkle_random(strip_mask_t mask_twinkle_random, uint16_t count, uint16_t speed_delay, bool only_one)
 {
-    animate_led_set_all_pixels(strip_mask, 0, 0, 0);
+    animate_led_set_all_pixels(mask_twinkle_random, 0, 0, 0);
     uint8_t dummy_red, dummy_green, dummy_blue; // not used but not worth creating a unique function IMO
-    for (int i = 0; i < count; i++)
+    for (int iii = 0; iii < count; iii++)
     {
         if (task_button_press_interrupt_occurred()) if (task_button_press_check_interrupts(&dummy_red, &dummy_green, &dummy_blue)) return;
-        animate_led_set_pixel(strip_mask, random_num(0, g_max_strip_length), random_num(0, 255), random_num(0, 255), random_num(0, 255));
-        animate_led_show_strip(strip_mask);
-        task_led_ctrl_delay(speed_delay);
+        animate_led_set_pixel(mask_twinkle_random, random_num(0, g_max_strip_length),
+                              random_num(0, 255), random_num(0, 255), random_num(0, 255));
+        animate_led_show_strip(mask_twinkle_random);
+        task_led_ctrl_delay((float_t)speed_delay / task_led_ctrl_speed());
         if (only_one) animate_led_set_all_pixels(strip_mask, 0, 0, 0);
     }
-    task_led_ctrl_delay((float_t)speed_delay / task_led_ctrl_speed_factor());
 }
 
 
-void animate_led_sparkle_only_random_color(strip_mask_t strip_mask, bool fill, uint16_t speed_delay)
+void animate_led_sparkle_only_random_color(strip_mask_t mask_sparkle_random, bool fill, uint16_t speed_delay)
 {
 	float percent_to_fill = 0.7;
-	uint16_t strip_size = ws2812_led_get_max_strip_size(strip_mask);
-	uint16_t num_active_leds = ws2812_get_num_active_animation_leds(strip_mask);
+	uint16_t strip_size = ws2812_led_get_max_strip_size(mask_sparkle_random);
+	uint16_t num_active_leds = ws2812_get_num_active_animation_leds(mask_sparkle_random);
     uint8_t dummy_red, dummy_green, dummy_blue; // not used but not worth creating a unique function IMO
 	for (uint16_t iii = 0; iii < (percent_to_fill * (float)num_active_leds); iii++)
 	{
 	    if (task_button_press_interrupt_occurred()) if (task_button_press_check_interrupts(&dummy_red, &dummy_green, &dummy_blue)) return;
 		int pix = random_num(0, strip_size);
-		animate_led_set_pixel(strip_mask, pix, random_num(0, 255), random_num(0, 255), random_num(0, 255));
-		animate_led_show_strip(strip_mask);
-		task_led_ctrl_delay(speed_delay);
+		animate_led_set_pixel(mask_sparkle_random, pix, random_num(0, 255), random_num(0, 255), random_num(0, 255));
+		animate_led_show_strip(mask_sparkle_random);
+        task_led_ctrl_delay((float_t)speed_delay / task_led_ctrl_speed());
 		if (!fill) animate_led_set_pixel(strip_mask, pix, 0, 0, 0);
 	}
 }
 
 
-void animate_led_sparkle_random_color(strip_mask_t strip_mask, bool fill, uint16_t speed_delay)
+void animate_led_sparkle_random_color(strip_mask_t mask_sparkle_random, bool fill, uint16_t speed_delay)
 {
 	uint16_t strip_size = ws2812_led_get_max_strip_size(strip_mask);
-	//for (uint16_t iii = 0; iii < (percent_to_fill * (float)ws2812_get_num_active_animation_leds(strip_mask)); iii++)
-	///{
-		int pix = random_num(0, strip_size);
-		animate_led_set_pixel(strip_mask, pix, random_num(0, 255), random_num(0, 255), random_num(0, 255));
-		animate_led_show_strip(strip_mask);
-		task_led_ctrl_delay(speed_delay);
-		if (!fill) animate_led_set_pixel(strip_mask, pix, 0, 0, 0);
-	//}
+    int pix = random_num(0, strip_size);
+    animate_led_set_pixel(strip_mask, pix, random_num(0, 255), random_num(0, 255), random_num(0, 255));
+    animate_led_show_strip(strip_mask);
+    task_led_ctrl_delay((float_t)speed_delay / task_led_ctrl_speed());
+    if (!fill) animate_led_set_pixel(strip_mask, pix, 0, 0, 0);
 }
 
 
-void animate_led_sparkle(strip_mask_t strip_mask, color_hex_code_e color, uint16_t speed_delay)
+void animate_led_sparkle(strip_mask_t mask_sparkle, color_hex_code_e color, uint16_t speed_delay)
 {
-	uint16_t strip_size = ws2812_led_get_max_strip_size(strip_mask);
+	uint16_t strip_size = ws2812_led_get_max_strip_size(mask_sparkle);
 	uint8_t red, green, blue; 
 	red = ((color & 0xFF0000) >> 16);
 	green = ((color & 0x00FF00) >> 8);
@@ -494,7 +407,7 @@ void animate_led_sparkle(strip_mask_t strip_mask, color_hex_code_e color, uint16
     int pix = random_num(0, strip_size);
     animate_led_set_pixel(strip_mask, pix, red, green, blue);
     animate_led_show_strip(strip_mask);
-    task_led_ctrl_delay((float_t)speed_delay / task_led_ctrl_speed_factor());
+    task_led_ctrl_delay((float_t)speed_delay / task_led_ctrl_speed());
     animate_led_set_pixel(strip_mask, pix, 0, 0, 0);
 }
 
@@ -516,7 +429,7 @@ void animate_led_running_lights(strip_mask_t strip_mask, color_hex_code_e color)
             animate_led_set_pixel(strip_mask, i, ((sin(i + pos) * 127 + 128) / 255) * red, ((sin(i + pos) * 127 + 128) / 255) * green, ((sin(i + pos) * 127 + 128) / 255) * blue); 
         }
         animate_led_show_strip(strip_mask);
-        task_led_ctrl_delay(100 / task_led_ctrl_speed_factor()); // TODO remove the magic number here!!!
+        task_led_ctrl_delay(100 / task_led_ctrl_speed()); // TODO remove the magic number here!!!
     }
 }
 
@@ -532,13 +445,13 @@ void animate_led_color_wipe(strip_mask_t strip_mask, color_hex_code_e color, uin
     {
         animate_led_set_pixel(strip_mask, i, red, green, blue);
         animate_led_show_strip(strip_mask);
-        task_led_ctrl_delay((float_t)speed_delay / task_led_ctrl_speed_factor());
+        task_led_ctrl_delay((float_t)speed_delay / task_led_ctrl_speed());
     }
     for (uint16_t i = 0; i < g_max_strip_length; i++)
     {
         animate_led_set_pixel(strip_mask, i, 0, 0, 0);
         animate_led_show_strip(strip_mask);
-        task_led_ctrl_delay((float_t)speed_delay / task_led_ctrl_speed_factor());
+        task_led_ctrl_delay((float_t)speed_delay / task_led_ctrl_speed());
     }
 }
 
@@ -560,7 +473,8 @@ void animate_led_rainbow_cycle(strip_mask_t strip_mask, uint16_t speed_delay)
             animate_led_set_pixel(strip_mask, i, *c, *(c + 1), *(c + 2));
         }
         animate_led_show_strip(strip_mask);
-        task_led_ctrl_delay((float_t)speed_delay / task_led_ctrl_speed_factor());
+        if (LED_SPEED_10X == task_led_ctrl_speed()) task_led_ctrl_delay(0);
+        else task_led_ctrl_delay((float_t)speed_delay / task_led_ctrl_speed());
     }
 }
 
@@ -625,7 +539,7 @@ void animate_led_theater_chase_multiple_colors(strip_mask_t strip_mask, uint32_t
             }
             animate_led_show_strip(strip_mask);
             if (task_button_press_interrupt_occurred()) if (task_button_press_check_interrupts(&red, &green, &blue)) return;
-            task_led_ctrl_delay((float_t)speed_delay / task_led_ctrl_speed_factor());
+            task_led_ctrl_delay((float_t)speed_delay / task_led_ctrl_speed());
             for (int i = 0; i < strip_size; i += 3) 
             {
             	for (int yyy = 0; yyy < num_active_strips; yyy++)
@@ -653,7 +567,7 @@ void animate_led_theater_chase(strip_mask_t strip_mask, color_hex_code_e color, 
             for (int i = 0; i < strip_size; i += 3) animate_led_set_pixel(strip_mask, i + q, red, green, blue); // turn every third pixel on
             animate_led_show_strip(strip_mask);
             if (task_button_press_interrupt_occurred()) if (task_button_press_check_interrupts(&red, &green, &blue)) return;
-            task_led_ctrl_delay((float_t)speed_delay / task_led_ctrl_speed_factor());
+            task_led_ctrl_delay((float_t)speed_delay / task_led_ctrl_speed());
             for (int i = 0; i < strip_size; i += 3) animate_led_set_pixel(strip_mask, i + q, 0, 0, 0); // turn everty third pixel off
         }
     }
@@ -677,7 +591,7 @@ void animate_led_theater_chase_rainbow(strip_mask_t strip_mask, uint16_t speed_d
                 animate_led_set_pixel(strip_mask, i + q, *c, *(c + 1), *(c + 2)); // turn every third pixel on
             }
             animate_led_show_strip(strip_mask);
-            task_led_ctrl_delay((float_t)speed_delay / task_led_ctrl_speed_factor());
+            task_led_ctrl_delay((float_t)speed_delay / task_led_ctrl_speed());
             for (int i = 0; i < strip_size; i = i + 3) animate_led_set_pixel(strip_mask, i + q, 0, 0, 0); // turn every third pixel off
         }
     }
@@ -803,7 +717,7 @@ void animate_led_meteor_rain(strip_mask_t strip_mask, color_hex_code_e color, ui
 //			return;
 //        }
         animate_led_show_strip(strip_mask);
-        task_led_ctrl_delay((float_t)speed_delay / task_led_ctrl_speed_factor());
+        task_led_ctrl_delay((float_t)speed_delay / task_led_ctrl_speed());
     }
 }
 
@@ -890,4 +804,5 @@ void animate_led_set_all_pixels(strip_mask_t strip_mask, uint8_t red, uint8_t gr
 	}
     animate_led_show_strip(strip_mask);
 }
+
 

@@ -28,7 +28,6 @@ src/main.o: ../src/main.c ../src/main.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h \
  ../src/bsp/board_init_common.h \
- C:/work/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.h \
  ../sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h \
  ../sdk/FreeRTOS/Source/include/FreeRTOS.h ../src/FreeRTOSConfig.h \
  ../sdk/FreeRTOS/Source/include/projdefs.h \
@@ -38,9 +37,7 @@ src/main.o: ../src/main.c ../src/main.h \
  ../sdk/FreeRTOS/Source/include/mpu_wrappers.h \
  ../sdk/FreeRTOS/Source/include/task.h \
  ../sdk/FreeRTOS/Source/include/list.h \
- ../sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h ../src/task_create.h \
- C:/work/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/color_led/color_led.h \
- C:/work/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.h
+ ../sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h ../src/task_create.h
 ../src/main.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
 ../src/stm32_bloat/stm32l4xx_hal_conf.h:
@@ -73,7 +70,6 @@ src/main.o: ../src/main.c ../src/main.h \
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h:
 ../src/bsp/board_init_common.h:
-C:/work/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.h:
 ../sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h:
 ../sdk/FreeRTOS/Source/include/FreeRTOS.h:
 ../src/FreeRTOSConfig.h:
@@ -86,5 +82,3 @@ C:/work/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/
 ../sdk/FreeRTOS/Source/include/list.h:
 ../sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h:
 ../src/task_create.h:
-C:/work/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/color_led/color_led.h:
-C:/work/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.h:

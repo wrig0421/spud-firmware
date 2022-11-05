@@ -1,0 +1,39 @@
+/*
+ * config.h
+ *
+ *  Created on: Aug 6, 2022
+ *      Author: splat
+ */
+
+#ifndef SRC_CONFIG_H_
+#define SRC_CONFIG_H_
+
+#define BOARD_SPUD_GLO_V3
+//#define BOARD_SPUD_GLO_V2
+//#define BOARD_SPUD_GLO_V1
+
+#if defined(BOARD_SPUD_GLO_V2) || defined(BOARD_SPUD_GLO_V1)
+#define ENABLE_RF_INTERFACE
+#endif
+
+#define STRIP_1_LENGTH    150
+//#define STRIP_2_LENGTH
+//#define STRIP_3_LENGTH
+//#define STRIP_4_LENGTH
+//#define STRIP_5_LENGTH
+//#define STRIP_6_LENGTH
+//#define STRIP_7_LENGTH
+//#define STRIP_8_LENGTH
+//#define STRIP_9_LENGTH
+
+#define NUM_LEDS STRIP_1_LENGTH
+
+#if !defined(STRIP_1_LENGTH) && (defined(STRIP_2_LENGTH) || defined(STRIP_3_LENGTH) || defined(STRIP_4_LENGTH))
+#error "Please assign strip 0 as the first strip"
+#endif
+#if defined(STRIP_1_LENGTH) && (defined(STRIP_2_LENGTH) || defined(STRIP_3_LENGTH) || defined(STRIP_4_LENGTH))
+#define MULTIPLE_STRIPS
+#endif
+
+
+#endif /* SRC_CONFIG_H_ */

@@ -27,13 +27,23 @@ src/stm32_bloat/stm32l4xx_it.o: ../src/stm32_bloat/stm32l4xx_it.c \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc_ex.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h \
+ ../sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h \
+ ../sdk/FreeRTOS/Source/include/FreeRTOS.h ../src/FreeRTOSConfig.h \
+ ../sdk/FreeRTOS/Source/include/projdefs.h \
+ ../sdk/FreeRTOS/Source/include/portable.h \
+ ../sdk/FreeRTOS/Source/include/deprecated_definitions.h \
+ ../sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h \
+ ../sdk/FreeRTOS/Source/include/mpu_wrappers.h \
+ ../sdk/FreeRTOS/Source/include/task.h \
+ ../sdk/FreeRTOS/Source/include/list.h \
+ ../sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h \
  ../src/stm32_bloat/stm32l4xx_it.h ../src/bsp/board_init_common.h \
  ../src/bsp/board_common.h ../src/bsp/board_specific/board_specific.h \
  ../src/config.h \
  ../src/bsp/board_specific/board_init_spud_glo_v3/board_init_spud_glo_v3.h \
- C:/work/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.h \
- C:/work/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.h \
- C:/work/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/color_led/color_led.h
+ /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.h \
+ /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.h \
+ /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/color_led/color_led.h
 ../src/main.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
 ../src/stm32_bloat/stm32l4xx_hal_conf.h:
@@ -65,12 +75,23 @@ src/stm32_bloat/stm32l4xx_it.o: ../src/stm32_bloat/stm32l4xx_it.c \
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc_ex.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h:
+../sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h:
+../sdk/FreeRTOS/Source/include/FreeRTOS.h:
+../src/FreeRTOSConfig.h:
+../sdk/FreeRTOS/Source/include/projdefs.h:
+../sdk/FreeRTOS/Source/include/portable.h:
+../sdk/FreeRTOS/Source/include/deprecated_definitions.h:
+../sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h:
+../sdk/FreeRTOS/Source/include/mpu_wrappers.h:
+../sdk/FreeRTOS/Source/include/task.h:
+../sdk/FreeRTOS/Source/include/list.h:
+../sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h:
 ../src/stm32_bloat/stm32l4xx_it.h:
 ../src/bsp/board_init_common.h:
 ../src/bsp/board_common.h:
 ../src/bsp/board_specific/board_specific.h:
 ../src/config.h:
 ../src/bsp/board_specific/board_init_spud_glo_v3/board_init_spud_glo_v3.h:
-C:/work/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.h:
-C:/work/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.h:
-C:/work/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/color_led/color_led.h:
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.h:
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.h:
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/color_led/color_led.h:

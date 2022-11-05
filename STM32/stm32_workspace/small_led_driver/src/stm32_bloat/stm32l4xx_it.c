@@ -17,6 +17,9 @@
   ******************************************************************************
   */
 #include "main.h"
+#include "cmsis_os.h"
+#include "FreeRTOS.h"
+#include "task.h"
 #include "stm32l4xx_it.h"
 //#include "stm32l4xx_hal.h"
 #include "board_init_common.h"
@@ -36,6 +39,8 @@ extern DMA_HandleTypeDef hdma_tim1_ch3;
 extern DMA_HandleTypeDef hdma_tim15_ch1_up_trig_com;
 extern DMA_HandleTypeDef hdma_tim16_ch1_up;
 
+
+extern osThreadId_t g_button_press_handle;
 
 /******************************************************************************/
 /*           Cortex-M4 Processor Interruption and Exception Handlers          */
@@ -115,16 +120,38 @@ void DebugMon_Handler(void)
 /* please refer to the startup file (startup_stm32l4xx.s).                    */
 /******************************************************************************/
 
+uint32_t g_a_interrupt_count = 0;
+uint32_t g_b_interrupt_count = 0;
+uint32_t g_c_interrupt_count = 0;
+uint32_t g_d_interrupt_count = 0;
+
+uint32_t g_a_interrupt_current_timestamp = 0;
+uint32_t g_a_interrupt_previous_timestamp = 0;
+
+uint32_t g_b_interrupt_current_timestamp = 0;
+uint32_t g_b_interrupt_previous_timestamp = 0;
+
+uint32_t g_c_interrupt_current_timestamp = 0;
+uint32_t g_c_interrupt_previous_timestamp = 0;
+
+uint32_t g_d_interrupt_current_timestamp = 0;
+uint32_t g_d_interrupt_previous_timestamp = 0;
+
 
 /**
   * @brief This function handles EXTI line0 interrupt.
   */
 void EXTI0_IRQHandler(void)
 {
-    // A button is speed!
+    BaseType_t xHigherPriorityTaskWoken;
+    // B button is speed!
     HAL_GPIO_EXTI_IRQHandler(PIN_WKUP_1);
-    // set flag to unblock button task
-    button_pressed(PUSH_BUTTON_A);
+    g_b_interrupt_previous_timestamp = g_b_interrupt_current_timestamp;
+    g_b_interrupt_current_timestamp = xTaskGetTickCountFromISR();
+    board_init_common_button_pressed(PUSH_BUTTON_B);
+    g_b_interrupt_count++;
+    HAL_NVIC_DisableIRQ(EXTI0_IRQn);
+    xTaskNotifyFromISR(g_button_press_handle, PUSH_BUTTON_B, eSetValueWithOverwrite, &xHigherPriorityTaskWoken);
 }
 
 uint32_t g_dbg_b_interrupt_count = 0;
@@ -133,9 +160,15 @@ uint32_t g_dbg_b_interrupt_count = 0;
   */
 void EXTI2_IRQHandler(void)
 {
-    // B button is state!
+    BaseType_t xHigherPriorityTaskWoken;
+    // C button is state!
     HAL_GPIO_EXTI_IRQHandler(PIN_WKUP_4);
-    button_pressed(PUSH_BUTTON_B);
+    g_c_interrupt_previous_timestamp = g_c_interrupt_current_timestamp;
+    g_c_interrupt_current_timestamp = xTaskGetTickCountFromISR();
+    board_init_common_button_pressed(PUSH_BUTTON_C);
+    g_c_interrupt_count++;
+    HAL_NVIC_DisableIRQ(EXTI2_IRQn);
+    xTaskNotifyFromISR(g_button_press_handle, PUSH_BUTTON_C, eSetValueWithOverwrite, &xHigherPriorityTaskWoken);
 }
 
 
@@ -144,9 +177,15 @@ void EXTI2_IRQHandler(void)
   */
 void EXTI15_10_IRQHandler(void)
 {
-    // C button is color
+    BaseType_t xHigherPriorityTaskWoken;
+    // A button is color
     HAL_GPIO_EXTI_IRQHandler(PIN_WKUP_2);
-    button_pressed(PUSH_BUTTON_C);
+    g_a_interrupt_previous_timestamp = g_a_interrupt_current_timestamp;
+    g_a_interrupt_current_timestamp = xTaskGetTickCountFromISR();
+    board_init_common_button_pressed(PUSH_BUTTON_A);
+    g_a_interrupt_count++;
+    HAL_NVIC_DisableIRQ(EXTI9_5_IRQn);
+    xTaskNotifyFromISR(g_button_press_handle, PUSH_BUTTON_A, eSetValueWithOverwrite, &xHigherPriorityTaskWoken);
 }
 
 
@@ -155,9 +194,15 @@ void EXTI15_10_IRQHandler(void)
   */
 void EXTI9_5_IRQHandler(void)
 {
+    BaseType_t xHigherPriorityTaskWoken;
     // D button is pause
     HAL_GPIO_EXTI_IRQHandler(PIN_WKUP_3);
-    button_pressed(PUSH_BUTTON_D);
+    g_d_interrupt_previous_timestamp = g_d_interrupt_current_timestamp;
+    g_d_interrupt_current_timestamp = xTaskGetTickCountFromISR();
+    board_init_common_button_pressed(PUSH_BUTTON_D);
+    g_d_interrupt_count++;
+    HAL_NVIC_DisableIRQ(EXTI15_10_IRQn);
+    xTaskNotifyFromISR(g_button_press_handle, PUSH_BUTTON_D, eSetValueWithOverwrite, &xHigherPriorityTaskWoken);
 }
 
 

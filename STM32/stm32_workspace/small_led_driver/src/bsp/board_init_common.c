@@ -2,29 +2,13 @@
 
 #include "main.h"
 #include "stm32l4xx_hal.h"
-#include <stdlib.h>
-#include <stdbool.h>
 #include <time.h>
-//#include "ws2812b.h"
 #include "animate_led.h"
-//#include "color_led.h"
 #include "board_common.h"
 #include "board_specific.h"
+#include <stdlib.h>
 #include "board_init_common.h"
-RTC_HandleTypeDef hrtc;
-TIM_HandleTypeDef htim1;
-TIM_HandleTypeDef htim15;
-TIM_HandleTypeDef htim16;
-DMA_HandleTypeDef hdma_tim1_ch1;
-DMA_HandleTypeDef hdma_tim1_ch2;
-DMA_HandleTypeDef hdma_tim1_ch3;
-DMA_HandleTypeDef hdma_tim15_ch1_up_trig_com;
-DMA_HandleTypeDef hdma_tim16_ch1_up;
 
-bool g_dma_done_flag = false;
-volatile int datasentflag = 0;
-
-void SystemClock_Config(void);
 
 typedef enum
 {
@@ -34,321 +18,33 @@ typedef enum
     NUM_TIMERS
 } timer_e;
 
+DMA_HandleTypeDef hdma_tim1_ch1;
+DMA_HandleTypeDef hdma_tim1_ch2;
+DMA_HandleTypeDef hdma_tim1_ch3;
+DMA_HandleTypeDef hdma_tim15_ch1_up_trig_com;
+DMA_HandleTypeDef hdma_tim16_ch1_up;
 
-static void board_init_rtc_init(void)
-{
-    hrtc.Instance = RTC;
-    hrtc.Init.HourFormat = RTC_HOURFORMAT_24;
-    hrtc.Init.AsynchPrediv = 127;
-    hrtc.Init.SynchPrediv = 255;
-    hrtc.Init.OutPut = RTC_OUTPUT_DISABLE;
-    hrtc.Init.OutPutRemap = RTC_OUTPUT_REMAP_NONE;
-    hrtc.Init.OutPutPolarity = RTC_OUTPUT_POLARITY_HIGH;
-    hrtc.Init.OutPutType = RTC_OUTPUT_TYPE_OPENDRAIN;
-    if (HAL_RTC_Init(&hrtc) != HAL_OK)
-    {
-        Error_Handler();
-    }
-}
+RTC_HandleTypeDef g_rtc_handle;
+TIM_HandleTypeDef g_tim1_handle;
+TIM_HandleTypeDef g_tim15_handle;
+TIM_HandleTypeDef g_tim16_handle;
 
-
-static void board_init_timer_init(timer_e timer)
-{
-    GPIO_InitTypeDef GPIO_InitStruct = {0};
-    TIM_ClockConfigTypeDef sClockSourceConfig = {0};
-    TIM_MasterConfigTypeDef sMasterConfig = {0};
-    TIM_OC_InitTypeDef sConfigOC = {0};
-    TIM_BreakDeadTimeConfigTypeDef sBreakDeadTimeConfig = {0};
-    switch (timer)
-    {
-        case TIMER_1:
-            htim1.Instance = TIM1;
-            htim1.Init.Prescaler = 0;
-            htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
-            htim1.Init.Period = 60-1;
-            htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-            htim1.Init.RepetitionCounter = 0;
-            htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
-            if (HAL_TIM_Base_Init(&htim1) != HAL_OK)
-            {
-                //Error_Handler();
-            }
-            sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
-            if (HAL_TIM_ConfigClockSource(&htim1, &sClockSourceConfig) != HAL_OK)
-            {
-                Error_Handler();
-            }
-            if (HAL_TIM_PWM_Init(&htim1) != HAL_OK)
-            {
-                Error_Handler();
-            }
-            sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
-            sMasterConfig.MasterOutputTrigger2 = TIM_TRGO2_RESET;
-            sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
-            if (HAL_TIMEx_MasterConfigSynchronization(&htim1, &sMasterConfig) != HAL_OK)
-            {
-                Error_Handler();
-            }
-            sConfigOC.OCMode = TIM_OCMODE_PWM1;
-            sConfigOC.Pulse = 0;
-            sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
-            sConfigOC.OCNPolarity = TIM_OCNPOLARITY_HIGH;
-            sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
-            sConfigOC.OCIdleState = TIM_OCIDLESTATE_RESET;
-            sConfigOC.OCNIdleState = TIM_OCNIDLESTATE_RESET;
-            if (HAL_TIM_PWM_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
-            {
-                Error_Handler();
-            }
-            if (HAL_TIM_PWM_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_2) != HAL_OK)
-            {
-                Error_Handler();
-            }
-            if (HAL_TIM_PWM_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_3) != HAL_OK)
-            {
-                Error_Handler();
-            }
-            sBreakDeadTimeConfig.OffStateRunMode = TIM_OSSR_DISABLE;
-            sBreakDeadTimeConfig.OffStateIDLEMode = TIM_OSSI_DISABLE;
-            sBreakDeadTimeConfig.LockLevel = TIM_LOCKLEVEL_OFF;
-            sBreakDeadTimeConfig.DeadTime = 0;
-            sBreakDeadTimeConfig.BreakState = TIM_BREAK_DISABLE;
-            sBreakDeadTimeConfig.BreakPolarity = TIM_BREAKPOLARITY_HIGH;
-            sBreakDeadTimeConfig.BreakFilter = 0;
-            sBreakDeadTimeConfig.Break2State = TIM_BREAK2_DISABLE;
-            sBreakDeadTimeConfig.Break2Polarity = TIM_BREAK2POLARITY_HIGH;
-            sBreakDeadTimeConfig.Break2Filter = 0;
-            sBreakDeadTimeConfig.AutomaticOutput = TIM_AUTOMATICOUTPUT_DISABLE;
-            if (HAL_TIMEx_ConfigBreakDeadTime(&htim1, &sBreakDeadTimeConfig) != HAL_OK)
-            {
-                Error_Handler();
-            }
-            HAL_TIM_PWM_Stop_DMA(&htim1, TIM_CHANNEL_1);
-            HAL_TIM_PWM_Stop_DMA(&htim1, TIM_CHANNEL_2);
-            HAL_TIM_PWM_Stop_DMA(&htim1, TIM_CHANNEL_3);
-
-            GPIO_InitStruct.Pin = PIN_TIM1_CH1|PIN_TIM1_CH2|PIN_TIM1_CH3;
-            GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-            GPIO_InitStruct.Pull = GPIO_NOPULL;
-            GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-            GPIO_InitStruct.Alternate = GPIO_AF1_TIM1;
-            HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-        break;
-
-        case TIMER_15:
-            htim15.Instance = TIM15;
-            htim15.Init.Prescaler = 0;
-            htim15.Init.CounterMode = TIM_COUNTERMODE_UP;
-            htim15.Init.Period = 60-1;
-            htim15.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-            htim15.Init.RepetitionCounter = 0;
-            htim15.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
-            if (HAL_TIM_PWM_Init(&htim15) != HAL_OK)
-            {
-                Error_Handler();
-            }
-            sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
-            sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
-            if (HAL_TIMEx_MasterConfigSynchronization(&htim15, &sMasterConfig) != HAL_OK)
-            {
-                Error_Handler();
-            }
-            sConfigOC.OCMode = TIM_OCMODE_PWM1;
-            sConfigOC.Pulse = 0;
-            sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
-            sConfigOC.OCNPolarity = TIM_OCNPOLARITY_HIGH;
-            sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
-            sConfigOC.OCIdleState = TIM_OCIDLESTATE_RESET;
-            sConfigOC.OCNIdleState = TIM_OCNIDLESTATE_RESET;
-            if (HAL_TIM_PWM_ConfigChannel(&htim15, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
-            {
-                Error_Handler();
-            }
-            sBreakDeadTimeConfig.OffStateRunMode = TIM_OSSR_DISABLE;
-            sBreakDeadTimeConfig.OffStateIDLEMode = TIM_OSSI_DISABLE;
-            sBreakDeadTimeConfig.LockLevel = TIM_LOCKLEVEL_OFF;
-            sBreakDeadTimeConfig.DeadTime = 0;
-            sBreakDeadTimeConfig.BreakState = TIM_BREAK_DISABLE;
-            sBreakDeadTimeConfig.BreakPolarity = TIM_BREAKPOLARITY_HIGH;
-            sBreakDeadTimeConfig.AutomaticOutput = TIM_AUTOMATICOUTPUT_DISABLE;
-            if (HAL_TIMEx_ConfigBreakDeadTime(&htim15, &sBreakDeadTimeConfig) != HAL_OK)
-            {
-                Error_Handler();
-            }
-            HAL_TIM_PWM_Stop_DMA(&htim15, TIM_CHANNEL_1);
-            __HAL_RCC_GPIOB_CLK_ENABLE();
-            GPIO_InitStruct.Pin = PIN_TIM15_CH1;
-            GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-            GPIO_InitStruct.Pull = GPIO_NOPULL;
-            GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-            GPIO_InitStruct.Alternate = GPIO_AF14_TIM15;
-            HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-        break;
-
-        case TIMER_16:
-            htim16.Instance = TIM16;
-            htim16.Init.Prescaler = 0;
-            htim16.Init.CounterMode = TIM_COUNTERMODE_UP;
-            htim16.Init.Period = 60-1;
-            htim16.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-            htim16.Init.RepetitionCounter = 0;
-            htim16.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
-            if (HAL_TIM_Base_Init(&htim16) != HAL_OK)
-            {
-                Error_Handler();
-            }
-        break;
-        default:
-        break;
-    }
-
-}
-
-
-void board_init(void)
-{
-    GPIO_InitTypeDef GPIO_InitStruct = {0};
-
-    srand(time(0));
-    HAL_Init();
-    SystemClock_Config();
-
-    __HAL_RCC_GPIOC_CLK_ENABLE();
-    __HAL_RCC_GPIOH_CLK_ENABLE();
-    __HAL_RCC_GPIOA_CLK_ENABLE();
-    __HAL_RCC_GPIOB_CLK_ENABLE();
-    __HAL_RCC_DMA1_CLK_ENABLE();
-
-    // setup the wakeups as only interrupts without the WKUP enabled yet... TODO
-    GPIO_InitStruct.Pin = PIN_WKUP_1|PIN_WKUP_4;
-    GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
-    GPIO_InitStruct.Pull = GPIO_NOPULL;
-    HAL_GPIO_Init(PIN_PORT_A, &GPIO_InitStruct);
-
-    GPIO_InitStruct.Pin = PIN_WKUP_2|PIN_WKUP_3;
-    GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
-    GPIO_InitStruct.Pull = GPIO_NOPULL;
-    HAL_GPIO_Init(PIN_PORT_C, &GPIO_InitStruct);
-
-    GPIO_InitStruct.Pin = PIN_LVL_EN | PIN_LED_OUT_1 | PIN_LED_OUT_2;
-    GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-    GPIO_InitStruct.Pull = GPIO_NOPULL;
-    HAL_GPIO_Init(PIN_PORT_C, &GPIO_InitStruct);
-
-    board_init_specific();
-    for (uint8_t iii = 0; iii < NUM_TIMERS; iii++) board_init_timer_init(iii);
-
-    HAL_NVIC_SetPriority(PIN_WKUP_1_IRQ, 0, 0);
-    HAL_NVIC_EnableIRQ(PIN_WKUP_1_IRQ);
-
-    HAL_NVIC_SetPriority(PIN_WKUP_4_IRQ, 0, 0);
-    HAL_NVIC_EnableIRQ(PIN_WKUP_4_IRQ);
-
-    HAL_NVIC_SetPriority(PIN_WKUP_2_IRQ, 0, 0);
-    HAL_NVIC_EnableIRQ(PIN_WKUP_2_IRQ);
-
-    HAL_NVIC_SetPriority(PIN_WKUP_3_IRQ, 0, 0);
-    HAL_NVIC_EnableIRQ(PIN_WKUP_3_IRQ);
-
-    HAL_NVIC_SetPriority(DMA1_Channel2_IRQn, 0, 0);
-    HAL_NVIC_EnableIRQ(DMA1_Channel2_IRQn);
-    HAL_NVIC_SetPriority(DMA1_Channel3_IRQn, 0, 0);
-    HAL_NVIC_EnableIRQ(DMA1_Channel3_IRQn);
-    HAL_NVIC_SetPriority(DMA1_Channel5_IRQn, 0, 0);
-    HAL_NVIC_EnableIRQ(DMA1_Channel5_IRQn);
-    HAL_NVIC_SetPriority(DMA1_Channel6_IRQn, 0, 0);
-    HAL_NVIC_EnableIRQ(DMA1_Channel6_IRQn);
-    HAL_NVIC_SetPriority(DMA1_Channel7_IRQn, 0, 0);
-    HAL_NVIC_EnableIRQ(DMA1_Channel7_IRQn);
-    board_init_rtc_init();
-    ws2812b_init();
-    HAL_GPIO_WritePin(PIN_PORT_C, PIN_LVL_DIR, GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(PIN_PORT_C, PIN_LVL_DIR, GPIO_PIN_SET);
-    reset_ws2812b();
-    HAL_GPIO_WritePin(GPIOC, PIN_LED_OUT_1|PIN_LED_OUT_2, GPIO_PIN_RESET);
-    color_led_init();
-    //animate_led_init(); // not yet defined..
-}
-
-
+bool g_dma_done_flag = false;
+volatile int datasentflag = 0;
 uint32_t g_button_on_count[NUM_PUSH_BUTTONS] = {0};
 bool button_press_state[NUM_PUSH_BUTTONS] = {false};
 
-
-void button_pressed(board_init_push_buttons_e button)
+static void board_init_common_rtc_init(void)
 {
-    button_press_state[(uint8_t)button] = true;
-}
-
-
-void button_released(board_init_push_buttons_e button)
-{
-    button_press_state[(uint8_t)button] = false;
-}
-
-
-void board_init_button_on_count_increment(board_init_push_buttons_e button)
-{
-    g_button_on_count[(uint8_t)button] += 1;
-}
-
-
-uint32_t board_init_button_on_count(board_init_push_buttons_e button)
-{
-    return g_button_on_count[(uint8_t)button];
-}
-
-
-void board_init_button_on_count_clear(board_init_push_buttons_e button)
-{
-    g_button_on_count[(uint8_t)button] = 0;
-}
-
-
-bool board_init_button_is_pressed(board_init_push_buttons_e button)
-{
-    bool return_val = false;
-    switch (button)
-    {
-        case PUSH_BUTTON_A:
-            if (GPIO_PIN_RESET == HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0)) return_val = true;
-        break;
-        case PUSH_BUTTON_B:
-            if (GPIO_PIN_RESET == HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_2)) return_val = true;
-        break;
-        case PUSH_BUTTON_C:
-            if (GPIO_PIN_RESET == HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13)) return_val = true;
-        break;
-        case PUSH_BUTTON_D:
-            if (GPIO_PIN_RESET == HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_5)) return_val = true;
-        break;
-        default:
-        break;
-    }
-    return return_val;
-}
-
-
-bool board_init_any_button_is_pressed(void)
-{
-    bool return_val = false;
-    if ((GPIO_PIN_SET == HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13)) || \
-        (GPIO_PIN_SET == HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_5)) || \
-        (GPIO_PIN_SET == HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0)) || \
-        (GPIO_PIN_SET == HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_2)))
-    {
-        return_val = true;
-    }
-    return return_val;
-}
-
-
-void board_init_stop_timer(void)
-{
-    HAL_TIM_PWM_Stop_DMA(&htim1, TIM_CHANNEL_1);
-    HAL_TIM_PWM_Stop_DMA(&htim1, TIM_CHANNEL_2);
-    HAL_TIM_PWM_Stop_DMA(&htim1, TIM_CHANNEL_3);
-    HAL_TIM_PWM_Stop_DMA(&htim15, TIM_CHANNEL_1);
+    g_rtc_handle.Instance = RTC;
+    g_rtc_handle.Init.HourFormat = RTC_HOURFORMAT_24;
+    g_rtc_handle.Init.AsynchPrediv = 127;
+    g_rtc_handle.Init.SynchPrediv = 255;
+    g_rtc_handle.Init.OutPut = RTC_OUTPUT_DISABLE;
+    g_rtc_handle.Init.OutPutRemap = RTC_OUTPUT_REMAP_NONE;
+    g_rtc_handle.Init.OutPutPolarity = RTC_OUTPUT_POLARITY_HIGH;
+    g_rtc_handle.Init.OutPutType = RTC_OUTPUT_TYPE_OPENDRAIN;
+    if (HAL_RTC_Init(&g_rtc_handle) != HAL_OK) Error_Handler();
 }
 
 
@@ -356,7 +52,7 @@ void board_init_stop_timer(void)
   * @brief System Clock Configuration
   * @retval None
   */
-void SystemClock_Config(void)
+static void SystemClock_Config(void)
 {
     RCC_OscInitTypeDef RCC_OscInitStruct = {0};
     RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
@@ -373,10 +69,7 @@ void SystemClock_Config(void)
     RCC_OscInitStruct.HSEState = RCC_HSE_ON;
     RCC_OscInitStruct.LSEState = RCC_LSE_ON;
     RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
-    if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
-    {
-        Error_Handler();
-    }
+    if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK) Error_Handler();
     /** Initializes the CPU, AHB and APB buses clocks
     */
     RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
@@ -386,22 +79,214 @@ void SystemClock_Config(void)
     RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
     RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
-    if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
-    {
-        Error_Handler();
-    }
+    if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK) Error_Handler();
     PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_RTC;
     PeriphClkInit.RTCClockSelection = RCC_RTCCLKSOURCE_LSE;
-    if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
-    {
-        Error_Handler();
-    }
+    if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK) Error_Handler();
     /** Configure the main internal regulator output voltage
     */
-    if (HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1) != HAL_OK)
+    if (HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1) != HAL_OK) Error_Handler();
+}
+
+
+static void board_init_common_timer_init(timer_e timer)
+{
+    GPIO_InitTypeDef GPIO_InitStruct = {0};
+    TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+    TIM_MasterConfigTypeDef sMasterConfig = {0};
+    TIM_OC_InitTypeDef sConfigOC = {0};
+    TIM_BreakDeadTimeConfigTypeDef sBreakDeadTimeConfig = {0};
+    switch (timer)
     {
-        Error_Handler();
+        case TIMER_1:
+            g_tim1_handle.Instance = TIM1;
+            g_tim1_handle.Init.Prescaler = 0;
+            g_tim1_handle.Init.CounterMode = TIM_COUNTERMODE_UP;
+            g_tim1_handle.Init.Period = 60-1;
+            g_tim1_handle.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+            g_tim1_handle.Init.RepetitionCounter = 0;
+            g_tim1_handle.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+            if (HAL_TIM_Base_Init(&g_tim1_handle) != HAL_OK) Error_Handler();
+            sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+            if (HAL_TIM_ConfigClockSource(&g_tim1_handle, &sClockSourceConfig) != HAL_OK) Error_Handler();
+            if (HAL_TIM_PWM_Init(&g_tim1_handle) != HAL_OK) Error_Handler();
+            sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+            sMasterConfig.MasterOutputTrigger2 = TIM_TRGO2_RESET;
+            sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+            if (HAL_TIMEx_MasterConfigSynchronization(&g_tim1_handle, &sMasterConfig) != HAL_OK) Error_Handler();
+            sConfigOC.OCMode = TIM_OCMODE_PWM1;
+            sConfigOC.Pulse = 0;
+            sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
+            sConfigOC.OCNPolarity = TIM_OCNPOLARITY_HIGH;
+            sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
+            sConfigOC.OCIdleState = TIM_OCIDLESTATE_RESET;
+            sConfigOC.OCNIdleState = TIM_OCNIDLESTATE_RESET;
+            if (HAL_TIM_PWM_ConfigChannel(&g_tim1_handle, &sConfigOC, TIM_CHANNEL_1) != HAL_OK) Error_Handler();
+            if (HAL_TIM_PWM_ConfigChannel(&g_tim1_handle, &sConfigOC, TIM_CHANNEL_2) != HAL_OK) Error_Handler();
+            if (HAL_TIM_PWM_ConfigChannel(&g_tim1_handle, &sConfigOC, TIM_CHANNEL_3) != HAL_OK) Error_Handler();
+            sBreakDeadTimeConfig.OffStateRunMode = TIM_OSSR_DISABLE;
+            sBreakDeadTimeConfig.OffStateIDLEMode = TIM_OSSI_DISABLE;
+            sBreakDeadTimeConfig.LockLevel = TIM_LOCKLEVEL_OFF;
+            sBreakDeadTimeConfig.DeadTime = 0;
+            sBreakDeadTimeConfig.BreakState = TIM_BREAK_DISABLE;
+            sBreakDeadTimeConfig.BreakPolarity = TIM_BREAKPOLARITY_HIGH;
+            sBreakDeadTimeConfig.BreakFilter = 0;
+            sBreakDeadTimeConfig.Break2State = TIM_BREAK2_DISABLE;
+            sBreakDeadTimeConfig.Break2Polarity = TIM_BREAK2POLARITY_HIGH;
+            sBreakDeadTimeConfig.Break2Filter = 0;
+            sBreakDeadTimeConfig.AutomaticOutput = TIM_AUTOMATICOUTPUT_DISABLE;
+            if (HAL_TIMEx_ConfigBreakDeadTime(&g_tim1_handle, &sBreakDeadTimeConfig) != HAL_OK) Error_Handler();
+            HAL_TIM_PWM_Stop_DMA(&g_tim1_handle, TIM_CHANNEL_1);
+            HAL_TIM_PWM_Stop_DMA(&g_tim1_handle, TIM_CHANNEL_2);
+            HAL_TIM_PWM_Stop_DMA(&g_tim1_handle, TIM_CHANNEL_3);
+            GPIO_InitStruct.Pin = PIN_TIM1_CH1|PIN_TIM1_CH2|PIN_TIM1_CH3;
+            GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+            GPIO_InitStruct.Pull = GPIO_NOPULL;
+            GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+            GPIO_InitStruct.Alternate = GPIO_AF1_TIM1;
+            HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+        break;
+
+        case TIMER_15:
+            g_tim15_handle.Instance = TIM15;
+            g_tim15_handle.Init.Prescaler = 0;
+            g_tim15_handle.Init.CounterMode = TIM_COUNTERMODE_UP;
+            g_tim15_handle.Init.Period = 60-1;
+            g_tim15_handle.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+            g_tim15_handle.Init.RepetitionCounter = 0;
+            g_tim15_handle.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+            if (HAL_TIM_PWM_Init(&g_tim15_handle) != HAL_OK) Error_Handler();
+            sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+            sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+            if (HAL_TIMEx_MasterConfigSynchronization(&g_tim15_handle, &sMasterConfig) != HAL_OK) Error_Handler();
+            sConfigOC.OCMode = TIM_OCMODE_PWM1;
+            sConfigOC.Pulse = 0;
+            sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
+            sConfigOC.OCNPolarity = TIM_OCNPOLARITY_HIGH;
+            sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
+            sConfigOC.OCIdleState = TIM_OCIDLESTATE_RESET;
+            sConfigOC.OCNIdleState = TIM_OCNIDLESTATE_RESET;
+            if (HAL_TIM_PWM_ConfigChannel(&g_tim15_handle, &sConfigOC, TIM_CHANNEL_1) != HAL_OK) Error_Handler();
+            sBreakDeadTimeConfig.OffStateRunMode = TIM_OSSR_DISABLE;
+            sBreakDeadTimeConfig.OffStateIDLEMode = TIM_OSSI_DISABLE;
+            sBreakDeadTimeConfig.LockLevel = TIM_LOCKLEVEL_OFF;
+            sBreakDeadTimeConfig.DeadTime = 0;
+            sBreakDeadTimeConfig.BreakState = TIM_BREAK_DISABLE;
+            sBreakDeadTimeConfig.BreakPolarity = TIM_BREAKPOLARITY_HIGH;
+            sBreakDeadTimeConfig.AutomaticOutput = TIM_AUTOMATICOUTPUT_DISABLE;
+            if (HAL_TIMEx_ConfigBreakDeadTime(&g_tim15_handle, &sBreakDeadTimeConfig) != HAL_OK) Error_Handler();
+            HAL_TIM_PWM_Stop_DMA(&g_tim15_handle, TIM_CHANNEL_1);
+            __HAL_RCC_GPIOB_CLK_ENABLE();
+            GPIO_InitStruct.Pin = PIN_TIM15_CH1;
+            GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+            GPIO_InitStruct.Pull = GPIO_NOPULL;
+            GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+            GPIO_InitStruct.Alternate = GPIO_AF14_TIM15;
+            HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+        break;
+
+        case TIMER_16:
+            g_tim16_handle.Instance = TIM16;
+            g_tim16_handle.Init.Prescaler = 0;
+            g_tim16_handle.Init.CounterMode = TIM_COUNTERMODE_UP;
+            g_tim16_handle.Init.Period = 60-1;
+            g_tim16_handle.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+            g_tim16_handle.Init.RepetitionCounter = 0;
+            g_tim16_handle.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+            if (HAL_TIM_Base_Init(&g_tim16_handle) != HAL_OK) Error_Handler();
+        break;
+        default:
+        break;
     }
+}
+
+
+static void board_init_common_nvic_setup_interrupts(void)
+{
+    HAL_NVIC_SetPriority(EXTI0_IRQn, 24, 0);
+    HAL_NVIC_EnableIRQ(EXTI0_IRQn);
+    HAL_NVIC_SetPriority(EXTI2_IRQn, 24, 0);
+    HAL_NVIC_EnableIRQ(EXTI2_IRQn);
+    HAL_NVIC_SetPriority(EXTI9_5_IRQn , 24, 0);
+    HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
+    HAL_NVIC_SetPriority(EXTI15_10_IRQn, 24, 0);
+    HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
+
+    __HAL_GPIO_EXTI_CLEAR_IT(EXTI0_IRQn);
+    __HAL_GPIO_EXTI_CLEAR_IT(EXTI9_5_IRQn);
+    __HAL_GPIO_EXTI_CLEAR_IT(EXTI15_10_IRQn);
+    __HAL_GPIO_EXTI_CLEAR_IT(EXTI2_IRQn);
+
+    HAL_NVIC_SetPriority(DMA1_Channel2_IRQn, 0, 0);
+    HAL_NVIC_EnableIRQ(DMA1_Channel2_IRQn);
+    HAL_NVIC_SetPriority(DMA1_Channel3_IRQn, 0, 0);
+    HAL_NVIC_EnableIRQ(DMA1_Channel3_IRQn);
+    HAL_NVIC_SetPriority(DMA1_Channel5_IRQn, 0, 0);
+    HAL_NVIC_EnableIRQ(DMA1_Channel5_IRQn);
+    HAL_NVIC_SetPriority(DMA1_Channel6_IRQn, 0, 0);
+    HAL_NVIC_EnableIRQ(DMA1_Channel6_IRQn);
+    HAL_NVIC_SetPriority(DMA1_Channel7_IRQn, 0, 0);
+    HAL_NVIC_EnableIRQ(DMA1_Channel7_IRQn);
+}
+
+
+void board_init_common_board_init(void)
+{
+    GPIO_InitTypeDef GPIO_InitStruct = {0};
+
+    srand(time(0));
+    HAL_Init();
+    SystemClock_Config();
+    __HAL_RCC_GPIOA_CLK_ENABLE();
+    __HAL_RCC_GPIOB_CLK_ENABLE();
+    __HAL_RCC_GPIOC_CLK_ENABLE();
+    __HAL_RCC_GPIOH_CLK_ENABLE();
+    __HAL_RCC_DMA1_CLK_ENABLE();
+
+    // setup the wakeups as only interrupts without the WKUP enabled yet... TODO
+    GPIO_InitStruct.Pin = PIN_WKUP_1|PIN_WKUP_4;
+    GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
+    GPIO_InitStruct.Pull = GPIO_PULLUP;
+    HAL_GPIO_Init(PIN_PORT_A, &GPIO_InitStruct);
+
+    GPIO_InitStruct.Pin = PIN_WKUP_2|PIN_WKUP_3;
+    GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
+    GPIO_InitStruct.Pull = GPIO_PULLUP;
+    HAL_GPIO_Init(PIN_PORT_C, &GPIO_InitStruct);
+
+    GPIO_InitStruct.Pin = PIN_LVL_EN | PIN_LED_OUT_1 | PIN_LED_OUT_2;
+    GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+    GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+    HAL_GPIO_Init(PIN_PORT_C, &GPIO_InitStruct);
+
+    board_init_specific();
+
+    for (uint8_t iii = 0; iii < NUM_TIMERS; iii++) board_init_common_timer_init(iii);
+
+    board_init_common_nvic_setup_interrupts();
+
+    board_init_common_rtc_init();
+    ws2812b_init();
+    reset_ws2812b();
+    color_led_init();
+    //animate_led_init(); // not yet defined..
+
+    HAL_GPIO_WritePin(GPIOC, PIN_LED_OUT_1|PIN_LED_OUT_2, GPIO_PIN_RESET);
+}
+
+
+void board_init_common_button_pressed(board_init_push_buttons_e button)
+{
+    button_press_state[(uint8_t)button] = true;
+}
+
+
+void board_init_common_stop_timer(void)
+{
+    HAL_TIM_PWM_Stop_DMA(&g_tim1_handle, TIM_CHANNEL_1);
+    HAL_TIM_PWM_Stop_DMA(&g_tim1_handle, TIM_CHANNEL_2);
+    HAL_TIM_PWM_Stop_DMA(&g_tim1_handle, TIM_CHANNEL_3);
+    HAL_TIM_PWM_Stop_DMA(&g_tim15_handle, TIM_CHANNEL_1);
 }
 
 

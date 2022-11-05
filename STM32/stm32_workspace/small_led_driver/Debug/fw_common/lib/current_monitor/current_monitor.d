@@ -1,5 +1,5 @@
 fw_common/lib/current_monitor/current_monitor.o: \
- C:/work/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/current_monitor/current_monitor.c \
+ /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/current_monitor/current_monitor.c \
  ../src/main.h ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h \
  ../src/stm32_bloat/stm32l4xx_hal_conf.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h \
@@ -28,8 +28,9 @@ fw_common/lib/current_monitor/current_monitor.o: \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc_ex.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h \
- C:/work/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.h \
- C:/work/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/current_monitor/current_monitor.h
+ /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.h \
+ ../src/config.h \
+ /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/current_monitor/current_monitor.h
 ../src/main.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
 ../src/stm32_bloat/stm32l4xx_hal_conf.h:
@@ -61,5 +62,6 @@ fw_common/lib/current_monitor/current_monitor.o: \
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc_ex.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h:
-C:/work/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.h:
-C:/work/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/current_monitor/current_monitor.h:
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.h:
+../src/config.h:
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/current_monitor/current_monitor.h:

@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include "config.h"
 #include "current_monitor.h"
 #include "ws2812b.h"
 
@@ -98,9 +99,9 @@ p_pwm_data_t gp_pwm_data_fill;
 p_ws2812b_led_t gp_ws28128b_strip[NUM_STRIPS];
 bool g_pwm_data_ping = false;
 
-extern TIM_HandleTypeDef htim1;
-extern TIM_HandleTypeDef htim15;
-extern TIM_HandleTypeDef htim16;
+extern TIM_HandleTypeDef g_tim1_handle;
+extern TIM_HandleTypeDef g_tim15_handle;
+extern TIM_HandleTypeDef g_tim16_handle;
 extern bool g_dma_done_flag;
 
 
@@ -109,11 +110,11 @@ extern volatile int datasentflag;
 uint16_t pwm_reset[50] = {0};
 void reset_ws2812b(void)
 {
-    HAL_TIM_PWM_Start_DMA(&htim1, TIM_CHANNEL_1, (uint32_t *)pwm_reset, 50);
-    HAL_TIM_PWM_Start_DMA(&htim1, TIM_CHANNEL_2, (uint32_t *)pwm_reset, 50);
-    HAL_TIM_PWM_Start_DMA(&htim1, TIM_CHANNEL_3, (uint32_t *)pwm_reset, 50);
-    HAL_TIM_PWM_Start_DMA(&htim15, TIM_CHANNEL_1, (uint32_t *)pwm_reset, 50);
-    HAL_TIM_PWM_Start_DMA(&htim16, TIM_CHANNEL_1, (uint32_t *)pwm_reset, 50);
+    HAL_TIM_PWM_Start_DMA(&g_tim1_handle, TIM_CHANNEL_1, (uint32_t *)pwm_reset, 50);
+    HAL_TIM_PWM_Start_DMA(&g_tim1_handle, TIM_CHANNEL_2, (uint32_t *)pwm_reset, 50);
+    HAL_TIM_PWM_Start_DMA(&g_tim1_handle, TIM_CHANNEL_3, (uint32_t *)pwm_reset, 50);
+    HAL_TIM_PWM_Start_DMA(&g_tim15_handle, TIM_CHANNEL_1, (uint32_t *)pwm_reset, 50);
+    HAL_TIM_PWM_Start_DMA(&g_tim16_handle, TIM_CHANNEL_1, (uint32_t *)pwm_reset, 50);
 }
 
 static strip_bit_e ws2812_convert_strip_num_to_strip_bit(strip_num_e strip_num)
@@ -126,6 +127,7 @@ static strip_num_e ws2812_convert_strip_bit_to_strip_num(strip_bit_e strip_bit)
 {
 	return (strip_num_e)(strip_bit - 1);
 }
+
 
 uint16_t ws2812_get_strip_size(const strip_bit_e strip_bit)
 {
@@ -145,6 +147,7 @@ uint16_t ws2812_get_number_of_active_strips(const strip_mask_t strip_mask)
 	}
 	return num_active_strips;
 }
+
 
 // if STRIP_BIT_NO_MORE_SET returned then all bits have been encountered
 strip_bit_e ws2812_get_next_active_strip(const strip_mask_t strip_mask, const strip_bit_e prev_strip_bit)
@@ -272,9 +275,9 @@ bool ws2812_pixel_is_in_strip_range(strip_bit_e strip_bit, uint16_t pixel)
 void ws2812b_set_led(const strip_bit_e strip_bit, uint16_t led_num, color_t red, color_t green, color_t blue)
 {
 	strip_num_e strip_num = ws2812_convert_strip_bit_to_strip_num(strip_bit);
-	(gp_ws28128b_strip[strip_num] + led_num)->red = red * g_max_current_ratio;
-	(gp_ws28128b_strip[strip_num] + led_num)->green = green * g_max_current_ratio;
-	(gp_ws28128b_strip[strip_num] + led_num)->blue = blue * g_max_current_ratio;
+    (gp_ws28128b_strip[strip_num] + led_num)->red = red * g_max_current_ratio;
+    (gp_ws28128b_strip[strip_num] + led_num)->green = green * g_max_current_ratio;
+    (gp_ws28128b_strip[strip_num] + led_num)->blue = blue * g_max_current_ratio;
 }
 
 
@@ -299,27 +302,27 @@ void ws2812b_fill_pwm_buffer(const strip_bit_e strip_bit)
 		gp_pwm_data_fill[(strip_size * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + iii] = 0;
 	}
 
-	HAL_TIM_PWM_Start_DMA(&htim1, TIM_CHANNEL_2, (uint32_t *)gp_pwm_data_fill, (strip_size * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + WS2812B_RESET_TIME_CYCLES);
+	HAL_TIM_PWM_Start_DMA(&g_tim1_handle, TIM_CHANNEL_2, (uint32_t *)gp_pwm_data_fill, (strip_size * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + WS2812B_RESET_TIME_CYCLES);
 	datasentflag = 0;
-	while (!datasentflag);//{HAL_Delay(1);};
+	//while (!datasentflag);//{HAL_Delay(1);};
     datasentflag = 0;
 
-//	HAL_TIM_PWM_Start_DMA(&htim15, TIM_CHANNEL_1, (uint32_t *)gp_pwm_data_fill, (strip_size * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + WS2812B_RESET_TIME_CYCLES);
+//	HAL_TIM_PWM_Start_DMA(&g_tim15_handle, TIM_CHANNEL_1, (uint32_t *)gp_pwm_data_fill, (strip_size * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + WS2812B_RESET_TIME_CYCLES);
 //	datasentflag = 0;
 //	while (!datasentflag) osDelay(10);
 //	datasentflag = 0;
 //
-//	HAL_TIM_PWM_Start_DMA(&htim1, TIM_CHANNEL_1, (uint32_t *)gp_pwm_data_fill, (strip_size * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + WS2812B_RESET_TIME_CYCLES);
+//	HAL_TIM_PWM_Start_DMA(&g_tim1_handle, TIM_CHANNEL_1, (uint32_t *)gp_pwm_data_fill, (strip_size * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + WS2812B_RESET_TIME_CYCLES);
 //	datasentflag = 0;
 //	while (!datasentflag);//{HAL_Delay(1);};
 //	datasentflag = 0;
 
-//	HAL_TIM_PWM_Start_DMA(&htim16, TIM_CHANNEL_1, (uint32_t *)gp_pwm_data_fill, (strip_size * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + WS2812B_RESET_TIME_CYCLES);
+//	HAL_TIM_PWM_Start_DMA(&g_tim16_handle, TIM_CHANNEL_1, (uint32_t *)gp_pwm_data_fill, (strip_size * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + WS2812B_RESET_TIME_CYCLES);
 //	datasentflag = 0;
 //	while (!datasentflag);//{HAL_Delay(1);};
 //	datasentflag = 0;
 
-//	HAL_TIM_PWM_Start_DMA(&htim1, TIM_CHANNEL_3, (uint32_t *)gp_pwm_data_fill, (strip_size * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + WS2812B_RESET_TIME_CYCLES);
+//	HAL_TIM_PWM_Start_DMA(&g_tim1_handle, TIM_CHANNEL_3, (uint32_t *)gp_pwm_data_fill, (strip_size * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + WS2812B_RESET_TIME_CYCLES);
 //	datasentflag = 0;
 //	while (!datasentflag);//{HAL_Delay(1);};
 //	datasentflag = 0;
@@ -348,11 +351,7 @@ void ws2812b_init(void)
 #endif
 
 	uint8_t num_strips = NUM_STRIPS;
-	for (int iii = 0; iii < NUM_STRIPS; iii++)
-	{
-		g_all_strip_mask |= 1 << iii;
-	}
-	
+	for (int iii = 0; iii < NUM_STRIPS; iii++) g_all_strip_mask |= 1 << iii;
 	switch (num_strips)
 	{
 #if defined(STRIP_9_LENGTH)
@@ -401,9 +400,6 @@ void ws2812b_init(void)
 		break;
 	}
 	gp_pwm_data_fill = malloc((sizeof(ws2812b_led_t) * BITS_PER_BYTE * g_max_strip_length) + WS2812B_RESET_TIME_CYCLES);
-//	gp_pwm_data_ping = malloc((sizeof(ws2812b_led_t) * BITS_PER_BYTE * g_max_strip_length) + WS2812B_RESET_TIME_CYCLES);
-//	gp_pwm_data_pong = malloc((sizeof(ws2812b_led_t) * BITS_PER_BYTE * g_max_strip_length) + WS2812B_RESET_TIME_CYCLES);
-
 	current_monitor_init();
 }
 
@@ -414,7 +410,6 @@ void ws2812b_show(const strip_mask_t strip_mask)
 		if ((1 << iii) & strip_mask)
 		{
 			ws2812b_fill_pwm_buffer(iii + 1); // iii = strip num!
-			// get the data in pwm form.. 
-		} // show it
+		}
 	}
 }

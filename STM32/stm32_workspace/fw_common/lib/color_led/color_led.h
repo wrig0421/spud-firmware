@@ -3,6 +3,9 @@
 #define COLOR_LED_H
 
 #define COLOR_LED_MAX_BRIGHTNESS_DIVISOR	(1)
+#define COLOR_LED_RED_MASK                  0xFF0000
+#define COLOR_LED_GREEN_MASK                0x00FF00
+#define COLOR_LED_BLUE_MASK                 0x0000FF
 
 
 typedef enum
@@ -30,7 +33,18 @@ typedef enum
     COLOR_HEX_GREEN = 0x008000,
     COLOR_HEX_PURPLE = 0x800080,
     COLOR_HEX_TEAL = 0x008080,
-    COLOR_HEX_NAVY = 0x000080
+    COLOR_HEX_NAVY = 0x000080,
+    COLOR_HEX_ORANGE_RED = 0xFF4500,
+    COLOR_HEX_ORANGE = 0xFFA500,
+    COLOR_HEX_KHAKI = 0xF0E68C,
+    COLOR_HEX_LAWN_GREEN = 0x7CFC00,
+    COLOR_HEX_SPRING_GREEN = 0x00FF7F,
+    COLOR_HEX_MIDNIGHT_BLUE = 0x191970,
+    COLOR_HEX_BLUE_VIOLET = 0x8A2BE2,
+    COLOR_HEX_DARK_MAGENTA = 0x8B008B,
+    COLOR_HEX_HOT_PINK = 0xFF69B4,
+    COLOR_HEX_MINT = 0x4EBD88,
+    COLOR_HEX_BROWN = 0xA52A2A,
 } color_hex_code_e;
 
 
@@ -53,13 +67,25 @@ typedef enum
     COLORS_PURPLE,
     COLORS_TEAL,
     COLORS_NAVY,
-	COLORS_LAST = COLORS_NAVY,
+    COLORS_ORANGE_RED,
+    COLORS_ORANGE,
+    COLORS_KHAKI,
+    COLORS_LAWN_GREEN,
+    COLORS_SPRING_GREEN,
+    COLORS_MIDNIGHT_BLUE,
+    COLORS_BLUE_VIOLET,
+    COLORS_DARK_MAGENTA,
+    COLORS_HOT_PINK,
+    COLORS_MINT,
+    //COLORS_GRAY,
+    COLORS_BROWN,
+	COLORS_LAST = COLORS_BROWN,
     NUM_COLORS
 } all_colors_e;
 
 
 void color_led_init(void);
-
+void color_led_hex_to_rgb(color_hex_code_e color, uint8_t *color_array);
 
 #endif
 

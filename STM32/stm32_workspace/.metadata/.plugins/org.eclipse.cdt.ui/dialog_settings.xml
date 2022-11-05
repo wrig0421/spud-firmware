@@ -24,6 +24,7 @@
 		<item key="caseSensitive" value="false"/>
 		<item key="searchFlags" value="227191"/>
 		<list key="previousPatterns">
+			<item value="g_max_current_ratio"/>
 			<item value="GPIO_PIN_5"/>
 			<item value="GPIO_PIN_13"/>
 			<item value="EXTI0_IRQHandler"/>

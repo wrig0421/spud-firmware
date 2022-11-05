@@ -16,11 +16,13 @@ typedef enum
     MASTER_LED_STATE_FIXED
 } master_led_state_e;
 
+
 typedef enum
 {
 	LED_STATE_FIRST = 0,
 	LED_STATE_SPELL = LED_STATE_FIRST,
-	LED_STATE_WHITE_COLOR,
+	//LED_STATE_MINT_NOHBZ,
+	//LED_STATE_WHITE_COLOR,
 	LED_STATE_SOLID_COLOR,
 	LED_STATE_SPARKLE_NO_FILL,
     LED_STATE_SPARKLE_FILL,
@@ -46,7 +48,7 @@ typedef enum
 #elif defined(SRW_DEBUG)
 	LED_STATE_LAST = LED_STATE_SRW_DEBUG,
 #else
-	LED_STATE_LAST = LED_STATE_SPELL,
+	LED_STATE_LAST = LED_STATE_TWINKLE,
 #endif
 	NUM_LED_STATES,
 	// future states below 
@@ -68,8 +70,8 @@ typedef enum
 {
 	LED_SPEED_FIRST,
 	LED_SPEED_10X = LED_SPEED_FIRST,
-	LED_SPEED_5X,
-	LED_SPEED_2X,
+	//LED_SPEED_5X,
+	//LED_SPEED_2X,
 	LED_SPEED_1X,
 	LED_SPEED_0P5X,
 	LED_SPEED_0P25X,
@@ -78,19 +80,16 @@ typedef enum
 	NUM_SPEEDS
 } led_speed_e;
 
+
 void animate_led_show_strip(const strip_mask_t strip_mask);
 void animate_led_solid_custom_color(const strip_mask_t strip_mask, color_hex_code_e color);
 void animate_led_turn_all_pixels_off(void);
 void animate_led_spell_word_multiple_colors(strip_mask_t strip_mask, uint32_t* color_array, uint16_t speed_delay);
 void animate_led_spell_and_sparkle(const strip_mask_t spell_mask, const strip_mask_t sparkle_mask, color_hex_code_e color, bool fill, uint16_t speed_delay);
-void animate_led_only_spell_word(strip_mask_t strip_mask, color_hex_code_e color, uint16_t speed_delay);void animate_led_fade_in_fade_out(strip_mask_t strip_mask, color_hex_code_e color);
+void animate_led_only_spell_word(strip_mask_t strip_mask, color_hex_code_e color, uint16_t time_ms);
+void animate_led_fade_in_fade_out(strip_mask_t strip_mask, color_hex_code_e color);
 void animate_led_strobe(strip_mask_t strip_mask, color_hex_code_e color, uint16_t animate_led_strobe_count, uint16_t flash_delay, uint16_t end_pause);
 void animate_led_cyclone_bounce(strip_mask_t strip_mask, color_hex_code_e color, uint16_t eye_size, uint16_t speed_delay, uint16_t return_delay);
-void animate_led_center_to_outside(strip_mask_t strip_mask, color_hex_code_e color, uint16_t eye_size, uint16_t speed_delay, uint16_t return_delay);
-void animate_led_outside_to_center(strip_mask_t strip_mask, color_hex_code_e color, uint16_t eye_size, uint16_t speed_delay, uint16_t return_delay);
-void animate_led_left_to_right(strip_mask_t strip_mask, color_hex_code_e color, uint16_t eye_size, uint16_t speed_delay, uint16_t return_delay);
-void animate_led_right_to_left(strip_mask_t strip_mask, color_hex_code_e color, uint16_t eye_size, uint16_t speed_delay, uint16_t return_delay);
-void animate_led_new_kitt(uint16_t eye_size, uint16_t speed_delay, uint16_t return_delay);
 void animate_led_twinkle(strip_mask_t strip_mask, color_hex_code_e color, uint16_t count, uint16_t speed_delay, bool only_one);
 void animate_led_twinkle_random(strip_mask_t strip_mask, uint16_t count, uint16_t speed_delay, bool only_one);
 void animate_led_sparkle_only_random_color(strip_mask_t strip_mask, bool fill, uint16_t speed_delay);

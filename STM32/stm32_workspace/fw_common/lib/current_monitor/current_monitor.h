@@ -9,11 +9,11 @@
 #define CURRENT_MONITOR_H
 
 
-#define CURRENT_MONITOR_MAX_CURRENT_DRAW_A      3
+#define CURRENT_MONITOR_MAX_CURRENT_DRAW_A      9
 #define CURRENT_MONITOR_MAX_CURRENT_PER_LED_MA  40
 typedef float current_t;
 
-
+float current_monitor_ratio(void);
 void current_monitor_init(void);
 
 #endif /* CURRENT_MONITOR_H */

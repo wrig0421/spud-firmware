@@ -28,5 +28,5 @@ void board_init_specific(void)
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     HAL_GPIO_Init(PIN_PORT_C, &GPIO_InitStruct);
 
-
+    HAL_GPIO_WritePin(PIN_PORT_C, PIN_LVL_DIR, GPIO_PIN_SET);
 }

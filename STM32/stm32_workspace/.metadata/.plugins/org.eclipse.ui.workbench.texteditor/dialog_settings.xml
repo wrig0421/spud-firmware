@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="STM32L4xx_HAL_CONF_H"/>
+		<item key="selection" value="            case LED_STATE_MINT_NOHBZ:"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="false"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="            case LED_STATE_MINT_NOHBZ:"/>
+			<item value="&#x09;(gp_ws28128b_strip[strip_num] + led_num)-&gt;red = red * g_max_current_ratio;"/>
+			<item value="case LED_STATE_WHITE_COLOR:"/>
+			<item value="init"/>
 			<item value="STM32L4xx_HAL_CONF_H"/>
 			<item value="#if defined(BOARD_SPUD_GLO_V1)"/>
 			<item value="#include &quot;main.h&quot;"/>
 			<item value="main.h"/>
-			<item value="GPIO_PIN_2"/>
-			<item value="&#x09;HAL_TIM_PWM_Start_DMA(&amp;htim16, TIM_CHANNEL_1, (uint32_t *)gp_pwm_data_fill, (strip_size * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + WS2812B_RESET_TIME_CYCLES);"/>
-			<item value="Reset_Handler"/>
-			<item value="Reset_handler"/>
 		</list>
 		<list key="replacehistory">
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
-		<item key="DIALOG_X_ORIGIN" value="929"/>
-		<item key="DIALOG_Y_ORIGIN" value="569"/>
+		<item key="DIALOG_X_ORIGIN" value="594"/>
+		<item key="DIALOG_Y_ORIGIN" value="607"/>
 		<item key="DIALOG_WIDTH" value="336"/>
 		<item key="DIALOG_HEIGHT" value="408"/>
 		<item key="DIALOG_FONT_NAME" value="1|.AppleSystemUIFont|11.0|0|COCOA|1|.AppleSystemUIFont"/>
