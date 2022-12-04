@@ -1,0 +1,12 @@
+/*
+ * semaphore.c
+ *
+ *  Created on: Nov 12, 2022
+ *      Author: spud
+ */
+
+
+void semaphore_create(void)
+{
+
+}

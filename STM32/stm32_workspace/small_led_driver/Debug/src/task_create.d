@@ -13,6 +13,7 @@ src/task_create.o: ../src/task_create.c \
  ../src/bsp/board_specific/board_specific.h ../src/config.h \
  ../src/bsp/board_init_common.h \
  ../src/bsp/board_specific/board_init_spud_glo_v3/board_init_spud_glo_v3.h \
+ ../src/task_dma_transfer.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/task/task_led_ctrl.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/color_led/color_led.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.h \
@@ -34,6 +35,7 @@ src/task_create.o: ../src/task_create.c \
 ../src/config.h:
 ../src/bsp/board_init_common.h:
 ../src/bsp/board_specific/board_init_spud_glo_v3/board_init_spud_glo_v3.h:
+../src/task_dma_transfer.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/task/task_led_ctrl.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/color_led/color_led.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.h:

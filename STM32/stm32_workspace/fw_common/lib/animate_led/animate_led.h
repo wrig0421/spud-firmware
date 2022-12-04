@@ -21,8 +21,8 @@ typedef enum
 {
 	LED_STATE_FIRST = 0,
 	LED_STATE_SPELL = LED_STATE_FIRST,
-	//LED_STATE_MINT_NOHBZ,
-	//LED_STATE_WHITE_COLOR,
+	LED_STATE_MINT_NOHBZ,
+	LED_STATE_WHITE_COLOR,
 	LED_STATE_SOLID_COLOR,
 	LED_STATE_SPARKLE_NO_FILL,
     LED_STATE_SPARKLE_FILL,
@@ -80,37 +80,46 @@ typedef enum
 	NUM_SPEEDS
 } led_speed_e;
 
-
 void animate_led_show_strip(const strip_mask_t strip_mask);
-void animate_led_solid_custom_color(const strip_mask_t strip_mask, color_hex_code_e color);
+void animate_led_set_pixel(const strip_mask_t mask, const uint16_t pixel, const uint8_t red, const uint8_t green,
+                           const uint8_t blue);
+void animate_led_set_all_pixels(const strip_mask_t mask, const uint8_t red, const uint8_t green, const uint8_t blue);
+void animate_led_multiple_solid_custom_colors(const strip_mask_t mask_solid, const uint32_t* color_array);
+void animate_led_solid_custom_color(const strip_mask_t mask_solid, const color_hex_code_e color_spell);
 void animate_led_turn_all_pixels_off(void);
-void animate_led_spell_word_multiple_colors(strip_mask_t strip_mask, uint32_t* color_array, uint16_t speed_delay);
-void animate_led_spell_and_sparkle(const strip_mask_t spell_mask, const strip_mask_t sparkle_mask, color_hex_code_e color, bool fill, uint16_t speed_delay);
-void animate_led_only_spell_word(strip_mask_t strip_mask, color_hex_code_e color, uint16_t time_ms);
-void animate_led_fade_in_fade_out(strip_mask_t strip_mask, color_hex_code_e color);
-void animate_led_strobe(strip_mask_t strip_mask, color_hex_code_e color, uint16_t animate_led_strobe_count, uint16_t flash_delay, uint16_t end_pause);
-void animate_led_cyclone_bounce(strip_mask_t strip_mask, color_hex_code_e color, uint16_t eye_size, uint16_t speed_delay, uint16_t return_delay);
-void animate_led_twinkle(strip_mask_t strip_mask, color_hex_code_e color, uint16_t count, uint16_t speed_delay, bool only_one);
-void animate_led_twinkle_random(strip_mask_t strip_mask, uint16_t count, uint16_t speed_delay, bool only_one);
-void animate_led_sparkle_only_random_color(strip_mask_t strip_mask, bool fill, uint16_t speed_delay);
-void animate_led_sparkle_random_color(strip_mask_t strip_mask, bool fill, uint16_t speed_delay);
-void animate_led_sparkle(strip_mask_t strip_mask, color_hex_code_e color, uint16_t speed_delay);
-void animate_led_running_lights(strip_mask_t strip_mask, color_hex_code_e color);
-void animate_led_color_wipe(strip_mask_t strip_mask, color_hex_code_e color, uint16_t speed_delay);
-void animate_led_rainbow_cycle(strip_mask_t strip_mask, uint16_t speed_delay);
+void animate_led_spell_and_sparkle(const strip_mask_t mask_spell, const strip_mask_t mask_sparkle,
+                                   const color_hex_code_e color_spell, const bool fill, const uint16_t speed_delay);
+void animate_led_spell_and_solid_color(const strip_mask_t mask_spell, const strip_mask_t mask_solid,
+                                       const color_hex_code_e color_spell, const color_hex_code_e color_solid,
+                                       const uint16_t speed_delay);
+void animate_led_spell_word_multiple_colors(const strip_mask_t mask_spell, const color_hex_code_e* color_array,
+                                            const uint16_t speed_delay);
+void animate_led_only_spell_word(const strip_mask_t mask_spell, const color_hex_code_e color_spell,
+                                 const uint16_t time_ms);
+void animate_led_fade_in_fade_out_multiple_colors(const strip_mask_t strip_mask, const uint32_t* color_array);
+void animate_led_fade_in_fade_out(const strip_mask_t mask_fade, const color_hex_code_e color_fade);
+void animate_led_strobe(const strip_mask_t mask_strobe, const color_hex_code_e color_strobe,
+                        const uint16_t animate_led_strobe_count, const uint16_t flash_delay, const uint16_t end_pause);
+void animate_led_twinkle_multiple_colors(const strip_mask_t mask_twinkle, const uint32_t* color_array,
+                                         const uint16_t count, const uint16_t speed_delay, const bool only_one);
+void animate_led_twinkle(const strip_mask_t twinkle_mask, const color_hex_code_e color_twinkle, const uint16_t count,
+                         const uint16_t speed_delay, const bool only_one);
+void animate_led_twinkle_random(const strip_mask_t mask_twinkle_random, const uint16_t count,
+                                const uint16_t speed_delay, const bool only_one);
+void animate_led_sparkle_only_random_color(const strip_mask_t mask_sparkle_random, const bool fill,
+                                           const uint16_t speed_delay);
+void animate_led_sparkle_random_color(const strip_mask_t mask_sparkle_random, const bool fill,
+                                      const uint16_t speed_delay);
+void animate_led_sparkle(const strip_mask_t mask_sparkle, const color_hex_code_e color_sparkle,
+                         const uint16_t speed_delay);
+void animate_led_running_lights(const strip_mask_t mask_running_lights, const color_hex_code_e color_running_lights);
+void animate_led_rainbow_cycle(const strip_mask_t mask_rainbow_cycle, const uint16_t speed_delay);
 uint8_t* animate_led_wheel(uint8_t wheel_pos);
-void animate_led_theater_chase(strip_mask_t strip_mask, color_hex_code_e color, uint16_t speed_delay);
-void animate_led_theater_chase_rainbow(strip_mask_t strip_mask, uint16_t speed_delay);
-void animate_led_bouncing_balls(strip_mask_t strip_mask, color_hex_code_e color, int ball_count);
-void animate_led_meteor_rain(strip_mask_t strip_mask, color_hex_code_e color, uint8_t meteor_size, uint8_t meteor_trail_decay, bool meteor_random_decay, int speed_delay);
-void animate_led_fade_to_black(strip_mask_t strip_mask, uint16_t pixel, uint8_t fade_value);
-void animate_led_set_pixel(strip_mask_t strip_mask, uint16_t pixel, uint8_t red, uint8_t green, uint8_t blue);
-void animate_led_spell_and_solid_color(const strip_mask_t spell_mask, const strip_mask_t solid_color_mask, color_hex_code_e color, uint16_t speed_delay);
-void animate_led_set_all_pixels(strip_mask_t strip_mask, uint8_t red, uint8_t green, uint8_t blue);
-void animate_led_fade_in_fade_out_multiple_colors(strip_mask_t strip_mask, uint32_t* color_array);
-void animate_led_theater_chase_multiple_colors(strip_mask_t strip_mask, uint32_t* color, uint16_t speed_delay);
-void animate_led_multiple_solid_custom_colors(strip_mask_t strip_mask, uint32_t* color_array);
-void animate_led_twinkle_multiple_colors(strip_mask_t strip_mask, uint32_t* color_array, uint16_t count, uint16_t speed_delay, bool only_one);
+void animate_led_theater_chase_multiple_colors(const strip_mask_t mask_theater_chase, const uint32_t* color_array,
+                                               const uint16_t speed_delay);
+void animate_led_theater_chase(const strip_mask_t mask_theater_chase, const color_hex_code_e color_theater_chase,
+                               const uint16_t speed_delay);
+void animate_led_theater_chase_rainbow(const strip_mask_t mask_theater_chase, const uint16_t speed_delay);
 
 
 #endif

@@ -1,136 +1,17 @@
-17:35:33 **** Incremental Build of configuration Debug for project small_led_driver ****
+09:14:32 **** Incremental Build of configuration Debug for project small_led_driver ****
 make -j7 all 
-arm-none-eabi-gcc "/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/color_led/color_led.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L431xx -c -I../sdk/FreeRTOS/Source/CMSIS_RTOS_V2 -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/color_led" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/task" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/current_monitor" -I../src/stm32_bloat -I../sdk/CMSIS/Device/ST/STM32L4xx/Include -I../sdk/CMSIS/Include -I../src/bsp -I../startup -I../src -I../sdk/STM32l4xx_HAL_Driver/Inc -I../sdk/STM32l4xx_HAL_Driver/Inc/Legacy -I../sdk/FreeRTOS/Source -I../sdk/FreeRTOS/Source/include -I../sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../src/bsp/board_specific -I../src/bsp/board_specific/board_init_spud_glo_v1 -I../src/bsp/board_specific/board_init_spud_glo_v2 -I../src/bsp/board_specific/board_init_spud_glo_v3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"fw_common/lib/color_led/color_led.d" -MT"fw_common/lib/color_led/color_led.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "fw_common/lib/color_led/color_led.o"
-arm-none-eabi-gcc "/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L431xx -c -I../sdk/FreeRTOS/Source/CMSIS_RTOS_V2 -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/color_led" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/task" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/current_monitor" -I../src/stm32_bloat -I../sdk/CMSIS/Device/ST/STM32L4xx/Include -I../sdk/CMSIS/Include -I../src/bsp -I../startup -I../src -I../sdk/STM32l4xx_HAL_Driver/Inc -I../sdk/STM32l4xx_HAL_Driver/Inc/Legacy -I../sdk/FreeRTOS/Source -I../sdk/FreeRTOS/Source/include -I../sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../src/bsp/board_specific -I../src/bsp/board_specific/board_init_spud_glo_v1 -I../src/bsp/board_specific/board_init_spud_glo_v2 -I../src/bsp/board_specific/board_init_spud_glo_v3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"fw_common/lib/animate_led/animate_led.d" -MT"fw_common/lib/animate_led/animate_led.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "fw_common/lib/animate_led/animate_led.o"
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.c: In function 'animate_led_spell_and_sparkle':
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.c:105:90: error: 'red' undeclared (first use in this function)
-  105 |      if (task_button_press_interrupt_occurred()) if (task_button_press_check_interrupts(&red, &green, &blue)) return;
-      |                                                                                          ^~~
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.c:105:90: note: each undeclared identifier is reported only once for each function it appears in
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.c:105:96: error: 'green' undeclared (first use in this function); did you mean '_reent'?
-  105 |      if (task_button_press_interrupt_occurred()) if (task_button_press_check_interrupts(&red, &green, &blue)) return;
-      |                                                                                                ^~~~~
-      |                                                                                                _reent
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/color_led/color_led.c: In function 'color_led_hex_to_rgb':
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/color_led/color_led.c:41:73: error: 'BITS_PER_BYTE' undeclared (first use in this function)
-   41 |     color_array[offsetof(ws2812b_led_t, red)] = ((color & 0xFF0000) >> (BITS_PER_BYTE * (2 - offsetof(ws2812b_led_t, red))));
-      |                                                                         ^~~~~~~~~~~~~
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/color_led/color_led.c:41:73: note: each undeclared identifier is reported only once for each function it appears in
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.c:105:104: error: 'blue' undeclared (first use in this function)
-  105 |      if (task_button_press_interrupt_occurred()) if (task_button_press_check_interrupts(&red, &green, &blue)) return;
-      |                                                                                                        ^~~~
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/color_led/color_led.c:40:25: warning: unused variable 'blue' [-Wunused-variable]
-   40 |     uint8_t red, green, blue;
-      |                         ^~~~
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/color_led/color_led.c:40:18: warning: unused variable 'green' [-Wunused-variable]
-   40 |     uint8_t red, green, blue;
-      |                  ^~~~~
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/color_led/color_led.c:40:13: warning: unused variable 'red' [-Wunused-variable]
-   40 |     uint8_t red, green, blue;
-      |             ^~~
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.c: At top level:
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.c:126:6: error: conflicting types for 'animate_led_spell_and_solid_color'
-  126 | void animate_led_spell_and_solid_color(const strip_mask_t mask_spell, const strip_mask_t mask_solid,
-      |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-In file included from /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/task/task_led_ctrl.h:6,
-                 from /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.c:5:
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.h:108:6: note: previous declaration of 'animate_led_spell_and_solid_color' was here
-  108 | void animate_led_spell_and_solid_color(const strip_mask_t spell_mask, const strip_mask_t solid_color_mask, color_hex_code_e color, uint16_t speed_delay);
-      |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.c: In function 'animate_led_spell_and_solid_color':
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.c:137:90: error: 'red' undeclared (first use in this function)
-  137 |      if (task_button_press_interrupt_occurred()) if (task_button_press_check_interrupts(&red, &green, &blue)) return;
-      |                                                                                          ^~~
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.c:137:96: error: 'green' undeclared (first use in this function); did you mean '_reent'?
-  137 |      if (task_button_press_interrupt_occurred()) if (task_button_press_check_interrupts(&red, &green, &blue)) return;
-      |                                                                                                ^~~~~
-      |                                                                                                _reent
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.c:137:104: error: 'blue' undeclared (first use in this function)
-  137 |      if (task_button_press_interrupt_occurred()) if (task_button_press_check_interrupts(&red, &green, &blue)) return;
-      |                                                                                                        ^~~~
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.c: At top level:
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.c:148:6: error: conflicting types for 'animate_led_spell_word_multiple_colors'
-  148 | void animate_led_spell_word_multiple_colors(strip_mask_t mask_spell, color_hex_code_e* color_array,
-      |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-In file included from /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/task/task_led_ctrl.h:6,
-                 from /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.c:5:
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.h:87:6: note: previous declaration of 'animate_led_spell_word_multiple_colors' was here
-   87 | void animate_led_spell_word_multiple_colors(strip_mask_t strip_mask, uint32_t* color_array, uint16_t speed_delay);
-      |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.c: In function 'animate_led_only_spell_word':
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.c:191:90: error: 'red' undeclared (first use in this function)
-  191 |      if (task_button_press_interrupt_occurred()) if (task_button_press_check_interrupts(&red, &green, &blue)) return;
-      |                                                                                          ^~~
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.c:191:96: error: 'green' undeclared (first use in this function); did you mean '_reent'?
-  191 |      if (task_button_press_interrupt_occurred()) if (task_button_press_check_interrupts(&red, &green, &blue)) return;
-      |                                                                                                ^~~~~
-      |                                                                                                _reent
-make: *** [fw_common/lib/color_led/subdir.mk:19: fw_common/lib/color_led/color_led.o] Error 1
-make: *** Waiting for unfinished jobs....
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.c:191:104: error: 'blue' undeclared (first use in this function)
-  191 |      if (task_button_press_interrupt_occurred()) if (task_button_press_check_interrupts(&red, &green, &blue)) return;
-      |                                                                                                        ^~~~
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.c:196:32: error: 'strip_mask' undeclared (first use in this function); did you mean 'strip_mask_t'?
-  196 |         animate_led_show_strip(strip_mask);
-      |                                ^~~~~~~~~~
-      |                                strip_mask_t
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.c: In function 'animate_led_fade_in_fade_out':
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.c:256:93: error: 'red' undeclared (first use in this function)
-  256 |         if (task_button_press_interrupt_occurred()) if (task_button_press_check_interrupts(&red, &green, &blue)) return;
-      |                                                                                             ^~~
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.c:256:99: error: 'green' undeclared (first use in this function); did you mean '_reent'?
-  256 |         if (task_button_press_interrupt_occurred()) if (task_button_press_check_interrupts(&red, &green, &blue)) return;
-      |                                                                                                   ^~~~~
-      |                                                                                                   _reent
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.c:256:107: error: 'blue' undeclared (first use in this function)
-  256 |         if (task_button_press_interrupt_occurred()) if (task_button_press_check_interrupts(&red, &green, &blue)) return;
-      |                                                                                                           ^~~~
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.c: In function 'animate_led_strobe':
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.c:280:93: error: 'red' undeclared (first use in this function)
-  280 |         if (task_button_press_interrupt_occurred()) if (task_button_press_check_interrupts(&red, &green, &blue)) return;
-      |                                                                                             ^~~
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.c:280:99: error: 'green' undeclared (first use in this function); did you mean '_reent'?
-  280 |         if (task_button_press_interrupt_occurred()) if (task_button_press_check_interrupts(&red, &green, &blue)) return;
-      |                                                                                                   ^~~~~
-      |                                                                                                   _reent
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.c:280:107: error: 'blue' undeclared (first use in this function)
-  280 |         if (task_button_press_interrupt_occurred()) if (task_button_press_check_interrupts(&red, &green, &blue)) return;
-      |                                                                                                           ^~~~
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.c:282:37: error: 'color_rgb' undeclared (first use in this function); did you mean 'color_t'?
-  282 |                                    (color_rgb[offsetof(ws2812b_led_t, red)]),
-      |                                     ^~~~~~~~~
-      |                                     color_t
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.c: In function 'animate_led_twinkle_multiple_colors':
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.c:316:93: error: 'red' undeclared (first use in this function)
-  316 |         if (task_button_press_interrupt_occurred()) if (task_button_press_check_interrupts(&red, &green, &blue)) return;
-      |                                                                                             ^~~
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.c:316:99: error: 'green' undeclared (first use in this function); did you mean '_reent'?
-  316 |         if (task_button_press_interrupt_occurred()) if (task_button_press_check_interrupts(&red, &green, &blue)) return;
-      |                                                                                                   ^~~~~
-      |                                                                                                   _reent
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.c:316:107: error: 'blue' undeclared (first use in this function)
-  316 |         if (task_button_press_interrupt_occurred()) if (task_button_press_check_interrupts(&red, &green, &blue)) return;
-      |                                                                                                           ^~~~
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.c:322:21: error: 'color_solid_rgb' undeclared (first use in this function)
-  322 |                    (color_solid_rgb[offsetof(ws2812b_led_t, red)]),
-      |                     ^~~~~~~~~~~~~~~
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.c: In function 'animate_led_twinkle':
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.c:341:93: error: 'red' undeclared (first use in this function)
-  341 |         if (task_button_press_interrupt_occurred()) if (task_button_press_check_interrupts(&red, &green, &blue)) return;
-      |                                                                                             ^~~
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.c:341:99: error: 'green' undeclared (first use in this function); did you mean '_reent'?
-  341 |         if (task_button_press_interrupt_occurred()) if (task_button_press_check_interrupts(&red, &green, &blue)) return;
-      |                                                                                                   ^~~~~
-      |                                                                                                   _reent
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.c:341:107: error: 'blue' undeclared (first use in this function)
-  341 |         if (task_button_press_interrupt_occurred()) if (task_button_press_check_interrupts(&red, &green, &blue)) return;
-      |                                                                                                           ^~~~
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.c: In function 'animate_led_bouncing_balls':
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.c:621:43: warning: implicit declaration of function 'millis' [-Wimplicit-function-declaration]
-  621 |         clock_time_since_last_bounce[i] = millis();
-      |                                           ^~~~~~
-make: *** [fw_common/lib/animate_led/subdir.mk:19: fw_common/lib/animate_led/animate_led.o] Error 1
-"make -j7 all" terminated with exit code 2. Build might be incomplete.
+arm-none-eabi-gcc "/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/task/task_button_press.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L431xx -c -I../sdk/FreeRTOS/Source/CMSIS_RTOS_V2 -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/color_led" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/task" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/current_monitor" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/semaphore" -I../src/stm32_bloat -I../sdk/CMSIS/Device/ST/STM32L4xx/Include -I../sdk/CMSIS/Include -I../src/bsp -I../startup -I../src -I../sdk/STM32l4xx_HAL_Driver/Inc -I../sdk/STM32l4xx_HAL_Driver/Inc/Legacy -I../sdk/FreeRTOS/Source -I../sdk/FreeRTOS/Source/include -I../sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../src/bsp/board_specific -I../src/bsp/board_specific/board_init_spud_glo_v1 -I../src/bsp/board_specific/board_init_spud_glo_v2 -I../src/bsp/board_specific/board_init_spud_glo_v3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"fw_common/lib/task/task_button_press.d" -MT"fw_common/lib/task/task_button_press.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "fw_common/lib/task/task_button_press.o"
+arm-none-eabi-gcc -o "small_led_driver.elf" @"objects.list"   -mcpu=cortex-m4 -T"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/STM32L431RCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="small_led_driver.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: small_led_driver.elf
+ 
+arm-none-eabi-size   small_led_driver.elf 
+arm-none-eabi-objdump -h -S  small_led_driver.elf  > "small_led_driver.list"
+   text	   data	    bss	    dec	    hex	filename
+  47536	    140	  16092	  63768	   f918	small_led_driver.elf
+Finished building: default.size.stdout
+ 
+Finished building: small_led_driver.list
+ 
 
-17:35:33 Build Failed. 30 errors, 4 warnings. (took 569ms)
+09:14:33 Build Finished. 0 errors, 0 warnings. (took 1s.109ms)
 

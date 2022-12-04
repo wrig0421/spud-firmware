@@ -37,7 +37,11 @@ src/main.o: ../src/main.c ../src/main.h \
  ../sdk/FreeRTOS/Source/include/mpu_wrappers.h \
  ../sdk/FreeRTOS/Source/include/task.h \
  ../sdk/FreeRTOS/Source/include/list.h \
- ../sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h ../src/task_create.h
+ ../sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h \
+ /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.h \
+ ../src/config.h \
+ /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/semaphore/semaphore_create.h \
+ ../src/task_create.h
 ../src/main.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
 ../src/stm32_bloat/stm32l4xx_hal_conf.h:
@@ -81,4 +85,7 @@ src/main.o: ../src/main.c ../src/main.h \
 ../sdk/FreeRTOS/Source/include/task.h:
 ../sdk/FreeRTOS/Source/include/list.h:
 ../sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h:
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.h:
+../src/config.h:
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/semaphore/semaphore_create.h:
 ../src/task_create.h:

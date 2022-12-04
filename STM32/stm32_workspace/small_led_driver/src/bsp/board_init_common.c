@@ -194,6 +194,41 @@ static void board_init_common_timer_init(timer_e timer)
             g_tim16_handle.Init.RepetitionCounter = 0;
             g_tim16_handle.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
             if (HAL_TIM_Base_Init(&g_tim16_handle) != HAL_OK) Error_Handler();
+            sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+            if (HAL_TIM_ConfigClockSource(&g_tim16_handle, &sClockSourceConfig) != HAL_OK) Error_Handler();
+            if (HAL_TIM_PWM_Init(&g_tim16_handle) != HAL_OK) Error_Handler();
+            sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+            sMasterConfig.MasterOutputTrigger2 = TIM_TRGO2_RESET;
+            sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+            if (HAL_TIMEx_MasterConfigSynchronization(&g_tim16_handle, &sMasterConfig) != HAL_OK) Error_Handler();
+            sConfigOC.OCMode = TIM_OCMODE_PWM1;
+            sConfigOC.Pulse = 0;
+            sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
+            sConfigOC.OCNPolarity = TIM_OCNPOLARITY_HIGH;
+            sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
+            sConfigOC.OCIdleState = TIM_OCIDLESTATE_RESET;
+            sConfigOC.OCNIdleState = TIM_OCNIDLESTATE_RESET;
+            if (HAL_TIM_PWM_ConfigChannel(&g_tim16_handle, &sConfigOC, TIM_CHANNEL_1) != HAL_OK) Error_Handler();
+            sBreakDeadTimeConfig.OffStateRunMode = TIM_OSSR_DISABLE;
+            sBreakDeadTimeConfig.OffStateIDLEMode = TIM_OSSI_DISABLE;
+            sBreakDeadTimeConfig.LockLevel = TIM_LOCKLEVEL_OFF;
+            sBreakDeadTimeConfig.DeadTime = 0;
+            sBreakDeadTimeConfig.BreakState = TIM_BREAK_DISABLE;
+            sBreakDeadTimeConfig.BreakPolarity = TIM_BREAKPOLARITY_HIGH;
+            sBreakDeadTimeConfig.BreakFilter = 0;
+            sBreakDeadTimeConfig.Break2State = TIM_BREAK2_DISABLE;
+            sBreakDeadTimeConfig.Break2Polarity = TIM_BREAK2POLARITY_HIGH;
+            sBreakDeadTimeConfig.Break2Filter = 0;
+            sBreakDeadTimeConfig.AutomaticOutput = TIM_AUTOMATICOUTPUT_DISABLE;
+            if (HAL_TIMEx_ConfigBreakDeadTime(&g_tim16_handle, &sBreakDeadTimeConfig) != HAL_OK) Error_Handler();
+            HAL_TIM_PWM_Stop_DMA(&g_tim1_handle, TIM_CHANNEL_1);
+            __HAL_RCC_GPIOA_CLK_ENABLE();
+            GPIO_InitStruct.Pin = PIN_TIM16_CH1;
+            GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+            GPIO_InitStruct.Pull = GPIO_NOPULL;
+            GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+            GPIO_InitStruct.Alternate = GPIO_AF14_TIM16;
+            HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
         break;
         default:
         break;
@@ -216,6 +251,17 @@ static void board_init_common_nvic_setup_interrupts(void)
     __HAL_GPIO_EXTI_CLEAR_IT(EXTI9_5_IRQn);
     __HAL_GPIO_EXTI_CLEAR_IT(EXTI15_10_IRQn);
     __HAL_GPIO_EXTI_CLEAR_IT(EXTI2_IRQn);
+
+//    HAL_NVIC_SetPriority(DMA1_Channel2_IRQn, 20, 0);
+//    HAL_NVIC_EnableIRQ(DMA1_Channel2_IRQn);
+//    HAL_NVIC_SetPriority(DMA1_Channel3_IRQn, 20, 0);
+//    HAL_NVIC_EnableIRQ(DMA1_Channel3_IRQn);
+//    HAL_NVIC_SetPriority(DMA1_Channel5_IRQn, 20, 0);
+//    HAL_NVIC_EnableIRQ(DMA1_Channel5_IRQn);
+//    HAL_NVIC_SetPriority(DMA1_Channel6_IRQn, 20, 0);
+//    HAL_NVIC_EnableIRQ(DMA1_Channel6_IRQn);
+//    HAL_NVIC_SetPriority(DMA1_Channel7_IRQn, 20, 0);
+//    HAL_NVIC_EnableIRQ(DMA1_Channel7_IRQn);
 
     HAL_NVIC_SetPriority(DMA1_Channel2_IRQn, 0, 0);
     HAL_NVIC_EnableIRQ(DMA1_Channel2_IRQn);
@@ -267,7 +313,7 @@ void board_init_common_board_init(void)
 
     board_init_common_rtc_init();
     ws2812b_init();
-    reset_ws2812b();
+
     color_led_init();
     //animate_led_init(); // not yet defined..
 
@@ -275,7 +321,7 @@ void board_init_common_board_init(void)
 }
 
 
-void board_init_common_button_pressed(board_init_push_buttons_e button)
+void board_init_common_button_pressed(const board_init_push_buttons_e button)
 {
     button_press_state[(uint8_t)button] = true;
 }
@@ -287,6 +333,30 @@ void board_init_common_stop_timer(void)
     HAL_TIM_PWM_Stop_DMA(&g_tim1_handle, TIM_CHANNEL_2);
     HAL_TIM_PWM_Stop_DMA(&g_tim1_handle, TIM_CHANNEL_3);
     HAL_TIM_PWM_Stop_DMA(&g_tim15_handle, TIM_CHANNEL_1);
+}
+
+
+void board_init_red_led_on(void)
+{
+    HAL_GPIO_WritePin(PIN_PORT_C, RED_LED, GPIO_PIN_SET);
+}
+
+
+void board_init_red_led_off(void)
+{
+    HAL_GPIO_WritePin(PIN_PORT_C, RED_LED, GPIO_PIN_RESET);
+}
+
+
+void board_init_green_led_on(void)
+{
+    HAL_GPIO_WritePin(PIN_PORT_C, GREEN_LED, GPIO_PIN_SET);
+}
+
+
+void board_init_green_led_off(void)
+{
+    HAL_GPIO_WritePin(PIN_PORT_C, GREEN_LED, GPIO_PIN_RESET);
 }
 
 

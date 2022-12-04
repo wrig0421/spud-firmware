@@ -17,9 +17,12 @@ typedef enum
 } board_init_push_buttons_e;
 
 void board_init_common_board_init(void);
-
-void board_init_common_button_pressed(board_init_push_buttons_e button);
-
+void board_init_common_button_pressed(const board_init_push_buttons_e button);
 void board_init_common_stop_timer(void);
+
+void board_init_red_led_on(void);
+void board_init_red_led_off(void);
+void board_init_green_led_on(void);
+void board_init_green_led_off(void);
 
 #endif

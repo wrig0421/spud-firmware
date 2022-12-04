@@ -15,18 +15,22 @@ typedef enum
     NUM_ISR
 } isr_e;
 
-void task_button_press_pause(void);
-isr_e task_button_press_button_to_isr(board_init_push_buttons_e button);
-void task_button_press_ctrl_set_interrupt_flag(isr_e src);
-bool task_button_press_ctrl_interrupt_flag(isr_e src);
-bool task_button_press_check_interrupts(uint8_t *red, uint8_t *green, uint8_t *blue);
-bool task_button_press_interrupt_occurred(void);
 
-void task_button_press_set_interrupt_flag(isr_e src);
+typedef enum
+{
+    TIMESTAMP_CURRENT,
+    TIMESTAMP_PREVIOUS,
+    NUM_TIMESTAMPS
+} timestamp_e;
+
+
+bool task_button_press_interrupt_occurred(void);
+isr_e task_led_ctrl_button_to_isr(const board_init_push_buttons_e button);
+void task_button_press_ctrl_set_interrupt_flag(const isr_e src);
+bool task_button_press_ctrl_interrupt_flag(const isr_e src);
 bool task_button_press_check_interrupts(uint8_t *red, uint8_t *green, uint8_t *blue);
 void task_button_press_interrupt_flag_clear(void);
-bool task_button_press_interrupt_occurred(void);
-isr_e task_led_ctrl_button_to_isr(board_init_push_buttons_e button);
 void task_button_press(void *argument);
-bool task_button_press_interrupt_occurred(void);
+
+
 #endif /* TASK_PIN_LEVEL_COUNT_H_ */

@@ -35,9 +35,8 @@ void color_led_init(void)
 }
 
 
-void color_led_hex_to_rgb(color_hex_code_e color, uint8_t *color_array)
+void color_led_hex_to_rgb(const color_hex_code_e color, uint8_t *color_array)
 {
-    uint8_t red, green, blue;
     color_array[offsetof(ws2812b_led_t, red)] = ((color & 0xFF0000) >> (BITS_PER_BYTE * (2 - offsetof(ws2812b_led_t, red))));
     color_array[offsetof(ws2812b_led_t, green)] = ((color & 0xFF0000) >> (BITS_PER_BYTE * (2 - offsetof(ws2812b_led_t, green))));
     color_array[offsetof(ws2812b_led_t, blue)] = ((color & 0xFF0000) >> (BITS_PER_BYTE * (2 - offsetof(ws2812b_led_t, blue))));

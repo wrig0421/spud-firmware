@@ -18,10 +18,15 @@
 #endif
 
 // define the number of strips
-#define STRIP_1_LENGTH    150
-//#define STRIP_2_LENGTH      1
-//#define STRIP_3_LENGTH      1
-//#define STRIP_4_LENGTH      1
+#define STRIP_1_LENGTH      200 /// FLYNN FARM SIGN!!
+//#define STRIP_2_LENGTH      200
+//#define STRIP_3_LENGTH      200
+//#define STRIP_4_LENGTH      200
+//#define STRIP_5_LENGTH      200
+
+
+#define ENABLE_LED_STATE_WHITE_COLOR''
+
 
 #if defined(STRIP_1_LENGTH)
 #define NUM_LEDS STRIP_1_LENGTH

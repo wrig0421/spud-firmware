@@ -1,0 +1,16 @@
+
+#include "cmsis_os.h"
+#include "FreeRTOS.h"
+#include "task_dma_transfer.h"
+
+void task_dma_transfer(void *argument)
+{
+    uint32_t dma_transfer = 0;
+
+    xTaskNotifyWait(0, dma_transfer, &dma_transfer, portMAX_DELAY);
+
+	while (1)
+	{
+		osDelay(1000);
+	}
+}

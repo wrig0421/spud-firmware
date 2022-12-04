@@ -30,3 +30,6 @@ void board_init_specific(void)
 
     HAL_GPIO_WritePin(PIN_PORT_C, PIN_LVL_DIR, GPIO_PIN_SET);
 }
+
+
+

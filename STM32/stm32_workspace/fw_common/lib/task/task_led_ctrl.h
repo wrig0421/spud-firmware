@@ -5,8 +5,9 @@
 #include "color_led.h"
 #include "animate_led.h"
 
+
 void task_led_ctrl(void *argument);
-void task_led_ctrl_delay(uint32_t time_ms);
+void task_led_ctrl_delay(const uint32_t time_ms);
 void task_led_ctrl_pause(void);
 master_color_state_e task_led_ctrl_color_state(void);
 void task_led_ctrl_color_state_demo(void);
@@ -18,9 +19,9 @@ color_hex_code_e task_led_ctrl_color_hex(void);
 uint8_t task_led_ctrl_color_red_hex(void);
 uint8_t task_led_ctrl_color_green_hex(void);
 uint8_t task_led_ctrl_color_blue_hex(void);
+color_hex_code_e task_led_ctrl_color_to_hex(const all_colors_e color);
 void task_led_ctrl_color_random(void);
-color_hex_code_e task_led_ctrl_color_to_hex(all_colors_e color);
-led_state_e task_led_ctrl_animate_random(led_state_e cur_state);
+led_state_e task_led_ctrl_animate_random(const led_state_e cur_state);
 led_state_e task_led_ctrl_animate(void);
 void task_led_ctrl_animate_reset(void);
 float task_led_ctrl_speed(void);
@@ -32,5 +33,8 @@ bool task_led_ctrl_animate_adjust_state(void);
 void task_led_ctrl_animate_state_demo(void);
 void task_led_ctrl_animate_state_fixed(void);
 master_led_state_e task_led_ctrl_animate_state(void);
+
+
+
 
 #endif /* SRC_TASK_led_ctrl_H_ */

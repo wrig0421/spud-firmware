@@ -37,7 +37,19 @@ extern DMA_HandleTypeDef hdma_tim15_ch1_up_trig_com;
 extern DMA_HandleTypeDef hdma_tim16_ch1_up;
 
 void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
-                                                            /**
+
+
+// Function below added by SRW
+static void HAL_Set_DMA_Callbacks(void)
+{
+    HAL_DMA_RegisterCallback(&hdma_tim1_ch1, HAL_DMA_XFER_CPLT_CB_ID, HAL_DMA_CMPLT_CALLBACK);
+    HAL_DMA_RegisterCallback(&hdma_tim1_ch2, HAL_DMA_XFER_CPLT_CB_ID, HAL_DMA_CMPLT_CALLBACK);
+    HAL_DMA_RegisterCallback(&hdma_tim1_ch3, HAL_DMA_XFER_CPLT_CB_ID, HAL_DMA_CMPLT_CALLBACK);
+    HAL_DMA_RegisterCallback(&hdma_tim15_ch1_up_trig_com, HAL_DMA_XFER_CPLT_CB_ID, HAL_DMA_CMPLT_CALLBACK);
+    HAL_DMA_RegisterCallback(&hdma_tim16_ch1_up, HAL_DMA_XFER_CPLT_CB_ID, HAL_DMA_CMPLT_CALLBACK);
+}
+
+/**
   * Initializes the Global MSP.
   */
 void HAL_MspInit(void)
@@ -180,7 +192,7 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
     __HAL_LINKDMA(htim_base,hdma[TIM_DMA_ID_CC1],hdma_tim16_ch1_up);
     __HAL_LINKDMA(htim_base,hdma[TIM_DMA_ID_UPDATE],hdma_tim16_ch1_up);
   }
-
+  HAL_Set_DMA_Callbacks();
 }
 
 /**

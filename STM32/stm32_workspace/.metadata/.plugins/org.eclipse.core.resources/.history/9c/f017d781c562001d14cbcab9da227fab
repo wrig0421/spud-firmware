@@ -1,0 +1,17 @@
+/*
+ * semaphore.c
+ *
+ *  Created on: Nov 12, 2022
+ *      Author: spud
+ */
+#include "FreeRTOS.h"
+#include "cmsis_os.h"
+
+
+SemaphoreHandle_t g_dma_transfer_semaphore;
+StaticSemaphore_t g_dma_transfer_semaphore_buffer;
+
+void semaphore_create(void)
+{
+    g_dma_transfer_semaphore = xSemaphoreCreateBinaryStatic(StaticSemaphore_t &g_dma_transfer_semaphore_buffer);
+}

@@ -1,30 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="            case LED_STATE_MINT_NOHBZ:"/>
+		<item key="selection" value=""/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="false"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="g_tim_pwm_transfer_cmplt"/>
+			<item value="config"/>
+			<item value="hdma_tim1_ch1"/>
+			<item value="callbac"/>
+			<item value="callback"/>
+			<item value="XferCpltCallback"/>
+			<item value="priority"/>
+			<item value="&#x09;//datasentflag = 0;"/>
+			<item value="sConfigOC.OCMode = TIM_OCMODE_PWM1;"/>
+			<item value="//&#x09;HAL_TIM_PWM_Start_DMA(&amp;g_tim15_handle, TIM_CHANNEL_1, (uint32_t *)gp_pwm_data_fill, (strip_size * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + WS2812B_RESET_TIME_CYCLES);"/>
+			<item value="            if (task_button_press_interrupt_occurred()) if (task_button_press_check_interrupts(&amp;red, &amp;green, &amp;blue)) return;&#x0A;"/>
+			<item value="&#x0A;&#x0A;void animate_led_fade_to_black(strip_mask_t strip_mask, uint16_t pixel, uint8_t fade_value)&#x0A;{&#x0A;    if (STRIP_BIT_ALL_SET == strip_mask)&#x0A;    {&#x0A;        for (strip_bit_e strip_bit = STRIP_BIT_1; strip_bit &lt; STRIP_BIT_NUM_STRIPS; strip_bit = (strip_bit_e)(strip_bit + 1))&#x0A;        {&#x0A;            //offset = animate_led_get_strip_offset(strip_bit);&#x0A;            //if (ws2812_pixel_is_in_strip_range(strip_bit, pixel)) led_strip[pixel + offset].fadeToBlackBy(fade_value);&#x0A;        }&#x0A;    }   &#x0A;    else&#x0A;    {&#x0A;        for (strip_bit_e strip_bit = STRIP_BIT_1; strip_bit &lt; STRIP_BIT_NUM_STRIPS; strip_bit = strip_bit + 1)&#x0A;        {&#x0A;            if (strip_mask &amp; strip_bit)&#x0A;            {&#x0A;                //offset = animate_led_get_strip_offset(strip_bit);&#x0A;                //if (ws2812_pixel_is_in_strip_range(strip_bit, pixel)) led_strip[pixel + offset].fadeToBlackBy(fade_value);&#x0A;            }&#x0A;        }       &#x0A;    }&#x0A;}&#x0A;&#x0A;"/>
 			<item value="            case LED_STATE_MINT_NOHBZ:"/>
 			<item value="&#x09;(gp_ws28128b_strip[strip_num] + led_num)-&gt;red = red * g_max_current_ratio;"/>
 			<item value="case LED_STATE_WHITE_COLOR:"/>
-			<item value="init"/>
-			<item value="STM32L4xx_HAL_CONF_H"/>
-			<item value="#if defined(BOARD_SPUD_GLO_V1)"/>
-			<item value="#include &quot;main.h&quot;"/>
-			<item value="main.h"/>
 		</list>
 		<list key="replacehistory">
+			<item value="            if (task_button_press_interrupt_occurred()) if (task_button_press_check_interrupts(&amp;red, &amp;green, &amp;blue)) return;&#x0A;"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
-		<item key="DIALOG_X_ORIGIN" value="594"/>
-		<item key="DIALOG_Y_ORIGIN" value="607"/>
+		<item key="DIALOG_X_ORIGIN" value="930"/>
+		<item key="DIALOG_Y_ORIGIN" value="569"/>
 		<item key="DIALOG_WIDTH" value="336"/>
 		<item key="DIALOG_HEIGHT" value="408"/>
 		<item key="DIALOG_FONT_NAME" value="1|.AppleSystemUIFont|11.0|0|COCOA|1|.AppleSystemUIFont"/>
+	</section>
+	<section name="org.eclipse.ui.texteditor.GotoLineAction$GotoLineDialog_dialogBounds">
+		<item key="DIALOG_X_ORIGIN" value="504"/>
+		<item key="DIALOG_Y_ORIGIN" value="378"/>
 	</section>
 </section>

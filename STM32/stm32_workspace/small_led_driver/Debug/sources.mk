@@ -24,6 +24,7 @@ SUBDIRS := \
 fw_common/lib/animate_led \
 fw_common/lib/color_led \
 fw_common/lib/current_monitor \
+fw_common/lib/semaphore \
 fw_common/lib/task \
 fw_common/lib/ws2812b_driver \
 sdk/FreeRTOS/Source/CMSIS_RTOS_V2 \

@@ -185,7 +185,6 @@ all interrupt callbacks are set to the corresponding weak functions:
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32l4xx_hal.h"
-
 /** @addtogroup STM32L4xx_HAL_Driver
   * @{
   */
@@ -6657,6 +6656,7 @@ void TIM_DMAError(DMA_HandleTypeDef *hdma)
 
   htim->Channel = HAL_TIM_ACTIVE_CHANNEL_CLEARED;
 }
+//bool g_tim_pwm_transfer_cmplt = false;
 
 /**
   * @brief  TIM DMA Delay Pulse complete callback.
@@ -6715,6 +6715,8 @@ static void TIM_DMADelayPulseCplt(DMA_HandleTypeDef *hdma)
 #endif /* USE_HAL_TIM_REGISTER_CALLBACKS */
 
   htim->Channel = HAL_TIM_ACTIVE_CHANNEL_CLEARED;
+  //g_tim_pwm_transfer_cmplt = true;
+
 }
 
 /**

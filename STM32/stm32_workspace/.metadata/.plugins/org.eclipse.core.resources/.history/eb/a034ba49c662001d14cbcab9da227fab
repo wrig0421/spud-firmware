@@ -1,0 +1,68 @@
+
+#include "FreeRTOS.h"
+#include "cmsis_os.h"
+#include "semphr.h"
+#include "main.h"
+#include "semaphore_create.h"
+#include "ws2812b.h"
+#include "task_dma_transfer.h"
+
+
+typedef enum
+{
+    TASK_DMA_TRANSFER_STATE_RESET = 0,
+    TASK_DMA_TRANSFER_STATE_TIM1_CHANNEL_1 = (1 << 0),
+    TASK_DMA_TRANSFER_STATE_TIM1_CHANNEL_2 = (1 << 1),
+    TASK_DMA_TRANSFER_STATE_TIM1_CHANNEL_3 = (1 << 2),
+    TASK_DMA_TRANSFER_STATE_TIM15_CHANNEL_1 = (1 << 3),
+    TASK_DMA_TRANSFER_STATE_TIM16_CHANNEL_1 = (1 << 4)
+} task_dma_transfer_state_e;
+
+
+extern TIM_HandleTypeDef g_tim1_handle;
+extern TIM_HandleTypeDef g_tim15_handle;
+extern TIM_HandleTypeDef g_tim16_handle;
+extern SemaphoreHandle_t g_dma_transfer_semaphore;
+extern p_pwm_data_t gp_pwm_data_fill;
+
+uint16_t g_pwm_reset[50] = {0};
+
+
+void task_dma_transfer(void *argument)
+{
+    task_dma_transfer_state_e dma_transfer_state = 0;
+
+    while (1)
+    {
+        xTaskNotifyWait(0, dma_transfer_state, &dma_transfer_state, portMAX_DELAY);
+        if (TASK_DMA_TRANSFER_STATE_RESET == dma_transfer_state)
+        {
+            HAL_TIM_PWM_Start_DMA(&g_tim1_handle, TIM_CHANNEL_1, (uint32_t *)g_pwm_reset, 50);
+            HAL_TIM_PWM_Start_DMA(&g_tim1_handle, TIM_CHANNEL_2, (uint32_t *)g_pwm_reset, 50);
+            HAL_TIM_PWM_Start_DMA(&g_tim1_handle, TIM_CHANNEL_3, (uint32_t *)g_pwm_reset, 50);
+            HAL_TIM_PWM_Start_DMA(&g_tim15_handle, TIM_CHANNEL_1, (uint32_t *)g_pwm_reset, 50);
+            HAL_TIM_PWM_Start_DMA(&g_tim16_handle, TIM_CHANNEL_1, (uint32_t *)g_pwm_reset, 50);
+        }
+        if (dma_transfer_state & TASK_DMA_TRANSFER_STATE_TIM1_CHANNEL_1)
+        {
+            HAL_TIM_PWM_Start_DMA(&g_tim1_handle, TIM_CHANNEL_1, (uint32_t *)gp_pwm_data_fill, (strip_size * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + WS2812B_RESET_TIME_CYCLES);
+        }
+        if (dma_transfer_state & TASK_DMA_TRANSFER_STATE_TIM1_CHANNEL_2)
+        {
+            HAL_TIM_PWM_Start_DMA(&g_tim1_handle, TIM_CHANNEL_2, (uint32_t *)gp_pwm_data_fill, (strip_size * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + WS2812B_RESET_TIME_CYCLES);
+        }
+        if (dma_transfer_state & TASK_DMA_TRANSFER_STATE_TIM1_CHANNEL_3)
+        {
+            HAL_TIM_PWM_Start_DMA(&g_tim1_handle, TIM_CHANNEL_3, (uint32_t *)gp_pwm_data_fill, (strip_size * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + WS2812B_RESET_TIME_CYCLES);
+        }
+        if (dma_transfer_state & TASK_DMA_TRANSFER_STATE_TIM15_CHANNEL_1)
+        {
+            HAL_TIM_PWM_Start_DMA(&g_tim15_handle, TIM_CHANNEL_1, (uint32_t *)gp_pwm_data_fill, (strip_size * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + WS2812B_RESET_TIME_CYCLES);
+        }
+        if (dma_transfer_state & TASK_DMA_TRANSFER_STATE_TIM16_CHANNEL_1)
+        {
+            HAL_TIM_PWM_Start_DMA(&g_tim16_handle, TIM_CHANNEL_1, (uint32_t *)gp_pwm_data_fill, (strip_size * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + WS2812B_RESET_TIME_CYCLES);
+        }
+
+    }
+}

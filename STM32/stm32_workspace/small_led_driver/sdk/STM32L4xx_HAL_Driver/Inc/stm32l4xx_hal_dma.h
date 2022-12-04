@@ -840,6 +840,8 @@ uint32_t             HAL_DMA_GetError(DMA_HandleTypeDef *hdma);
                                    ((PRIORITY) == DMA_PRIORITY_HIGH)   || \
                                    ((PRIORITY) == DMA_PRIORITY_VERY_HIGH))
 
+
+void HAL_DMA_CMPLT_CALLBACK(DMA_HandleTypeDef *hdma);
 /**
   * @}
   */

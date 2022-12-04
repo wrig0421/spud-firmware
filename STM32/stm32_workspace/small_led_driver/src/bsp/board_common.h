@@ -26,6 +26,9 @@
 #define PIN_LED_OUT_1           GPIO_PIN_2 //
 #define PIN_LED_OUT_2           GPIO_PIN_3 //
 
+#define RED_LED                 PIN_LED_OUT_1
+#define GREEN_LED               PIN_LED_OUT_2
+
 #define PIN_WKUP_3              GPIO_PIN_5 //
 #define PIN_WKUP_3_IRQ          EXTI15_10_IRQn
 
