@@ -1,0 +1,31 @@
+// SRW
+#include <stdlib.h>
+#include <stdbool.h>
+#include <stdint.h>
+
+#include "main.h"
+#include "cmsis_os.h"
+#include "FreeRTOS.h"
+#include "task.h"
+
+#include "board_init_common.h"
+#include "board_specific.h"
+#include "cmsis_os.h"
+#include "task_led_ctrl.h"
+#include "task_button_press.h"
+#include "task_mn_wild.h"
+
+void task_mn_wild(void *argument)
+{
+
+    while (1)
+    {
+        board_init_green_led_off();
+        board_init_red_led_on();
+        osDelay(500);
+        board_init_green_led_on();
+        board_init_red_led_off();
+        osDelay(500);
+        //xTaskNotifyWait(0, button_pressed_bit, &button_pressed_bit, portMAX_DELAY);
+    }
+}

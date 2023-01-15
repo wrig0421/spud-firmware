@@ -1,0 +1,5 @@
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/task/task_mn_wild.c:22:13:task_mn_wild_init	8	static
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/task/task_mn_wild.c:37:22:task_mn_wild_state	4	static
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/task/task_mn_wild.c:43:6:task_mn_wild_enter_idle	4	static
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/task/task_mn_wild.c:49:13:task_mn_wild_play_sound	8	static
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/task/task_mn_wild.c:58:6:task_mn_wild	24	static

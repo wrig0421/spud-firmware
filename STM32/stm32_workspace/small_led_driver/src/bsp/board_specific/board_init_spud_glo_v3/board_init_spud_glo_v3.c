@@ -1,6 +1,7 @@
 // SRW
 
 #include "stm32l4xx_hal.h"
+#include "board_common.h"
 #include "board_specific.h"
 
 
@@ -27,9 +28,13 @@ void board_init_specific(void)
     GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     HAL_GPIO_Init(PIN_PORT_C, &GPIO_InitStruct);
-
-    HAL_GPIO_WritePin(PIN_PORT_C, PIN_LVL_DIR, GPIO_PIN_SET);
 }
 
 
+void board_init_specific_power_cycle_level_shifter(void)
+{
+    HAL_GPIO_WritePin(PIN_PORT_C, PIN_LVL_EN, GPIO_PIN_RESET);
+    osDelay(1000);
+    HAL_GPIO_WritePin(PIN_PORT_C, PIN_LVL_EN, GPIO_PIN_SET);
+}
 

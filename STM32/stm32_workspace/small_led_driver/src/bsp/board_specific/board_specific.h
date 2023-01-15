@@ -6,7 +6,6 @@
 #include "config.h"
 #include "board_init_common.h"
 
-#if 1
 #if defined(BOARD_SPUD_GLO_V1)
 #include "board_init_spud_glo_v1/board_init_spud_glo_v1.h"
 #elif defined(BOARD_SPUD_GLO_V2)
@@ -15,7 +14,6 @@
 #include "board_init_spud_glo_v3/board_init_spud_glo_v3.h"
 #else
 #error "Error - None or unknown board defined!"
-#endif
 #endif
 
 #endif

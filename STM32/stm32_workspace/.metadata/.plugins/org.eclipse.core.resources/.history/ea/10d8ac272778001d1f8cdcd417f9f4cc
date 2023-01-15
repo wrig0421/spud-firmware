@@ -1,0 +1,15 @@
+// SRW
+
+#if !defined(BOARD_SPECIFIC_H)
+#define BOARD_SPECIFIC_H
+
+#include "config.h"
+#include "board_init_common.h"
+
+#if defined(MN_WILD_SIGN)
+#include "board_init_spud_glo_v1/board_init_spud_glo_v1.h"
+#else
+#error "Error - None or unknown board defined!"
+#endif
+
+#endif

@@ -16,6 +16,9 @@ src/bsp/board_specific/board_init_spud_glo_v3/board_init_spud_glo_v3.o: \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_gpio_ex.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_cortex.h \
+ ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_adc.h \
+ ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_ll_adc.h \
+ ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_adc_ex.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_exti.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_flash.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_flash_ex.h \
@@ -28,8 +31,8 @@ src/bsp/board_specific/board_init_spud_glo_v3/board_init_spud_glo_v3.o: \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc_ex.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h \
- ../src/bsp/board_specific/board_specific.h ../src/config.h \
- ../src/bsp/board_init_common.h \
+ ../src/bsp/board_common.h ../src/bsp/board_specific/board_specific.h \
+ ../src/config.h ../src/bsp/board_init_common.h \
  ../src/bsp/board_specific/board_init_spud_glo_v3/board_init_spud_glo_v3.h
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
 ../src/stm32_bloat/stm32l4xx_hal_conf.h:
@@ -49,6 +52,9 @@ src/bsp/board_specific/board_init_spud_glo_v3/board_init_spud_glo_v3.o: \
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_gpio_ex.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_cortex.h:
+../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_adc.h:
+../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_ll_adc.h:
+../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_adc_ex.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_exti.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_flash.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_flash_ex.h:
@@ -61,6 +67,7 @@ src/bsp/board_specific/board_init_spud_glo_v3/board_init_spud_glo_v3.o: \
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc_ex.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h:
+../src/bsp/board_common.h:
 ../src/bsp/board_specific/board_specific.h:
 ../src/config.h:
 ../src/bsp/board_init_common.h:

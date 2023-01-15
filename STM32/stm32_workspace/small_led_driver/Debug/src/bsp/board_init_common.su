@@ -3,10 +3,10 @@
 ../src/bsp/board_init_common.c:92:13:board_init_common_timer_init	144	static
 ../src/bsp/board_init_common.c:239:13:board_init_common_nvic_setup_interrupts	8	static
 ../src/bsp/board_init_common.c:279:6:board_init_common_board_init	56	static
-../src/bsp/board_init_common.c:324:6:board_init_common_button_pressed	16	static
-../src/bsp/board_init_common.c:330:6:board_init_common_stop_timer	8	static
-../src/bsp/board_init_common.c:339:6:board_init_red_led_on	8	static
-../src/bsp/board_init_common.c:345:6:board_init_red_led_off	8	static
-../src/bsp/board_init_common.c:351:6:board_init_green_led_on	8	static
-../src/bsp/board_init_common.c:357:6:board_init_green_led_off	8	static
-../src/bsp/board_init_common.c:367:6:Error_Handler	4	static,ignoring_inline_asm
+../src/bsp/board_init_common.c:333:6:board_init_common_button_pressed	16	static
+../src/bsp/board_init_common.c:339:6:board_init_common_stop_timer	8	static
+../src/bsp/board_init_common.c:348:6:board_init_red_led_on	8	static
+../src/bsp/board_init_common.c:354:6:board_init_red_led_off	8	static
+../src/bsp/board_init_common.c:360:6:board_init_green_led_on	8	static
+../src/bsp/board_init_common.c:366:6:board_init_green_led_off	8	static
+../src/bsp/board_init_common.c:376:6:Error_Handler	4	static,ignoring_inline_asm

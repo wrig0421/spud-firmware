@@ -1,0 +1,27 @@
+#include <stdint.h>
+#include <stdbool.h>
+#include <stdlib.h>
+#include "numbers.h"
+#include "task_led_ctrl.h"
+#include "adafruit_soundboard.h"
+
+
+void adafruit_soundboard_trigger_enable(adafruit_soundboard_trig_e trigger)
+{
+    board_init_adafruit_soundboard_trigger(trigger, GPIO_PIN_RESET); // LOW for set
+}
+
+
+void adafruit_soundboard_trigger_disable(adafruit_soundboard_trig_e trigger)
+{
+    board_init_adafruit_soundboard_trigger(trigger, GPIO_PIN_SET); // HIGH for disable
+}
+
+
+
+
+
+
+
+
+

@@ -27,6 +27,7 @@ RM := rm -rf
 -include fw_common/lib/current_monitor/subdir.mk
 -include fw_common/lib/color_led/subdir.mk
 -include fw_common/lib/animate_led/subdir.mk
+-include fw_common/lib/adafruit_soundboard/subdir.mk
 -include objects.mk
 
 ifneq ($(MAKECMDGOALS),clean)

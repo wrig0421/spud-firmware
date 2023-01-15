@@ -5,6 +5,7 @@
 #define ANIMATE_LED_H
 #include <stdint.h>
 #include <stdbool.h> 
+#include "config.h"
 #include "board_init_common.h"
 #include "ws2812b.h"
 #include "color_led.h"
@@ -20,17 +21,39 @@ typedef enum
 typedef enum
 {
 	LED_STATE_FIRST = 0,
+#if defined(ENABLE_LED_STATE_SPELL)
 	LED_STATE_SPELL = LED_STATE_FIRST,
+#endif
+#if defined(ENABLE_LED_STATE_MINT_NOHBZ)
 	LED_STATE_MINT_NOHBZ,
+#endif
+#if defined(ENABLE_LED_STATE_WHITE_COLOR)
 	LED_STATE_WHITE_COLOR,
+#endif
+#if defined(ENABLE_LED_STATE_SOLID_COLOR)
 	LED_STATE_SOLID_COLOR,
+#endif
+#if defined(ENABLE_LED_STATE_SPARKLE_NO_FILL)
 	LED_STATE_SPARKLE_NO_FILL,
+#endif
+#if defined(ENABLE_LED_STATE_SPARKLE_FILL)
     LED_STATE_SPARKLE_FILL,
+#endif
+#if defined(ENABLE_LED_STATE_RAINBOW_CYCLE)
     LED_STATE_RAINBOW_CYCLE,
+#endif
+#if defined(ENABLE_LED_STATE_THEATER_CHASE)
     LED_STATE_THEATER_CHASE,
+#endif
+#if defined(ENABLE_LED_STATE_THEATER_CHASE_RAINBOW)
     LED_STATE_THEATER_CHASE_RAINBOW,
+#endif
+#if defined(ENABLE_LED_STATE_FADE_IN_AND_OUT)
     LED_STATE_FADE_IN_AND_OUT,
+#endif
+#if defined(ENABLE_LED_STATE_TWINKLE)
     LED_STATE_TWINKLE,
+#endif
 #if defined(SRW_DEBUG)
     LED_STATE_SRW_DEBUG,
 #endif

@@ -21,6 +21,7 @@ C_DEPS :=
 
 # Every subdirectory with source files must be described here
 SUBDIRS := \
+fw_common/lib/adafruit_soundboard \
 fw_common/lib/animate_led \
 fw_common/lib/color_led \
 fw_common/lib/current_monitor \

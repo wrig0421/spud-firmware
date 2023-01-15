@@ -289,33 +289,42 @@ void board_init_common_board_init(void)
     __HAL_RCC_GPIOH_CLK_ENABLE();
     __HAL_RCC_DMA1_CLK_ENABLE();
 
-    // setup the wakeups as only interrupts without the WKUP enabled yet... TODO
-    GPIO_InitStruct.Pin = PIN_WKUP_1|PIN_WKUP_4;
-    GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
-    GPIO_InitStruct.Pull = GPIO_PULLUP;
-    HAL_GPIO_Init(PIN_PORT_A, &GPIO_InitStruct);
 
-    GPIO_InitStruct.Pin = PIN_WKUP_2|PIN_WKUP_3;
-    GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
-    GPIO_InitStruct.Pull = GPIO_PULLUP;
-    HAL_GPIO_Init(PIN_PORT_C, &GPIO_InitStruct);
 
-    GPIO_InitStruct.Pin = PIN_LVL_EN | PIN_LED_OUT_1 | PIN_LED_OUT_2;
+    GPIO_InitStruct.Pin = PIN_LED_OUT_1 | PIN_LED_OUT_2;
     GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
     GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+    HAL_GPIO_Init(PIN_PORT_C, &GPIO_InitStruct);
+
+    GPIO_InitStruct.Pin = PIN_LVL_EN;
+    GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
     HAL_GPIO_Init(PIN_PORT_C, &GPIO_InitStruct);
 
     board_init_specific();
 
     for (uint8_t iii = 0; iii < NUM_TIMERS; iii++) board_init_common_timer_init(iii);
 
-    board_init_common_nvic_setup_interrupts();
-
-    board_init_common_rtc_init();
     ws2812b_init();
 
     color_led_init();
     //animate_led_init(); // not yet defined..
+    HAL_GPIO_WritePin(PIN_PORT_C, PIN_LVL_DIR, GPIO_PIN_SET);
+    HAL_GPIO_WritePin(PIN_PORT_C, PIN_LVL_EN, GPIO_PIN_RESET);
+
+    // setup the wakeups as only interrupts without the WKUP enabled yet... TODO
+    GPIO_InitStruct.Pin = PIN_WKUP_1|PIN_WKUP_4;
+    GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    HAL_GPIO_Init(PIN_PORT_A, &GPIO_InitStruct);
+
+    GPIO_InitStruct.Pin = PIN_WKUP_2|PIN_WKUP_3;
+    GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    HAL_GPIO_Init(PIN_PORT_C, &GPIO_InitStruct);
+
+    board_init_common_nvic_setup_interrupts();
+    board_init_common_rtc_init();
 
     HAL_GPIO_WritePin(GPIOC, PIN_LED_OUT_1|PIN_LED_OUT_2, GPIO_PIN_RESET);
 }

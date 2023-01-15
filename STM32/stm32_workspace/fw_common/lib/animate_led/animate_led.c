@@ -44,7 +44,7 @@ void animate_led_set_pixel(const strip_mask_t mask, const uint16_t pixel, const 
             }
         }
     }
-    //animate_led_show_strip();
+    //animate_led_show_strip(mask);
 }
 
 
@@ -679,7 +679,7 @@ void animate_led_theater_chase(const strip_mask_t mask_theater_chase, const colo
             }
             for (int iii = 0; iii < strip_size; iii += 3)
             {
-                animate_led_set_pixel(mask_theater_chase, iii,
+                animate_led_set_pixel(mask_theater_chase, iii + qqq,
                                       (color_theater_chase_rgb[offsetof(ws2812b_led_t, red)]),
                                       (color_theater_chase_rgb[offsetof(ws2812b_led_t, green)]),
                                       (color_theater_chase_rgb[offsetof(ws2812b_led_t, blue)]));
@@ -693,7 +693,7 @@ void animate_led_theater_chase(const strip_mask_t mask_theater_chase, const colo
                 }
             }
             task_led_ctrl_delay((float_t)speed_delay / task_led_ctrl_speed());
-            for (int iii = 0; iii < strip_size; iii += 3) animate_led_set_pixel(mask_theater_chase, iii + qqq, 0, 0, 0); // turn everty third pixel off
+            for (int iii = 0; iii < strip_size; iii += 3) animate_led_set_pixel(mask_theater_chase, iii + qqq, 0, 0, 0); // turn every third pixel off
         }
     }
 }

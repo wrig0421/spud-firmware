@@ -41,9 +41,9 @@ typedef enum
 } task_led_ctrl_delay_ms_e;
 
 //master_led_state_e g_master_led_state = MASTER_LED_STATE_DEMO;
-master_led_state_e      g_master_led_state = MASTER_LED_STATE_FIXED;
-led_state_e             g_led_state = LED_STATE_THEATER_CHASE_RAINBOW;
-led_speed_e             g_led_speed = LED_SPEED_0P5X;
+master_led_state_e      g_master_led_state = MASTER_LED_STATE_DEMO;
+led_state_e             g_led_state = LED_STATE_FIRST;
+led_speed_e             g_led_speed = LED_SPEED_1X;
 
 master_color_state_e    g_master_color_state = MASTER_COLOR_STATE_DEMO;
 all_colors_e            g_led_color = COLORS_MINT;
@@ -79,8 +79,6 @@ static void task_led_ctrl_adjust_parameters(const task_led_ctrl_loop_iterations_
 void task_led_ctrl(void *argument)
 {
     board_init_common_stop_timer();
-    animate_led_solid_custom_color((uint16_t)STRIP_BIT_ALL_SET, COLOR_HEX_BLACK);
-    osDelay(1000);
     while (1)
     {
         while(task_button_press_major_change)
@@ -119,7 +117,7 @@ void task_led_ctrl(void *argument)
                 task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_5, TASK_LED_CTRL_DELAY_MS_0);
             break;
 #endif
-#if defined(ENABLE_LED_STATE_SPARKLE_NO_FILL)
+#if defined(ENABLE_LED_STATE_SPARKLE_FILL)
             case LED_STATE_SPARKLE_FILL:
                 animate_led_sparkle_only_random_color(STRIP_BIT_ALL_SET, true, 100);
                 task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_10, TASK_LED_CTRL_DELAY_MS_0);
@@ -143,20 +141,20 @@ void task_led_ctrl(void *argument)
                 task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_2, TASK_LED_CTRL_DELAY_MS_0);
             break;
 #endif
-#if defined(ENABLE_LED_STATE_THEATER_CHASE_RAINBOW)
+#if defined(ENABLE_LED_STATE_FADE_IN_AND_OUT)
             case LED_STATE_FADE_IN_AND_OUT:
                 animate_led_fade_in_fade_out((uint16_t)STRIP_BIT_ALL_SET, task_led_ctrl_color_hex());
                 task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_10, TASK_LED_CTRL_DELAY_MS_0);
             break;
 #endif
-#if defined(ENABLE_LED_STATE_THEATER_CHASE_RAINBOW)
+#if defined(ENABLE_LED_STATE_TWINKLE)
             case LED_STATE_TWINKLE:
                 animate_led_turn_all_pixels_off();
                 animate_led_twinkle(STRIP_BIT_ALL_SET, task_led_ctrl_color_hex(), (uint32_t)((float)NUM_LEDS * (float)0.9), 20, false);
                 task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_5, TASK_LED_CTRL_DELAY_MS_0);
             break;
 #endif
-#if defined(ENABLE_LED_STATE_THEATER_CHASE_RAINBOW)
+#if defined(ENABLE_LED_STATE_SPELL)
             case LED_STATE_SPELL:
                 animate_led_only_spell_word(STRIP_BIT_ALL_SET, task_led_ctrl_color_hex(), 20);
                 task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_10, TASK_LED_CTRL_DELAY_MS_0);

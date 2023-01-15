@@ -1,0 +1,10 @@
+// SRW
+
+#ifndef TASK_MN_WILD_H
+#define TASK_MN_WILD_H
+
+#include "board_specific.h"
+
+void task_mn_wild(void *argument);
+
+#endif /* TASK_PIN_LEVEL_COUNT_H_ */

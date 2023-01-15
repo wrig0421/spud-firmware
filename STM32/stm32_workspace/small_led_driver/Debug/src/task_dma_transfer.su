@@ -1,1 +1,1 @@
-../src/task_dma_transfer.c:36:6:task_dma_transfer	32	static
+../src/task_dma_transfer.c:36:6:task_dma_transfer	32	static,ignoring_inline_asm

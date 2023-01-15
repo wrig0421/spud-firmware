@@ -5,18 +5,21 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
+../src/flash_access.c \
 ../src/main.c \
 ../src/numbers.c \
 ../src/task_create.c \
 ../src/task_dma_transfer.c 
 
 OBJS += \
+./src/flash_access.o \
 ./src/main.o \
 ./src/numbers.o \
 ./src/task_create.o \
 ./src/task_dma_transfer.o 
 
 C_DEPS += \
+./src/flash_access.d \
 ./src/main.d \
 ./src/numbers.d \
 ./src/task_create.d \
@@ -30,7 +33,7 @@ src/%.o src/%.su: ../src/%.c src/subdir.mk
 clean: clean-src
 
 clean-src:
-	-$(RM) ./src/main.d ./src/main.o ./src/main.su ./src/numbers.d ./src/numbers.o ./src/numbers.su ./src/task_create.d ./src/task_create.o ./src/task_create.su ./src/task_dma_transfer.d ./src/task_dma_transfer.o ./src/task_dma_transfer.su
+	-$(RM) ./src/flash_access.d ./src/flash_access.o ./src/flash_access.su ./src/main.d ./src/main.o ./src/main.su ./src/numbers.d ./src/numbers.o ./src/numbers.su ./src/task_create.d ./src/task_create.o ./src/task_create.su ./src/task_dma_transfer.d ./src/task_dma_transfer.o ./src/task_dma_transfer.su
 
 .PHONY: clean-src
 

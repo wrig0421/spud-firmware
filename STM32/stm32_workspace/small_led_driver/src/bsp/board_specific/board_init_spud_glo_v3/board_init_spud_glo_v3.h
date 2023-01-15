@@ -37,6 +37,7 @@
 
 
 void board_init_specific(void);
+void board_init_specific_power_cycle_level_shifter(void);
 
 
 #endif

@@ -122,7 +122,7 @@ void task_button_press(void *argument)
     {
         xTaskNotifyWait(0, button_pressed_bit, &button_pressed_bit, portMAX_DELAY);
 
-        timestamp_diff = g_button_press_timestamp[(board_init_push_buttons_e) button_pressed_bit][TIMESTAMP_CURRENT] - g_button_press_timestamp[PUSH_BUTTON_A][TIMESTAMP_PREVIOUS];
+        timestamp_diff = g_button_press_timestamp[(board_init_push_buttons_e) button_pressed_bit][TIMESTAMP_CURRENT] - g_button_press_timestamp[(board_init_push_buttons_e)button_pressed_bit][TIMESTAMP_PREVIOUS];
         if (timestamp_diff > SWITCH_DEBOUNCE_TIME_MILLISECONDS)
         {
             if (timestamp_diff < SWITCH_FAST_PRESS_TIME_MILLISECONDS) fast_press_count++;
@@ -136,18 +136,18 @@ void task_button_press(void *argument)
             {
                 case PUSH_BUTTON_A:
                     color = COLOR_HEX_GREEN;
-                    irq_type = EXTI9_5_IRQn;
+                    irq_type = EXTI0_IRQn;
                     task_led_ctrl_speed_reset();
                 break;
                 case PUSH_BUTTON_B:
                     color = COLOR_HEX_RED;
-                    irq_type = EXTI0_IRQn;
+                    irq_type = EXTI2_IRQn;
                     task_led_ctrl_animate_iteration_reset();
                     task_led_ctrl_animate_state_demo(); // enter demo state
                 break;
                 case PUSH_BUTTON_C:
                     color = COLOR_HEX_BLUE;
-                    irq_type = EXTI2_IRQn;
+                    irq_type = EXTI9_5_IRQn;
                     // don't change iteration count.  Simply go to color demo mode.
                     task_led_ctrl_color_state_demo();
                 break;
@@ -178,8 +178,8 @@ void task_button_press(void *argument)
             {
                 case PUSH_BUTTON_A:
                     task_led_ctrl_speed_adjust();
-                    HAL_NVIC_SetPriority(EXTI9_5_IRQn, 24, 0);
-                    HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
+                    HAL_NVIC_SetPriority(EXTI0_IRQn, 24, 0);
+                    HAL_NVIC_EnableIRQ(EXTI0_IRQn);
                 break;
                 case PUSH_BUTTON_B:
                     if (MASTER_LED_STATE_DEMO == task_led_ctrl_animate_state())
@@ -191,8 +191,8 @@ void task_button_press(void *argument)
                         task_led_ctrl_animate_iteration_reset();
                         task_led_ctrl_animate_adjust_state();
                     }
-                    HAL_NVIC_SetPriority(EXTI0_IRQn, 24, 0);
-                    HAL_NVIC_EnableIRQ(EXTI0_IRQn);
+                    HAL_NVIC_SetPriority(EXTI2_IRQn, 24, 0);
+                    HAL_NVIC_EnableIRQ(EXTI2_IRQn);
                 break;
                 case PUSH_BUTTON_C:
                     if (MASTER_COLOR_STATE_DEMO == task_led_ctrl_color_state())
@@ -203,8 +203,8 @@ void task_button_press(void *argument)
                     {
                         task_led_ctrl_color_adjust();
                     }
-                    HAL_NVIC_SetPriority(EXTI2_IRQn, 24, 0);
-                    HAL_NVIC_EnableIRQ(EXTI2_IRQn);
+                    HAL_NVIC_SetPriority(EXTI9_5_IRQn, 24, 0);
+                    HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
                 break;
                 case PUSH_BUTTON_D:
                     task_led_ctrl_pause();

@@ -1,0 +1,103 @@
+#include <stdint.h>
+#include <stdbool.h>
+#include <stdlib.h>
+#include "numbers.h"
+#include "task_led_ctrl.h"
+#include "adafruit_soundboard.h"
+
+
+#define ADAFRUIT_VOLUME_MIN_MAX_ITERATIONS  (uint8_t)(10)
+
+
+void adafruit_soundboard_trigger_enable(adafruit_soundboard_trig_e trigger)
+{
+    board_init_adafruit_soundboard_trigger(trigger, ADAFRUIT_SOUNDBOARD_TRIG_ENABLE);
+}
+
+
+void adafruit_soundboard_trigger_disable(adafruit_soundboard_trig_e trigger)
+{
+    board_init_adafruit_soundboard_trigger(trigger, ADAFRUIT_SOUNDBOARD_TRIG_DISABLE);
+}
+
+
+void adafruit_soundboard_reset_enable(void)
+{
+    board_init_adafruit_reset(ADAFRUIT_SOUNDBOARD_RESET_ENABLE);
+}
+
+
+void adafruit_soundboard_reset_disable(void)
+{
+    board_init_adafruit_reset(ADAFRUIT_SOUNDBOARD_RESET_DISABLE);
+}
+
+
+bool adafruit_soundboard_is_playing_audio(void)
+{
+    return board_init_adafruit_soundboard_is_playing_audio();
+}
+
+
+void adafruit_soundboard_enable_uart_mode(void)
+{
+    board_init_adafruit_soundboard_enable_mode(ADAFRUIT_SOUNDBOARD_UART_MODE);
+    adafruit_soundboard_reset_enable();
+
+    // TODO add delay
+
+    adafruit_soundboard_reset_disable();
+}
+
+
+void adafruit_soundboard_enable_gpio_mode(void)
+{
+    board_init_adafruit_soundboard_enable_mode(ADAFRUIT_SOUNDBOARD_GPIO_MODE);
+    adafruit_soundboard_reset_enable();
+
+    // TODO add delay
+
+    adafruit_soundboard_reset_disable();
+}
+
+
+void adafruit_soundboard_adjust_volume_down(void)
+{
+    adafruit_soundboard_adjust_volume(ADAFRUIT_SOUNDBOARD_VOLUME_DOWN);
+}
+
+
+void adafruit_soundboard_adjust_volume_up(void)
+{
+    adafruit_soundboard_adjust_volume(ADAFRUIT_SOUNDBOARD_VOLUME_UP);
+}
+
+
+void adafruit_soundboard_set_volume_max(void)
+{
+    for (uint8_t iii = 0; iii < ADAFRUIT_VOLUME_MIN_MAX_ITERATIONS; iii++)
+    {
+        adafruit_soundboard_adjust_volume_up();
+    }
+}
+
+
+void adafruit_soundboard_set_volume_min(void)
+{
+    for (uint8_t iii = 0; iii < ADAFRUIT_VOLUME_MIN_MAX_ITERATIONS; iii++)
+    {
+        adafruit_soundboard_adjust_volume_down();
+    }
+}
+
+
+void adafruit_soundboard_adjust_volume(adafruit_soundboard_volume_e volume)
+{
+    board_init_adafruit_adjust_volume(volume);
+
+    // TODO add delay
+
+    board_init_adafruit_adjust_volume(ADAFRUIT_SOUNDBOARD_VOLUME_RELEASE);
+}
+
+

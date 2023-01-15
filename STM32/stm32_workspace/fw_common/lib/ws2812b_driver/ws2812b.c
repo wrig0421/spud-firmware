@@ -15,6 +15,8 @@ extern osThreadId_t g_dma_transfer_handle;
 extern SemaphoreHandle_t g_dma_transfer_semaphore;
 extern SemaphoreHandle_t g_dma_fill_semaphore;
 
+extern bool g_tim_pwm_transfer_cmplt;
+
 extern float g_max_current_ratio;
 
 uint16_t strip_length[NUM_STRIPS] = 
@@ -330,7 +332,7 @@ uint16_t ws2812b_strip_size(void)
 
 void ws2812b_dma_transfer(const strip_mask_t strip_mask)
 {
-    xSemaphoreTake(g_dma_transfer_semaphore, portMAX_DELAY);
+    //xSemaphoreTake(g_dma_transfer_semaphore, portMAX_DELAY);
     xTaskNotify(g_dma_transfer_handle, strip_mask, eSetValueWithOverwrite);
 }
 
@@ -349,41 +351,59 @@ void ws2812b_fill_pwm_buffer(const strip_bit_e strip_bit)
 	ws2812b_set_strip_size(strip_bit);
 	uint32_t color = 0;
 	strip_num_e strip_num = ws2812_convert_strip_bit_to_strip_num(strip_bit);
-	uint32_t offset = ws2812_get_pwm_strip_offset(strip_bit);
+	//uint32_t offset = ws2812_get_pwm_strip_offset(strip_bit);
 	for (uint16_t iii = 0; iii < strip_size; iii++)
 	{
 		color = (((gp_ws28128b_strip[strip_num] + iii)->green) << 16) | (((gp_ws28128b_strip[strip_num] + iii)->red) << 8) | (((gp_ws28128b_strip[strip_num] + iii)->blue));
 		for (uint8_t yyy = 0; yyy < BITS_PER_BYTE * sizeof(ws2812b_led_t); yyy++)
 		{
-		    if (WS2812B_PING == ws2812b_ping_or_pong())
-            {
-		        gp_pwm_data_ping[((offset * BITS_PER_BYTE * sizeof(ws2812b_led_t)) +
-		                        ((uint32_t)strip_num * (uint32_t)WS2812B_BIT_RESET_CYCLES) +
-		                        (iii * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + yyy)] =
-		                                        (color & (1 << (23 - yyy))) ? (uint16_t)(WS2812B_BIT_SET_CYCLES + 1) : (uint16_t)WS2812B_BIT_RESET_CYCLES;
 
-		    }
-		    else
-		    {
-		        gp_pwm_data_pong[((offset * BITS_PER_BYTE * sizeof(ws2812b_led_t)) +
-		                        ((uint32_t)strip_num * (uint32_t)WS2812B_BIT_RESET_CYCLES) +
-		                        (iii * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + yyy)] =
-		                                        (color & (1 << (23 - yyy))) ? (uint16_t)(WS2812B_BIT_SET_CYCLES + 1) : (uint16_t)WS2812B_BIT_RESET_CYCLES;
-
-		    }
+		    gp_pwm_data_fill[(iii * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + yyy] = (color & (1 << (23 - yyy))) ? (uint16_t)(WS2812B_BIT_SET_CYCLES + 1) : (uint16_t)WS2812B_BIT_RESET_CYCLES;
+//		    gp_pwm_data_fill[((offset * BITS_PER_BYTE * sizeof(ws2812b_led_t)) +
+//		                                    ((uint32_t)strip_num * (uint32_t)WS2812B_BIT_RESET_CYCLES) +
+//		                                    (iii * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + yyy)] =
+//		                                                    (color & (1 << (23 - yyy))) ? (uint16_t)(WS2812B_BIT_SET_CYCLES + 1) : (uint16_t)WS2812B_BIT_RESET_CYCLES;
+//
+//		    if (WS2812B_PING == ws2812b_ping_or_pong())
+//            {
+//		        gp_pwm_data_ping[((offset * BITS_PER_BYTE * sizeof(ws2812b_led_t)) +
+//		                        ((uint32_t)strip_num * (uint32_t)WS2812B_BIT_RESET_CYCLES) +
+//		                        (iii * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + yyy)] =
+//		                                        (color & (1 << (23 - yyy))) ? (uint16_t)(WS2812B_BIT_SET_CYCLES + 1) : (uint16_t)WS2812B_BIT_RESET_CYCLES;
+//
+//		    }
+//		    else
+//		    {
+//		        gp_pwm_data_pong[((offset * BITS_PER_BYTE * sizeof(ws2812b_led_t)) +
+//		                        ((uint32_t)strip_num * (uint32_t)WS2812B_BIT_RESET_CYCLES) +
+//		                        (iii * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + yyy)] =
+//		                                        (color & (1 << (23 - yyy))) ? (uint16_t)(WS2812B_BIT_SET_CYCLES + 1) : (uint16_t)WS2812B_BIT_RESET_CYCLES;
+//
+//		    }
 		}
 	}
-    for (uint16_t iii = 0; iii < WS2812B_BIT_RESET_CYCLES; iii++)
+    for (uint16_t iii = 0; iii < WS2812B_RESET_TIME_CYCLES; iii++)
 	{
-        if (WS2812B_PING == ws2812b_ping_or_pong())
-        {
-            gp_pwm_data_ping[(strip_size * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + iii] = 0;
-        }
-        else
-        {
-            gp_pwm_data_pong[(strip_size * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + iii] = 0;
-        }
+        gp_pwm_data_fill[(strip_size * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + iii] = 0;
+//        if (WS2812B_PING == ws2812b_ping_or_pong())
+//        {
+//            gp_pwm_data_ping[(strip_size * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + iii] = 0;
+//        }
+//        else
+//        {
+//            gp_pwm_data_pong[(strip_size * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + iii] = 0;
+//        }
 	}
+    HAL_TIM_PWM_Start_DMA(&g_tim1_handle, TIM_CHANNEL_2, (uint32_t *)gp_pwm_data_fill, (NUM_LEDS * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + WS2812B_RESET_TIME_CYCLES);
+    g_tim_pwm_transfer_cmplt = false;
+    while (!g_tim_pwm_transfer_cmplt)
+    {
+        osDelay(1);
+    }
+
+
+
+
 }
 
 
@@ -392,6 +412,8 @@ void ws2812b_reset(void)
 	// call TIM PWM DMA to reset.
 }
 
+
+uint32_t g_size = 0;
 
 void ws2812b_init(void)
 {
@@ -459,9 +481,9 @@ void ws2812b_init(void)
 		break;
 	}
     gp_pwm_data_fill = malloc((sizeof(ws2812b_led_t) * BITS_PER_BYTE * g_num_leds) + (NUM_STRIPS * WS2812B_RESET_TIME_CYCLES));
-    gp_pwm_data_ping = malloc((sizeof(ws2812b_led_t) * BITS_PER_BYTE * g_num_leds) + (NUM_STRIPS * WS2812B_RESET_TIME_CYCLES));
-    gp_pwm_data_pong = malloc((sizeof(ws2812b_led_t) * BITS_PER_BYTE * g_num_leds) + (NUM_STRIPS * WS2812B_RESET_TIME_CYCLES));
-
+    //gp_pwm_data_ping = malloc((sizeof(ws2812b_led_t) * BITS_PER_BYTE * g_num_leds) + (NUM_STRIPS * WS2812B_RESET_TIME_CYCLES));
+    //gp_pwm_data_pong = malloc((sizeof(ws2812b_led_t) * BITS_PER_BYTE * g_num_leds) + (NUM_STRIPS * WS2812B_RESET_TIME_CYCLES));
+    g_size = (sizeof(ws2812b_led_t) * BITS_PER_BYTE * g_num_leds) + (NUM_STRIPS * WS2812B_RESET_TIME_CYCLES);
     //gp_pwm_data_fill = malloc((sizeof(ws2812b_led_t) * BITS_PER_BYTE * g_max_strip_length) + WS2812B_RESET_TIME_CYCLES);
 	current_monitor_init();
 }
@@ -476,11 +498,12 @@ void ws2812b_show(const strip_mask_t strip_mask)
 		}
 	}
 
-	ws2812b_dma_transfer(strip_mask);
-	portYIELD();
-	if (WS2812B_PING == ws2812b_ping_or_pong())
-    {
-        xSemaphoreTake(g_dma_fill_semaphore, portMAX_DELAY);
-    }
-    g_ping_pong ^= 1;
+	//ws2812b_dma_transfer(strip_mask);
+	//taskYIELD();
+	//portYIELD();
+//	if (WS2812B_PING == ws2812b_ping_or_pong())
+//    {
+//        xSemaphoreTake(g_dma_fill_semaphore, portMAX_DELAY);
+//    }
+//    g_ping_pong ^= 1;
 }

@@ -1,0 +1,17 @@
+/*
+ * config.h
+ *
+ *  Created on: Aug 6, 2022
+ *      Author: splat
+ */
+
+#ifndef SRC_CONFIG_H_
+#define SRC_CONFIG_H_
+
+// define the board!
+#define MN_WILD_SIGN
+
+#define ENABLE_RF_INTERFACE
+
+
+#endif /* SRC_CONFIG_H_ */
