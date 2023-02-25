@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">&#x0A;<refactoring comment="Rename resource &apos;small_led_driver/src/config_info.c&apos; to &apos;config.c&apos;" description="Rename resource &apos;config_info.c&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/config_info.c" name="config.c" stamp="1676775925496" updateReferences="true"/>&#x0A;<refactoring comment="Rename resource &apos;small_led_driver/src/config.c&apos; to &apos;flash_info.c&apos;" description="Rename resource &apos;config.c&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/config.c" name="flash_info.c" stamp="1676775988886" updateReferences="true"/>
+</session>

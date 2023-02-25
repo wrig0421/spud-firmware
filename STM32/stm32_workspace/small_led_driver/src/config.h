@@ -8,13 +8,18 @@
 #ifndef SRC_CONFIG_H_
 #define SRC_CONFIG_H_
 
+
+// major.minor.beta
+#define FIRMWARE_VERSION    (0x010101)
+
+
 // define the board!
 #define BOARD_SPUD_GLO_V3
 //#define BOARD_SPUD_GLO_V2
 //#define BOARD_SPUD_GLO_V1
 
 // define the number of strips
-#define STRIP_1_LENGTH      166 /// FLYNN FARM SIGN!!
+#define STRIP_1_LENGTH      303 /// FLYNN FARM SIGN = 166!!
 //#define STRIP_2_LENGTH      200
 //#define STRIP_3_LENGTH      200
 //#define STRIP_4_LENGTH      200

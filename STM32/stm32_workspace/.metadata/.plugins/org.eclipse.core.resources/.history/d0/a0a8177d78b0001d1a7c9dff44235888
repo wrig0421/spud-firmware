@@ -1,0 +1,96 @@
+// SRW
+#include <stdlib.h>
+#include <stdbool.h>
+#include <stdint.h>
+#include "main.h"
+#include "stm32l4xx_hal.h"
+#include "stm32l4xx_hal_flash.h"
+#include "flash_access.h"
+
+// stm32l4xx_hal_flash.h
+//#define FLASH_PAGE_SIZE                    ((uint32_t)0x800)
+
+#define FLASH_USER_SPACE_PAGE_START         250
+#define FLASH_USER_SPACE_NUM_PAGES          1
+#define FLASH_MAX_PAGE_NUMBER               ((256 * 2048 / FLASH_PAGE_SIZE)) - 1
+#define FLASH_MIN_PAGE_NUMBER               0
+
+#define FLASH_USER_SPACE_START_ADDRESS      (250 * 2048)
+#define FLASH_START_ADDRESS                 (0x08000000)
+
+#define FLASH_SUB_BLOCK_CONFIG_ADDRESS_OFFSET   (250 * 2048)
+#define FLASH_SUB_BLOCK_STATUS_ADDRESS_OFFSET   (251 * 2048)
+#define FLASH_SUB_BLOCK_IMAGE_ADDRESS_OFFSET    (252 * 2048)
+
+
+
+uint64_t g_count = 0;
+
+uint64_t* g_user_flash;
+void flash_access_init(void)
+{
+
+}
+
+
+void flash_access_increment_count(void)
+{
+    *g_user_flash = *g_user_flash + 1;
+}
+
+
+void flash_access_erase_user_flash(void)
+{
+
+    // this will erase the "user flash"
+    uint32_t page_error = 0;
+    FLASH_EraseInitTypeDef user_flash =
+    {
+                    .TypeErase = FLASH_TYPEERASE_PAGES,
+                    .Banks = FLASH_BANK_1,
+                    .Page = FLASH_USER_SPACE_PAGE_START,
+                    .NbPages = FLASH_USER_SPACE_NUM_PAGES
+    };
+    HAL_FLASHEx_Erase(&user_flash, &page_error);
+}
+
+
+void flash_access_write_user_flash(void)
+{
+    HAL_FLASH_Program(FLASH_TYPEPROGRAM_DOUBLEWORD, FLASH_START_ADDRESS + FLASH_USER_SPACE_START_ADDRESS, &g_count);
+}
+
+
+
+void flash_access_read_user_flash(void)
+{
+
+    g_user_flash = (uint64_t)(FLASH_START_ADDRESS + FLASH_USER_SPACE_START_ADDRESS);
+}
+
+
+
+void flash_access_read_sub_block(flash_info_sub_block_t sub_block)
+{
+    uint64_t flash_address = FLASH_START_ADDRESS;
+    switch (sub_block)
+    {
+        case FLASH_INFO_SUB_BLOCK_CONFIG:
+            flash_address += FLASH_SUB_BLOCK_CONFIG_ADDRESS_OFFSET;
+        break;
+        case FLASH_INFO_SUB_BLOCK_STATUS:
+            flash_address += FLASH_SUB_BLOCK_STATUS_ADDRESS_OFFSET;
+        break;
+        case FLASH_INFO_SUB_BLOCK_IMAGE:
+            flash_address += FLASH_SUB_BLOCK_IMAGE_ADDRESS_OFFSET;
+        break;
+    }
+
+    (uint64_t)(FLASH_START_ADDRESS + FLASH_USER_SPACE_START_ADDRESS);
+
+}
+
+
+
+
+

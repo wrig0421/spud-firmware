@@ -1,0 +1,19 @@
+
+#if !defined(FLASH_INFO_H)
+#define FLASH_INFO_H
+
+
+
+typedef enum
+{
+    FLASH_INFO_IMAGE_SLOT_0 = 0,
+    FLASH_INFO_MINI_MAIN_SLOT = FLASH_INFO_IMAGE_SLOT_0,
+    FLASH_INFO_IMAGE_SLOT_1,
+    FLASH_INFO_IMAGE_SLOT_2,
+    NUM_FLASH_INFO_IMAGE_SLOT
+} flash_info_image_slot_t;
+
+
+void flash_info_read_unique_id(void);
+
+

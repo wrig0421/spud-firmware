@@ -5,18 +5,12 @@
 #include "main.h"
 #include "stm32l4xx_hal.h"
 #include "stm32l4xx_hal_flash.h"
+#include "flash_info.h"
 #include "flash_access.h"
 
 // stm32l4xx_hal_flash.h
 //#define FLASH_PAGE_SIZE                    ((uint32_t)0x800)
 
-#define FLASH_USER_SPACE_PAGE_START         250
-#define FLASH_USER_SPACE_NUM_PAGES          1
-#define FLASH_MAX_PAGE_NUMBER               ((256 * 2048 / FLASH_PAGE_SIZE)) - 1
-#define FLASH_MIN_PAGE_NUMBER               0
-
-#define FLASH_USER_SPACE_START_ADDRESS      (250 * 2048)
-#define FLASH_START_ADDRESS                 (0x08000000)
 
 
 uint64_t g_count = 0;
@@ -50,6 +44,15 @@ void flash_access_erase_user_flash(void)
 }
 
 
+void flash_access_write_to_flash(uint64_t address, uint64_t *p_data, uint16_t num_uint64_to_write)
+{
+    for (uint16_t iii = 0; iii < num_uint64_to_write; iii++)
+    {
+        HAL_FLASH_Program(FLASH_TYPEPROGRAM_DOUBLEWORD, address + (iii * sizeof(uint64_t)), p_data);
+    }
+}
+
+
 void flash_access_write_user_flash(void)
 {
     HAL_FLASH_Program(FLASH_TYPEPROGRAM_DOUBLEWORD, FLASH_START_ADDRESS + FLASH_USER_SPACE_START_ADDRESS, &g_count);
@@ -62,4 +65,26 @@ void flash_access_read_user_flash(void)
 
     g_user_flash = (uint64_t)(FLASH_START_ADDRESS + FLASH_USER_SPACE_START_ADDRESS);
 }
+
+
+uint32_t g_flash_sub_block_generic_uint32[FLASH_INFO_SUB_BLOCK_SIZE_BYTES / sizeof(uint32_t)];
+uint32_t g_flash_sub_block_generic_uint8[FLASH_INFO_SUB_BLOCK_SIZE_BYTES];
+
+
+void flash_access_write(uint64_t address, void *p_data, uint16_t num_bytes)
+
+
+void flash_access_read(uint64_t address, void *p_data, uint16_t num_bytes)
+{
+    for (uint16_t iii = 0; iii < num_bytes; iii++)
+    {
+        p_data[iii] = *(__IO uint32_t *)(address + iii);
+    }
+}
+
+
+
+
+
+
 

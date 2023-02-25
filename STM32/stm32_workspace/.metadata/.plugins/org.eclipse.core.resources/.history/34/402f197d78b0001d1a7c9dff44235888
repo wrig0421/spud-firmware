@@ -1,0 +1,127 @@
+
+
+
+#pragma pack(1)
+
+
+#define FLASH_INFO_DEFAULT_IMAGE_SLOT   FLASH_INFO_IMAGE_SLOT_1
+#define FLASH_INFO_MINI_MAIN_SLOT       FLASH_INFO_MINI_MAIN_SLOT
+#define FLASH_INFO_SUB_BLOCK_SIZE_BYTES 512
+
+typedef struct
+{
+    uint8_t year_yy;
+    uint8_t month_mm;
+    uint8_t day_dd;
+    uint8_t hour_hh;
+    uint8_t minutes_mm;
+    uint8_t seconds_ss;
+    uint8_t fill[2];
+} flash_info_fw_version_date_t;
+
+
+typedef union
+{
+    flash_info_fw_version_date_t    fw_version_date;
+    uint8_t                         flat_data_uint8[sizeof(flash_info_fw_version_date_t)];
+} flash_info_fw_version_t;
+
+
+typedef uint32_t unique_id_t;
+
+
+typedef struct
+{
+    unique_id_t uuid[3];
+} flash_info_unique_id_t;
+
+
+typedef struct
+{
+    typedef struct
+    {
+        uint8_t     num_strips;
+    } config_data_t;
+    uint8_t fill[FLASH_INFO_SUB_BLOCK_SIZE_BYTES - sizeof(config_data_t)];
+} flash_info_config_data_t;
+
+
+typedef union
+{
+    flash_info_config_data_t    config_data;
+    uint8_t                     flat_data_uint8[FLASH_INFO_SUB_BLOCK_SIZE_BYTES];
+    uint16_t                    flat_data_uint16[FLASH_INFO_SUB_BLOCK_SIZE_BYTES / sizeof(uint16_t)];
+    uint32_t                    flat_data_uint32[FLASH_INFO_SUB_BLOCK_SIZE_BYTES / sizeof(uint32_t)];
+} flash_info_config_block_t;
+
+
+typedef struct
+{
+    typedef struct
+    {
+        flash_info_unique_id_t unique_id;
+    } status_data_t;
+    uint8_t fill[FLASH_INFO_SUB_BLOCK_SIZE_BYTES - sizeof(status_data_t)];
+} flash_info_status_data_t;
+
+
+typedef union
+{
+    flash_info_status_block_t   status_data;
+    uint8_t                     flat_data_uint8[FLASH_INFO_SUB_BLOCK_SIZE_BYTES];
+    uint16_t                    flat_data_uint16[FLASH_INFO_SUB_BLOCK_SIZE_BYTES / sizeof(uint16_t)];
+    uint32_t                    flat_data_uint32[FLASH_INFO_SUB_BLOCK_SIZE_BYTES / sizeof(uint32_t)];
+} flash_info_status_block_t;
+
+
+typedef struct
+{
+    typedef struct
+    {
+        flash_info_image_slot_t active_image;
+        flash_info_fw_version_t active_image_fw_version;
+        flash_info_image_slot_t mini_main_image;
+        flash_info_fw_version_t mini_main_image_fw_version;
+
+        uint8_t valid_image;
+        uint8_t selected_image;
+    } image_data_t;
+    uint8_t fill[FLASH_INFO_SUB_BLOCK_SIZE_BYTES - sizeof(image_data_t)];
+} flash_info_image_data_t;
+
+
+typedef union
+{
+    flash_info_image_data_t     image_data;
+    uint8_t                     flat_data_uint8[FLASH_INFO_SUB_BLOCK_SIZE_BYTES];
+    uint16_t                    flat_data_uint16[FLASH_INFO_SUB_BLOCK_SIZE_BYTES / sizeof(uint16_t)];
+    uint32_t                    flat_data_uint32[FLASH_INFO_SUB_BLOCK_SIZE_BYTES / sizeof(uint32_t)];
+} flash_info_image_block_t;
+
+
+#pragma pack(0)
+
+
+
+flash_info_status_block_t   g_flash_info_status_block;
+flash_info_config_block_t   g_flash_info_config_block;
+flash_info_image_block_t    g_flash_info_wim_block;
+
+
+void flash_info_init(void)
+{
+
+
+    if (g_glash_)
+}
+
+
+void flash_info_read_unique_id(void)
+{
+    flash_info_unique_id_t uuid = {0};
+    uuid[0] = HAL_GetUIDw0();
+    uuid[1] = HAL_GetUIDw1();
+    uuid[2] = HAL_GetUIDw2();
+}
+
+

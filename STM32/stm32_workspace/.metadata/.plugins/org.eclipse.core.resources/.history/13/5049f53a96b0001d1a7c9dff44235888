@@ -1,0 +1,12 @@
+/*
+ * version.c
+ *
+ *  Created on: Feb 19, 2023
+ *      Author: spud
+ */
+
+
+void version_store_compile_date_and_time(version_date_and_time_t date_and_time)
+{
+
+}
