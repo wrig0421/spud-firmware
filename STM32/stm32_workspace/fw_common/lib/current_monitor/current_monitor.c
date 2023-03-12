@@ -14,7 +14,7 @@
 // current tracking needs to be maintained per strip.
 typedef current_t* p_current_t;
 
-float g_max_current_ratio = 1.0;
+float g_max_current_ratio = 1.0f;
 p_current_t gp_current_monitor_strip[NUM_STRIPS];
 
 

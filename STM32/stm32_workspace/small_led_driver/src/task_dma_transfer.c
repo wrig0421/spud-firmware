@@ -36,7 +36,7 @@ extern p_pwm_data_t gp_pwm_data_fill;
 void task_dma_transfer(void *argument)
 {
     uint32_t dma_transfer_state = 0;
-    uint32_t count = 0;
+    //uint32_t count = 0;
     uint16_t offset = 0;
     uint16_t strip_size = 0;
     while (1)

@@ -41,8 +41,12 @@ src/task_dma_transfer.o: ../src/task_dma_transfer.c \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr_ex.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc_ex.h \
+ ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h \
+ ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_spi_ex.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h \
+ ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_usart.h \
+ ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_usart_ex.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/semaphore/semaphore_create.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.h \
  ../src/config.h ../src/numbers.h ../src/task_dma_transfer.h
@@ -92,8 +96,12 @@ src/task_dma_transfer.o: ../src/task_dma_transfer.c \
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr_ex.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc_ex.h:
+../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h:
+../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_spi_ex.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h:
+../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_usart.h:
+../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_usart_ex.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/semaphore/semaphore_create.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.h:
 ../src/config.h:

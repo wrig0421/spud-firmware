@@ -83,14 +83,26 @@ uint8_t g_ping_pong = 1;
 uint16_t g_num_leds = 0;
 uint16_t g_all_strip_mask = 0;
 uint16_t g_max_strip_length = 0;
-p_pwm_data_t gp_pwm_data_ping;
-p_pwm_data_t gp_pwm_data_pong;
+
+p_pwm_data_t gp_pwm_strip_1_data;
+p_pwm_data_t gp_pwm_strip_2_data;
+p_pwm_data_t gp_pwm_strip_3_data;
+
+
+//p_pwm_data_t gp_pwm_data_ping;
+//p_pwm_data_t gp_pwm_data_pong;
 p_pwm_data_t gp_pwm_data_fill;
+
+
 p_ws2812b_led_t gp_ws28128b_strip[NUM_STRIPS];
 
 uint16_t g_pwm_data_offsets[NUM_STRIPS] = {0};
 
 bool g_pwm_data_ping = false;
+
+extern bool gb_dma_cmplt_strip_1;
+extern bool gb_dma_cmplt_strip_2;
+extern bool gb_dma_cmplt_strip_3;
 
 extern TIM_HandleTypeDef g_tim1_handle;
 extern TIM_HandleTypeDef g_tim15_handle;
@@ -103,14 +115,14 @@ extern volatile int datasentflag;
 uint16_t pwm_reset[50] = {0};
 void reset_ws2812b(void)
 {
-    xSemaphoreTake(g_dma_transfer_semaphore, portMAX_DELAY);
-    xTaskNotify(g_dma_transfer_handle, 0, eSetValueWithOverwrite);
+    //xSemaphoreTake(g_dma_transfer_semaphore, portMAX_DELAY);
+    //xTaskNotify(g_dma_transfer_handle, 0, eSetValueWithOverwrite);
 
-//    HAL_TIM_PWM_Start_DMA(&g_tim1_handle, TIM_CHANNEL_1, (uint32_t *)pwm_reset, 50);
-//    HAL_TIM_PWM_Start_DMA(&g_tim1_handle, TIM_CHANNEL_2, (uint32_t *)pwm_reset, 50);
-//    HAL_TIM_PWM_Start_DMA(&g_tim1_handle, TIM_CHANNEL_3, (uint32_t *)pwm_reset, 50);
-//    HAL_TIM_PWM_Start_DMA(&g_tim15_handle, TIM_CHANNEL_1, (uint32_t *)pwm_reset, 50);
-//    HAL_TIM_PWM_Start_DMA(&g_tim16_handle, TIM_CHANNEL_1, (uint32_t *)pwm_reset, 50);
+    HAL_TIM_PWM_Start_DMA(&g_tim1_handle, TIM_CHANNEL_1, (uint32_t *)pwm_reset, sizeof(pwm_reset));
+    HAL_TIM_PWM_Start_DMA(&g_tim1_handle, TIM_CHANNEL_2, (uint32_t *)pwm_reset, sizeof(pwm_reset));
+    HAL_TIM_PWM_Start_DMA(&g_tim1_handle, TIM_CHANNEL_3, (uint32_t *)pwm_reset, sizeof(pwm_reset));
+//    HAL_TIM_PWM_Start_DMA(&g_tim15_handle, TIM_CHANNEL_1, (uint32_t *)pwm_reset, sizeof(pwm_reset)));
+//    HAL_TIM_PWM_Start_DMA(&g_tim16_handle, TIM_CHANNEL_1, (uint32_t *)pwm_reset, sizeof(pwm_reset)));
 }
 
 static strip_bit_e ws2812_convert_strip_num_to_strip_bit(const strip_num_e strip_num)
@@ -128,16 +140,19 @@ static strip_num_e ws2812_convert_strip_bit_to_strip_num(const strip_bit_e strip
 uint16_t ws2812_get_pwm_strip_offset(const strip_bit_e strip_bit)
 {
     uint16_t offset = 0;
+    uint8_t strip_num = 0;
     switch (strip_bit)
     {
 #if defined(STRIP_1_LENGTH)
         case STRIP_BIT_1:
             offset = 0;
+            strip_num = 1;
         break;
 #endif
 #if defined(STRIP_2_LENGTH)
         case STRIP_BIT_2:
             offset = STRIP_1_LENGTH;
+            strip_num = 2;
         break;
 #endif
 #if defined(STRIP_3_LENGTH)
@@ -158,7 +173,7 @@ uint16_t ws2812_get_pwm_strip_offset(const strip_bit_e strip_bit)
         default:
         break;
     }
-    return offset;
+    return ((offset * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + (strip_num * WS2812B_RESET_TIME_CYCLES));
 }
 
 
@@ -333,7 +348,7 @@ uint16_t ws2812b_strip_size(void)
 void ws2812b_dma_transfer(const strip_mask_t strip_mask)
 {
     //xSemaphoreTake(g_dma_transfer_semaphore, portMAX_DELAY);
-    xTaskNotify(g_dma_transfer_handle, strip_mask, eSetValueWithOverwrite);
+    //xTaskNotify(g_dma_transfer_handle, strip_mask, eSetValueWithOverwrite);
 }
 
 
@@ -344,42 +359,112 @@ ws2812b_ping_pong_e ws2812b_ping_or_pong(void)
 }
 
 
+
+#if defined(STRIP_1_LENGTH)
+void ws2812b_fill_pwm_buffer_strip_one(void)
+{
+    uint32_t color = 0;
+    uint32_t strip_size = STRIP_1_LENGTH;
+    uint32_t strip_pwm_offset = ws2812_get_pwm_strip_offset(STRIP_BIT_1);
+    while (!gb_dma_cmplt_strip_2)
+    {
+        osDelay(1);
+    }
+    for (uint16_t iii = 0; iii < strip_size; iii++)
+    {
+        color = (((gp_ws28128b_strip[STRIP_NUM_1] + iii)->green) << 16) | \
+                                (((gp_ws28128b_strip[STRIP_NUM_1] + iii)->red) << 8) | \
+                                (((gp_ws28128b_strip[STRIP_NUM_1] + iii)->blue));
+        for (uint8_t yyy = 0; yyy < BITS_PER_BYTE * sizeof(ws2812b_led_t); yyy++)
+        {
+            gp_pwm_data_fill[strip_pwm_offset + (iii * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + yyy] = (color & (1 << (23 - yyy))) ? (uint16_t)(WS2812B_BIT_SET_CYCLES + 1) : (uint16_t)WS2812B_BIT_RESET_CYCLES;
+        }
+    }
+    for (uint16_t iii = 0; iii < WS2812B_RESET_TIME_CYCLES; iii++)
+    {
+        gp_pwm_data_fill[(strip_pwm_offset + (strip_size * BITS_PER_BYTE * sizeof(ws2812b_led_t))) + iii] = 0;
+    }
+    gb_dma_cmplt_strip_2 = false;
+    HAL_TIM_PWM_Start_DMA(&g_tim1_handle, TIM_CHANNEL_2, (uint32_t *)(gp_pwm_data_fill + strip_pwm_offset), (STRIP_1_LENGTH * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + WS2812B_RESET_TIME_CYCLES);
+}
+#endif
+
+#if defined(STRIP_2_LENGTH)
+void ws2812b_fill_pwm_buffer_strip_two(void)
+{
+    uint32_t color = 0;
+    uint32_t strip_size = STRIP_2_LENGTH;
+    uint32_t strip_pwm_offset = ws2812_get_pwm_strip_offset(STRIP_BIT_2);
+    while (!gb_dma_cmplt_strip_3)
+    {
+        osDelay(1);
+    }
+    for (uint16_t iii = 0; iii < strip_size; iii++)
+    {
+        color = (((gp_ws28128b_strip[STRIP_NUM_2] + iii)->green) << 16) | \
+                                (((gp_ws28128b_strip[STRIP_NUM_2] + iii)->red) << 8) | \
+                                (((gp_ws28128b_strip[STRIP_NUM_2] + iii)->blue));
+        for (uint8_t yyy = 0; yyy < BITS_PER_BYTE * sizeof(ws2812b_led_t); yyy++)
+        {
+            gp_pwm_data_fill[strip_pwm_offset + (iii * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + yyy] = (color & (1 << (23 - yyy))) ? (uint16_t)(WS2812B_BIT_SET_CYCLES + 1) : (uint16_t)WS2812B_BIT_RESET_CYCLES;
+        }
+    }
+    for (uint16_t iii = 0; iii < WS2812B_RESET_TIME_CYCLES; iii++)
+    {
+        gp_pwm_data_fill[(strip_pwm_offset + (strip_size * BITS_PER_BYTE * sizeof(ws2812b_led_t))) + iii] = 0;
+    }
+    gb_dma_cmplt_strip_3 = false;
+    HAL_TIM_PWM_Start_DMA(&g_tim1_handle, TIM_CHANNEL_3, (uint32_t *)(gp_pwm_data_fill + strip_pwm_offset), (STRIP_2_LENGTH * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + WS2812B_RESET_TIME_CYCLES);
+}
+#endif
+
+
+#if defined(STRIP_3_LENGTH)
+void ws2812b_fill_pwm_buffer_strip_three(void)
+{
+    uint32_t color = 0;
+    uint32_t strip_size = STRIP_3_LENGTH;
+    uint32_t strip_pwm_offset = ws2812_get_pwm_strip_offset(STRIP_BIT_3);
+    while (!gb_dma_cmplt_strip_3)
+    {
+        osDelay(1);
+    }
+    for (uint16_t iii = 0; iii < strip_size; iii++)
+    {
+        color = (((gp_ws28128b_strip[STRIP_NUM_3] + iii)->green) << 16) | \
+                                (((gp_ws28128b_strip[STRIP_NUM_3] + iii)->red) << 8) | \
+                                (((gp_ws28128b_strip[STRIP_NUM_3] + iii)->blue));
+        for (uint8_t yyy = 0; yyy < BITS_PER_BYTE * sizeof(ws2812b_led_t); yyy++)
+        {
+            gp_pwm_data_fill[strip_pwm_offset + (iii * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + yyy] = (color & (1 << (23 - yyy))) ? (uint16_t)(WS2812B_BIT_SET_CYCLES + 1) : (uint16_t)WS2812B_BIT_RESET_CYCLES;
+        }
+    }
+    for (uint16_t iii = 0; iii < WS2812B_RESET_TIME_CYCLES; iii++)
+    {
+        gp_pwm_data_fill[(strip_size * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + iii] = 0;
+    }
+    gb_dma_cmplt_strip_3 = false;
+    HAL_TIM_PWM_Start_DMA(&g_tim1_handle, TIM_CHANNEL_3, (uint32_t *)gp_pwm_data_fill, (STRIP_3_LENGTH * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + WS2812B_RESET_TIME_CYCLES);
+}
+#endif
+
+
 void ws2812b_fill_pwm_buffer(const strip_bit_e strip_bit)
 {
-	// fill the pwm data here  
-	uint16_t strip_size = ws2812_get_strip_size(strip_bit);
-	ws2812b_set_strip_size(strip_bit);
+	uint16_t strip_size = ws2812_get_strip_size(strip_bit); // get the size of the strip
+	ws2812b_set_strip_size(strip_bit); // why??
 	uint32_t color = 0;
-	strip_num_e strip_num = ws2812_convert_strip_bit_to_strip_num(strip_bit);
-	//uint32_t offset = ws2812_get_pwm_strip_offset(strip_bit);
+	strip_num_e strip_num = ws2812_convert_strip_bit_to_strip_num(strip_bit); // set the strip we are writing to
+	uint32_t offset = ws2812_get_pwm_strip_offset(strip_bit); // get start offset for strip in the buffer
+	uint32_t pwm_offset = offset * BITS_PER_BYTE * sizeof(ws2812b_led_t);
 	for (uint16_t iii = 0; iii < strip_size; iii++)
 	{
-		color = (((gp_ws28128b_strip[strip_num] + iii)->green) << 16) | (((gp_ws28128b_strip[strip_num] + iii)->red) << 8) | (((gp_ws28128b_strip[strip_num] + iii)->blue));
+		color = (((gp_ws28128b_strip[strip_num] + iii)->green) << 16) | \
+		                (((gp_ws28128b_strip[strip_num] + iii)->red) << 8) | \
+		                (((gp_ws28128b_strip[strip_num] + iii)->blue));
 		for (uint8_t yyy = 0; yyy < BITS_PER_BYTE * sizeof(ws2812b_led_t); yyy++)
 		{
-
-		    gp_pwm_data_fill[(iii * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + yyy] = (color & (1 << (23 - yyy))) ? (uint16_t)(WS2812B_BIT_SET_CYCLES + 1) : (uint16_t)WS2812B_BIT_RESET_CYCLES;
-//		    gp_pwm_data_fill[((offset * BITS_PER_BYTE * sizeof(ws2812b_led_t)) +
-//		                                    ((uint32_t)strip_num * (uint32_t)WS2812B_BIT_RESET_CYCLES) +
-//		                                    (iii * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + yyy)] =
-//		                                                    (color & (1 << (23 - yyy))) ? (uint16_t)(WS2812B_BIT_SET_CYCLES + 1) : (uint16_t)WS2812B_BIT_RESET_CYCLES;
-//
-//		    if (WS2812B_PING == ws2812b_ping_or_pong())
-//            {
-//		        gp_pwm_data_ping[((offset * BITS_PER_BYTE * sizeof(ws2812b_led_t)) +
-//		                        ((uint32_t)strip_num * (uint32_t)WS2812B_BIT_RESET_CYCLES) +
-//		                        (iii * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + yyy)] =
-//		                                        (color & (1 << (23 - yyy))) ? (uint16_t)(WS2812B_BIT_SET_CYCLES + 1) : (uint16_t)WS2812B_BIT_RESET_CYCLES;
-//
-//		    }
-//		    else
-//		    {
-//		        gp_pwm_data_pong[((offset * BITS_PER_BYTE * sizeof(ws2812b_led_t)) +
-//		                        ((uint32_t)strip_num * (uint32_t)WS2812B_BIT_RESET_CYCLES) +
-//		                        (iii * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + yyy)] =
-//		                                        (color & (1 << (23 - yyy))) ? (uint16_t)(WS2812B_BIT_SET_CYCLES + 1) : (uint16_t)WS2812B_BIT_RESET_CYCLES;
-//
-//		    }
+            gp_pwm_data_fill[pwm_offset + (iii * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + yyy] = (color & (1 << (23 - yyy))) ? (uint16_t)(WS2812B_BIT_SET_CYCLES + 1) : (uint16_t)WS2812B_BIT_RESET_CYCLES;
 		}
 	}
     for (uint16_t iii = 0; iii < WS2812B_RESET_TIME_CYCLES; iii++)
@@ -394,6 +479,8 @@ void ws2812b_fill_pwm_buffer(const strip_bit_e strip_bit)
 //            gp_pwm_data_pong[(strip_size * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + iii] = 0;
 //        }
 	}
+    HAL_TIM_PWM_Start_DMA(&g_tim1_handle, TIM_CHANNEL_1, (uint32_t *)gp_pwm_data_fill, (NUM_LEDS * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + WS2812B_RESET_TIME_CYCLES);
+    g_tim_pwm_transfer_cmplt = false;
     HAL_TIM_PWM_Start_DMA(&g_tim1_handle, TIM_CHANNEL_2, (uint32_t *)gp_pwm_data_fill, (NUM_LEDS * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + WS2812B_RESET_TIME_CYCLES);
     g_tim_pwm_transfer_cmplt = false;
     while (!g_tim_pwm_transfer_cmplt)
@@ -488,22 +575,46 @@ void ws2812b_init(void)
 	current_monitor_init();
 }
 
+
+void ws2812b_show_strip_one(void)
+{
+    ws2812b_fill_pwm_buffer_strip_one();
+}
+
+
+void ws2812b_show_strip_two(void)
+{
+    ws2812b_fill_pwm_buffer_strip_two();
+}
+
+
+void ws2812b_show_strip_three(void)
+{
+    ws2812b_fill_pwm_buffer_strip_three();
+}
+
+
+
 void ws2812b_show(const strip_mask_t strip_mask)
 {
 	for (uint8_t iii = 0; iii < STRIP_BIT_NUM_STRIPS; iii++)
 	{
-		if ((1 << iii) & strip_mask)
-		{
-			ws2812b_fill_pwm_buffer(iii + 1); // iii = strip num!
-		}
+	    if (strip_mask & STRIP_BIT_1)
+	    {
+	        ws2812b_fill_pwm_buffer_strip_one();
+	    }
+#if defined(STRIP_2_LENGTH)
+	    if (strip_mask & STRIP_BIT_2)
+	    {
+	        ws2812b_fill_pwm_buffer_strip_two();
+	    }
+#endif
+#if defined(STRIP_3_LENGTH)
+        if (strip_mask & STRIP_BIT_3)
+        {
+	        // STRIP_BIT_3
+	        ws2812b_fill_pwm_buffer_strip_three();
+	    }
+#endif
 	}
-
-	//ws2812b_dma_transfer(strip_mask);
-	//taskYIELD();
-	//portYIELD();
-//	if (WS2812B_PING == ws2812b_ping_or_pong())
-//    {
-//        xSemaphoreTake(g_dma_fill_semaphore, portMAX_DELAY);
-//    }
-//    g_ping_pong ^= 1;
 }

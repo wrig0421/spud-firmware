@@ -196,10 +196,10 @@ void EXTI2_IRQHandler(void)
     BaseType_t xHigherPriorityTaskWoken;
     // B button is state
     HAL_GPIO_EXTI_IRQHandler(PIN_WKUP_4);
-    g_button_press_timestamp[PUSH_BUTTON_B][TIMESTAMP_PREVIOUS] = g_button_press_timestamp[PUSH_BUTTON_B][TIMESTAMP_CURRENT];
-    g_button_press_timestamp[PUSH_BUTTON_B][TIMESTAMP_CURRENT] = xTaskGetTickCountFromISR();
+    g_button_press_timestamp[PUSH_BUTTON_D][TIMESTAMP_PREVIOUS] = g_button_press_timestamp[PUSH_BUTTON_B][TIMESTAMP_CURRENT];
+    g_button_press_timestamp[PUSH_BUTTON_D][TIMESTAMP_CURRENT] = xTaskGetTickCountFromISR();
     HAL_NVIC_DisableIRQ(EXTI2_IRQn);
-    xTaskNotifyFromISR(g_button_press_handle, PUSH_BUTTON_B, eSetValueWithOverwrite, &xHigherPriorityTaskWoken);
+    xTaskNotifyFromISR(g_button_press_handle, PUSH_BUTTON_D, eSetValueWithOverwrite, &xHigherPriorityTaskWoken);
 }
 
 
@@ -226,10 +226,10 @@ void EXTI9_5_IRQHandler(void)
     BaseType_t xHigherPriorityTaskWoken;
     // D button is pause
     HAL_GPIO_EXTI_IRQHandler(PIN_WKUP_3);
-    g_button_press_timestamp[PUSH_BUTTON_D][TIMESTAMP_PREVIOUS] = g_button_press_timestamp[PUSH_BUTTON_D][TIMESTAMP_CURRENT];
-    g_button_press_timestamp[PUSH_BUTTON_D][TIMESTAMP_CURRENT] = xTaskGetTickCountFromISR();
+    g_button_press_timestamp[PUSH_BUTTON_B][TIMESTAMP_PREVIOUS] = g_button_press_timestamp[PUSH_BUTTON_D][TIMESTAMP_CURRENT];
+    g_button_press_timestamp[PUSH_BUTTON_B][TIMESTAMP_CURRENT] = xTaskGetTickCountFromISR();
     HAL_NVIC_DisableIRQ(EXTI15_10_IRQn);
-    xTaskNotifyFromISR(g_button_press_handle, PUSH_BUTTON_D, eSetValueWithOverwrite, &xHigherPriorityTaskWoken);
+    xTaskNotifyFromISR(g_button_press_handle, PUSH_BUTTON_B, eSetValueWithOverwrite, &xHigherPriorityTaskWoken);
 }
 
 
@@ -240,31 +240,29 @@ void HAL_DMA_CMPLT_CALLBACK(DMA_HandleTypeDef *hdma)
 
 
 bool g_tim_pwm_transfer_cmplt = false;
+bool gb_dma_cmplt_strip_1 = true;
+bool gb_dma_cmplt_strip_2 = true;
+bool gb_dma_cmplt_strip_3 = true;
+
 void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim)
 {
-    //static uint32_t count = 0;
     switch (htim->Channel)
     {
         case HAL_TIM_ACTIVE_CHANNEL_1:
             HAL_TIM_PWM_Stop_DMA(htim, TIM_CHANNEL_1);
+            gb_dma_cmplt_strip_1 = true;
         break;
         case HAL_TIM_ACTIVE_CHANNEL_2:
             HAL_TIM_PWM_Stop_DMA(htim, TIM_CHANNEL_2);
+            gb_dma_cmplt_strip_2 = true;
         break;
         case HAL_TIM_ACTIVE_CHANNEL_3:
             HAL_TIM_PWM_Stop_DMA(htim, TIM_CHANNEL_3);
+            gb_dma_cmplt_strip_3 = true;
         break;
         default:
         break;
     }
-    g_tim_pwm_transfer_cmplt = true;
-//
-//    if (3 == count++)
-//    {
-//        g_tim_pwm_transfer_cmplt = true;
-//        count = 0;
-//    }
-//    xTaskNotifyFromISR(g_dma_transfer_handle, 0xFF, eSetValueWithOverwrite, &xHigherPriorityTaskWokenTim);
 }
 
 

@@ -1,0 +1,5 @@
+../src/flash_info.c:69:6:flash_info_block_init	8	static
+../src/flash_info.c:87:6:flash_info_read_sector_data	16	static
+../src/flash_info.c:116:6:flash_info_write_sector_data	24	static
+../src/flash_info.c:187:6:flash_info_init	8	static
+../src/flash_info.c:199:6:flash_info_firmware_version	16	static

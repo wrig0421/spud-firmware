@@ -18,7 +18,23 @@ extern uint16_t g_all_strip_mask;
  */
 void animate_led_show_strip(const strip_mask_t strip_mask)
 {
-    ws2812b_show(strip_mask);
+    if (strip_mask & STRIP_BIT_1)
+    {
+        ws2812b_show_strip_one();
+    }
+#if defined(STRIP_2_LENGTH)
+    if (strip_mask & STRIP_BIT_2)
+    {
+        ws2812b_show_strip_two();
+    }
+#endif
+#if defined(STRIP_3_LENGTH)
+    if (strip_mask & STRIP_BIT_3)
+    {
+        // STRIP_BIT_3
+        ws2812b_show_strip_three();
+    }
+#endif
 }
 
 
@@ -114,10 +130,10 @@ void animate_led_multiple_solid_custom_colors(const strip_mask_t mask_solid, con
 }
 
 
-void animate_led_solid_custom_color(const strip_mask_t mask_solid, const color_hex_code_e color_spell)
+void animate_led_solid_custom_color(const strip_mask_t mask_solid, const color_hex_code_e color_solid)
 {
     uint8_t color_solid_rgb[sizeof(ws2812b_led_t)] = {0};
-    color_led_hex_to_rgb(color_spell, color_solid_rgb);
+    color_led_hex_to_rgb(color_solid, color_solid_rgb);
     animate_led_set_all_pixels(mask_solid, color_solid_rgb[offsetof(ws2812b_led_t, red)],
                                color_solid_rgb[offsetof(ws2812b_led_t, green)],
                                color_solid_rgb[offsetof(ws2812b_led_t, blue)]);

@@ -76,6 +76,111 @@ static void task_led_ctrl_adjust_parameters(const task_led_ctrl_loop_iterations_
 }
 
 
+void task_led_ctrl_strip_two(void *argument)
+{
+    while (task_button_press_major_change)
+    {
+        osDelay(10);
+    }
+    while (1)
+    {
+        //animate_led_theater_chase_rainbow(STRIP_BIT_2, 20);
+        animate_led_rainbow_cycle(STRIP_BIT_2, 100);
+    }
+}
+
+
+
+void task_led_ctrl_strip_one(void *argument)
+{
+    while(task_button_press_major_change)
+    {
+        osDelay(10);
+    }
+    while (1)
+    {
+        switch(g_led_state)
+        {
+    #if defined(ENABLE_LED_STATE_WHITE_COLOR)
+            case LED_STATE_WHITE_COLOR:
+                animate_led_solid_custom_color((uint16_t)STRIP_BIT_1, COLOR_HEX_WHITE);
+                task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_1, TASK_LED_CTRL_DELAY_MS_5000);
+            break;
+    #endif
+    #if defined(ENABLE_LED_STATE_MINT_NOHBZ)
+            case LED_STATE_MINT_NOHBZ:
+                animate_led_only_spell_word(STRIP_BIT_1, COLOR_HEX_MINT, 20);
+                animate_led_only_spell_word(STRIP_BIT_1, COLOR_HEX_BLACK, 20);
+            break;
+    #endif
+    #if defined(ENABLE_LED_STATE_SOLID_COLOR)
+            case LED_STATE_SOLID_COLOR:
+                animate_led_solid_custom_color((uint16_t)STRIP_BIT_1, task_led_ctrl_color_hex());
+                if (MASTER_LED_STATE_FIXED == g_master_led_state)
+                {
+                    task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_5, TASK_LED_CTRL_DELAY_MS_1000);
+                    task_led_ctrl_delay(1000);
+                }
+                else task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_5, TASK_LED_CTRL_DELAY_MS_5000);
+            break;
+    #endif
+    #if defined(ENABLE_LED_STATE_SPARKLE_NO_FILL)
+            case LED_STATE_SPARKLE_NO_FILL:
+                animate_led_turn_all_pixels_off();
+                animate_led_sparkle_only_random_color(STRIP_BIT_1, false, 100);//random(0, 50));
+                task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_5, TASK_LED_CTRL_DELAY_MS_0);
+            break;
+    #endif
+    #if defined(ENABLE_LED_STATE_SPARKLE_FILL)
+            case LED_STATE_SPARKLE_FILL:
+                animate_led_sparkle_only_random_color(STRIP_BIT_1, true, 100);
+                task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_10, TASK_LED_CTRL_DELAY_MS_0);
+            break;
+    #endif
+    #if defined(ENABLE_LED_STATE_RAINBOW_CYCLE)
+            case LED_STATE_RAINBOW_CYCLE:
+                animate_led_rainbow_cycle(STRIP_BIT_1, 10);
+                task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_5, TASK_LED_CTRL_DELAY_MS_0);
+            break;
+    #endif
+    #if defined(ENABLE_LED_STATE_THEATER_CHASE)
+            case LED_STATE_THEATER_CHASE:
+                animate_led_theater_chase(STRIP_BIT_1, task_led_ctrl_color_hex(), 20);
+                task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_10, TASK_LED_CTRL_DELAY_MS_0);
+            break;
+    #endif
+    #if defined(ENABLE_LED_STATE_THEATER_CHASE_RAINBOW)
+            case LED_STATE_THEATER_CHASE_RAINBOW:
+                animate_led_theater_chase_rainbow(STRIP_BIT_1, 20);
+                task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_2, TASK_LED_CTRL_DELAY_MS_0);
+            break;
+    #endif
+    #if defined(ENABLE_LED_STATE_FADE_IN_AND_OUT)
+            case LED_STATE_FADE_IN_AND_OUT:
+                animate_led_fade_in_fade_out((uint16_t)STRIP_BIT_1, task_led_ctrl_color_hex());
+                task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_10, TASK_LED_CTRL_DELAY_MS_0);
+            break;
+    #endif
+    #if defined(ENABLE_LED_STATE_TWINKLE)
+            case LED_STATE_TWINKLE:
+                animate_led_turn_all_pixels_off();
+                animate_led_twinkle(STRIP_BIT_1, task_led_ctrl_color_hex(), (uint32_t)((float)NUM_LEDS * (float)0.9), 20, false);
+                task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_5, TASK_LED_CTRL_DELAY_MS_0);
+            break;
+    #endif
+    #if defined(ENABLE_LED_STATE_SPELL)
+            case LED_STATE_SPELL:
+                animate_led_only_spell_word(STRIP_BIT_1, task_led_ctrl_color_hex(), 20);
+                task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_10, TASK_LED_CTRL_DELAY_MS_0);
+            break;
+    #endif
+            default:
+            break;
+        }
+    }
+}
+
+
 void task_led_ctrl(void *argument)
 {
     board_init_common_stop_timer();

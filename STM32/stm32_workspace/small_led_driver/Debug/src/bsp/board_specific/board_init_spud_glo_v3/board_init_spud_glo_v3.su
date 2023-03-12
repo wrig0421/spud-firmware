@@ -1,2 +1,2 @@
-../src/bsp/board_specific/board_init_spud_glo_v3/board_init_spud_glo_v3.c:8:6:board_init_specific	32	static
-../src/bsp/board_specific/board_init_spud_glo_v3/board_init_spud_glo_v3.c:34:6:board_init_specific_power_cycle_level_shifter	8	static
+../src/bsp/board_specific/board_init_spud_glo_v3/board_init_spud_glo_v3.c:9:6:board_init_specific	32	static
+../src/bsp/board_specific/board_init_spud_glo_v3/board_init_spud_glo_v3.c:35:6:board_init_specific_power_cycle_level_shifter	8	static

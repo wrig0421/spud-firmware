@@ -1,3 +1,7 @@
+#include "config.h"
+
+#if defined(BOARD_MN_WILD_SOUND)
+
 #include <stdint.h>
 #include <stdbool.h>
 #include <stdlib.h>
@@ -186,6 +190,8 @@ void adafruit_soundboard_disable_relay(adafruit_soundboard_relay_e relay)
     adafruit_soundboard_enable_disable_relay(relay, ADAFRUIT_SOUNDBOARD_RELAY_DISABLE);
 }
 
+
+#endif
 
 
 

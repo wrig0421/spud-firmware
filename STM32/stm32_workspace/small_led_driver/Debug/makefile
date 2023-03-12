@@ -11,6 +11,7 @@ RM := rm -rf
 -include sources.mk
 -include startup/subdir.mk
 -include src/stm32_bloat/subdir.mk
+-include src/bsp/board_specific/board_init_spud_glo_v4/subdir.mk
 -include src/bsp/board_specific/board_init_spud_glo_v3/subdir.mk
 -include src/bsp/board_specific/board_init_spud_glo_v2/subdir.mk
 -include src/bsp/board_specific/board_init_spud_glo_v1/subdir.mk
@@ -24,6 +25,7 @@ RM := rm -rf
 -include fw_common/lib/ws2812b_driver/subdir.mk
 -include fw_common/lib/task/subdir.mk
 -include fw_common/lib/semaphore/subdir.mk
+-include fw_common/lib/queue/subdir.mk
 -include fw_common/lib/current_monitor/subdir.mk
 -include fw_common/lib/color_led/subdir.mk
 -include fw_common/lib/animate_led/subdir.mk

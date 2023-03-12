@@ -1,6 +1,10 @@
 #if !defined(ADAFRUIT_SOUNDBOARD_H)
 #define ADAFRUIT_SOUNDBOARD_H
 
+#include "config.h"
+
+#   if defined(BOARD_MN_WILD_SOUND)
+
 
 typedef enum
 {
@@ -85,6 +89,9 @@ void adafruit_soundboard_set_volume_max(void);
 void adafruit_soundboard_set_volume_min(void);
 void adafruit_soundboard_enable_relay(adafruit_soundboard_relay_e relay);
 void adafruit_soundboard_disable_relay(adafruit_soundboard_relay_e relay);
+
+    #endif
+
 #endif
 
 

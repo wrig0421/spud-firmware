@@ -289,8 +289,6 @@ void board_init_common_board_init(void)
     __HAL_RCC_GPIOH_CLK_ENABLE();
     __HAL_RCC_DMA1_CLK_ENABLE();
 
-
-
     GPIO_InitStruct.Pin = PIN_LED_OUT_1 | PIN_LED_OUT_2;
     GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
     GPIO_InitStruct.Pull = GPIO_PULLDOWN;
@@ -299,7 +297,7 @@ void board_init_common_board_init(void)
     GPIO_InitStruct.Pin = PIN_LVL_EN;
     GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
-    HAL_GPIO_Init(PIN_PORT_C, &GPIO_InitStruct);
+    HAL_GPIO_Init(PIN_PORT_B, &GPIO_InitStruct);
 
     board_init_specific();
 
@@ -327,6 +325,8 @@ void board_init_common_board_init(void)
     board_init_common_rtc_init();
 
     HAL_GPIO_WritePin(GPIOC, PIN_LED_OUT_1|PIN_LED_OUT_2, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(GPIOC, PIN_LVL_EN, GPIO_PIN_SET);
+
 }
 
 

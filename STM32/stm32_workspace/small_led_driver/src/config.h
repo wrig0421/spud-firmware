@@ -14,13 +14,16 @@
 
 
 // define the board!
+//#define BOARD_SPUD_GLO_V4P2
+//#define BOARD_SPUD_GLO_V4
 #define BOARD_SPUD_GLO_V3
 //#define BOARD_SPUD_GLO_V2
 //#define BOARD_SPUD_GLO_V1
+//#define BOARD_MN_WILD_SOUND
 
 // define the number of strips
-#define STRIP_1_LENGTH      303 /// FLYNN FARM SIGN = 166!!
-//#define STRIP_2_LENGTH      200
+#define STRIP_1_LENGTH      300 /// FLYNN FARM SIGN = 166!!
+#define STRIP_2_LENGTH      215
 //#define STRIP_3_LENGTH      200
 //#define STRIP_4_LENGTH      200
 //#define STRIP_5_LENGTH      200
@@ -28,7 +31,7 @@
 #define ENABLE_LED_STATE_SPELL
 //#define ENABLE_LED_STATE_WHITE_COLOR
 //#define ENABLE_LED_STATE_MINT_NOHBZ
-#define ENABLE_LED_STATE_SOLID_COLOR
+//#define ENABLE_LED_STATE_SOLID_COLOR
 #define ENABLE_LED_STATE_SPARKLE_NO_FILL
 #define ENABLE_LED_STATE_SPARKLE_FILL
 #define ENABLE_LED_STATE_RAINBOW_CYCLE
@@ -38,15 +41,14 @@
 #define ENABLE_LED_STATE_TWINKLE
 
 
-
-#if defined(STRIP_1_LENGTH)
-#define NUM_LEDS STRIP_1_LENGTH
-#elif defined(STRIP_2_LENGTH)
-#define NUM_LEDS STRIP_1_LENGTH + STRIP_2_LENGTH
+#if defined(STRIP_4_LENGTH)
+#define NUM_LEDS        STRIP_1_LENGTH + STRIP_2_LENGTH + STRIP_3_LENGTH + STRIP_4_LENGTH
 #elif defined(STRIP_3_LENGTH)
-#define NUM_LEDS STRIP_1_LENGTH + STRIP_2_LENGTH + STRIP_3_LENGTH
-#elif defined(STRIP_4_LENGTH)
-#define NUM_LEDS STRIP_1_LENGTH + STRIP_2_LENGTH + STRIP_3_LENGTH + STRIP_4_LENGTH
+#define NUM_LEDS        STRIP_1_LENGTH + STRIP_2_LENGTH + STRIP_3_LENGTH
+#elif defined(STRIP_2_LENGTH)
+#define NUM_LEDS        (STRIP_1_LENGTH + STRIP_2_LENGTH)
+#elif defined(STRIP_1_LENGTH)
+#define NUM_LEDS        STRIP_1_LENGTH
 #else
 #error "Error - Invalid number of strips defined!"
 #endif
