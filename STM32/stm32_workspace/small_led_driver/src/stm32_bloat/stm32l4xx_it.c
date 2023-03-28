@@ -46,6 +46,7 @@ extern bool g_tasks_running;
 extern osThreadId_t g_button_press_handle;
 
 extern uint32_t g_button_press_timestamp[NUM_PUSH_BUTTONS][NUM_TIMESTAMPS];
+extern UART_HandleTypeDef      gh_host_usart;
 
 
 /******************************************************************************/
@@ -156,13 +157,19 @@ void DebugMon_Handler(void)
 //{
 //}
 
-///**
-//  * @brief This function handles System tick timer.
-//  */
-//void SysTick_Handler(void)
-//{
-//  HAL_IncTick();
-//}
+/**
+  * @brief This function handles System tick timer.
+  */
+void SysTick_Handler(void)
+{
+  HAL_IncTick();
+}
+
+
+void USARTx_IRQHandler(void)
+{
+  HAL_UART_IRQHandler(&gh_host_usart);
+}
 
 /******************************************************************************/
 /* STM32L4xx Peripheral Interrupt Handlers                                    */

@@ -1,17 +1,29 @@
-21:16:26 **** Incremental Build of configuration Debug for project small_led_driver ****
+23:49:43 **** Incremental Build of configuration Debug for project small_led_driver ****
 make -j7 all 
 arm-none-eabi-gcc "/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/task/task_led_ctrl.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L431xx -c -I../sdk/FreeRTOS/Source/CMSIS_RTOS_V2 -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/queue" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/color_led" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/task" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/current_monitor" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/semaphore" -I../src/stm32_bloat -I../sdk/CMSIS/Device/ST/STM32L4xx/Include -I../sdk/CMSIS/Include -I../src/bsp -I../startup -I../src -I../sdk/STM32l4xx_HAL_Driver/Inc -I../sdk/STM32l4xx_HAL_Driver/Inc/Legacy -I../sdk/FreeRTOS/Source -I../sdk/FreeRTOS/Source/include -I../sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../src/bsp/board_specific -I../src/bsp/board_specific/board_init_spud_glo_v1 -I../src/bsp/board_specific/board_init_spud_glo_v2 -I../src/bsp/board_specific/board_init_spud_glo_v3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"fw_common/lib/task/task_led_ctrl.d" -MT"fw_common/lib/task/task_led_ctrl.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "fw_common/lib/task/task_led_ctrl.o"
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/task/task_led_ctrl.c: In function 'task_led_ctrl_strip_two':
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/task/task_led_ctrl.c:112:30: warning: passing argument 1 of 'HAL_USART_Receive' from incompatible pointer type [-Wincompatible-pointer-types]
+  112 |         if(HAL_USART_Receive(&gh_host_usart, rx_buffer, 4, 10000) != HAL_OK)
+      |                              ^~~~~~~~~~~~~~
+      |                              |
+      |                              UART_HandleTypeDef * {aka struct __UART_HandleTypeDef *}
+In file included from ../src/stm32_bloat/stm32l4xx_hal_conf.h:449,
+                 from ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h:29,
+                 from /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/task/task_led_ctrl.c:3:
+../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_usart.h:908:58: note: expected 'USART_HandleTypeDef *' {aka 'struct __USART_HandleTypeDef *'} but argument is of type 'UART_HandleTypeDef *' {aka 'struct __UART_HandleTypeDef *'}
+  908 | HAL_StatusTypeDef HAL_USART_Receive(USART_HandleTypeDef *husart, uint8_t *pRxData, uint16_t Size, uint32_t Timeout);
+      |                                     ~~~~~~~~~~~~~~~~~~~~~^~~~~~
 arm-none-eabi-gcc -o "small_led_driver.elf" @"objects.list"   -mcpu=cortex-m4 -T"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/small_led_driver/STM32L431RCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="small_led_driver.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 Finished building target: small_led_driver.elf
  
 arm-none-eabi-size   small_led_driver.elf 
 arm-none-eabi-objdump -h -S  small_led_driver.elf  > "small_led_driver.list"
    text	   data	    bss	    dec	    hex	filename
-  45900	    136	  17024	  63060	   f654	small_led_driver.elf
+  39728	    272	  14592	  54592	   d540	small_led_driver.elf
 Finished building: default.size.stdout
  
 Finished building: small_led_driver.list
  
 
-21:16:27 Build Finished. 0 errors, 0 warnings. (took 1s.416ms)
+23:49:44 Build Finished. 0 errors, 1 warnings. (took 1s.488ms)
 

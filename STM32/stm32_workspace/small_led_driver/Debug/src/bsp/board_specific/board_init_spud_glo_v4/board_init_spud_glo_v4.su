@@ -1,0 +1,6 @@
+../src/bsp/board_specific/board_init_spud_glo_v4/board_init_spud_glo_v4.c:13:6:HAL_UART_MspInit	136	static
+../src/bsp/board_specific/board_init_spud_glo_v4/board_init_spud_glo_v4.c:62:13:board_init_usart_setup	32	static
+../src/bsp/board_specific/board_init_spud_glo_v4/board_init_spud_glo_v4.c:82:13:board_init_spi_setup	32	static
+../src/bsp/board_specific/board_init_spud_glo_v4/board_init_spud_glo_v4.c:95:13:board_init_peripheral_setup	8	static
+../src/bsp/board_specific/board_init_spud_glo_v4/board_init_spud_glo_v4.c:101:6:board_init_specific	128	static
+../src/bsp/board_specific/board_init_spud_glo_v4/board_init_spud_glo_v4.c:152:6:board_init_specific_power_cycle_level_shifter	8	static

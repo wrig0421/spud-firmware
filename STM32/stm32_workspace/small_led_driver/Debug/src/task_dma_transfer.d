@@ -45,6 +45,8 @@ src/task_dma_transfer.o: ../src/task_dma_transfer.c \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_spi_ex.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h \
+ ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h \
+ ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_usart.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_usart_ex.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/semaphore/semaphore_create.h \
@@ -100,6 +102,8 @@ src/task_dma_transfer.o: ../src/task_dma_transfer.c \
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_spi_ex.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h:
+../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h:
+../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_usart.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_usart_ex.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/semaphore/semaphore_create.h:

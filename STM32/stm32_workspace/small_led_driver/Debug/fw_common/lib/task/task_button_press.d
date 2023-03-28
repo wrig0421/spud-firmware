@@ -33,6 +33,8 @@ fw_common/lib/task/task_button_press.o: \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_spi_ex.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h \
+ ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h \
+ ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_usart.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_usart_ex.h \
  ../sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h \
@@ -47,7 +49,7 @@ fw_common/lib/task/task_button_press.o: \
  ../sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h \
  ../src/bsp/board_init_common.h \
  ../src/bsp/board_specific/board_specific.h ../src/config.h \
- ../src/bsp/board_specific/board_init_spud_glo_v3/board_init_spud_glo_v3.h \
+ ../src/bsp/board_specific/board_init_spud_glo_v4/board_init_spud_glo_v4.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/task/task_led_ctrl.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/color_led/color_led.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.h \
@@ -89,6 +91,8 @@ fw_common/lib/task/task_button_press.o: \
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_spi_ex.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h:
+../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h:
+../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_usart.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_usart_ex.h:
 ../sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h:
@@ -105,7 +109,7 @@ fw_common/lib/task/task_button_press.o: \
 ../src/bsp/board_init_common.h:
 ../src/bsp/board_specific/board_specific.h:
 ../src/config.h:
-../src/bsp/board_specific/board_init_spud_glo_v3/board_init_spud_glo_v3.h:
+../src/bsp/board_specific/board_init_spud_glo_v4/board_init_spud_glo_v4.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/task/task_led_ctrl.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/color_led/color_led.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.h:

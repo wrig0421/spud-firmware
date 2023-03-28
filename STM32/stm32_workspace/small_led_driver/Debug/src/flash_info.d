@@ -32,6 +32,8 @@ src/flash_info.o: ../src/flash_info.c \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_spi_ex.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h \
+ ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h \
+ ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_usart.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_usart_ex.h \
  ../src/version.h ../src/config.h ../src/flash_info.h
@@ -70,6 +72,8 @@ src/flash_info.o: ../src/flash_info.c \
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_spi_ex.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h:
+../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h:
+../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_usart.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_usart_ex.h:
 ../src/version.h:

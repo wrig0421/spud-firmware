@@ -32,6 +32,8 @@ src/main.o: ../src/main.c ../src/main.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_spi_ex.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h \
+ ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h \
+ ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_usart.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_usart_ex.h \
  ../src/bsp/board_init_common.h \
@@ -48,7 +50,7 @@ src/main.o: ../src/main.c ../src/main.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.h \
  ../src/config.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/semaphore/semaphore_create.h \
- ../src/task_create.h
+ ../src/task_create.h ../src/flash_info.h ../src/bsp/serial_com.h
 ../src/main.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
 ../src/stm32_bloat/stm32l4xx_hal_conf.h:
@@ -85,6 +87,8 @@ src/main.o: ../src/main.c ../src/main.h \
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_spi_ex.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h:
+../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h:
+../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_usart.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_usart_ex.h:
 ../src/bsp/board_init_common.h:
@@ -103,3 +107,5 @@ src/main.o: ../src/main.c ../src/main.h \
 ../src/config.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/semaphore/semaphore_create.h:
 ../src/task_create.h:
+../src/flash_info.h:
+../src/bsp/serial_com.h:
