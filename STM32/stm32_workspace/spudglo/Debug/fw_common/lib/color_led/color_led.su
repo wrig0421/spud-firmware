@@ -1,0 +1,2 @@
+/Users/srw/Documents/GitHub/spud-firmware/STM32/stm32_workspace/fw_common/lib/color_led/color_led.c:10:6:color_led_init	4	static
+/Users/srw/Documents/GitHub/spud-firmware/STM32/stm32_workspace/fw_common/lib/color_led/color_led.c:38:6:color_led_hex_to_rgb	16	static
