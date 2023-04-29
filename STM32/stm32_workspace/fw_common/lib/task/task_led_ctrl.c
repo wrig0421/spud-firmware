@@ -104,15 +104,15 @@ void task_led_ctrl_strip_two(void *argument)
     }
     while (1)
     {
-//        if(HAL_UART_Transmit(&gh_host_usart, rx_buffer, 4, 10000) == HAL_OK)
-//        {
-//            osDelay(500);
-//        }
-
-        if(HAL_UART_Receive(&gh_host_usart, rx_buffer, 4, 10000) != HAL_OK)
+        if(HAL_UART_Transmit(&gh_host_usart, rx_buffer, 4, 10000) == HAL_OK)
         {
-            rx_buffer[0] = 0x92;
+            osDelay(500);
         }
+
+//        if(HAL_UART_Receive(&gh_host_usart, rx_buffer, 4, 10000) != HAL_OK)
+//        {
+//            rx_buffer[0] = 0x92;
+//        }
         //animate_led_thceieater_chase_rainbow(STRIP_BIT_2, 20);
         //animate_led_rainbow_cycle(STRIP_BIT_2, 100);
     }

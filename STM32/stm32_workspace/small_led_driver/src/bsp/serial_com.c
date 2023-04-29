@@ -15,16 +15,17 @@
 
 UART_HandleTypeDef      gh_host_usart =
 {
-    .Instance = USART1,
-    .Init.BaudRate = 115200,
+    .Instance = LPUART1,
+    .Init.BaudRate = 9600,
     .Init.WordLength = UART_WORDLENGTH_8B,
     .Init.StopBits = UART_STOPBITS_1,
     .Init.Parity = UART_PARITY_NONE,
-    .Init.HwFlowCtl      = UART_HWCONTROL_NONE,
     .Init.Mode           = UART_MODE_TX_RX,
-    .Init.OverSampling = UART_OVERSAMPLING_8,
+    .Init.HwFlowCtl      = UART_HWCONTROL_NONE,
+    .Init.OverSampling = UART_OVERSAMPLING_16,
+    .Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE,
     .AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT,
-    .AdvancedInit.OverrunDisable = UART_ADVFEATURE_OVERRUN_DISABLE,
+    .AdvancedInit.OverrunDisable = UART_ADVFEATURE_RXOVERRUNDISABLE_INIT|UART_ADVFEATURE_DMADISABLEONERROR_INIT,
     .AdvancedInit.DMADisableonRxError = UART_ADVFEATURE_DMA_DISABLEONRXERROR
 };
 
@@ -61,7 +62,6 @@ void serial_com_init_spi(void)
 
 void serial_com_init_usart(void)
 {
-    __HAL_RCC_USART1_CLK_ENABLE();
     if(HAL_UART_DeInit(&gh_host_usart) != HAL_OK)
     {
         //Error_Handler();

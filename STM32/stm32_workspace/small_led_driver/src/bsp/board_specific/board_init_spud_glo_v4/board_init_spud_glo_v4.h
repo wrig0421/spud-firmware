@@ -26,8 +26,8 @@
 #define JTDO                    GPIO_PIN_3
 #define NJTRST                  GPIO_PIN_4
 
-#define PIN_XR_RX               GPIO_PIN_6 //
-#define PIN_XR_TX               GPIO_PIN_7 //
+#define PIN_XR_RX               GPIO_PIN_1 //
+#define PIN_XR_TX               GPIO_PIN_0 //
 
 #define PIN_XR_GPIO             GPIO_PIN_12
 #define PIN_VBUS_PRESENT        GPIO_PIN_13

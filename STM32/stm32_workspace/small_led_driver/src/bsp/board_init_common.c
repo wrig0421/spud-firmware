@@ -56,34 +56,41 @@ static void board_init_common_rtc_init(void)
   */
 static void SystemClock_Config(void)
 {
-
+    // commented code below used for timer
     RCC_OscInitTypeDef RCC_OscInitStruct = {0};
     RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+    RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
 
-    /** Configure the main internal regulator output voltage
-    */
     if (HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1) != HAL_OK)
     {
-      Error_Handler();
+        while(1);
     }
 
+    /** Configure LSE Drive Capability
+    */
+    HAL_PWR_EnableBkUpAccess();
+    __HAL_RCC_LSEDRIVE_CONFIG(RCC_LSEDRIVE_LOW);
     /** Initializes the RCC Oscillators according to the specified parameters
     * in the RCC_OscInitTypeDef structure.
     */
-    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_MSI;
+    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI|RCC_OSCILLATORTYPE_MSI;
+    //RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+    RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+    RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
     RCC_OscInitStruct.MSIState = RCC_MSI_ON;
     RCC_OscInitStruct.MSICalibrationValue = 0;
-    RCC_OscInitStruct.MSIClockRange = RCC_MSIRANGE_6;
+    RCC_OscInitStruct.MSIClockRange = RCC_MSIRANGE_8;
+    //CC_OscInitStruct.LSEState = RCC_LSE_ON;
     RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
     if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
     {
-      Error_Handler();
+        while(1);
     }
-
     /** Initializes the CPU, AHB and APB buses clocks
     */
     RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
-                                |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+    //RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSE;
     RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_MSI;
     RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
     RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
@@ -91,44 +98,13 @@ static void SystemClock_Config(void)
 
     if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK)
     {
-      Error_Handler();
+        while(1);
     }
-    // commented code below used for timer
-//    RCC_OscInitTypeDef RCC_OscInitStruct = {0};
-//    RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
-//    RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
-//
-//    /** Configure LSE Drive Capability
-//    */
-//    HAL_PWR_EnableBkUpAccess();
-//    __HAL_RCC_LSEDRIVE_CONFIG(RCC_LSEDRIVE_LOW);
-//    /** Initializes the RCC Oscillators according to the specified parameters
-//    * in the RCC_OscInitTypeDef structure.
-//    */
-//    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE|RCC_OSCILLATORTYPE_LSE;
-//    RCC_OscInitStruct.HSEState = RCC_HSE_ON;
-//    RCC_OscInitStruct.LSEState = RCC_LSE_ON;
-//    RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
-//    if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK) Error_Handler();
-//    /** Initializes the CPU, AHB and APB buses clocks
-//    */
-//    RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
-//                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
-//    RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSE;
-//    RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-//    RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
-//    RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
-//
-//    if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK) Error_Handler();
 //    PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_RTC;
 //    PeriphClkInit.RTCClockSelection = RCC_RTCCLKSOURCE_LSE;
 //    if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK) Error_Handler();
 //    /** Configure the main internal regulator output voltage
 //    */
-//    PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART1;
-//    PeriphClkInit.Usart1ClockSelection = RCC_USART1CLKSOURCE_PCLK2;
-//    if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK) Error_Handler();
-//
 //
 //    if (HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1) != HAL_OK) Error_Handler();
 }
@@ -320,7 +296,8 @@ static void board_init_common_nvic_setup_interrupts(void)
     HAL_NVIC_EnableIRQ(DMA1_Channel7_IRQn);
 }
 
-uint8_t new_buf[10] = {0};
+
+uint8_t new_buf[10] = {32,33,34,35};
 void board_init_common_board_init(void)
 {
     GPIO_InitTypeDef GPIO_InitStruct = {0};
@@ -350,8 +327,21 @@ void board_init_common_board_init(void)
 //    HAL_GPIO_Init(PIN_PORT_B, &GPIO_InitStruct);
 
     board_init_specific();
+    GPIO_InitStruct.Pin = PIN_XR_GPIO;
+    GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    HAL_GPIO_Init(PIN_PORT_B, &GPIO_InitStruct);
+    HAL_GPIO_WritePin(PIN_PORT_B, PIN_XR_GPIO, GPIO_PIN_SET);
     serial_com_init_usart();
 
+    while (1)
+    {
+        if(HAL_UART_Transmit(&gh_host_usart, new_buf, 4, 10000) == HAL_OK)
+        {
+            while(1);
+            //osDelay(500);
+        }
+    }
     for (uint8_t iii = 0; iii < NUM_TIMERS; iii++) board_init_common_timer_init(iii);
 
     ws2812b_init();

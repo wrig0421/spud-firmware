@@ -47,9 +47,7 @@ fw_common/lib/ws2812b_driver/ws2812b.o: \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h \
- ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h \
- ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_usart.h \
- ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_usart_ex.h ../src/config.h \
+ ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h ../src/config.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/current_monitor/current_monitor.h \
  ../src/numbers.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.h
@@ -105,8 +103,6 @@ fw_common/lib/ws2812b_driver/ws2812b.o: \
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h:
-../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_usart.h:
-../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_usart_ex.h:
 ../src/config.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/fw_common/lib/current_monitor/current_monitor.h:
 ../src/numbers.h:

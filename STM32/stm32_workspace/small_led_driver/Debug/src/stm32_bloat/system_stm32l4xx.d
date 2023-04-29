@@ -33,9 +33,7 @@ src/stm32_bloat/system_stm32l4xx.o: ../src/stm32_bloat/system_stm32l4xx.c \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h \
- ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h \
- ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_usart.h \
- ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_usart_ex.h
+ ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h
 ../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h:
 ../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h:
 ../sdk/CMSIS/Include/core_cm4.h:
@@ -73,5 +71,3 @@ src/stm32_bloat/system_stm32l4xx.o: ../src/stm32_bloat/system_stm32l4xx.c \
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h:
-../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_usart.h:
-../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_usart_ex.h:

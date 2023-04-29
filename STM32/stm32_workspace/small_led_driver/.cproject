@@ -67,6 +67,7 @@
 									<listOptionValue builtIn="false" value="../src/bsp/board_specific/board_init_spud_glo_v1"/>
 									<listOptionValue builtIn="false" value="../src/bsp/board_specific/board_init_spud_glo_v2"/>
 									<listOptionValue builtIn="false" value="../src/bsp/board_specific/board_init_spud_glo_v3"/>
+									<listOptionValue builtIn="false" value="../src/bsp/board_specific/board_init_spud_glo_v4"/>
 								</option>
 								<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.option.languagestandard.648354552" name="Language standard" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.option.languagestandard" useByScannerDiscovery="true" value="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.option.languagestandard.value.gnu11" valueType="enumerated"/>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.181822975" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c"/>
