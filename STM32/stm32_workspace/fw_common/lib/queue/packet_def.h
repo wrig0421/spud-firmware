@@ -45,7 +45,7 @@ typedef struct
 } pkt_header_t;
 
 
-#define PKT_SIZE_BYTES    256
+#define PKT_SIZE_BYTES           256
 #define PKT_DATA_SIZE_BYTES     (PKT_SIZE_BYTES - sizeof(pkt_header_t) - sizeof(pkt_check_sum_t))
 
 

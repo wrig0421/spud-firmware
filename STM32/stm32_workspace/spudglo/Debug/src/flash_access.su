@@ -1,6 +1,0 @@
-../src/flash_access.c:19:6:flash_access_init	4	static
-../src/flash_access.c:25:6:flash_access_increment_count	8	static
-../src/flash_access.c:31:6:flash_access_erase_user_flash	40	static
-../src/flash_access.c:47:6:flash_access_write_to_flash	56	static
-../src/flash_access.c:56:6:flash_access_write_user_flash	16	static
-../src/flash_access.c:63:6:flash_access_read_user_flash	4	static

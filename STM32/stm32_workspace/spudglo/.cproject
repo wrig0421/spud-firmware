@@ -66,11 +66,13 @@
 									<listOptionValue builtIn="false" value="../sdk/FreeRTOS/Source/include"/>
 									<listOptionValue builtIn="false" value="../sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F"/>
 									<listOptionValue builtIn="false" value="../src/bsp/board_specific"/>
-									<listOptionValue builtIn="false" value="../src/bsp/board_specific/board_init_spud_glo_v1"/>
-									<listOptionValue builtIn="false" value="../src/bsp/board_specific/board_init_spud_glo_v2"/>
 									<listOptionValue builtIn="false" value="../src/bsp/board_specific/board_init_spud_glo_v3"/>
 									<listOptionValue builtIn="false" value="../src/bsp/board_specific/board_init_spud_glo_v4"/>
 									<listOptionValue builtIn="false" value="../sdk/CMSIS/Include"/>
+									<listOptionValue builtIn="false" value="../src/bsp/stm32_bloat"/>
+									<listOptionValue builtIn="false" value="../src/flash"/>
+									<listOptionValue builtIn="false" value="../src/task"/>
+									<listOptionValue builtIn="false" value="../src/util"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.743633161" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c"/>
 							</tool>

@@ -1,6 +1,6 @@
 src/bsp/serial_com.o: ../src/bsp/serial_com.c ../src/main.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h \
- ../src/stm32_bloat/stm32l4xx_hal_conf.h \
+ ../src/bsp/stm32_bloat/stm32l4xx_hal_conf.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h \
  ../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h \
@@ -56,7 +56,7 @@ src/bsp/serial_com.o: ../src/bsp/serial_com.c ../src/main.h \
  ../src/bsp/serial_com.h
 ../src/main.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
-../src/stm32_bloat/stm32l4xx_hal_conf.h:
+../src/bsp/stm32_bloat/stm32l4xx_hal_conf.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h:
 ../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h:

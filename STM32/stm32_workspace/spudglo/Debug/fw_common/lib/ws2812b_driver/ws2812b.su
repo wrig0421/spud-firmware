@@ -14,7 +14,6 @@
 /Users/srw/Documents/GitHub/spud-firmware/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.c:348:6:ws2812b_dma_transfer	16	static
 /Users/srw/Documents/GitHub/spud-firmware/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.c:355:21:ws2812b_ping_or_pong	4	static
 /Users/srw/Documents/GitHub/spud-firmware/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.c:364:6:ws2812b_fill_pwm_buffer_strip_one	32	static
-/Users/srw/Documents/GitHub/spud-firmware/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.c:393:6:ws2812b_fill_pwm_buffer_strip_two	32	static
 /Users/srw/Documents/GitHub/spud-firmware/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.c:452:6:ws2812b_fill_pwm_buffer	40	static
 /Users/srw/Documents/GitHub/spud-firmware/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.c:497:6:ws2812b_reset	4	static
 /Users/srw/Documents/GitHub/spud-firmware/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.c:505:6:ws2812b_init	16	static

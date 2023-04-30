@@ -10,11 +10,12 @@ RM := rm -rf
 # All of the sources participating in the build are defined here
 -include sources.mk
 -include startup/subdir.mk
--include src/stm32_bloat/subdir.mk
+-include src/util/subdir.mk
+-include src/task/subdir.mk
+-include src/flash/subdir.mk
+-include src/bsp/stm32_bloat/subdir.mk
 -include src/bsp/board_specific/board_init_spud_glo_v4/subdir.mk
 -include src/bsp/board_specific/board_init_spud_glo_v3/subdir.mk
--include src/bsp/board_specific/board_init_spud_glo_v2/subdir.mk
--include src/bsp/board_specific/board_init_spud_glo_v1/subdir.mk
 -include src/bsp/subdir.mk
 -include src/subdir.mk
 -include sdk/STM32L4xx_HAL_Driver/Src/subdir.mk

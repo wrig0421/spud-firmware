@@ -1,5 +1,5 @@
-board_init_spud_glo_v4.c:62:13:board_init_usart_setup	1
-board_init_spud_glo_v4.c:82:13:board_init_spi_setup	1
-board_init_spud_glo_v4.c:95:13:board_init_peripheral_setup	1
-board_init_spud_glo_v4.c:101:6:board_init_specific	2
-board_init_spud_glo_v4.c:166:6:board_init_specific_power_cycle_level_shifter	1
+board_init_spud_glo_v4.c:12:13:board_init_usart_setup	2
+board_init_spud_glo_v4.c:42:13:board_init_spi_setup	1
+board_init_spud_glo_v4.c:68:13:board_init_peripheral_setup	1
+board_init_spud_glo_v4.c:76:6:board_init_specific	1
+board_init_spud_glo_v4.c:132:6:board_init_specific_power_cycle_level_shifter	1

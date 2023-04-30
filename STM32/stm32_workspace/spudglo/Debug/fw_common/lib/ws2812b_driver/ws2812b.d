@@ -14,7 +14,7 @@ fw_common/lib/ws2812b_driver/ws2812b.o: \
  ../sdk/FreeRTOS/Source/include/task.h \
  ../sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h ../src/main.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h \
- ../src/stm32_bloat/stm32l4xx_hal_conf.h \
+ ../src/bsp/stm32_bloat/stm32l4xx_hal_conf.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h \
  ../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h \
@@ -49,7 +49,7 @@ fw_common/lib/ws2812b_driver/ws2812b.o: \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h ../src/config.h \
  /Users/srw/Documents/GitHub/spud-firmware/STM32/stm32_workspace/fw_common/lib/current_monitor/current_monitor.h \
- ../src/numbers.h \
+ ../src/util/numbers.h \
  /Users/srw/Documents/GitHub/spud-firmware/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.h
 ../sdk/FreeRTOS/Source/include/FreeRTOS.h:
 ../src/FreeRTOSConfig.h:
@@ -67,7 +67,7 @@ fw_common/lib/ws2812b_driver/ws2812b.o: \
 ../sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h:
 ../src/main.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
-../src/stm32_bloat/stm32l4xx_hal_conf.h:
+../src/bsp/stm32_bloat/stm32l4xx_hal_conf.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h:
 ../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h:
@@ -105,5 +105,5 @@ fw_common/lib/ws2812b_driver/ws2812b.o: \
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h:
 ../src/config.h:
 /Users/srw/Documents/GitHub/spud-firmware/STM32/stm32_workspace/fw_common/lib/current_monitor/current_monitor.h:
-../src/numbers.h:
+../src/util/numbers.h:
 /Users/srw/Documents/GitHub/spud-firmware/STM32/stm32_workspace/fw_common/lib/ws2812b_driver/ws2812b.h:

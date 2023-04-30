@@ -39,4 +39,29 @@ void board_init_specific_power_cycle_level_shifter(void)
     HAL_GPIO_WritePin(PIN_PORT_C, PIN_LVL_EN, GPIO_PIN_SET);
 }
 
+
+void board_init_red_led_on(void)
+{
+    HAL_GPIO_WritePin(PIN_PORT_C, RED_LED, GPIO_PIN_SET);
+}
+
+
+void board_init_red_led_off(void)
+{
+    HAL_GPIO_WritePin(PIN_PORT_C, RED_LED, GPIO_PIN_RESET);
+}
+
+
+void board_init_green_led_on(void)
+{
+    HAL_GPIO_WritePin(PIN_PORT_C, GREEN_LED, GPIO_PIN_SET);
+}
+
+
+void board_init_green_led_off(void)
+{
+    HAL_GPIO_WritePin(PIN_PORT_C, GREEN_LED, GPIO_PIN_RESET);
+}
+
+
 #endif

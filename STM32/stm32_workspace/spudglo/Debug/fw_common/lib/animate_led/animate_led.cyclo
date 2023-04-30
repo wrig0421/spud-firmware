@@ -1,4 +1,4 @@
-animate_led.c:19:6:animate_led_show_strip	3
+animate_led.c:19:6:animate_led_show_strip	2
 animate_led.c:41:6:animate_led_set_pixel	7
 animate_led.c:67:6:animate_led_set_all_pixels	7
 animate_led.c:102:6:animate_led_multiple_solid_custom_colors	6

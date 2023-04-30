@@ -1,7 +1,7 @@
 sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_spi_ex.o: \
  ../sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_spi_ex.c \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h \
- ../src/stm32_bloat/stm32l4xx_hal_conf.h \
+ ../src/bsp/stm32_bloat/stm32l4xx_hal_conf.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h \
  ../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h \
@@ -36,7 +36,7 @@ sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_spi_ex.o: \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
-../src/stm32_bloat/stm32l4xx_hal_conf.h:
+../src/bsp/stm32_bloat/stm32l4xx_hal_conf.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h:
 ../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h:

@@ -20,6 +20,6 @@
 /Users/srw/Documents/GitHub/spud-firmware/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.c:549:6:animate_led_running_lights	72	static
 /Users/srw/Documents/GitHub/spud-firmware/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.c:578:6:animate_led_rainbow_cycle	56	static
 /Users/srw/Documents/GitHub/spud-firmware/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.c:600:10:animate_led_wheel	16	static
-/Users/srw/Documents/GitHub/spud-firmware/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.c:627:6:animate_led_theater_chase_multiple_colors	88	static
+/Users/srw/Documents/GitHub/spud-firmware/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.c:627:6:animate_led_theater_chase_multiple_colors	80	static
 /Users/srw/Documents/GitHub/spud-firmware/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.c:679:6:animate_led_theater_chase	64	static
 /Users/srw/Documents/GitHub/spud-firmware/STM32/stm32_workspace/fw_common/lib/animate_led/animate_led.c:718:6:animate_led_theater_chase_rainbow	72	static

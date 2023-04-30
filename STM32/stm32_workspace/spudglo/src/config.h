@@ -14,16 +14,16 @@
 
 
 // define the board!
-//#define BOARD_SPUD_GLO_V4P2
-#define BOARD_SPUD_GLO_V4
+#define BOARD_SPUD_GLO_V4P2
+//#define BOARD_SPUD_GLO_V4P1
 //#define BOARD_SPUD_GLO_V3
 //#define BOARD_SPUD_GLO_V2
 //#define BOARD_SPUD_GLO_V1
 //#define BOARD_MN_WILD_SOUND
 
 // define the number of strips
-#define STRIP_1_LENGTH      300 /// FLYNN FARM SIGN = 166!!
-#define STRIP_2_LENGTH      215
+#define STRIP_1_LENGTH      20 /// FLYNN FARM SIGN = 166!!
+//#define STRIP_2_LENGTH      215
 //#define STRIP_3_LENGTH      200
 
 #define ENABLE_LED_STATE_SPELL
@@ -38,6 +38,9 @@
 #define ENABLE_LED_STATE_FADE_IN_AND_OUT
 #define ENABLE_LED_STATE_TWINKLE
 
+#if defined(BOARD_SPUD_GLO_V4P2) || defined(BOARD_SPUD_GLO_V4P1)
+#define BOARD_SPUD_GLO_V4
+#endif
 
 
 #if defined(STRIP_3_LENGTH)

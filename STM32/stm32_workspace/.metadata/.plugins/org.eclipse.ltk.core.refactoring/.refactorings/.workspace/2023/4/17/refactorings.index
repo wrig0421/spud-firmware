@@ -1,3 +1,5 @@
 1682800813601	Delete resource 'small_led_driver'
 1682800818372	Delete resource 'tester'
 1682800826520	Delete resource 'RemoteSystemsTempFiles'
+1682807114382	Delete resource 'spudglo/src/bsp/board_specific/board_init_spud_glo_v2'
+1682807118567	Delete resource 'spudglo/src/bsp/board_specific/board_init_spud_glo_v1'

@@ -1,7 +1,7 @@
 fw_common/lib/current_monitor/current_monitor.o: \
  /Users/srw/Documents/GitHub/spud-firmware/STM32/stm32_workspace/fw_common/lib/current_monitor/current_monitor.c \
  ../src/main.h ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h \
- ../src/stm32_bloat/stm32l4xx_hal_conf.h \
+ ../src/bsp/stm32_bloat/stm32l4xx_hal_conf.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h \
  ../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h \
@@ -40,7 +40,7 @@ fw_common/lib/current_monitor/current_monitor.o: \
  /Users/srw/Documents/GitHub/spud-firmware/STM32/stm32_workspace/fw_common/lib/current_monitor/current_monitor.h
 ../src/main.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
-../src/stm32_bloat/stm32l4xx_hal_conf.h:
+../src/bsp/stm32_bloat/stm32l4xx_hal_conf.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h:
 ../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h:
