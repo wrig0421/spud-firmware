@@ -27,21 +27,17 @@ typedef enum
 
 typedef struct
 {
-    uint8_t             pkt_id;
-    uint8_t             pkt_var;
-    uint8_t             rsvd2;
-    uint8_t             rsvd3;
     union
     {
-        uint16_t        src_dst;
-        struct
-        {
-            uint8_t     src;
-            uint8_t     dst;
-        };
+        uint16_t        pkt_tag;
+        uint8_t         pkt_type;
+        uint8_t         pkt_var;
     };
+    uint8_t             pkt_rsvd2;
+    uint8_t             pkt_rsvd3;
     uint8_t             rsp_code;
     uint8_t             err_code;
+    uint16_t            pkt_rsvd4;
 } pkt_header_t;
 
 
