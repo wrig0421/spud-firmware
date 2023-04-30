@@ -157,13 +157,13 @@ void DebugMon_Handler(void)
 //{
 //}
 
-/**
-  * @brief This function handles System tick timer.
-  */
-void SysTick_Handler(void)
-{
-  HAL_IncTick();
-}
+///**
+//  * @brief This function handles System tick timer.
+//  */
+//void SysTick_Handler(void)
+//{
+//  HAL_IncTick();
+//}
 
 
 void USARTx_IRQHandler(void)

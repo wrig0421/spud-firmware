@@ -15,7 +15,7 @@ static void board_init_usart_setup(void)
 
     RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
     PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_LPUART1;
-    PeriphClkInit.Lpuart1ClockSelection = RCC_LPUART1CLKSOURCE_HSI;
+    PeriphClkInit.Lpuart1ClockSelection = RCC_LPUART1CLKSOURCE_LSE;
 
     if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
     {
@@ -99,7 +99,6 @@ void board_init_specific(void)
     GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     HAL_GPIO_Init(PIN_PORT_A, &GPIO_InitStruct);
-    HAL_GPIO_WritePin(PIN_PORT_A, PIN_INT_LVL_EN, GPIO_PIN_SET);
 
     GPIO_InitStruct.Pin = PIN_INT_LVL_EN;
     GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
@@ -117,11 +116,14 @@ void board_init_specific(void)
     GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     HAL_GPIO_Init(PIN_PORT_C, &GPIO_InitStruct);
+    HAL_GPIO_WritePin(PIN_PORT_C, PIN_LVL_EN, GPIO_PIN_RESET);
 
     GPIO_InitStruct.Pin = PIN_LVL_DIR;
     GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     HAL_GPIO_Init(PIN_PORT_C, &GPIO_InitStruct);
+    HAL_GPIO_WritePin(PIN_PORT_C, PIN_LVL_DIR, GPIO_PIN_SET);
+
     board_init_peripheral_setup();
 #else
 

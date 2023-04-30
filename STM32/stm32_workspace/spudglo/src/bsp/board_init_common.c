@@ -14,8 +14,6 @@
 typedef enum
 {
     TIMER_1 = 0,
-    TIMER_15,
-    TIMER_16,
     NUM_TIMERS
 } timer_e;
 
@@ -36,6 +34,18 @@ uint32_t g_button_on_count[NUM_PUSH_BUTTONS] = {0};
 bool button_press_state[NUM_PUSH_BUTTONS] = {false};
 extern UART_HandleTypeDef      gh_host_usart;
 
+static void board_init_common_rtc_init(void)
+{
+    g_rtc_handle.Instance = RTC;
+    g_rtc_handle.Init.HourFormat = RTC_HOURFORMAT_24;
+    g_rtc_handle.Init.AsynchPrediv = 127;
+    g_rtc_handle.Init.SynchPrediv = 255;
+    g_rtc_handle.Init.OutPut = RTC_OUTPUT_DISABLE;
+    g_rtc_handle.Init.OutPutRemap = RTC_OUTPUT_REMAP_NONE;
+    g_rtc_handle.Init.OutPutPolarity = RTC_OUTPUT_POLARITY_HIGH;
+    g_rtc_handle.Init.OutPutType = RTC_OUTPUT_TYPE_OPENDRAIN;
+    if (HAL_RTC_Init(&g_rtc_handle) != HAL_OK) Error_Handler();
+}
 
 static void SystemClock_Config(void)
 {
@@ -43,29 +53,23 @@ static void SystemClock_Config(void)
     RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
     RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
 
-    if (HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1) != HAL_OK) while(1);
     HAL_PWR_EnableBkUpAccess();
     __HAL_RCC_LSEDRIVE_CONFIG(RCC_LSEDRIVE_LOW);
-    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI|RCC_OSCILLATORTYPE_MSI;
+
+    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE|RCC_OSCILLATORTYPE_LSE;
     RCC_OscInitStruct.HSEState = RCC_HSE_ON;
-    RCC_OscInitStruct.HSIState = RCC_HSI_ON;
-    RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
-    RCC_OscInitStruct.MSIState = RCC_MSI_ON;
-    RCC_OscInitStruct.MSICalibrationValue = 0;
-    RCC_OscInitStruct.MSIClockRange = RCC_MSIRANGE_8;
-    //CC_OscInitStruct.LSEState = RCC_LSE_ON;
+    RCC_OscInitStruct.LSEState = RCC_LSE_ON;
     RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
     if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK) while(1);
 
     RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
-    //RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSE;
-    RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_MSI;
+    RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSE;
     RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
     RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
     RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
-    if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK) while(1);
+    if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK) while(1);
     PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_RTC;
     PeriphClkInit.RTCClockSelection = RCC_RTCCLKSOURCE_LSE;
     if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK) Error_Handler();
@@ -73,7 +77,7 @@ static void SystemClock_Config(void)
 }
 
 
-static void board_init_common_timer_init(timer_e timer)
+static void board_init_common_timer_init(void)
 {
     GPIO_InitTypeDef GPIO_InitStruct = {0};
     TIM_ClockConfigTypeDef sClockSourceConfig = {0};
@@ -177,38 +181,34 @@ static void board_init_common_setup_wakeups(void)
 
 static void board_init_port_wakeup(void)
 {
-    srand(time(0));
-    __HAL_RCC_SYSCFG_CLK_ENABLE();
-    __HAL_RCC_PWR_CLK_ENABLE();
     __HAL_RCC_GPIOA_CLK_ENABLE();
     __HAL_RCC_GPIOB_CLK_ENABLE();
     __HAL_RCC_GPIOC_CLK_ENABLE();
     __HAL_RCC_GPIOH_CLK_ENABLE();
+    __HAL_RCC_DMA1_CLK_ENABLE();
+
 }
 
 uint8_t new_buf[10] = {32,33,34,35};
 void board_init_common_board_init(void)
 {
-    board_init_port_wakeup();
-
+    srand(time(0));
     HAL_Init();
     SystemClock_Config();
+
+    board_init_port_wakeup();
+
     board_init_common_setup_wakeups();
-    __HAL_RCC_DMA1_CLK_ENABLE();
     board_init_specific();
 
-    for (uint8_t iii = 0; iii < NUM_TIMERS; iii++) board_init_common_timer_init(iii);
+    board_init_common_timer_init();
 
     ws2812b_init();
     color_led_init();
 
     //animate_led_init(); // not yet defined..
-    HAL_GPIO_WritePin(PIN_PORT_C, PIN_LVL_DIR, GPIO_PIN_SET);
-    HAL_GPIO_WritePin(PIN_PORT_C, PIN_LVL_EN, GPIO_PIN_RESET);
 
-    HAL_GPIO_WritePin(GPIOC, PIN_LVL_EN, GPIO_PIN_SET);
-    HAL_Delay(1000);
-
+    board_init_common_rtc_init();
 }
 
 
@@ -223,7 +223,6 @@ void board_init_common_stop_timer(void)
     HAL_TIM_PWM_Stop_DMA(&g_tim1_handle, TIM_CHANNEL_1);
     HAL_TIM_PWM_Stop_DMA(&g_tim1_handle, TIM_CHANNEL_2);
     HAL_TIM_PWM_Stop_DMA(&g_tim1_handle, TIM_CHANNEL_3);
-    HAL_TIM_PWM_Stop_DMA(&g_tim15_handle, TIM_CHANNEL_1);
 }
 
 

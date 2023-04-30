@@ -22,7 +22,6 @@
 #define PIN_DISP_BACKLIGHT      PIOA_PIN_5
 #define PIN_DISP_DC             PIOA_PIN_6
 #define PIN_DISP_RST            PIOA_PIN_7
-#define PIN_TIM1_CH3            PIOA_PIN_10
 #define PIN_SPI1_CIPO           PIOA_PIN_11
 #define PIN_SPI1_COPI           PIOA_PIN_12
 

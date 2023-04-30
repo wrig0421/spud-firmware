@@ -66,7 +66,7 @@ void task_dma_transfer(void *argument)
         offset = ws2812_get_pwm_strip_offset(STRIP_BIT_1);
         strip_size = ws2812_get_strip_size(STRIP_BIT_1);
         //HAL_TIM_PWM_Start_DMA(&g_tim1_handle, TIM_CHANNEL_2, (uint32_t *)gp_pwm_data_fill, (offset * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + WS2812B_RESET_TIME_CYCLES);
-        HAL_TIM_PWM_Start_DMA(&g_tim1_handle, TIM_CHANNEL_2, (uint32_t *)gp_pwm_data_fill, (strip_size * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + WS2812B_RESET_TIME_CYCLES);
+        HAL_TIM_PWM_Start_DMA(&g_tim1_handle, TIM_CHANNEL_1, (uint32_t *)gp_pwm_data_fill, (strip_size * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + WS2812B_RESET_TIME_CYCLES);
         g_tim_pwm_transfer_cmplt = false;
         while (!g_tim_pwm_transfer_cmplt)
         {
