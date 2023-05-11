@@ -336,7 +336,7 @@ void board_init_common_board_init(void)
 
     while (1)
     {
-        if(HAL_UART_Transmit(&gh_host_usart, new_buf, 4, 10000) == HAL_OK)
+        if(HAL_UART_Receive(&gh_host_usart, new_buf, 4, 10000) == HAL_OK)
         {
             while(1);
             //osDelay(500);
