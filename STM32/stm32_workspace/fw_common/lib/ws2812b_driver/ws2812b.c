@@ -384,8 +384,8 @@ void ws2812b_fill_pwm_buffer_strip_one(void)
     {
         gp_pwm_data_fill[(strip_pwm_offset + (strip_size * BITS_PER_BYTE * sizeof(ws2812b_led_t))) + iii] = 0;
     }
-    gb_dma_cmplt_strip_2 = false;
-    HAL_TIM_PWM_Start_DMA(&g_tim1_handle, TIM_CHANNEL_2, (uint32_t *)(gp_pwm_data_fill + strip_pwm_offset), (STRIP_1_LENGTH * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + WS2812B_RESET_TIME_CYCLES);
+    gb_dma_cmplt_strip_1 = false;
+    HAL_TIM_PWM_Start_DMA(&g_tim1_handle, TIM_CHANNEL_1, (uint32_t *)(gp_pwm_data_fill + strip_pwm_offset), (STRIP_1_LENGTH * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + WS2812B_RESET_TIME_CYCLES);
 }
 #endif
 
@@ -414,7 +414,7 @@ void ws2812b_fill_pwm_buffer_strip_two(void)
         gp_pwm_data_fill[(strip_pwm_offset + (strip_size * BITS_PER_BYTE * sizeof(ws2812b_led_t))) + iii] = 0;
     }
     gb_dma_cmplt_strip_3 = false;
-    HAL_TIM_PWM_Start_DMA(&g_tim1_handle, TIM_CHANNEL_3, (uint32_t *)(gp_pwm_data_fill + strip_pwm_offset), (STRIP_2_LENGTH * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + WS2812B_RESET_TIME_CYCLES);
+    HAL_TIM_PWM_Start_DMA(&g_tim1_handle, TIM_CHANNEL_2, (uint32_t *)(gp_pwm_data_fill + strip_pwm_offset), (STRIP_2_LENGTH * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + WS2812B_RESET_TIME_CYCLES);
 }
 #endif
 

@@ -122,6 +122,8 @@ void task_led_ctrl_strip_two(void *argument)
 
 void task_led_ctrl_strip_one(void *argument)
 {
+    osDelay(10);
+
     while(task_button_press_major_change)
     {
         osDelay(10);

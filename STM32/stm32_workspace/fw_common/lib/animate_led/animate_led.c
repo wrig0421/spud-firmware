@@ -282,7 +282,7 @@ void animate_led_only_spell_word(const strip_mask_t mask_spell, const color_hex_
                               color_spell_rgb[offsetof(ws2812b_led_t, green)],
                               color_spell_rgb[offsetof(ws2812b_led_t, blue)]);
         animate_led_show_strip(mask_spell);
-		task_led_ctrl_delay(time_ms / task_led_ctrl_speed());
+ 		task_led_ctrl_delay(time_ms / task_led_ctrl_speed());
 	}
 }
 
