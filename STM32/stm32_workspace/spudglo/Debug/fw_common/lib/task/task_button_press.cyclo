@@ -1,7 +1,0 @@
-task_button_press.c:35:6:task_button_press_interrupt_occurred	1
-task_button_press.c:41:7:task_led_ctrl_button_to_isr	5
-task_button_press.c:65:6:task_button_press_ctrl_set_interrupt_flag	1
-task_button_press.c:72:6:task_button_press_ctrl_interrupt_flag	2
-task_button_press.c:80:6:task_button_press_check_interrupts	5
-task_button_press.c:109:6:task_button_press_interrupt_flag_clear	1
-task_button_press.c:115:6:task_button_press	15

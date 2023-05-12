@@ -9,7 +9,6 @@ S_SRCS :=
 C_SRCS := 
 S_UPPER_SRCS := 
 O_SRCS := 
-CYCLO_FILES := 
 SIZE_OUTPUT := 
 OBJDUMP_LIST := 
 SU_FILES := 
@@ -22,14 +21,14 @@ C_DEPS :=
 
 # Every subdirectory with source files must be described here
 SUBDIRS := \
-fw_common/lib/adafruit_soundboard \
-fw_common/lib/animate_led \
-fw_common/lib/color_led \
-fw_common/lib/current_monitor \
-fw_common/lib/queue \
-fw_common/lib/semaphore \
-fw_common/lib/task \
-fw_common/lib/ws2812b_driver \
+common/lib/adafruit_soundboard \
+common/lib/current_monitor \
+common/lib/led/animate_led \
+common/lib/led/color_led \
+common/lib/led/ws2812b_driver \
+common/lib/pkt \
+common/lib/semaphore \
+common/lib/task \
 sdk/FreeRTOS/Source/CMSIS_RTOS_V2 \
 sdk/FreeRTOS/Source \
 sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F \

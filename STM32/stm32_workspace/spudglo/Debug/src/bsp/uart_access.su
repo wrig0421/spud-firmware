@@ -1,0 +1,10 @@
+../src/bsp/uart_access.c:37:13:board_init_common_rtc_init	8	static
+../src/bsp/uart_access.c:50:13:SystemClock_Config	192	static
+../src/bsp/uart_access.c:80:13:board_init_common_timer_init	128	static
+../src/bsp/uart_access.c:136:13:board_init_common_nvic_setup_interrupts	8	static
+../src/bsp/uart_access.c:165:13:board_init_common_setup_wakeups	32	static
+../src/bsp/uart_access.c:182:13:board_init_port_wakeup	32	static
+../src/bsp/uart_access.c:193:6:board_init_common_board_init	8	static
+../src/bsp/uart_access.c:215:6:board_init_common_button_pressed	16	static
+../src/bsp/uart_access.c:221:6:board_init_common_stop_timer	8	static
+../src/bsp/uart_access.c:233:6:Error_Handler	4	static,ignoring_inline_asm

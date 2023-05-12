@@ -31,9 +31,9 @@
 	</natures>
 	<linkedResources>
 		<link>
-			<name>fw_common</name>
+			<name>common</name>
 			<type>2</type>
-			<locationURI>PARENT-1-PROJECT_LOC/fw_common</locationURI>
+			<locationURI>PARENT-1-PROJECT_LOC/common</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>

@@ -1,0 +1,19 @@
+// SRW
+#include <stdbool.h>
+#include "stm32l4xx_hal.h"
+#include "cmsis_os.h"
+#include "pkt.h"
+#include "task_uart.h"
+
+
+
+void task_uart_rx(void *argument)
+{
+    pkt_dequeue(pkt_dequeue_from_free())
+}
+
+
+void task_uart_tx(void *argument)
+{
+
+}

@@ -23,14 +23,14 @@ RM := rm -rf
 -include sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F/subdir.mk
 -include sdk/FreeRTOS/Source/CMSIS_RTOS_V2/subdir.mk
 -include sdk/FreeRTOS/Source/subdir.mk
--include fw_common/lib/ws2812b_driver/subdir.mk
--include fw_common/lib/task/subdir.mk
--include fw_common/lib/semaphore/subdir.mk
--include fw_common/lib/queue/subdir.mk
--include fw_common/lib/current_monitor/subdir.mk
--include fw_common/lib/color_led/subdir.mk
--include fw_common/lib/animate_led/subdir.mk
--include fw_common/lib/adafruit_soundboard/subdir.mk
+-include common/lib/task/subdir.mk
+-include common/lib/semaphore/subdir.mk
+-include common/lib/pkt/subdir.mk
+-include common/lib/led/ws2812b_driver/subdir.mk
+-include common/lib/led/color_led/subdir.mk
+-include common/lib/led/animate_led/subdir.mk
+-include common/lib/current_monitor/subdir.mk
+-include common/lib/adafruit_soundboard/subdir.mk
 -include objects.mk
 
 ifneq ($(MAKECMDGOALS),clean)
@@ -79,8 +79,8 @@ all: main-build
 main-build: spudglo.elf secondary-outputs
 
 # Tool invocations
-spudglo.elf spudglo.map: $(OBJS) $(USER_OBJS) /Users/srw/Documents/GitHub/spud-firmware/STM32/stm32_workspace/spudglo/STM32L431RCTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "spudglo.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/Users/srw/Documents/GitHub/spud-firmware/STM32/stm32_workspace/spudglo/STM32L431RCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="spudglo.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+spudglo.elf spudglo.map: $(OBJS) $(USER_OBJS) /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/spudglo/STM32L431RCTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "spudglo.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/spudglo/STM32L431RCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="spudglo.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

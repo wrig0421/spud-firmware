@@ -9,66 +9,10 @@
 
 
 #if defined(BOARD_SPUD_GLO_V4P2)
-static void board_init_usart_setup(void)
-{
-    GPIO_InitTypeDef  GPIO_InitStruct;
-
-    RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
-    PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_LPUART1;
-    PeriphClkInit.Lpuart1ClockSelection = RCC_LPUART1CLKSOURCE_LSE;
-
-    if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
-    {
-        while(1);
-      //Error_Handler();
-    }
-    __HAL_RCC_LPUART1_CLK_ENABLE();
-    __HAL_RCC_GPIOC_CLK_ENABLE();
-
-    GPIO_InitStruct.Pin       = PIN_XR_RX | PIN_XR_TX; //
-    GPIO_InitStruct.Mode      = GPIO_MODE_AF_PP;
-    GPIO_InitStruct.Pull      = GPIO_NOPULL;
-    GPIO_InitStruct.Speed     = GPIO_SPEED_FREQ_LOW;
-    GPIO_InitStruct.Alternate = GPIO_AF8_LPUART1;
-
-    HAL_GPIO_Init(PIN_PORT_C, &GPIO_InitStruct);
-
-    HAL_NVIC_SetPriority(LPUART1_IRQn, 0, 1);
-    HAL_NVIC_EnableIRQ(LPUART1_IRQn);
-    serial_com_init_usart();
-}
-
-
-static void board_init_spi_setup(void)
-{
-    RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
-
-//    PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_SPI1;
-//    PeriphClkInit.Lpuart1ClockSelection = RCC_SPI1CLKSOURCE_HSI;
-//
-//    if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
-//    {
-//        while(1);
-//      //Error_Handler();
-//    }
-    //__HAL_RCC_LPUART1_CLK_ENABLE();
-    GPIO_InitTypeDef  GPIO_InitStruct;
-
-    GPIO_InitStruct.Pin         = PIN_SPI1_SCK | PIN_SPI1_CIPO | PIN_SPI1_COPI;
-    GPIO_InitStruct.Mode        = GPIO_MODE_AF_PP;
-    GPIO_InitStruct.Pull        = GPIO_PULLDOWN;
-    GPIO_InitStruct.Speed       = GPIO_SPEED_FREQ_VERY_HIGH;
-    GPIO_InitStruct.Alternate   = GPIO_AF5_SPI1;
-    HAL_GPIO_Init(PIN_PORT_A, &GPIO_InitStruct);
-
-    serial_com_init_spi();
-}
-
-
 static void board_init_peripheral_setup(void)
 {
-    board_init_usart_setup();
-    board_init_spi_setup();
+    uart_access_setup();
+    spi_access_setup();
 }
 #endif
 
