@@ -48,8 +48,8 @@ src/bsp/stm32_bloat/stm32l4xx_it.o: ../src/bsp/stm32_bloat/stm32l4xx_it.c \
  ../sdk/FreeRTOS/Source/include/queue.h \
  ../sdk/FreeRTOS/Source/include/task.h \
  ../src/bsp/stm32_bloat/stm32l4xx_it.h ../src/bsp/board_init_common.h \
- ../src/bsp/board_common.h ../src/bsp/board_specific/board_specific.h \
- ../src/config.h \
+ ../src/bsp/board_common.h ../src/bsp/board_common.h \
+ ../src/bsp/board_specific/board_specific.h ../src/config.h \
  ../src/bsp/board_specific/board_init_spud_glo_v4/board_init_spud_glo_v4.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/animate_led/animate_led.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/ws2812b_driver/ws2812b.h \
@@ -109,6 +109,7 @@ src/bsp/stm32_bloat/stm32l4xx_it.o: ../src/bsp/stm32_bloat/stm32l4xx_it.c \
 ../sdk/FreeRTOS/Source/include/task.h:
 ../src/bsp/stm32_bloat/stm32l4xx_it.h:
 ../src/bsp/board_init_common.h:
+../src/bsp/board_common.h:
 ../src/bsp/board_common.h:
 ../src/bsp/board_specific/board_specific.h:
 ../src/config.h:

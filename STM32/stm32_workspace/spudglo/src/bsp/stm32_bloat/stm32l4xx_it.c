@@ -29,6 +29,7 @@
 #include "animate_led.h"
 #include "color_led.h"
 #include "task_button_press.h"
+#include "FreeRTOSConfig.h"
 #include <stdbool.h>
 
 extern osThreadId_t g_dma_transfer_handle;
@@ -177,66 +178,86 @@ void USARTx_IRQHandler(void)
 /* For the available peripheral interrupt handler names,                      */
 /* please refer to the startup file (startup_stm32l4xx.s).                    */
 /******************************************************************************/
-
-
+volatile uint32_t valuesss = configMAX_SYSCALL_INTERRUPT_PRIORITY;
+volatile uint32_t d_passes = 0;
 /**
   * @brief This function handles EXTI line0 interrupt.
   */
 void EXTI0_IRQHandler(void)
 {
+    // D is pause
     BaseType_t xHigherPriorityTaskWoken;
-
-    // A button is speed
-    HAL_GPIO_EXTI_IRQHandler(PIN_WKUP_1);
-    g_button_press_timestamp[PUSH_BUTTON_A][TIMESTAMP_PREVIOUS] = g_button_press_timestamp[PUSH_BUTTON_A][TIMESTAMP_CURRENT];
-    g_button_press_timestamp[PUSH_BUTTON_A][TIMESTAMP_CURRENT] = xTaskGetTickCountFromISR();
-    HAL_NVIC_DisableIRQ(EXTI0_IRQn);
-    xTaskNotifyFromISR(g_button_press_handle, PUSH_BUTTON_A, eSetValueWithOverwrite, &xHigherPriorityTaskWoken);
+    board_init_push_button_pin_e button_pin = PUSH_BUTTON_D_PIN;
+    board_init_push_buttons_e button = PUSH_BUTTON_D;
+    board_init_push_button_irq_e button_irq = PUSH_BUTTON_D_IRQ;
+    HAL_GPIO_EXTI_IRQHandler(button_pin);
+    g_button_press_timestamp[button][TIMESTAMP_PREVIOUS] = g_button_press_timestamp[button][TIMESTAMP_CURRENT];
+    g_button_press_timestamp[button][TIMESTAMP_CURRENT] = xTaskGetTickCountFromISR();
+    HAL_NVIC_DisableIRQ(button_irq);
+    xTaskNotifyFromISR(g_button_press_handle, button, eSetValueWithOverwrite, &xHigherPriorityTaskWoken);
 }
 
+volatile uint32_t a_passes = 0;
 uint32_t g_dbg_b_interrupt_count = 0;
 /**
   * @brief This function handles EXTI line2 interrupt.
   */
 void EXTI2_IRQHandler(void)
 {
+    // A is speed
     BaseType_t xHigherPriorityTaskWoken;
-    // B button is state
-    HAL_GPIO_EXTI_IRQHandler(PIN_WKUP_4);
-    g_button_press_timestamp[PUSH_BUTTON_D][TIMESTAMP_PREVIOUS] = g_button_press_timestamp[PUSH_BUTTON_B][TIMESTAMP_CURRENT];
-    g_button_press_timestamp[PUSH_BUTTON_D][TIMESTAMP_CURRENT] = xTaskGetTickCountFromISR();
-    HAL_NVIC_DisableIRQ(EXTI2_IRQn);
-    xTaskNotifyFromISR(g_button_press_handle, PUSH_BUTTON_D, eSetValueWithOverwrite, &xHigherPriorityTaskWoken);
+    board_init_push_button_pin_e button_pin = PUSH_BUTTON_A_PIN;
+    board_init_push_buttons_e button = PUSH_BUTTON_A;
+    board_init_push_button_irq_e button_irq = PUSH_BUTTON_A_IRQ;
+    HAL_GPIO_EXTI_IRQHandler(button_pin);
+    g_button_press_timestamp[button][TIMESTAMP_PREVIOUS] = g_button_press_timestamp[button][TIMESTAMP_CURRENT];
+    g_button_press_timestamp[button][TIMESTAMP_CURRENT] = xTaskGetTickCountFromISR();
+    HAL_NVIC_DisableIRQ(button_irq);
+    xTaskNotifyFromISR(g_button_press_handle, button, eSetValueWithOverwrite, &xHigherPriorityTaskWoken);
 }
 
 
+volatile uint32_t b_passes = 0;
 /**
   * @brief This function handles EXTI line[15:10] interrupts.
   */
 void EXTI15_10_IRQHandler(void)
 {
+    // B is state
     BaseType_t xHigherPriorityTaskWoken;
-    // C button is color
-    HAL_GPIO_EXTI_IRQHandler(PIN_WKUP_2);
-    g_button_press_timestamp[PUSH_BUTTON_C][TIMESTAMP_PREVIOUS] = g_button_press_timestamp[PUSH_BUTTON_C][TIMESTAMP_CURRENT];
-    g_button_press_timestamp[PUSH_BUTTON_C][TIMESTAMP_CURRENT] = xTaskGetTickCountFromISR();
-    HAL_NVIC_DisableIRQ(EXTI9_5_IRQn);
-    xTaskNotifyFromISR(g_button_press_handle, PUSH_BUTTON_C, eSetValueWithOverwrite, &xHigherPriorityTaskWoken);
+    board_init_push_button_pin_e button_pin = PUSH_BUTTON_B_PIN;
+    board_init_push_buttons_e button = PUSH_BUTTON_B;
+    board_init_push_button_irq_e button_irq = PUSH_BUTTON_B_IRQ;
+    HAL_GPIO_EXTI_IRQHandler(button_pin);
+    g_button_press_timestamp[button][TIMESTAMP_PREVIOUS] = g_button_press_timestamp[button][TIMESTAMP_CURRENT];
+    g_button_press_timestamp[button][TIMESTAMP_CURRENT] = xTaskGetTickCountFromISR();
+    HAL_NVIC_DisableIRQ(button_irq);
+    xTaskNotifyFromISR(g_button_press_handle, button, eSetValueWithOverwrite, &xHigherPriorityTaskWoken);
 }
 
-
+volatile uint32_t c_passes = 0;
 /**
   * @brief This function handles EXTI line[9:5] interrupts.
   */
 void EXTI9_5_IRQHandler(void)
 {
+    // C is color
     BaseType_t xHigherPriorityTaskWoken;
-    // D button is pause
-    HAL_GPIO_EXTI_IRQHandler(PIN_WKUP_3);
-    g_button_press_timestamp[PUSH_BUTTON_B][TIMESTAMP_PREVIOUS] = g_button_press_timestamp[PUSH_BUTTON_D][TIMESTAMP_CURRENT];
-    g_button_press_timestamp[PUSH_BUTTON_B][TIMESTAMP_CURRENT] = xTaskGetTickCountFromISR();
-    HAL_NVIC_DisableIRQ(EXTI15_10_IRQn);
-    xTaskNotifyFromISR(g_button_press_handle, PUSH_BUTTON_B, eSetValueWithOverwrite, &xHigherPriorityTaskWoken);
+    board_init_push_button_pin_e button_pin = PUSH_BUTTON_C_PIN;
+    board_init_push_buttons_e button = PUSH_BUTTON_C;
+    board_init_push_button_irq_e button_irq = PUSH_BUTTON_C_IRQ;
+    // add button irq here..
+    HAL_GPIO_EXTI_IRQHandler(button_pin);
+    g_button_press_timestamp[button][TIMESTAMP_PREVIOUS] = g_button_press_timestamp[button][TIMESTAMP_CURRENT];
+    g_button_press_timestamp[button][TIMESTAMP_CURRENT] = xTaskGetTickCountFromISR();
+    HAL_NVIC_DisableIRQ(button_irq);
+    xTaskNotifyFromISR(g_button_press_handle, button, eSetValueWithOverwrite, &xHigherPriorityTaskWoken);
+}
+
+
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+
 }
 
 

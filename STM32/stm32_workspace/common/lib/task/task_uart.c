@@ -26,5 +26,6 @@ void task_uart_tx(void *argument)
     {
         p_pkt = pkt_dequeue_from_tx();
         // send it out over uart
+
     }
 }

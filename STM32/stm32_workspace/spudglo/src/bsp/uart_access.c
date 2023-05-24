@@ -60,3 +60,20 @@ void uart_access_setup(void)
     }
 }
 
+
+HAL_StatusTypeDef HAL_UART_Receive_DMA(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size);
+
+void uart_access_rx(void)
+{
+    //HAL_UART_Receive_DMA(&gh_host_usart, )
+}
+
+
+void uart_access_tx(void)
+{
+
+}
+
+
+
+

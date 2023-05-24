@@ -22,7 +22,7 @@
 //#define BOARD_MN_WILD_SOUND
 
 // define the number of strips
-#define STRIP_1_LENGTH      28 /// FLYNN FARM SIGN = 166!!
+#define STRIP_1_LENGTH      102 /// FLYNN FARM SIGN = 166!!
 //#define STRIP_2_LENGTH      215
 //#define STRIP_3_LENGTH      200
 

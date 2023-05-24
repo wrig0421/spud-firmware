@@ -46,10 +46,10 @@ void flash_access_erase_user_flash(void)
 
 void flash_access_write_to_flash(uint64_t address, uint64_t *p_data, uint16_t num_uint64_to_write)
 {
-    for (uint16_t iii = 0; iii < num_uint64_to_write; iii++)
-    {
-        HAL_FLASH_Program(FLASH_TYPEPROGRAM_DOUBLEWORD, address + (iii * sizeof(uint64_t)), p_data);
-    }
+//    for (uint16_t iii = 0; iii < num_uint64_to_write; iii++)
+//    {
+//        HAL_FLASH_Program(FLASH_TYPEPROGRAM_DOUBLEWORD, address + (iii * sizeof(uint64_t)), p_data);
+//    }
 }
 
 
@@ -63,7 +63,7 @@ void flash_access_write_user_flash(void)
 void flash_access_read_user_flash(void)
 {
 
-    g_user_flash = (uint64_t)(FLASH_START_ADDRESS + FLASH_USER_SPACE_START_ADDRESS);
+//    g_user_flash = (uint64_t)(FLASH_START_ADDRESS + FLASH_USER_SPACE_START_ADDRESS);
 }
 
 

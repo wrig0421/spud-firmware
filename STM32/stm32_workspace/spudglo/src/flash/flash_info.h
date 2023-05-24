@@ -1,6 +1,8 @@
 
 #if !defined(FLASH_INFO_H)
 #define FLASH_INFO_H
+#include <stdint.h>
+#include "animate_led.h"
 
 
 #define FLASH_INFO_SIZE_BYTES               (512 * 4)
@@ -38,5 +40,7 @@ typedef enum
 
 void flash_info_read_unique_id(uint32_t *uuid);
 void flash_access_read_sub_block(flash_info_sub_block_t sub_block, uint32_t* sub_block_uint32);
+bool flash_info_animation_enabled(led_state_e animation);
+void flash_info_init(void);
 
 #endif

@@ -6,8 +6,8 @@
 #include "ws2812b.h"
 #include "semaphore_create.h"
 #include "task_create.h"
+#include "animate_led.h"
 #include "flash_info.h"
-#include "serial_com.h"
 
 int main(void)
 {

@@ -1,4 +1,7 @@
-// SRW
+/***********************************
+ * @file   animate_led.c
+ * @author SpudGlo LLC
+ ***********************************/
 #include <stdint.h>
 #include <math.h>
 #include "numbers.h"

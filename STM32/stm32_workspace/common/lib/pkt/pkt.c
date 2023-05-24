@@ -76,7 +76,16 @@ const osMessageQueueAttr_t g_tx_queue_attributes = {
 };
 
 
+typedef struct
+{
+    osMessageQueueId_t  queue_handle;
+    uint16_t            index;
+} pkt_queue_t;
+
+typedef pkt_queue_t* p_pkt_queue_t;
+
 void packet_rsp_set(void);
+pkt_queue_t g_pkt_queue[2];
 
 
 void packet_queue_init(void)
@@ -89,15 +98,15 @@ void packet_queue_init(void)
     // initialize free pkts to 0, enqueue free pkts to free queue
     for (uint16_t iii = 0; iii < FREE_QUEUE_DEPTH; iii++)
     {
-        memset(g_pkt_pool[iii].flat_data_uint8, 0, PKT_SIZE_BYTES);
-        pkt_enqueue_to_free(g_pkt_pool[iii].flat_data_uint8);
+        memset((void *)g_pkt_pool[iii].flat_data_uint8, 0, PKT_SIZE_BYTES);
+        pkt_enqueue_to_free((p_pkt_t)&g_pkt_pool[iii].pkt);
     }
 }
 
 
 p_pkt_t pkt_dequeue_from_free(void)
 {
-    p_pkt_t pkt;
+    p_pkt_t pkt = NULL;
     if (osOK != osMessageQueueGet(gp_tx_queue, (uint8_t *)pkt, NULL, osWaitForever)) while(1); // queue full?
     return pkt;
 }
@@ -151,42 +160,6 @@ void pkt_enqueue_to_process(p_pkt_t pkt_handle)
 }
 
 
-void pkt_enqueue(p_pkt_t pkt_handle)
-{
-    pkt_src_e pkt_src = pkt_handle->header.src;
-    switch (pkt_src)
-    {
-        case PKT_SRC_PCB: // enqueue pkt to PCB
-            if (osOK != osMessageQueuePut(gp_tx_queue, pkt_handle, 0, 0)) while(1); // queue full?
-        break;
-        case PKT_SRC_COMP: // enqueue pkt to computer
-            if (osOK != osMessageQueuePut(gp_rx_queue, pkt_handle, 0, 0)) while(1); // queue full?
-        break;
-        default:
-            while(1); // this is an error... trap it
-        break;
-    }
-}
-
-
-void pkt_dequeue(p_pkt_t pkt_handle)
-{
-    pkt_src_e pkt_src = pkt_handle->header.src;
-    switch(pkt_src)
-    {
-        case PKT_SRC_PCB: // dequeue pkt from PCB
-            if (osOK != osMessageQueueGet(gp_tx_queue, (uint8_t *)pkt_handle, NULL, osWaitForever)) while(1); // queue full?
-        break;
-        case PKT_SRC_COMP: // dequeue pkt from computer
-            if (osOK != osMessageQueueGet(gp_rx_queue, pkt_handle, NULL, osWaitForever)) while(1);  // queue full?
-        break;
-        default:
-            while(1); // this is an error... trap it
-        break;
-    }
-}
-
-
 void pkt_parse_rx(p_pkt_t pkt_handle)
 {
     pkt_src_e pkt_src = pkt_handle->pkt.header.src;
@@ -218,22 +191,6 @@ void pkt_parse_tx(p_pkt_t pkt_handle)
         break;
         default:
             while(1); // this is an error... trap it
-        break;
-    }
-}
-
-
-void packet_parse(p_packet_handle_t pkt_handle)
-{
-    pkt_id_e pkt_id;
-    pkt_id = (pkt_id_e)(pkt_handle->header.tag);
-
-    switch (pkt_id)
-    {
-        case PKT_ID_CMD:
-
-        break;
-        default:
         break;
     }
 }

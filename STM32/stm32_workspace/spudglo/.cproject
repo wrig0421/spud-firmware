@@ -47,6 +47,7 @@
 									<listOptionValue builtIn="false" value="STM32L431xx"/>
 								</option>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.option.includepaths.900437120" name="Include paths (-I)" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.option.includepaths" useByScannerDiscovery="false" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/led/animate_led&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/task&quot;"/>
 									<listOptionValue builtIn="false" value="../sdk/FreeRTOS/Source/CMSIS_RTOS_V2"/>
 									<listOptionValue builtIn="false" value="../src/stm32_bloat"/>
@@ -70,7 +71,6 @@
 									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/semaphore&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/current_monitor&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/queue&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/led/animate_led&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/led/ws2812b_driver&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/led/color_led&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/pkt&quot;"/>

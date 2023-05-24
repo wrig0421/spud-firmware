@@ -1,8 +1,10 @@
-// Spud 2021
-
+/***********************************
+ * @file   animate_led.h
+ * @author SpudGlo LLC
+ ***********************************/
 #if !defined(ANIMATE_LED_H)
-
 #define ANIMATE_LED_H
+
 #include <stdint.h>
 #include <stdbool.h> 
 #include "config.h"
@@ -18,62 +20,50 @@ typedef enum
 } master_led_state_e;
 
 
+typedef struct
+{
+    // byte 0
+    uint8_t spell : 1;
+    uint8_t white : 1;
+    uint8_t solid : 1;
+    uint8_t sparkle : 1;
+    uint8_t sparkle_no_fill : 1;
+    uint8_t rainbow : 1;
+    uint8_t chase : 1;
+    uint8_t chase_rainbow : 1;
+
+    // byte 1
+    uint8_t fade : 1;
+    uint8_t twinkle : 1;
+    uint8_t rsvd0 : 6;
+
+    // byte 2
+    uint8_t rsvd1;
+
+    // byte 3
+    uint8_t rsvd2;
+
+    // these can be applied to each strip..
+} animate_led_state_t;
+
+
 typedef enum
 {
 	LED_STATE_FIRST = 0,
-#if defined(ENABLE_LED_STATE_SPELL)
 	LED_STATE_SPELL = LED_STATE_FIRST,
-#endif
-#if defined(ENABLE_LED_STATE_MINT_NOHBZ)
-	LED_STATE_MINT_NOHBZ,
-#endif
-#if defined(ENABLE_LED_STATE_WHITE_COLOR)
+	//LED_STATE_MINT_NOHBZ,
 	LED_STATE_WHITE_COLOR,
-#endif
-#if defined(ENABLE_LED_STATE_SOLID_COLOR)
 	LED_STATE_SOLID_COLOR,
-#endif
-#if defined(ENABLE_LED_STATE_SPARKLE_NO_FILL)
 	LED_STATE_SPARKLE_NO_FILL,
-#endif
-#if defined(ENABLE_LED_STATE_SPARKLE_FILL)
     LED_STATE_SPARKLE_FILL,
-#endif
-#if defined(ENABLE_LED_STATE_RAINBOW_CYCLE)
     LED_STATE_RAINBOW_CYCLE,
-#endif
-#if defined(ENABLE_LED_STATE_THEATER_CHASE)
     LED_STATE_THEATER_CHASE,
-#endif
-#if defined(ENABLE_LED_STATE_THEATER_CHASE_RAINBOW)
     LED_STATE_THEATER_CHASE_RAINBOW,
-#endif
-#if defined(ENABLE_LED_STATE_FADE_IN_AND_OUT)
     LED_STATE_FADE_IN_AND_OUT,
-#endif
-#if defined(ENABLE_LED_STATE_TWINKLE)
     LED_STATE_TWINKLE,
-#endif
-#if defined(SRW_DEBUG)
+    LED_STATE_LAST = LED_STATE_TWINKLE,
+    NUM_LED_STATES,
     LED_STATE_SRW_DEBUG,
-#endif
-#if defined(MULTIPLE_STRIPS)
-	LED_STATE_FADE_IN_AND_OUT_MULTIPLE_COLORS,
-	LED_STATE_MULTIPLE_COLORS,
-	LED_STATE_RAINBOW_CYCLE_TWO_TONE,
-	LED_STATE_THEATER_CHASE_MULTIPLE_COLORS,
-	LED_STATE_TWINKLE_MULTIPLE_COLORS,
-	LED_STATE_SPELL_MULTIPLE_COLORS,
-	LED_STATE_SPELL_SOLID_RANDOM_COLOR,
-	LED_STATE_SPELL_SPARKLE_FILL,
-	LED_STATE_SPELL_SPARKLE_NO_FILL,
-	LED_STATE_LAST = LED_STATE_SPELL_SPARKLE_NO_FILL,
-#elif defined(SRW_DEBUG)
-	LED_STATE_LAST = LED_STATE_SRW_DEBUG,
-#else
-	LED_STATE_LAST = LED_STATE_TWINKLE,
-#endif
-	NUM_LED_STATES,
 	// future states below 
 	//LED_STATE_FADE_IN_AND_OUT_RANDOM,
     //LED_STATE_METEOR,

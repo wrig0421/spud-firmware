@@ -40,7 +40,7 @@ typedef enum
     PKT_VAR_RESET       = 3,
 
 
-    PKT_VAR_MAX         = 255 // do not exceed this value!
+    PKT_VAR_MAX         = 255 // do not exceed
 } pkt_var_e;
 
 
@@ -110,11 +110,8 @@ p_pkt_t pkt_dequeue_from_tx(void);
 void pkt_enqueue_to_tx(p_pkt_t pkt_handle);
 p_pkt_t pkt_dequeue_from_process(void);
 void pkt_enqueue_to_process(p_pkt_t pkt_handle);
-void pkt_enqueue(p_pkt_t pkt_handle);
-void pkt_dequeue(p_pkt_t pkt_handle);
 void pkt_parse_rx(p_pkt_t pkt_handle);
 void pkt_parse_tx(p_pkt_t pkt_handle);
-void packet_parse(p_packet_handle_t pkt_handle);
 
 
 #endif

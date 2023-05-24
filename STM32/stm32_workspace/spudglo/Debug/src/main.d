@@ -34,7 +34,7 @@ src/main.o: ../src/main.c ../src/main.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h \
- ../src/bsp/board_init_common.h \
+ ../src/bsp/board_init_common.h ../src/bsp/board_common.h \
  ../sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h \
  ../sdk/FreeRTOS/Source/include/FreeRTOS.h ../src/FreeRTOSConfig.h \
  ../sdk/FreeRTOS/Source/include/projdefs.h \
@@ -48,8 +48,10 @@ src/main.o: ../src/main.c ../src/main.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/ws2812b_driver/ws2812b.h \
  ../src/config.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/semaphore/semaphore_create.h \
- ../src/task/task_create.h ../src/flash/flash_info.h \
- ../src/bsp/serial_com.h
+ ../src/task/task_create.h \
+ /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/animate_led/animate_led.h \
+ /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/color_led/color_led.h \
+ ../src/flash/flash_info.h
 ../src/main.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
 ../src/bsp/stm32_bloat/stm32l4xx_hal_conf.h:
@@ -89,6 +91,7 @@ src/main.o: ../src/main.c ../src/main.h \
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h:
 ../src/bsp/board_init_common.h:
+../src/bsp/board_common.h:
 ../sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h:
 ../sdk/FreeRTOS/Source/include/FreeRTOS.h:
 ../src/FreeRTOSConfig.h:
@@ -104,5 +107,6 @@ src/main.o: ../src/main.c ../src/main.h \
 ../src/config.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/semaphore/semaphore_create.h:
 ../src/task/task_create.h:
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/animate_led/animate_led.h:
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/color_led/color_led.h:
 ../src/flash/flash_info.h:
-../src/bsp/serial_com.h:

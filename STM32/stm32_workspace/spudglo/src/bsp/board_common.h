@@ -2,7 +2,7 @@
 
 #if !defined(BOARD_COMMON_H)
 #define BOARD_COMMON_H
-
+#include "stm32l4xx_hal.h"
 #define PIN_PORT_A              GPIOA
 #define PIN_PORT_B              GPIOB
 #define PIN_PORT_C              GPIOC
@@ -160,10 +160,10 @@
 #define PIN_TIM1_CH3            PIOA_PIN_10
 
 #define PIN_WKUP_3              PIOC_PIN_5
-#define PIN_WKUP_3_IRQ          EXTI15_10_IRQn
+#define PIN_WKUP_3_IRQ          EXTI9_5_IRQn//EXTI15_10_IRQn
 
 #define PIN_WKUP_2              PIOC_PIN_13
-#define PIN_WKUP_2_IRQ          EXTI9_5_IRQn
+#define PIN_WKUP_2_IRQ          EXTI15_10_IRQn//EXTI9_5_IRQn
 
 
 

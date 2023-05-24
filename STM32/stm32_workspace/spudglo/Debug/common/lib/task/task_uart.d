@@ -50,7 +50,7 @@ common/lib/task/task_uart.o: \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_uart.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/color_led/color_led.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/animate_led/animate_led.h \
- ../src/config.h ../src/bsp/board_init_common.h \
+ ../src/config.h ../src/bsp/board_init_common.h ../src/bsp/board_common.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/ws2812b_driver/ws2812b.h
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
 ../src/bsp/stm32_bloat/stm32l4xx_hal_conf.h:
@@ -107,4 +107,5 @@ common/lib/task/task_uart.o: \
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/animate_led/animate_led.h:
 ../src/config.h:
 ../src/bsp/board_init_common.h:
+../src/bsp/board_common.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/ws2812b_driver/ws2812b.h:
