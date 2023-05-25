@@ -27,15 +27,6 @@ SPI_HandleTypeDef       gh_disp_spi =
 void spi_access_setup(void)
 {
     RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
-
-//    PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_SPI1;
-//    PeriphClkInit.Lpuart1ClockSelection = RCC_SPI1CLKSOURCE_HSI;
-//
-//    if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
-//    {
-//        while(1);
-//      //Error_Handler();
-//    }
     GPIO_InitTypeDef  GPIO_InitStruct;
 
     GPIO_InitStruct.Pin         = PIN_SPI1_SCK | PIN_SPI1_CIPO | PIN_SPI1_COPI;

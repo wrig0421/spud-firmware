@@ -47,6 +47,7 @@ typedef enum
 master_led_state_e      g_master_led_state = MASTER_LED_STATE_DEMO;
 led_state_e             g_led_state = LED_STATE_FIRST;
 led_speed_e             g_led_speed = LED_SPEED_1X;
+led_brightness_e        g_led_brightness = LED_BRIGHTNESS_100_PERCENT;
 
 master_color_state_e    g_master_color_state = MASTER_COLOR_STATE_DEMO;
 all_colors_e            g_led_color = COLORS_MINT;
@@ -84,7 +85,8 @@ void task_led_ctrl_strip_one(void *argument)
     osDelay(10);
     while (1)
     {
-        while (task_button_press_interrupt_major_change()) osDelay(10);
+        while(task_button_press_major_state_change()) osDelay(100);
+
         if (flash_info_animation_enabled(g_led_state))
         {
             switch(g_led_state)
@@ -151,6 +153,34 @@ void task_led_ctrl_delay(const uint32_t time_ms)
     {
         osDelay(portTICK_PERIOD_MS);
     }
+}
+
+
+void task_led_ctrl_brightness_adjust(void)
+{
+    if (LED_BRIGHTNESS_FIRST == g_led_brightness) g_led_brightness = LED_BRIGHTNESS_LAST;
+    else g_led_brightness = (led_brightness_e) (g_led_brightness - 1);
+    switch (g_led_brightness)
+    {
+        case LED_BRIGHTNESS_100_PERCENT:
+            current_monitor_set(1.0f);
+        break;
+//        case LED_BRIGHTNESS_50_PERCENT:
+//            current_monitor_set(0.5f);
+//        break;
+        case LED_BRIGHTNESS_25_PERCENT:
+            current_monitor_set(0.25f);
+        break;
+        case LED_BRIGHTNESS_1_PERCENT:
+            current_monitor_set(0.01f);
+        break;
+    }
+}
+
+
+void task_led_ctrl_clear_pause(void)
+{
+    g_animate_led_pause_flag = false;
 }
 
 
@@ -284,9 +314,9 @@ float task_led_ctrl_speed(void)
         case LED_SPEED_10X:
             speed_factor = 10;
         break;
-//        case LED_SPEED_5X:
-//            speed_factor = 5;
-//        break;
+        case LED_SPEED_5X:
+            speed_factor = 5;
+        break;
 //        case LED_SPEED_2X:
 //            speed_factor = 2;
 //        break;
@@ -313,14 +343,14 @@ float task_led_ctrl_speed(void)
 
 void task_led_ctrl_speed_adjust(void)
 {
-    if (LED_SPEED_LAST == g_led_speed) g_led_speed = LED_SPEED_FIRST;
-    else g_led_speed = (led_speed_e) (g_led_speed + 1);
+    if (LED_SPEED_FIRST == g_led_speed) g_led_speed = LED_SPEED_LAST;
+    else g_led_speed = (led_speed_e) (g_led_speed - 1);
 }
 
 
 void task_led_ctrl_speed_reset(void)
 {
-    g_led_speed = LED_SPEED_0P5X;
+    g_led_speed = LED_SPEED_1X;
 }
 
 

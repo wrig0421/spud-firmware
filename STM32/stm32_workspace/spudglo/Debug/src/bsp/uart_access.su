@@ -1,3 +1,3 @@
 ../src/bsp/uart_access.c:25:6:uart_access_setup	128	static
-../src/bsp/uart_access.c:66:6:uart_access_rx	4	static
-../src/bsp/uart_access.c:72:6:uart_access_tx	4	static
+../src/bsp/uart_access.c:64:6:uart_access_rx	4	static
+../src/bsp/uart_access.c:70:6:uart_access_tx	4	static

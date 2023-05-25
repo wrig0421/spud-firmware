@@ -36,7 +36,7 @@ master_led_state_e task_led_ctrl_animate_state(void);
 void task_led_ctrl_strip_one(void *argument);
 void task_led_ctrl_strip_two(void *argument);
 void task_led_ctrl_strip_three(void *argument);
-
+void task_led_ctrl_clear_pause(void);
 
 
 

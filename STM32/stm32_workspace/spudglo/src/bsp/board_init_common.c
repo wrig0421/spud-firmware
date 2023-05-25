@@ -148,12 +148,10 @@ static void board_init_common_nvic_setup_interrupts(void)
     HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
     HAL_NVIC_SetPriority(EXTI15_10_IRQn, 24, 0);
     HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
-
     __HAL_GPIO_EXTI_CLEAR_IT(EXTI0_IRQn);
     __HAL_GPIO_EXTI_CLEAR_IT(EXTI2_IRQn);
     __HAL_GPIO_EXTI_CLEAR_IT(EXTI9_5_IRQn);
     __HAL_GPIO_EXTI_CLEAR_IT(EXTI15_10_IRQn);
-
     HAL_NVIC_SetPriority(DMA1_Channel2_IRQn, 0, 0);
     HAL_NVIC_EnableIRQ(DMA1_Channel2_IRQn);
     HAL_NVIC_SetPriority(DMA1_Channel3_IRQn, 0, 0);
@@ -171,7 +169,7 @@ static void board_init_common_setup_wakeups(void)
 {
     GPIO_InitTypeDef GPIO_InitStruct = {0};
 
-    // setup the wakeups as only interrupts without the WKUP enabled yet... TODO
+    // future setup wakeups
     GPIO_InitStruct.Pin = PIN_WKUP_1|PIN_WKUP_4;
     GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
     GPIO_InitStruct.Pull = GPIO_PULLUP;
@@ -182,7 +180,6 @@ static void board_init_common_setup_wakeups(void)
     GPIO_InitStruct.Pull = GPIO_PULLUP;
     HAL_GPIO_Init(PIN_PORT_C, &GPIO_InitStruct);
     board_init_common_nvic_setup_interrupts();
-
 }
 
 static void board_init_port_wakeup(void)
@@ -192,10 +189,9 @@ static void board_init_port_wakeup(void)
     __HAL_RCC_GPIOC_CLK_ENABLE();
     __HAL_RCC_GPIOH_CLK_ENABLE();
     __HAL_RCC_DMA1_CLK_ENABLE();
-
 }
 
-uint8_t new_buf[10] = {32,33,34,35};
+
 void board_init_common_board_init(void)
 {
     srand(time(0));
@@ -203,15 +199,12 @@ void board_init_common_board_init(void)
     SystemClock_Config();
 
     board_init_port_wakeup();
-
     board_init_common_setup_wakeups();
     board_init_specific();
 
     board_init_common_timer_init();
 
     ws2812b_init();
-
-    //animate_led_init(); // not yet defined..
 
     board_init_common_rtc_init();
 }

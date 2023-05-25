@@ -83,7 +83,7 @@ typedef enum
 {
 	LED_SPEED_FIRST,
 	LED_SPEED_10X = LED_SPEED_FIRST,
-	//LED_SPEED_5X,
+	LED_SPEED_5X,
 	//LED_SPEED_2X,
 	LED_SPEED_1X,
 	LED_SPEED_0P5X,
@@ -92,6 +92,17 @@ typedef enum
 	LED_SPEED_LAST = LED_SPEED_0P25X,
 	NUM_SPEEDS
 } led_speed_e;
+
+
+typedef enum
+{
+    LED_BRIGHTNESS_FIRST = 0,
+    LED_BRIGHTNESS_100_PERCENT  = LED_BRIGHTNESS_FIRST,
+    //LED_BRIGHTNESS_50_PERCENT,
+    LED_BRIGHTNESS_25_PERCENT,
+    LED_BRIGHTNESS_1_PERCENT,
+    LED_BRIGHTNESS_LAST         = LED_BRIGHTNESS_1_PERCENT
+} led_brightness_e;
 
 void animate_led_show_strip(const strip_mask_t strip_mask);
 void animate_led_set_pixel(const strip_mask_t mask, const uint16_t pixel, const uint8_t red, const uint8_t green,

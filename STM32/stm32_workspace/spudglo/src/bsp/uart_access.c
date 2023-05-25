@@ -43,7 +43,6 @@ void uart_access_setup(void)
     GPIO_InitStruct.Pull      = GPIO_NOPULL;
     GPIO_InitStruct.Speed     = GPIO_SPEED_FREQ_LOW;
     GPIO_InitStruct.Alternate = GPIO_AF8_LPUART1;
-
     HAL_GPIO_Init(PIN_PORT_C, &GPIO_InitStruct);
 
     HAL_NVIC_SetPriority(LPUART1_IRQn, 0, 1);
@@ -55,7 +54,6 @@ void uart_access_setup(void)
     }
     if(HAL_UART_Init(&gh_host_usart) != HAL_OK)
     {
-        while(1);
         //Error_Handler();
     }
 }

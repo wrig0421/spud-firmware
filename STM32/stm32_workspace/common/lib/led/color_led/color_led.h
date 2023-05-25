@@ -53,7 +53,7 @@ typedef enum
 	COLORS_FIRST            = 0,
     COLORS_RED              = COLORS_FIRST,
     //COLORS_BLACK = 0,
-    //COLORS_WHITE,
+    COLORS_WHITE,
     COLORS_LIME,
     COLORS_BLUE,
     COLORS_YELLOW,

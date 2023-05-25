@@ -14,11 +14,8 @@
 #include "task_led_ctrl.h"
 #include "task_button_press.h"
 
-#define TASK_BUTTON_PRESS_ITERATION_TIME_MILLISECONDS   10
-#define TASK_BUTTON_PRESS_STATE_TRANSITION_TIME_MILLISECONDS     3000
-#define SWITCH_DEBOUNCE_TIME_MILLISECONDS   200
 #define SWITCH_HISTORY_DEPTH                5
-#define SWITCH_FAST_PRESS_TIME_MILLISECONDS 2000
+#define SWITCH_FAST_PRESS_TIME_MILLISECONDS 1000
 
 uint32_t g_button_press_timestamp[NUM_PUSH_BUTTONS][NUM_TIMESTAMPS];
 
@@ -80,7 +77,13 @@ bool task_button_press_ctrl_interrupt_flag(const isr_e src)
 bool task_button_press_check_interrupts(uint8_t *red, uint8_t *green, uint8_t *blue)
 {
     bool return_val = false;
-    if (task_button_press_ctrl_interrupt_flag(ISR_STATE))
+    if (task_button_press_major_state_change())
+    {
+        task_button_press_interrupt_flag_clear();
+        return_val = true;
+        animate_led_solid_custom_color((uint16_t)STRIP_BIT_ALL_SET, COLOR_HEX_BLACK);
+    }
+    else if (task_button_press_ctrl_interrupt_flag(ISR_STATE))
     {
         task_button_press_interrupt_flag_clear();
         return_val = true;
@@ -115,6 +118,19 @@ uint32_t b_ok_count = 0;
 uint32_t c_ok_count = 0;
 uint32_t d_ok_count = 0;
 
+
+bool task_button_press_major_state_change(void)
+{
+    return task_button_press_major_change;
+}
+
+
+task_button_press_major_state_change_clear(void)
+{
+    task_button_press_major_change = false;
+}
+
+
 void task_button_press(void *argument)
 {
     uint32_t button_pressed_bit = 0;
@@ -125,16 +141,18 @@ void task_button_press(void *argument)
     {
         xTaskNotifyWait(0, button_pressed_bit, &button_pressed_bit, portMAX_DELAY);
         HAL_GPIO_WritePin(PIN_PORT_B, PIN_INT_LVL_EN, GPIO_PIN_RESET);
-        osDelay(500);
+        osDelay(700);
         HAL_GPIO_WritePin(PIN_PORT_B, PIN_INT_LVL_EN, GPIO_PIN_SET);
 
-        timestamp_diff = g_button_press_timestamp[(board_init_push_buttons_e) button_pressed_bit][TIMESTAMP_CURRENT] - g_button_press_timestamp[(board_init_push_buttons_e)button_pressed_bit][TIMESTAMP_PREVIOUS];
+        timestamp_diff = g_button_press_timestamp[(board_init_push_buttons_e) button_pressed_bit][TIMESTAMP_CURRENT] - \
+                        g_button_press_timestamp[(board_init_push_buttons_e)button_pressed_bit][TIMESTAMP_PREVIOUS];
         if (timestamp_diff < SWITCH_FAST_PRESS_TIME_MILLISECONDS) fast_press_count++;
         else fast_press_count = 0;
         task_button_press_ctrl_set_interrupt_flag(task_led_ctrl_button_to_isr((board_init_push_buttons_e) button_pressed_bit));
-        if (fast_press_count >= (SWITCH_HISTORY_DEPTH - 1))
+        if (fast_press_count >= (SWITCH_HISTORY_DEPTH-1))
         {
             task_button_press_major_change = true;
+            fast_press_count = 0;
             switch ((board_init_push_buttons_e) button_pressed_bit)
             {
                 case PUSH_BUTTON_A:
@@ -146,21 +164,23 @@ void task_button_press(void *argument)
                 break;
                 case PUSH_BUTTON_B:
                     b_ok_count++;
-                    color = COLOR_HEX_RED;
+                    color = COLOR_HEX_BLUE;
                     irq_type = PUSH_BUTTON_B_IRQ;
                     task_led_ctrl_animate_iteration_reset();
                     task_led_ctrl_animate_state_demo(); // enter demo state
                 break;
                 case PUSH_BUTTON_C:
                     c_ok_count++;
-                    color = COLOR_HEX_BLUE;
+                    color = COLOR_HEX_RED;
                     irq_type = PUSH_BUTTON_C_IRQ;
                     // don't change iteration count.  Simply go to color demo mode.
                     task_led_ctrl_color_state_demo();
                 break;
                 case PUSH_BUTTON_D:
+                    task_led_ctrl_brightness_adjust();
+                    task_led_ctrl_clear_pause();
                     d_ok_count++;
-                    color = COLOR_HEX_BLACK;
+                    color = COLOR_HEX_WHITE;
                     irq_type = PUSH_BUTTON_D_IRQ;
                 break;
                 default:
@@ -169,9 +189,9 @@ void task_button_press(void *argument)
             for (uint8_t iii = 0; iii < 3; iii++)
             {
                 animate_led_solid_custom_color((uint16_t)STRIP_BIT_ALL_SET, color);
-                //osDelay(500);
+                osDelay(500);
                 animate_led_solid_custom_color((uint16_t)STRIP_BIT_ALL_SET, COLOR_HEX_BLACK);
-                //osDelay(500);
+                osDelay(500);
             }
             HAL_NVIC_SetPriority(irq_type, 24, 0);
             HAL_NVIC_EnableIRQ(irq_type);

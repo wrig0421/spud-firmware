@@ -117,12 +117,9 @@ void reset_ws2812b(void)
 {
     //xSemaphoreTake(g_dma_transfer_semaphore, portMAX_DELAY);
     //xTaskNotify(g_dma_transfer_handle, 0, eSetValueWithOverwrite);
-
     HAL_TIM_PWM_Start_DMA(&g_tim1_handle, TIM_CHANNEL_1, (uint32_t *)pwm_reset, sizeof(pwm_reset));
     HAL_TIM_PWM_Start_DMA(&g_tim1_handle, TIM_CHANNEL_2, (uint32_t *)pwm_reset, sizeof(pwm_reset));
     HAL_TIM_PWM_Start_DMA(&g_tim1_handle, TIM_CHANNEL_3, (uint32_t *)pwm_reset, sizeof(pwm_reset));
-//    HAL_TIM_PWM_Start_DMA(&g_tim15_handle, TIM_CHANNEL_1, (uint32_t *)pwm_reset, sizeof(pwm_reset)));
-//    HAL_TIM_PWM_Start_DMA(&g_tim16_handle, TIM_CHANNEL_1, (uint32_t *)pwm_reset, sizeof(pwm_reset)));
 }
 
 static strip_bit_e ws2812_convert_strip_num_to_strip_bit(const strip_num_e strip_num)

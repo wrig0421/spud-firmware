@@ -13,6 +13,7 @@
 #define CURRENT_MONITOR_MAX_CURRENT_PER_LED_MA  40
 typedef float current_t;
 
+void current_monitor_set(float value);
 float current_monitor_ratio(void);
 void current_monitor_init(void);
 

@@ -109,6 +109,6 @@ void task_create(void)
     osKernelInitialize();
 	g_button_press_handle = osThreadNew(task_button_press, NULL, &g_task_button_press_attributes);
     //g_dma_transfer_handle = osThreadNew(task_dma_transfer, NULL, &g_task_dma_transfer_attributes);
-    //g_led_strip_1_ctrl_handle = osThreadNew(task_led_ctrl_strip_one, NULL, &g_task_strip_1_led_ctrl_attributes);
+    g_led_strip_1_ctrl_handle = osThreadNew(task_led_ctrl_strip_one, NULL, &g_task_strip_1_led_ctrl_attributes);
     g_tasks_running = true; // technically will be running after task scheduler started
 }
