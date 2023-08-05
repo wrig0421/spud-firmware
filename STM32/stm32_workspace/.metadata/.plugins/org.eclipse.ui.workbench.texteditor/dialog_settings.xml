@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="USART1 Alternate "/>
+		<item key="selection" value="    osDelay(10);"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="false"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="    osDelay(10);"/>
+			<item value="    while (1)"/>
 			<item value="USART1 Alternate "/>
 			<item value="//    if(HAL_UART_DeInit(&amp;gh_host_usart) != HAL_OK)"/>
 			<item value="    GPIO_InitStruct.Pin = PIN_DISP_BACKLIGHT|PIN_DISP_DC|PIN_DISP_RST;"/>
 			<item value="uart"/>
 			<item value="//    RCC_OscInitTypeDef RCC_OscInitStruct = {0};"/>
 			<item value="        if(HAL_UART_Receive(&amp;gh_host_usart, rx_buffer, 4, 10000) != HAL_OK)"/>
-			<item value="//        if(HAL_UART_Transmit(&amp;gh_host_usart, rx_buffer, 4, 10000) == HAL_OK)"/>
-			<item value="usart"/>
-			<item value="read"/>
 		</list>
 		<list key="replacehistory">
 			<item value="            if (task_button_press_interrupt_occurred()) if (task_button_press_check_interrupts(&amp;red, &amp;green, &amp;blue)) return;&#x0A;"/>

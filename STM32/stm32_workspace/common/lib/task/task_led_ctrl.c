@@ -4,6 +4,7 @@
 #include "cmsis_os.h"
 #include "numbers.h"
 #include "board_init_common.h"
+#include "board_specific.h"
 #include "color_led.h"
 #include "task_button_press.h"
 #include "current_monitor.h"
@@ -82,7 +83,23 @@ static void task_led_ctrl_adjust_parameters(const task_led_ctrl_loop_iterations_
 
 void task_led_ctrl_strip_one(void *argument)
 {
-    osDelay(10);
+//    osDelay(10);
+//    board_init_specific_green_led_off();
+//    board_init_specific_red_led_off();
+//    board_init_specific_blue_led_off();
+//    board_init_specific_orange_led_off();
+//
+//
+//    while (1)
+//    {
+//        animate_led_solid_custom_color((uint16_t)STRIP_BIT_1, COLOR_HEX_RED);
+//        osDelay(5000);
+//        animate_led_solid_custom_color((uint16_t)STRIP_BIT_1, COLOR_HEX_GREEN);
+//        osDelay(5000);
+//        animate_led_solid_custom_color((uint16_t)STRIP_BIT_1, COLOR_HEX_BLUE);
+//        osDelay(5000);
+//    }
+
     while (1)
     {
         while(task_button_press_major_state_change()) osDelay(100);

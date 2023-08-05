@@ -1,6 +1,11 @@
-../src/flash/flash_info.c:95:6:flash_info_animation_enabled	24	static
-../src/flash/flash_info.c:140:6:flash_info_block_init	8	static
-../src/flash/flash_info.c:178:6:flash_info_read_sector_data	16	static
-../src/flash/flash_info.c:196:6:flash_info_write_sector_data	24	static
-../src/flash/flash_info.c:226:6:flash_info_init	8	static
-../src/flash/flash_info.c:240:6:flash_info_firmware_version	16	static
+../src/flash/flash_info.c:83:6:flash_info_color_enabled	24	static
+../src/flash/flash_info.c:210:6:flash_info_animation_enabled	24	static
+../src/flash/flash_info.c:280:18:flash_info_strip_brightness	24	static
+../src/flash/flash_info.c:321:13:flash_info_strip_speed	24	static
+../src/flash/flash_info.c:357:6:flash_info_block_init	8	static
+../src/flash/flash_info.c:412:6:flash_info_read_data	48	static
+../src/flash/flash_info.c:453:6:flash_info_write_data	48	static
+../src/flash/flash_info.c:561:6:flash_info_read_sector_data	16	static
+../src/flash/flash_info.c:580:6:flash_info_write_sector_data	24	static
+../src/flash/flash_info.c:610:6:flash_info_init	8	static
+../src/flash/flash_info.c:622:6:flash_info_firmware_version	16	static

@@ -50,7 +50,65 @@ void board_init_specific(void)
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     HAL_GPIO_Init(PIN_PORT_B, &GPIO_InitStruct);
 
+    GPIO_InitStruct.Pin = PIN_BLUE_LED | PIN_ORANGE_LED;
+    GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    HAL_GPIO_Init(PIN_PORT_B, &GPIO_InitStruct);
+
+    GPIO_InitStruct.Pin = PIN_GREEN_LED | PIN_RED_LED;
+    GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    HAL_GPIO_Init(PIN_PORT_C, &GPIO_InitStruct);
+
     board_init_peripheral_setup();
+}
+
+
+void board_init_specific_green_led_on(void)
+{
+    HAL_GPIO_WritePin(PIN_PORT_C, PIN_GREEN_LED, GPIO_PIN_SET);
+}
+
+
+void board_init_specific_green_led_off(void)
+{
+    HAL_GPIO_WritePin(PIN_PORT_C, PIN_GREEN_LED, GPIO_PIN_RESET);
+}
+
+
+void board_init_specific_red_led_on(void)
+{
+    HAL_GPIO_WritePin(PIN_PORT_C, PIN_RED_LED, GPIO_PIN_SET);
+}
+
+
+void board_init_specific_red_led_off(void)
+{
+    HAL_GPIO_WritePin(PIN_PORT_C, PIN_RED_LED, GPIO_PIN_RESET);
+}
+
+
+void board_init_specific_blue_led_on(void)
+{
+    HAL_GPIO_WritePin(PIN_PORT_B, PIN_BLUE_LED, GPIO_PIN_SET);
+}
+
+
+void board_init_specific_blue_led_off(void)
+{
+    HAL_GPIO_WritePin(PIN_PORT_B, PIN_BLUE_LED, GPIO_PIN_RESET);
+}
+
+
+void board_init_specific_orange_led_on(void)
+{
+    HAL_GPIO_WritePin(PIN_PORT_B, PIN_ORANGE_LED, GPIO_PIN_SET);
+}
+
+
+void board_init_specific_orange_led_off(void)
+{
+    HAL_GPIO_WritePin(PIN_PORT_B, PIN_ORANGE_LED, GPIO_PIN_RESET);
 }
 
 
