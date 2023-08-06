@@ -4,6 +4,6 @@
 ../src/flash/flash_access.c:43:6:flash_access_read_flash	24	static
 ../src/flash/flash_access.c:49:6:flash_access_write_to_flash	40	static
 ../src/flash/flash_access.c:64:6:flash_access_read_sector	24	static
-../src/flash/flash_access.c:91:6:flash_access_write_sector	88	static
+../src/flash/flash_access.c:91:6:flash_access_write_sector	80	static
 ../src/flash/flash_access.c:139:6:flash_access_write_user_flash	8	static
 ../src/flash/flash_access.c:145:6:flash_access_read_user_flash	4	static

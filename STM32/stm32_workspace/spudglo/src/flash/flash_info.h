@@ -142,6 +142,7 @@ typedef struct
     uint16_t    strip_1_length;
     uint16_t    strip_2_length;
     uint16_t    strip_3_length;
+    uint16_t    fill;
 } flash_info_strip_config_t;
 
 

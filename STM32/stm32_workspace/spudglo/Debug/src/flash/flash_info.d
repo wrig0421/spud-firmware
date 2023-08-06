@@ -39,7 +39,7 @@ src/flash/flash_info.o: ../src/flash/flash_info.c \
  ../src/bsp/board_init_common.h ../src/bsp/board_common.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/ws2812b_driver/ws2812b.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/color_led/color_led.h \
- ../src/flash/flash_info.h \
+ ../src/flash/flash_info.h ../src/flash/flash_access.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/pkt/pkt.h \
  ../sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h \
  ../sdk/FreeRTOS/Source/include/FreeRTOS.h ../src/FreeRTOSConfig.h \
@@ -99,6 +99,7 @@ src/flash/flash_info.o: ../src/flash/flash_info.c \
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/ws2812b_driver/ws2812b.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/color_led/color_led.h:
 ../src/flash/flash_info.h:
+../src/flash/flash_access.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/pkt/pkt.h:
 ../sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h:
 ../sdk/FreeRTOS/Source/include/FreeRTOS.h:

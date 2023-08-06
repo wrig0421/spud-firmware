@@ -6,6 +6,7 @@
 #include "version.h"
 #include "animate_led.h"
 #include "flash_info.h"
+#include "flash_access.h"
 #include "pkt.h"
 
 #define FLASH_INFO_DEFAULT_IMAGE_SLOT   FLASH_INFO_IMAGE_SLOT_1
@@ -59,8 +60,11 @@ typedef struct
     uint8_t                     strip_info_fill[FLASH_INFO_SUB_BLOCK_SIZE - sizeof(flash_info_strip_info_t)];
 
     // future sub blocks go here
-
-    uint96_t                    uuid;                                               // 0x200
+    uint32_t                    uuid0;
+    uint32_t                    uuid1;
+    uint32_t                    uuid2;
+    uint32_t                    dummy;
+    uint32_t                    big_buf[10];
 } flash_info_data_t;
 
 typedef union
@@ -356,14 +360,14 @@ led_speed_e flash_info_strip_speed(strip_num_e strip_num)
 
 void flash_info_block_init(void)
 {
-    g_flash_info_block.flash_info_data.uuid.data[0] = HAL_GetUIDw0();
-    g_flash_info_block.flash_info_data.uuid.data[1] = HAL_GetUIDw1();
-    g_flash_info_block.flash_info_data.uuid.data[2] = HAL_GetUIDw2();
+    g_flash_info_block.flash_info_data.uuid0 = HAL_GetUIDw0();
+    g_flash_info_block.flash_info_data.uuid1 = HAL_GetUIDw1();
+    g_flash_info_block.flash_info_data.uuid2 = HAL_GetUIDw2();
 
     // strip_config setup.  Strip 1 enabled with length of 10.
-    memset(&g_flash_info_block.flash_info_data.strip_info.strip_config, 0, sizeof(flash_info_strip_config_t));
-    g_flash_info_block.flash_info_data.strip_info.strip_config.num_strips = 1;
-    g_flash_info_block.flash_info_data.strip_info.strip_config.strip_1_length = 10; // want to notice on sign if default is set
+    memset(&g_flash_info_block.flash_info_data.strip_info.strip_config, 0xA5, sizeof(flash_info_strip_config_t));
+    //g_flash_info_block.flash_info_data.strip_info.strip_config.num_strips = 1;
+    //g_flash_info_block.flash_info_data.strip_info.strip_config.strip_1_length = 10; // want to notice on sign if default is set
 
     // strip 1 animation setup.  ALl animations enabled by default.
     memset(&g_flash_info_block.flash_info_data.strip_info.strip_1_animation, UINT8_MAX, sizeof(flash_info_animation_select_t));
@@ -405,7 +409,7 @@ void flash_info_block_init(void)
     // strip 3 speed setup.  No speed enabled.
     memset(&g_flash_info_block.flash_info_data.strip_info.strip_3_brightness, 0, sizeof(flash_info_speed_select_t));
 
-    flash_access_write_sector(g_flash_info_block.flash_info_data, FLASH_INFO_SUB_BLOCK_CONFIG);
+    flash_access_write_sector(g_flash_info_block.flat_data_uint64, FLASH_INFO_SUB_BLOCK_CONFIG);
 }
 
 
@@ -614,9 +618,9 @@ void flash_info_init(void)
     uint32_t uid_2 = HAL_GetUIDw2();
     flash_access_read_sector(&g_flash_info_block.flat_data_uint8, FLASH_INFO_SUB_BLOCK_CONFIG);
     // check if UUID is set in flash block.  If not then init RAM struct and store to FLASH.
-    if ((uid_0!= g_flash_info_block.flash_info_data.uuid.data[0]) &&\
-                    (uid_1 != g_flash_info_block.flash_info_data.uuid.data[1]) &&
-                    (uid_2 != g_flash_info_block.flash_info_data.uuid.data[2]))
+    if ((uid_0 != g_flash_info_block.flash_info_data.uuid0) &&\
+                    (uid_1 != g_flash_info_block.flash_info_data.uuid1) &&
+                    (uid_2 != g_flash_info_block.flash_info_data.uuid2))
     {
         flash_info_block_init();
     }

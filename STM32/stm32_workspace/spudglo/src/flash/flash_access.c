@@ -88,7 +88,7 @@ void flash_access_read_sector(void *p_data, flash_info_sub_block_t sub_block)
 }
 
 
-void flash_access_write_sector(void *p_data, flash_info_sub_block_t sub_block)
+void flash_access_write_sector(uint64_t *p_data, flash_info_sub_block_t sub_block)
 {
     static FLASH_EraseInitTypeDef EraseInitStruct;
     uint32_t PAGEError;
@@ -128,9 +128,9 @@ void flash_access_write_sector(void *p_data, flash_info_sub_block_t sub_block)
         /*Error occurred while page erase.*/
         //return HAL_FLASH_GetError ();
     }
-    for (uint16_t iii = 0; iii < (num_double_words - 1); iii++)
+    for (uint16_t iii = 0; iii < (num_double_words + 1); iii++)
     {
-        HAL_FLASH_Program(FLASH_TYPEPROGRAM_DOUBLEWORD, flash_sub_block_address + (iii * sizeof(uint64_t)), (uint64_t *)(p_data + (iii * sizeof(uint64_t))));
+        HAL_FLASH_Program(FLASH_TYPEPROGRAM_DOUBLEWORD, flash_sub_block_address + (iii * sizeof(uint64_t)), *(p_data + (iii)));
     }
     HAL_FLASH_Lock();
 }

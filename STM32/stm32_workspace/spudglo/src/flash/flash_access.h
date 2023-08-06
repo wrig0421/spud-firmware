@@ -13,6 +13,6 @@ void flash_access_write_to_flash(uint64_t *p_data, uint64_t address, uint16_t nu
 void flash_access_write_user_flash(void);
 void flash_access_read_user_flash(void);
 void flash_access_read_sector(void *p_data, flash_info_sub_block_t sub_block);
-void flash_access_write_sector(void *p_data, flash_info_sub_block_t sub_block);
+void flash_access_write_sector(uint64_t *p_data, flash_info_sub_block_t sub_block);
 
 #endif
