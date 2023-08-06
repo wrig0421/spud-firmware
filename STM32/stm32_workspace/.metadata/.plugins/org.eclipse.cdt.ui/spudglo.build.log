@@ -1,37 +1,10 @@
-18:14:00 **** Incremental Build of configuration Debug for project spudglo ****
+20:48:13 **** Incremental Build of configuration Debug for project spudglo ****
 make -j7 all 
-arm-none-eabi-gcc "../src/flash/flash_info.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L431xx -c -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/animate_led" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task" -I../sdk/FreeRTOS/Source/CMSIS_RTOS_V2 -I../src/stm32_bloat -I../sdk/CMSIS/Device/ST/STM32L4xx/Include -I../src/bsp -I../startup -I../src -I../sdk/STM32l4xx_HAL_Driver/Inc -I../sdk/STM32l4xx_HAL_Driver/Inc/Legacy -I../sdk/FreeRTOS/Source -I../sdk/FreeRTOS/Source/include -I../sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../src/bsp/board_specific -I../src/bsp/board_specific/board_init_spud_glo_v3 -I../src/bsp/board_specific/board_init_spud_glo_v4 -I../sdk/CMSIS/Include -I../src/bsp/stm32_bloat -I../src/flash -I../src/task -I../src/util -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/semaphore" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/current_monitor" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/queue" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/ws2812b_driver" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/color_led" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/pkt" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"src/flash/flash_info.d" -MT"src/flash/flash_info.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "src/flash/flash_info.o"
-../src/flash/flash_info.c: In function 'flash_info_block_init':
-../src/flash/flash_info.c:408:5: warning: implicit declaration of function 'flash_access_write_sector' [-Wimplicit-function-declaration]
-  408 |     flash_access_write_sector(FLASH_INFO_SUB_BLOCK_CONFIG);
-      |     ^~~~~~~~~~~~~~~~~~~~~~~~~
-../src/flash/flash_info.c: In function 'flash_info_read_data':
-../src/flash/flash_info.c:415:5: warning: implicit declaration of function 'flash_access_read_flash'; did you mean 'flash_access_read_sub_block'? [-Wimplicit-function-declaration]
-  415 |     flash_access_read_flash(p_data, flash_address, num_bytes);
-      |     ^~~~~~~~~~~~~~~~~~~~~~~
-      |     flash_access_read_sub_block
-../src/flash/flash_info.c: In function 'flash_info_write_data':
-../src/flash/flash_info.c:556:9: warning: implicit declaration of function 'flash_access_write_to_flash' [-Wimplicit-function-declaration]
-  556 |         flash_access_write_to_flash((void *)p_data, (void *)flash_address, num_bytes);
-      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-../src/flash/flash_info.c:556:53: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-  556 |         flash_access_write_to_flash((void *)p_data, (void *)flash_address, num_bytes);
-      |                                                     ^
-../src/flash/flash_info.c: In function 'flash_info_firmware_version':
-../src/flash/flash_info.c:624:29: warning: unused variable 'version_date_time' [-Wunused-variable]
-  624 |     version_date_and_time_t version_date_time = \
-      |                             ^~~~~~~~~~~~~~~~~
-arm-none-eabi-gcc -o "spudglo.elf" @"objects.list"   -mcpu=cortex-m4 -T"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/spudglo/STM32L431RCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="spudglo.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: spudglo.elf
- 
 arm-none-eabi-size   spudglo.elf 
-arm-none-eabi-objdump -h -S  spudglo.elf  > "spudglo.list"
    text	   data	    bss	    dec	    hex	filename
-  50488	    560	  15424	  66472	  103a8	spudglo.elf
+  51336	    564	  15444	  67344	  10710	spudglo.elf
 Finished building: default.size.stdout
  
-Finished building: spudglo.list
- 
 
-18:14:01 Build Finished. 0 errors, 5 warnings. (took 1s.352ms)
+20:48:14 Build Finished. 0 errors, 0 warnings. (took 842ms)
 

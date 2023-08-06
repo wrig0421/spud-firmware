@@ -4,17 +4,17 @@
 #include <stdint.h>
 #include "animate_led.h"
 
-
 #define FLASH_INFO_SIZE_BYTES                       (512 * 4)
 #define FLASH_USER_SPACE_PAGE_START                 250
 #define FLASH_USER_SPACE_NUM_PAGES                  1
-#define FLASH_MAX_PAGE_NUMBER                       ((256 * 2048 / FLASH_PAGE_SIZE)) - 1
+#define FLASH_MAX_PAGE_NUMBER                       ((128 * 2048 / FLASH_PAGE_SIZE)) - 1
 #define FLASH_MIN_PAGE_NUMBER                       0
 
 #define FLASH_USER_SPACE_START_ADDRESS              ((uint64_t)250 * 2048)
+
 #define FLASH_START_ADDRESS                         ((uint64_t)0x08000000)
 
-#define FLASH_SUB_BLOCK_CONFIG_ADDRESS_OFFSET       ((uint64_t)250 * 2048)
+#define FLASH_SUB_BLOCK_CONFIG_ADDRESS_OFFSET       ((uint64_t)(FLASH_MAX_PAGE_NUMBER - 3) * 2048)
 //#define FLASH_SUB_BLOCK_STATUS_ADDRESS_OFFSET   ((uint64_t)251 * 2048)
 //#define FLASH_SUB_BLOCK_IMAGE_ADDRESS_OFFSET    ((uint64_t)252 * 2048)
 

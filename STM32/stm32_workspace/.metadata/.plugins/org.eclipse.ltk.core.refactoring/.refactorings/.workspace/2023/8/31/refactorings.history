@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Delete resource &apos;stm32l431_sandbox&apos;" deleteContents="false" description="Delete resource &apos;stm32l431_sandbox&apos;" element1="/stm32l431_sandbox" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1691277629487"/>
+</session>

@@ -405,7 +405,7 @@ void flash_info_block_init(void)
     // strip 3 speed setup.  No speed enabled.
     memset(&g_flash_info_block.flash_info_data.strip_info.strip_3_brightness, 0, sizeof(flash_info_speed_select_t));
 
-    flash_access_write_sector(FLASH_INFO_SUB_BLOCK_CONFIG);
+    flash_access_write_sector(g_flash_info_block.flash_info_data, FLASH_INFO_SUB_BLOCK_CONFIG);
 }
 
 
@@ -609,10 +609,14 @@ void flash_info_write_sector_data(void *p_data, uint16_t address)
 uint32_t temp = 0;
 void flash_info_init(void)
 {
+    uint32_t uid_0 = HAL_GetUIDw0();
+    uint32_t uid_1 = HAL_GetUIDw1();
+    uint32_t uid_2 = HAL_GetUIDw2();
+    flash_access_read_sector(&g_flash_info_block.flat_data_uint8, FLASH_INFO_SUB_BLOCK_CONFIG);
     // check if UUID is set in flash block.  If not then init RAM struct and store to FLASH.
-    if ((HAL_GetUIDw0() != g_flash_info_block.flash_info_data.uuid.data[0]) &&\
-                    (HAL_GetUIDw1() != g_flash_info_block.flash_info_data.uuid.data[1]) &&
-                    (HAL_GetUIDw2() != g_flash_info_block.flash_info_data.uuid.data[2]))
+    if ((uid_0!= g_flash_info_block.flash_info_data.uuid.data[0]) &&\
+                    (uid_1 != g_flash_info_block.flash_info_data.uuid.data[1]) &&
+                    (uid_2 != g_flash_info_block.flash_info_data.uuid.data[2]))
     {
         flash_info_block_init();
     }
