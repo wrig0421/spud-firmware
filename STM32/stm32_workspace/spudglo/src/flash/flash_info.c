@@ -63,8 +63,6 @@ typedef struct
     uint32_t                    uuid0;
     uint32_t                    uuid1;
     uint32_t                    uuid2;
-    uint32_t                    dummy;
-    uint32_t                    big_buf[10];
 } flash_info_data_t;
 
 typedef union
@@ -562,55 +560,6 @@ void flash_info_write_data(void *p_data, uint16_t address, uint16_t num_bytes)
 }
 
 
-void flash_info_read_sector_data(void *p_data, flash_info_sub_block_t sub_block)
-{
-
-//    switch (address)
-//    {
-//        case offsetof(flash_info_data_t)
-////        case offsetof(flash_info_block_t, flash_info_data.strip_info.num_strips):
-////            memcpy(p_data, &g_flash_info_block.flash_info_data.strip_info.num_strips, sizeof(num_strips_t));
-////        break;
-//        case offsetof(flash_info_block_t, flash_info_data.uuid):
-//            memcpy(p_data, &g_flash_info_block.flash_info_data.uuid, sizeof(uint96_t));
-//        break;
-//
-//        default:
-//        break;
-//    }
-}
-
-
-void flash_info_write_sector_data(void *p_data, uint16_t address)
-{
-    bool write_to_flash = false;
-    switch (address)
-    {
-//        case offsetof(flash_info_block_t, flash_info_data.strip_info.num_strips):
-//            if (0 != memcmp(&g_flash_info_block.flash_info_data.strip_info.num_strips, p_data, sizeof(num_strips_t)))
-//            {
-//                write_to_flash = true;
-//                memcpy(&g_flash_info_block.flash_info_data.strip_info.num_strips, p_data, sizeof(num_strips_t));
-//            }
-//        break;
-//        case offsetof(flash_info_block_t, flash_info_block.flash_info_data.uuid):
-//            if (0 != memcmp(&g_flash_info_block.flash_info_data.uuid, p_data, sizeof(uint96_t)))
-//            {
-//                write_to_flash = true;
-//                memcpy(&g_flash_info_block.flash_info_data.uuid, p_data, sizeof(uint96_t));
-//            }
-//        break;
-//        default:
-//        break;
-    }
-    if (write_to_flash)
-    {
-        // todo
-    }
-}
-
-
-uint32_t temp = 0;
 void flash_info_init(void)
 {
     uint32_t uid_0 = HAL_GetUIDw0();

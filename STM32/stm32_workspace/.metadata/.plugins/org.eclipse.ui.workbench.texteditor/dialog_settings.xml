@@ -1,29 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="    osDelay(10);"/>
+		<item key="selection" value="uuid"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="false"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
-			<item value="    osDelay(10);"/>
-			<item value="    while (1)"/>
-			<item value="USART1 Alternate "/>
-			<item value="//    if(HAL_UART_DeInit(&amp;gh_host_usart) != HAL_OK)"/>
-			<item value="    GPIO_InitStruct.Pin = PIN_DISP_BACKLIGHT|PIN_DISP_DC|PIN_DISP_RST;"/>
-			<item value="uart"/>
-			<item value="//    RCC_OscInitTypeDef RCC_OscInitStruct = {0};"/>
-			<item value="        if(HAL_UART_Receive(&amp;gh_host_usart, rx_buffer, 4, 10000) != HAL_OK)"/>
+			<item value="uuid"/>
+			<item value="    for (uint16_t iii = 0; iii &lt; num_words; iii++)"/>
+			<item value="FLASH_Program_Fast"/>
+			<item value="HAL_FLASH_Unlock"/>
+			<item value="        case FLASH_INFO_SUB_BLOCK_STATUS:"/>
+			<item value="        case offsetof(flash_info_block_t, flash_info_data.strip_info.num_strips):"/>
+			<item value="    //COLORS_BLACK = 0,"/>
+			<item value="g_flash_info_block.flash_info_data.strip_info.strip_one_active_animation_mask"/>
 		</list>
 		<list key="replacehistory">
+			<item value="strip_animation_mask"/>
 			<item value="            if (task_button_press_interrupt_occurred()) if (task_button_press_check_interrupts(&amp;red, &amp;green, &amp;blue)) return;&#x0A;"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
-		<item key="DIALOG_X_ORIGIN" value="1450"/>
-		<item key="DIALOG_Y_ORIGIN" value="671"/>
+		<item key="DIALOG_X_ORIGIN" value="283"/>
+		<item key="DIALOG_Y_ORIGIN" value="509"/>
 		<item key="DIALOG_WIDTH" value="336"/>
 		<item key="DIALOG_HEIGHT" value="408"/>
 		<item key="DIALOG_FONT_NAME" value="1|.AppleSystemUIFont|11.0|0|COCOA|1|.AppleSystemUIFont"/>

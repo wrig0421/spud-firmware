@@ -1,68 +1,9 @@
-22:21:49 **** Incremental Build of configuration Debug for project spudglo ****
+17:59:14 **** Incremental Build of configuration Debug for project spudglo ****
 make -j7 all 
-arm-none-eabi-gcc "../src/flash/flash_access.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L431xx -c -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/animate_led" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task" -I../sdk/FreeRTOS/Source/CMSIS_RTOS_V2 -I../src/stm32_bloat -I../sdk/CMSIS/Device/ST/STM32L4xx/Include -I../src/bsp -I../startup -I../src -I../sdk/STM32l4xx_HAL_Driver/Inc -I../sdk/STM32l4xx_HAL_Driver/Inc/Legacy -I../sdk/FreeRTOS/Source -I../sdk/FreeRTOS/Source/include -I../sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../src/bsp/board_specific -I../src/bsp/board_specific/board_init_spud_glo_v3 -I../src/bsp/board_specific/board_init_spud_glo_v4 -I../sdk/CMSIS/Include -I../src/bsp/stm32_bloat -I../src/flash -I../src/task -I../src/util -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/semaphore" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/current_monitor" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/queue" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/ws2812b_driver" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/color_led" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/pkt" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"src/flash/flash_access.d" -MT"src/flash/flash_access.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "src/flash/flash_access.o"
 arm-none-eabi-gcc "../src/flash/flash_info.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L431xx -c -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/animate_led" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task" -I../sdk/FreeRTOS/Source/CMSIS_RTOS_V2 -I../src/stm32_bloat -I../sdk/CMSIS/Device/ST/STM32L4xx/Include -I../src/bsp -I../startup -I../src -I../sdk/STM32l4xx_HAL_Driver/Inc -I../sdk/STM32l4xx_HAL_Driver/Inc/Legacy -I../sdk/FreeRTOS/Source -I../sdk/FreeRTOS/Source/include -I../sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../src/bsp/board_specific -I../src/bsp/board_specific/board_init_spud_glo_v3 -I../src/bsp/board_specific/board_init_spud_glo_v4 -I../sdk/CMSIS/Include -I../src/bsp/stm32_bloat -I../src/flash -I../src/task -I../src/util -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/semaphore" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/current_monitor" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/queue" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/ws2812b_driver" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/color_led" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/pkt" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"src/flash/flash_info.d" -MT"src/flash/flash_info.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "src/flash/flash_info.o"
-arm-none-eabi-gcc "../src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L431xx -c -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/animate_led" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task" -I../sdk/FreeRTOS/Source/CMSIS_RTOS_V2 -I../src/stm32_bloat -I../sdk/CMSIS/Device/ST/STM32L4xx/Include -I../src/bsp -I../startup -I../src -I../sdk/STM32l4xx_HAL_Driver/Inc -I../sdk/STM32l4xx_HAL_Driver/Inc/Legacy -I../sdk/FreeRTOS/Source -I../sdk/FreeRTOS/Source/include -I../sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../src/bsp/board_specific -I../src/bsp/board_specific/board_init_spud_glo_v3 -I../src/bsp/board_specific/board_init_spud_glo_v4 -I../sdk/CMSIS/Include -I../src/bsp/stm32_bloat -I../src/flash -I../src/task -I../src/util -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/semaphore" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/current_monitor" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/queue" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/ws2812b_driver" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/color_led" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/pkt" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"src/main.d" -MT"src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "src/main.o"
-arm-none-eabi-gcc "/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_pkt_process.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L431xx -c -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/animate_led" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task" -I../sdk/FreeRTOS/Source/CMSIS_RTOS_V2 -I../src/stm32_bloat -I../sdk/CMSIS/Device/ST/STM32L4xx/Include -I../src/bsp -I../startup -I../src -I../sdk/STM32l4xx_HAL_Driver/Inc -I../sdk/STM32l4xx_HAL_Driver/Inc/Legacy -I../sdk/FreeRTOS/Source -I../sdk/FreeRTOS/Source/include -I../sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../src/bsp/board_specific -I../src/bsp/board_specific/board_init_spud_glo_v3 -I../src/bsp/board_specific/board_init_spud_glo_v4 -I../sdk/CMSIS/Include -I../src/bsp/stm32_bloat -I../src/flash -I../src/task -I../src/util -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/semaphore" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/current_monitor" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/queue" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/ws2812b_driver" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/color_led" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/pkt" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"common/lib/task/task_pkt_process.d" -MT"common/lib/task/task_pkt_process.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "common/lib/task/task_pkt_process.o"
-arm-none-eabi-gcc "/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_uart.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L431xx -c -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/animate_led" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task" -I../sdk/FreeRTOS/Source/CMSIS_RTOS_V2 -I../src/stm32_bloat -I../sdk/CMSIS/Device/ST/STM32L4xx/Include -I../src/bsp -I../startup -I../src -I../sdk/STM32l4xx_HAL_Driver/Inc -I../sdk/STM32l4xx_HAL_Driver/Inc/Legacy -I../sdk/FreeRTOS/Source -I../sdk/FreeRTOS/Source/include -I../sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../src/bsp/board_specific -I../src/bsp/board_specific/board_init_spud_glo_v3 -I../src/bsp/board_specific/board_init_spud_glo_v4 -I../sdk/CMSIS/Include -I../src/bsp/stm32_bloat -I../src/flash -I../src/task -I../src/util -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/semaphore" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/current_monitor" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/queue" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/ws2812b_driver" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/color_led" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/pkt" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"common/lib/task/task_uart.d" -MT"common/lib/task/task_uart.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "common/lib/task/task_uart.o"
-arm-none-eabi-gcc "/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/pkt/pkt.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L431xx -c -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/animate_led" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task" -I../sdk/FreeRTOS/Source/CMSIS_RTOS_V2 -I../src/stm32_bloat -I../sdk/CMSIS/Device/ST/STM32L4xx/Include -I../src/bsp -I../startup -I../src -I../sdk/STM32l4xx_HAL_Driver/Inc -I../sdk/STM32l4xx_HAL_Driver/Inc/Legacy -I../sdk/FreeRTOS/Source -I../sdk/FreeRTOS/Source/include -I../sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../src/bsp/board_specific -I../src/bsp/board_specific/board_init_spud_glo_v3 -I../src/bsp/board_specific/board_init_spud_glo_v4 -I../sdk/CMSIS/Include -I../src/bsp/stm32_bloat -I../src/flash -I../src/task -I../src/util -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/semaphore" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/current_monitor" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/queue" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/ws2812b_driver" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/color_led" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/pkt" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"common/lib/pkt/pkt.d" -MT"common/lib/pkt/pkt.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "common/lib/pkt/pkt.o"
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_uart.c: In function 'task_uart_rx':
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_uart.c:12:13: warning: unused variable 'p_pkt' [-Wunused-variable]
-   12 |     p_pkt_t p_pkt;
-      |             ^~~~~
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_uart.c: In function 'task_uart_tx':
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_uart.c:24:13: warning: variable 'p_pkt' set but not used [-Wunused-but-set-variable]
-   24 |     p_pkt_t p_pkt;
-      |             ^~~~~
-../src/flash/flash_access.c: In function 'flash_access_write_to_flash':
-../src/flash/flash_access.c:58:72: warning: passing argument 3 of 'HAL_FLASH_Program' makes integer from pointer without a cast [-Wint-conversion]
-   58 |         HAL_FLASH_Program(FLASH_TYPEPROGRAM_DOUBLEWORD, address + iii, p_data);
-      |                                                                        ^~~~~~
-      |                                                                        |
-      |                                                                        uint64_t * {aka long long unsigned int *}
-In file included from ../src/bsp/stm32_bloat/stm32l4xx_hal_conf.h:325,
-                 from ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h:29,
-                 from ../src/main.h:31,
-                 from ../src/flash/flash_access.c:6:
-../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_flash.h:783:86: note: expected 'uint64_t' {aka 'long long unsigned int'} but argument is of type 'uint64_t *' {aka 'long long unsigned int *'}
-  783 | HAL_StatusTypeDef HAL_FLASH_Program(uint32_t TypeProgram, uint32_t Address, uint64_t Data);
-      |                                                                             ~~~~~~~~~^~~~
-../src/flash/flash_access.c: In function 'flash_access_read_sector':
-../src/flash/flash_access.c:66:14: warning: unused variable 'num_words' [-Wunused-variable]
-   66 |     uint32_t num_words = FLASH_INFO_SUB_BLOCK_SECTOR_SIZE_BYTES / sizeof(uint32_t);
-      |              ^~~~~~~~~
-../src/flash/flash_access.c: In function 'flash_access_write_sector':
-../src/flash/flash_access.c:95:9: warning: unused variable 'sofar' [-Wunused-variable]
-   95 |     int sofar=0;
-      |         ^~~~~
-../src/flash/flash_access.c: In function 'flash_access_write_user_flash':
-../src/flash/flash_access.c:141:107: warning: passing argument 3 of 'HAL_FLASH_Program' makes integer from pointer without a cast [-Wint-conversion]
-  141 |     HAL_FLASH_Program(FLASH_TYPEPROGRAM_DOUBLEWORD, FLASH_START_ADDRESS + FLASH_USER_SPACE_START_ADDRESS, &g_count);
-      |                                                                                                           ^~~~~~~~
-      |                                                                                                           |
-      |                                                                                                           uint64_t * {aka long long unsigned int *}
-In file included from ../src/bsp/stm32_bloat/stm32l4xx_hal_conf.h:325,
-                 from ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h:29,
-                 from ../src/main.h:31,
-                 from ../src/flash/flash_access.c:6:
-../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_flash.h:783:86: note: expected 'uint64_t' {aka 'long long unsigned int'} but argument is of type 'uint64_t *' {aka 'long long unsigned int *'}
-  783 | HAL_StatusTypeDef HAL_FLASH_Program(uint32_t TypeProgram, uint32_t Address, uint64_t Data);
-      |                                                                             ~~~~~~~~~^~~~
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/pkt/pkt.c: In function 'pkt_dequeue_from_rx':
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/pkt/pkt.c:124:17: warning: 'pkt' is used uninitialized in this function [-Wuninitialized]
-  124 |     if (osOK != osMessageQueueGet(gp_rx_queue, pkt, NULL, osWaitForever)) while(1);  // queue full?
-      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/pkt/pkt.c: In function 'pkt_dequeue_from_tx':
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/pkt/pkt.c:138:17: warning: 'pkt' is used uninitialized in this function [-Wuninitialized]
-  138 |     if (osOK != osMessageQueueGet(gp_rx_queue, pkt, NULL, osWaitForever)) while(1);  // queue full?
-      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/pkt/pkt.c: In function 'pkt_dequeue_from_process':
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/pkt/pkt.c:152:17: warning: 'pkt' is used uninitialized in this function [-Wuninitialized]
-  152 |     if (osOK != osMessageQueueGet(gp_process_queue, pkt, NULL, osWaitForever)) while(1);  // queue full?
-      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ../src/flash/flash_info.c: In function 'flash_info_read_data':
-../src/flash/flash_info.c:419:37: warning: passing argument 2 of 'flash_access_read_flash' makes pointer from integer without a cast [-Wint-conversion]
-  419 |     flash_access_read_flash(p_data, flash_address, num_bytes);
+../src/flash/flash_info.c:417:37: warning: passing argument 2 of 'flash_access_read_flash' makes pointer from integer without a cast [-Wint-conversion]
+  417 |     flash_access_read_flash(p_data, flash_address, num_bytes);
       |                                     ^~~~~~~~~~~~~
       |                                     |
       |                                     uint64_t {aka long long unsigned int}
@@ -71,11 +12,11 @@ In file included from ../src/flash/flash_info.c:9:
    11 | void flash_access_read_flash(void *p_data, void *address, uint16_t num_bytes);
       |                                            ~~~~~~^~~~~~~
 ../src/flash/flash_info.c: In function 'flash_info_write_data':
-../src/flash/flash_info.c:560:53: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-  560 |         flash_access_write_to_flash((void *)p_data, (void *)flash_address, num_bytes);
+../src/flash/flash_info.c:558:53: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+  558 |         flash_access_write_to_flash((void *)p_data, (void *)flash_address, num_bytes);
       |                                                     ^
-../src/flash/flash_info.c:560:53: warning: passing argument 2 of 'flash_access_write_to_flash' makes integer from pointer without a cast [-Wint-conversion]
-  560 |         flash_access_write_to_flash((void *)p_data, (void *)flash_address, num_bytes);
+../src/flash/flash_info.c:558:53: warning: passing argument 2 of 'flash_access_write_to_flash' makes integer from pointer without a cast [-Wint-conversion]
+  558 |         flash_access_write_to_flash((void *)p_data, (void *)flash_address, num_bytes);
       |                                                     ^~~~~~~~~~~~~~~~~~~~~
       |                                                     |
       |                                                     void *
@@ -84,8 +25,8 @@ In file included from ../src/flash/flash_info.c:9:
    12 | void flash_access_write_to_flash(uint64_t *p_data, uint64_t address, uint16_t num_bytes);
       |                                                    ~~~~~~~~~^~~~~~~
 ../src/flash/flash_info.c: In function 'flash_info_firmware_version':
-../src/flash/flash_info.c:632:29: warning: unused variable 'version_date_time' [-Wunused-variable]
-  632 |     version_date_and_time_t version_date_time = \
+../src/flash/flash_info.c:581:29: warning: unused variable 'version_date_time' [-Wunused-variable]
+  581 |     version_date_and_time_t version_date_time = \
       |                             ^~~~~~~~~~~~~~~~~
 arm-none-eabi-gcc -o "spudglo.elf" @"objects.list"   -mcpu=cortex-m4 -T"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/spudglo/STM32L431RCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="spudglo.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 Finished building target: spudglo.elf
@@ -93,11 +34,11 @@ Finished building target: spudglo.elf
 arm-none-eabi-size   spudglo.elf 
 arm-none-eabi-objdump -h -S  spudglo.elf  > "spudglo.list"
    text	   data	    bss	    dec	    hex	filename
-  51296	    564	  15444	  67304	  106e8	spudglo.elf
+  51256	    560	  15440	  67256	  106b8	spudglo.elf
 Finished building: default.size.stdout
  
 Finished building: spudglo.list
  
 
-22:21:51 Build Finished. 0 errors, 13 warnings. (took 2s.52ms)
+17:59:15 Build Finished. 0 errors, 4 warnings. (took 1s.149ms)
 

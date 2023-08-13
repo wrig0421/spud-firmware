@@ -9,6 +9,7 @@
 		<item key="SmartImportRootWizardPage.STORE_NESTED_PROJECTS" value="true"/>
 		<item key="SmartImportRootWizardPage.STORE_CONFIGURE_NATURES" value="true"/>
 		<list key="org.eclipse.ui.internal.wizards.datatransfer.SmartImportRootWizardPage.knownSources">
+			<item value="/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/stm32l431_sandbox"/>
 			<item value="/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/tester"/>
 			<item value="/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/mn_wild"/>
 		</list>
