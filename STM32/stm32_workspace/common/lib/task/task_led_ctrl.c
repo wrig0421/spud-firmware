@@ -104,8 +104,8 @@ void task_led_ctrl_strip_one(void *argument)
     {
         while(task_button_press_major_state_change()) osDelay(100);
 
-        if (flash_info_animation_enabled(g_led_state))
-        {
+        //if (flash_info_animation_enabled(g_led_state))
+        //{
             switch(g_led_state)
             {
                 case LED_STATE_WHITE_COLOR:
@@ -158,7 +158,7 @@ void task_led_ctrl_strip_one(void *argument)
                 default:
                 break;
             }
-        }
+        //}
     }
 }
 

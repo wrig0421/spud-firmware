@@ -22,7 +22,7 @@
 //#define BOARD_MN_WILD_SOUND
 
 // define the number of strips
-#define STRIP_1_LENGTH      142// LUCA SIGN = 210 /// FLYNN FARM SIGN = 166!!, RESS = 102, luca 91
+#define STRIP_1_LENGTH      240//SPUDS PUB = 142 // LUCA SIGN = 210 /// FLYNN FARM SIGN = 166!!, RESS = 102, luca 91
 //#define STRIP_2_LENGTH      215
 //#define STRIP_3_LENGTH      200
 

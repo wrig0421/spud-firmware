@@ -9,6 +9,7 @@
 #include "animate_led.h"
 #include "flash_info.h"
 
+
 int main(void)
 {
     board_init_common_board_init();
