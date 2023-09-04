@@ -76,6 +76,7 @@ typedef enum
     //LED_STATE_FIRE,
     //LED_STATE_BOUNCING_BALLS,
     //LED_STATE_BOUNCING_BALLS_RANDOM,
+    LED_STATE_LAST_ENTRY = UINT16_MAX - 1
 } led_state_e;
 
 

@@ -9,6 +9,7 @@
 #include "task_button_press.h"
 #include "current_monitor.h"
 #include "task_led_ctrl.h"
+#include "flash_info.h"
 
 extern UART_HandleTypeDef      gh_host_usart;
 
@@ -81,8 +82,16 @@ static void task_led_ctrl_adjust_parameters(const task_led_ctrl_loop_iterations_
 }
 
 
+void task_led_init(void)
+{
+    g_led_state = flash_info_read_led_start_animation();
+    g_led_color = flash_info_read_led_start_color();
+}
+
+
 void task_led_ctrl_strip_one(void *argument)
 {
+    task_led_init();
 //    osDelay(10);
 //    board_init_specific_green_led_off();
 //    board_init_specific_red_led_off();

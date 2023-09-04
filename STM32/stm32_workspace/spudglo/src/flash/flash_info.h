@@ -3,6 +3,7 @@
 #define FLASH_INFO_H
 #include <stdint.h>
 #include "animate_led.h"
+#include "color_led.h"
 
 #define FLASH_INFO_SIZE_BYTES                       (512 * 4)
 #define FLASH_USER_SPACE_PAGE_START                 250
@@ -151,5 +152,7 @@ void flash_access_read_sub_block(flash_info_sub_block_t sub_block, uint32_t* sub
 bool flash_info_animation_enabled(strip_num_e strip_num,
                                   led_state_e animation);
 void flash_info_init(void);
+all_colors_e flash_info_read_led_start_color(void);
+led_state_e flash_info_read_led_start_animation(void);
 
 #endif

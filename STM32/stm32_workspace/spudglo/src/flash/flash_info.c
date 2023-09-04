@@ -2,6 +2,7 @@
 #include <stdbool.h>
 #include <time.h>
 #include <stdint.h>
+#include <stdlib.h>
 #include "stm32l4xx_hal.h"
 #include "version.h"
 #include "animate_led.h"
@@ -49,6 +50,11 @@ typedef struct
     flash_info_speed_select_t       strip_1_speed;          // 0x001D
     flash_info_speed_select_t       strip_2_speed;          // 0x001E
     flash_info_speed_select_t       strip_3_speed;          // 0x001F
+
+    uint16_t                        rand_seed;
+    all_colors_e                    strip_start_color;
+    led_state_e                     strip_start_animation;
+    uint16_t                        rsvd;
 
     // future additions go here
 } flash_info_strip_info_t;
@@ -407,6 +413,8 @@ void flash_info_block_init(void)
     // strip 3 speed setup.  No speed enabled.
     memset(&g_flash_info_block.flash_info_data.strip_info.strip_3_brightness, 0, sizeof(flash_info_speed_select_t));
 
+    g_flash_info_block.flash_info_data.strip_info.rand_seed = 0;
+
     flash_access_write_sector(g_flash_info_block.flat_data_uint64, FLASH_INFO_SUB_BLOCK_CONFIG);
 }
 
@@ -549,6 +557,13 @@ void flash_info_write_data(void *p_data, uint16_t address, uint16_t num_bytes)
                 write_to_flash = true;
             }
         break;
+        case offsetof(flash_info_block_t, flash_info_data.strip_info.rand_seed):
+            if (!memcmp((uint8_t *)p_data, (uint8_t *) &g_flash_info_block.flash_info_data.strip_info.rand_seed, \
+                            num_bytes))
+            {
+                write_to_flash = true;
+            }
+        break;
         default:
             while(1); // error.  Hang for breakpoint
         break;
@@ -560,19 +575,47 @@ void flash_info_write_data(void *p_data, uint16_t address, uint16_t num_bytes)
 }
 
 
+static void flash_info_rand_seed_increment(void)
+{
+    g_flash_info_block.flash_info_data.strip_info.rand_seed += 1;
+    flash_access_write_sector(g_flash_info_block.flat_data_uint64, FLASH_INFO_SUB_BLOCK_CONFIG);
+}
+
+
 void flash_info_init(void)
 {
+    uint32_t rand_color = 0;
+    uint32_t rand_animation = 0;
     uint32_t uid_0 = HAL_GetUIDw0();
     uint32_t uid_1 = HAL_GetUIDw1();
     uint32_t uid_2 = HAL_GetUIDw2();
     flash_access_read_sector(&g_flash_info_block.flat_data_uint8, FLASH_INFO_SUB_BLOCK_CONFIG);
     // check if UUID is set in flash block.  If not then init RAM struct and store to FLASH.
-    if ((uid_0 != g_flash_info_block.flash_info_data.uuid0) &&\
-                    (uid_1 != g_flash_info_block.flash_info_data.uuid1) &&
+    if ((uid_0 != g_flash_info_block.flash_info_data.uuid0) && \
+                    (uid_1 != g_flash_info_block.flash_info_data.uuid1) && \
                     (uid_2 != g_flash_info_block.flash_info_data.uuid2))
     {
         flash_info_block_init();
     }
+    flash_info_rand_seed_increment();
+    srand(g_flash_info_block.flash_info_data.strip_info.rand_seed);
+    rand_color = (uint32_t)((double)rand() / ((double)RAND_MAX + 1) * (NUM_COLORS - 1));
+    g_flash_info_block.flash_info_data.strip_info.strip_start_color = (all_colors_e)rand_color;
+    if (COLORS_BLACK == g_flash_info_block.flash_info_data.strip_info.strip_start_color) g_flash_info_block.flash_info_data.strip_info.strip_start_color = COLORS_LIME;
+    rand_animation = (uint32_t)((double)rand() / ((double)RAND_MAX + 1) * (NUM_LED_STATES - 1));
+    g_flash_info_block.flash_info_data.strip_info.strip_start_animation = rand_animation;
+}
+
+
+all_colors_e flash_info_read_led_start_color(void)
+{
+    return g_flash_info_block.flash_info_data.strip_info.strip_start_color;
+}
+
+
+led_state_e flash_info_read_led_start_animation(void)
+{
+    return g_flash_info_block.flash_info_data.strip_info.strip_start_animation;
 }
 
 
