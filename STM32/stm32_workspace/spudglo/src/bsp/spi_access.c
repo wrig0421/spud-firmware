@@ -26,7 +26,7 @@ SPI_HandleTypeDef       gh_disp_spi =
 
 void spi_access_setup(void)
 {
-    RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
+    //RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
     GPIO_InitTypeDef  GPIO_InitStruct;
 
     GPIO_InitStruct.Pin         = PIN_SPI1_SCK | PIN_SPI1_CIPO | PIN_SPI1_COPI;

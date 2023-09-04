@@ -1,7 +1,7 @@
 // SRW
 
-#if !defined(BOARD_INIT_COMMON_H)
-#define BOARD_INIT_COMMON_H
+#if !defined(UART_ACCESS_H)
+#define UART_ACCESS_H
 
 #include <stdint.h>
 #include <stdbool.h>

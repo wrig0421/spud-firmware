@@ -52,7 +52,6 @@ led_speed_e             g_led_speed = LED_SPEED_1X;
 led_brightness_e        g_led_brightness = LED_BRIGHTNESS_100_PERCENT;
 
 master_color_state_e    g_master_color_state = MASTER_COLOR_STATE_DEMO;
-all_colors_e            g_led_color = COLORS_MINT;
 //extern color_hex_code_e *g_color_hex_codes;
 extern bool             g_animate_led_pause_flag;
 extern bool             g_animate_led_interrupt;
@@ -75,6 +74,7 @@ static void task_led_ctrl_adjust_parameters(const task_led_ctrl_loop_iterations_
         {
             g_led_state = (led_state_e) (g_led_state + 1);
             if (NUM_LED_STATES == g_led_state) g_led_state = LED_STATE_FIRST;
+            flash_info_write_led_animation_current(g_led_state);
             g_animation_iterations = 0;
         }
     }
@@ -82,16 +82,8 @@ static void task_led_ctrl_adjust_parameters(const task_led_ctrl_loop_iterations_
 }
 
 
-void task_led_init(void)
-{
-    g_led_state = flash_info_read_led_start_animation();
-    g_led_color = flash_info_read_led_start_color();
-}
-
-
 void task_led_ctrl_strip_one(void *argument)
 {
-    task_led_init();
 //    osDelay(10);
 //    board_init_specific_green_led_off();
 //    board_init_specific_red_led_off();
@@ -115,7 +107,7 @@ void task_led_ctrl_strip_one(void *argument)
 
         //if (flash_info_animation_enabled(g_led_state))
         //{
-            switch(g_led_state)
+            switch(flash_info_read_led_animation_current())
             {
                 case LED_STATE_WHITE_COLOR:
                     animate_led_solid_custom_color((uint16_t)STRIP_BIT_1, COLOR_HEX_WHITE);
@@ -234,56 +226,56 @@ void task_led_ctrl_color_state_demo(void)
 void task_led_ctrl_color_state_fixed(void)
 {
     g_master_color_state = MASTER_COLOR_STATE_FIXED;
-    g_led_color = COLORS_FIRST;
+    flash_info_write_led_color_current(COLORS_FIRST);
 }
 
 
 void task_led_ctrl_color_reset(void)
 {
-    g_led_color = COLORS_RED;
+    flash_info_write_led_color_current(COLORS_FIRST);
 }
 
 
 bool task_led_ctrl_color_adjust(void)
 {
     bool return_val = false;
-    if (COLORS_LAST == g_led_color)
+    if (COLORS_LAST == flash_info_read_led_color_current())
     {
-        g_led_color = COLORS_FIRST;
+        flash_info_write_led_color_current(COLORS_FIRST);
         return_val = true;
     }
-    else g_led_color = (all_colors_e) (g_led_color + 1);
+    else flash_info_write_led_color_current((all_colors_e) (flash_info_read_led_color_current + 1));
     return return_val;
 }
 
 
 all_colors_e task_led_ctrl_color(void)
 {
-    return g_led_color;
+    return flash_info_read_led_color_current();
 }
 
 
 color_hex_code_e task_led_ctrl_color_hex(void)
 {
-    return g_color_hex_codes[g_led_color];
+    return g_color_hex_codes[flash_info_read_led_color_current()];
 }
 
 
 uint8_t task_led_ctrl_color_red_hex(void)
 {
-    return (((g_color_hex_codes[g_led_color] & 0xFF0000) >> 16) / current_monitor_ratio());
+    return (((g_color_hex_codes[flash_info_read_led_color_current()] & 0xFF0000) >> 16) / current_monitor_ratio());
 }
 
 
 uint8_t task_led_ctrl_color_green_hex(void)
 {
-    return (((g_color_hex_codes[g_led_color] & 0x00FF00) >> 8) / current_monitor_ratio());
+    return (((g_color_hex_codes[flash_info_read_led_color_current()] & 0x00FF00) >> 8) / current_monitor_ratio());
 }
 
 
 uint8_t task_led_ctrl_color_blue_hex(void)
 {
-    return ((g_color_hex_codes[g_led_color] & 0x0000FF) / current_monitor_ratio());
+    return ((g_color_hex_codes[flash_info_read_led_color_current()] & 0x0000FF) / current_monitor_ratio());
 }
 
 
@@ -296,14 +288,14 @@ color_hex_code_e task_led_ctrl_color_to_hex(const all_colors_e color)
 void task_led_ctrl_color_random(void)
 {
     all_colors_e color = (all_colors_e)(random_num(0, NUM_COLORS));
-    if (g_led_color == color)
+    if (flash_info_read_led_color_current() == color)
     {
-        if ((COLORS_LAST) == color) g_led_color = (all_colors_e)(color - 1);
-        else g_led_color = (all_colors_e)(color + 1);
+        if ((COLORS_LAST) == color) flash_info_write_led_color_current((all_colors_e)(color - 1));
+        else flash_info_write_led_color_current((all_colors_e)(color + 1));
     }
     else
     {
-        g_led_color = color;
+        flash_info_write_led_color_current(color);
     }
 }
 

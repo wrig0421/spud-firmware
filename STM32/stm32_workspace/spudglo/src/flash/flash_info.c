@@ -51,10 +51,11 @@ typedef struct
     flash_info_speed_select_t       strip_2_speed;          // 0x001E
     flash_info_speed_select_t       strip_3_speed;          // 0x001F
 
-    uint16_t                        rand_seed;
-    all_colors_e                    strip_start_color;
-    led_state_e                     strip_start_animation;
-    uint16_t                        rsvd;
+    uint32_t                        rand_seed;
+
+    all_colors_e                    strip_current_color;
+
+    led_state_e                     strip_current_animation;
 
     // future additions go here
 } flash_info_strip_info_t;
@@ -422,7 +423,7 @@ void flash_info_block_init(void)
 void flash_info_read_data(void *p_data, uint16_t address, uint16_t num_bytes)
 {
     uint64_t flash_address = FLASH_START_ADDRESS + FLASH_SUB_BLOCK_CONFIG_ADDRESS_OFFSET + address;
-    flash_access_read_flash(p_data, flash_address, num_bytes);
+    flash_access_read_flash(p_data, (void *)flash_address, num_bytes);
 //    switch (address)
 //    {
 //        case offsetof(flash_info_block_t, flash_info_data.strip_info.strip_config):
@@ -600,22 +601,34 @@ void flash_info_init(void)
     flash_info_rand_seed_increment();
     srand(g_flash_info_block.flash_info_data.strip_info.rand_seed);
     rand_color = (uint32_t)((double)rand() / ((double)RAND_MAX + 1) * (NUM_COLORS - 1));
-    g_flash_info_block.flash_info_data.strip_info.strip_start_color = (all_colors_e)rand_color;
-    if (COLORS_BLACK == g_flash_info_block.flash_info_data.strip_info.strip_start_color) g_flash_info_block.flash_info_data.strip_info.strip_start_color = COLORS_LIME;
+    g_flash_info_block.flash_info_data.strip_info.strip_current_color = (all_colors_e)rand_color;
+    if (COLORS_BLACK == g_flash_info_block.flash_info_data.strip_info.strip_current_color) g_flash_info_block.flash_info_data.strip_info.strip_current_color = COLORS_LIME;
     rand_animation = (uint32_t)((double)rand() / ((double)RAND_MAX + 1) * (NUM_LED_STATES - 1));
-    g_flash_info_block.flash_info_data.strip_info.strip_start_animation = rand_animation;
+    g_flash_info_block.flash_info_data.strip_info.strip_current_animation = rand_animation;
 }
 
 
-all_colors_e flash_info_read_led_start_color(void)
+void flash_info_write_led_color_current(all_colors_e color)
 {
-    return g_flash_info_block.flash_info_data.strip_info.strip_start_color;
+    g_flash_info_block.flash_info_data.strip_info.strip_current_color = color;
 }
 
 
-led_state_e flash_info_read_led_start_animation(void)
+all_colors_e flash_info_read_led_color_current(void)
 {
-    return g_flash_info_block.flash_info_data.strip_info.strip_start_animation;
+    return g_flash_info_block.flash_info_data.strip_info.strip_current_color;
+}
+
+
+void flash_info_write_led_animation_current(led_state_e state)
+{
+    g_flash_info_block.flash_info_data.strip_info.strip_current_animation = state;
+}
+
+
+led_state_e flash_info_read_led_animation_current(void)
+{
+    return g_flash_info_block.flash_info_data.strip_info.strip_current_animation;
 }
 
 

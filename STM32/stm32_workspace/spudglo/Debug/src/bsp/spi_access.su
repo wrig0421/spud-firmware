@@ -1,1 +1,1 @@
-../src/bsp/spi_access.c:27:6:spi_access_setup	128	static
+../src/bsp/spi_access.c:27:6:spi_access_setup	32	static

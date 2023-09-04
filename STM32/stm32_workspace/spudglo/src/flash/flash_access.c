@@ -24,14 +24,13 @@ void flash_access_write_to_flash(uint64_t *p_data, uint64_t address, uint16_t nu
     else if (remainder) num_double_words += 1;
     for (uint16_t iii = 0; iii < num_double_words; iii++)
     {
-        HAL_FLASH_Program(FLASH_TYPEPROGRAM_DOUBLEWORD, address + iii, p_data);
+        HAL_FLASH_Program(FLASH_TYPEPROGRAM_DOUBLEWORD, address + iii, *p_data);
     }
 }
 
 
 void flash_access_read_sector(void *p_data, flash_info_sub_block_t sub_block)
 {
-    uint32_t num_words = FLASH_INFO_SUB_BLOCK_SECTOR_SIZE_BYTES / sizeof(uint32_t);
     uint32_t flash_sub_block_address = 0;
 
     switch (sub_block)

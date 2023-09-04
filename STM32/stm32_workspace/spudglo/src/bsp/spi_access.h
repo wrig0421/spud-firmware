@@ -1,7 +1,7 @@
 // SRW
 
-#if !defined(BOARD_INIT_COMMON_H)
-#define BOARD_INIT_COMMON_H
+#if !defined(SPI_ACCESS_H)
+#define SPI_ACCESS_H
 
 #include <stdint.h>
 #include <stdbool.h>

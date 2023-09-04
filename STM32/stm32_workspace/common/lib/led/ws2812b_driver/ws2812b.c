@@ -581,13 +581,13 @@ void ws2812b_show_strip_one(void)
 
 void ws2812b_show_strip_two(void)
 {
-    ws2812b_fill_pwm_buffer_strip_two();
+    //ws2812b_fill_pwm_buffer_strip_two();
 }
 
 
 void ws2812b_show_strip_three(void)
 {
-    ws2812b_fill_pwm_buffer_strip_three();
+    //ws2812b_fill_pwm_buffer_strip_three();
 }
 
 

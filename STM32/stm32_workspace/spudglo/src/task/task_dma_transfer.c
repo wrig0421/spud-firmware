@@ -37,13 +37,13 @@ void task_dma_transfer(void *argument)
 {
     uint32_t dma_transfer_state = 0;
     //uint32_t count = 0;
-    uint16_t offset = 0;
+    //uint16_t offset = 0;
     uint16_t strip_size = 0;
     while (1)
     {
         xTaskNotifyWait(0, dma_transfer_state, &dma_transfer_state, portMAX_DELAY);
         dma_transfer_state = (task_dma_transfer_state_e)dma_transfer_state;
-        offset = ws2812_get_pwm_strip_offset(STRIP_BIT_1);
+        // = ws2812_get_pwm_strip_offset(STRIP_BIT_1);
         strip_size = ws2812_get_strip_size(STRIP_BIT_1);
         HAL_TIM_PWM_Start_DMA(&g_tim1_handle, TIM_CHANNEL_1, (uint32_t *)gp_pwm_data_fill, (strip_size * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + WS2812B_RESET_TIME_CYCLES);
         g_tim_pwm_transfer_cmplt = false;
