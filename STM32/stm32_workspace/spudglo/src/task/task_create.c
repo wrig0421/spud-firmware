@@ -7,12 +7,14 @@
 #include "animate_led.h"
 #include "task_button_press.h"
 #include "task_dma_transfer.h"
+#include "task_firmware_update.h"
 #include "task_led_ctrl.h"
 #include "task_create.h"
 
 typedef StaticTask_t osStaticThreadDef_t;
 typedef StaticQueue_t osStaticMessageQDef_t;
 
+osThreadId_t g_firmware_update_handle;
 osThreadId_t g_led_strip_1_ctrl_handle;
 osThreadId_t g_led_strip_2_ctrl_handle;
 osThreadId_t g_led_strip_3_ctrl_handle;
@@ -21,6 +23,7 @@ osThreadId_t g_led_ctrl_handle;
 osThreadId_t g_dma_transfer_handle;
 osThreadId_t g_button_press_handle;
 
+uint32_t g_firmware_update_ctrl_stack[512];
 uint32_t g_led_strip_1_ctrl_stack[512];
 uint32_t g_led_strip_2_ctrl_stack[512];
 uint32_t g_led_strip_3_ctrl_stack[512];
@@ -29,6 +32,7 @@ uint32_t g_dma_transfer_stack[512];
 uint32_t g_led_ctrl_stack[512];
 uint32_t g_button_press_stack[512];
 
+osStaticThreadDef_t g_firmware_update_ctrl_control_block;
 osStaticThreadDef_t g_led_strip_1_ctrl_control_block;
 osStaticThreadDef_t g_led_strip_2_ctrl_control_block;
 osStaticThreadDef_t g_led_strip_3_ctrl_control_block;
@@ -46,6 +50,17 @@ const osThreadAttr_t g_task_button_press_attributes =
     .cb_mem = &g_button_press_control_block,
     .cb_size = sizeof(g_button_press_control_block),
     .priority = (osPriority_t) osPriorityHigh,
+};
+
+
+const osThreadAttr_t g_task_firmware_update_ctrl_attributes =
+{
+    .name = "task_firmware_update",
+    .stack_mem = &g_firmware_update_ctrl_stack[0],
+    .stack_size = sizeof(g_firmware_update_ctrl_stack),
+    .cb_mem = &g_firmware_update_ctrl_control_block,
+    .cb_size = sizeof(g_firmware_update_ctrl_control_block),
+    .priority = (osPriority_t) osPriorityNormal,
 };
 
 
@@ -107,8 +122,9 @@ const osThreadAttr_t g_task_dma_transfer_attributes =
 void task_create(void)
 {
     osKernelInitialize();
-	g_button_press_handle = osThreadNew(task_button_press, NULL, &g_task_button_press_attributes);
-    //g_dma_transfer_handle = osThreadNew(task_dma_transfer, NULL, &g_task_dma_transfer_attributes);
+//	g_button_press_handle = osThreadNew(task_button_press, NULL, &g_task_button_press_attributes);
+//  g_dma_transfer_handle = osThreadNew(task_dma_transfer, NULL, &g_task_dma_transfer_attributes);
+    //g_firmware_update_handle = osThreadNew(task_firmware_update, NULL, &g_task_firmware_update_ctrl_attributes);
     g_led_strip_1_ctrl_handle = osThreadNew(task_led_ctrl_strip_one, NULL, &g_task_strip_1_led_ctrl_attributes);
     g_tasks_running = true; // technically will be running after task scheduler started
 }

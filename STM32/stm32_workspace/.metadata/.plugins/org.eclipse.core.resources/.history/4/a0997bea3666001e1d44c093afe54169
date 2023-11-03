@@ -1,0 +1,24 @@
+// SRW
+
+#if !defined(BOARD_COMMON_H)
+#define BOARD_COMMON_H
+
+#define PIN_WKUP_1              PIOA_PIN_0
+#define PIN_WKUP_1_IRQ          EXTI0_IRQn
+
+#define PIN_WKUP_4              PIOA_PIN_2
+#define PIN_WKUP_4_IRQ          EXTI2_IRQn
+
+#define PIN_TIM1_CH1            PIOA_PIN_8
+#define PIN_TIM1_CH2            PIOA_PIN_9
+#define PIN_TIM1_CH3            PIOA_PIN_10
+
+#define PIN_WKUP_3              PIOC_PIN_5
+#define PIN_WKUP_3_IRQ          EXTI9_5_IRQn//EXTI15_10_IRQn
+
+#define PIN_WKUP_2              PIOC_PIN_13
+#define PIN_WKUP_2_IRQ          EXTI15_10_IRQn//EXTI9_5_IRQn
+
+
+
+#endif

@@ -19,7 +19,7 @@
   */
 //#include "stm32l4xx_hal.h"
 #include "main.h"
-#include "board_common.h"
+#include "board_init.h"
 
 /* Exported functions prototypes ---------------------------------------------*/
 void Error_Handler(void);

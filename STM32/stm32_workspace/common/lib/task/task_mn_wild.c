@@ -12,7 +12,7 @@
 #include "task.h"
 #include "stm32l4xx_hal.h"
 #include "board_common.h"
-#include "board_init_common.h"
+#include "board_init.h"
 #include "board_specific.h"
 #include "cmsis_os.h"
 #include "adafruit_soundboard.h"

@@ -1,0 +1,12 @@
+// SRW
+#include <stdlib.h>
+#include <stdbool.h>
+#include <stdint.h>
+#include "task_firmware_update.h"
+
+
+
+void task_firmware_update(void *argument)
+{
+
+}

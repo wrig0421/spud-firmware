@@ -1,0 +1,11 @@
+../src/bsp/board_specific/board_init_spudglo_v5/gpio_config_spudglo_v5.c:356:6:gpio_config_led_all_off	16	static
+../src/bsp/board_specific/board_init_spudglo_v5/gpio_config_spudglo_v5.c:365:6:gpio_config_led_all_on	16	static
+../src/bsp/board_specific/board_init_spudglo_v5/gpio_config_spudglo_v5.c:374:6:gpio_config_led_on	24	static
+../src/bsp/board_specific/board_init_spudglo_v5/gpio_config_spudglo_v5.c:395:6:gpio_config_led_off	24	static
+../src/bsp/board_specific/board_init_spudglo_v5/gpio_config_spudglo_v5.c:416:6:gpio_config_green_led_on	8	static
+../src/bsp/board_specific/board_init_spudglo_v5/gpio_config_spudglo_v5.c:422:6:gpio_config_green_led_off	8	static
+../src/bsp/board_specific/board_init_spudglo_v5/gpio_config_spudglo_v5.c:428:6:gpio_config_red_led_on	8	static
+../src/bsp/board_specific/board_init_spudglo_v5/gpio_config_spudglo_v5.c:434:6:gpio_config_red_led_off	8	static
+../src/bsp/board_specific/board_init_spudglo_v5/gpio_config_spudglo_v5.c:440:6:gpio_config_esp8266_deselect_chip	8	static
+../src/bsp/board_specific/board_init_spudglo_v5/gpio_config_spudglo_v5.c:446:6:gpio_config_esp8266_select_chip	8	static
+../src/bsp/board_specific/board_init_spudglo_v5/gpio_config_spudglo_v5.c:451:6:gpio_config_esp8266_en	8	static

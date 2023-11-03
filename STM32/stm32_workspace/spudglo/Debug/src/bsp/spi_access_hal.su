@@ -1,0 +1,2 @@
+../src/bsp/spi_access_hal.c:26:6:spi_access_setup	32	static
+../src/bsp/spi_access_hal.c:47:6:spi_access_write_and_read	32	static

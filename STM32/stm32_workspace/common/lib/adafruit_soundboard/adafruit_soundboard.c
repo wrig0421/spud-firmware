@@ -9,7 +9,7 @@
 #include "cmsis_os.h"
 #include "FreeRTOS.h"
 #include "task.h"
-#include "board_init_common.h"
+#include "board_init.h"
 #include "adafruit_soundboard.h"
 
 

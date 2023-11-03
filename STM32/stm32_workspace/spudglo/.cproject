@@ -74,6 +74,7 @@
 									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/led/ws2812b_driver&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/led/color_led&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/pkt&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/esp_12f&quot;"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.743633161" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c"/>
 							</tool>
@@ -100,7 +101,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="src/bsp/board_specific/board_init_spudglo_v4/gpio_config_spudglo_v4.c|src/bsp/board_specific/board_init_spudglo_v3/gpio_config_spudglo_v3.c|src/bsp/spi_access.h|src/bsp/spi_access.c|src/bsp/uart_access.h|src/bsp/uart_access.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>

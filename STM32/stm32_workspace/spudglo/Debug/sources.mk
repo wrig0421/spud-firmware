@@ -23,6 +23,7 @@ C_DEPS :=
 SUBDIRS := \
 common/lib/adafruit_soundboard \
 common/lib/current_monitor \
+common/lib/esp_12f \
 common/lib/led/animate_led \
 common/lib/led/color_led \
 common/lib/led/ws2812b_driver \
@@ -35,8 +36,7 @@ sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F \
 sdk/FreeRTOS/Source/portable/MemMang \
 sdk/STM32L4xx_HAL_Driver/Src \
 src/bsp \
-src/bsp/board_specific/board_init_spud_glo_v3 \
-src/bsp/board_specific/board_init_spud_glo_v4 \
+src/bsp/board_specific/board_init_spudglo_v5 \
 src/bsp/stm32_bloat \
 src/flash \
 src \

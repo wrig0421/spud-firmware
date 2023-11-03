@@ -23,8 +23,8 @@
 #include "task.h"
 #include "stm32l4xx_it.h"
 //#include "stm32l4xx_hal.h"
-#include "board_init_common.h"
-#include "board_common.h"
+#include "board_specific.h"
+#include "board_init.h"
 #include "board_specific.h"
 #include "animate_led.h"
 #include "color_led.h"
@@ -187,9 +187,9 @@ void EXTI0_IRQHandler(void)
 {
     // D is pause
     BaseType_t xHigherPriorityTaskWoken;
-    board_init_push_button_pin_e button_pin = PUSH_BUTTON_D_PIN;
-    board_init_push_buttons_e button = PUSH_BUTTON_D;
-    board_init_push_button_irq_e button_irq = PUSH_BUTTON_D_IRQ;
+    gpio_config_push_button_pin_e button_pin = PUSH_BUTTON_D_PIN;
+    gpio_config_push_button_pin_e button = PUSH_BUTTON_D;
+    gpio_config_push_button_irq_e button_irq = PUSH_BUTTON_D_IRQ;
     HAL_GPIO_EXTI_IRQHandler(button_pin);
     g_button_press_timestamp[button][TIMESTAMP_PREVIOUS] = g_button_press_timestamp[button][TIMESTAMP_CURRENT];
     g_button_press_timestamp[button][TIMESTAMP_CURRENT] = xTaskGetTickCountFromISR();
@@ -206,9 +206,9 @@ void EXTI2_IRQHandler(void)
 {
     // A is speed
     BaseType_t xHigherPriorityTaskWoken;
-    board_init_push_button_pin_e button_pin = PUSH_BUTTON_A_PIN;
-    board_init_push_buttons_e button = PUSH_BUTTON_A;
-    board_init_push_button_irq_e button_irq = PUSH_BUTTON_A_IRQ;
+    gpio_config_push_button_pin_e button_pin = PUSH_BUTTON_A_PIN;
+    gpio_config_push_button_pin_e button = PUSH_BUTTON_A;
+    gpio_config_push_button_irq_e button_irq = PUSH_BUTTON_A_IRQ;
     HAL_GPIO_EXTI_IRQHandler(button_pin);
     g_button_press_timestamp[button][TIMESTAMP_PREVIOUS] = g_button_press_timestamp[button][TIMESTAMP_CURRENT];
     g_button_press_timestamp[button][TIMESTAMP_CURRENT] = xTaskGetTickCountFromISR();
@@ -225,9 +225,9 @@ void EXTI15_10_IRQHandler(void)
 {
     // B is state
     BaseType_t xHigherPriorityTaskWoken;
-    board_init_push_button_pin_e button_pin = PUSH_BUTTON_B_PIN;
-    board_init_push_buttons_e button = PUSH_BUTTON_B;
-    board_init_push_button_irq_e button_irq = PUSH_BUTTON_B_IRQ;
+    gpio_config_push_button_pin_e button_pin = PUSH_BUTTON_B_PIN;
+    gpio_config_push_button_pin_e button = PUSH_BUTTON_B;
+    gpio_config_push_button_irq_e button_irq = PUSH_BUTTON_B_IRQ;
     HAL_GPIO_EXTI_IRQHandler(button_pin);
     g_button_press_timestamp[button][TIMESTAMP_PREVIOUS] = g_button_press_timestamp[button][TIMESTAMP_CURRENT];
     g_button_press_timestamp[button][TIMESTAMP_CURRENT] = xTaskGetTickCountFromISR();
@@ -243,9 +243,9 @@ void EXTI9_5_IRQHandler(void)
 {
     // C is color
     BaseType_t xHigherPriorityTaskWoken;
-    board_init_push_button_pin_e button_pin = PUSH_BUTTON_C_PIN;
-    board_init_push_buttons_e button = PUSH_BUTTON_C;
-    board_init_push_button_irq_e button_irq = PUSH_BUTTON_C_IRQ;
+    gpio_config_push_button_pin_e button_pin = PUSH_BUTTON_C_PIN;
+    gpio_config_push_button_pin_e button = PUSH_BUTTON_C;
+    gpio_config_push_button_irq_e button_irq = PUSH_BUTTON_C_IRQ;
     // add button irq here..
     HAL_GPIO_EXTI_IRQHandler(button_pin);
     g_button_press_timestamp[button][TIMESTAMP_PREVIOUS] = g_button_press_timestamp[button][TIMESTAMP_CURRENT];

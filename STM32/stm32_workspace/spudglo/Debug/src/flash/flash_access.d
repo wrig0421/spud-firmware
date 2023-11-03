@@ -36,7 +36,7 @@ src/flash/flash_access.o: ../src/flash/flash_access.c ../src/main.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h \
  ../src/flash/flash_info.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/animate_led/animate_led.h \
- ../src/config.h ../src/bsp/board_init_common.h ../src/bsp/board_common.h \
+ ../src/config.h ../src/bsp/board_init.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/ws2812b_driver/ws2812b.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/color_led/color_led.h \
  ../src/flash/flash_access.h
@@ -81,8 +81,7 @@ src/flash/flash_access.o: ../src/flash/flash_access.c ../src/main.h \
 ../src/flash/flash_info.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/animate_led/animate_led.h:
 ../src/config.h:
-../src/bsp/board_init_common.h:
-../src/bsp/board_common.h:
+../src/bsp/board_init.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/ws2812b_driver/ws2812b.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/color_led/color_led.h:
 ../src/flash/flash_access.h:

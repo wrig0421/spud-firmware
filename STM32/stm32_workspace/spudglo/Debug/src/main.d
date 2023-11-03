@@ -34,8 +34,7 @@ src/main.o: ../src/main.c ../src/main.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h \
- ../src/bsp/board_init_common.h ../src/bsp/board_common.h \
- ../sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h \
+ ../src/bsp/board_init.h ../sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h \
  ../sdk/FreeRTOS/Source/include/FreeRTOS.h ../src/FreeRTOSConfig.h \
  ../sdk/FreeRTOS/Source/include/projdefs.h \
  ../sdk/FreeRTOS/Source/include/portable.h \
@@ -90,8 +89,7 @@ src/main.o: ../src/main.c ../src/main.h \
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h:
-../src/bsp/board_init_common.h:
-../src/bsp/board_common.h:
+../src/bsp/board_init.h:
 ../sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h:
 ../sdk/FreeRTOS/Source/include/FreeRTOS.h:
 ../src/FreeRTOSConfig.h:

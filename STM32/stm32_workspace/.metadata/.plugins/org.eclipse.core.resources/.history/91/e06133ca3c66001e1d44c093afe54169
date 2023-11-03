@@ -1,0 +1,10 @@
+board_init_common.c:37:13:board_init_common_rtc_init	2
+board_init_common.c:50:13:SystemClock_Config	5
+board_init_common.c:80:13:board_init_common_timer_init	9
+board_init_common.c:136:13:board_init_common_nvic_setup_interrupts	1
+board_init_common.c:165:13:board_init_common_setup_wakeups	1
+board_init_common.c:182:13:board_init_port_wakeup	1
+board_init_common.c:193:6:board_init_common_board_init	1
+board_init_common.c:215:6:board_init_common_button_pressed	1
+board_init_common.c:221:6:board_init_common_stop_timer	1
+board_init_common.c:233:6:Error_Handler	1

@@ -8,7 +8,7 @@
 #include <stdint.h>
 #include <stdbool.h> 
 #include "config.h"
-#include "board_init_common.h"
+#include "board_init.h"
 #include "ws2812b.h"
 #include "color_led.h"
 

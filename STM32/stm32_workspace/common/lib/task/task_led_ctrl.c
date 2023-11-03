@@ -3,7 +3,7 @@
 #include "stm32l4xx_hal.h"
 #include "cmsis_os.h"
 #include "numbers.h"
-#include "board_init_common.h"
+#include "board_init.h"
 #include "board_specific.h"
 #include "color_led.h"
 #include "task_button_press.h"
@@ -91,16 +91,25 @@ void task_led_ctrl_strip_one(void *argument)
 //    board_init_specific_orange_led_off();
 //
 //
+    while (1)
+    {
+        animate_led_solid_custom_color((uint16_t)STRIP_BIT_1, COLOR_HEX_RED);
+        osDelay(5000);
+        animate_led_solid_custom_color((uint16_t)STRIP_BIT_1, COLOR_HEX_GREEN);
+        osDelay(5000);
+        animate_led_solid_custom_color((uint16_t)STRIP_BIT_1, COLOR_HEX_BLUE);
+        osDelay(5000);
+    }
+//    gpio_config_led_all_off();
 //    while (1)
 //    {
-//        animate_led_solid_custom_color((uint16_t)STRIP_BIT_1, COLOR_HEX_RED);
-//        osDelay(5000);
-//        animate_led_solid_custom_color((uint16_t)STRIP_BIT_1, COLOR_HEX_GREEN);
-//        osDelay(5000);
-//        animate_led_solid_custom_color((uint16_t)STRIP_BIT_1, COLOR_HEX_BLUE);
-//        osDelay(5000);
+//        osDelay(500);
+//        gpio_config_green_led_on();
+//        gpio_config_red_led_off();
+//        osDelay(500);
+//        gpio_config_red_led_on();
+//        gpio_config_green_led_off();
 //    }
-
     while (1)
     {
         while(task_button_press_major_state_change()) osDelay(100);
