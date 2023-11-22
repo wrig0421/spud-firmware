@@ -15,7 +15,7 @@
 #define PIN_LVL_DIR             PIOC_PIN_8
 
 
-#elif defined(BOARD_SPUD_GLO_V4P2)
+#elif defined(BOARD_SPUD_GLO_V4P2) || defined(BOARD_SPUD_GLO_V4P3)
 
 #define PIN_SPI1_SCK            PIOA_PIN_1
 #define PIN_SPI1_NSS            PIOA_PIN_4
@@ -33,6 +33,15 @@
 #define PIN_XR_RX               PIOC_PIN_1
 #define PIN_LVL_EN              PIOC_PIN_7
 #define PIN_LVL_DIR             PIOC_PIN_8
+
+#endif
+
+#if defined(BOARD_SPUD_GLO_V4P3)
+
+#define PIN_BLUE_LED            PIOB_PIN_8
+#define PIN_ORANGE_LED          PIOB_PIN_9
+#define PIN_GREEN_LED           PIOC_PIN_2
+#define PIN_RED_LED             PIOC_PIN_3
 
 #endif
 

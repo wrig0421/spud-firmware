@@ -50,7 +50,33 @@ void board_init_specific(void)
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     HAL_GPIO_Init(PIN_PORT_B, &GPIO_InitStruct);
 
+    GPIO_InitStruct.Pin = PIN_BLUE_LED;
+    GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    HAL_GPIO_Init(PIN_PORT_B, &GPIO_InitStruct);
+    HAL_GPIO_WritePin(PIN_PORT_B, PIN_BLUE_LED, GPIO_PIN_RESET);
+
+    GPIO_InitStruct.Pin = PIN_ORANGE_LED;
+    GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    HAL_GPIO_Init(PIN_PORT_B, &GPIO_InitStruct);
+    HAL_GPIO_WritePin(PIN_PORT_B, PIN_ORANGE_LED, GPIO_PIN_RESET);
+
+    GPIO_InitStruct.Pin = PIN_GREEN_LED;
+    GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    HAL_GPIO_Init(PIN_PORT_B, &GPIO_InitStruct);
+    HAL_GPIO_WritePin(PIN_PORT_B, PIN_GREEN_LED, GPIO_PIN_RESET);
+
+    GPIO_InitStruct.Pin = PIN_RED_LED;
+    GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    HAL_GPIO_Init(PIN_PORT_B, &GPIO_InitStruct);
+    HAL_GPIO_WritePin(PIN_PORT_B, PIN_RED_LED, GPIO_PIN_RESET);
+
+#if defined(BOARD_SPUD_GLO_V4P2)
     board_init_peripheral_setup();
+#endif
 }
 
 
