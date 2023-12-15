@@ -46,7 +46,7 @@ typedef enum
 //master_led_state_e g_master_led_state = MASTER_LED_STATE_DEMO;
 master_led_state_e      g_master_led_state = MASTER_LED_STATE_DEMO;
 led_state_e             g_led_state = LED_STATE_FIRST;
-led_speed_e             g_led_speed = LED_SPEED_1X;
+led_speed_e             g_led_speed = LED_SPEED_10X;
 led_brightness_e        g_led_brightness = LED_BRIGHTNESS_100_PERCENT;
 
 master_color_state_e    g_master_color_state = MASTER_COLOR_STATE_DEMO;

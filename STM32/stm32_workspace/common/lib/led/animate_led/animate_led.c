@@ -584,7 +584,7 @@ void animate_led_rainbow_cycle(const strip_mask_t mask_rainbow_cycle, const uint
 	uint16_t strip_size = ws2812_led_get_max_strip_size(mask_rainbow_cycle);
     uint8_t *c;
     uint16_t iii, jjj;
-    for (jjj = 0; jjj < 256 * 5; jjj++)
+    for (jjj = 256 * 5; jjj > 0; jjj--)
     {
         if (task_button_press_interrupt_occurred()) if (task_button_press_check_interrupts(&dummy_red, &dummy_green, &dummy_blue)) return;
         for (iii = 0; iii < strip_size; iii++)
