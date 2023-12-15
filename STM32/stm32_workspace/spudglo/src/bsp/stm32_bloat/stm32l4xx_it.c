@@ -190,6 +190,7 @@ void EXTI0_IRQHandler(void)
     board_init_push_button_pin_e button_pin = PUSH_BUTTON_D_PIN;
     board_init_push_buttons_e button = PUSH_BUTTON_D;
     board_init_push_button_irq_e button_irq = PUSH_BUTTON_D_IRQ;
+    d_passes++;
     HAL_GPIO_EXTI_IRQHandler(button_pin);
     g_button_press_timestamp[button][TIMESTAMP_PREVIOUS] = g_button_press_timestamp[button][TIMESTAMP_CURRENT];
     g_button_press_timestamp[button][TIMESTAMP_CURRENT] = xTaskGetTickCountFromISR();
@@ -209,6 +210,7 @@ void EXTI2_IRQHandler(void)
     board_init_push_button_pin_e button_pin = PUSH_BUTTON_A_PIN;
     board_init_push_buttons_e button = PUSH_BUTTON_A;
     board_init_push_button_irq_e button_irq = PUSH_BUTTON_A_IRQ;
+    a_passes++;
     HAL_GPIO_EXTI_IRQHandler(button_pin);
     g_button_press_timestamp[button][TIMESTAMP_PREVIOUS] = g_button_press_timestamp[button][TIMESTAMP_CURRENT];
     g_button_press_timestamp[button][TIMESTAMP_CURRENT] = xTaskGetTickCountFromISR();
@@ -228,6 +230,7 @@ void EXTI15_10_IRQHandler(void)
     board_init_push_button_pin_e button_pin = PUSH_BUTTON_B_PIN;
     board_init_push_buttons_e button = PUSH_BUTTON_B;
     board_init_push_button_irq_e button_irq = PUSH_BUTTON_B_IRQ;
+    b_passes++;
     HAL_GPIO_EXTI_IRQHandler(button_pin);
     g_button_press_timestamp[button][TIMESTAMP_PREVIOUS] = g_button_press_timestamp[button][TIMESTAMP_CURRENT];
     g_button_press_timestamp[button][TIMESTAMP_CURRENT] = xTaskGetTickCountFromISR();
@@ -246,6 +249,7 @@ void EXTI9_5_IRQHandler(void)
     board_init_push_button_pin_e button_pin = PUSH_BUTTON_C_PIN;
     board_init_push_buttons_e button = PUSH_BUTTON_C;
     board_init_push_button_irq_e button_irq = PUSH_BUTTON_C_IRQ;
+    c_passes++;
     // add button irq here..
     HAL_GPIO_EXTI_IRQHandler(button_pin);
     g_button_press_timestamp[button][TIMESTAMP_PREVIOUS] = g_button_press_timestamp[button][TIMESTAMP_CURRENT];

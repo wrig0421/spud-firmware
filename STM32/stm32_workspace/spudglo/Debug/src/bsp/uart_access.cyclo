@@ -1,0 +1,3 @@
+../src/bsp/uart_access.c:25:6:uart_access_setup	2
+../src/bsp/uart_access.c:64:6:uart_access_rx	1
+../src/bsp/uart_access.c:70:6:uart_access_tx	1

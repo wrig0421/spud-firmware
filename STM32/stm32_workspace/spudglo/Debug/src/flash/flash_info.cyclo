@@ -1,5 +1,6 @@
-flash_info.c:89:6:flash_info_block_init	1
-flash_info.c:107:6:flash_info_read_sector_data	11
-flash_info.c:136:6:flash_info_write_sector_data	21
-flash_info.c:208:6:flash_info_init	4
-flash_info.c:222:6:flash_info_firmware_version	138
+../src/flash/flash_info.c:95:6:flash_info_animation_enabled	23
+../src/flash/flash_info.c:140:6:flash_info_block_init	1
+../src/flash/flash_info.c:178:6:flash_info_read_sector_data	3
+../src/flash/flash_info.c:196:6:flash_info_write_sector_data	5
+../src/flash/flash_info.c:226:6:flash_info_init	4
+../src/flash/flash_info.c:240:6:flash_info_firmware_version	137
