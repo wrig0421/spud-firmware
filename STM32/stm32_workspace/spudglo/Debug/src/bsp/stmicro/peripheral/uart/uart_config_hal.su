@@ -1,0 +1,2 @@
+../src/bsp/stmicro/peripheral/uart/uart_config_hal.c:11:6:uart_config_hal_setup	128	static
+../src/bsp/stmicro/peripheral/uart/uart_config_hal.c:55:15:uart_config_host_handle	4	static

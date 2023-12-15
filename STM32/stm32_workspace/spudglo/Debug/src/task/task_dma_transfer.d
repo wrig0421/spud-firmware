@@ -13,7 +13,7 @@ src/task/task_dma_transfer.o: ../src/task/task_dma_transfer.c \
  ../sdk/FreeRTOS/Source/include/queue.h \
  ../sdk/FreeRTOS/Source/include/task.h ../src/main.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h \
- ../src/bsp/stm32_bloat/stm32l4xx_hal_conf.h \
+ ../src/bsp/stmicro/stm32l4/bloat/stm32l4xx_hal_conf.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h \
  ../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h \
@@ -49,7 +49,8 @@ src/task/task_dma_transfer.o: ../src/task/task_dma_transfer.c \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/semaphore/semaphore_create.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/ws2812b_driver/ws2812b.h \
- ../src/config.h ../src/util/numbers.h ../src/task/task_dma_transfer.h
+ ../src/config.h ../src/lib/util/numbers.h \
+ ../src/task/task_dma_transfer.h
 ../sdk/FreeRTOS/Source/include/FreeRTOS.h:
 ../src/FreeRTOSConfig.h:
 ../sdk/FreeRTOS/Source/include/projdefs.h:
@@ -66,7 +67,7 @@ src/task/task_dma_transfer.o: ../src/task/task_dma_transfer.c \
 ../sdk/FreeRTOS/Source/include/task.h:
 ../src/main.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
-../src/bsp/stm32_bloat/stm32l4xx_hal_conf.h:
+../src/bsp/stmicro/stm32l4/bloat/stm32l4xx_hal_conf.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h:
 ../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h:
@@ -105,5 +106,5 @@ src/task/task_dma_transfer.o: ../src/task/task_dma_transfer.c \
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/semaphore/semaphore_create.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/ws2812b_driver/ws2812b.h:
 ../src/config.h:
-../src/util/numbers.h:
+../src/lib/util/numbers.h:
 ../src/task/task_dma_transfer.h:

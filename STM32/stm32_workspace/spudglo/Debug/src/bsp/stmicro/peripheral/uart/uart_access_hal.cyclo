@@ -1,0 +1,4 @@
+../src/bsp/stmicro/peripheral/uart/uart_access_hal.c:6:6:uart_access_hal_write_byte	2
+../src/bsp/stmicro/peripheral/uart/uart_access_hal.c:15:6:uart_access_hal_write_block	2
+../src/bsp/stmicro/peripheral/uart/uart_access_hal.c:24:6:uart_access_hal_read_byte	2
+../src/bsp/stmicro/peripheral/uart/uart_access_hal.c:33:6:uart_access_hal_read_block	2

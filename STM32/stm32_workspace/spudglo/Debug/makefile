@@ -10,12 +10,17 @@ RM := rm -rf
 # All of the sources participating in the build are defined here
 -include sources.mk
 -include startup/subdir.mk
--include src/util/subdir.mk
 -include src/task/subdir.mk
--include src/flash/subdir.mk
--include src/bsp/stm32_bloat/subdir.mk
--include src/bsp/board_specific/board_init_spud_glo_v4/subdir.mk
--include src/bsp/board_specific/board_init_spud_glo_v3/subdir.mk
+-include src/lib/util/subdir.mk
+-include src/lib/flash/subdir.mk
+-include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/peripheral/uart/subdir.mk
+-include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/peripheral/spi/subdir.mk
+-include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/subdir.mk
+-include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v4/subdir.mk
+-include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v3/subdir.mk
+-include src/bsp/stmicro/stm32l4/bloat/subdir.mk
+-include src/bsp/stmicro/peripheral/uart/subdir.mk
+-include src/bsp/stmicro/peripheral/spi/subdir.mk
 -include src/bsp/subdir.mk
 -include src/subdir.mk
 -include sdk/STM32L4xx_HAL_Driver/Src/subdir.mk
@@ -26,6 +31,8 @@ RM := rm -rf
 -include common/lib/task/subdir.mk
 -include common/lib/semaphore/subdir.mk
 -include common/lib/pkt/subdir.mk
+-include common/lib/peripheral/uart/subdir.mk
+-include common/lib/peripheral/spi/subdir.mk
 -include common/lib/led/ws2812b_driver/subdir.mk
 -include common/lib/led/color_led/subdir.mk
 -include common/lib/led/animate_led/subdir.mk

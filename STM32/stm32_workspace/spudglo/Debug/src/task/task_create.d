@@ -12,7 +12,7 @@ src/task/task_create.o: ../src/task/task_create.c \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/animate_led/animate_led.h \
  ../src/config.h ../src/bsp/board_init_common.h ../src/bsp/board_common.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h \
- ../src/bsp/stm32_bloat/stm32l4xx_hal_conf.h \
+ ../src/bsp/stmicro/stm32l4/bloat/stm32l4xx_hal_conf.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h \
  ../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h \
@@ -49,9 +49,8 @@ src/task/task_create.o: ../src/task/task_create.c \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/ws2812b_driver/ws2812b.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/color_led/color_led.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_button_press.h \
- ../src/bsp/board_specific/board_specific.h ../src/bsp/board_common.h \
- ../src/bsp/board_specific/board_init_spud_glo_v4/board_init_spud_glo_v4.h \
- ../src/task/task_dma_transfer.h \
+ ../src/bsp/stmicro/stm32l4/board_specific/board_specific.h \
+ ../src/bsp/board_common.h ../src/task/task_dma_transfer.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_led_ctrl.h \
  ../src/task/task_create.h
 ../sdk/FreeRTOS/Source/include/FreeRTOS.h:
@@ -70,7 +69,7 @@ src/task/task_create.o: ../src/task/task_create.c \
 ../src/bsp/board_init_common.h:
 ../src/bsp/board_common.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
-../src/bsp/stm32_bloat/stm32l4xx_hal_conf.h:
+../src/bsp/stmicro/stm32l4/bloat/stm32l4xx_hal_conf.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h:
 ../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h:
@@ -109,9 +108,8 @@ src/task/task_create.o: ../src/task/task_create.c \
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/ws2812b_driver/ws2812b.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/color_led/color_led.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_button_press.h:
-../src/bsp/board_specific/board_specific.h:
+../src/bsp/stmicro/stm32l4/board_specific/board_specific.h:
 ../src/bsp/board_common.h:
-../src/bsp/board_specific/board_init_spud_glo_v4/board_init_spud_glo_v4.h:
 ../src/task/task_dma_transfer.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_led_ctrl.h:
 ../src/task/task_create.h:

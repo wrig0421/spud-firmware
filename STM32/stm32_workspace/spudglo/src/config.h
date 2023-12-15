@@ -14,8 +14,8 @@
 
 
 // define the board!
-
-#define BOARD_SPUD_GLO_V4P3
+#define BOARD_SPUDGLO_V5P0
+//#define BOARD_SPUD_GLO_V4P3
 //#define BOARD_SPUD_GLO_V4P2
 //#define BOARD_SPUD_GLO_V4P1
 //#define BOARD_SPUD_GLO_V3

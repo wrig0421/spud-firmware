@@ -27,6 +27,8 @@ common/lib/current_monitor \
 common/lib/led/animate_led \
 common/lib/led/color_led \
 common/lib/led/ws2812b_driver \
+common/lib/peripheral/spi \
+common/lib/peripheral/uart \
 common/lib/pkt \
 common/lib/semaphore \
 common/lib/task \
@@ -36,12 +38,17 @@ sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F \
 sdk/FreeRTOS/Source/portable/MemMang \
 sdk/STM32L4xx_HAL_Driver/Src \
 src/bsp \
-src/bsp/board_specific/board_init_spud_glo_v3 \
-src/bsp/board_specific/board_init_spud_glo_v4 \
-src/bsp/stm32_bloat \
-src/flash \
+src/bsp/stmicro/peripheral/spi \
+src/bsp/stmicro/peripheral/uart \
+src/bsp/stmicro/stm32l4/bloat \
+src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v3 \
+src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v4 \
+src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5 \
+src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/peripheral/spi \
+src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/peripheral/uart \
+src/lib/flash \
+src/lib/util \
 src \
 src/task \
-src/util \
 startup \
 
