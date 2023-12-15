@@ -1,4 +1,4 @@
-17:34:02 **** Incremental Build of configuration Debug for project spudglo ****
+19:47:22 **** Incremental Build of configuration Debug for project spudglo ****
 make -j7 all 
 arm-none-eabi-size   spudglo.elf 
    text	   data	    bss	    dec	    hex	filename
@@ -6,5 +6,5 @@ arm-none-eabi-size   spudglo.elf
 Finished building: default.size.stdout
  
 
-17:34:02 Build Finished. 0 errors, 0 warnings. (took 731ms)
+19:47:22 Build Finished. 0 errors, 0 warnings. (took 243ms)
 

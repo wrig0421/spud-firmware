@@ -1,0 +1,8 @@
+../src/bsp/board_init.c:37:13:board_init_rtc_init	2
+../src/bsp/board_init.c:50:13:SystemClock_Config	5
+../src/bsp/board_init.c:80:13:board_init_timer_init	9
+../src/bsp/board_init.c:167:13:board_init_port_wakeup	1
+../src/bsp/board_init.c:177:6:board_init	1
+../src/bsp/board_init.c:194:6:board_init_button_pressed	1
+../src/bsp/board_init.c:200:6:board_init_stop_timer	1
+../src/bsp/board_init.c:212:6:Error_Handler	1

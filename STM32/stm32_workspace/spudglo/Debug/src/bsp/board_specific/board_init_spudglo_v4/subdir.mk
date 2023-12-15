@@ -5,13 +5,13 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
-../src/bsp/board_specific/board_init_spudglo_v4/board_init_spudglo_v4.c 
+../src/bsp/board_specific/board_init_spudglo_v4/gpio_config_spudglo_v4.c 
 
 OBJS += \
-./src/bsp/board_specific/board_init_spudglo_v4/board_init_spudglo_v4.o 
+./src/bsp/board_specific/board_init_spudglo_v4/gpio_config_spudglo_v4.o 
 
 C_DEPS += \
-./src/bsp/board_specific/board_init_spudglo_v4/board_init_spudglo_v4.d 
+./src/bsp/board_specific/board_init_spudglo_v4/gpio_config_spudglo_v4.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
@@ -21,7 +21,7 @@ src/bsp/board_specific/board_init_spudglo_v4/%.o src/bsp/board_specific/board_in
 clean: clean-src-2f-bsp-2f-board_specific-2f-board_init_spudglo_v4
 
 clean-src-2f-bsp-2f-board_specific-2f-board_init_spudglo_v4:
-	-$(RM) ./src/bsp/board_specific/board_init_spudglo_v4/board_init_spudglo_v4.d ./src/bsp/board_specific/board_init_spudglo_v4/board_init_spudglo_v4.o ./src/bsp/board_specific/board_init_spudglo_v4/board_init_spudglo_v4.su
+	-$(RM) ./src/bsp/board_specific/board_init_spudglo_v4/gpio_config_spudglo_v4.d ./src/bsp/board_specific/board_init_spudglo_v4/gpio_config_spudglo_v4.o ./src/bsp/board_specific/board_init_spudglo_v4/gpio_config_spudglo_v4.su
 
 .PHONY: clean-src-2f-bsp-2f-board_specific-2f-board_init_spudglo_v4
 
