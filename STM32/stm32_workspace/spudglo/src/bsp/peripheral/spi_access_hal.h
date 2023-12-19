@@ -5,13 +5,19 @@
 
 #include <stdint.h>
 #include <stdbool.h>
+#include "spi_config_hal.h"
 
-void spi_access_hal_setup(void)
 
-void spi_access_hal_write_byte(void);
-void spi_access_hal_write_block(void);
 
-void spi_access_hal_read_byte(void);
-void spi_access_hal_read_block(void);
+spi_handle_t spi_config_host_handle(void);
+
+
+void spi_access_write_and_read(uint8_t *tx_data, uint8_t *rx_data, uint16_t size);
+void spi_access_hal_write_byte(spi_handle_t ph_spi, uint8_t data);
+void spi_access_hal_write_block(spi_handle_t ph_spi, uint8_t* data, uint16_t len);
+void spi_access_hal_read_byte(spi_handle_t ph_spi, uint8_t buf);
+void spi_access_hal_read_block(spi_handle_t ph_spi, uint8_t* buf, uint16_t len);
+void spi_access_hal_read_and_write_block(spi_handle_t ph_spi, uint8_t* tx_buf, uint8_t* rx_buf, uint16_t len);
+
 
 #endif

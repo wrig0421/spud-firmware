@@ -69,7 +69,6 @@
 									<listOptionValue builtIn="false" value="../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/peripheral/uart"/>
 									<listOptionValue builtIn="false" value="../src/lib/flash"/>
 									<listOptionValue builtIn="false" value="../src/lib/util"/>
-									<listOptionValue builtIn="false" value="../src/lib/task"/>
 									<listOptionValue builtIn="false" value="../sdk/FreeRTOS/Source/CMSIS_RTOS_V2"/>
 									<listOptionValue builtIn="false" value="../sdk/CMSIS/Device/ST/STM32L4xx/Include"/>
 									<listOptionValue builtIn="false" value="../sdk/STM32l4xx_HAL_Driver/Inc"/>
@@ -90,6 +89,7 @@
 									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/task&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/pkt&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/queue&quot;"/>
+									<listOptionValue builtIn="false" value="../src/task"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.743633161" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c"/>
 							</tool>

@@ -14,7 +14,6 @@ typedef uint8_t					alt_func_t;
 typedef IRQn_Type				irqn_t;
 
 
-
 typedef enum
 {
 	UART_CONFIG_BUS_HOST,
@@ -38,6 +37,7 @@ typedef struct
 	uart_config_pin_t 		pin;
 	irqn_t					irqn;
 } uart_config_t;
+
 
 void uart_config_hal_setup(void);
 

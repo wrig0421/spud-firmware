@@ -1,0 +1,1 @@
+../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/peripheral/spi/board_spudglo_v5_spi_config.c:81:14:spi_chip_id_handle	16	static

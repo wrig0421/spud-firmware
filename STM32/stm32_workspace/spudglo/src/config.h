@@ -40,6 +40,10 @@
 #define ENABLE_LED_STATE_FADE_IN_AND_OUT
 #define ENABLE_LED_STATE_TWINKLE
 
+#if defined(BOARD_SPUDGLO_V5P0)
+#define BOARD_SPUDGLO_V5
+#endif
+
 #if defined(BOARD_SPUD_GLO_V4P3) || defined(BOARD_SPUD_GLO_V4P2) || defined(BOARD_SPUD_GLO_V4P1)
 #define BOARD_SPUD_GLO_V4
 #endif

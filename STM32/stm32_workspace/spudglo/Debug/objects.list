@@ -62,7 +62,7 @@
 "./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v3/board_init_spudglo_v3.o"
 "./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v4/board_init_spudglo_v4.o"
 "./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/board_init_spudglo_v5.o"
-"./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/peripheral/spi/board_spud_glo_v5_spi_config.o"
+"./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/peripheral/spi/board_spudglo_v5_spi_config.o"
 "./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/peripheral/uart/board_spudglo_v5_uart_config.o"
 "./src/lib/flash/flash_access.o"
 "./src/lib/flash/flash_info.o"

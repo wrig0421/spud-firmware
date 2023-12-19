@@ -16,48 +16,48 @@ void uart_access_setup(void)
 
 void uart_access_write_byte(uart_handle_t ph_uart, uint8_t data)
 {
-	uart_access_write_byte(ph_uart, data);
+	uart_access_hal_write_byte(ph_uart, data);
 }
 
 
 void uart_access_write_block(uart_handle_t ph_uart, uint8_t* data, uint16_t len)
 {
-	uart_access_write_byte(ph_uart, data, len);
+	uart_access_hal_write_block(ph_uart, data, len);
 }
 
 
 void uart_access_read_byte(uart_handle_t ph_uart, uint8_t* buf)
 {
-	uart_access_read_byte(ph_uart, buf);
+	uart_access_hal_read_byte(ph_uart, buf);
 }
 
 
-void uart_access_read_block(uint8_t* buf, uint16_t len)
+void uart_access_read_block(uart_handle_t ph_uart, uint8_t* buf, uint16_t len)
 {
-	uart_access_read_byte(ph_uart, buf, len);
+	uart_access_hal_read_block(ph_uart, buf, len);
 }
 
 
 void uart_access_write_byte_host(uint8_t data)
 {
-	uart_access_write_byte(uart_config_host_handle(), data);
+	uart_access_hal_write_byte(uart_config_host_handle(), data);
 }
 
 
 void uart_access_write_block_host(uint8_t* data, uint16_t len)
 {
-	uart_access_write_byte(uart_config_host_handle(), data, len);
+	uart_access_hal_write_block(uart_config_host_handle(), data, len);
 }
 
 
 void uart_access_read_byte_host(uint8_t* buf)
 {
-	uart_access_read_byte(uart_config_host_handle(), buf);
+	uart_access_hal_read_byte(uart_config_host_handle(), buf);
 }
 
 
 void uart_access_read_block_host(uint8_t* buf, uint16_t len)
 {
-	uart_access_read_byte(uart_config_host_handle(), buf, len);
+	uart_access_hal_read_block(uart_config_host_handle(), buf, len);
 }
 

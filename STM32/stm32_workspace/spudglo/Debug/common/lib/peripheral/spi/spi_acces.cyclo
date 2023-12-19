@@ -1,0 +1,5 @@
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/spi/spi_acces.c:11:6:spi_access_write_byte	2
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/spi/spi_acces.c:21:6:spi_access_write_block	2
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/spi/spi_acces.c:30:6:spi_access_read_byte	2
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/spi/spi_acces.c:39:6:spi_access_read_block	2
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/spi/spi_acces.c:48:6:spi_access_read_and_write_block	2
