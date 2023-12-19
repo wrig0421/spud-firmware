@@ -41,6 +41,8 @@ typedef struct
 	uint16_t 	sck;
 	port_t	 	sck_port;
 	alt_func_t 	sck_alt_func;
+	uint16_t	csn;
+	port_t		csn_port;
 } spi_config_pin_t;
 
 
@@ -52,7 +54,7 @@ typedef struct
 } spi_config_t;
 
 
-void spi_config_setup(void);
+void spi_config_hal_setup(void);
 spi_handle_t spi_config_chip_id_to_bus(spi_access_chip_id_e chip_id);
 
 #endif

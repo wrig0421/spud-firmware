@@ -35,12 +35,13 @@ src/bsp/stmicro/peripheral/uart/uart_config_hal.o: \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h \
+ /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/uart/uart_access.h \
+ ../src/bsp/stmicro/peripheral/uart/uart_config_hal.h \
+ ../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h \
  ../src/bsp/stmicro/peripheral/uart/uart_config_hal_specific.h \
  ../src/config.h ../src/bsp/board_common.h ../src/bsp/board_init_common.h \
  ../src/bsp/board_common.h \
  ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/peripheral/uart/board_spudglo_v5_uart_config.h \
- ../src/bsp/stmicro/peripheral/uart/uart_config_hal.h \
- ../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h \
  ../src/bsp/stmicro/peripheral/uart/uart_config_hal.h
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
 ../src/bsp/stmicro/stm32l4/bloat/stm32l4xx_hal_conf.h:
@@ -79,12 +80,13 @@ src/bsp/stmicro/peripheral/uart/uart_config_hal.o: \
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h:
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/uart/uart_access.h:
+../src/bsp/stmicro/peripheral/uart/uart_config_hal.h:
+../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h:
 ../src/bsp/stmicro/peripheral/uart/uart_config_hal_specific.h:
 ../src/config.h:
 ../src/bsp/board_common.h:
 ../src/bsp/board_init_common.h:
 ../src/bsp/board_common.h:
 ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/peripheral/uart/board_spudglo_v5_uart_config.h:
-../src/bsp/stmicro/peripheral/uart/uart_config_hal.h:
-../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h:
 ../src/bsp/stmicro/peripheral/uart/uart_config_hal.h:

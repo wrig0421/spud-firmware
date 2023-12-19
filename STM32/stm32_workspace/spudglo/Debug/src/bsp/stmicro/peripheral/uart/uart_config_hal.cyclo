@@ -1,2 +1,2 @@
-../src/bsp/stmicro/peripheral/uart/uart_config_hal.c:11:6:uart_config_hal_setup	2
-../src/bsp/stmicro/peripheral/uart/uart_config_hal.c:55:15:uart_config_host_handle	1
+../src/bsp/stmicro/peripheral/uart/uart_config_hal.c:14:6:uart_config_hal_setup	7
+../src/bsp/stmicro/peripheral/uart/uart_config_hal.c:81:15:uart_config_host_handle	1

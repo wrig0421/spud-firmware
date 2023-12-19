@@ -7,6 +7,16 @@
 
 #include <stdint.h>
 #include <stdbool.h>
+#include "uart_config_hal.h"
+
+typedef enum
+{
+	UART_ACCESS_ID_HOST,
+	UART_ACCESS_ID_FIRST = UART_ACCESS_ID_HOST,
+	UART_ACCESS_ID_ESP8266,
+	NUM_UART_ACCESS_IDS
+} uart_access_id_e;
+
 
 void uart_access_setup(void);
 

@@ -140,10 +140,11 @@ void task_button_press(void *argument)
     while (1)
     {
         xTaskNotifyWait(0, button_pressed_bit, &button_pressed_bit, portMAX_DELAY);
+#if !defined(BOARD_SPUDGLO_V5)
         HAL_GPIO_WritePin(PIN_PORT_B, PIN_INT_LVL_EN, GPIO_PIN_RESET);
         osDelay(700);
         HAL_GPIO_WritePin(PIN_PORT_B, PIN_INT_LVL_EN, GPIO_PIN_SET);
-
+#endif
         timestamp_diff = g_button_press_timestamp[(board_init_push_buttons_e) button_pressed_bit][TIMESTAMP_CURRENT] - \
                         g_button_press_timestamp[(board_init_push_buttons_e)button_pressed_bit][TIMESTAMP_PREVIOUS];
         if (timestamp_diff < SWITCH_FAST_PRESS_TIME_MILLISECONDS) fast_press_count++;

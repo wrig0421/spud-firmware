@@ -17,6 +17,8 @@ typedef IRQn_Type				irqn_t;
 typedef enum
 {
 	UART_CONFIG_BUS_HOST,
+	UART_CONFIG_BUS_FIRST = UART_CONFIG_BUS_HOST,
+	UART_CONFIG_BUS_ESP8266,
 	NUM_UART_CONFIG_BUSES
 } uart_config_bus_e;
 

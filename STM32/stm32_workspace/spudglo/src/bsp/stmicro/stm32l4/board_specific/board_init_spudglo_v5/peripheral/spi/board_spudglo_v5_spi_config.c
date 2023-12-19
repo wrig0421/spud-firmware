@@ -9,6 +9,7 @@
 #define ESP8266_SCK			GPIO_PIN_1
 #define ESP8266_MISO     	GPIO_PIN_11
 #define ESP8266_MOSI   		GPIO_PIN_12
+#define ESP8266_CSN			GPIO_PIN_4
 
 SPI_HandleTypeDef       g_spi_handle_config[NUM_SPI_CONFIG_BUSES] =
 {
@@ -45,6 +46,8 @@ const spi_config_t g_spi_config[NUM_SPI_CONFIG_BUSES] =
 		.pin.sck = ESP8266_SCK,
 		.pin.sck_port = GPIOA,
 		.pin.sck_alt_func = GPIO_AF5_SPI1,
+		.pin.csn = ESP8266_CSN,
+		.pin.csn_port = GPIOA,
 		.irqn = SPI1_IRQn,
 		.handle = &g_spi_handle_config[SPI_CONFIG_BUS_WIFI]
 	}
@@ -70,20 +73,6 @@ const spi_access_chip_id_e* g_spi_chip_bus_lookup[NUM_SPI_CONFIG_BUSES] =
 {
 	[SPI_CONFIG_BUS_WIFI] = g_spi1_chips
 };
-
-
-//const spi_config_chip_bus_lookup_t g_spi_chip_bus_assignments =
-//{
-//	spi_bus_chips[SPI_CONFIG_BUS_WIFI] = g_spi1_chips
-//};
-
-
-spi_handle_t spi_chip_id_handle(spi_access_chip_id_e chip_id)
-{
-
-
-}
-
 
 
 

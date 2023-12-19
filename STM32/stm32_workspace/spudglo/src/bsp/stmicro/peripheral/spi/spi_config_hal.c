@@ -7,9 +7,9 @@
 
 extern SPI_HandleTypeDef g_spi_handle_config[NUM_SPI_CONFIG_BUSES];
 extern const spi_config_t g_spi_config[NUM_SPI_CONFIG_BUSES];
-const spi_access_chip_id_e* g_spi_chip_bus_lookup[NUM_SPI_CONFIG_BUSES];
+extern const spi_access_chip_id_e* g_spi_chip_bus_lookup[NUM_SPI_CONFIG_BUSES];
 extern uint16_t g_spi_num_chips_per_bus[NUM_SPI_CONFIG_BUSES];
-spi_handle_t g_spi_chip_id_handle[NUM_SPI_ACCESS_CHIP_IDS];
+extern spi_handle_t g_spi_chip_id_handle[NUM_SPI_ACCESS_CHIP_IDS];
 //spi_handle_t g_spi_chip_id_handle[spi_access_chip_id_e];
 
 
@@ -30,7 +30,7 @@ static spi_handle_t spi_config_bus_lookup_from_chip_id(spi_access_chip_id_e chip
 
 
 
-void spi_config_setup(void)
+void spi_config_hal_setup(void)
 {
     //RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
     GPIO_InitTypeDef  GPIO_InitStruct;
@@ -60,6 +60,12 @@ void spi_config_setup(void)
     	    GPIO_InitStruct.Alternate = g_spi_config[bus].pin.sck_alt_func;
     	    HAL_GPIO_Init(g_spi_config[bus].pin.sck_port, &GPIO_InitStruct);
 
+    	    GPIO_InitStruct.Pin       = g_spi_config[bus].pin.csn;
+    	    GPIO_InitStruct.Mode      = GPIO_MODE_OUTPUT_PP;
+    	    GPIO_InitStruct.Pull      = GPIO_NOPULL;
+    	    GPIO_InitStruct.Speed     = GPIO_SPEED_FREQ_LOW;
+    	    HAL_GPIO_Init(g_spi_config[bus].pin.csn_port, &GPIO_InitStruct);
+
         	switch (bus)
         	{
         		case SPI_CONFIG_BUS_WIFI:
@@ -75,16 +81,17 @@ void spi_config_setup(void)
     	    }
     	}
     }
-    for (spi_access_chip_id_e chip_id = SPI_ACCESS_CHIP_ID_FIRST; chip_id < NUM_SPI_ACCESS_CHIP_IDS; chip_id++)
-    {
-    	g_spi_chip_id_handle[chip_id] = spi_config_bus_lookup_from_chip_id(chip_id);
-    }
+    // TODO make this an array that gets populated so you don't need to lookup everytime..
+//    for (spi_access_chip_id_e chip_id = SPI_ACCESS_CHIP_ID_FIRST; chip_id < NUM_SPI_ACCESS_CHIP_IDS; chip_id++)
+//    {
+//    	g_spi_chip_id_handle[chip_id] = spi_config_bus_lookup_from_chip_id(chip_id);
+//    }
 }
 
 
 spi_handle_t spi_config_chip_id_to_bus(spi_access_chip_id_e chip_id)
 {
-	return g_spi_chip_id_handle[chip_id];
+	return spi_config_bus_lookup_from_chip_id(chip_id);
 }
 
 
