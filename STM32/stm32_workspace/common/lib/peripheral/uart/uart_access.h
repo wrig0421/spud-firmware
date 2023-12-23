@@ -31,4 +31,9 @@ void uart_access_write_block_host(uint8_t* data, uint16_t len);
 void uart_access_read_byte_host(uint8_t* buf);
 void uart_access_read_block_host(uint8_t* buf, uint16_t len);
 
+void uart_access_write_byte_esp8266(uint8_t data);
+void uart_access_write_block_esp8266(uint8_t* data, uint16_t len);
+void uart_access_read_byte_esp8266(uint8_t* buf);
+void uart_access_read_block_esp8266(uint8_t* buf, uint16_t len);
+
 #endif

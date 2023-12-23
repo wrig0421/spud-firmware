@@ -42,5 +42,7 @@ typedef struct
 
 
 void uart_config_hal_setup(void);
+uart_handle_t uart_config_host_handle(void);
+uart_handle_t uart_config_esp8266_handle(void);
 
 #endif

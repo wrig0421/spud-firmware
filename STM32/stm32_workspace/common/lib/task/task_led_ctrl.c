@@ -8,6 +8,9 @@
 #include "task_button_press.h"
 #include "current_monitor.h"
 #include "task_led_ctrl.h"
+#include "board_specific.h"
+#include "uart_access.h"
+#include "esp8266.h"
 
 extern UART_HandleTypeDef      gh_host_usart;
 
@@ -79,9 +82,20 @@ static void task_led_ctrl_adjust_parameters(const task_led_ctrl_loop_iterations_
     if (MASTER_COLOR_STATE_DEMO == task_led_ctrl_color_state()) task_led_ctrl_color_random();
 }
 
-
+uint8_t g_data[2];
 void task_led_ctrl_strip_one(void *argument)
 {
+
+
+	board_init_specific_esp8266_power_disable();
+	osDelay(2000);
+	board_init_specific_esp8266_power_enable();
+	board_init_specific_esp8266_reset_deassert();
+	osDelay(2000);
+	esp8266_write_command(ESP8266_AT_STARTUP);
+	uart_access_read_block_esp8266(g_data, 2);
+	while(1);
+
     osDelay(10);
     while (1)
     {

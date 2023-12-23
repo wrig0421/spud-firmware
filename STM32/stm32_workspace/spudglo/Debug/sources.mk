@@ -32,6 +32,7 @@ common/lib/peripheral/uart \
 common/lib/pkt \
 common/lib/semaphore \
 common/lib/task \
+common/lib/wifi \
 sdk/FreeRTOS/Source/CMSIS_RTOS_V2 \
 sdk/FreeRTOS/Source \
 sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F \

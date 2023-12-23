@@ -28,6 +28,7 @@ RM := rm -rf
 -include sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F/subdir.mk
 -include sdk/FreeRTOS/Source/CMSIS_RTOS_V2/subdir.mk
 -include sdk/FreeRTOS/Source/subdir.mk
+-include common/lib/wifi/subdir.mk
 -include common/lib/task/subdir.mk
 -include common/lib/semaphore/subdir.mk
 -include common/lib/pkt/subdir.mk

@@ -83,3 +83,9 @@ uart_handle_t uart_config_host_handle(void)
 	return &g_uart_handle_config[UART_CONFIG_BUS_HOST];
 }
 
+
+uart_handle_t uart_config_esp8266_handle(void)
+{
+	return &g_uart_handle_config[UART_CONFIG_BUS_ESP8266];
+}
+
