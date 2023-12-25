@@ -100,6 +100,10 @@ bool flash_info_animation_enabled(led_state_e animation)
         case LED_STATE_SPELL:
             if (g_flash_info_block.flash_info_data.strip_info.strip_one_active_animation_mask.spell) return_val = true;
         break;
+//        case LED_STATE_CUSTOM:
+//        	return_val = true;
+//            //if (g_flash_info_block.flash_info_data.strip_info.strip_one_active_animation_mask.spell) return_val = true;
+//        break;
         case LED_STATE_WHITE_COLOR:
             if (g_flash_info_block.flash_info_data.strip_info.strip_one_active_animation_mask.white) return_val = true;
         break;

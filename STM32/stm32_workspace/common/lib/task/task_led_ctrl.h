@@ -6,6 +6,7 @@
 #include "animate_led.h"
 
 
+void task_led_ctrl_draw_all_toggle(void);
 void task_led_ctrl(void *argument);
 void task_led_ctrl_delay(const uint32_t time_ms);
 void task_led_ctrl_pause(void);
@@ -37,7 +38,7 @@ void task_led_ctrl_strip_one(void *argument);
 void task_led_ctrl_strip_two(void *argument);
 void task_led_ctrl_strip_three(void *argument);
 void task_led_ctrl_clear_pause(void);
-
+void task_led_ctrl_brightness_adjust(void);
 
 
 //#endif /* SRC_TASK_led_ctrl_H_ */

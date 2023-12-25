@@ -125,7 +125,7 @@ bool task_button_press_major_state_change(void)
 }
 
 
-task_button_press_major_state_change_clear(void)
+void task_button_press_major_state_change_clear(void)
 {
     task_button_press_major_change = false;
 }
@@ -159,8 +159,8 @@ void task_button_press(void *argument)
                     a_ok_count++;
                     color = COLOR_HEX_GREEN;
                     irq_type = PUSH_BUTTON_A_IRQ;
-                    task_led_ctrl_speed_reset();
-
+                    task_led_ctrl_draw_all_toggle();
+                    //task_led_ctrl_speed_reset();
                 break;
                 case PUSH_BUTTON_B:
                     b_ok_count++;

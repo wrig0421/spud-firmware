@@ -30,6 +30,7 @@ typedef enum
     COLOR_HEX_MAROON        = 0x800000,
     COLOR_HEX_OLIVE         = 0x808000,
     COLOR_HEX_GREEN         = 0x008000,
+	COLOR_HEX_DARK_GREEN	= 0x336600,
     COLOR_HEX_PURPLE        = 0x800080,
     COLOR_HEX_TEAL          = 0x008080,
     COLOR_HEX_NAVY          = 0x000080,
@@ -43,7 +44,9 @@ typedef enum
     COLOR_HEX_DARK_MAGENTA  = 0x8B008B,
     COLOR_HEX_HOT_PINK      = 0xFF69B4,
     COLOR_HEX_MINT          = 0x4EBD88,
-    COLOR_HEX_BROWN         = 0xA52A2A,
+	COLOR_HEX_DARK_BLUE		= 0x000099,
+    COLOR_HEX_BROWN         = 0x331900,
+	COLOR_HEX_LIGHT_GRAY	= 0xE0E0E0,
 } color_hex_code_e;
 
 

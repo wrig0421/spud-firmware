@@ -45,8 +45,9 @@ typedef enum
 
 //master_led_state_e g_master_led_state = MASTER_LED_STATE_DEMO;
 master_led_state_e      g_master_led_state = MASTER_LED_STATE_DEMO;
-led_state_e             g_led_state = LED_STATE_FIRST;
-led_speed_e             g_led_speed = LED_SPEED_10X;
+led_state_custom_e		g_custom_led_state = LET_STATE_CUSTOM_MALLORD;
+led_state_e             g_led_state = LED_STATE_SOLID_COLOR;//LED_STATE_FIRST;
+led_speed_e             g_led_speed = LED_SPEED_1X;
 led_brightness_e        g_led_brightness = LED_BRIGHTNESS_100_PERCENT;
 
 master_color_state_e    g_master_color_state = MASTER_COLOR_STATE_DEMO;
@@ -60,6 +61,15 @@ extern color_hex_code_e g_color_hex_codes[NUM_COLORS];
 uint8_t                 g_animation_iterations = 0;
 uint16_t                g_delay_in_animation_ms = 100; // where applicable of course
 extern bool             task_button_press_major_change;
+bool g_draw_all = false;
+
+
+void task_led_ctrl_draw_all_toggle(void)
+{
+	animate_led_turn_all_pixels_off();
+	if (g_draw_all) g_draw_all = false;
+	else g_draw_all = true;
+}
 
 
 static void task_led_ctrl_adjust_parameters(const task_led_ctrl_loop_iterations_e max_iterations,
@@ -89,14 +99,43 @@ void task_led_ctrl_strip_one(void *argument)
 
         if (flash_info_animation_enabled(g_led_state))
         {
+            //animate_led_custom_solid_custom_color((uint16_t)STRIP_BIT_1, COLOR_HEX_BLACK, 0 , 178);
+        	if (!g_draw_all)
+        	{
+        		animate_led_custom_function_print_shotgun();
+        		animate_led_custom_function_print_mallord();
+        		//animate_led_show_strip(STRIP_BIT_1);
+        	}
             switch(g_led_state)
             {
+//            	case LED_STATE_CUSTOM:
+//            		//animate_led_custom_state(g_custom_led_state);
+//                    task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_1, TASK_LED_CTRL_DELAY_MS_5000);
+//            	break;
                 case LED_STATE_WHITE_COLOR:
-                    animate_led_solid_custom_color((uint16_t)STRIP_BIT_1, COLOR_HEX_WHITE);
-                    task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_1, TASK_LED_CTRL_DELAY_MS_5000);
+                	if (g_draw_all)
+                	{
+                		animate_led_solid_custom_color((uint16_t)STRIP_BIT_1, COLOR_HEX_WHITE);
+                	}
+                	else
+                	{
+                		animate_led_custom_solid_custom_color((uint16_t)STRIP_BIT_1, COLOR_HEX_WHITE, 0, 178);
+                	}
+                	task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_1, TASK_LED_CTRL_DELAY_MS_5000);
                 break;
                 case LED_STATE_SOLID_COLOR:
-                    animate_led_solid_custom_color((uint16_t)STRIP_BIT_1, task_led_ctrl_color_hex());
+                	if (COLOR_HEX_BLACK == task_led_ctrl_color_hex())
+					{
+						task_led_ctrl_color_adjust();
+					}
+                	if (g_draw_all)
+                	{
+                		animate_led_solid_custom_color((uint16_t)STRIP_BIT_1, task_led_ctrl_color_hex());
+                	}
+                	else
+                	{
+                        animate_led_custom_solid_custom_color((uint16_t)STRIP_BIT_1, task_led_ctrl_color_hex(), 0 , 178);
+                	}
                     if (MASTER_LED_STATE_FIXED == g_master_led_state)
                     {
                         task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_5, TASK_LED_CTRL_DELAY_MS_1000);
@@ -105,37 +144,107 @@ void task_led_ctrl_strip_one(void *argument)
                     else task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_5, TASK_LED_CTRL_DELAY_MS_5000);
                 break;
                 case LED_STATE_SPARKLE_NO_FILL:
-                    animate_led_turn_all_pixels_off();
-                    animate_led_sparkle_only_random_color(STRIP_BIT_1, false, 100);//random(0, 50));
+                	if (g_draw_all)
+                	{
+                		animate_led_turn_all_pixels_off();
+                		animate_led_sparkle_only_random_color(STRIP_BIT_1, false, 100);//random(0, 50));
+                	}
+                	else
+                	{
+                        animate_led_custom_solid_custom_color((uint16_t)STRIP_BIT_1, COLOR_HEX_BLACK, 0 , 178);
+                        animate_led_custom_sparkle_only_random_color(STRIP_BIT_1, false, 100, 0, 178);//random(0, 50));
+                	}
                     task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_5, TASK_LED_CTRL_DELAY_MS_0);
                 break;
                 case LED_STATE_SPARKLE_FILL:
-                    animate_led_sparkle_only_random_color(STRIP_BIT_1, true, 100);
+                	if (g_draw_all)
+                	{
+                		animate_led_sparkle_only_random_color(STRIP_BIT_1, true, 100);
+                	}
+                	else
+                	{
+                    	animate_led_custom_sparkle_only_random_color(STRIP_BIT_1, true, 100, 0, 178);//random(0, 50));
+                	}
                     task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_10, TASK_LED_CTRL_DELAY_MS_0);
                 break;
                 case LED_STATE_RAINBOW_CYCLE:
-                    animate_led_rainbow_cycle(STRIP_BIT_1, 10);
+                	if (g_draw_all)
+                	{
+                        animate_led_rainbow_cycle(STRIP_BIT_1, 10);
+                	}
+                	else
+                	{
+                        animate_led_custom_rainbow_cycle(STRIP_BIT_1, 10, 0, 178);
+                	}
                     task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_5, TASK_LED_CTRL_DELAY_MS_0);
                 break;
                 case LED_STATE_THEATER_CHASE:
-                    animate_led_theater_chase(STRIP_BIT_1, task_led_ctrl_color_hex(), 20);
+                	if (COLOR_HEX_BLACK == task_led_ctrl_color_hex())
+					{
+						task_led_ctrl_color_adjust();
+					}
+                	if (g_draw_all)
+                	{
+                        animate_led_theater_chase(STRIP_BIT_1, task_led_ctrl_color_hex(), 20);
+                	}
+                	else
+                	{
+                        animate_led_custom_theater_chase(STRIP_BIT_1, task_led_ctrl_color_hex(), 20, 0, 178);
+                	}
                     task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_10, TASK_LED_CTRL_DELAY_MS_0);
                 break;
-                case LED_STATE_THEATER_CHASE_RAINBOW:\
-                    animate_led_theater_chase_rainbow(STRIP_BIT_1, 20);
+                case LED_STATE_THEATER_CHASE_RAINBOW:
+                	if (g_draw_all)
+                	{
+                		animate_led_theater_chase_rainbow(STRIP_BIT_1, 20);
+                	}
+                	else
+                	{
+                        animate_led_custom_theater_chase_rainbow(STRIP_BIT_1, 20, 0, 178);
+                	}
                     task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_2, TASK_LED_CTRL_DELAY_MS_0);
                 break;
                 case LED_STATE_FADE_IN_AND_OUT:
-                    animate_led_fade_in_fade_out((uint16_t)STRIP_BIT_1, task_led_ctrl_color_hex());
+                	if (COLOR_HEX_BLACK == task_led_ctrl_color_hex())
+					{
+						task_led_ctrl_color_adjust();
+					}
+                	if (g_draw_all)
+                	{
+                        animate_led_fade_in_fade_out((uint16_t)STRIP_BIT_1, task_led_ctrl_color_hex());
+                	}
+                	else
+                	{
+                        animate_led_custom_fade_in_fade_out((uint16_t)STRIP_BIT_1, task_led_ctrl_color_hex(), 0, 178);
+                	}
                     task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_10, TASK_LED_CTRL_DELAY_MS_0);
                 break;
                 case LED_STATE_TWINKLE:
-                    animate_led_turn_all_pixels_off();
-                    animate_led_twinkle(STRIP_BIT_1, task_led_ctrl_color_hex(), (uint32_t)((float)NUM_LEDS * (float)0.9), 20, false);
+                	if (COLOR_HEX_BLACK == task_led_ctrl_color_hex())
+					{
+						task_led_ctrl_color_adjust();
+					}
+                	if (g_draw_all)
+                	{
+                		animate_led_turn_all_pixels_off();
+						animate_led_twinkle(STRIP_BIT_1, task_led_ctrl_color_hex(), (uint32_t)((float)NUM_LEDS * (float)0.9), 20, false);
+                	}
+                	else
+                	{
+                        animate_led_custom_solid_custom_color((uint16_t)STRIP_BIT_1, COLOR_HEX_BLACK, 0 , 178);
+                        animate_led_custom_twinkle(STRIP_BIT_1, task_led_ctrl_color_hex(), (uint32_t)((float)178 * (float)0.9), 20, false, 0, 178);
+                	}
                     task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_5, TASK_LED_CTRL_DELAY_MS_0);
                 break;
                 case LED_STATE_SPELL:
-                    animate_led_only_spell_word(STRIP_BIT_1, task_led_ctrl_color_hex(), 20);
+                	if (g_draw_all)
+                	{
+                		animate_led_only_spell_word(STRIP_BIT_1, task_led_ctrl_color_hex(), 20);
+                	}
+                	else
+                	{
+                    	animate_led_custom_only_spell_word(STRIP_BIT_1, task_led_ctrl_color_hex(), 20, 0, 178);
+                	}
                     task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_10, TASK_LED_CTRL_DELAY_MS_0);
                 break;
                 default:

@@ -1,6 +1,7 @@
 // SRW
 
 #include "stm32l4xx_hal.h"
+#include "cmsis_os.h"
 #include "board_common.h"
 #include "board_specific.h"
 

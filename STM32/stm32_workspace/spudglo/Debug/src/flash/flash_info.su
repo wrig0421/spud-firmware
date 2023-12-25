@@ -1,6 +1,6 @@
 ../src/flash/flash_info.c:95:6:flash_info_animation_enabled	24	static
-../src/flash/flash_info.c:140:6:flash_info_block_init	8	static
-../src/flash/flash_info.c:178:6:flash_info_read_sector_data	16	static
-../src/flash/flash_info.c:196:6:flash_info_write_sector_data	24	static
-../src/flash/flash_info.c:226:6:flash_info_init	8	static
-../src/flash/flash_info.c:240:6:flash_info_firmware_version	16	static
+../src/flash/flash_info.c:144:6:flash_info_block_init	8	static
+../src/flash/flash_info.c:182:6:flash_info_read_sector_data	16	static
+../src/flash/flash_info.c:200:6:flash_info_write_sector_data	24	static
+../src/flash/flash_info.c:230:6:flash_info_init	8	static
+../src/flash/flash_info.c:244:6:flash_info_firmware_version	16	static
