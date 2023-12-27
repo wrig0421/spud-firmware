@@ -11,7 +11,8 @@
 #include "board_specific.h"
 #include "uart_access.h"
 #include "esp8266.h"
-
+#include "uart_access_hal.h"
+#include "uart_config_hal.h"
 extern UART_HandleTypeDef      gh_host_usart;
 
 typedef enum
@@ -81,7 +82,7 @@ static void task_led_ctrl_adjust_parameters(const task_led_ctrl_loop_iterations_
     }
     if (MASTER_COLOR_STATE_DEMO == task_led_ctrl_color_state()) task_led_ctrl_color_random();
 }
-
+uint8_t g_read_buffer[20] = {0};
 uint8_t g_data[2];
 void task_led_ctrl_strip_one(void *argument)
 {
@@ -90,10 +91,28 @@ void task_led_ctrl_strip_one(void *argument)
 	board_init_specific_esp8266_power_disable();
 	osDelay(2000);
 	board_init_specific_esp8266_power_enable();
+
+//	board_init_specific_esp8266_reset_assert();
+//	board_init_specific_esp8266_uart_boot_enable();
+//	osDelay(1000);
+//	board_init_specific_esp8266_reset_deassert();
+	board_init_specific_esp8266_uart_boot_disable();
+	board_init_specific_esp8266_reset_assert();
+	osDelay(2000);
 	board_init_specific_esp8266_reset_deassert();
 	osDelay(2000);
-	esp8266_write_command(ESP8266_AT_STARTUP);
-	uart_access_read_block_esp8266(g_data, 2);
+	uart_config_hal_setup();
+	//while(1);
+	//esp8266_write_command(ESP8266_AT_STARTUP, false, 0);
+	esp8266_write_command_and_read_response(ESP8266_AT_STARTUP, false, 0, (char *)g_read_buffer, 10);
+	//esp8266_write_command_and_read_response(ESP8266_AT_STARTUP, false, 0, (char *)g_read_buffer, 2);
+	//uart_access_hal_read_block(uart_config_esp8266_handle(), g_read_buffer, 4);
+	//esp8266_write_command(ESP8266_AT_STARTUP, false, 0);
+	//uart_access_hal_read_block(uart_config_esp8266_handle(), g_read_buffer, 2);
+	//esp8266_write_command(ESP8266_AT_STARTUP, false, 0);
+	//uart_access_hal_read_block(uart_config_esp8266_handle(), g_read_buffer, 2);
+
+	//uart_access_read_block_esp8266(g_data, 2);
 	while(1);
 
     osDelay(10);

@@ -68,6 +68,12 @@ void uart_access_write_byte_esp8266(uint8_t data)
 }
 
 
+void uart_access_write_and_read_block_esp8266(uint8_t* write_data, uint16_t write_len, uint8_t* read_buf, uint16_t read_len)
+{
+	uart_access_hal_write_and_read_block(uart_config_esp8266_handle(), write_data, write_len, read_buf, read_len);
+}
+
+
 void uart_access_write_block_esp8266(uint8_t* data, uint16_t len)
 {
 	uart_access_hal_write_block(uart_config_esp8266_handle(), data, len);

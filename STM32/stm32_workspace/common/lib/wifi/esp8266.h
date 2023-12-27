@@ -39,8 +39,9 @@ typedef enum
 	ESP8266_AT_CWDHCPS_CUR,
 	ESP8266_AT_CWDHCPS_DEF,
 	ESP8266_AT_CWAUTOCONN,
-
-
+	ESP8266_AT_CIFSR,
+	ESP8266_AT_CIPMUX,
+	ESP8266_AT_CIPSERVER,
 
 	NUM_ESP8266_AT_COMMANDS
 } esp8266_at_commands_e;
@@ -48,9 +49,9 @@ typedef enum
 
 void esp8266_write_block(uint8_t* data, uint16_t len);
 void esp8266_read_block(uint8_t* data, uint16_t len);
-void esp8266_write_command(esp8266_at_commands_e cmd);
-
-
+void esp8266_write_command(esp8266_at_commands_e cmd, bool parameters, char* param);
+void esp8266_write_command_and_read_response(esp8266_at_commands_e cmd_tag, bool parameters, char* param, char *read_buf, uint16_t read_len);
+void esp8266_write_and_read_block(uint8_t* write_data, uint16_t write_len, uint8_t* read_buf, uint16_t read_len);
 #endif
 
 #endif

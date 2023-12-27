@@ -63,6 +63,28 @@ void board_init_specific_power_cycle_level_shifter(void)
 }
 
 
+void board_init_specific_esp8266_uart_boot_enable(void)
+{
+    GPIO_InitTypeDef GPIO_InitStruct = {0};
+    GPIO_InitStruct.Pin = PIN_ESP8266_GPIO0;
+    GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    HAL_GPIO_Init(PIN_PORT_A, &GPIO_InitStruct);
+    HAL_GPIO_WritePin(PIN_PORT_A, PIN_ESP8266_GPIO0, GPIO_PIN_RESET);
+}
+
+
+void board_init_specific_esp8266_uart_boot_disable(void)
+{
+    GPIO_InitTypeDef GPIO_InitStruct = {0};
+    GPIO_InitStruct.Pin = PIN_ESP8266_GPIO0;
+    GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    HAL_GPIO_Init(PIN_PORT_A, &GPIO_InitStruct);
+    HAL_GPIO_WritePin(PIN_PORT_A, PIN_ESP8266_GPIO0, GPIO_PIN_SET);
+}
+
+
 void board_init_specific_esp8266_power_enable(void)
 {
     GPIO_InitTypeDef GPIO_InitStruct = {0};
@@ -88,18 +110,18 @@ void board_init_specific_esp8266_power_disable(void)
 void board_init_specific_esp8266_reset_assert(void)
 {
     GPIO_InitTypeDef GPIO_InitStruct = {0};
-    GPIO_InitStruct.Pin = PIN_ESP8266_EN;
+    GPIO_InitStruct.Pin = PIN_ESP8266_RST;
     GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     HAL_GPIO_Init(PIN_PORT_A, &GPIO_InitStruct);
-    HAL_GPIO_WritePin(PIN_PORT_A, PIN_ESP8266_EN, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(PIN_PORT_A, PIN_ESP8266_RST, GPIO_PIN_RESET);
 }
 
 
 void board_init_specific_esp8266_reset_deassert(void)
 {
     GPIO_InitTypeDef GPIO_InitStruct = {0};
-    GPIO_InitStruct.Pin = PIN_ESP8266_EN;
+    GPIO_InitStruct.Pin = PIN_ESP8266_RST;
     GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     HAL_GPIO_Init(PIN_PORT_A, &GPIO_InitStruct);

@@ -40,30 +40,30 @@ void spi_config_hal_setup(void)
     	if (g_spi_num_chips_per_bus[bus])
     	{
     	    GPIO_InitStruct.Pin       = g_spi_config[bus].pin.mosi;
-    	    GPIO_InitStruct.Mode      = GPIO_MODE_AF_PP;
+    	    GPIO_InitStruct.Mode      = GPIO_MODE_INPUT;
     	    GPIO_InitStruct.Pull      = GPIO_NOPULL;
     	    GPIO_InitStruct.Speed     = GPIO_SPEED_FREQ_LOW;
-    	    GPIO_InitStruct.Alternate = g_spi_config[bus].pin.mosi_alt_func;
+//    	    GPIO_InitStruct.Alternate = g_spi_config[bus].pin.mosi_alt_func;
     	    HAL_GPIO_Init(g_spi_config[bus].pin.mosi_port, &GPIO_InitStruct);
 
     	    GPIO_InitStruct.Pin       = g_spi_config[bus].pin.miso;
-    	    GPIO_InitStruct.Mode      = GPIO_MODE_AF_PP;
+    	    GPIO_InitStruct.Mode      = GPIO_MODE_INPUT;
     	    GPIO_InitStruct.Pull      = GPIO_NOPULL;
     	    GPIO_InitStruct.Speed     = GPIO_SPEED_FREQ_LOW;
-    	    GPIO_InitStruct.Alternate = g_spi_config[bus].pin.miso_alt_func;
+//    	    GPIO_InitStruct.Alternate = g_spi_config[bus].pin.miso_alt_func;
     	    HAL_GPIO_Init(g_spi_config[bus].pin.miso_port, &GPIO_InitStruct);
 
     	    GPIO_InitStruct.Pin       = g_spi_config[bus].pin.sck;
-    	    GPIO_InitStruct.Mode      = GPIO_MODE_AF_PP;
+    	    GPIO_InitStruct.Mode      = GPIO_MODE_INPUT;
     	    GPIO_InitStruct.Pull      = GPIO_NOPULL;
     	    GPIO_InitStruct.Speed     = GPIO_SPEED_FREQ_LOW;
-    	    GPIO_InitStruct.Alternate = g_spi_config[bus].pin.sck_alt_func;
+//    	    GPIO_InitStruct.Alternate = g_spi_config[bus].pin.sck_alt_func;
     	    HAL_GPIO_Init(g_spi_config[bus].pin.sck_port, &GPIO_InitStruct);
 
     	    GPIO_InitStruct.Pin       = g_spi_config[bus].pin.csn;
-    	    GPIO_InitStruct.Mode      = GPIO_MODE_OUTPUT_PP;
+    	    GPIO_InitStruct.Mode      = GPIO_MODE_INPUT;
     	    GPIO_InitStruct.Pull      = GPIO_NOPULL;
-    	    GPIO_InitStruct.Speed     = GPIO_SPEED_FREQ_LOW;
+//    	    GPIO_InitStruct.Speed     = GPIO_SPEED_FREQ_LOW;
     	    HAL_GPIO_Init(g_spi_config[bus].pin.csn_port, &GPIO_InitStruct);
 
         	switch (bus)
