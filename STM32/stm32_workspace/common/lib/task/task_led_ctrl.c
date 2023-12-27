@@ -13,6 +13,7 @@
 #include "esp8266.h"
 #include "uart_access_hal.h"
 #include "uart_config_hal.h"
+#include <string.h>
 extern UART_HandleTypeDef      gh_host_usart;
 
 typedef enum
@@ -82,7 +83,7 @@ static void task_led_ctrl_adjust_parameters(const task_led_ctrl_loop_iterations_
     }
     if (MASTER_COLOR_STATE_DEMO == task_led_ctrl_color_state()) task_led_ctrl_color_random();
 }
-uint8_t g_read_buffer[20] = {0};
+uint8_t g_read_buffer[100] = {0};
 uint8_t g_data[2];
 void task_led_ctrl_strip_one(void *argument)
 {
@@ -103,8 +104,23 @@ void task_led_ctrl_strip_one(void *argument)
 	osDelay(2000);
 	uart_config_hal_setup();
 	//while(1);
-	//esp8266_write_command(ESP8266_AT_STARTUP, false, 0);
+	esp8266_write_command(ESP8266_AT_ECHO, false, 0);
+//	esp8266_write_command_and_read_response(ESP8266_AT_ECHO, false, 0, (char *)g_read_buffer, 2);
+//	osDelay(200);
 	esp8266_write_command_and_read_response(ESP8266_AT_STARTUP, false, 0, (char *)g_read_buffer, 10);
+	osDelay(200);
+	memset(g_read_buffer, 0, sizeof(g_read_buffer));
+	//esp8266_write_command_and_read_response(ESP8266_AT_ECHO, false, 0, (char *)g_read_buffer, 6);
+	esp8266_write_command_and_read_response(ESP8266_AT_RESTART, false, 0, (char *)g_read_buffer, 8);
+	osDelay(200);
+	esp8266_write_command_and_read_response(ESP8266_AT_CW_MODE_CUR, false, 0, (char *)g_read_buffer, 10);
+	osDelay(200);
+	esp8266_write_command_and_read_response(ESP8266_AT_CIFSR, false, 0, (char *)g_read_buffer, 75);
+	osDelay(200);
+	esp8266_write_command_and_read_response(ESP8266_AT_CIPMUX, false, 0, (char *)g_read_buffer, 10);
+	esp8266_write_command_and_read_response(ESP8266_AT_CIPSERVER, false, 0, (char *)g_read_buffer, 30);
+
+
 	//esp8266_write_command_and_read_response(ESP8266_AT_STARTUP, false, 0, (char *)g_read_buffer, 2);
 	//uart_access_hal_read_block(uart_config_esp8266_handle(), g_read_buffer, 4);
 	//esp8266_write_command(ESP8266_AT_STARTUP, false, 0);

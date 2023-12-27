@@ -34,7 +34,7 @@ uint8_t g_data_read[100] = {0xff};
 void uart_access_hal_write_and_read_block(uart_handle_t ph_uart, uint8_t* write_data, uint16_t write_len, uint8_t* read_buf, uint16_t read_len)
 {
 	// clear UART with 0 timeout call below.
-	HAL_UART_Receive(ph_uart, g_data_read, 10, 0);
+	HAL_UART_Receive(ph_uart, g_data_read, 1000, 0);
 
 	// start listening for receive before TX
 	if (HAL_OK != HAL_UART_Receive_IT(ph_uart, read_buf, read_len))
