@@ -6,10 +6,13 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include "uart_config_hal.h"
+#include "FreeRTOS.h"
 
 
 uart_handle_t uart_config_host_handle(void);
 
+TickType_t uart_access_hal_last_rx_tick_time(void);
+bool uart_access_hal_rx_done(TickType_t cur_time);
 void uart_access_hal_write_byte(uart_handle_t ph_uart, uint8_t data);
 void uart_access_hal_write_block(uart_handle_t ph_uart, uint8_t* data, uint16_t len);
 void uart_access_hal_read_byte(uart_handle_t ph_uart, uint8_t* buf);

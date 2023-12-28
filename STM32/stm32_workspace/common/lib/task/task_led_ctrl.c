@@ -83,14 +83,28 @@ static void task_led_ctrl_adjust_parameters(const task_led_ctrl_loop_iterations_
     }
     if (MASTER_COLOR_STATE_DEMO == task_led_ctrl_color_state()) task_led_ctrl_color_random();
 }
-uint8_t g_read_buffer[100] = {0};
-uint8_t g_data[2];
+
+
+extern char g_general_rx_buffer[500];
+char search[4] = "+IPD";
+
+char ssid[60] = "\"Pretty Fly for a Wi-Fi\",\"hot_trash**\"";
+bool gb_waiting_on_request = false;
+char html[300] = {"HTTP/1.1 200 OK\r\n"
+		"Content-Type: text/html\r\n"
+		"Connection: close\r\n"
+		"\r\n"
+		"<!DOCTYPE HTML>"
+		"<html>"
+		"ESP8266 web server example by Spenny <a href = \"https://electronza.com\">https://electronza.com</a>"
+		"</html>\r\n"};
+
 void task_led_ctrl_strip_one(void *argument)
 {
 
 
 	board_init_specific_esp8266_power_disable();
-	osDelay(2000);
+	osDelay(1000);
 	board_init_specific_esp8266_power_enable();
 
 //	board_init_specific_esp8266_reset_assert();
@@ -99,26 +113,66 @@ void task_led_ctrl_strip_one(void *argument)
 //	board_init_specific_esp8266_reset_deassert();
 	board_init_specific_esp8266_uart_boot_disable();
 	board_init_specific_esp8266_reset_assert();
-	osDelay(2000);
+	osDelay(1000);
 	board_init_specific_esp8266_reset_deassert();
-	osDelay(2000);
+	osDelay(1000);
 	uart_config_hal_setup();
 	//while(1);
-	esp8266_write_command(ESP8266_AT_ECHO, false, 0);
+	//esp8266_write_command(ESP8266_AT_ECHO, false, 0);
 //	esp8266_write_command_and_read_response(ESP8266_AT_ECHO, false, 0, (char *)g_read_buffer, 2);
 //	osDelay(200);
-	esp8266_write_command_and_read_response(ESP8266_AT_STARTUP, false, 0, (char *)g_read_buffer, 10);
+
+	if (!esp8266_write_command_and_read_response(ESP8266_AT_STARTUP, false, 0, (char *)g_general_rx_buffer, 10, 100))
+	{
+		while (1);
+	}
 	osDelay(200);
-	memset(g_read_buffer, 0, sizeof(g_read_buffer));
-	//esp8266_write_command_and_read_response(ESP8266_AT_ECHO, false, 0, (char *)g_read_buffer, 6);
-	esp8266_write_command_and_read_response(ESP8266_AT_RESTART, false, 0, (char *)g_read_buffer, 8);
+	if (!esp8266_write_command_and_read_response(ESP8266_AT_RESTART, false, 0, (char *)g_general_rx_buffer, 10, 100))
+	{
+		while (1);
+	}
 	osDelay(200);
-	esp8266_write_command_and_read_response(ESP8266_AT_CW_MODE_CUR, false, 0, (char *)g_read_buffer, 10);
+
+
+	if (!esp8266_write_command_and_read_response(ESP8266_AT_CW_MODE_CUR, true, "1", (char *)g_general_rx_buffer, 10, 500))
+	{
+		while (1);
+	}
+	if (!esp8266_write_command_and_read_response(ESP8266_AT_CWJAP_CUR, true, ssid, (char *)g_general_rx_buffer, 10, 10000))
+	{
+		while (1);
+	}
+	osDelay(1000);
+	if (!esp8266_write_command_and_read_response(ESP8266_AT_CIFSR, false, 0, (char *)g_general_rx_buffer, 75, 1000))
+	{
+		while (1);
+	}
 	osDelay(200);
-	esp8266_write_command_and_read_response(ESP8266_AT_CIFSR, false, 0, (char *)g_read_buffer, 75);
+	if (!esp8266_write_command_and_read_response(ESP8266_AT_CIPMUX, true, "1", (char *)g_general_rx_buffer, 10, 500))
+	{
+		while (1);
+	}
 	osDelay(200);
-	esp8266_write_command_and_read_response(ESP8266_AT_CIPMUX, false, 0, (char *)g_read_buffer, 10);
-	esp8266_write_command_and_read_response(ESP8266_AT_CIPSERVER, false, 0, (char *)g_read_buffer, 30);
+	if (!esp8266_write_command_and_read_response(ESP8266_AT_CIPSERVER, true, "1,80", (char *)g_general_rx_buffer, 30, 500))
+	{
+		while(1);
+	}
+	gb_waiting_on_request = true;
+	while (!esp8266_response_contains(g_general_rx_buffer, search, sizeof(g_general_rx_buffer)))
+	{
+		osDelay(200);
+	}
+
+
+	if (!esp8266_write_command_and_read_response(ESP8266_AT_CIPSEND, true, "0,190", (char *)g_general_rx_buffer, 30, 5000))
+	{
+		while(1);
+	}
+	esp8266_write_data(html, 190, 10000);
+	if (!esp8266_write_command_and_read_response(ESP8266_AT_CIPCLOSE, true, "0", (char *)g_general_rx_buffer, 30, 3000))
+	{
+		while(1);
+	}
 
 
 	//esp8266_write_command_and_read_response(ESP8266_AT_STARTUP, false, 0, (char *)g_read_buffer, 2);
@@ -129,7 +183,11 @@ void task_led_ctrl_strip_one(void *argument)
 	//uart_access_hal_read_block(uart_config_esp8266_handle(), g_read_buffer, 2);
 
 	//uart_access_read_block_esp8266(g_data, 2);
-	while(1);
+
+	while(1)
+	{
+		osDelay(200);
+	}
 
     osDelay(10);
     while (1)

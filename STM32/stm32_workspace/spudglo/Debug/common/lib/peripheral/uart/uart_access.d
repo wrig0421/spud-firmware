@@ -38,6 +38,12 @@ common/lib/peripheral/uart/uart_access.o: \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h \
+ ../sdk/FreeRTOS/Source/include/FreeRTOS.h ../src/FreeRTOSConfig.h \
+ ../sdk/FreeRTOS/Source/include/projdefs.h \
+ ../sdk/FreeRTOS/Source/include/portable.h \
+ ../sdk/FreeRTOS/Source/include/deprecated_definitions.h \
+ ../sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h \
+ ../sdk/FreeRTOS/Source/include/mpu_wrappers.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/uart/uart_access.h
 ../src/bsp/peripheral/uart_access_hal.h:
 ../src/bsp/stmicro/peripheral/uart/uart_config_hal.h:
@@ -79,4 +85,11 @@ common/lib/peripheral/uart/uart_access.o: \
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h:
+../sdk/FreeRTOS/Source/include/FreeRTOS.h:
+../src/FreeRTOSConfig.h:
+../sdk/FreeRTOS/Source/include/projdefs.h:
+../sdk/FreeRTOS/Source/include/portable.h:
+../sdk/FreeRTOS/Source/include/deprecated_definitions.h:
+../sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h:
+../sdk/FreeRTOS/Source/include/mpu_wrappers.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/uart/uart_access.h:
