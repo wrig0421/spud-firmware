@@ -5,7 +5,7 @@
 
 #include "uart_config_hal.h"
 
-
+void uart_access_change_baudrate_to_9600(void);
 
 
 #endif

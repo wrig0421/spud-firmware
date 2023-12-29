@@ -19,6 +19,7 @@ MAP_FILES :=
 S_DEPS := 
 S_UPPER_DEPS := 
 C_DEPS := 
+OBJCOPY_BIN := 
 
 # Every subdirectory with source files must be described here
 SUBDIRS := \
@@ -47,7 +48,6 @@ src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v4 \
 src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5 \
 src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/peripheral/spi \
 src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/peripheral/uart \
-src/lib/flash \
 src/lib/util \
 src \
 src/task \

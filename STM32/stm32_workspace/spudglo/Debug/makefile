@@ -12,7 +12,6 @@ RM := rm -rf
 -include startup/subdir.mk
 -include src/task/subdir.mk
 -include src/lib/util/subdir.mk
--include src/lib/flash/subdir.mk
 -include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/peripheral/uart/subdir.mk
 -include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/peripheral/spi/subdir.mk
 -include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/subdir.mk
@@ -79,6 +78,9 @@ default.size.stdout \
 OBJDUMP_LIST += \
 spudglo.list \
 
+OBJCOPY_BIN += \
+spudglo.bin \
+
 
 # All Target
 all: main-build
@@ -87,8 +89,8 @@ all: main-build
 main-build: spudglo.elf secondary-outputs
 
 # Tool invocations
-spudglo.elf spudglo.map: $(OBJS) $(USER_OBJS) /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/spudglo/STM32L431RCTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "spudglo.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/spudglo/STM32L431RCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="spudglo.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+spudglo.elf spudglo.map: $(OBJS) $(USER_OBJS) /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/spudglo/0x800_STM32L431RCTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "spudglo.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/spudglo/0x800_STM32L431RCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="spudglo.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -102,12 +104,17 @@ spudglo.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	@echo 'Finished building: $@'
 	@echo ' '
 
+spudglo.bin: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objcopy  -O binary $(EXECUTABLES) "spudglo.bin"
+	@echo 'Finished building: $@'
+	@echo ' '
+
 # Other Targets
 clean:
-	-$(RM) default.size.stdout spudglo.elf spudglo.list spudglo.map
+	-$(RM) default.size.stdout spudglo.bin spudglo.elf spudglo.list spudglo.map
 	-@echo ' '
 
-secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST)
+secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST) $(OBJCOPY_BIN)
 
 fail-specified-linker-script-missing:
 	@echo 'Error: Cannot find the specified linker script. Check the linker settings in the build configuration.'

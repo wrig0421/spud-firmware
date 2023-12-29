@@ -46,6 +46,7 @@ typedef enum
 	ESP8266_AT_CIPSERVER,
 	ESP8266_AT_CIPSEND,
 	ESP8266_AT_CIPCLOSE,
+	ESP8266_AT_UART_DEF,
 
 	NUM_ESP8266_AT_COMMANDS
 } esp8266_at_commands_e;
@@ -57,8 +58,8 @@ void esp8266_write_command(esp8266_at_commands_e cmd, bool parameters, char* par
 bool esp8266_write_command_and_read_response(esp8266_at_commands_e cmd_tag, bool parameters, char* param, char *read_buf, uint16_t read_len, uint32_t timeout_ms);
 void esp8266_write_and_read_block(uint8_t* write_data, uint16_t write_len, uint8_t* read_buf, uint16_t read_len);
 bool esp8266_response_ok_received(char *buffer, uint16_t len);
-bool esp8266_response_contains(char *buffer, char *msg, uint16_t len);
-
+bool esp8266_response_contains(char *buffer, char *msg, uint16_t msg_len, uint16_t len);
+uint16_t esp8266_read_start_of_binary_index(void);
 bool esp8266_start_webserver(void);
 void esp8266_startup(void);
 

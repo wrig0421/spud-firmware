@@ -52,7 +52,11 @@ common/lib/wifi/esp8266.o: \
  ../src/bsp/peripheral/uart_access_hal.h \
  ../src/bsp/stmicro/peripheral/uart/uart_config_hal.h \
  ../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h \
- /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/wifi/esp8266.h
+ /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/wifi/esp8266.h \
+ /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_led_ctrl.h \
+ /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/color_led/color_led.h \
+ /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/animate_led/animate_led.h \
+ /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/ws2812b_driver/ws2812b.h
 ../src/config.h:
 ../sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h:
 ../sdk/FreeRTOS/Source/include/FreeRTOS.h:
@@ -111,3 +115,7 @@ common/lib/wifi/esp8266.o: \
 ../src/bsp/stmicro/peripheral/uart/uart_config_hal.h:
 ../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/wifi/esp8266.h:
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_led_ctrl.h:
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/color_led/color_led.h:
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/animate_led/animate_led.h:
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/ws2812b_driver/ws2812b.h:

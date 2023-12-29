@@ -1,6 +1,0 @@
-../src/lib/flash/flash_info.c:95:6:flash_info_animation_enabled	23
-../src/lib/flash/flash_info.c:140:6:flash_info_block_init	1
-../src/lib/flash/flash_info.c:178:6:flash_info_read_sector_data	3
-../src/lib/flash/flash_info.c:196:6:flash_info_write_sector_data	5
-../src/lib/flash/flash_info.c:226:6:flash_info_init	4
-../src/lib/flash/flash_info.c:240:6:flash_info_firmware_version	137

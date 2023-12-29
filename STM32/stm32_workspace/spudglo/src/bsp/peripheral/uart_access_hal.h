@@ -8,6 +8,11 @@
 #include "uart_config_hal.h"
 #include "FreeRTOS.h"
 
+//typedef union
+//{
+//	uint8_t flat_uint8[2048];
+//	uint64_t flat_uint64[2048/sizeof(uint64_t)];
+//} uart_flat_union_t;
 
 uart_handle_t uart_config_host_handle(void);
 

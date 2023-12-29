@@ -1,4 +1,4 @@
-src/lib/flash/flash_info.o: ../src/lib/flash/flash_info.c \
+src/bsp/flash_info.o: ../src/bsp/flash_info.c \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h \
  ../src/bsp/stmicro/stm32l4/bloat/stm32l4xx_hal_conf.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h \
@@ -39,7 +39,19 @@ src/lib/flash/flash_info.o: ../src/lib/flash/flash_info.c \
  ../src/bsp/board_init_common.h ../src/bsp/board_common.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/ws2812b_driver/ws2812b.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/color_led/color_led.h \
- ../src/lib/flash/flash_info.h
+ ../src/bsp/flash_info.h ../src/bsp/flash_access.h \
+ /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/pkt/pkt.h \
+ ../sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h \
+ ../sdk/FreeRTOS/Source/include/FreeRTOS.h ../src/FreeRTOSConfig.h \
+ ../sdk/FreeRTOS/Source/include/projdefs.h \
+ ../sdk/FreeRTOS/Source/include/portable.h \
+ ../sdk/FreeRTOS/Source/include/deprecated_definitions.h \
+ ../sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h \
+ ../sdk/FreeRTOS/Source/include/mpu_wrappers.h \
+ ../sdk/FreeRTOS/Source/include/task.h \
+ ../sdk/FreeRTOS/Source/include/list.h \
+ ../sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h \
+ /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/pkt/pkt.h
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
 ../src/bsp/stmicro/stm32l4/bloat/stm32l4xx_hal_conf.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h:
@@ -84,4 +96,18 @@ src/lib/flash/flash_info.o: ../src/lib/flash/flash_info.c \
 ../src/bsp/board_common.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/ws2812b_driver/ws2812b.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/color_led/color_led.h:
-../src/lib/flash/flash_info.h:
+../src/bsp/flash_info.h:
+../src/bsp/flash_access.h:
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/pkt/pkt.h:
+../sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h:
+../sdk/FreeRTOS/Source/include/FreeRTOS.h:
+../src/FreeRTOSConfig.h:
+../sdk/FreeRTOS/Source/include/projdefs.h:
+../sdk/FreeRTOS/Source/include/portable.h:
+../sdk/FreeRTOS/Source/include/deprecated_definitions.h:
+../sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h:
+../sdk/FreeRTOS/Source/include/mpu_wrappers.h:
+../sdk/FreeRTOS/Source/include/task.h:
+../sdk/FreeRTOS/Source/include/list.h:
+../sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h:
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/pkt/pkt.h:

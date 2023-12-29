@@ -9,9 +9,10 @@
 #include "uart_access_hal.h"
 #include "uart_config_hal.h"
 #include "esp8266.h"
+#include "task_led_ctrl.h"
 
 
-extern char g_general_rx_buffer[200];
+extern char g_general_rx_buffer[GENERAL_RX_BUFFER_SIZE];
 
 
 char* esp8266_at_command_lookup[NUM_ESP8266_AT_COMMANDS] =
@@ -27,6 +28,7 @@ char* esp8266_at_command_lookup[NUM_ESP8266_AT_COMMANDS] =
 	[ESP8266_AT_CWJAP_CUR] = "AT+CWJAP_CUR",
 	[ESP8266_AT_CIPSEND] = "AT+CIPSEND",
 	[ESP8266_AT_CIPCLOSE] = "AT+CIPCLOSE",
+	[ESP8266_AT_UART_DEF] = "AT+UART_DEF"
 	//[ESP8266_AT_CIPSEND] = "AT+CIPSEND=",
 };
 
@@ -119,7 +121,7 @@ bool esp8266_response_ok_received(char *buffer, uint16_t len)
 	char ok[2] = "OK";
 	for (uint16_t iii = 0; iii < len; iii++)
 	{
-		if ((buffer[iii] == ok[0]) && (iii < len - strlen(ok)))
+		if ((buffer[iii] == ok[0])) //&& (iii < len - strlen(ok)))
 		{
 			if (buffer[iii + 1] == ok[1]) return true;
 		}
@@ -127,17 +129,23 @@ bool esp8266_response_ok_received(char *buffer, uint16_t len)
 	return false;
 }
 
+uint16_t g_iii = 0;
 
-bool esp8266_response_contains(char *buffer, char *msg, uint16_t len)
+uint16_t esp8266_read_start_of_binary_index(void)
 {
-	uint8_t g_str_len = sizeof(msg);
+	return g_iii;
+}
+
+bool esp8266_response_contains(char *buffer, char *msg, uint16_t msg_len, uint16_t len)
+{
+	uint8_t g_str_len = strlen(msg);
 	uint8_t msg_index = 0;
-	for (uint16_t iii = 0; iii < len; iii++)
+	for ( g_iii = 0; g_iii < len; g_iii++)
 	{
-		if ((uint8_t)buffer[iii] == (uint8_t)msg[msg_index])// && (iii < (len - strlen(msg))))
+		if ((uint8_t)buffer[g_iii] == (uint8_t)msg[msg_index])// && (iii < (len - strlen(msg))))
 		{
 			msg_index++;
-			if (msg_index == (g_str_len))
+			if (msg_index == (msg_len))
 			{
 				return true;
 			}
@@ -149,10 +157,6 @@ bool esp8266_response_contains(char *buffer, char *msg, uint16_t len)
 	}
 	return false;
 }
-
-
-
-
 
 
 void esp8266_startup(void)

@@ -103,7 +103,6 @@ const osThreadAttr_t g_task_dma_transfer_attributes =
 	.priority = (osPriority_t) osPriorityNormal,
 };
 
-
 void task_create(void)
 {
     osKernelInitialize();

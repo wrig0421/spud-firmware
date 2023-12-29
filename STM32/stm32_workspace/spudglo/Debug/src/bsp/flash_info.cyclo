@@ -1,0 +1,14 @@
+../src/bsp/flash_info.c:92:6:flash_info_color_enabled	2
+../src/bsp/flash_info.c:219:6:flash_info_animation_enabled	24
+../src/bsp/flash_info.c:289:18:flash_info_strip_brightness	2
+../src/bsp/flash_info.c:330:13:flash_info_strip_speed	2
+../src/bsp/flash_info.c:366:6:flash_info_block_init	1
+../src/bsp/flash_info.c:423:6:flash_info_read_data	1
+../src/bsp/flash_info.c:464:6:flash_info_write_data	30
+../src/bsp/flash_info.c:579:13:flash_info_rand_seed_increment	1
+../src/bsp/flash_info.c:586:6:flash_info_init	4
+../src/bsp/flash_info.c:611:6:flash_info_write_led_color_current	1
+../src/bsp/flash_info.c:617:14:flash_info_read_led_color_current	1
+../src/bsp/flash_info.c:623:6:flash_info_write_led_animation_current	1
+../src/bsp/flash_info.c:629:13:flash_info_read_led_animation_current	1
+../src/bsp/flash_info.c:635:6:flash_info_firmware_version	137

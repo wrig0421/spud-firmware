@@ -10,7 +10,7 @@
 #include <stdint.h>
 
 bool esp8266_start_webserver(void);
-char* esp8266_webserver_make_page(char* title, char* contents);
+uint32_t esp8266_webserver_make_page(char* title, char* contents);
 
 
 #endif

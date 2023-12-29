@@ -51,7 +51,7 @@ src/main.o: ../src/main.c ../src/main.h \
  ../src/task/task_create.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/animate_led/animate_led.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/color_led/color_led.h \
- ../src/lib/flash/flash_info.h
+ ../src/bsp/flash_info.h
 ../src/main.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
 ../src/bsp/stmicro/stm32l4/bloat/stm32l4xx_hal_conf.h:
@@ -109,4 +109,4 @@ src/main.o: ../src/main.c ../src/main.h \
 ../src/task/task_create.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/animate_led/animate_led.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/color_led/color_led.h:
-../src/lib/flash/flash_info.h:
+../src/bsp/flash_info.h:

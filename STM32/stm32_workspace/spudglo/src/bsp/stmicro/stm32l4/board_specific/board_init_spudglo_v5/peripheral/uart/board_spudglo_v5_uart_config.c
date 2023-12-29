@@ -33,7 +33,7 @@ UART_HandleTypeDef g_uart_handle_config[NUM_UART_CONFIG_BUSES] =
 		[UART_CONFIG_BUS_ESP8266] =
 		{
 				.Instance = USART1,
-				.Init.BaudRate = 115200,
+				.Init.BaudRate = 9600,
 				.Init.WordLength = UART_WORDLENGTH_8B,
 			    .Init.StopBits = UART_STOPBITS_1,
 			    .Init.Parity = UART_PARITY_NONE,
@@ -72,6 +72,12 @@ const uart_config_t g_uart_config[NUM_UART_CONFIG_BUSES] =
 			.irqn = USART1_IRQn
 	}
 };
+
+
+void uart_access_change_baudrate_to_9600(void)
+{
+	g_uart_handle_config[UART_CONFIG_BUS_ESP8266].Init.BaudRate = 9600;
+}
 
 
 const uart_access_id_e g_lpuart1_chips[] =

@@ -1,0 +1,7 @@
+../src/bsp/flash_access.c:15:6:HAL_FLASH_EndOfOperationCallback	1
+../src/bsp/flash_access.c:21:6:flash_access_read_flash	1
+../src/bsp/flash_access.c:27:6:flash_access_write_to_flash	4
+../src/bsp/flash_access.c:40:6:flash_access_read_sector	2
+../src/bsp/flash_access.c:57:6:flash_access_erase_slot	2
+../src/bsp/flash_access.c:81:6:flash_access_write_sector	5
+../src/bsp/flash_access.c:125:6:flash_access_write_sector_with_address	3

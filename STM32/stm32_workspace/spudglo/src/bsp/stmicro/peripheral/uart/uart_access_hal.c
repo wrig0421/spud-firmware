@@ -4,7 +4,9 @@
 #include "uart_access_hal.h"
 #include "cmsis_os.h"
 #include "task_led_ctrl.h"
+#include "esp8266.h"
 #include <string.h>
+#include <stdbool.h>
 
 TickType_t g_receive_tick_time;
 uint8_t *gh_uart_rx_buffer;
@@ -22,14 +24,70 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
 	// do something in future
 }
 
+typedef enum
+{
+	PING,
+	PONG
+} ping_pong_e;
 
+bool g_buffer_full = false;
+bool g_firmware_update_in_progress = false;
+uint8_t g_uart_sector_ping[2048];
+uint8_t g_uart_sector_pong[2048];
+bool firmware_update_first_pass = true;
+uint8_t* g_uart_sector_buffer = g_uart_sector_ping;
+uint8_t* g_uart_sector_full_buffer;
+uint16_t g_uart_sector_index = 0;
+ping_pong_e ping_pong = PING;
+uint32_t g_uart_firmware_count = 0;
+uint8_t count = 0;
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
 	// save time of rx.  Unknown amounts of data are sent back from ESP8266..  Need to use timeout functionality to know we're done rxing.
-	g_receive_tick_time = xTaskGetTickCount();
-	if (HAL_OK != HAL_UART_Receive_IT(huart, (uint8_t *)(gh_uart_rx_buffer + (g_uart_rx_buffer_index++)), 1))
+	if (g_firmware_update_in_progress)
 	{
-		while (1);
+		g_uart_firmware_count++;
+		static bool first_pass = true;
+		if (first_pass)
+		{
+			first_pass = false;
+			memcpy(g_uart_sector_buffer, gh_uart_rx_buffer + esp8266_read_start_of_binary_index() + 1, g_uart_rx_buffer_index - (esp8266_read_start_of_binary_index() + 1));
+			g_uart_sector_index += g_uart_rx_buffer_index - (esp8266_read_start_of_binary_index() + 1);
+		}
+//		switch (count)
+//		{
+//			case 0:
+//				if (g_uart_sector_buffer)
+//			break;
+//		}
+		if (HAL_OK != HAL_UART_Receive_IT(huart, (uint8_t *)(g_uart_sector_buffer + (g_uart_sector_index++)), 1))
+		{
+			while (1);
+		}
+		g_uart_sector_index %= 2048;
+		if (!g_uart_sector_index)
+		{
+
+			if (PING == ping_pong)
+			{
+				g_uart_sector_buffer = g_uart_sector_pong;
+				g_uart_sector_full_buffer = g_uart_sector_ping;
+			}
+			else
+			{
+				g_uart_sector_buffer = g_uart_sector_ping;
+				g_uart_sector_full_buffer = g_uart_sector_pong;
+			}
+			g_buffer_full = true;
+		}
+	}
+	else
+	{
+		g_receive_tick_time = xTaskGetTickCount();
+		if (HAL_OK != HAL_UART_Receive_IT(huart, (uint8_t *)(gh_uart_rx_buffer + (g_uart_rx_buffer_index++)), 1))
+		{
+			while (1);
+		}
 	}
 }
 
