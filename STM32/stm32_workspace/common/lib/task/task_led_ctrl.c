@@ -11,6 +11,7 @@
 #include "board_specific.h"
 #include "uart_access.h"
 #include "esp8266.h"
+#include "esp8266_webserver.h"
 #include "uart_access_hal.h"
 #include "uart_config_hal.h"
 #include <string.h>
@@ -84,95 +85,31 @@ static void task_led_ctrl_adjust_parameters(const task_led_ctrl_loop_iterations_
     if (MASTER_COLOR_STATE_DEMO == task_led_ctrl_color_state()) task_led_ctrl_color_random();
 }
 
+char g_general_rx_buffer[GENERAL_RX_BUFFER_SIZE] = {0};
 
-extern char g_general_rx_buffer[500];
-char search[4] = "+IPD";
-
-char ssid[60] = "\"Pretty Fly for a Wi-Fi\",\"hot_trash**\"";
 bool gb_waiting_on_request = false;
-char html[300] = {"HTTP/1.1 200 OK\r\n"
-		"Content-Type: text/html\r\n"
-		"Connection: close\r\n"
-		"\r\n"
-		"<!DOCTYPE HTML>"
-		"<html>"
-		"ESP8266 web server example by Spenny <a href = \"https://electronza.com\">https://electronza.com</a>"
-		"</html>\r\n"};
+const char* serverIndex = "<h1>Upload STM32 BinFile</h1><h2><br><br><form method='POST' action='/upload' enctype='multipart/form-data'><input type='file' name='update'><input type='submit' value='Upload'></form></h2>";
 
 void task_led_ctrl_strip_one(void *argument)
 {
+	esp8266_startup();
+	esp8266_start_webserver();
+	esp8266_webserver_make_page("Select file", serverIndex);
 
 
-	board_init_specific_esp8266_power_disable();
-	osDelay(1000);
-	board_init_specific_esp8266_power_enable();
+//	board_init_specific_esp8266_power_disable();
+//	osDelay(1000);
+//	board_init_specific_esp8266_power_enable();
 
 //	board_init_specific_esp8266_reset_assert();
 //	board_init_specific_esp8266_uart_boot_enable();
 //	osDelay(1000);
 //	board_init_specific_esp8266_reset_deassert();
-	board_init_specific_esp8266_uart_boot_disable();
-	board_init_specific_esp8266_reset_assert();
-	osDelay(1000);
-	board_init_specific_esp8266_reset_deassert();
-	osDelay(1000);
-	uart_config_hal_setup();
+
 	//while(1);
 	//esp8266_write_command(ESP8266_AT_ECHO, false, 0);
 //	esp8266_write_command_and_read_response(ESP8266_AT_ECHO, false, 0, (char *)g_read_buffer, 2);
 //	osDelay(200);
-
-	if (!esp8266_write_command_and_read_response(ESP8266_AT_STARTUP, false, 0, (char *)g_general_rx_buffer, 10, 100))
-	{
-		while (1);
-	}
-	osDelay(200);
-	if (!esp8266_write_command_and_read_response(ESP8266_AT_RESTART, false, 0, (char *)g_general_rx_buffer, 10, 100))
-	{
-		while (1);
-	}
-	osDelay(200);
-
-
-	if (!esp8266_write_command_and_read_response(ESP8266_AT_CW_MODE_CUR, true, "1", (char *)g_general_rx_buffer, 10, 500))
-	{
-		while (1);
-	}
-	if (!esp8266_write_command_and_read_response(ESP8266_AT_CWJAP_CUR, true, ssid, (char *)g_general_rx_buffer, 10, 10000))
-	{
-		while (1);
-	}
-	osDelay(1000);
-	if (!esp8266_write_command_and_read_response(ESP8266_AT_CIFSR, false, 0, (char *)g_general_rx_buffer, 75, 1000))
-	{
-		while (1);
-	}
-	osDelay(200);
-	if (!esp8266_write_command_and_read_response(ESP8266_AT_CIPMUX, true, "1", (char *)g_general_rx_buffer, 10, 500))
-	{
-		while (1);
-	}
-	osDelay(200);
-	if (!esp8266_write_command_and_read_response(ESP8266_AT_CIPSERVER, true, "1,80", (char *)g_general_rx_buffer, 30, 500))
-	{
-		while(1);
-	}
-	gb_waiting_on_request = true;
-	while (!esp8266_response_contains(g_general_rx_buffer, search, sizeof(g_general_rx_buffer)))
-	{
-		osDelay(200);
-	}
-
-
-	if (!esp8266_write_command_and_read_response(ESP8266_AT_CIPSEND, true, "0,190", (char *)g_general_rx_buffer, 30, 5000))
-	{
-		while(1);
-	}
-	esp8266_write_data(html, 190, 10000);
-	if (!esp8266_write_command_and_read_response(ESP8266_AT_CIPCLOSE, true, "0", (char *)g_general_rx_buffer, 30, 3000))
-	{
-		while(1);
-	}
 
 
 	//esp8266_write_command_and_read_response(ESP8266_AT_STARTUP, false, 0, (char *)g_read_buffer, 2);

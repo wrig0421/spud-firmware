@@ -13,6 +13,7 @@
 "./common/lib/task/task_pkt_process.o"
 "./common/lib/task/task_uart.o"
 "./common/lib/wifi/esp8266.o"
+"./common/lib/wifi/esp8266_webserver.o"
 "./sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.o"
 "./sdk/FreeRTOS/Source/croutine.o"
 "./sdk/FreeRTOS/Source/event_groups.o"

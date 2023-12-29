@@ -3,49 +3,12 @@
 #include "stm32l4xx_hal.h"
 #include "uart_access_hal.h"
 #include "cmsis_os.h"
+#include "task_led_ctrl.h"
 #include <string.h>
 
-uint8_t g_counter = 0;
-
-
-bool gb_tx_complete = false;
-bool gb_rx_complete = false;
-
-
-char g_general_rx_buffer[500] = {0};
-uint16_t g_rx_buffer_index = 0;
-
-void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
-{
-	gb_tx_complete = true;
-	gb_rx_complete = false;
-}
-
-
 TickType_t g_receive_tick_time;
-
-
-bool uart_access_hal_rx_done(TickType_t cur_time)
-{
-	if ((cur_time - uart_access_hal_last_rx_tick_time()) < 1000) return false;
-	return true;
-}
-
-
-TickType_t uart_access_hal_last_rx_tick_time(void)
-{
-	return g_receive_tick_time;
-}
-
-
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
-{
-	g_receive_tick_time = xTaskGetTickCount();
-	if (HAL_OK != HAL_UART_Receive_IT(huart, (uint8_t *)(g_general_rx_buffer + (++g_rx_buffer_index)), 1))
-	{
-		while (1);
-	}
-}
+uint8_t *gh_uart_rx_buffer;
+uint16_t g_uart_rx_buffer_index = 0;
 
 
 void USART1_IRQHandler(void)
@@ -54,26 +17,63 @@ void USART1_IRQHandler(void)
 }
 
 
+void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
+{
+	// do something in future
+}
 
+
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+	// save time of rx.  Unknown amounts of data are sent back from ESP8266..  Need to use timeout functionality to know we're done rxing.
+	g_receive_tick_time = xTaskGetTickCount();
+	if (HAL_OK != HAL_UART_Receive_IT(huart, (uint8_t *)(gh_uart_rx_buffer + (g_uart_rx_buffer_index++)), 1))
+	{
+		while (1);
+	}
+}
+
+
+static TickType_t uart_access_hal_rx_tick_time_reset(void)
+{
+	g_receive_tick_time = xTaskGetTickCount();
+}
+
+
+static TickType_t uart_access_hal_last_rx_tick_time(void)
+{
+	return g_receive_tick_time;
+}
+
+
+bool uart_access_hal_rx_done(TickType_t cur_time, uint32_t timeout_ms)
+{
+	if ((cur_time - uart_access_hal_last_rx_tick_time()) < timeout_ms) return false;
+	return true;
+}
+
+
+uint16_t sizeof_array = 0;
 void uart_access_hal_write_and_read_block(uart_handle_t ph_uart, uint8_t* write_data, uint16_t write_len, uint8_t* read_buf, uint16_t read_len)
 {
 	static bool first_pass = true;
-	g_receive_tick_time = xTaskGetTickCount();
 	// clear UART with 0 timeout call below.
-	HAL_UART_Receive(ph_uart, g_general_rx_buffer, 1000, 0);
-
-	g_rx_buffer_index = 0;
-	memset(g_general_rx_buffer, 0, sizeof(g_general_rx_buffer));
+	HAL_UART_Receive(ph_uart, gh_uart_rx_buffer, 1000, 0);
+	gh_uart_rx_buffer = read_buf;
+	sizeof_array = sizeof(gh_uart_rx_buffer);
+	g_uart_rx_buffer_index = 0; // general rx buffer is used to receive the data.  Clear the index each time a new transmission is sent out.
+	memset(gh_uart_rx_buffer, 0, GENERAL_RX_BUFFER_SIZE);
 	// start listening for receive before TX
 	if (first_pass)
 	{
+		// prime rx.  Need to listen prior to TX.
 		first_pass = false;
-		if (HAL_OK != HAL_UART_Receive_IT(ph_uart, (uint8_t *)g_general_rx_buffer, 1))
+		if (HAL_OK != HAL_UART_Receive_IT(ph_uart, (uint8_t *)(gh_uart_rx_buffer + g_uart_rx_buffer_index++), 1))
 		{
 			while (1);
 		}
 	}
-	// tx
+	uart_access_hal_rx_tick_time_reset();
 	if (HAL_OK != HAL_UART_Transmit_IT(ph_uart, write_data, write_len))
 	{
 		while (1);
@@ -89,14 +89,9 @@ void uart_access_hal_write_byte(uart_handle_t ph_uart, uint8_t data)
 	}
 }
 
-uint8_t g_dummy_buf[10] = {0};
-
 
 void uart_access_hal_write_block(uart_handle_t ph_uart, uint8_t* data, uint16_t len)
 {
-	//HAL_UART_Receive(ph_uart, g_dummy_buf, 10, 0);
-    //__HAL_UART_ENABLE_IT(uart_config_esp8266_handle(), UART_IT_TC);
-    //__HAL_UART_ENABLE_IT(uart_config_esp8266_handle(), UART_IT_RXNE);
     if (HAL_OK != HAL_UART_Transmit_IT(ph_uart, data, len))
 	{
 		while (1);
@@ -106,7 +101,7 @@ void uart_access_hal_write_block(uart_handle_t ph_uart, uint8_t* data, uint16_t 
 
 void uart_access_hal_read_byte(uart_handle_t ph_uart, uint8_t* buf)
 {
-	if (HAL_OK != HAL_UART_Receive(ph_uart, buf, 1, 10000))
+	if (HAL_OK != HAL_UART_Receive_IT(ph_uart, buf, 1))
 	{
 		while (1);
 	}
@@ -115,12 +110,9 @@ void uart_access_hal_read_byte(uart_handle_t ph_uart, uint8_t* buf)
 
 void uart_access_hal_read_block(uart_handle_t ph_uart, uint8_t* buf, uint16_t len)
 {
-
-    //__HAL_UART_ENABLE_IT(uart_config_esp8266_handle(), UART_IT_RXNE);
 	if (HAL_OK != HAL_UART_Receive_IT(ph_uart, buf, len))
 	{
 		while (1);
 	}
-	while(!gb_rx_complete);
 }
 

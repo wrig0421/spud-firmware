@@ -5,7 +5,7 @@
 #include "color_led.h"
 #include "animate_led.h"
 
-
+#define GENERAL_RX_BUFFER_SIZE 500
 void task_led_ctrl(void *argument);
 void task_led_ctrl_delay(const uint32_t time_ms);
 void task_led_ctrl_pause(void);

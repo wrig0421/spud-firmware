@@ -5,12 +5,13 @@
 
 #if defined(BOARD_SPUDGLO_V5)
 
+#include "board_specific.h"
 #include "uart_access_hal.h"
+#include "uart_config_hal.h"
 #include "esp8266.h"
 
 
 extern char g_general_rx_buffer[200];
-
 
 
 char* esp8266_at_command_lookup[NUM_ESP8266_AT_COMMANDS] =
@@ -82,8 +83,6 @@ bool esp8266_write_data(char* data, uint16_t len, uint32_t timeout_ms)
 }
 
 
-
-uint32_t val = 0;
 bool esp8266_write_command_and_read_response(esp8266_at_commands_e cmd_tag, bool parameters, char* param, char *read_buf, uint16_t read_len, uint32_t timeout_ms)
 {
 	memset(g_buffer_tx, 0, sizeof(g_buffer_tx));
@@ -105,11 +104,7 @@ bool esp8266_write_command_and_read_response(esp8266_at_commands_e cmd_tag, bool
 	uint32_t timestamp = xTaskGetTickCount();
 	esp8266_write_and_read_block((uint8_t *)g_buffer_tx, strlen(g_buffer_tx), (uint8_t *)read_buf, read_len);
 
-	while ((xTaskGetTickCount() - timestamp) < timeout_ms) osDelay(100);
-//	if ((xTaskGetTickCount() - uart_access_hal_last_rx_tick_time()) < 1000000)
-//	{
-//		osDelay(100);
-//	}
+	while (!uart_access_hal_rx_done(timestamp, timeout_ms)) osDelay(100);
 	if (cmd_tag != ESP8266_AT_CWJAP_CUR)
 	{
 		if (!esp8266_response_ok_received(g_general_rx_buffer, 200)) return false;
@@ -139,24 +134,40 @@ bool esp8266_response_contains(char *buffer, char *msg, uint16_t len)
 	uint8_t msg_index = 0;
 	for (uint16_t iii = 0; iii < len; iii++)
 	{
-//		for (uint16_t zzz = 0; zzz < strlen(msg); zzz++)
-//		{
-			if ((uint8_t)buffer[iii] == (uint8_t)msg[msg_index])// && (iii < (len - strlen(msg))))
+		if ((uint8_t)buffer[iii] == (uint8_t)msg[msg_index])// && (iii < (len - strlen(msg))))
+		{
+			msg_index++;
+			if (msg_index == (g_str_len))
 			{
-				msg_index++;
-				if (msg_index == (g_str_len))
-				{
-					return true;
-				}
+				return true;
 			}
-			else
-			{
-				msg_index = 0;
-			}
-
-//		}
+		}
+		else
+		{
+			msg_index = 0;
+		}
 	}
 	return false;
+}
+
+
+
+
+
+
+void esp8266_startup(void)
+{
+	board_init_specific_esp8266_power_disable();
+	osDelay(1000);
+	board_init_specific_esp8266_power_enable();
+	osDelay(1000);
+
+	board_init_specific_esp8266_uart_boot_disable();
+	board_init_specific_esp8266_reset_assert();
+	osDelay(1000);
+	board_init_specific_esp8266_reset_deassert();
+	osDelay(1000);
+	uart_config_hal_setup();
 }
 
 

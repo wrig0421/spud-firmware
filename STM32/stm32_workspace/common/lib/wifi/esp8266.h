@@ -58,6 +58,10 @@ bool esp8266_write_command_and_read_response(esp8266_at_commands_e cmd_tag, bool
 void esp8266_write_and_read_block(uint8_t* write_data, uint16_t write_len, uint8_t* read_buf, uint16_t read_len);
 bool esp8266_response_ok_received(char *buffer, uint16_t len);
 bool esp8266_response_contains(char *buffer, char *msg, uint16_t len);
+
+bool esp8266_start_webserver(void);
+void esp8266_startup(void);
+
 #endif
 
 #endif

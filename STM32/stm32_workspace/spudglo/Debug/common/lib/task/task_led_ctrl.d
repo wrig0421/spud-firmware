@@ -60,6 +60,7 @@ common/lib/task/task_led_ctrl.o: \
  ../src/bsp/stmicro/peripheral/uart/uart_config_hal.h \
  ../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/wifi/esp8266.h \
+ /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/wifi/esp8266_webserver.h \
  ../src/bsp/peripheral/uart_access_hal.h
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
 ../src/bsp/stmicro/stm32l4/bloat/stm32l4xx_hal_conf.h:
@@ -126,4 +127,5 @@ common/lib/task/task_led_ctrl.o: \
 ../src/bsp/stmicro/peripheral/uart/uart_config_hal.h:
 ../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/wifi/esp8266.h:
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/wifi/esp8266_webserver.h:
 ../src/bsp/peripheral/uart_access_hal.h:
