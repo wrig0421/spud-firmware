@@ -15,8 +15,9 @@
 #include "task_led_ctrl.h"
 #include "uart_config_hal_specific.h"
 
-
-char ssid[60] = "\"Pretty Fly for a Wi-Fi\",\"hot_trash**\"";
+//char ssid[60] = "\"SteamGuest\",\"getSteamed!\"";
+char ssid[60] = "\"Taproom Guest\",\"lifestooshort\"";
+//char ssid[60] = "\"Pretty Fly for a Wi-Fi\",\"hot_trash**\"";
 //char search[4] = "+IPD";
 //char ssid[60] = "\"Thistle Friend\",\"newroad437\"";
 char search[4] = "+IPD";
