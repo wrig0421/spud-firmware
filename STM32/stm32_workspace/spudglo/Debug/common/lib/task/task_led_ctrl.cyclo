@@ -1,5 +1,5 @@
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_led_ctrl.c:74:13:task_led_ctrl_adjust_parameters	6
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_led_ctrl.c:104:6:task_led_ctrl_strip_one	5
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_led_ctrl.c:104:6:task_led_ctrl_strip_one	4
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_led_ctrl.c:236:6:task_led_ctrl_delay	2
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_led_ctrl.c:246:6:task_led_ctrl_brightness_adjust	6
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_led_ctrl.c:268:6:task_led_ctrl_clear_pause	1

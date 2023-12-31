@@ -43,7 +43,10 @@ uint32_t g_uart_firmware_count = 0;
 uint8_t ipd_count = 0;
 volatile uint16_t i_index = 0;
 uint16_t g_search_index = 0;
+uint16_t g_count_of_ipd_instances = 0;
 
+uint8_t g_big_buffer[41000] = {0};
+uint16_t g_big_buffer_index = 0;
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
 	static bool first_pass = true;
@@ -52,111 +55,122 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 	if (g_firmware_update_in_progress)
 	{
 		g_uart_firmware_count++;
-		if (first_pass)
-		{
-			first_pass = false;
-			memcpy(g_uart_sector_buffer, gh_uart_rx_buffer + esp8266_read_start_of_binary_index() + 1, g_uart_rx_buffer_index - (esp8266_read_start_of_binary_index() + 1));
-			g_uart_sector_index += g_uart_rx_buffer_index - (esp8266_read_start_of_binary_index() + 1);
-		}
+//		if (first_pass)
+//		{
+//			first_pass = false;
+//			memcpy(g_uart_sector_buffer, gh_uart_rx_buffer + esp8266_read_start_of_binary_index() + 1, g_uart_rx_buffer_index - (esp8266_read_start_of_binary_index() + 1));
+//			g_uart_sector_index += g_uart_rx_buffer_index - (esp8266_read_start_of_binary_index() + 1);
+//		}
 
-		switch (ipd_count)
-		{
-			case 0:
-				if ((uint8_t)'\r' == *(uint8_t *)(g_uart_sector_buffer + (g_search_index)))
-				{
-					i_index = g_search_index;
-					ipd_count++;
-				}
-				else
-				{
-					ipd_count = 0;
-				}
-			break;
-			case 1:
-				if ((uint8_t)'\n' == *(uint8_t *)(g_uart_sector_buffer + (g_search_index)))
-				{
-					ipd_count++;
-				}
-				else
-				{
-					ipd_count = 0;
-				}
-			break;
-			case 2:
-				if ((uint8_t)'+' == *(uint8_t *)(g_uart_sector_buffer + (g_search_index)))
-				{
-					ipd_count++;
-				}
-				else
-				{
-					ipd_count = 0;
-				}
-			break;
-			case 3:
-				if ((uint8_t)'I' == *(uint8_t *)(g_uart_sector_buffer + (g_search_index)))
-				{
-					ipd_count++;
-				}
-				else
-				{
-					ipd_count = 0;
-				}
-			break;
-			case 4:
-				if ((uint8_t)'P' == *(uint8_t *)(g_uart_sector_buffer + (g_search_index)))
-				{
-					ipd_count++;
-				}
-				else
-				{
-					ipd_count = 0;
-				}
-			break;
-			case 5:
-				if ((uint8_t)'D' == *(uint8_t *)(g_uart_sector_buffer + (g_search_index)))
-				{
-					ipd_count++;
-				}
-				else
-				{
-					ipd_count = 0;
-				}
-			break;
-			case 6:
-				if ((uint8_t)':' == *(uint8_t *)(g_uart_sector_buffer + (g_search_index)))
-				{
-					ipd_count = 0;
-					g_uart_sector_index = i_index;
-				}
-			break;
-			default:
+//		switch (ipd_count)
+//		{
+//			case 0:
+//				if ((uint8_t)'\r' == *(uint8_t *)(g_uart_sector_buffer + (g_search_index)))
+//				{
+//					i_index = g_search_index;
+//					ipd_count++;
+//				}
+//				else
+//				{
+//					ipd_count = 0;
+//				}
+//			break;
+//			case 1:
+//				if ((uint8_t)'\n' == *(uint8_t *)(g_uart_sector_buffer + (g_search_index)))
+//				{
+//					ipd_count++;
+//				}
+//				else
+//				{
+//					ipd_count = 0;
+//				}
+//			break;
+//			case 2:
+//				if ((uint8_t)'+' == *(uint8_t *)(g_uart_sector_buffer + (g_search_index)))
+//				{
+//					ipd_count++;
+//				}
+//				else
+//				{
+//					ipd_count = 0;
+//				}
+//			break;
+//			case 3:
+//				if ((uint8_t)'I' == *(uint8_t *)(g_uart_sector_buffer + (g_search_index)))
+//				{
+//					ipd_count++;
+//				}
+//				else
+//				{
+//					ipd_count = 0;
+//				}
+//			break;
+//			case 4:
+//				if ((uint8_t)'P' == *(uint8_t *)(g_uart_sector_buffer + (g_search_index)))
+//				{
+//					ipd_count++;
+//				}
+//				else
+//				{
+//					ipd_count = 0;
+//				}
+//			break;
+//			case 5:
+//				if ((uint8_t)'D' == *(uint8_t *)(g_uart_sector_buffer + (g_search_index)))
+//				{
+//					g_count_of_ipd_instances++;
+//					ipd_count++;
+//				}
+//				else
+//				{
+//					ipd_count = 0;
+//				}
+//
+//			break;
+//			case 6:
+//				if ((uint8_t)':' == *(uint8_t *)(g_uart_sector_buffer + (g_search_index)))
+//				{
+//					ipd_count = 0;
+//					g_uart_sector_index = i_index;
+//				}
+//			break;
+//			default:
+//
+//			break;
+//		}
+//		g_search_index = g_uart_sector_index;
+//		//g_search_index = g_uart_sector_index - 1;
+//		g_uart_sector_index %= 2048;
 
-			break;
-		}
-		if (HAL_OK != HAL_UART_Receive_IT(huart, (uint8_t *)(g_uart_sector_buffer + (g_uart_sector_index++)), 1))
+//		if (!g_uart_sector_index)
+//		{
+//			g_search_index = 2047;
+//			if (PING == ping_pong)
+//			{
+//				ping_pong = PONG;
+//				g_uart_sector_buffer = g_uart_sector_pong;
+//				g_uart_sector_full_buffer = g_uart_sector_ping;
+//			}
+//			else
+//			{
+//				ping_pong = PING;
+//				g_uart_sector_buffer = g_uart_sector_ping;
+//				g_uart_sector_full_buffer = g_uart_sector_pong;
+//			}
+//			g_buffer_full = true;
+//		}
+		if (g_big_buffer_index == 41000) g_buffer_full = true;
+		else
 		{
-			while (1);
-		}
-		g_search_index = g_uart_sector_index - 1;
-		g_uart_sector_index %= 2048;
-
-		if (!g_uart_sector_index)
-		{
-			g_search_index = 2047;
-			if (PING == ping_pong)
+			if (HAL_OK != HAL_UART_Receive_IT(huart, (uint8_t *)(g_big_buffer + (g_big_buffer_index++)), 1))
 			{
-				ping_pong = PONG;
-				g_uart_sector_buffer = g_uart_sector_pong;
-				g_uart_sector_full_buffer = g_uart_sector_ping;
+				while (1);
 			}
-			else
-			{
-				ping_pong = PING;
-				g_uart_sector_buffer = g_uart_sector_ping;
-				g_uart_sector_full_buffer = g_uart_sector_pong;
-			}
-			g_buffer_full = true;
 		}
+//		if (HAL_OK != HAL_UART_Receive_IT(huart, (uint8_t *)(g_uart_sector_buffer + (g_uart_sector_index++)), 1))
+//		{
+//			while (1);
+//		}
 	}
 	else
 	{

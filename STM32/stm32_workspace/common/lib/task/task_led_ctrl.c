@@ -143,10 +143,10 @@ void task_led_ctrl_strip_one(void *argument)
 	{
 		osDelay(10);
 	}
-	while (!esp8266_response_contains(g_general_rx_buffer, binary_start, sizeof(binary_start), sizeof(g_general_rx_buffer)))
-	{
-		osDelay(10);
-	}
+//	while (!esp8266_response_contains(g_general_rx_buffer, binary_start, sizeof(binary_start), sizeof(g_general_rx_buffer)))
+//	{
+//		osDelay(10);
+//	}
 	// need to parse the +IPD messages.  The amount of data is chunked and sent down.
 	// will need to look for these and not save to buffer..
 	// one thought is to look for it as it comes in on UART...

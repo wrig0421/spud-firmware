@@ -125,7 +125,9 @@ uint64_t g_prog_flash_val = 9;
 void flash_access_write_sector_with_address(uint64_t *p_data, uint32_t address)
 {
 //    static FLASH_EraseInitTypeDef EraseInitStruct;
-    uint16_t num_double_words = FLASH_INFO_SUB_BLOCK_SECTOR_SIZE_BYTES / sizeof(uint64_t);
+    uint16_t num_double_words = 41000 / sizeof(uint64_t);
+
+    //uint16_t num_double_words = FLASH_INFO_SUB_BLOCK_SECTOR_SIZE_BYTES / sizeof(uint64_t);
     uint32_t page_error = 0;
 
     uint32_t start_page_num = (address - FLASH_START_ADDRESS)/ FLASH_PAGE_SIZE;
