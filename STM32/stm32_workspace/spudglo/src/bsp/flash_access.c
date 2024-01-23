@@ -18,6 +18,7 @@ void HAL_FLASH_EndOfOperationCallback(uint32_t ReturnValue)
 }
 
 
+
 void flash_access_read_flash(void *p_data, void *address, uint16_t num_bytes)
 {
     memcpy((void *)p_data, (void *)address, num_bytes);
@@ -51,6 +52,31 @@ void flash_access_read_sector(void *p_data, flash_info_sub_block_t sub_block)
         break;
     }
     memcpy(p_data, (void *)flash_sub_block_address, 2048);
+}
+
+
+void flash_access_erase_from_to_address(uint64_t start_address, uint64_t end_address)
+{
+	static FLASH_EraseInitTypeDef EraseInitStruct;
+	if (start_address < FLASH_START_ADDRESS) return;
+	if (end_address > FLASH_STOP_ADDRESS) return;
+	uint32_t page_error = 0;
+    uint16_t num_double_words = (end_address - start_address) / sizeof(uint64_t);
+
+	uint32_t start_page_num = (end_address - start_address)/ FLASH_PAGE_SIZE;
+	uint32_t end_page_address = start_address + num_double_words;
+	uint32_t end_page_num = (end_page_address - start_address) / FLASH_PAGE_SIZE;
+	/* Fill EraseInit structure*/
+	EraseInitStruct.TypeErase   = FLASH_TYPEERASE_PAGES;
+	EraseInitStruct.Page        = start_page_num;
+	EraseInitStruct.Banks       = FLASH_BANK_1;
+	EraseInitStruct.NbPages     = ((end_page_num - start_page_num)) +1;
+
+	HAL_FLASH_Unlock();
+
+	if (HAL_FLASHEx_Erase(&EraseInitStruct, &page_error) != HAL_OK) while (1);
+
+	HAL_FLASH_Unlock();
 }
 
 
@@ -124,42 +150,21 @@ extern bool g_buffer_full;
 uint64_t g_prog_flash_val = 9;
 void flash_access_write_sector_with_address(uint64_t *p_data, uint32_t address)
 {
-//    static FLASH_EraseInitTypeDef EraseInitStruct;
-    uint16_t num_double_words = 41000 / sizeof(uint64_t);
-
-    //uint16_t num_double_words = FLASH_INFO_SUB_BLOCK_SECTOR_SIZE_BYTES / sizeof(uint64_t);
-    uint32_t page_error = 0;
-
-    uint32_t start_page_num = (address - FLASH_START_ADDRESS)/ FLASH_PAGE_SIZE;
-    uint32_t end_page_address = address + num_double_words;
-    uint32_t end_page_num = (end_page_address - FLASH_START_ADDRESS) / FLASH_PAGE_SIZE;
-
-//    /* Fill EraseInit structure*/
-//    EraseInitStruct.TypeErase   = FLASH_TYPEERASE_PAGES;
-//    EraseInitStruct.Page        = start_page_num;
-//    EraseInitStruct.Banks       = FLASH_BANK_1;
-//    EraseInitStruct.NbPages     = ((end_page_num - start_page_num)) +1;
-
     HAL_FLASH_Unlock();
-
-//    if (HAL_FLASHEx_Erase(&EraseInitStruct, &page_error) != HAL_OK) while (1);
-    uint64_t constructed_value = 0;
-    uint64_t most_sig = 0;
-    uint64_t least_sig = 0;
-    for (uint16_t iii = 0; iii < num_double_words; iii++)
-    {
-//    	least_sig = (p_data[iii] & UINT32_MAX);
-//    	most_sig = (p_data[iii] & (UINT64_MAX - UINT32_MAX)) >> 32;
-//    	least_sig = __builtin_bswap32(least_sig);
-//    	most_sig = __builtin_bswap32(most_sig);
-//    	constructed_value = (most_sig << 32) | (least_sig);
-    	//while (!gb_flash_write_done) osDelay(1);
-		//gb_flash_write_done = false;
-		HAL_FLASH_Program(FLASH_TYPEPROGRAM_DOUBLEWORD, \
-						address + (iii * sizeof(uint64_t)), \
-						*(p_data + (iii)));
-		if (g_buffer_full) while(1);
-    }
+//    for (uint16_t iii = 0; iii < num_double_words; iii++)
+//    {
+////    	least_sig = (p_data[iii] & UINT32_MAX);
+////    	most_sig = (p_data[iii] & (UINT64_MAX - UINT32_MAX)) >> 32;
+////    	least_sig = __builtin_bswap32(least_sig);
+////    	most_sig = __builtin_bswap32(most_sig);
+////    	constructed_value = (most_sig << 32) | (least_sig);
+//    	//while (!gb_flash_write_done) osDelay(1);
+//		//gb_flash_write_done = false;
+//		HAL_FLASH_Program(FLASH_TYPEPROGRAM_DOUBLEWORD, \
+//						address + (iii * sizeof(uint64_t)), \
+//						*(p_data + (iii)));
+//		if (g_buffer_full) while(1);
+//    }
 
     HAL_FLASH_Lock();
 }

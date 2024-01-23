@@ -14,6 +14,7 @@
 #define FLASH_USER_SPACE_START_ADDRESS              ((uint64_t)250 * 2048)
 
 #define FLASH_START_ADDRESS                         ((uint64_t)0x08000000)
+#define FLASH_STOP_ADDRESS                         	((uint64_t)0x08020000)
 
 #define FLASH_SUB_BLOCK_CONFIG_ADDRESS_OFFSET       ((uint64_t)(FLASH_MAX_PAGE_NUMBER - 3) * 2048)
 //#define FLASH_SUB_BLOCK_STATUS_ADDRESS_OFFSET   ((uint64_t)251 * 2048)

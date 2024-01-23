@@ -24,7 +24,7 @@
 //#define BOARD_MN_WILD_SOUND
 
 // define the number of strips
-#define STRIP_1_LENGTH      636// skull sign=200 // 151 for SWENSON SIGN /// FLYNN FARM SIGN = 166!!
+#define STRIP_1_LENGTH      20// shucmacher - 636// skull sign=200 // 151 for SWENSON SIGN /// FLYNN FARM SIGN = 166!!
 //#define STRIP_2_LENGTH      215
 //#define STRIP_3_LENGTH      200
 

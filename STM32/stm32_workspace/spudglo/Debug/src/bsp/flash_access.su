@@ -1,7 +1,8 @@
 ../src/bsp/flash_access.c:15:6:HAL_FLASH_EndOfOperationCallback	16	static
-../src/bsp/flash_access.c:21:6:flash_access_read_flash	24	static
-../src/bsp/flash_access.c:27:6:flash_access_write_to_flash	56	static
-../src/bsp/flash_access.c:40:6:flash_access_read_sector	24	static
-../src/bsp/flash_access.c:57:6:flash_access_erase_slot	40	static
-../src/bsp/flash_access.c:81:6:flash_access_write_sector	72	static
-../src/bsp/flash_access.c:125:6:flash_access_write_sector_with_address	88	static
+../src/bsp/flash_access.c:22:6:flash_access_read_flash	24	static
+../src/bsp/flash_access.c:28:6:flash_access_write_to_flash	56	static
+../src/bsp/flash_access.c:41:6:flash_access_read_sector	24	static
+../src/bsp/flash_access.c:58:6:flash_access_erase_from_to_address	80	static
+../src/bsp/flash_access.c:83:6:flash_access_erase_slot	40	static
+../src/bsp/flash_access.c:107:6:flash_access_write_sector	72	static
+../src/bsp/flash_access.c:151:6:flash_access_write_sector_with_address	16	static

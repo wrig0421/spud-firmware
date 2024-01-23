@@ -14,5 +14,6 @@ void flash_access_read_sector(void *p_data, flash_info_sub_block_t sub_block);
 void flash_access_write_sector(uint64_t *p_data, flash_info_sub_block_t sub_block);
 void flash_access_write_sector_with_address(uint64_t *p_data, uint32_t address);
 void flash_access_erase_slot(void);
+void flash_access_erase_from_to_address(uint64_t start_address, uint64_t end_address);
 
 #endif

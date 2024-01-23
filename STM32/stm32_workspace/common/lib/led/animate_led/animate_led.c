@@ -21,10 +21,12 @@ extern uint16_t g_all_strip_mask;
  */
 void animate_led_show_strip(const strip_mask_t strip_mask)
 {
+#if defined(STRIP_1_LENGTH)
     if (strip_mask & STRIP_BIT_1)
     {
         ws2812b_show_strip_one();
     }
+#endif
 #if defined(STRIP_2_LENGTH)
     if (strip_mask & STRIP_BIT_2)
     {
@@ -44,52 +46,27 @@ void animate_led_show_strip(const strip_mask_t strip_mask)
 void animate_led_set_pixel(const strip_mask_t mask, const uint16_t pixel, const uint8_t red, const uint8_t green,
                            const uint8_t blue)
 {
-    if (STRIP_BIT_ALL_SET == mask)
-    {
-        for (strip_bit_e strip_bit = STRIP_BIT_1; strip_bit <= STRIP_BIT_NUM_STRIPS; strip_bit = (strip_bit_e)(strip_bit + 1))
-        {
-            //offset = animate_led_get_strip_offset(strip_bit);
-            if (ws2812_pixel_is_in_strip_range(strip_bit, pixel)) ws2812b_set_led(strip_bit, pixel, red, green, blue);
-        }
-    }
-    else
-    {
-        for (strip_bit_e strip_bit = STRIP_BIT_1; strip_bit <= STRIP_BIT_NUM_STRIPS; strip_bit = (strip_bit_e)(strip_bit + 1))
-        {
-            if (mask & strip_bit)
-            {
-                //offset = animate_led_get_strip_offset(strip_bit);
-                if (ws2812_pixel_is_in_strip_range(strip_bit, pixel)) ws2812b_set_led(strip_bit, pixel, red, green, blue);
-            }
-        }
-    }
-    //animate_led_show_strip(mask);
+	for (strip_bit_e strip_bit = STRIP_BIT_1; strip_bit <= STRIP_BIT_NUM_STRIPS; strip_bit = (strip_bit_e)(strip_bit + 1))
+	{
+		if (mask & strip_bit)
+		{
+			if (ws2812_pixel_is_in_strip_range(strip_bit, pixel)) ws2812b_set_led(strip_bit, pixel, red, green, blue);
+		}
+	}
 }
 
 
 void animate_led_set_all_pixels(const strip_mask_t mask, const uint8_t red, const uint8_t green, const uint8_t blue)
 {
     uint16_t strip_size = 0;
-    if (mask == g_all_strip_mask)
-    {
-        for (strip_bit_e strip_bit = STRIP_BIT_1; strip_bit <= STRIP_BIT_NUM_STRIPS; strip_bit = (strip_bit_e)(strip_bit + 1))
-        {
-            strip_size = ws2812_get_strip_size(strip_bit);
-            //offset = animate_led_get_strip_offset(strip_bit);
-            for (uint16_t iii = 0; iii < strip_size; iii++) ws2812b_set_led(strip_bit, iii, red, green, blue);
-        }
-    }
-    else
-    {
-        for (strip_bit_e strip_bit = STRIP_BIT_1; strip_bit <= STRIP_BIT_NUM_STRIPS; strip_bit = (strip_bit_e)(strip_bit + 1))
-        {
-            if (mask & strip_bit)
-            {
-                strip_size = ws2812_get_strip_size(strip_bit);
-                for (uint16_t yyy = 0; yyy < strip_size; yyy++) ws2812b_set_led(strip_bit, yyy, red, green, blue);
-            }
-        }
-    }
+	for (strip_bit_e strip_bit = STRIP_BIT_1; strip_bit <= STRIP_BIT_NUM_STRIPS; strip_bit = (strip_bit_e)(strip_bit + 1))
+	{
+		if (mask & strip_bit)
+		{
+			strip_size = ws2812_get_strip_size(strip_bit);
+			for (uint16_t yyy = 0; yyy < strip_size; yyy++) ws2812b_set_led(strip_bit, yyy, red, green, blue);
+		}
+	}
     animate_led_show_strip(mask);
 }
 
@@ -398,8 +375,7 @@ void animate_led_strobe(const strip_mask_t mask_strobe, const color_hex_code_e c
                 return;
             }
         }
-        animate_led_set_all_pixels(mask_strobe,
-                                   (color_strobe_rgb[offsetof(ws2812b_led_t, red)]),
+        animate_led_set_all_pixels(mask_strobe,(color_strobe_rgb[offsetof(ws2812b_led_t, red)]),
                                    (color_strobe_rgb[offsetof(ws2812b_led_t, green)]),
                                    (color_strobe_rgb[offsetof(ws2812b_led_t, blue)]));
         animate_led_show_strip(mask_strobe);

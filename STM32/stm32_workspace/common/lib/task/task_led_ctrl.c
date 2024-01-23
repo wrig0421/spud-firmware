@@ -103,16 +103,16 @@ uint64_t flash_address = 0x8020000;
 uint64_t flash_index = 0;
 void task_led_ctrl_strip_one(void *argument)
 {
-	flash_access_erase_slot();
-	uint32_t str_len = 0;
-	esp8266_startup();
-	esp8266_start_webserver();
-	esp8266_write_command_and_read_response(ESP8266_AT_CIPSEND, true, "0,446", (char *)g_general_rx_buffer, 30, 10000);
-
-	//if (!esp8266_write_command_and_read_response(ESP8266_AT_CIPSEND, true, "0,446", (char *)g_general_rx_buffer, 30, 10000)) while (1);
-	str_len = esp8266_webserver_make_page("Select file", serverIndex);
-	esp8266_write_data(g_page, str_len, 5000);
-	if (!esp8266_write_command_and_read_response(ESP8266_AT_CIPCLOSE, true, "0", (char *)g_general_rx_buffer, 30, 5000)) while (1);
+//	flash_access_erase_slot();
+//	uint32_t str_len = 0;
+//	esp8266_startup();
+//	esp8266_start_webserver();
+//	esp8266_write_command_and_read_response(ESP8266_AT_CIPSEND, true, "0,446", (char *)g_general_rx_buffer, 30, 10000);
+//
+//	//if (!esp8266_write_command_and_read_response(ESP8266_AT_CIPSEND, true, "0,446", (char *)g_general_rx_buffer, 30, 10000)) while (1);
+//	str_len = esp8266_webserver_make_page("Select file", serverIndex);
+//	esp8266_write_data(g_page, str_len, 5000);
+//	if (!esp8266_write_command_and_read_response(ESP8266_AT_CIPCLOSE, true, "0", (char *)g_general_rx_buffer, 30, 5000)) while (1);
 
 //	board_init_specific_esp8266_power_disable();
 //	osDelay(1000);
@@ -137,12 +137,12 @@ void task_led_ctrl_strip_one(void *argument)
 	//uart_access_hal_read_block(uart_config_esp8266_handle(), g_read_buffer, 2);
 
 	//uart_access_read_block_esp8266(g_data, 2);
-	g_uart_rx_buffer_index = 0;
-
-	while (!esp8266_response_contains(g_general_rx_buffer, lookup, sizeof(lookup), sizeof(g_general_rx_buffer)))
-	{
-		osDelay(10);
-	}
+//	g_uart_rx_buffer_index = 0;
+//
+//	while (!esp8266_response_contains(g_general_rx_buffer, lookup, sizeof(lookup), sizeof(g_general_rx_buffer)))
+//	{
+//		osDelay(10);
+//	}
 //	while (!esp8266_response_contains(g_general_rx_buffer, binary_start, sizeof(binary_start), sizeof(g_general_rx_buffer)))
 //	{
 //		osDelay(10);
@@ -151,25 +151,25 @@ void task_led_ctrl_strip_one(void *argument)
 	// will need to look for these and not save to buffer..
 	// one thought is to look for it as it comes in on UART...
 	// It ends with :.  If +IPD found then keep tossing until : is reached.  Toss that then start saving!
-	g_firmware_update_in_progress = true;
-	while (1)
-	{
-		if (g_buffer_full)
-		{
-			g_buffer_full = false;
-
-			flash_access_write_sector_with_address((uint64_t *)g_uart_sector_full_buffer, flash_address + flash_index);
-			flash_index += 2048;
-		}
-		osDelay(10); // test this.  Baud rate slowed way down..
-	}
-
-	while(1)
-	{
-		osDelay(200);
-	}
-
-    osDelay(10);
+//	g_firmware_update_in_progress = true;
+//	while (1)
+//	{
+//		if (g_buffer_full)
+//		{
+//			g_buffer_full = false;
+//
+//			flash_access_write_sector_with_address((uint64_t *)g_uart_sector_full_buffer, flash_address + flash_index);
+//			flash_index += 2048;
+//		}
+//		osDelay(10); // test this.  Baud rate slowed way down..
+//	}
+//
+//	while(1)
+//	{
+//		osDelay(200);
+//	}
+//
+//    osDelay(10);
     while (1)
     {
         while(task_button_press_major_state_change()) osDelay(100);
