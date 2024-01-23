@@ -11,6 +11,9 @@
 #include "ws2812b.h"
 #include "current_monitor.h"
 
+#define CURRENT_MONITOR_MAX_CURRENT_DRAW_A      (float)9.50
+#define CURRENT_MONITOR_MAX_CURRENT_PER_LED_MA  40
+
 // current tracking needs to be maintained per strip.
 typedef current_t* p_current_t;
 
@@ -19,7 +22,7 @@ float g_absolute_max_current_ratio = 0.0f; // DO NOT EXCEED!
 p_current_t gp_current_monitor_strip[NUM_STRIPS];
 
 
-void current_monitor_set(float value)
+void current_monitor_set(strip_bit_e strip, float value)
 {
     if (value < g_absolute_max_current_ratio)
     {

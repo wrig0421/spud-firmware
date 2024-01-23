@@ -33,8 +33,6 @@
 #include <stdbool.h>
 
 extern osThreadId_t g_dma_transfer_handle;
-extern volatile int datasentflag;
-extern bool g_dma_done_flag;
 
 extern DMA_HandleTypeDef hdma_tim1_ch1;
 extern DMA_HandleTypeDef hdma_tim1_ch2;

@@ -7,11 +7,7 @@
 
 #ifndef CURRENT_MONITOR_H
 #define CURRENT_MONITOR_H
-
-
-#define CURRENT_MONITOR_MAX_CURRENT_DRAW_A      (float)9.50
-#define CURRENT_MONITOR_MAX_CURRENT_PER_LED_MA  40
-typedef float current_t;
+#include <stdint.h>
 
 void current_monitor_set(float value);
 float current_monitor_ratio(void);

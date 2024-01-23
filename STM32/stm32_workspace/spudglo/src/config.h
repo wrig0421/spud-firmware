@@ -8,10 +8,8 @@
 #ifndef SRC_CONFIG_H_
 #define SRC_CONFIG_H_
 
-
 // major.minor.beta
 #define FIRMWARE_VERSION    (0x010101)
-
 
 // define the board!
 #define BOARD_SPUDGLO_V5P0
@@ -25,8 +23,8 @@
 
 // define the number of strips
 #define STRIP_1_LENGTH      20// shucmacher - 636// skull sign=200 // 151 for SWENSON SIGN /// FLYNN FARM SIGN = 166!!
-//#define STRIP_2_LENGTH      215
-//#define STRIP_3_LENGTH      200
+#define STRIP_2_LENGTH      0
+#define STRIP_3_LENGTH      0
 
 #define ENABLE_LED_STATE_SPELL
 //#define ENABLE_LED_STATE_WHITE_COLOR
@@ -48,7 +46,6 @@
 #define BOARD_SPUD_GLO_V4
 #endif
 
-
 #if defined(STRIP_3_LENGTH)
 #define NUM_LEDS        STRIP_1_LENGTH + STRIP_2_LENGTH + STRIP_3_LENGTH
 #elif defined(STRIP_2_LENGTH)
@@ -59,30 +56,8 @@
 #error "Error - Invalid number of strips defined!"
 #endif
 
-#if defined(STRIP_1_LENGTH)
-#define STRIP_1_CHECK (1 << 0)
-#endif
-#if defined(STRIP_2_LENGTH)
-#define STRIP_2_CHECK (1 << 1)
-#endif
-#if defined(STRIP_3_LENGTH)
-#define STRIP_3_CHECK (1 << 2)
-#endif
-
-#define STRIP_CHECK (STRIP_1_CHECK + STRIP_2_CHECK + STRIP_3_CHECK)
-
 #if defined(BOARD_SPUD_GLO_V2) || defined(BOARD_SPUD_GLO_V1)
 #define ENABLE_RF_INTERFACE
-#endif
-
-
-#if ((STRIP_CHECK != (1)) && (STRIP_CHECK != (3)) && (STRIP_CHECK != (7)))
-#error "Error - Need to define the strips in order.   If strip 2 is defined then strip 1 must be defined."
-#endif
-
-
-#if !defined(STRIP_1_LENGTH) && (defined(STRIP_2_LENGTH) || defined(STRIP_3_LENGTH))
-#error "Error - Please define the strips in order!"
 #endif
 
 #if defined(STRIP_1_LENGTH) && (defined(STRIP_2_LENGTH) || defined(STRIP_3_LENGTH))

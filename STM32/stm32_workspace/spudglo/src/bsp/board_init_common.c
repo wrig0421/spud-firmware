@@ -29,8 +29,6 @@ TIM_HandleTypeDef g_tim1_handle;
 TIM_HandleTypeDef g_tim15_handle;
 TIM_HandleTypeDef g_tim16_handle;
 
-bool g_dma_done_flag = false;
-volatile int datasentflag = 0;
 uint32_t g_button_on_count[NUM_PUSH_BUTTONS] = {0};
 bool button_press_state[NUM_PUSH_BUTTONS] = {false};
 extern UART_HandleTypeDef      gh_host_usart;
