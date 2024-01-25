@@ -47,10 +47,13 @@
 #endif
 
 #if defined(STRIP_3_LENGTH)
-#define NUM_LEDS        STRIP_1_LENGTH + STRIP_2_LENGTH + STRIP_3_LENGTH
+#define NUM_ACTIVE_STRIPS	3
+#define NUM_LEDS        	STRIP_1_LENGTH + STRIP_2_LENGTH + STRIP_3_LENGTH
 #elif defined(STRIP_2_LENGTH)
+#define NUM_ACTIVE_STRIPS	2
 #define NUM_LEDS        (STRIP_1_LENGTH + STRIP_2_LENGTH)
 #elif defined(STRIP_1_LENGTH)
+#define NUM_ACTIVE_STRIPS	1
 #define NUM_LEDS        STRIP_1_LENGTH
 #else
 #error "Error - Invalid number of strips defined!"

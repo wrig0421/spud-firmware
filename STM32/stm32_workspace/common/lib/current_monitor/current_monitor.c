@@ -15,14 +15,14 @@
 #define CURRENT_MONITOR_MAX_CURRENT_PER_LED_MA  40
 
 // current tracking needs to be maintained per strip.
-typedef current_t* p_current_t;
+//typedef current_t* p_current_t;
 
 float g_max_current_ratio = 1.0f;
 float g_absolute_max_current_ratio = 0.0f; // DO NOT EXCEED!
-p_current_t gp_current_monitor_strip[NUM_STRIPS];
+//p_current_t gp_current_monitor_strip[NUM_STRIPS];
 
 
-void current_monitor_set(strip_bit_e strip, float value)
+void current_monitor_set(float value)
 {
     if (value < g_absolute_max_current_ratio)
     {

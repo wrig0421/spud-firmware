@@ -13,6 +13,7 @@
 #include "cmsis_os.h"
 #include "task_led_ctrl.h"
 #include "task_button_press.h"
+#include "ws2812b.h"
 
 #define SWITCH_HISTORY_DEPTH                5
 #define SWITCH_FAST_PRESS_TIME_MILLISECONDS 1000

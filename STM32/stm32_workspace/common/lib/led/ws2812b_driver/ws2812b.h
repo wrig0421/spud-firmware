@@ -22,6 +22,9 @@
 #define WS2812B_BIT_SET_CYCLES              ((((WS2812B_T1H_TIME_NANOSECONDS + WS2812B_T0L_TIME_NANOSECONDS) / 2.0f) / WS2812B_TIM_TIME_CYCLES) / 1000.0f)
 #define WS2812B_BIT_RESET_CYCLES            (WS2812B_PULSE_TIME_CYCLES - WS2812B_BIT_SET_CYCLES)
 
+typedef uint8_t color_t;
+typedef uint16_t strip_mask_t; // 16 strips max..
+
 
 typedef enum
 {
@@ -32,28 +35,24 @@ typedef enum
 
 typedef enum
 {
-	STRIP_NUM_1 = 0,
-	STRIP_NUM_2,
-	STRIP_NUM_3,
-	NUM_STRIPS,
+	STRIP_NONE = 0,
+	STRIP_NUM_1 = (1 << 0),
+	STRIP_NUM_2 = (1 << 1),
+	STRIP_NUM_3 = (1 << 2),
+	STRIP_ALL_SET = STRIP_NUM_1 | STRIP_NUM_2 | STRIP_NUM_3,
+	NUM_STRIPS = NUM_ACTIVE_STRIPS,
     ALL_STRIPS = NUM_STRIPS
 } strip_num_e;
 
 
-typedef enum
-{
-	STRIP_BIT_NONE_SET = 0,
-	STRIP_BIT_1 = (1 << 0),
-	STRIP_BIT_2 = (1 << 1),
-	STRIP_BIT_3 = (1 << 2),
-	STRIP_BIT_NUM_STRIPS = NUM_STRIPS,
-	STRIP_BIT_NO_MORE_SET, 
-	// brute force assignment below 
-} strip_bit_e;
-
-
-typedef uint8_t color_t;
-typedef uint16_t strip_mask_t; // 16 strips max..
+//typedef enum
+//{
+//	STRIP_BIT_NONE_SET = 0,
+//	STRIP_NUM_3 = (1 << 0),
+//	STRIP_BIT_2 = (1 << 1),
+//	STRIP_BIT_3 = (1 << 2),
+//	STRIP_BIT_ALL_SET = STRIP_BIT_1 | STRIP_BIT_2 | STRIP_BIT_3
+//} strip_bit_e;
 
 
 typedef struct

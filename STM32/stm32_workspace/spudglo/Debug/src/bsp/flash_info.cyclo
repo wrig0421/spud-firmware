@@ -1,7 +1,7 @@
-../src/bsp/flash_info.c:92:6:flash_info_color_enabled	2
-../src/bsp/flash_info.c:219:6:flash_info_animation_enabled	24
-../src/bsp/flash_info.c:289:18:flash_info_strip_brightness	2
-../src/bsp/flash_info.c:330:13:flash_info_strip_speed	2
+../src/bsp/flash_info.c:92:6:flash_info_color_enabled	5
+../src/bsp/flash_info.c:219:6:flash_info_animation_enabled	27
+../src/bsp/flash_info.c:289:18:flash_info_strip_brightness	5
+../src/bsp/flash_info.c:330:13:flash_info_strip_speed	5
 ../src/bsp/flash_info.c:366:6:flash_info_block_init	1
 ../src/bsp/flash_info.c:423:6:flash_info_read_data	1
 ../src/bsp/flash_info.c:464:6:flash_info_write_data	30
