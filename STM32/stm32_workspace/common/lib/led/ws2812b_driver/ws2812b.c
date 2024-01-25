@@ -201,16 +201,15 @@ void ws2812b_fill_pwm_buffer_strip(strip_num_e strip_num)
         color = (((g_ws2812b_info[strip_num].led_strip + iii)->green) << 16) | \
         		(((g_ws2812b_info[strip_num].led_strip + iii)->red) << 8) | \
 				(((g_ws2812b_info[strip_num].led_strip + iii)->blue));
-        // walk over each bit in the byte starting at msb
+        // walk over each bit.. starting at msb
         for (uint8_t yyy = 0; yyy < BITS_PER_BYTE * sizeof(ws2812b_led_t); yyy++)
         {
-        	// if bit in color is set then fill is WS2812B_BIT_SET_CYCLES else WS2812B_BIT_RESET_CYCLES
+        	// if bit in color is set then fill w/ WS2812B_BIT_SET_CYCLES else WS2812B_BIT_RESET_CYCLES
             gp_pwm_data_fill[strip_pwm_offset + (iii * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + yyy] = \
             		(color & (1 << ((sizeof(ws2812b_led_t) * BITS_PER_BYTE) - 1 - yyy))) ? \
             				(uint16_t)(WS2812B_BIT_SET_CYCLES + 1) : (uint16_t)WS2812B_BIT_RESET_CYCLES;
         }
     }
-    // why not memset??
     for (uint16_t iii = 0; iii < WS2812B_RESET_TIME_CYCLES; iii++)
     {
         gp_pwm_data_fill[(strip_pwm_offset + (strip_size * BITS_PER_BYTE * sizeof(ws2812b_led_t))) + iii] = 0;
