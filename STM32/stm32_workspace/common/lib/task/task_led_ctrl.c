@@ -61,7 +61,7 @@ extern color_hex_code_e g_color_hex_codes[NUM_COLORS];
 uint8_t                 g_animation_iterations = 0;
 uint16_t                g_delay_in_animation_ms = 100; // where applicable of course
 extern bool             task_button_press_major_change;
-bool g_draw_all = false;
+bool g_draw_all = true;
 
 
 void task_led_ctrl_draw_all_toggle(void)
@@ -97,15 +97,15 @@ void task_led_ctrl_strip_one(void *argument)
     {
         while(task_button_press_major_state_change()) osDelay(100);
 
-        if (flash_info_animation_enabled(g_led_state))
-        {
-            //animate_led_custom_solid_custom_color((uint16_t)STRIP_BIT_1, COLOR_HEX_BLACK, 0 , 178);
-        	if (!g_draw_all)
-        	{
-        		animate_led_custom_function_print_shotgun();
-        		animate_led_custom_function_print_mallord();
-        		//animate_led_show_strip(STRIP_BIT_1);
-        	}
+//        if (flash_info_animation_enabled(g_led_state))
+//        {
+//            //animate_led_custom_solid_custom_color((uint16_t)STRIP_BIT_1, COLOR_HEX_BLACK, 0 , 178);
+//        	if (!g_draw_all)
+//        	{
+//        		animate_led_custom_function_print_shotgun();
+//        		animate_led_custom_function_print_mallord();
+//        		//animate_led_show_strip(STRIP_BIT_1);
+//        	}
             switch(g_led_state)
             {
 //            	case LED_STATE_CUSTOM:
@@ -251,7 +251,7 @@ void task_led_ctrl_strip_one(void *argument)
                 break;
             }
         }
-    }
+//    }
 }
 
 
