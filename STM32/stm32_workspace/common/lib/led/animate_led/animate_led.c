@@ -425,8 +425,8 @@ void animate_led_theater_chase_rainbow(const strip_mask_t mask, const uint16_t s
 //void animate_led_twinkle_multiple_colors(const strip_mask_t mask_twinkle, const uint32_t* color_array,
 //                                         const uint16_t count, const uint16_t speed_delay, const bool only_one)
 //{
-//	strip_bit_e active_strip = STRIP_BIT_1;
-//	strip_bit_e pre_strip = STRIP_BIT_1;
+//	strip_bit_e active_strip = STRIP_NUM_1;
+//	strip_bit_e pre_strip = STRIP_NUM_1;
 //	uint8_t num_active_strips = 0;
 //	strip_bit_e active_strip_array[NUM_STRIPS] = {STRIP_BIT_NONE_SET};
 //    uint8_t color_twinkle_rgb[sizeof(ws2812b_led_t)] = {0};
@@ -464,7 +464,7 @@ void animate_led_theater_chase_rainbow(const strip_mask_t mask, const uint16_t s
 //    }
 //	task_led_ctrl_delay((float_t)speed_delay / task_led_ctrl_speed());
 //}
-`//
+//
 //
 ///**
 // * @brief   Execute spell animation on `mask_spell` strip(s).  Execute sparkle animationn on `mask_sparkle` strip(s).
@@ -542,8 +542,8 @@ void animate_led_theater_chase_rainbow(const strip_mask_t mask, const uint16_t s
 //void animate_led_spell_word_multiple_colors(const strip_mask_t mask_spell, const color_hex_code_e* color_array,
 //                                            const uint16_t speed_delay)
 //{
-//	strip_bit_e active_strip = STRIP_BIT_1;
-//	strip_bit_e pre_strip = STRIP_BIT_1;
+//	strip_bit_e active_strip = STRIP_NUM_1;
+//	strip_bit_e pre_strip = STRIP_NUM_1;
 //	uint16_t strip_size = ws2812_led_get_max_strip_size(mask_spell);
 //	uint8_t num_active_strips = 0;
 //	strip_bit_e active_strip_array[NUM_STRIPS] = {STRIP_BIT_NONE_SET};
@@ -578,8 +578,8 @@ void animate_led_theater_chase_rainbow(const strip_mask_t mask, const uint16_t s
 //void animate_led_fade_in_fade_out_multiple_colors(const strip_mask_t strip_mask, const uint32_t* color_array)
 //{
 //    // interrupts not handled yet!
-//	strip_bit_e active_strip = STRIP_BIT_1;
-//	strip_bit_e pre_strip = STRIP_BIT_1;
+//	strip_bit_e active_strip = STRIP_NUM_1;
+//	strip_bit_e pre_strip = STRIP_NUM_1;
 //	uint8_t num_active_strips = 0;
 //	strip_bit_e active_strip_array[NUM_STRIPS] = {STRIP_BIT_NONE_SET};
 //    uint8_t color_rgb[sizeof(ws2812b_led_t)] = {0};
@@ -645,8 +645,8 @@ void animate_led_theater_chase_rainbow(const strip_mask_t mask, const uint16_t s
 //{
 //    // not checking for interrupts in this function the solid color is too fast.  No way a user
 //    // would be able to tell if caught or not.
-//	strip_bit_e active_strip = STRIP_BIT_1;
-//	strip_bit_e pre_strip = STRIP_BIT_1;
+//	strip_bit_e active_strip = STRIP_NUM_1;
+//	strip_bit_e pre_strip = STRIP_NUM_1;
 //	uint8_t num_active_strips = 0;
 //	strip_bit_e active_strip_array[NUM_STRIPS] = {STRIP_BIT_NONE_SET};
 //    uint8_t color_solid_rgb[sizeof(ws2812b_led_t)] = {0};
@@ -676,8 +676,8 @@ void animate_led_theater_chase_rainbow(const strip_mask_t mask, const uint16_t s
 //                                               const uint16_t speed_delay)
 //{
 //	uint8_t red, green, blue;
-//	strip_bit_e active_strip = STRIP_BIT_1;
-//	strip_bit_e pre_strip = STRIP_BIT_1;
+//	strip_bit_e active_strip = STRIP_NUM_1;
+//	strip_bit_e pre_strip = STRIP_NUM_1;
 //	uint16_t strip_size = ws2812_led_get_max_strip_size(mask);
 //	uint8_t num_active_strips = 0;
 //	strip_bit_e active_strip_array[NUM_STRIPS] = {STRIP_BIT_NONE_SET};

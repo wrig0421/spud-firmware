@@ -22,7 +22,7 @@ p_pwm_data_t gp_pwm_data_fill;
 
 
 ws2812b_led_t g_led_strip[NUM_LEDS];
-ws2812b_info_t g_ws2812b_info[NUM_STRIPS] =
+ws2812b_info_t g_ws2812b_info[5] =
 {
 	[STRIP_NUM_1] =
 	{
@@ -39,7 +39,7 @@ ws2812b_info_t g_ws2812b_info[NUM_STRIPS] =
 	[STRIP_NUM_3] =
 	{
 		.led_strip_length = STRIP_3_LENGTH,
-		.led_strip = g_led_strip + STRIP_2_LENGTH
+		.led_strip = g_led_strip + STRIP_2_LENGTH,
 		.pwm_dma_buffer_index_start = ((STRIP_2_LENGTH + STRIP_1_LENGTH) * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + (2*WS2812B_RESET_TIME_CYCLES)
 	}
 };
@@ -160,7 +160,7 @@ void ws2812b_set_led(const strip_num_e strip_num, const uint16_t led_num, const 
 void ws2812b_fill_pwm_buffer_strip(strip_num_e strip_num)
 {
     uint32_t color = 0;
-    for (uint16_t iii = 0; iii < strip_size; iii++)
+    for (uint16_t iii = 0; iii < g_ws2812b_info[strip_num].led_strip_length; iii++)
     {
     	// reconstruct 24 bit color...
         color = (((g_ws2812b_info[strip_num].led_strip + iii)->green) << 16) | \
@@ -216,15 +216,15 @@ void ws2812b_show(const strip_mask_t strip_mask)
 {
 	if (STRIP_NUM_1 & strip_mask)
 	{
-		ws2812b_fill_pwm_buffer_strip(ws2812_convert_strip_bit_to_strip_num(STRIP_NUM_1));
+		ws2812b_fill_pwm_buffer_strip((STRIP_NUM_1));
 	}
 	if (STRIP_NUM_2 & strip_mask)
 	{
-		ws2812b_fill_pwm_buffer_strip(ws2812_convert_strip_bit_to_strip_num(STRIP_NUM_2));
+		ws2812b_fill_pwm_buffer_strip((STRIP_NUM_2));
 	}
 	if (STRIP_NUM_3 & strip_mask)
 	{
-		ws2812b_fill_pwm_buffer_strip(ws2812_convert_strip_bit_to_strip_num(STRIP_NUM_3));
+		ws2812b_fill_pwm_buffer_strip((STRIP_NUM_3));
 	}
 }
 
@@ -234,7 +234,7 @@ void ws2812b_init(void)
 	uint32_t total_led_bits_in_all_strips = (sizeof(ws2812b_led_t) * BITS_PER_BYTE * NUM_LEDS);
 
 	uint8_t num_strips = NUM_STRIPS;
-	//g_all_strip_mask = STRIP_BIT_ALL_SET;
+	//g_all_strip_mask = STRIP_ALL_SET;
     gp_pwm_data_fill = malloc(total_led_bits_in_all_strips + (NUM_STRIPS * WS2812B_RESET_TIME_CYCLES));
 	current_monitor_init();
 }

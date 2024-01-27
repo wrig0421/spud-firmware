@@ -179,11 +179,11 @@ void task_led_ctrl_strip_one(void *argument)
             switch(g_led_state)
             {
                 case LED_STATE_WHITE_COLOR:
-                    animate_led_solid_custom_color((uint16_t)STRIP_BIT_1, COLOR_HEX_WHITE);
+                    animate_led_solid_custom_color((uint16_t)STRIP_NUM_1, COLOR_HEX_WHITE);
                     task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_1, TASK_LED_CTRL_DELAY_MS_5000);
                 break;
                 case LED_STATE_SOLID_COLOR:
-                    animate_led_solid_custom_color((uint16_t)STRIP_BIT_1, task_led_ctrl_color_hex());
+                    animate_led_solid_custom_color((uint16_t)STRIP_NUM_1, task_led_ctrl_color_hex());
                     if (MASTER_LED_STATE_FIXED == g_master_led_state)
                     {
                         task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_5, TASK_LED_CTRL_DELAY_MS_1000);
@@ -193,36 +193,36 @@ void task_led_ctrl_strip_one(void *argument)
                 break;
                 case LED_STATE_SPARKLE_NO_FILL:
                     animate_led_turn_all_pixels_off();
-                    animate_led_sparkle_only_random_color(STRIP_BIT_1, false, 100);//random(0, 50));
+                    animate_led_sparkle_only_random_color(STRIP_NUM_1, false, 100);//random(0, 50));
                     task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_5, TASK_LED_CTRL_DELAY_MS_0);
                 break;
                 case LED_STATE_SPARKLE_FILL:
-                    animate_led_sparkle_only_random_color(STRIP_BIT_1, true, 100);
+                    animate_led_sparkle_only_random_color(STRIP_NUM_1, true, 100);
                     task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_10, TASK_LED_CTRL_DELAY_MS_0);
                 break;
                 case LED_STATE_RAINBOW_CYCLE:
-                    animate_led_rainbow_cycle(STRIP_BIT_1, 10);
+                    animate_led_rainbow_cycle(STRIP_NUM_1, 10);
                     task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_5, TASK_LED_CTRL_DELAY_MS_0);
                 break;
                 case LED_STATE_THEATER_CHASE:
-                    animate_led_theater_chase(STRIP_BIT_1, task_led_ctrl_color_hex(), 20);
+                    animate_led_theater_chase(STRIP_NUM_1, task_led_ctrl_color_hex(), 20);
                     task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_10, TASK_LED_CTRL_DELAY_MS_0);
                 break;
                 case LED_STATE_THEATER_CHASE_RAINBOW:\
-                    animate_led_theater_chase_rainbow(STRIP_BIT_1, 20);
+                    animate_led_theater_chase_rainbow(STRIP_NUM_1, 20);
                     task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_2, TASK_LED_CTRL_DELAY_MS_0);
                 break;
                 case LED_STATE_FADE_IN_AND_OUT:
-                    animate_led_fade_in_fade_out((uint16_t)STRIP_BIT_1, task_led_ctrl_color_hex());
+                    animate_led_fade_in_fade_out((uint16_t)STRIP_NUM_1, task_led_ctrl_color_hex());
                     task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_10, TASK_LED_CTRL_DELAY_MS_0);
                 break;
                 case LED_STATE_TWINKLE:
                     animate_led_turn_all_pixels_off();
-                    animate_led_twinkle(STRIP_BIT_1, task_led_ctrl_color_hex(), (uint32_t)((float)NUM_LEDS * (float)0.9), 20, false);
+                    animate_led_twinkle(STRIP_NUM_1, task_led_ctrl_color_hex(), (uint32_t)((float)NUM_LEDS * (float)0.9), 20, false);
                     task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_5, TASK_LED_CTRL_DELAY_MS_0);
                 break;
                 case LED_STATE_SPELL:
-                    animate_led_only_spell_word(STRIP_BIT_1, task_led_ctrl_color_hex(), 20);
+                    animate_led_only_spell_word(STRIP_NUM_1, task_led_ctrl_color_hex(), 20);
                     task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_10, TASK_LED_CTRL_DELAY_MS_0);
                 break;
                 default:

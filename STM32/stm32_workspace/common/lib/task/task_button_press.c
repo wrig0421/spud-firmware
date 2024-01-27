@@ -82,13 +82,13 @@ bool task_button_press_check_interrupts(uint8_t *red, uint8_t *green, uint8_t *b
     {
         task_button_press_interrupt_flag_clear();
         return_val = true;
-        animate_led_solid_custom_color((uint16_t)STRIP_BIT_ALL_SET, COLOR_HEX_BLACK);
+        animate_led_solid_custom_color((uint16_t)STRIP_ALL_SET, COLOR_HEX_BLACK);
     }
     else if (task_button_press_ctrl_interrupt_flag(ISR_STATE))
     {
         task_button_press_interrupt_flag_clear();
         return_val = true;
-        animate_led_solid_custom_color((uint16_t)STRIP_BIT_ALL_SET, COLOR_HEX_BLACK);
+        animate_led_solid_custom_color((uint16_t)STRIP_ALL_SET, COLOR_HEX_BLACK);
     }
     else if (task_button_press_ctrl_interrupt_flag(ISR_PAUSE))
     {
@@ -190,9 +190,9 @@ void task_button_press(void *argument)
             }
             for (uint8_t iii = 0; iii < 3; iii++)
             {
-                animate_led_solid_custom_color((uint16_t)STRIP_BIT_ALL_SET, color);
+                animate_led_solid_custom_color((uint16_t)STRIP_ALL_SET, color);
                 osDelay(500);
-                animate_led_solid_custom_color((uint16_t)STRIP_BIT_ALL_SET, COLOR_HEX_BLACK);
+                animate_led_solid_custom_color((uint16_t)STRIP_ALL_SET, COLOR_HEX_BLACK);
                 osDelay(500);
             }
             HAL_NVIC_SetPriority(irq_type, 24, 0);
