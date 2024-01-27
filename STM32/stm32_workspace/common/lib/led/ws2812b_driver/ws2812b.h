@@ -67,6 +67,7 @@ typedef struct
 {
 	ws2812b_led_t*	led_strip;
 	uint16_t 		led_strip_length;
+	uint16_t 		pwm_dma_buffer_index_start;
 } ws2812b_info_t;
 
 

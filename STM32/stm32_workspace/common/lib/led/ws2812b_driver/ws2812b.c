@@ -19,24 +19,28 @@ extern float g_max_current_ratio;
 extern TIM_HandleTypeDef g_tim1_handle;
 
 p_pwm_data_t gp_pwm_data_fill;
-ws2812b_led_t g_led_strip[NUM_LEDS];
 
+
+ws2812b_led_t g_led_strip[NUM_LEDS];
 ws2812b_info_t g_ws2812b_info[NUM_STRIPS] =
 {
 	[STRIP_NUM_1] =
 	{
 		.led_strip_length = STRIP_1_LENGTH,
-		.led_strip = g_led_strip
+		.led_strip = g_led_strip,
+		.pwm_dma_buffer_index_start = 0
 	},
 	[STRIP_NUM_2] =
 	{
 		.led_strip_length = STRIP_2_LENGTH,
-		.led_strip = g_led_strip + STRIP_1_LENGTH
+		.led_strip = g_led_strip + STRIP_1_LENGTH,
+		.pwm_dma_buffer_index_start = (STRIP_1_LENGTH * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + WS2812B_RESET_TIME_CYCLES
 	},
 	[STRIP_NUM_3] =
 	{
 		.led_strip_length = STRIP_3_LENGTH,
 		.led_strip = g_led_strip + STRIP_2_LENGTH
+		.pwm_dma_buffer_index_start = ((STRIP_2_LENGTH + STRIP_1_LENGTH) * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + (2*WS2812B_RESET_TIME_CYCLES)
 	}
 };
 
@@ -48,37 +52,11 @@ ws2812b_info_t g_ws2812b_info[NUM_STRIPS] =
  */
 void reset_ws2812b(void)
 {
+	// something needs to change here... This should be 3000
 	uint8_t g_pwm_reset[50] = {0}; // 50 bytes on stack...
     HAL_TIM_PWM_Start_DMA(&g_tim1_handle, TIM_CHANNEL_1, (uint32_t *)g_pwm_reset, sizeof(g_pwm_reset));
     HAL_TIM_PWM_Start_DMA(&g_tim1_handle, TIM_CHANNEL_2, (uint32_t *)g_pwm_reset, sizeof(g_pwm_reset));
     HAL_TIM_PWM_Start_DMA(&g_tim1_handle, TIM_CHANNEL_3, (uint32_t *)g_pwm_reset, sizeof(g_pwm_reset));
-}
-
-
-uint16_t ws2812_get_pwm_strip_offset(const strip_num_e strip_num)
-{
-    uint16_t offset = 0;
-    uint32_t num_reset_cycles = WS2812B_RESET_TIME_CYCLES;
-    switch (strip_num)
-    {
-        case STRIP_NUM_1:
-            offset = 0;
-        break;
-        case STRIP_NUM_2:
-            offset = g_ws2812b_info[strip_num].led_strip_length;
-            num_reset_cycles *= 2;
-		break;
-        case STRIP_NUM_3:
-            offset = g_ws2812b_info[strip_num].led_strip_length + \
-					 g_ws2812b_info[strip_num].led_strip_length;
-            num_reset_cycles *= 3;
-        break;
-        default:
-        break;
-    }
-    offset *= BITS_PER_BYTE * sizeof(ws2812b_led_t);
-    offset += num_reset_cycles;
-    return offset;
 }
 
 
@@ -102,17 +80,6 @@ uint16_t ws2812_get_number_of_active_strips(const strip_mask_t strip_mask)
 	}
 	return num_active_strips;
 }
-
-
-//// if STRIP_BIT_NO_MORE_SET returned then all bits have been encountered
-//strip_bit_e ws2812_get_next_active_strip(const strip_mask_t strip_mask, const strip_bit_e prev_strip_bit)
-//{
-//	for (strip_num_e iii = prev_strip_bit; iii <= NUM_STRIPS; iii = (strip_num_e)(iii + 1))
-//	{
-//		if (iii & strip_mask) return iii;
-//	}
-//	return STRIP_BIT_NO_MORE_SET;  // if this is returned
-//}
 
 
 /**
@@ -193,8 +160,6 @@ void ws2812b_set_led(const strip_num_e strip_num, const uint16_t led_num, const 
 void ws2812b_fill_pwm_buffer_strip(strip_num_e strip_num)
 {
     uint32_t color = 0;
-    uint32_t strip_size = g_ws2812b_info[strip_num].led_strip_length;
-    uint32_t strip_pwm_offset = ws2812_get_pwm_strip_offset(strip_num);
     for (uint16_t iii = 0; iii < strip_size; iii++)
     {
     	// reconstruct 24 bit color...
@@ -205,16 +170,16 @@ void ws2812b_fill_pwm_buffer_strip(strip_num_e strip_num)
         for (uint8_t yyy = 0; yyy < BITS_PER_BYTE * sizeof(ws2812b_led_t); yyy++)
         {
         	// if bit in color is set then fill w/ WS2812B_BIT_SET_CYCLES else WS2812B_BIT_RESET_CYCLES
-            gp_pwm_data_fill[strip_pwm_offset + (iii * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + yyy] = \
+            gp_pwm_data_fill[g_ws2812b_info[strip_num].pwm_dma_buffer_index_start + (iii * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + yyy] = \
             		(color & (1 << ((sizeof(ws2812b_led_t) * BITS_PER_BYTE) - 1 - yyy))) ? \
             				(uint16_t)(WS2812B_BIT_SET_CYCLES + 1) : (uint16_t)WS2812B_BIT_RESET_CYCLES;
         }
     }
     for (uint16_t iii = 0; iii < WS2812B_RESET_TIME_CYCLES; iii++)
     {
-        gp_pwm_data_fill[(strip_pwm_offset + (strip_size * BITS_PER_BYTE * sizeof(ws2812b_led_t))) + iii] = 0;
+        gp_pwm_data_fill[(g_ws2812b_info[strip_num].pwm_dma_buffer_index_start + (g_ws2812b_info[strip_num].led_strip_length * BITS_PER_BYTE * sizeof(ws2812b_led_t))) + iii] = 0;
     }
-    HAL_TIM_PWM_Start_DMA(&g_tim1_handle, TIM_CHANNEL_1, (uint32_t *)(gp_pwm_data_fill + strip_pwm_offset), (g_ws2812b_info[strip_num].led_strip_length * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + WS2812B_RESET_TIME_CYCLES);
+    HAL_TIM_PWM_Start_DMA(&g_tim1_handle, TIM_CHANNEL_1, (uint32_t *)(gp_pwm_data_fill + g_ws2812b_info[strip_num].pwm_dma_buffer_index_start), (g_ws2812b_info[strip_num].led_strip_length * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + WS2812B_RESET_TIME_CYCLES);
 }
 
 
@@ -249,28 +214,27 @@ void ws2812b_show_strip_three(void)
  */
 void ws2812b_show(const strip_mask_t strip_mask)
 {
-	for (uint8_t iii = 0; iii < NUM_STRIPS; iii++)
+	if (STRIP_NUM_1 & strip_mask)
 	{
-	    if (STRIP_NUM_1 & strip_mask)
-	    {
-	    	ws2812b_fill_pwm_buffer_strip(ws2812_convert_strip_bit_to_strip_num(STRIP_NUM_1));
-	    }
-	    if (STRIP_NUM_2 & strip_mask)
-	    {
-	    	ws2812b_fill_pwm_buffer_strip(ws2812_convert_strip_bit_to_strip_num(STRIP_NUM_2));
-	    }
-        if (STRIP_NUM_3 & strip_mask)
-        {
-        	ws2812b_fill_pwm_buffer_strip(ws2812_convert_strip_bit_to_strip_num(STRIP_NUM_3));
-	    }
+		ws2812b_fill_pwm_buffer_strip(ws2812_convert_strip_bit_to_strip_num(STRIP_NUM_1));
+	}
+	if (STRIP_NUM_2 & strip_mask)
+	{
+		ws2812b_fill_pwm_buffer_strip(ws2812_convert_strip_bit_to_strip_num(STRIP_NUM_2));
+	}
+	if (STRIP_NUM_3 & strip_mask)
+	{
+		ws2812b_fill_pwm_buffer_strip(ws2812_convert_strip_bit_to_strip_num(STRIP_NUM_3));
 	}
 }
 
 
 void ws2812b_init(void)
 {
+	uint32_t total_led_bits_in_all_strips = (sizeof(ws2812b_led_t) * BITS_PER_BYTE * NUM_LEDS);
+
 	uint8_t num_strips = NUM_STRIPS;
 	//g_all_strip_mask = STRIP_BIT_ALL_SET;
-    gp_pwm_data_fill = malloc((sizeof(ws2812b_led_t) * BITS_PER_BYTE * NUM_LEDS) + (NUM_STRIPS * WS2812B_RESET_TIME_CYCLES));
+    gp_pwm_data_fill = malloc(total_led_bits_in_all_strips + (NUM_STRIPS * WS2812B_RESET_TIME_CYCLES));
 	current_monitor_init();
 }
