@@ -23,6 +23,7 @@
 #include "task.h"
 #include "stm32l4xx_it.h"
 //#include "stm32l4xx_hal.h"
+#include "config.h"
 #include "board_init_common.h"
 #include "board_common.h"
 #include "board_specific.h"
@@ -30,15 +31,14 @@
 #include "color_led.h"
 #include "task_button_press.h"
 #include "FreeRTOSConfig.h"
+#include "gpio_config_hal_specific.h"
 #include <stdbool.h>
 
 extern osThreadId_t g_dma_transfer_handle;
 
-extern DMA_HandleTypeDef hdma_tim1_ch1;
-extern DMA_HandleTypeDef hdma_tim1_ch2;
-extern DMA_HandleTypeDef hdma_tim1_ch3;
-extern DMA_HandleTypeDef hdma_tim15_ch1_up_trig_com;
-extern DMA_HandleTypeDef hdma_tim16_ch1_up;
+extern DMA_HandleTypeDef g_hdma_tim1_ch1;
+extern DMA_HandleTypeDef g_hdma_tim1_ch2;
+extern DMA_HandleTypeDef g_hdma_tim1_ch3;
 extern SemaphoreHandle_t g_dma_transfer_semaphore;
 
 extern bool g_tasks_running;
@@ -178,17 +178,33 @@ void USARTx_IRQHandler(void)
 /******************************************************************************/
 volatile uint32_t valuesss = configMAX_SYSCALL_INTERRUPT_PRIORITY;
 volatile uint32_t d_passes = 0;
+
+
+// FROM THE LAYOUT FILE....
+
+// A = WKUP3 PC5
+// B = WKUP2 PC13
+// C = WKUP1 PA0
+// D = WKUP4 PA2
+
 /**
   * @brief This function handles EXTI line0 interrupt.
   */
 void EXTI0_IRQHandler(void)
 {
-    // D is pause
     BaseType_t xHigherPriorityTaskWoken;
+#if defined(BOARD_SPUDGLO_V5)
+	// C is color
+    board_init_push_button_pin_e button_pin = PUSH_BUTTON_C_PIN;
+    board_init_push_buttons_e button = PUSH_BUTTON_C;
+    board_init_push_button_irq_e button_irq = PUSH_BUTTON_C_IRQ;
+#else
+    // D is pause
     board_init_push_button_pin_e button_pin = PUSH_BUTTON_D_PIN;
     board_init_push_buttons_e button = PUSH_BUTTON_D;
     board_init_push_button_irq_e button_irq = PUSH_BUTTON_D_IRQ;
-    d_passes++;
+    //d_passes++;
+#endif
     HAL_GPIO_EXTI_IRQHandler(button_pin);
     g_button_press_timestamp[button][TIMESTAMP_PREVIOUS] = g_button_press_timestamp[button][TIMESTAMP_CURRENT];
     g_button_press_timestamp[button][TIMESTAMP_CURRENT] = xTaskGetTickCountFromISR();
@@ -205,10 +221,17 @@ void EXTI2_IRQHandler(void)
 {
     // A is speed
     BaseType_t xHigherPriorityTaskWoken;
+#if defined(BOARD_SPUDGLO_V5)
+	// D is speed!
+    board_init_push_button_pin_e button_pin = PUSH_BUTTON_D_PIN;
+    board_init_push_buttons_e button = PUSH_BUTTON_D;
+    board_init_push_button_irq_e button_irq = PUSH_BUTTON_D_IRQ;
+#else
     board_init_push_button_pin_e button_pin = PUSH_BUTTON_A_PIN;
     board_init_push_buttons_e button = PUSH_BUTTON_A;
     board_init_push_button_irq_e button_irq = PUSH_BUTTON_A_IRQ;
     a_passes++;
+#endif
     HAL_GPIO_EXTI_IRQHandler(button_pin);
     g_button_press_timestamp[button][TIMESTAMP_PREVIOUS] = g_button_press_timestamp[button][TIMESTAMP_CURRENT];
     g_button_press_timestamp[button][TIMESTAMP_CURRENT] = xTaskGetTickCountFromISR();
@@ -223,7 +246,7 @@ volatile uint32_t b_passes = 0;
   */
 void EXTI15_10_IRQHandler(void)
 {
-    // B is state
+	// B is animation
     BaseType_t xHigherPriorityTaskWoken;
     board_init_push_button_pin_e button_pin = PUSH_BUTTON_B_PIN;
     board_init_push_buttons_e button = PUSH_BUTTON_B;
@@ -242,12 +265,20 @@ volatile uint32_t c_passes = 0;
   */
 void EXTI9_5_IRQHandler(void)
 {
-    // C is color
     BaseType_t xHigherPriorityTaskWoken;
+#if defined(BOARD_SPUDGLO_V5)
+	// A is speed!
+    board_init_push_button_pin_e button_pin = gpio_config_pin_lookup(GPIO_PIN_PUSH_BUTTON_A);
+    board_init_push_buttons_e button = PUSH_BUTTON_A;
+    board_init_push_button_irq_e button_irq = gpio_config_irqn_lookup(GPIO_PIN_PUSH_BUTTON_A);
+    a_passes++;
+#else
+    // C is color
     board_init_push_button_pin_e button_pin = PUSH_BUTTON_C_PIN;
     board_init_push_buttons_e button = PUSH_BUTTON_C;
     board_init_push_button_irq_e button_irq = PUSH_BUTTON_C_IRQ;
     c_passes++;
+#endif
     // add button irq here..
     HAL_GPIO_EXTI_IRQHandler(button_pin);
     g_button_press_timestamp[button][TIMESTAMP_PREVIOUS] = g_button_press_timestamp[button][TIMESTAMP_CURRENT];
@@ -301,7 +332,7 @@ void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim)
   */
 void DMA1_Channel2_IRQHandler(void)
 {
-    HAL_DMA_IRQHandler(&hdma_tim1_ch1);
+    HAL_DMA_IRQHandler(&g_hdma_tim1_ch1);
 }
 
 /**
@@ -309,7 +340,7 @@ void DMA1_Channel2_IRQHandler(void)
   */
 void DMA1_Channel3_IRQHandler(void)
 {
-    HAL_DMA_IRQHandler(&hdma_tim1_ch2);
+    HAL_DMA_IRQHandler(&g_hdma_tim1_ch2);
 }
 
 /**
@@ -317,7 +348,7 @@ void DMA1_Channel3_IRQHandler(void)
   */
 void DMA1_Channel5_IRQHandler(void)
 {
-    HAL_DMA_IRQHandler(&hdma_tim15_ch1_up_trig_com);
+    //HAL_DMA_IRQHandler(&hdma_tim15_ch1_up_trig_com);
 }
 
 /**
@@ -325,7 +356,7 @@ void DMA1_Channel5_IRQHandler(void)
   */
 void DMA1_Channel6_IRQHandler(void)
 {
-    HAL_DMA_IRQHandler(&hdma_tim16_ch1_up);
+    //HAL_DMA_IRQHandler(&hdma_tim16_ch1_up);
 }
 
 /**
@@ -333,7 +364,7 @@ void DMA1_Channel6_IRQHandler(void)
   */
 void DMA1_Channel7_IRQHandler(void)
 {
-    HAL_DMA_IRQHandler(&hdma_tim1_ch3);
+    HAL_DMA_IRQHandler(&g_hdma_tim1_ch3);
 }
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

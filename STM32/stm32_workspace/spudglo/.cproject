@@ -55,6 +55,7 @@
 									<listOptionValue builtIn="false" value="../src/bsp/peripheral"/>
 									<listOptionValue builtIn="false" value="../src/bsp/stmicro"/>
 									<listOptionValue builtIn="false" value="../src/bsp/stmicro/peripheral"/>
+									<listOptionValue builtIn="false" value="../src/bsp/stmicro/peripheral/gpio"/>
 									<listOptionValue builtIn="false" value="../src/bsp/stmicro/peripheral/i2c"/>
 									<listOptionValue builtIn="false" value="../src/bsp/stmicro/peripheral/spi"/>
 									<listOptionValue builtIn="false" value="../src/bsp/stmicro/peripheral/uart"/>

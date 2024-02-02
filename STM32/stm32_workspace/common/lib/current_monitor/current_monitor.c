@@ -47,6 +47,8 @@ void current_monitor_init(void)
     {
         g_max_current_ratio -= 0.05f;
     }
-    if (g_max_current_ratio <= 0) while(1); // broken..
+    //if (g_max_current_ratio <= 0) while(1); // broken..
+    g_max_current_ratio = 0.1f;
     g_absolute_max_current_ratio = g_max_current_ratio;
+
 }

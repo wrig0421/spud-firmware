@@ -48,16 +48,19 @@ src/bsp/stmicro/stm32l4/bloat/stm32l4xx_it.o: \
  ../sdk/FreeRTOS/Source/include/semphr.h \
  ../sdk/FreeRTOS/Source/include/queue.h \
  ../sdk/FreeRTOS/Source/include/task.h \
- ../src/bsp/stmicro/stm32l4/bloat/stm32l4xx_it.h \
+ ../src/bsp/stmicro/stm32l4/bloat/stm32l4xx_it.h ../src/config.h \
  ../src/bsp/board_init_common.h ../src/bsp/board_common.h \
- ../src/bsp/board_common.h \
  ../src/bsp/stmicro/stm32l4/board_specific/board_specific.h \
- ../src/config.h \
+ ../src/bsp/board_common.h \
  ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/board_init_spudglo_v5.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/animate_led/animate_led.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/ws2812b_driver/ws2812b.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/color_led/color_led.h \
- /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_button_press.h
+ /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_button_press.h \
+ ../src/bsp/stmicro/peripheral/gpio/gpio_config_hal_specific.h \
+ ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/peripheral/gpio/board_spudglo_v5_gpio_config.h \
+ ../src/bsp/stmicro/peripheral/gpio/gpio_config_hal.h \
+ ../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h
 ../src/main.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
 ../src/bsp/stmicro/stm32l4/bloat/stm32l4xx_hal_conf.h:
@@ -111,13 +114,17 @@ src/bsp/stmicro/stm32l4/bloat/stm32l4xx_it.o: \
 ../sdk/FreeRTOS/Source/include/queue.h:
 ../sdk/FreeRTOS/Source/include/task.h:
 ../src/bsp/stmicro/stm32l4/bloat/stm32l4xx_it.h:
+../src/config.h:
 ../src/bsp/board_init_common.h:
 ../src/bsp/board_common.h:
-../src/bsp/board_common.h:
 ../src/bsp/stmicro/stm32l4/board_specific/board_specific.h:
-../src/config.h:
+../src/bsp/board_common.h:
 ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/board_init_spudglo_v5.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/animate_led/animate_led.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/ws2812b_driver/ws2812b.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/color_led/color_led.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_button_press.h:
+../src/bsp/stmicro/peripheral/gpio/gpio_config_hal_specific.h:
+../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/peripheral/gpio/board_spudglo_v5_gpio_config.h:
+../src/bsp/stmicro/peripheral/gpio/gpio_config_hal.h:
+../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h:

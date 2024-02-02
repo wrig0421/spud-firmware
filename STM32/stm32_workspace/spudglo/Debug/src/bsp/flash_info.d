@@ -37,6 +37,9 @@ src/bsp/flash_info.o: ../src/bsp/flash_info.c \
  ../src/lib/util/version.h ../src/config.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/animate_led/animate_led.h \
  ../src/bsp/board_init_common.h ../src/bsp/board_common.h \
+ ../src/bsp/stmicro/stm32l4/board_specific/board_specific.h \
+ ../src/bsp/board_common.h \
+ ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/board_init_spudglo_v5.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/ws2812b_driver/ws2812b.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/color_led/color_led.h \
  ../src/bsp/flash_info.h ../src/bsp/flash_access.h \
@@ -94,6 +97,9 @@ src/bsp/flash_info.o: ../src/bsp/flash_info.c \
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/animate_led/animate_led.h:
 ../src/bsp/board_init_common.h:
 ../src/bsp/board_common.h:
+../src/bsp/stmicro/stm32l4/board_specific/board_specific.h:
+../src/bsp/board_common.h:
+../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/board_init_spudglo_v5.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/ws2812b_driver/ws2812b.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/color_led/color_led.h:
 ../src/bsp/flash_info.h:

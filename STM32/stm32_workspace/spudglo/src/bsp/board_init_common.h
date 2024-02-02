@@ -6,6 +6,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include "board_common.h"
+#include "board_specific.h"
 
 typedef enum
 {
@@ -16,21 +17,35 @@ typedef enum
     NUM_PUSH_BUTTONS
 } board_init_push_buttons_e;
 
+
+// A EXTI2
+// B EXTI15_10
+// C EXTI 9_5
+// D EXTI 0
+
 typedef enum
 {
-    PUSH_BUTTON_A_PIN = PIN_WKUP_4,
-    PUSH_BUTTON_B_PIN = PIN_WKUP_2,
-    PUSH_BUTTON_C_PIN = PIN_WKUP_3,
-    PUSH_BUTTON_D_PIN = PIN_WKUP_1
+	// this needs to be IRQ or something but at COMPILE TIME :(
+    PUSH_BUTTON_A_PIN = GPIO_PIN_2,//PIN_WKUP_4, // PA2
+    PUSH_BUTTON_B_PIN = GPIO_PIN_13,// PIN_WKUP_2, // PC13
+    PUSH_BUTTON_C_PIN = GPIO_PIN_5, //PIN_WKUP_3, // PC5
+    PUSH_BUTTON_D_PIN = GPIO_PIN_0 //PIN_WKUP_1 // PA0
 } board_init_push_button_pin_e;
 
 
 typedef enum
 {
-    PUSH_BUTTON_A_IRQ = PIN_WKUP_4_IRQ,
-    PUSH_BUTTON_B_IRQ = PIN_WKUP_2_IRQ,
-    PUSH_BUTTON_C_IRQ = PIN_WKUP_3_IRQ,
-    PUSH_BUTTON_D_IRQ = PIN_WKUP_1_IRQ
+#if defined(BOARD_SPUDGLO_V5)
+    PUSH_BUTTON_A_IRQ = EXTI9_5_IRQn, //PIN_WKUP_4_IRQ, // EXTI2_IRQn
+    PUSH_BUTTON_B_IRQ = EXTI15_10_IRQn, //PIN_WKUP_2_IRQ, // EXTI15_10_IRQn
+    PUSH_BUTTON_C_IRQ = EXTI0_IRQn, //PIN_WKUP_3_IRQ, // EXTI9_5_IRQn
+    PUSH_BUTTON_D_IRQ = EXTI2_IRQn //PIN_WKUP_1_IRQ // EXTI0_IRQn
+#else
+    PUSH_BUTTON_A_IRQ = EXTI2_IRQn, //PIN_WKUP_4_IRQ, // EXTI2_IRQn
+    PUSH_BUTTON_B_IRQ = EXTI15_10_IRQn, //PIN_WKUP_2_IRQ, // EXTI15_10_IRQn
+    PUSH_BUTTON_C_IRQ = EXTI9_5_IRQn, //PIN_WKUP_3_IRQ, // EXTI9_5_IRQn
+    PUSH_BUTTON_D_IRQ = EXTI0_IRQn //PIN_WKUP_1_IRQ // EXTI0_IRQn
+#endif
 } board_init_push_button_irq_e;
 
 

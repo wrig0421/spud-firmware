@@ -9,7 +9,8 @@
 #include <stdlib.h>
 #include "FreeRTOSConfig.h"
 #include "board_init_common.h"
-
+#include "gpio_config_hal.h"
+#include "gpio_config_hal_specific.h"
 
 typedef enum
 {
@@ -18,19 +19,15 @@ typedef enum
 } timer_e;
 
 
-DMA_HandleTypeDef hdma_tim1_ch1;
-DMA_HandleTypeDef hdma_tim1_ch2;
-DMA_HandleTypeDef hdma_tim1_ch3;
-DMA_HandleTypeDef hdma_tim15_ch1_up_trig_com;
-DMA_HandleTypeDef hdma_tim16_ch1_up;
+DMA_HandleTypeDef 	g_hdma_tim1_ch1;
+DMA_HandleTypeDef 	g_hdma_tim1_ch2;
+DMA_HandleTypeDef 	g_hdma_tim1_ch3;
+RTC_HandleTypeDef 	g_rtc_handle;
+TIM_HandleTypeDef 	g_tim1_handle;
 
-RTC_HandleTypeDef g_rtc_handle;
-TIM_HandleTypeDef g_tim1_handle;
-TIM_HandleTypeDef g_tim15_handle;
-TIM_HandleTypeDef g_tim16_handle;
+uint32_t 			g_button_on_count[NUM_PUSH_BUTTONS] 	= {0};
+bool 				g_button_press_state[NUM_PUSH_BUTTONS] 	= {false};
 
-uint32_t g_button_on_count[NUM_PUSH_BUTTONS] = {0};
-bool button_press_state[NUM_PUSH_BUTTONS] = {false};
 extern UART_HandleTypeDef      gh_host_usart;
 
 static void board_init_common_rtc_init(void)
@@ -123,33 +120,14 @@ static void board_init_common_timer_init(void)
     HAL_TIM_PWM_Stop_DMA(&g_tim1_handle, TIM_CHANNEL_1);
     HAL_TIM_PWM_Stop_DMA(&g_tim1_handle, TIM_CHANNEL_2);
     HAL_TIM_PWM_Stop_DMA(&g_tim1_handle, TIM_CHANNEL_3);
-    GPIO_InitStruct.Pin = PIN_TIM1_CH1|PIN_TIM1_CH2|PIN_TIM1_CH3;
+    GPIO_InitStruct.Pin = gpio_config_pin_lookup(GPIO_PIN_TIM1_CH1) | gpio_config_pin_lookup(GPIO_PIN_TIM1_CH2) | gpio_config_pin_lookup(GPIO_PIN_TIM1_CH3);
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
     GPIO_InitStruct.Alternate = GPIO_AF1_TIM1;
-    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-}
+    HAL_GPIO_Init(gpio_config_port_lookup(GPIO_PIN_TIM1_CH1), &GPIO_InitStruct); // all timer pins are on the same port!
+    __HAL_RCC_DMA1_CLK_ENABLE(); // TODO determine a better place for this clock enable call.
 
-
-static void board_init_common_nvic_setup_interrupts(void)
-{
-    __HAL_GPIO_EXTI_CLEAR_IT(EXTI0_IRQn);
-    __HAL_GPIO_EXTI_CLEAR_IT(EXTI2_IRQn);
-    __HAL_GPIO_EXTI_CLEAR_IT(EXTI9_5_IRQn);
-    __HAL_GPIO_EXTI_CLEAR_IT(EXTI15_10_IRQn);
-    HAL_NVIC_SetPriority(EXTI0_IRQn, 24, 0);
-    HAL_NVIC_EnableIRQ(EXTI0_IRQn);
-    HAL_NVIC_SetPriority(EXTI2_IRQn, 24, 0);
-    HAL_NVIC_EnableIRQ(EXTI2_IRQn);
-    HAL_NVIC_SetPriority(EXTI9_5_IRQn, 24, 0);
-    HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
-    HAL_NVIC_SetPriority(EXTI15_10_IRQn, 24, 0);
-    HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
-    __HAL_GPIO_EXTI_CLEAR_IT(EXTI0_IRQn);
-    __HAL_GPIO_EXTI_CLEAR_IT(EXTI2_IRQn);
-    __HAL_GPIO_EXTI_CLEAR_IT(EXTI9_5_IRQn);
-    __HAL_GPIO_EXTI_CLEAR_IT(EXTI15_10_IRQn);
     HAL_NVIC_SetPriority(DMA1_Channel2_IRQn, 0, 0);
     HAL_NVIC_EnableIRQ(DMA1_Channel2_IRQn);
     HAL_NVIC_SetPriority(DMA1_Channel3_IRQn, 0, 0);
@@ -163,62 +141,53 @@ static void board_init_common_nvic_setup_interrupts(void)
 }
 
 
-static void board_init_common_setup_wakeups(void)
-{
-    GPIO_InitTypeDef GPIO_InitStruct = {0};
-
-    // future setup wakeups
-    GPIO_InitStruct.Pin = PIN_WKUP_1|PIN_WKUP_4;
-    GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
-    GPIO_InitStruct.Pull = GPIO_PULLUP;
-    HAL_GPIO_Init(PIN_PORT_A, &GPIO_InitStruct);
-
-    GPIO_InitStruct.Pin = PIN_WKUP_2|PIN_WKUP_3;
-    GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
-    GPIO_InitStruct.Pull = GPIO_PULLUP;
-    HAL_GPIO_Init(PIN_PORT_C, &GPIO_InitStruct);
-    board_init_common_nvic_setup_interrupts();
-}
-
-static void board_init_port_wakeup(void)
-{
-    __HAL_RCC_GPIOA_CLK_ENABLE();
-    __HAL_RCC_GPIOB_CLK_ENABLE();
-    __HAL_RCC_GPIOC_CLK_ENABLE();
-    __HAL_RCC_GPIOH_CLK_ENABLE();
-    __HAL_RCC_DMA1_CLK_ENABLE();
-}
-
-
-void board_init_common_board_init(void)
-{
-    srand(time(0));
-    HAL_Init();
-    SystemClock_Config();
-
-    board_init_port_wakeup();
-    board_init_common_setup_wakeups();
-    board_init_specific();
-
-    board_init_common_timer_init();
-
-    ws2812b_init();
-
-    board_init_common_rtc_init();
-}
-
-
-void board_init_common_button_pressed(const board_init_push_buttons_e button)
-{
-    button_press_state[(uint8_t)button] = true;
-}
-
-
 void board_init_common_stop_timer(void)
 {
     HAL_TIM_PWM_Stop_DMA(&g_tim1_handle, TIM_CHANNEL_1);
     HAL_TIM_PWM_Stop_DMA(&g_tim1_handle, TIM_CHANNEL_2);
     HAL_TIM_PWM_Stop_DMA(&g_tim1_handle, TIM_CHANNEL_3);
+}
+
+
+void board_init_common_board_init(void)
+{
+    srand(time(0)); // TODO determine a better seed.  Analog input noise would be superb!
+
+    HAL_Init();
+    SystemClock_Config(); // 32.768 kHz LSE, 48 MHz HSE enabled by default.
+    board_init_common_rtc_init();
+
+    gpio_config_hal_setup();
+    board_init_peripheral_setup(); // TODO determine whether to continue supporting boards that don't have peripheral access or not...
+
+    board_init_common_timer_init(); // TODO determine if timer should be part of a separate config file??
+    ws2812b_init();
+}
+
+
+void board_init_common_button_pressed(const board_init_push_buttons_e button)
+{
+    g_button_press_state[(uint8_t)button] = true;
+}
+
+
+// what is the function below used for??
+void board_init_common_button_is_pressed(const board_init_push_buttons_e button)
+{
+//	uint32_t port = 0;
+//	uint32_t pin = 0;
+//	switch (button)
+//	{
+//		case PUSH_BUTTON_A:
+//			//port =
+//		break;
+//		case PUSH_BUTTON_B:
+//		break;
+//		case PUSH_BUTTON_C:
+//		break;
+//		case PUSH_BUTTON_D:
+//		break;
+//	}
 }
 
 

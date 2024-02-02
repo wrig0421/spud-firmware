@@ -12,7 +12,8 @@ typedef enum
     ISR_STATE,
     ISR_COLOR,
     ISR_PAUSE,
-    NUM_ISR
+    NUM_ISR,
+	ISR_INVALID
 } isr_e;
 
 
@@ -32,6 +33,6 @@ bool task_button_press_check_interrupts(uint8_t *red, uint8_t *green, uint8_t *b
 void task_button_press_interrupt_flag_clear(void);
 void task_button_press(void *argument);
 bool task_button_press_isr_hit(void);
-task_button_press_major_state_change_clear(void);
+void task_button_press_major_state_change_clear(void);
 bool task_button_press_major_state_change(void);
 #endif /* TASK_PIN_LEVEL_COUNT_H_ */

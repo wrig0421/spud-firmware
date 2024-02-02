@@ -14,12 +14,14 @@ RM := rm -rf
 -include src/lib/util/subdir.mk
 -include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/peripheral/uart/subdir.mk
 -include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/peripheral/spi/subdir.mk
+-include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/peripheral/gpio/subdir.mk
 -include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/subdir.mk
 -include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v4/subdir.mk
 -include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v3/subdir.mk
 -include src/bsp/stmicro/stm32l4/bloat/subdir.mk
 -include src/bsp/stmicro/peripheral/uart/subdir.mk
 -include src/bsp/stmicro/peripheral/spi/subdir.mk
+-include src/bsp/stmicro/peripheral/gpio/subdir.mk
 -include src/bsp/subdir.mk
 -include src/subdir.mk
 -include sdk/STM32L4xx_HAL_Driver/Src/subdir.mk

@@ -40,12 +40,14 @@ sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F \
 sdk/FreeRTOS/Source/portable/MemMang \
 sdk/STM32L4xx_HAL_Driver/Src \
 src/bsp \
+src/bsp/stmicro/peripheral/gpio \
 src/bsp/stmicro/peripheral/spi \
 src/bsp/stmicro/peripheral/uart \
 src/bsp/stmicro/stm32l4/bloat \
 src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v3 \
 src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v4 \
 src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5 \
+src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/peripheral/gpio \
 src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/peripheral/spi \
 src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/peripheral/uart \
 src/lib/util \

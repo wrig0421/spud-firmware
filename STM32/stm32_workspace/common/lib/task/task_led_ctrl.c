@@ -54,7 +54,7 @@ typedef enum
 
 //master_led_state_e g_master_led_state = MASTER_LED_STATE_DEMO;
 master_led_state_e      g_master_led_state = MASTER_LED_STATE_DEMO;
-led_state_e             g_led_state = LED_STATE_FIRST;
+led_state_e             g_led_state = LED_STATE_WHITE_COLOR;//LED_STATE_FIRST;
 led_speed_e             g_led_speed = LED_SPEED_10X;
 led_brightness_e        g_led_brightness = LED_BRIGHTNESS_100_PERCENT;
 
@@ -68,7 +68,6 @@ extern color_hex_code_e g_color_hex_codes[NUM_COLORS];
 
 uint8_t                 g_animation_iterations = 0;
 uint16_t                g_delay_in_animation_ms = 100; // where applicable of course
-extern bool             task_button_press_major_change;
 
 
 static void task_led_ctrl_adjust_parameters(const task_led_ctrl_loop_iterations_e max_iterations,
@@ -179,7 +178,8 @@ void task_led_ctrl_strip_one(void *argument)
             switch(g_led_state)
             {
                 case LED_STATE_WHITE_COLOR:
-                    animate_led_solid_custom_color((uint16_t)STRIP_NUM_1, COLOR_HEX_WHITE);
+                    animate_led_solid_custom_color((uint16_t)STRIP_NUM_1, COLOR_HEX_BLUE);
+                    animate_led_solid_custom_color((uint16_t)STRIP_NUM_2, COLOR_HEX_WHITE);
                     task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_1, TASK_LED_CTRL_DELAY_MS_5000);
                 break;
                 case LED_STATE_SOLID_COLOR:
