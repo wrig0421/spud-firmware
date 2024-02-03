@@ -48,13 +48,13 @@ src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/board_init_spudglo_
  ../src/bsp/board_common.h \
  ../src/bsp/stmicro/stm32l4/board_specific/board_specific.h \
  ../src/config.h ../src/bsp/board_init_common.h ../src/bsp/board_common.h \
- ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v4/board_init_spudglo_v4.h \
+ ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/board_init_spudglo_v5.h \
  ../src/bsp/stmicro/peripheral/spi/spi_config_hal.h \
  ../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/spi/spi_access.h \
  ../src/bsp/stmicro/peripheral/uart/uart_config_hal.h \
  ../src/bsp/stmicro/peripheral/gpio/gpio_config_hal_specific.h \
- ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v4/peripheral/gpio/board_spudglo_v4_gpio_config.h \
+ ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/peripheral/gpio/board_spudglo_v5_gpio_config.h \
  ../src/bsp/stmicro/peripheral/gpio/gpio_config_hal.h \
  ../src/bsp/peripheral/gpio_access_hal.h
 ../sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h:
@@ -110,12 +110,12 @@ src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/board_init_spudglo_
 ../src/config.h:
 ../src/bsp/board_init_common.h:
 ../src/bsp/board_common.h:
-../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v4/board_init_spudglo_v4.h:
+../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/board_init_spudglo_v5.h:
 ../src/bsp/stmicro/peripheral/spi/spi_config_hal.h:
 ../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/spi/spi_access.h:
 ../src/bsp/stmicro/peripheral/uart/uart_config_hal.h:
 ../src/bsp/stmicro/peripheral/gpio/gpio_config_hal_specific.h:
-../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v4/peripheral/gpio/board_spudglo_v4_gpio_config.h:
+../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/peripheral/gpio/board_spudglo_v5_gpio_config.h:
 ../src/bsp/stmicro/peripheral/gpio/gpio_config_hal.h:
 ../src/bsp/peripheral/gpio_access_hal.h:

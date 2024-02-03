@@ -1,0 +1,8 @@
+../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/board_init_spudglo_v5.c:15:6:board_init_peripheral_setup	8	static
+../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/board_init_spudglo_v5.c:23:6:board_init_specific_power_cycle_level_shifter	8	static
+../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/board_init_spudglo_v5.c:31:6:board_init_specific_esp8266_uart_boot_enable	8	static
+../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/board_init_spudglo_v5.c:38:6:board_init_specific_esp8266_uart_boot_disable	8	static
+../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/board_init_spudglo_v5.c:45:6:board_init_specific_esp8266_power_enable	8	static
+../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/board_init_spudglo_v5.c:52:6:board_init_specific_esp8266_power_disable	8	static
+../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/board_init_spudglo_v5.c:59:6:board_init_specific_esp8266_reset_assert	8	static
+../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/board_init_spudglo_v5.c:66:6:board_init_specific_esp8266_reset_deassert	8	static

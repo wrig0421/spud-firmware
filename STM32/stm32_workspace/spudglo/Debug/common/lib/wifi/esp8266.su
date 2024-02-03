@@ -1,0 +1,11 @@
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/wifi/esp8266.c:36:6:esp8266_write_and_read_block	24	static
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/wifi/esp8266.c:42:6:esp8266_write_block	16	static
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/wifi/esp8266.c:48:6:esp8266_read_block	16	static
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/wifi/esp8266.c:57:6:esp8266_write_command	24	static
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/wifi/esp8266.c:65:6:esp8266_read_response	16	static
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/wifi/esp8266.c:71:6:esp8266_write_data	32	static
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/wifi/esp8266.c:88:6:esp8266_write_command_and_read_response	40	static
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/wifi/esp8266.c:118:6:esp8266_response_ok_received	24	static
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/wifi/esp8266.c:134:10:esp8266_read_start_of_binary_index	4	static
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/wifi/esp8266.c:139:6:esp8266_response_contains	32	static
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/wifi/esp8266.c:162:6:esp8266_startup	8	static

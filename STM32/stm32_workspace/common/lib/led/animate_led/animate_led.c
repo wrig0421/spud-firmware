@@ -447,11 +447,14 @@ void animate_led_theater_chase_rainbow(const strip_mask_t mask, const uint16_t s
 //void animate_led_twinkle_multiple_colors(const strip_mask_t mask_twinkle, const uint32_t* color_array,
 //                                         const uint16_t count, const uint16_t speed_delay, const bool only_one)
 //{
-//	strip_bit_e active_strip = STRIP_NUM_1;
-//	strip_bit_e pre_strip = STRIP_NUM_1;
+//	strip_num_e active_strip = STRIP_NUM_1;
+//	strip_num_e pre_strip = STRIP_NUM_1;
 //	uint8_t num_active_strips = 0;
-//	strip_bit_e active_strip_array[NUM_STRIPS] = {STRIP_BIT_NONE_SET};
+//	strip_num_e active_strip_array[NUM_STRIPS] = {STRIP_NONE};
 //    uint8_t color_twinkle_rgb[sizeof(ws2812b_led_t)] = {0};
+//    // for the multiple color case.  Drive the LEDs based on the most amount of pixels
+//    // on a given strip.
+//
 //	for (uint8_t iii = 0; iii < NUM_STRIPS; iii++)
 //	{
 //		active_strip = ws2812_get_next_active_strip(mask_twinkle, pre_strip);

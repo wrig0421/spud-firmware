@@ -1,4 +1,4 @@
-../src/bsp/stmicro/peripheral/uart/uart_access_hal.c:16:6:USART1_IRQHandler	4	static
+../src/bsp/stmicro/peripheral/uart/uart_access_hal.c:16:6:USART1_IRQHandler	8	static
 ../src/bsp/stmicro/peripheral/uart/uart_access_hal.c:24:6:HAL_UART_TxCpltCallback	16	static
 ../src/bsp/stmicro/peripheral/uart/uart_access_hal.c:52:6:HAL_UART_RxCpltCallback	16	static
 ../src/bsp/stmicro/peripheral/uart/uart_access_hal.c:188:19:uart_access_hal_rx_tick_time_reset	8	static

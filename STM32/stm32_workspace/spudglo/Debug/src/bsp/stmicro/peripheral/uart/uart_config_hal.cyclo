@@ -1,2 +1,3 @@
 ../src/bsp/stmicro/peripheral/uart/uart_config_hal.c:14:6:uart_config_hal_setup	9
 ../src/bsp/stmicro/peripheral/uart/uart_config_hal.c:82:15:uart_config_host_handle	1
+../src/bsp/stmicro/peripheral/uart/uart_config_hal.c:89:15:uart_config_esp8266_handle	1

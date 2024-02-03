@@ -38,7 +38,7 @@ src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v4/board_init_spudglo_
  ../src/bsp/board_common.h \
  ../src/bsp/stmicro/stm32l4/board_specific/board_specific.h \
  ../src/config.h ../src/bsp/board_init_common.h ../src/bsp/board_common.h \
- ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v4/board_init_spudglo_v4.h
+ ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/board_init_spudglo_v5.h
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
 ../src/bsp/stmicro/stm32l4/bloat/stm32l4xx_hal_conf.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h:
@@ -81,4 +81,4 @@ src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v4/board_init_spudglo_
 ../src/config.h:
 ../src/bsp/board_init_common.h:
 ../src/bsp/board_common.h:
-../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v4/board_init_spudglo_v4.h:
+../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/board_init_spudglo_v5.h:

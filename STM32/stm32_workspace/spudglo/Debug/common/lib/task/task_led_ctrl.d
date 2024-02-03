@@ -49,7 +49,7 @@ common/lib/task/task_led_ctrl.o: \
  ../src/bsp/board_common.h \
  ../src/bsp/stmicro/stm32l4/board_specific/board_specific.h \
  ../src/config.h ../src/bsp/board_common.h \
- ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v4/board_init_spudglo_v4.h \
+ ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/board_init_spudglo_v5.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/color_led/color_led.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_button_press.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/current_monitor/current_monitor.h \
@@ -117,7 +117,7 @@ common/lib/task/task_led_ctrl.o: \
 ../src/bsp/stmicro/stm32l4/board_specific/board_specific.h:
 ../src/config.h:
 ../src/bsp/board_common.h:
-../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v4/board_init_spudglo_v4.h:
+../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/board_init_spudglo_v5.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/color_led/color_led.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_button_press.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/current_monitor/current_monitor.h:
