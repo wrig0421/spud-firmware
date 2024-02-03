@@ -25,13 +25,15 @@ const gpio_config_t g_gpio_config[NUM_GPIO_PINS] =
 	{
 		.pin = GPIO_PIN_GREEN_LED,
 		.port = GPIO_PORT_C,
-		.mode = GPIO_CONFIG_MODE_OUTPUT_PUSHPULL
+		.mode = GPIO_CONFIG_MODE_OUTPUT_PUSHPULL,
+		.lvl = GPIO_CONFIG_OUTPUT_LVL_RESET
 	},
 	[GPIO_PIOC_PIN_3] =
 	{
 		.pin = GPIO_PIN_RED_LED,
 		.port = GPIO_PORT_C,
-		.mode = GPIO_CONFIG_MODE_OUTPUT_PUSHPULL
+		.mode = GPIO_CONFIG_MODE_OUTPUT_PUSHPULL,
+		.lvl = GPIO_CONFIG_OUTPUT_LVL_SET
 	},
 	[GPIO_PIOC_PIN_4] = // NC
 	{
@@ -58,13 +60,15 @@ const gpio_config_t g_gpio_config[NUM_GPIO_PINS] =
 	{
 		.pin = GPIO_PIN_LVL_EN,
 		.port = GPIO_PORT_C,
-		.mode = GPIO_CONFIG_MODE_OUTPUT_PUSHPULL
+		.mode = GPIO_CONFIG_MODE_OUTPUT_PUSHPULL,
+		.lvl = GPIO_CONFIG_OUTPUT_LVL_RESET
 	},
 	[GPIO_PIOC_PIN_8] =
 	{
 		.pin = GPIO_PIN_LVL_DIR,
 		.port = GPIO_PORT_C,
-		.mode = GPIO_CONFIG_MODE_OUTPUT_PUSHPULL
+		.mode = GPIO_CONFIG_MODE_OUTPUT_PUSHPULL,
+		.lvl = GPIO_CONFIG_OUTPUT_LVL_SET
 	},
 	[GPIO_PIOC_PIN_9] = // NC
 	{

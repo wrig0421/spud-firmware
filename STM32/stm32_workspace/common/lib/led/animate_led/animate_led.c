@@ -71,27 +71,49 @@ void animate_led_show_strip(const strip_mask_t strip_mask)
 void animate_led_set_pixel(const strip_mask_t mask, const uint16_t pixel, const uint8_t red, const uint8_t green,
                            const uint8_t blue)
 {
-	for (strip_num_e strip_num = STRIP_NUM_1; strip_num <= NUM_STRIPS; strip_num = (strip_num_e)(strip_num + 1))
-	{
-		if ((mask & strip_num) && (ws2812_pixel_is_in_strip_range(strip_num, pixel)))
+    if (STRIP_NUM_1 & mask)
+    {
+		if (ws2812_pixel_is_in_strip_range(STRIP_NUM_1, pixel))
 		{
-			 ws2812b_set_led(strip_num, pixel, red, green, blue);
+			 ws2812b_set_led(STRIP_NUM_1, pixel, red, green, blue);
 		}
-	}
+    }
+    if (STRIP_NUM_2 & mask)
+    {
+		if (ws2812_pixel_is_in_strip_range(STRIP_NUM_2, pixel))
+		{
+			 ws2812b_set_led(STRIP_NUM_2, pixel, red, green, blue);
+		}
+    }
+    if (STRIP_NUM_3 & mask)
+    {
+		if (ws2812_pixel_is_in_strip_range(STRIP_NUM_3, pixel))
+		{
+			 ws2812b_set_led(STRIP_NUM_3, pixel, red, green, blue);
+		}
+    }
 }
 
 
 void animate_led_set_all_pixels(const strip_mask_t mask, const uint8_t red, const uint8_t green, const uint8_t blue)
 {
     uint16_t strip_size = 0;
-	for (strip_num_e strip_num = STRIP_NUM_1; strip_num <= NUM_STRIPS; strip_num = (strip_num_e)(strip_num + 1))
-	{
-		if (mask & strip_num)
-		{
-			strip_size = ws2812_get_strip_size(strip_num);
-			for (uint16_t yyy = 0; yyy < strip_size; yyy++) ws2812b_set_led(strip_num, yyy, red, green, blue);
-		}
-	}
+
+    if (STRIP_NUM_1 & mask)
+    {
+		strip_size = ws2812_get_strip_size(STRIP_NUM_1);
+		for (uint16_t yyy = 0; yyy < strip_size; yyy++) ws2812b_set_led(STRIP_NUM_1, yyy, red, green, blue);
+    }
+    if (STRIP_NUM_2 & mask)
+    {
+		strip_size = ws2812_get_strip_size(STRIP_NUM_2);
+		for (uint16_t yyy = 0; yyy < strip_size; yyy++) ws2812b_set_led(STRIP_NUM_2, yyy, red, green, blue);
+    }
+    if (STRIP_NUM_3 & mask)
+    {
+		strip_size = ws2812_get_strip_size(STRIP_NUM_3);
+		for (uint16_t yyy = 0; yyy < strip_size; yyy++) ws2812b_set_led(STRIP_NUM_3, yyy, red, green, blue);
+    }
     animate_led_show_strip(mask);
 }
 

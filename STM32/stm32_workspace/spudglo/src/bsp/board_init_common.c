@@ -75,6 +75,8 @@ static void SystemClock_Config(void)
 
 static void board_init_common_timer_init(void)
 {
+    __HAL_RCC_DMA1_CLK_ENABLE(); // TODO determine a better place for this clock enable call.
+
     GPIO_InitTypeDef GPIO_InitStruct = {0};
     TIM_ClockConfigTypeDef sClockSourceConfig = {0};
     TIM_MasterConfigTypeDef sMasterConfig = {0};
@@ -126,7 +128,6 @@ static void board_init_common_timer_init(void)
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
     GPIO_InitStruct.Alternate = GPIO_AF1_TIM1;
     HAL_GPIO_Init(gpio_config_port_lookup(GPIO_PIN_TIM1_CH1), &GPIO_InitStruct); // all timer pins are on the same port!
-    __HAL_RCC_DMA1_CLK_ENABLE(); // TODO determine a better place for this clock enable call.
 
     HAL_NVIC_SetPriority(DMA1_Channel2_IRQn, 0, 0);
     HAL_NVIC_EnableIRQ(DMA1_Channel2_IRQn);
@@ -155,13 +156,14 @@ void board_init_common_board_init(void)
 
     HAL_Init();
     SystemClock_Config(); // 32.768 kHz LSE, 48 MHz HSE enabled by default.
-    board_init_common_rtc_init();
 
     gpio_config_hal_setup();
+#if defined(BOARD_SPUDGLO_V5)
     board_init_peripheral_setup(); // TODO determine whether to continue supporting boards that don't have peripheral access or not...
-
+#endif
     board_init_common_timer_init(); // TODO determine if timer should be part of a separate config file??
     ws2812b_init();
+    board_init_common_rtc_init();
 }
 
 

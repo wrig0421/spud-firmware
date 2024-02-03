@@ -236,11 +236,11 @@ void gpio_config_hal_setup(void)
 		    {
 		    	if (GPIO_CONFIG_OUTPUT_LVL_RESET == g_gpio_config[pin].lvl)
 				{
-					HAL_GPIO_WritePin(g_gpio_config[pin].port, g_gpio_config[pin].pin, GPIO_PIN_RESET);
+					HAL_GPIO_WritePin(g_gpio_config[pin].port, gpio_config_pin_lookup(g_gpio_config[pin].pin), GPIO_PIN_RESET);
 				}
 				else
 				{
-					HAL_GPIO_WritePin(g_gpio_config[pin].port, g_gpio_config[pin].pin, GPIO_PIN_SET);
+					HAL_GPIO_WritePin(g_gpio_config[pin].port, gpio_config_pin_lookup(g_gpio_config[pin].pin), GPIO_PIN_SET);
 				}
 		    }
 		}

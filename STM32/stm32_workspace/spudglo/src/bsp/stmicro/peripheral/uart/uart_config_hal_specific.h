@@ -9,6 +9,8 @@
 
 #if defined(BOARD_SPUDGLO_V5P0)
 #include "board_spudglo_v5_uart_config.h"
+#elif defined(BOARD_SPUDGLO_V4)
+//#include "board_spudglo_v4_uart_config.h"
 #else
 #error "Error - None or unknown board defined!"
 #endif

@@ -46,6 +46,8 @@ src/bsp/stmicro/peripheral/uart \
 src/bsp/stmicro/stm32l4/bloat \
 src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v3 \
 src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v4 \
+src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v4/peripheral/gpio \
+src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v4/peripheral/spi \
 src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5 \
 src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/peripheral/gpio \
 src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/peripheral/spi \

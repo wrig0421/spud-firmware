@@ -22,8 +22,9 @@
 #define 	SWITCH_MAJOR_STATE_CHANGE_TIME_MILLISECONDS	5000
 uint32_t 	g_button_press_timestamp[NUM_PUSH_BUTTONS][NUM_TIMESTAMPS];
 bool 		task_button_press_major_change        = false;
-bool        g_animate_led_pause_flag = false;
-bool        g_animate_led_interrupt = false;
+
+extern task_led_ctrl_t g_task_led_ctrl;
+
 bool        g_interrupt_flag[NUM_ISR] = {false};
 // for debug the variables below are defined
 uint32_t 	g_a_ok_count = 0;
@@ -34,7 +35,7 @@ uint32_t 	g_d_ok_count = 0;
 
 bool task_button_press_interrupt_occurred(void)
 {
-    return g_animate_led_interrupt;
+    return g_task_led_ctrl.interrupt_set;
 }
 
 
@@ -63,7 +64,7 @@ isr_e task_led_ctrl_button_to_isr(const board_init_push_buttons_e button)
  */
 void task_button_press_ctrl_set_interrupt_flag(const isr_e src)
 {
-    g_animate_led_interrupt = true;
+    g_task_led_ctrl.interrupt_set = true;
     g_interrupt_flag[src] = true;
 }
 
@@ -108,7 +109,7 @@ bool task_button_press_check_interrupts(uint8_t *red, uint8_t *green, uint8_t *b
     else if (task_button_press_ctrl_interrupt_flag(ISR_PAUSE))
     {
         task_button_press_interrupt_flag_clear();
-        while (g_animate_led_pause_flag)
+        while (g_task_led_ctrl.pause_set)
         {
             osDelay(10);
         }
@@ -132,7 +133,7 @@ bool task_button_press_check_interrupts(uint8_t *red, uint8_t *green, uint8_t *b
  */
 void task_button_press_interrupt_flag_clear(void)
 {
-    g_animate_led_interrupt = false;
+    g_task_led_ctrl.interrupt_set = false;
 }
 
 
@@ -170,9 +171,9 @@ void task_button_press(void *argument)
         // button_pressed_bit is passed through notification.  Convert to the button pressed enum.
         pushed_button = (board_init_push_buttons_e) button_pressed_bit;
 #if !defined(BOARD_SPUDGLO_V5)
-        HAL_GPIO_WritePin(PIN_PORT_B, PIN_INT_LVL_EN, GPIO_PIN_RESET);
+        HAL_GPIO_WritePin(gpio_config_port_lookup(GPIO_PIOB_INT_LVL_EN), gpio_config_pin_lookup(GPIO_PIOB_INT_LVL_EN), GPIO_PIN_RESET);
         osDelay(700);
-        HAL_GPIO_WritePin(PIN_PORT_B, PIN_INT_LVL_EN, GPIO_PIN_SET);
+        HAL_GPIO_WritePin(gpio_config_port_lookup(GPIO_PIOB_INT_LVL_EN), gpio_config_pin_lookup(GPIO_PIOB_INT_LVL_EN), GPIO_PIN_SET);
 #endif
         // get the pin for button pressed
         switch (pushed_button)

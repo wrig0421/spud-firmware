@@ -15,7 +15,9 @@ uint16_t g_uart_rx_buffer_index = 0;
 
 void USART1_IRQHandler(void)
 {
+#if defined (BOARD_SPUDGLO_V5)
 	HAL_UART_IRQHandler(uart_config_esp8266_handle());
+#endif
 }
 
 

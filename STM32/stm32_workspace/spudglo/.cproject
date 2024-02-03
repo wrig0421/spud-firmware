@@ -93,6 +93,9 @@
 									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/queue&quot;"/>
 									<listOptionValue builtIn="false" value="../src/task"/>
 									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/wifi&quot;"/>
+									<listOptionValue builtIn="false" value="../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v4/peripheral/i2c"/>
+									<listOptionValue builtIn="false" value="../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v4/peripheral/spi"/>
+									<listOptionValue builtIn="false" value="../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v4/peripheral/uart"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.743633161" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c"/>
 							</tool>

@@ -5,6 +5,24 @@
 #include "color_led.h"
 #include "animate_led.h"
 
+extern color_hex_code_e g_color_hex_codes[NUM_COLORS];
+
+typedef struct
+{
+	master_led_state_e		led_state_master;
+	led_state_e				led_state;
+
+	led_speed_e				led_speed;
+
+	led_brightness_e		led_brightness;
+
+	master_color_state_e	led_color_master;
+	all_colors_e			led_color;
+
+	bool					interrupt_set;
+	bool					pause_set;
+} task_led_ctrl_t;
+
 #define GENERAL_RX_BUFFER_SIZE 5000
 void task_led_ctrl(void *argument);
 void task_led_ctrl_delay(const uint32_t time_ms);
@@ -33,9 +51,8 @@ bool task_led_ctrl_animate_adjust_state(void);
 void task_led_ctrl_animate_state_demo(void);
 void task_led_ctrl_animate_state_fixed(void);
 master_led_state_e task_led_ctrl_animate_state(void);
-void task_led_ctrl_strip_one(void *argument);
-void task_led_ctrl_strip_two(void *argument);
-void task_led_ctrl_strip_three(void *argument);
+void task_led_ctrl(void *argument);
+
 void task_led_ctrl_clear_pause(void);
 
 
