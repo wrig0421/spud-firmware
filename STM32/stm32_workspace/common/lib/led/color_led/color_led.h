@@ -85,6 +85,11 @@ typedef enum
 
 
 void color_led_hex_to_rgb(const color_hex_code_e color, uint8_t *color_array);
+uint8_t color_red_to_hex(all_colors_e color);
+uint8_t color_green_to_hex(all_colors_e color);
+uint8_t color_blue_to_hex(all_colors_e color);
+
+
 
 
 #endif

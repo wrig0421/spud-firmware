@@ -4,6 +4,7 @@
  ***********************************/
 #include <stdint.h>
 #include <math.h>
+#include "projdefs.h"
 #include "numbers.h"
 #include "task_led_ctrl.h"
 #include "animate_led.h"
@@ -12,6 +13,106 @@
 
 extern uint32_t g_max_strip_length;
 extern uint16_t g_all_strip_mask;
+
+
+const animate_led_ctrl_t g_animate_led_ctrl[NUM_LED_STATES] =
+{
+	[LED_STATE_SPELL] =
+	{
+		.animation_loop_iterations = 10,
+		.animation_delay_ms = 0
+	},
+	[LED_STATE_WHITE_COLOR] =
+	{
+		.animation_loop_iterations = 1,
+		.animation_delay_ms = 5000
+	},
+	[LED_STATE_SOLID_COLOR] =
+	{
+		.animation_loop_iterations = 5,
+		.animation_delay_ms = 5000
+	},
+	[LED_STATE_SPARKLE_NO_FILL] =
+	{
+		.animation_loop_iterations = 5,
+		.animation_delay_ms = 0
+	},
+	[LED_STATE_SPARKLE_FILL] =
+	{
+		.animation_loop_iterations = 10,
+		.animation_delay_ms = 0
+	},
+	[LED_STATE_RAINBOW_CYCLE] =
+	{
+		.animation_loop_iterations = 5,
+		.animation_delay_ms = 0
+	},
+	[LED_STATE_THEATER_CHASE] =
+	{
+		.animation_loop_iterations = 10,
+		.animation_delay_ms = 0
+	},
+	[LED_STATE_THEATER_CHASE_RAINBOW] =
+	{
+		.animation_loop_iterations = 2,
+		.animation_delay_ms = 0
+	},
+	[LED_STATE_FADE_IN_AND_OUT] =
+	{
+		.animation_loop_iterations = 10,
+		.animation_delay_ms = 0
+	},
+	[LED_STATE_TWINKLE] =
+	{
+		.animation_loop_iterations = 5,
+		.animation_delay_ms = 0
+	}
+};
+
+
+void animate_led_master_state_to_demo(animate_led_state_e* p_master_led_state, uint16_t* p_led_state_iteration)
+{
+	*p_master_led_state = MASTER_LED_STATE_DEMO;
+	*p_led_state_iteration = 0;
+}
+
+
+void animate_led_master_state_to_fixed(animate_led_state_e* p_master_led_state, led_state_e* p_led_state, uint16_t* p_led_state_iteration)
+{
+    *p_master_led_state = MASTER_LED_STATE_FIXED;
+    *p_led_state = LED_STATE_FIRST; // set first state
+    *p_led_state_iteration = 0;
+}
+
+
+void animate_led_random_state(led_state_e* p_led_state)
+{
+	led_state_e rand_state = (led_state_e)(random_num(0, NUM_LED_STATES));
+
+    if (*p_led_state == rand_state)
+    {
+        if (LED_STATE_LAST == *p_led_state) rand_state = (led_state_e)(rand_state - 1);
+        else *p_led_state = (led_state_e)(rand_state + 1);
+    }
+}
+
+void animate_led_adjust_state(led_state_e* p_led_state)
+{
+    if (LED_STATE_LAST == *p_led_state)
+    {
+        *p_led_state = LED_STATE_FIRST;
+    }
+    else
+	{
+    	*p_led_state = *p_led_state + 1;
+	}
+}
+
+
+void animate_led_reset_state(led_state_e* p_led_state)
+{
+	*p_led_state = LED_STATE_FIRST;
+}
 
 
 uint8_t* animate_led_wheel(uint8_t wheel_pos)
@@ -163,7 +264,7 @@ void animate_led_only_spell_word(const strip_mask_t mask, const color_hex_code_e
 				color_rgb[offsetof(ws2812b_led_t, green)],
 				color_rgb[offsetof(ws2812b_led_t, blue)]);
         animate_led_show_strip(mask);
- 		task_led_ctrl_delay(time_ms / task_led_ctrl_speed());
+ 		pdMS_TO_TICKS(time_ms / task_led_ctrl_speed());
 	}
 }
 
@@ -226,12 +327,12 @@ void animate_led_strobe(const strip_mask_t mask, const color_hex_code_e color,
                                    (color_rgb[offsetof(ws2812b_led_t, green)]),
                                    (color_rgb[offsetof(ws2812b_led_t, blue)]));
         animate_led_show_strip(mask);
-        task_led_ctrl_delay(flash_delay);
+        pdMS_TO_TICKS(flash_delay);
         animate_led_set_all_pixels(mask, 0, 0, 0);
         animate_led_show_strip(mask);
-        task_led_ctrl_delay(flash_delay);
+        pdMS_TO_TICKS(flash_delay);
     }
-    task_led_ctrl_delay(end_pause);
+    pdMS_TO_TICKS(end_pause);
 }
 
 
@@ -257,11 +358,11 @@ void animate_led_twinkle(const strip_mask_t mask, const color_hex_code_e color, 
                               (color_rgb[offsetof(ws2812b_led_t, green)]),
                               (color_rgb[offsetof(ws2812b_led_t, blue)]));
         animate_led_show_strip(mask);
-        task_led_ctrl_delay(speed_delay / task_led_ctrl_speed());
+        pdMS_TO_TICKS(speed_delay / task_led_ctrl_speed());
         if (only_one) animate_led_set_all_pixels(mask, 0, 0, 0);
     }
 
-    //task_led_ctrl_delay(speed_delay / task_led_ctrl_speed());
+    //pdMS_TO_TICKS(speed_delay / task_led_ctrl_speed());
 }
 
 
@@ -276,7 +377,7 @@ void animate_led_twinkle_random(const strip_mask_t mask, const uint16_t count,
         animate_led_set_pixel(mask, random_num(0, g_max_strip_length),
                               random_num(0, 255), random_num(0, 255), random_num(0, 255));
         animate_led_show_strip(mask);
-        task_led_ctrl_delay((float_t)speed_delay / task_led_ctrl_speed());
+        pdMS_TO_TICKS((float_t)speed_delay / task_led_ctrl_speed());
         if (only_one) animate_led_set_all_pixels(mask, 0, 0, 0);
     }
 }
@@ -295,7 +396,7 @@ void animate_led_sparkle_only_random_color(const strip_mask_t mask, const bool f
 		int pix = random_num(0, strip_size);
 		animate_led_set_pixel(mask, pix, random_num(0, 255), random_num(0, 255), random_num(0, 255));
 		animate_led_show_strip(mask);
-        task_led_ctrl_delay((float_t)speed_delay / task_led_ctrl_speed());
+        pdMS_TO_TICKS((float_t)speed_delay / task_led_ctrl_speed());
 		if (!fill) animate_led_set_pixel(mask, pix, 0, 0, 0);
 	}
 }
@@ -308,7 +409,7 @@ void animate_led_sparkle_random_color(const strip_mask_t mask, const bool fill,
     int pix = random_num(0, strip_size);
     animate_led_set_pixel(mask, pix, random_num(0, 255), random_num(0, 255), random_num(0, 255));
     animate_led_show_strip(mask);
-    task_led_ctrl_delay((float_t)speed_delay / task_led_ctrl_speed());
+    pdMS_TO_TICKS((float_t)speed_delay / task_led_ctrl_speed());
     if (!fill) animate_led_set_pixel(mask, pix, 0, 0, 0);
 }
 
@@ -325,7 +426,7 @@ void animate_led_sparkle(const strip_mask_t mask, const color_hex_code_e color,
                           (color_sparkle_rgb[offsetof(ws2812b_led_t, green)]),
                           (color_sparkle_rgb[offsetof(ws2812b_led_t, blue)]));
     animate_led_show_strip(mask);
-    task_led_ctrl_delay((float_t)speed_delay / task_led_ctrl_speed());
+    pdMS_TO_TICKS((float_t)speed_delay / task_led_ctrl_speed());
     animate_led_set_pixel(mask, pix, 0, 0, 0);
 }
 
@@ -354,7 +455,7 @@ void animate_led_running_lights(const strip_mask_t mask, const color_hex_code_e 
                                   ((sin(iii + pos) * 127 + 128) / 255) * (color_running_lights_rgb[offsetof(ws2812b_led_t, blue)]));
         }
         animate_led_show_strip(mask);
-        task_led_ctrl_delay(100 / task_led_ctrl_speed()); // TODO remove the magic number here!!!
+        pdMS_TO_TICKS(100 / task_led_ctrl_speed()); // TODO remove the magic number here!!!
     }
 }
 
@@ -375,8 +476,8 @@ void animate_led_rainbow_cycle(const strip_mask_t mask, const uint16_t speed_del
             animate_led_set_pixel(mask, iii, *c, *(c + 1), *(c + 2));
         }
         animate_led_show_strip(mask);
-        if (LED_SPEED_10X == task_led_ctrl_speed()) task_led_ctrl_delay(0);
-        else task_led_ctrl_delay((float_t)speed_delay / task_led_ctrl_speed());
+        if (LED_SPEED_10X == task_led_ctrl_speed()) pdMS_TO_TICKS(0);
+        else pdMS_TO_TICKS((float_t)speed_delay / task_led_ctrl_speed());
     }
 }
 
@@ -413,7 +514,7 @@ void animate_led_theater_chase(const strip_mask_t mask, const color_hex_code_e c
                     return;
                 }
             }
-            task_led_ctrl_delay((float_t)speed_delay / task_led_ctrl_speed());
+            pdMS_TO_TICKS((float_t)speed_delay / task_led_ctrl_speed());
             for (int iii = 0; iii < strip_size; iii += 3) animate_led_set_pixel(mask, iii + qqq, 0, 0, 0); // turn every third pixel off
         }
     }
@@ -437,7 +538,7 @@ void animate_led_theater_chase_rainbow(const strip_mask_t mask, const uint16_t s
                 animate_led_set_pixel(mask, iii + qqq, *c, *(c + 1), *(c + 2)); // turn every third pixel on
             }
             animate_led_show_strip(mask);
-            task_led_ctrl_delay((float_t)speed_delay / task_led_ctrl_speed());
+            pdMS_TO_TICKS((float_t)speed_delay / task_led_ctrl_speed());
             for (int iii = 0; iii < strip_size; iii += 3) animate_led_set_pixel(mask, iii + qqq, 0, 0, 0); // turn every third pixel off
         }
     }
@@ -487,7 +588,7 @@ void animate_led_theater_chase_rainbow(const strip_mask_t mask, const uint16_t s
 //		}
 //        if (only_one) animate_led_set_all_pixels(mask_twinkle, 0, 0, 0);
 //    }
-//	task_led_ctrl_delay((float_t)speed_delay / task_led_ctrl_speed());
+//	pdMS_TO_TICKS((float_t)speed_delay / task_led_ctrl_speed());
 //}
 //
 //
@@ -522,7 +623,7 @@ void animate_led_theater_chase_rainbow(const strip_mask_t mask, const uint16_t s
 //                              color_spell_rgb[offsetof(ws2812b_led_t, green)],
 //                              color_spell_rgb[offsetof(ws2812b_led_t, blue)]);
 //		animate_led_show_strip(mask_sparkle | mask_spell);
-//		task_led_ctrl_delay((float_t)speed_delay / task_led_ctrl_speed());
+//		pdMS_TO_TICKS((float_t)speed_delay / task_led_ctrl_speed());
 //	}
 //}
 //
@@ -559,7 +660,7 @@ void animate_led_theater_chase_rainbow(const strip_mask_t mask, const uint16_t s
 //                              color_spell_rgb[offsetof(ws2812b_led_t, green)],
 //                              color_spell_rgb[offsetof(ws2812b_led_t, blue)]);
 //		animate_led_show_strip(mask_spell | mask_solid);
-//		task_led_ctrl_delay((float_t)speed_delay / task_led_ctrl_speed());
+//		pdMS_TO_TICKS((float_t)speed_delay / task_led_ctrl_speed());
 //	}
 //}
 //
@@ -595,7 +696,7 @@ void animate_led_theater_chase_rainbow(const strip_mask_t mask, const uint16_t s
 //	                              color_spell_rgb[offsetof(ws2812b_led_t, blue)]);
 //		}
 //		animate_led_show_strip(mask_spell);
-//		task_led_ctrl_delay((float_t)speed_delay / task_led_ctrl_speed());
+//		pdMS_TO_TICKS((float_t)speed_delay / task_led_ctrl_speed());
 //	}
 //}
 //
@@ -736,7 +837,7 @@ void animate_led_theater_chase_rainbow(const strip_mask_t mask, const uint16_t s
 //            }
 //            animate_led_show_strip(mask);
 //            if (task_button_press_interrupt_occurred()) if (task_button_press_check_interrupts(&red, &green, &blue)) return;
-//            task_led_ctrl_delay((float_t)speed_delay / task_led_ctrl_speed());
+//            pdMS_TO_TICKS((float_t)speed_delay / task_led_ctrl_speed());
 //            for (int iii = 0; iii < strip_size; iii += 3)
 //            {
 //            	for (int yyy = 0; yyy < num_active_strips; yyy++)

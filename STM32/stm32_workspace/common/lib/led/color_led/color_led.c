@@ -44,3 +44,71 @@ void color_led_hex_to_rgb(const color_hex_code_e color, uint8_t *color_array)
     color_array[offsetof(ws2812b_led_t, blue)] = ((color & 0x0000FF) >> (BITS_PER_BYTE * (2 - offsetof(ws2812b_led_t, blue))));
 }
 
+
+color_hex_code_e color_to_hex(const all_colors_e color)
+{
+	return g_color_hex_codes[color];
+}
+
+
+uint8_t color_red_to_hex(all_colors_e color)
+{
+	return (((g_color_hex_codes[color] & 0xFF0000) >> 16) / current_monitor_ratio());
+}
+
+
+uint8_t color_green_to_hex(all_colors_e color)
+{
+	return (((g_color_hex_codes[color] & 0x00FF00) >> 8) / current_monitor_ratio());
+}
+
+
+uint8_t color_blue_to_hex(all_colors_e color)
+{
+	return ((g_color_hex_codes[color] & 0x0000FF) / current_monitor_ratio());
+}
+
+
+void color_led_adjust_color(all_colors_e* p_color)
+{
+    if (COLORS_LAST == *p_color) *p_color = COLORS_FIRST;
+    else *p_color = *p_color + 1;
+}
+
+
+void color_led_random_color(all_colors_e* p_color)
+{
+    all_colors_e rand_color = (all_colors_e)(random_num(0, NUM_COLORS));
+    if (*p_color == rand_color)
+    {
+        if ((COLORS_LAST) == rand_color) *p_color = (all_colors_e)(rand_color - 1);
+        else *p_color = (all_colors_e)(rand_color + 1);
+    }
+    else
+    {
+    	*p_color = rand_color;
+    }
+}
+
+
+void color_led_master_state_to_demo(master_color_state_e *p_master_color_state)
+{
+	*p_master_color_state = MASTER_COLOR_STATE_DEMO;
+}
+
+
+void color_led_master_state_to_fixed(master_color_state_e *p_master_color_state, all_colors_e* p_color_state)
+{
+	*p_master_color_state = MASTER_COLOR_STATE_FIXED;
+	*p_color_state = COLORS_FIRST;
+}
+
+
+
+void color_led_reset_color(all_colors_e* p_color_state)
+{
+	*p_color_state = COLORS_FIRST;
+}
+
+
+

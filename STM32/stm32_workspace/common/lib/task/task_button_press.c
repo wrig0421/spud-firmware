@@ -118,9 +118,9 @@ bool task_button_press_check_interrupts(uint8_t *red, uint8_t *green, uint8_t *b
     {
         task_button_press_interrupt_flag_clear();
         // interrupt modifies the current color... apply it to the animation!
-        *red = task_led_ctrl_color_red_hex();
-        *green = task_led_ctrl_color_green_hex();
-        *blue = task_led_ctrl_color_blue_hex();
+        *red = color_red_to_hex(g_task_led_ctrl.led_color);
+        *green = color_green_to_hex(g_task_led_ctrl.led_color);
+        *blue = color_blue_to_hex(g_task_led_ctrl.led_color);
     }
     return return_val;
 }

@@ -17,7 +17,46 @@ typedef enum
 {
     MASTER_LED_STATE_DEMO,
     MASTER_LED_STATE_FIXED
-} master_led_state_e;
+} animate_led_state_e;
+
+
+typedef enum
+{
+    ANIMATE_LED_LOOP_ITERATIONS_0 = 0,
+    ANIMATE_LED_LOOP_ITERATIONS_1,
+    ANIMATE_LED_LOOP_ITERATIONS_2,
+    ANIMATE_LED_LOOP_ITERATIONS_3,
+    ANIMATE_LED_LOOP_ITERATIONS_4,
+    ANIMATE_LED_LOOP_ITERATIONS_5,
+    ANIMATE_LED_LOOP_ITERATIONS_6,
+    ANIMATE_LED_LOOP_ITERATIONS_7,
+    ANIMATE_LED_LOOP_ITERATIONS_8,
+    ANIMATE_LED_LOOP_ITERATIONS_9,
+    ANIMATE_LED_LOOP_ITERATIONS_10,
+    ANIMATE_LED_LOOP_ITERATIONS_50 = 50,
+    ANIMATE_LED_LOOP_ITERATIONS_100 = 100
+} animate_led_loop_iterations_e;
+
+
+typedef enum
+{
+    ANIMATE_LED_DELAY_MS_0 = 0,
+    ANIMATE_LED_DELAY_MS_1000 = 1000,
+    ANIMATE_LED_DELAY_MS_2000 = 2000,
+    ANIMATE_LED_DELAY_MS_3000 = 3000,
+    ANIMATE_LED_DELAY_MS_4000 = 4000,
+    ANIMATE_LED_DELAY_MS_5000 = 5000,
+    ANIMATE_LED_DELAY_MS_10000 = 10000,
+    ANIMATE_LED_DELAY_MS_15000 = 15000,
+    ANIMATE_LED_DELAY_MS_20000 = 20000
+} animate_led_delay_ms_e;
+
+
+typedef struct
+{
+	uint16_t 			animation_loop_iterations;
+	uint16_t 			animation_delay_ms;
+} animate_led_ctrl_t;
 
 
 typedef struct
@@ -62,10 +101,10 @@ typedef enum
     LED_STATE_FADE_IN_AND_OUT,
     LED_STATE_TWINKLE,
     LED_STATE_LAST = LED_STATE_TWINKLE,
-#if (NUM_ACTIVE_STRIPS > 2)
-	LED_STATE_SPELL_AND_SPARKLE,
-	LED_STATE_SPELL_AND_RAINBOW
-#endif
+//#if (NUM_ACTIVE_STRIPS > 2)
+//	LED_STATE_SPELL_AND_SPARKLE,
+//	LED_STATE_SPELL_AND_RAINBOW
+//#endif
     NUM_LED_STATES,
     LED_STATE_SRW_DEBUG,
 	// future states below 
@@ -107,6 +146,7 @@ typedef enum
     LED_BRIGHTNESS_1_PERCENT,
     LED_BRIGHTNESS_LAST         = LED_BRIGHTNESS_1_PERCENT
 } led_brightness_e;
+
 
 void animate_led_show_strip(const strip_mask_t strip_mask);
 void animate_led_set_pixel(const strip_mask_t mask, const uint16_t pixel, const uint8_t red, const uint8_t green,
