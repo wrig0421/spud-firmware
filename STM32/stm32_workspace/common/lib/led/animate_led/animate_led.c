@@ -95,6 +95,17 @@ void animate_led_set_pixel(const strip_mask_t mask, const uint16_t pixel, const 
 }
 
 
+void animate_led_set_pixels_in_range(uint16_t start, uint16_t stop, const color_hex_code_e color)
+{
+    uint8_t dummy_red, dummy_green, dummy_blue; // not used but not worth creating a unique function IMO
+    uint8_t color_rgb[sizeof(ws2812b_led_t)] = {0};
+    color_led_hex_to_rgb(color, color_rgb);
+    if (task_button_press_interrupt_occurred()) if (task_button_press_check_interrupts(&dummy_red, &dummy_green, &dummy_blue)) return;
+	for (uint16_t yyy = start; yyy <= stop; yyy++) ws2812b_set_led(STRIP_NUM_1, yyy, color_rgb[offsetof(ws2812b_led_t, red)], color_rgb[offsetof(ws2812b_led_t, green)], color_rgb[offsetof(ws2812b_led_t, blue)]);
+	animate_led_show_strip(STRIP_NUM_1);
+}
+
+
 void animate_led_set_all_pixels(const strip_mask_t mask, const uint8_t red, const uint8_t green, const uint8_t blue)
 {
     uint16_t strip_size = 0;
@@ -120,8 +131,10 @@ void animate_led_set_all_pixels(const strip_mask_t mask, const uint8_t red, cons
 
 void animate_led_solid_custom_color(const strip_mask_t mask, const color_hex_code_e color)
 {
+    uint8_t dummy_red, dummy_green, dummy_blue; // not used but not worth creating a unique function IMO
     uint8_t color_rgb[sizeof(ws2812b_led_t)] = {0};
     color_led_hex_to_rgb(color, color_rgb);
+    if (task_button_press_interrupt_occurred()) if (task_button_press_check_interrupts(&dummy_red, &dummy_green, &dummy_blue)) return;
     animate_led_set_all_pixels(mask, color_rgb[offsetof(ws2812b_led_t, red)], \
     		color_rgb[offsetof(ws2812b_led_t, green)],
 			color_rgb[offsetof(ws2812b_led_t, blue)]);
@@ -151,9 +164,12 @@ void animate_led_only_spell_word(const strip_mask_t mask, const color_hex_code_e
 	{
         if (task_button_press_interrupt_occurred())
         {
-            if (task_button_press_check_interrupts(&color_rgb[offsetof(ws2812b_led_t, red)],
-            		&color_rgb[offsetof(ws2812b_led_t, green)],
-					&color_rgb[offsetof(ws2812b_led_t, blue)]))
+//            if (task_button_press_check_interrupts(&color_rgb[offsetof(ws2812b_led_t, red)],
+//            		&color_rgb[offsetof(ws2812b_led_t, green)],
+//					&color_rgb[offsetof(ws2812b_led_t, blue)]))
+			if (task_button_press_check_interrupts(color_rgb + offsetof(ws2812b_led_t, red),
+					color_rgb + offsetof(ws2812b_led_t, green),
+					color_rgb + offsetof(ws2812b_led_t, blue)))
             {
                 return;
             }
@@ -375,8 +391,8 @@ void animate_led_rainbow_cycle(const strip_mask_t mask, const uint16_t speed_del
             animate_led_set_pixel(mask, iii, *c, *(c + 1), *(c + 2));
         }
         animate_led_show_strip(mask);
-        if (LED_SPEED_10X == task_led_ctrl_speed()) task_led_ctrl_delay(0);
-        else task_led_ctrl_delay((float_t)speed_delay / task_led_ctrl_speed());
+//        if (LED_SPEED_10X == task_led_ctrl_speed()) task_led_ctrl_delay(0);
+//        else task_led_ctrl_delay((float_t)speed_delay / task_led_ctrl_speed());
     }
 }
 

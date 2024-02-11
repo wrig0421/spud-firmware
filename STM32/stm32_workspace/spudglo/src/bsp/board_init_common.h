@@ -2,7 +2,7 @@
 
 #if !defined(BOARD_INIT_COMMON_H)
 #define BOARD_INIT_COMMON_H
-
+#include "config.h"
 #include <stdint.h>
 #include <stdbool.h>
 #include "board_common.h"
@@ -25,11 +25,18 @@ typedef enum
 
 typedef enum
 {
+#if defined(BOARD_SPUDGLO_V5)
+    PUSH_BUTTON_A_PIN = GPIO_PIN_5,
+    PUSH_BUTTON_B_PIN = GPIO_PIN_13,
+    PUSH_BUTTON_C_PIN = GPIO_PIN_0,
+    PUSH_BUTTON_D_PIN = GPIO_PIN_2,
+#else
 	// this needs to be IRQ or something but at COMPILE TIME :(
     PUSH_BUTTON_A_PIN = GPIO_PIN_2,//PIN_WKUP_4, // PA2
     PUSH_BUTTON_B_PIN = GPIO_PIN_13,// PIN_WKUP_2, // PC13
     PUSH_BUTTON_C_PIN = GPIO_PIN_5, //PIN_WKUP_3, // PC5
     PUSH_BUTTON_D_PIN = GPIO_PIN_0 //PIN_WKUP_1 // PA0
+#endif
 } board_init_push_button_pin_e;
 
 

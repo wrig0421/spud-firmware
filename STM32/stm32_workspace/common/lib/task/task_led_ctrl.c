@@ -55,7 +55,7 @@ typedef enum
 task_led_ctrl_t g_task_led_ctrl =
 {
 	.led_state_master = MASTER_LED_STATE_DEMO,
-	.led_state = LED_STATE_RAINBOW_CYCLE,
+	.led_state = LED_STATE_TWO_COLOR, //LED_STATE_FIRST,
 	.led_speed = LED_SPEED_1X,
 	.led_brightness = LED_BRIGHTNESS_100_PERCENT,
 	.led_color_master = MASTER_COLOR_STATE_DEMO,
@@ -105,6 +105,19 @@ char binary_start[25] = "application/macbinary\r\n\r\n";
 uint64_t flash_address = 0x8020000;
 uint64_t flash_index = 0;
 
+uint16_t g_inner_start = 0;
+uint16_t g_inner_stop = 1;
+
+uint16_t g_outer_start = 10;
+uint16_t g_outer_stop = 11;
+bool g_clear_colors = false;
+
+
+led_state_e task_led_current_led_state(void)
+{
+	return g_task_led_ctrl.led_state;
+}
+
 
 static void task_led_ctrl_strip(strip_num_e strip_num)
 {
@@ -114,9 +127,17 @@ static void task_led_ctrl_strip(strip_num_e strip_num)
 		{
 			case LED_STATE_WHITE_COLOR:
 
-				animate_led_solid_custom_color((uint16_t)strip_num, COLOR_HEX_RED);
-				//animate_led_solid_custom_color((uint16_t)STRIP_NUM_2, COLOR_HEX_WHITE);
-				task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_1, TASK_LED_CTRL_DELAY_MS_5000);
+				animate_led_solid_custom_color((uint16_t)strip_num, COLOR_HEX_WHITE);
+				if (MASTER_LED_STATE_FIXED == g_task_led_ctrl.led_state_master)
+				{
+					task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_5, TASK_LED_CTRL_DELAY_MS_1000);
+					task_led_ctrl_delay(1000);
+				}
+				else
+				{
+					//animate_led_solid_custom_color((uint16_t)STRIP_NUM_2, COLOR_HEX_WHITE);
+					task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_1, TASK_LED_CTRL_DELAY_MS_5000);
+				}
 			break;
 			case LED_STATE_SOLID_COLOR:
 				animate_led_solid_custom_color((uint16_t)strip_num, task_led_ctrl_color_hex());
@@ -137,7 +158,7 @@ static void task_led_ctrl_strip(strip_num_e strip_num)
 				task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_10, TASK_LED_CTRL_DELAY_MS_0);
 			break;
 			case LED_STATE_RAINBOW_CYCLE:
-				animate_led_rainbow_cycle(strip_num, 10);
+				animate_led_rainbow_cycle(strip_num, 0);//10);
 				task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_5, TASK_LED_CTRL_DELAY_MS_0);
 			break;
 			case LED_STATE_THEATER_CHASE:
@@ -160,6 +181,26 @@ static void task_led_ctrl_strip(strip_num_e strip_num)
 			case LED_STATE_SPELL:
 				animate_led_only_spell_word(strip_num, task_led_ctrl_color_hex(), 20);
 				task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_10, TASK_LED_CTRL_DELAY_MS_0);
+			case LED_STATE_TWO_COLOR:
+				// VICE INNER [0, 62], VICE OUTER [63, 136]
+				// CITY INNER [137, 216]
+				// the dash on y [390, 432]
+				// inner part..
+				animate_led_set_pixels_in_range(0, 62, COLOR_HEX_BLUE);
+				animate_led_set_pixels_in_range(137, 216, COLOR_HEX_BLUE);
+				animate_led_set_pixels_in_range(390, 432, COLOR_HEX_BLUE);
+				animate_led_set_pixels_in_range(63, 136, COLOR_HEX_RED);
+				animate_led_set_pixels_in_range(217, 389, COLOR_HEX_RED);
+
+//				animate_led_set_pixels_in_range(g_inner_start, g_inner_stop, COLOR_HEX_BLUE);
+//				animate_led_set_pixels_in_range(g_outer_start, g_outer_stop, COLOR_HEX_RED);
+//				if (g_clear_colors)
+//				{
+//					g_clear_colors = false;
+//					animate_led_solid_custom_color((uint16_t)strip_num, COLOR_HEX_BLACK);
+//				}
+				task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_100, TASK_LED_CTRL_DELAY_MS_1000);
+			break;
 			break;
 			default:
 			break;
@@ -303,19 +344,19 @@ color_hex_code_e task_led_ctrl_color_hex(void)
 
 uint8_t task_led_ctrl_color_red_hex(void)
 {
-    return (((g_color_hex_codes[g_task_led_ctrl.led_color] & 0xFF0000) >> 16) / current_monitor_ratio());
+    return (((g_color_hex_codes[g_task_led_ctrl.led_color] & 0xFF0000) >> 16));// / current_monitor_ratio());
 }
 
 
 uint8_t task_led_ctrl_color_green_hex(void)
 {
-    return (((g_color_hex_codes[g_task_led_ctrl.led_color] & 0x00FF00) >> 8) / current_monitor_ratio());
+    return (((g_color_hex_codes[g_task_led_ctrl.led_color] & 0x00FF00) >> 8));// / current_monitor_ratio());
 }
 
 
 uint8_t task_led_ctrl_color_blue_hex(void)
 {
-    return ((g_color_hex_codes[g_task_led_ctrl.led_color] & 0x0000FF) / current_monitor_ratio());
+    return ((g_color_hex_codes[g_task_led_ctrl.led_color] & 0x0000FF));// / current_monitor_ratio());
 }
 
 
@@ -370,22 +411,22 @@ float task_led_ctrl_speed(void)
     switch(g_task_led_ctrl.led_speed)
     {
         case LED_SPEED_10X:
-            speed_factor = 10;
+            speed_factor = 10.0f;
         break;
         case LED_SPEED_5X:
-            speed_factor = 5;
+            speed_factor = 5.0f;
         break;
 //        case LED_SPEED_2X:
 //            speed_factor = 2;
 //        break;
         case LED_SPEED_1X:
-            speed_factor = 1;
+            speed_factor = 1.0f;
         break;
         case LED_SPEED_0P5X:
-            speed_factor = 0.5;
+            speed_factor = 0.5f;
         break;
         case LED_SPEED_0P25X:
-            speed_factor = 0.25;
+            speed_factor = 0.25f;
         break;
         default:
         break;

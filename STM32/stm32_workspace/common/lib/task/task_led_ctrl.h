@@ -24,6 +24,7 @@ typedef struct
 } task_led_ctrl_t;
 
 #define GENERAL_RX_BUFFER_SIZE 5000
+led_state_e task_led_current_led_state(void);
 void task_led_ctrl(void *argument);
 void task_led_ctrl_delay(const uint32_t time_ms);
 void task_led_ctrl_pause(void);

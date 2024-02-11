@@ -16,6 +16,7 @@
 #include "gpio_config_hal_specific.h"
 #include "gpio_access_hal.h"
 #include "ws2812b.h"
+#include "animate_led.h"
 
 #define 	SWITCH_HISTORY_DEPTH                		5
 #define 	SWITCH_FAST_PRESS_TIME_MILLISECONDS 		1000
@@ -84,6 +85,8 @@ bool task_button_press_ctrl_interrupt_flag(const isr_e src)
 }
 
 
+bool g_major_state_change_signal_cmplt = false;
+bool g_major_state_change = false;
 /**
  * @brief   Check for interrupts initiated via button press
  * @param   *red: pointer to current animation red color (8 bit)
@@ -97,6 +100,7 @@ bool task_button_press_check_interrupts(uint8_t *red, uint8_t *green, uint8_t *b
     if (task_button_press_major_state_change())
     {
         task_button_press_interrupt_flag_clear();
+        while (!g_major_state_change_signal_cmplt) osDelay(10);
         return_val = true;
         animate_led_solid_custom_color((uint16_t)STRIP_ALL_SET, COLOR_HEX_BLACK);
     }
@@ -147,11 +151,8 @@ bool task_button_press_major_state_change(void)
     return task_button_press_major_change;
 }
 
-
-
-bool g_major_state_change = false;
-
-
+bool g_button_was_low = false;
+uint16_t g_low_count_hundred_milliseconds = 0;
 /**
  * @brief   Task to control all button press action
  * @param   *arguments: UNUSED!!
@@ -187,19 +188,22 @@ void task_button_press(void *argument)
         // wait for push button to be released
 		while (gpio_access_hal_input_is_low(button_pin))
 		{
+
+			//g_button_was_low = true;
 			// record the current timestamp every 100 ms while waiting for this bitch to go high
-    		g_button_press_timestamp[pushed_button][TIMESTAMP_CURRENT] = xTaskGetTickCountFromISR();
+    		//g_button_press_timestamp[pushed_button][TIMESTAMP_CURRENT] = xTaskGetTickCountFromISR();
     		osDelay(100);
+    		g_low_count_hundred_milliseconds++;
 		}
         // set flag to signal that a button interrupt was received!
         task_button_press_ctrl_set_interrupt_flag(task_led_ctrl_button_to_isr(pushed_button));
         // check if the button was held down longer than SWITCH_MAJOR_STATE_CHANGE_TIME_MILLISECONDS
-        if (SWITCH_MAJOR_STATE_CHANGE_TIME_MILLISECONDS < \
-        		(g_button_press_timestamp[(board_init_push_buttons_e) button_pressed_bit][TIMESTAMP_CURRENT] - \
-        				g_button_press_timestamp[pushed_button][TIMESTAMP_PREVIOUS]))
+        if ((g_low_count_hundred_milliseconds * 100) > SWITCH_MAJOR_STATE_CHANGE_TIME_MILLISECONDS)
         {
+        	g_low_count_hundred_milliseconds = 0;
         	// major state change initiated. Special action occurs below.
             task_button_press_major_change = true;
+            g_major_state_change_signal_cmplt = false;
             switch (pushed_button)
             {
                 case PUSH_BUTTON_A:
@@ -236,20 +240,35 @@ void task_button_press(void *argument)
                 default:
                 break;
             }
+            uint8_t color_rgb[sizeof(ws2812b_led_t)] = {0};
+            color_led_hex_to_rgb(color, color_rgb);
+            color_led_hex_to_rgb(COLOR_HEX_BLACK, color_rgb);
+			animate_led_set_all_pixels((uint16_t)STRIP_ALL_SET, color_rgb[offsetof(ws2812b_led_t, red)], \
+					color_rgb[offsetof(ws2812b_led_t, green)],
+					color_rgb[offsetof(ws2812b_led_t, blue)]);
+			osDelay(500);
             for (uint8_t iii = 0; iii < 3; iii++)
             {
             	// flash the LEDs on the sign signalling that a master state change was made!
-                animate_led_solid_custom_color((uint16_t)STRIP_ALL_SET, color);
+            	color_led_hex_to_rgb(color, color_rgb);
+                animate_led_set_all_pixels((uint16_t)STRIP_ALL_SET, color_rgb[offsetof(ws2812b_led_t, red)], \
+                		color_rgb[offsetof(ws2812b_led_t, green)],
+            			color_rgb[offsetof(ws2812b_led_t, blue)]);
                 osDelay(500);
-                animate_led_solid_custom_color((uint16_t)STRIP_ALL_SET, COLOR_HEX_BLACK);
+            	color_led_hex_to_rgb(COLOR_HEX_BLACK, color_rgb);
+                animate_led_set_all_pixels((uint16_t)STRIP_ALL_SET, color_rgb[offsetof(ws2812b_led_t, red)], \
+                		color_rgb[offsetof(ws2812b_led_t, green)],
+            			color_rgb[offsetof(ws2812b_led_t, blue)]);
                 osDelay(500);
             }
+            g_major_state_change_signal_cmplt = true;
             HAL_NVIC_SetPriority(irq_type, 24, 0);
             HAL_NVIC_EnableIRQ(irq_type);
             task_button_press_major_change = false;
         }
         else
         {
+        	g_low_count_hundred_milliseconds = 0;
         	// simple button press.  No master state change here!
             switch (pushed_button)
             {

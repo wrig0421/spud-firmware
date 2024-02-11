@@ -43,12 +43,13 @@ float current_monitor_ratio(void)
 
 void current_monitor_init(void)
 {
+	// ws2812b_set_led function uses the current ratio!!
     while ((g_max_current_ratio * ((float)CURRENT_MONITOR_MAX_CURRENT_PER_LED_MA / 1000) * NUM_LEDS) > (float)CURRENT_MONITOR_MAX_CURRENT_DRAW_A)
     {
         g_max_current_ratio -= 0.05f;
     }
     if (g_max_current_ratio <= 0) while(1); // broken..
-    g_max_current_ratio = 0.1f;
+    //g_max_current_ratio = 0.1f;
     g_absolute_max_current_ratio = g_max_current_ratio;
 
 }

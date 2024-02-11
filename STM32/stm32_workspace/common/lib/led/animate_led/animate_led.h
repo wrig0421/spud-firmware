@@ -61,7 +61,8 @@ typedef enum
     LED_STATE_THEATER_CHASE_RAINBOW,
     LED_STATE_FADE_IN_AND_OUT,
     LED_STATE_TWINKLE,
-    LED_STATE_LAST = LED_STATE_TWINKLE,
+	LED_STATE_TWO_COLOR,
+	LED_STATE_LAST = LED_STATE_TWO_COLOR,
 #if (NUM_ACTIVE_STRIPS > 2)
 	LED_STATE_SPELL_AND_SPARKLE,
 	LED_STATE_SPELL_AND_RAINBOW
@@ -111,6 +112,7 @@ typedef enum
 void animate_led_show_strip(const strip_mask_t strip_mask);
 void animate_led_set_pixel(const strip_mask_t mask, const uint16_t pixel, const uint8_t red, const uint8_t green,
                            const uint8_t blue);
+void animate_led_set_pixels_in_range(uint16_t start, uint16_t stop, const color_hex_code_e color);
 void animate_led_set_all_pixels(const strip_mask_t mask, const uint8_t red, const uint8_t green, const uint8_t blue);
 void animate_led_multiple_solid_custom_colors(const strip_mask_t mask_solid, const uint32_t* color_array);
 void animate_led_solid_custom_color(const strip_mask_t mask_solid, const color_hex_code_e color_spell);
