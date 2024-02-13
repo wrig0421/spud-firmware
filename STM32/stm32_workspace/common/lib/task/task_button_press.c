@@ -108,7 +108,10 @@ bool task_button_press_check_interrupts(uint8_t *red, uint8_t *green, uint8_t *b
     {
         task_button_press_interrupt_flag_clear();
         return_val = true;
-        animate_led_solid_custom_color((uint16_t)STRIP_ALL_SET, COLOR_HEX_BLACK);
+        if (LED_STATE_TWO_COLOR != task_led_current_led_state())
+        {
+        	animate_led_solid_custom_color((uint16_t)STRIP_ALL_SET, COLOR_HEX_BLACK);
+        }
     }
     else if (task_button_press_ctrl_interrupt_flag(ISR_PAUSE))
     {
@@ -151,6 +154,7 @@ bool task_button_press_major_state_change(void)
     return task_button_press_major_change;
 }
 
+bool g_two_color_active = false;
 bool g_button_was_low = false;
 uint16_t g_low_count_hundred_milliseconds = 0;
 /**
@@ -176,6 +180,14 @@ void task_button_press(void *argument)
         osDelay(700);
         HAL_GPIO_WritePin(gpio_config_port_lookup(GPIO_PIOB_INT_LVL_EN), gpio_config_pin_lookup(GPIO_PIOB_INT_LVL_EN), GPIO_PIN_SET);
 #endif
+        if (LED_STATE_TWO_COLOR == task_led_current_led_state())
+		{
+			g_two_color_active = true;
+		}
+		else
+		{
+			g_two_color_active = false;
+		}
         // get the pin for button pressed
         switch (pushed_button)
         {
@@ -224,16 +236,18 @@ void task_button_press(void *argument)
                 case PUSH_BUTTON_C:
                 	// `C` button is color.  Reset the color master state back to demo mode.
                     g_c_ok_count++;
+
                     color = COLOR_HEX_RED;
                     irq_type = PUSH_BUTTON_C_IRQ;
                     // don't change iteration count.  Simply go to color demo mode.
                     task_led_ctrl_color_state_demo();
                 break;
                 case PUSH_BUTTON_D:
+                    g_d_ok_count++;
+
                 	// `D` button is brightness.  Adjust the brightness and also clear pause if for some reason we are paused.
                     task_led_ctrl_brightness_adjust();
                     task_led_ctrl_clear_pause();
-                    g_d_ok_count++;
                     color = COLOR_HEX_WHITE;
                     irq_type = PUSH_BUTTON_D_IRQ;
                 break;
@@ -275,23 +289,40 @@ void task_button_press(void *argument)
                 case PUSH_BUTTON_A:
                 	// A is speed.  Adjust it!
                     g_a_ok_count++;
-                    task_led_ctrl_speed_adjust();
+                    if (g_two_color_active)
+					{
+                    	task_led_ctrl_animate_color_force_fixed();
+						task_led_ctrl_color_decrement_inner_color();
+					}
+                    else
+                    {
+                    	task_led_ctrl_speed_adjust();
+                    }
                     HAL_NVIC_SetPriority(PUSH_BUTTON_A_IRQ, 24, 0);
                     HAL_NVIC_EnableIRQ(PUSH_BUTTON_A_IRQ);
                 break;
                 case PUSH_BUTTON_B:
                 	// B is state.  Adjust it!
                     g_b_ok_count++;
-                    if (MASTER_LED_STATE_DEMO == task_led_ctrl_animate_state())
+
+                    if (g_two_color_active)
                     {
-                    	// if master state is demo then change to fixed master state!
-                        task_led_ctrl_animate_state_fixed(); // animation count is auto cleared here.
+                    	task_led_ctrl_animate_color_force_fixed();
+                    	task_led_ctrl_color_decrement_outer_color();
                     }
                     else
                     {
-                    	// reset animation state count and adjust the state
-                        task_led_ctrl_animate_iteration_reset();
-                        task_led_ctrl_animate_adjust_state();
+						if (MASTER_LED_STATE_DEMO == task_led_ctrl_animate_state())
+						{
+							// if master state is demo then change to fixed master state!
+							task_led_ctrl_animate_state_fixed(); // animation count is auto cleared here.
+						}
+						else
+						{
+							// reset animation state count and adjust the state
+							task_led_ctrl_animate_iteration_reset();
+							task_led_ctrl_animate_adjust_state();
+						}
                     }
                     HAL_NVIC_SetPriority(PUSH_BUTTON_B_IRQ, 24, 0);
                     HAL_NVIC_EnableIRQ(PUSH_BUTTON_B_IRQ);
@@ -299,14 +330,24 @@ void task_button_press(void *argument)
                 case PUSH_BUTTON_C:
                 	// C is color.  Adjust it!
                     g_c_ok_count++;
-                    if (MASTER_COLOR_STATE_DEMO == task_led_ctrl_color_state())
+
+                    if (g_two_color_active)
                     {
-                    	// if master color state is demo then change to fixed master state!
-                        task_led_ctrl_color_state_fixed();
+                    	task_led_ctrl_animate_color_force_fixed();
+                    	task_led_ctrl_color_increment_inner_color();
+                    	// change inner color
                     }
                     else
                     {
-                        task_led_ctrl_color_adjust();
+						if (MASTER_COLOR_STATE_DEMO == task_led_ctrl_color_state())
+						{
+							// if master color state is demo then change to fixed master state!
+							task_led_ctrl_color_state_fixed();
+						}
+						else
+						{
+							task_led_ctrl_color_adjust();
+						}
                     }
                     HAL_NVIC_SetPriority(PUSH_BUTTON_C_IRQ, 24, 0);
                     HAL_NVIC_EnableIRQ(PUSH_BUTTON_C_IRQ);
@@ -314,7 +355,16 @@ void task_button_press(void *argument)
                 case PUSH_BUTTON_D:
                 	// D is pause.
                     g_d_ok_count++;
-                    task_led_ctrl_pause();
+                	if (g_two_color_active)
+					{
+                		task_led_ctrl_animate_color_force_fixed();
+                		task_led_ctrl_color_increment_outer_color();
+						// change outer color
+					}
+                	else
+                	{
+                		task_led_ctrl_pause();
+                	}
                     HAL_NVIC_SetPriority(PUSH_BUTTON_D_IRQ, 24, 0);
                     HAL_NVIC_EnableIRQ(PUSH_BUTTON_D_IRQ);
                 break;

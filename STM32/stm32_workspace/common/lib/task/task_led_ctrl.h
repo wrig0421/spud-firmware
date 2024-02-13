@@ -26,12 +26,15 @@ typedef struct
 #define GENERAL_RX_BUFFER_SIZE 5000
 led_state_e task_led_current_led_state(void);
 void task_led_ctrl(void *argument);
-void task_led_ctrl_delay(const uint32_t time_ms);
 void task_led_ctrl_pause(void);
 master_color_state_e task_led_ctrl_color_state(void);
 void task_led_ctrl_color_state_demo(void);
 void task_led_ctrl_color_state_fixed(void);
 void task_led_ctrl_color_reset(void);
+void task_led_ctrl_color_decrement_inner_color(void);
+void task_led_ctrl_color_decrement_outer_color(void);
+void task_led_ctrl_color_increment_inner_color(void);
+void task_led_ctrl_color_increment_outer_color(void);
 bool task_led_ctrl_color_adjust(void);
 all_colors_e task_led_ctrl_color(void);
 color_hex_code_e task_led_ctrl_color_hex(void);
@@ -53,9 +56,9 @@ void task_led_ctrl_animate_state_demo(void);
 void task_led_ctrl_animate_state_fixed(void);
 master_led_state_e task_led_ctrl_animate_state(void);
 void task_led_ctrl(void *argument);
-
+void task_led_ctrl_color_random_input(all_colors_e* p_color);
 void task_led_ctrl_clear_pause(void);
+bool task_led_ctrl_delay(const uint32_t time_ms);
 
-
-
-//#endif /* SRC_TASK_led_ctrl_H_ */
+void task_led_ctrl_animate_state_force_fixed(void);
+void task_led_ctrl_animate_color_force_fixed(void);//#endif /* SRC_TASK_led_ctrl_H_ */
