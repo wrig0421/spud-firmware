@@ -1,5 +1,5 @@
-src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v4/board_init_spudglo_v4.o: \
- ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v4/board_init_spudglo_v4.c \
+src/bsp/stmicro/peripheral/uart/board_init_spudglo_v4/board_init_spudglo_v4.o: \
+ ../src/bsp/stmicro/peripheral/uart/board_init_spudglo_v4/board_init_spudglo_v4.c \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h \
  ../src/bsp/stmicro/stm32l4/bloat/stm32l4xx_hal_conf.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h \

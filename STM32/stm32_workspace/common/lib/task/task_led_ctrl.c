@@ -56,6 +56,8 @@ typedef enum
 task_led_ctrl_t g_task_led_ctrl =
 {
 	.led_state_master = MASTER_LED_STATE_DEMO,
+//	.led_state_master = MASTER_LED_STATE_FIXED,
+//	.led_state = LED_STATE_TWO_COLOR,
 	.led_state = LED_STATE_FIRST,
 	.led_speed = LED_SPEED_1X,
 	.led_brightness = LED_BRIGHTNESS_100_PERCENT,
@@ -142,6 +144,9 @@ led_state_e task_led_current_led_state(void)
 	return g_task_led_ctrl.led_state;
 }
 
+uint16_t g_start = 0;
+uint16_t g_stop = 10;
+bool g_clear = false;
 
 static void task_led_ctrl_strip(strip_num_e strip_num)
 {
@@ -207,11 +212,8 @@ static void task_led_ctrl_strip(strip_num_e strip_num)
 				task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_5, TASK_LED_CTRL_DELAY_MS_0);
 			break;
 			case LED_STATE_TWO_COLOR:
-				animate_led_set_pixels_in_range(0, 62, g_color_hex_codes[g_two_color_inner]);
-				animate_led_set_pixels_in_range(137, 216, g_color_hex_codes[g_two_color_inner]);
-				animate_led_set_pixels_in_range(390, 432, g_color_hex_codes[g_two_color_inner]);
-				animate_led_set_pixels_in_range(63, 136, g_color_hex_codes[g_two_color_outer]);
-				animate_led_set_pixels_in_range(217, 389, g_color_hex_codes[g_two_color_outer]);
+				animate_led_set_pixels_in_range(0, 279, g_color_hex_codes[g_two_color_outer]);
+				animate_led_set_pixels_in_range(280, 390, g_color_hex_codes[g_two_color_inner]);
 				task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_10, TASK_LED_CTRL_DELAY_MS_5000);
 			break;
 			break;
