@@ -55,9 +55,9 @@ typedef enum
 
 task_led_ctrl_t g_task_led_ctrl =
 {
-	.led_state_master = MASTER_LED_STATE_DEMO,
-//	.led_state_master = MASTER_LED_STATE_FIXED,
-//	.led_state = LED_STATE_TWO_COLOR,
+//	.led_state_master = MASTER_LED_STATE_DEMO,
+	.led_state_master = MASTER_LED_STATE_FIXED,
+	.led_state = LED_STATE_RAINBOW_CYCLE,
 	.led_state = LED_STATE_FIRST,
 	.led_speed = LED_SPEED_1X,
 	.led_brightness = LED_BRIGHTNESS_100_PERCENT,
@@ -152,6 +152,7 @@ static void task_led_ctrl_strip(strip_num_e strip_num)
 {
 	if (1)//(flash_info_animation_enabled(g_task_led_ctrl.led_state))
 	{
+		g_task_led_ctrl.led_state = LED_STATE_RAINBOW_CYCLE;
 		switch(g_task_led_ctrl.led_state)
 		{
 			case LED_STATE_SPELL:

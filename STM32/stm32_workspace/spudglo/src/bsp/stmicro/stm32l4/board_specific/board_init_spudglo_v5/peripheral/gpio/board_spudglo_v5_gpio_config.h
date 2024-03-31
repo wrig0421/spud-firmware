@@ -1,9 +1,8 @@
 // SRW
 #include "config.h"
 
-#if !defined(BOARD_SPUDGLO_V5_GPIO_CONFIG_H)
+#if !defined(BOARD_SPUDGLO_V5_GPIO_CONFIG_H) && defined(BOARD_SPUDGLO_V5P0)
 #define BOARD_SPUDGLO_V5_GPIO_CONFIG_H
-#if defined(BOARD_SPUDGLO_V5P0)
 #include "gpio_config_hal.h"
 
 
@@ -51,6 +50,5 @@ typedef enum
 
 } gpio_specific_pin_e;
 
-#endif
 #endif
 

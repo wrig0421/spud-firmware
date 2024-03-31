@@ -1,6 +1,6 @@
 src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/board_init_spudglo_v5.o: \
  ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/board_init_spudglo_v5.c \
- ../sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h \
+ ../src/config.h ../sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h \
  ../sdk/FreeRTOS/Source/include/FreeRTOS.h ../src/FreeRTOSConfig.h \
  ../sdk/FreeRTOS/Source/include/projdefs.h \
  ../sdk/FreeRTOS/Source/include/portable.h \
@@ -47,7 +47,7 @@ src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/board_init_spudglo_
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h \
  ../src/bsp/board_common.h \
  ../src/bsp/stmicro/stm32l4/board_specific/board_specific.h \
- ../src/config.h ../src/bsp/board_init_common.h ../src/bsp/board_common.h \
+ ../src/bsp/board_init_common.h ../src/bsp/board_common.h \
  ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/board_init_spudglo_v5.h \
  ../src/bsp/stmicro/peripheral/spi/spi_config_hal.h \
  ../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h \
@@ -57,6 +57,7 @@ src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/board_init_spudglo_
  ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/peripheral/gpio/board_spudglo_v5_gpio_config.h \
  ../src/bsp/stmicro/peripheral/gpio/gpio_config_hal.h \
  ../src/bsp/peripheral/gpio_access_hal.h
+../src/config.h:
 ../sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h:
 ../sdk/FreeRTOS/Source/include/FreeRTOS.h:
 ../src/FreeRTOSConfig.h:
@@ -107,7 +108,6 @@ src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/board_init_spudglo_
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h:
 ../src/bsp/board_common.h:
 ../src/bsp/stmicro/stm32l4/board_specific/board_specific.h:
-../src/config.h:
 ../src/bsp/board_init_common.h:
 ../src/bsp/board_common.h:
 ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/board_init_spudglo_v5.h:

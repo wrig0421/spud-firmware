@@ -13,13 +13,13 @@ const gpio_config_t g_gpio_config[NUM_GPIO_PINS] =
 	{
 		.pin = GPIO_PIN_XR_TX,
 		.port = GPIO_PORT_C,
-		.mode = GPIO_CONFIG_MODE_ALTERNATE_FUNCTION
+		.mode = GPIO_CONFIG_MODE_ALTERNATE_FUNCTION // LPUART1
 	},
 	[GPIO_PIOC_PIN_1] =
 	{
 		.pin = GPIO_PIN_XR_RX,
 		.port = GPIO_PORT_C,
-		.mode = GPIO_CONFIG_MODE_ALTERNATE_FUNCTION
+		.mode = GPIO_CONFIG_MODE_ALTERNATE_FUNCTION // LPUART1
 	},
 	[GPIO_PIOC_PIN_2] =
 	{
@@ -103,13 +103,13 @@ const gpio_config_t g_gpio_config[NUM_GPIO_PINS] =
 		.interrupt_edge = GPIO_CONFIG_INTERRUPT_EDGE_FALLING,
 		.irqn = EXTI15_10_IRQn
 	},
-	[GPIO_PIOC_PIN_14] = // PROGRAMMING SIGNAL!!!!
+	[GPIO_PIOC_PIN_14] = // OSC_32K INPUT SIGNAL!!!
 	{
 		.pin = GPIO_PIOC_PIN_14,
 		.port = GPIO_PORT_A,
 		.mode = GPIO_CONFIG_MODE_NO_SETTING
 	},
-	[GPIO_PIOC_PIN_15] = // PROGRAMMING SIGNAL!!!!
+	[GPIO_PIOC_PIN_15] = // OSC_32K INPUT SIGNAL!!!
 	{
 		.pin = GPIO_PIOC_PIN_6,
 		.port = GPIO_PORT_A,
@@ -196,13 +196,13 @@ const gpio_config_t g_gpio_config[NUM_GPIO_PINS] =
 	{
 		.pin = GPIO_PIN_ESP8266_MISO,
 		.port = GPIO_PORT_A,
-		.mode = GPIO_CONFIG_MODE_ALTERNATE_FUNCTION
+		.mode = GPIO_CONFIG_MODE_ALTERNATE_FUNCTION // SPI1
 	},
 	[GPIO_PIOA_PIN_12] =
 	{
 		.pin = GPIO_PIN_ESP8266_MOSI,
 		.port = GPIO_PORT_A,
-		.mode = GPIO_CONFIG_MODE_ALTERNATE_FUNCTION
+		.mode = GPIO_CONFIG_MODE_ALTERNATE_FUNCTION // SPI1
 	},
 	[GPIO_PIOA_PIN_13] = // PROGRAMMING SIGNAL!
 	{
@@ -222,7 +222,6 @@ const gpio_config_t g_gpio_config[NUM_GPIO_PINS] =
 		.port = GPIO_PORT_A,
 		.mode = GPIO_CONFIG_MODE_NO_SETTING
 	},
-
 	// PORTB pins!!!
 	[GPIO_PIOB_PIN_0] = // NC
 	{
@@ -232,7 +231,7 @@ const gpio_config_t g_gpio_config[NUM_GPIO_PINS] =
 	},
 	[GPIO_PIOB_PIN_1] = // NC
 	{
-		.pin = GPIO_PIOB_PIN_0,
+		.pin = GPIO_PIOB_PIN_1,
 		.port = GPIO_PORT_B,
 		.mode = GPIO_CONFIG_MODE_INPUT_PULLDOWN
 	},
@@ -260,17 +259,17 @@ const gpio_config_t g_gpio_config[NUM_GPIO_PINS] =
 		.port = GPIO_PORT_B,
 		.mode = GPIO_CONFIG_MODE_INPUT_PULLDOWN
 	},
-	[GPIO_PIOB_PIN_6] = // NC
+	[GPIO_PIOB_PIN_6] =
 	{
 		.pin = GPIO_PIN_ESP8266_RXD,
 		.port = GPIO_PORT_B,
-		.mode = GPIO_CONFIG_MODE_ALTERNATE_FUNCTION
+		.mode = GPIO_CONFIG_MODE_ALTERNATE_FUNCTION // USART1
 	},
-	[GPIO_PIOB_PIN_7] = // NC
+	[GPIO_PIOB_PIN_7] =
 	{
 		.pin = GPIO_PIN_ESP8266_TXD,
 		.port = GPIO_PORT_B,
-		.mode = GPIO_CONFIG_MODE_ALTERNATE_FUNCTION
+		.mode = GPIO_CONFIG_MODE_ALTERNATE_FUNCTION // USART1
 	},
 	[GPIO_PIOB_PIN_8] = // NC
 	{
@@ -284,29 +283,29 @@ const gpio_config_t g_gpio_config[NUM_GPIO_PINS] =
 		.port = GPIO_PORT_B,
 		.mode = GPIO_CONFIG_MODE_INPUT_PULLDOWN
 	},
-	[GPIO_PIOB_PIN_10] = // NC
+	[GPIO_PIN_I2C2_SCL] = // NC
 	{
 		.pin = GPIO_PIOB_PIN_10,
 		.port = GPIO_PORT_B,
-		.mode = GPIO_CONFIG_MODE_INPUT_PULLDOWN
+		.mode = GPIO_CONFIG_MODE_ALTERNATE_FUNCTION // I2C2
 	},
-	[GPIO_PIOB_PIN_11] = // NC
+	[GPIO_PIN_I2C2_SDA] = // NC
 	{
 		.pin = GPIO_PIOB_PIN_11,
 		.port = GPIO_PORT_B,
-		.mode = GPIO_CONFIG_MODE_INPUT_PULLDOWN
+		.mode = GPIO_CONFIG_MODE_ALTERNATE_FUNCTION // I2C2
 	},
-	[GPIO_PIOB_PIN_12] = // NC
+	[GPIO_PIN_XR_GPIO] = // XR_GPIO
 	{
 		.pin = GPIO_PIN_XR_GPIO,
 		.port = GPIO_PORT_B,
-		.mode = GPIO_CONFIG_MODE_ALTERNATE_FUNCTION
+		.mode = GPIO_CONFIG_MODE_INPUT_FLOAT
 	},
-	[GPIO_PIOB_PIN_13] = // NC
+	[GPIO_PIN_VBUS_PRESENT] = // VBUS_PRESENT
 	{
 		.pin = GPIO_PIOB_PIN_13,
 		.port = GPIO_PORT_B,
-		.mode = GPIO_CONFIG_MODE_INPUT_PULLDOWN
+		.mode = GPIO_CONFIG_MODE_INPUT_FLOAT
 	},
 	[GPIO_PIOB_PIN_14] = // NC
 	{
@@ -352,4 +351,3 @@ const gpio_config_t g_gpio_config[NUM_GPIO_PINS] =
 };
 
 #endif
-

@@ -7,10 +7,7 @@
 #include <stdbool.h>
 #include "spi_config_hal.h"
 
-
-
 spi_handle_t spi_config_host_handle(void);
-
 
 void spi_access_write_and_read(uint8_t *tx_data, uint8_t *rx_data, uint16_t size);
 void spi_access_hal_write_byte(spi_handle_t ph_spi, uint8_t data);

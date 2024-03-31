@@ -1,4 +1,8 @@
 // SRW
+#include "config.h"
+
+#if defined(BOARD_SPUDGLO_V5)
+#include <stdbool.h>
 #include "cmsis_os.h"
 #include "stm32l4xx_hal.h"
 #include "board_common.h"
@@ -9,7 +13,6 @@
 #include "gpio_access_hal.h"
 
 
-#if defined(BOARD_SPUDGLO_V5)
 
 
 void board_init_peripheral_setup(void)
@@ -68,6 +71,14 @@ void board_init_specific_esp8266_reset_deassert(void)
 	gpio_access_hal_pin_output(GPIO_PIN_ESP8266_RST);
 	gpio_access_hal_write_output_level_high(GPIO_PIN_ESP8266_RST);
 }
+
+
+bool board_init_specific_vbus_is_present(void)
+{
+	return gpio_access_hal_input_is_high(GPIO_PIN_VBUS_PRESENT);
+}
+
+
 
 
 #endif
