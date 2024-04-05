@@ -1,19 +1,22 @@
 // SRW
 
-#include "pause_ctrl.h"
+#include "ws2812b.h"
+#include "led_ctrl.h"
+#include "led_ctrl_pause.h"
 
+extern led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS];
 
-void pause_ctrl_clear(strip_num_e led_strip_index)
+void pause_ctrl_clear(strip_num_e strip_num)
 {
-	g_task_led_ctrl[led_strip_index].led_interrupt_info.pause_set = false;
+	g_task_led_ctrl[strip_num].led_interrupt_info.pause = false;
 }
 
 
-void pause_ctrl(strip_num_e led_strip_index)
+void pause_ctrl(strip_num_e strip_num)
 {
     static uint8_t flip_or_flop = 1;
-    if (flip_or_flop) g_task_led_ctrl[led_strip_index].led_interrupt_info.pause_set = true;
-    else g_task_led_ctrl[led_strip_index].led_interrupt_info.pause_set = false;
+    if (flip_or_flop) g_task_led_ctrl[strip_num].led_interrupt_info.pause = true;
+    else g_task_led_ctrl[strip_num].led_interrupt_info.pause = false;
     flip_or_flop ^= 1;
 }
 

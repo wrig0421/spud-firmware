@@ -2,8 +2,9 @@
 #if !defined(FLASH_INFO_H)
 #define FLASH_INFO_H
 #include <stdint.h>
+#include "led_ctrl_state.h"
 #include "led_animate.h"
-#include "led_color.h"
+#include "led_ctrl_color.h"
 
 #define FLASH_INFO_SIZE_BYTES                       (512 * 4)
 #define FLASH_USER_SPACE_PAGE_START                 250

@@ -22,9 +22,11 @@
 #define 	SWITCH_FAST_PRESS_TIME_MILLISECONDS 		1000
 #define 	SWITCH_MAJOR_STATE_CHANGE_TIME_MILLISECONDS	5000
 uint32_t 	g_button_press_timestamp[NUM_PUSH_BUTTONS][NUM_TIMESTAMPS];
-bool 		task_button_press_major_change        = false;
+bool 		g_task_button_press_major_change        = false;
 
-extern task_led_ctrl_t g_task_led_ctrl;
+extern led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIPS];
+
+bool g_interrupt_flag = false;
 
 bool        g_interrupt_flag[NUM_ISR] = {false};
 // for debug the variables below are defined
@@ -36,7 +38,7 @@ uint32_t 	g_d_ok_count = 0;
 
 bool task_button_press_interrupt_occurred(void)
 {
-    return g_task_led_ctrl.interrupt_set;
+    return g_interrupt_flag;
 }
 
 
@@ -63,10 +65,27 @@ isr_e task_led_ctrl_button_to_isr(const board_init_push_buttons_e button)
  * @param   src: source of interrupt
  * @return  void
  */
-void task_button_press_ctrl_set_interrupt_flag(const isr_e src)
+void task_button_press_ctrl_set_interrupt_flag(const strip_mask_t mask, const isr_e isr_src)
 {
-    g_task_led_ctrl.interrupt_set = true;
-    g_interrupt_flag[src] = true;
+	g_interrupt_flag = true;
+	strip_num_e strip_num = strip_bit_to_strip_num(mask);
+	switch (isr_src)
+	{
+		case ISR_SPEED:
+			g_task_led_ctrl[strip_num].led_interrupt_info.speed = true;
+		break;
+		case ISR_STATE:
+			g_task_led_ctrl[strip_num].led_interrupt_info.state = true;
+		break;
+		case ISR_COLOR:
+			g_task_led_ctrl[strip_num].led_interrupt_info.color = true;
+		break;
+		case ISR_PAUSE:
+			g_task_led_ctrl[strip_num].led_interrupt_info.pause = true;
+		break;
+		default:
+		break;
+	}
 }
 
 
@@ -77,13 +96,44 @@ void task_button_press_ctrl_set_interrupt_flag(const isr_e src)
  * @note	This function auto clears the flag.  If set it will
  *  		return true and clear the tracked flag.
  */
-bool task_button_press_ctrl_interrupt_flag(strip_num_e strip_num, const isr_e src)
+bool task_button_press_ctrl_interrupt_flag(const strip_mask_t mask, const isr_e isr_src)
 {
-	g_task_led_ctrl[strip_num].led_interrupt_info.interrupt_set = false;
-
-    bool return_val = g_interrupt_flag[src];
-    if (return_val) g_interrupt_flag[src] = false; // auto clear
-    return return_val;
+	bool return_val = false;
+	strip_num_e strip_num = strip_bit_to_strip_num(mask);
+	switch (isr_src)
+	{
+		case ISR_SPEED:
+			if (g_task_led_ctrl[strip_num].led_interrupt_info.speed)
+			{
+				g_task_led_ctrl[strip_num].led_interrupt_info.speed = false;
+				return_val = true;
+			}
+		break;
+		case ISR_STATE:
+			if (g_task_led_ctrl[strip_num].led_interrupt_info.state)
+			{
+				g_task_led_ctrl[strip_num].led_interrupt_info.state = false;
+				return_val = true;
+			}
+		break;
+		case ISR_COLOR:
+			if (g_task_led_ctrl[strip_num].led_interrupt_info.color)
+			{
+				g_task_led_ctrl[strip_num].led_interrupt_info.color = false;
+				return_val = true;
+			}
+		break;
+		case ISR_PAUSE:
+			if (g_task_led_ctrl[strip_num].led_interrupt_info.pause)
+			{
+				g_task_led_ctrl[strip_num].led_interrupt_info.pause = false;
+				return_val = true;
+			}
+		break;
+		default:
+		break;
+	}
+	return return_val;
 }
 
 
@@ -96,7 +146,7 @@ bool g_major_state_change = false;
  * @param  	*blue: pointer to current animation blue color (8 bit)
  * @return  bool: true if interrupt occurred since last check, else false
  */
-bool task_button_press_check_interrupts(const strip_mask_t mask, uint8_t *red, uint8_t *green, uint8_t *blue)
+bool task_button_press_check_interrupts(const strip_mask_t mask)
 {
     bool return_val = false;
     if (task_button_press_major_state_change())
@@ -104,30 +154,31 @@ bool task_button_press_check_interrupts(const strip_mask_t mask, uint8_t *red, u
         return_val = true;
         while (!g_major_state_change_signal_cmplt) osDelay(10);
         led_animate_solid_custom_color(mask, LED_COLOR_HEX_BLACK);
+        osDelay(500); // delay 500 ms before major state change
     }
-    else if (task_button_press_ctrl_interrupt_flag(ISR_STATE))
+    else if (task_button_press_ctrl_interrupt_flag(mask, ISR_STATE))
     {
         return_val = true;
-        if (LED_STATE_TWO_COLOR != task_led_current_led_state())
+        if (LED_STATE_TWO_COLOR != task_led_current_led_state(strip_bit_to_strip_num((strip_bit_e) mask)))
         {
         	led_animate_solid_custom_color(mask, LED_COLOR_HEX_BLACK);
         }
     }
-    else if (task_button_press_ctrl_interrupt_flag(ISR_PAUSE))
+    else if (task_button_press_ctrl_interrupt_flag(mask, ISR_PAUSE))
     {
-        while (g_task_led_ctrl[strip_bit_to_strip_num((strip_bit_e) mask)].led_interrupt_info.pause_set)
+        while (g_task_led_ctrl[strip_bit_to_strip_num(mask)].led_interrupt_info.pause)
         {
             osDelay(10);
         }
     }
-    else if (task_button_press_ctrl_interrupt_flag(ISR_COLOR))
+    else if (task_button_press_ctrl_interrupt_flag(mask, ISR_COLOR))
     {
-        // interrupt modifies the current color... apply it to the animation!
-        *red = task_color_ctrl_red_hex();
-        *green = task_color_ctrl_green_hex();
-        *blue = task_color_ctrl_blue_hex();
+    	// the color should be handled by the caller
+//        // interrupt modifies the current color... apply it to the animation!
+//        *red = task_color_ctrl_red_hex();
+//        *green = task_color_ctrl_green_hex();
+//        *blue = task_color_ctrl_blue_hex();
     }
-
     task_button_press_interrupt_flag_clear();
     return return_val;
 }
@@ -140,7 +191,7 @@ bool task_button_press_check_interrupts(const strip_mask_t mask, uint8_t *red, u
  */
 void task_button_press_interrupt_flag_clear(strip_num_e strip_num)
 {
-	g_task_led_ctrl[strip_num].led_interrupt_info.interrupt_set = false;
+	g_task_led_ctrl[strip_num].led_interrupt_info.any_set = false;
 }
 
 
@@ -151,7 +202,7 @@ void task_button_press_interrupt_flag_clear(strip_num_e strip_num)
  */
 bool task_button_press_major_state_change(void)
 {
-    return task_button_press_major_change;
+    return g_task_button_press_major_change;
 }
 
 
@@ -168,7 +219,7 @@ void task_button_press(void *argument)
 {
 	gpio_specific_pin_e button_pin;
     //uint32_t button_pressed_bit = 0;
-    color_hex_code_e color = LED_COLOR_HEX_BLACK;
+    led_color_hex_code_e color = LED_COLOR_HEX_BLACK;
     IRQn_Type irq_type = 0;
     board_init_push_buttons_e pushed_button = NUM_PUSH_BUTTONS;
     while (1)
@@ -218,7 +269,7 @@ void task_button_press(void *argument)
         {
         	g_low_count_hundred_milliseconds = 0;
         	// major state change initiated. Special action occurs below.
-            task_button_press_major_change = true;
+            g_task_button_press_major_change = true;
             g_major_state_change_signal_cmplt = false;
             switch (pushed_button)
             {
@@ -282,7 +333,7 @@ void task_button_press(void *argument)
             g_major_state_change_signal_cmplt = true;
             HAL_NVIC_SetPriority(irq_type, 24, 0);
             HAL_NVIC_EnableIRQ(irq_type);
-            task_button_press_major_change = false;
+            g_task_button_press_major_change = false;
         }
         else
         {
@@ -316,7 +367,7 @@ void task_button_press(void *argument)
                     }
                     else
                     {
-						if (MASTER_LED_STATE_DEMO == task_state_ctrl_master_state())
+						if (LED_CTRL_STATE_MASTER_DEMO == task_state_ctrl_master_state())
 						{
 							// if master state is demo then change to fixed master state!
 							task_state_ctrl_force_fixed_state(); // animation count is auto cleared here.
@@ -343,7 +394,7 @@ void task_button_press(void *argument)
                     }
                     else
                     {
-						if (MASTER_COLOR_STATE_DEMO == task_color_ctrl_master_state())
+						if (LED_COLOR_MASTER_STATE_DEMO == task_color_ctrl_master_state())
 						{
 							// if master color state is demo then change to fixed master state!
 							task_color_ctrl_master_state_fixed();

@@ -3,30 +3,6 @@
 #include "led_ctrl.h"
 
 
-bool led_ctrl_strip_1_interrupt_occurred(void)
-{
-	return g_task_led_ctrl[STRIP_NUM_1].led_interrupt_info.interrupt_set;
-}
-
-
-bool led_ctrl_strip_2_interrupt_occurred(void)
-{
-	return g_task_led_ctrl[STRIP_NUM_2].led_interrupt_info.interrupt_set;
-}
-
-
-bool led_ctrl_strip_3_interrupt_occurred(void)
-{
-	return g_task_led_ctrl[STRIP_NUM_3].led_interrupt_info.interrupt_set;
-}
-
-
-bool led_ctrl_strip_sync_interrupt_occurred(void)
-{
-	return g_task_led_ctrl[CONFIG_LED_STRIP_SYNC_INDEX].led_interrupt_info.interrupt_set;
-}
-
-
 bool led_ctrl_delay(const uint32_t time_ms)
 {
     uint32_t ms_count = 0;
@@ -40,7 +16,7 @@ bool led_ctrl_delay(const uint32_t time_ms)
 }
 
 
-float led_ctrl_delay_time(strip_num_e led_strip_index)
+float led_ctrl_delay_time(strip_num_e strip_num)
 {
     return ((float)g_delay_in_animation_ms / task_speed_ctrl());
 }

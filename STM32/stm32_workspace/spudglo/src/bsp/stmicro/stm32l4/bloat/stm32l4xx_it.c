@@ -28,7 +28,7 @@
 #include "board_common.h"
 #include "board_specific.h"
 #include "led_animate.h"
-#include "led_color.h"
+#include "led_ctrl_color.h"
 #include "task_button_press.h"
 #include "FreeRTOSConfig.h"
 #include "gpio_config_hal_specific.h"

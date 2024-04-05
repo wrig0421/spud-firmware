@@ -4,7 +4,7 @@
 #include "cmsis_os.h"
 #include "numbers.h"
 #include "board_init_common.h"
-#include "led_color.h"
+#include "led_ctrl_color.h"
 #include "task_button_press.h"
 #include "current_monitor.h"
 #include "task_led_ctrl.h"
@@ -17,6 +17,9 @@
 #include "flash_info.h"
 
 #include "flash_access.h"
+#include "task_notify.h"
+#include "led_ctrl_color.h"
+#include "led_ctrl.h"
 #include <string.h>
 extern UART_HandleTypeDef      gh_host_usart;
 
@@ -43,7 +46,7 @@ bool g_clear_colors = false;
 
 led_color_e g_two_color_inner = LED_COLOR_BLUE;
 led_color_e g_two_color_outer = LED_COLOR_RED;
-extern color_hex_code_e g_color_hex_codes[NUM_COLORS];
+extern led_color_hex_code_e g_color_hex_codes[NUM_COLORS];
 
 
 uint8_t                 g_animation_iterations = 0;
@@ -86,7 +89,7 @@ typedef enum
 } task_led_ctrl_delay_ms_e;
 
 
-task_led_ctrl_state_iterations_t g_task_led_ctrl_state_iterations[NUM_LED_STATES] =
+led_ctrl_state_iterations_t g_task_led_ctrl_state_iterations[NUM_LED_STATES] =
 {
 	[LED_STATE_SPELL] =
 	{
@@ -146,24 +149,23 @@ task_led_ctrl_state_iterations_t g_task_led_ctrl_state_iterations[NUM_LED_STATES
 };
 
 
-task_led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIPS] =
+led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS] =
 {
 	[STRIP_NUM_1] =
 	{
 		.led_state_info =
 		{
-			.led_state_master 				= MASTER_LED_STATE_FIXED,
+			.led_state_master 				= LED_CTRL_STATE_MASTER_FIXED,
 			.led_state 						= LED_STATE_FIRST,
 			.led_state_current_iteration 	= 0
 		},
 		.led_color_info =
 		{
-			.led_color_master 				= MASTER_COLOR_STATE_DEMO,
+			.led_color_master 				= LED_COLOR_MASTER_STATE_DEMO,
 			.led_color 						= LED_COLOR_MINT
 		},
 		.led_interrupt_info =
 		{
-			.any_set 						= false,
 			.state							= false,
 			.color							= false,
 			.speed							= false,
@@ -176,18 +178,17 @@ task_led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIPS] =
 	{
 		.led_state_info =
 		{
-			.led_state_master 				= MASTER_LED_STATE_FIXED,
+			.led_state_master 				= LED_CTRL_STATE_MASTER_FIXED,
 			.led_state 						= LED_STATE_FIRST,
 			.led_state_current_iteration 	= 0
 		},
 		.led_color_info =
 		{
-			.led_color_master 				= MASTER_COLOR_STATE_DEMO,
+			.led_color_master 				= LED_COLOR_MASTER_STATE_DEMO,
 			.led_color 						= LED_COLOR_MINT
 		},
 		.led_interrupt_info =
 		{
-			.any_set 						= false,
 			.state							= false,
 			.color							= false,
 			.speed							= false,
@@ -200,18 +201,17 @@ task_led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIPS] =
 	{
 		.led_state_info =
 		{
-			.led_state_master 				= MASTER_LED_STATE_FIXED,
+			.led_state_master 				= LED_CTRL_STATE_MASTER_FIXED,
 			.led_state 						= LED_STATE_FIRST,
 			.led_state_current_iteration 	= 0,
 		},
 		.led_color_info =
 		{
-			.led_color_master 				= MASTER_COLOR_STATE_DEMO,
+			.led_color_master 				= LED_COLOR_MASTER_STATE_DEMO,
 			.led_color 						= LED_COLOR_MINT
 		},
 		.led_interrupt_info =
 		{
-			.any_set 						= false,
 			.state							= false,
 			.color							= false,
 			.speed							= false,
@@ -225,18 +225,17 @@ task_led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIPS] =
 	{
 		.led_state_info =
 		{
-			.led_state_master 				= MASTER_LED_STATE_FIXED,
+			.led_state_master 				= LED_CTRL_STATE_MASTER_FIXED,
 			.led_state 						= LED_STATE_FIRST,
 			.led_state_current_iteration 	= 0,
 		},
 		.led_color_info =
 		{
-			.led_color_master 				= MASTER_COLOR_STATE_DEMO,
+			.led_color_master 				= LED_COLOR_MASTER_STATE_DEMO,
 			.led_color 						= LED_COLOR_MINT
 		},
 		.led_interrupt_info =
 		{
-			.any_set 						= false,
 			.state							= false,
 			.color							= false,
 			.speed							= false,
@@ -249,18 +248,17 @@ task_led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIPS] =
 	{
 		.led_state_info =
 		{
-			.led_state_master 				= MASTER_LED_STATE_FIXED,
+			.led_state_master 				= LED_CTRL_STATE_MASTER_FIXED,
 			.led_state 						= LED_STATE_FIRST,
 			.led_state_current_iteration 	= 0,
 		},
 		.led_color_info =
 		{
-			.led_color_master 				= MASTER_COLOR_STATE_DEMO,
+			.led_color_master 				= LED_COLOR_MASTER_STATE_DEMO,
 			.led_color 						= LED_COLOR_MINT
 		},
 		.led_interrupt_info =
 		{
-			.any_set 						= false,
 			.state							= false,
 			.color							= false,
 			.speed							= false,
@@ -273,18 +271,17 @@ task_led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIPS] =
 	{
 		.led_state_info =
 		{
-			.led_state_master 				= MASTER_LED_STATE_FIXED,
+			.led_state_master 				= LED_CTRL_STATE_MASTER_FIXED,
 			.led_state 						= LED_STATE_FIRST,
 			.led_state_current_iteration 	= 0,
 		},
 		.led_color_info =
 		{
-			.led_color_master 				= MASTER_COLOR_STATE_DEMO,
+			.led_color_master 				= LED_COLOR_MASTER_STATE_DEMO,
 			.led_color 						= LED_COLOR_MINT
 		},
 		.led_interrupt_info =
 		{
-			.any_set 						= false,
 			.state							= false,
 			.color							= false,
 			.speed							= false,
@@ -298,18 +295,17 @@ task_led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIPS] =
 	{
 		.led_state_info =
 		{
-			.led_state_master 				= MASTER_LED_STATE_FIXED,
+			.led_state_master 				= LED_CTRL_STATE_MASTER_FIXED,
 			.led_state 						= LED_STATE_FIRST,
 			.led_state_current_iteration 	= 0,
 		},
 		.led_color_info =
 		{
-			.led_color_master 				= MASTER_COLOR_STATE_DEMO,
+			.led_color_master 				= LED_COLOR_MASTER_STATE_DEMO,
 			.led_color 						= LED_COLOR_MINT
 		},
 		.led_interrupt_info =
 		{
-			.any_set 						= false,
 			.state							= false,
 			.color							= false,
 			.speed							= false,
@@ -318,16 +314,16 @@ task_led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIPS] =
 		.led_speed 							= LED_SPEED_1X,
 		.led_brightness 					= LED_BRIGHTNESS_100_PERCENT
 	}
-}
+};
 
 
-static void task_led_ctrl_adjust_parameters(strip_num_e led_strip_index)
+static void task_led_ctrl_adjust_parameters(strip_num_e strip_num)
 {
 	bool skip_color_check = false;
 
-	task_led_ctrl_state_info_t *task_led_ctrl_state_info = &g_task_led_ctrl[led_strip_index].led_state_info;
-	task_color_ctrl_info_t *task_color_ctrl_info = &g_task_led_ctrl[led_strip_index].led_color_info;
-	task_led_ctrl_state_iterations_t *task_led_ctrl_state_iterations = &g_task_led_ctrl_state_iterations[task_led_ctrl_state_info->led_state];
+	led_ctrl_state_info_t *task_led_ctrl_state_info = &g_task_led_ctrl[strip_num].led_state_info;
+	led_color_ctrl_info_t *task_color_ctrl_info = &g_task_led_ctrl[strip_num].led_color_info;
+	led_ctrl_state_iterations_t *task_led_ctrl_state_iterations = &g_task_led_ctrl_state_iterations[task_led_ctrl_state_info->led_state];
 
 	task_led_ctrl_state_info->led_state_current_iteration++;
     if (0 < (task_led_ctrl_state_iterations->led_state_iteration_delay_ms))
@@ -337,16 +333,16 @@ static void task_led_ctrl_adjust_parameters(strip_num_e led_strip_index)
     		skip_color_check = true;
     	}
 	}
-    if (MASTER_LED_STATE_DEMO == (task_led_ctrl_state_info->led_state_master))
+    if (LED_CTRL_STATE_MASTER_DEMO == (task_led_ctrl_state_info->led_state_master))
     {
-        if (task_led_ctrl_state_iterations->led_state_max_iteration == task_led_ctrl_state_iterations->led_state_current_iteration)
+        if (task_led_ctrl_state_iterations->led_state_max_iteration == task_led_ctrl_state_info->led_state_current_iteration)
         {
         	task_led_ctrl_state_info->led_state = (led_state_e) (task_led_ctrl_state_info->led_state + 1);
             if (NUM_LED_STATES == task_led_ctrl_state_info->led_state) task_led_ctrl_state_info->led_state = LED_STATE_FIRST;
             task_led_ctrl_state_info->led_state_current_iteration = 0;
         }
     }
-    if ((!skip_color_check) && (MASTER_COLOR_STATE_DEMO == task_led_ctrl_state_info->led_state_master))
+    if ((!skip_color_check) && (LED_COLOR_MASTER_STATE_DEMO == task_color_ctrl_info->led_color_master))
 	{
     	if (LED_STATE_TWO_COLOR == task_led_ctrl_state_info->led_state)
     	{
@@ -355,7 +351,7 @@ static void task_led_ctrl_adjust_parameters(strip_num_e led_strip_index)
     	}
     	else
     	{
-    		task_color_ctrl_random();
+    		task_color_ctrl_random(strip_num);
     	}
 	}
 }
@@ -373,7 +369,7 @@ static void task_led_iterate(led_state_e led_state, strip_bit_e strip_bit)
 			break;
 			case LED_STATE_WHITE_COLOR:
 				led_animate_solid_custom_color((uint16_t)strip_bit, LED_COLOR_HEX_WHITE);
-//				if (MASTER_LED_STATE_FIXED == g_task_led_ctrl.led_state_master)
+//				if (LED_CTRL_STATE_MASTER_FIXED == g_task_led_ctrl.led_state_master)
 //				{
 //					task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_5, TASK_LED_CTRL_DELAY_MS_1000);
 //					task_led_ctrl_delay(1000);
@@ -386,7 +382,7 @@ static void task_led_iterate(led_state_e led_state, strip_bit_e strip_bit)
 			break;
 			case LED_STATE_SOLID_COLOR:
 				led_animate_solid_custom_color((uint16_t)strip_bit, task_color_ctrl_hex());
-//				if (MASTER_LED_STATE_FIXED == g_task_led_ctrl.led_state_master)
+//				if (LED_CTRL_STATE_MASTER_FIXED == g_task_led_ctrl.led_state_master)
 //				{
 //					task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_5, TASK_LED_CTRL_DELAY_MS_1000);
 //					task_led_ctrl_delay(1000);
@@ -425,6 +421,13 @@ static void task_led_iterate(led_state_e led_state, strip_bit_e strip_bit)
 			break;
 		}
 	}
+}
+
+
+led_state_e task_led_current_led_state(const strip_mask_t mask)
+{
+
+	return g_task_led_ctrl[strip_bit_to_strip_num(mask)].led_state_info.led_state;
 }
 
 

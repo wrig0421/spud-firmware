@@ -31,7 +31,7 @@ typedef union
 	{
 		union
 		{
-			struct stimulus_bits
+			struct
 			{
 				uint8_t state 			: 1;
 				uint8_t color 			: 1;
@@ -41,12 +41,12 @@ typedef union
 				uint8_t brightness 		: 1;
 				uint8_t rsvd			: 2;
 				uint8_t rsvd_2;
-			};
+			} stimulus_bits;
 			uint16_t flat_stimulus;
 		};
 		union
 		{
-			struct entity_bits
+			struct
 			{
 				uint8_t strip_1 		: 1;
 				uint8_t strip_2 		: 1;
@@ -54,7 +54,7 @@ typedef union
 				uint8_t strip_sync 		: 1;
 				uint8_t rsvd			: 4;
 				uint8_t rsvd_2;
-			};
+			} entity_bits;
 			uint16_t flat_entity;
 		};
 	};

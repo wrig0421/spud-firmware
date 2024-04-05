@@ -87,7 +87,7 @@ void led_animate_set_all_pixels(const strip_mask_t mask, const uint8_t red, cons
 }
 
 
-void led_animate_set_pixels_in_range(uint16_t start, uint16_t stop, const color_hex_code_e color)
+void led_animate_set_pixels_in_range(uint16_t start, uint16_t stop, const led_color_hex_code_e color)
 {
     uint8_t dummy_red, dummy_green, dummy_blue; // not used but not worth creating a unique function IMO
 
@@ -142,7 +142,7 @@ uint8_t* led_animate_wheel(uint8_t wheel_pos)
 }
 
 
-void led_animate_solid_custom_color(const strip_mask_t mask, const color_hex_code_e color)
+void led_animate_solid_custom_color(const strip_mask_t mask, const led_color_hex_code_e color)
 {
     uint8_t dummy_red, dummy_green, dummy_blue; // not used but not worth creating a unique function IMO
     led_color_t led_color = color;
@@ -153,7 +153,7 @@ void led_animate_solid_custom_color(const strip_mask_t mask, const color_hex_cod
 }
 
 
-void led_animate_only_spell_word(const strip_mask_t mask, const color_hex_code_e color,
+void led_animate_only_spell_word(const strip_mask_t mask, const led_color_hex_code_e color,
                                  const uint16_t time_ms)
 {
 	uint16_t strip_size = ws2812_led_get_max_strip_size(mask);
@@ -179,7 +179,7 @@ void led_animate_only_spell_word(const strip_mask_t mask, const color_hex_code_e
 }
 
 
-void led_animate_fade_in_fade_out(const strip_mask_t mask, const color_hex_code_e color)
+void led_animate_fade_in_fade_out(const strip_mask_t mask, const led_color_hex_code_e color)
 {
     float r, g, b;
     led_color_t led_color = color;
@@ -218,7 +218,7 @@ void led_animate_fade_in_fade_out(const strip_mask_t mask, const color_hex_code_
 }
 
 
-void led_animate_strobe(const strip_mask_t mask, const color_hex_code_e color,
+void led_animate_strobe(const strip_mask_t mask, const led_color_hex_code_e color,
                         const uint16_t led_animate_strobe_count, const uint16_t flash_delay, const uint16_t end_pause)
 {
     led_color_t led_color = color;
@@ -244,7 +244,7 @@ void led_animate_strobe(const strip_mask_t mask, const color_hex_code_e color,
 }
 
 
-void led_animate_twinkle(const strip_mask_t mask, const color_hex_code_e color, const uint16_t count,
+void led_animate_twinkle(const strip_mask_t mask, const led_color_hex_code_e color, const uint16_t count,
                          const uint16_t speed_delay, const bool only_one)
 {
 	uint16_t strip_size = ws2812_led_get_max_strip_size(mask);
@@ -321,7 +321,7 @@ void led_animate_sparkle_random_color(const strip_mask_t mask, const bool fill,
 }
 
 
-void led_animate_sparkle(const strip_mask_t mask, const color_hex_code_e color,
+void led_animate_sparkle(const strip_mask_t mask, const led_color_hex_code_e color,
                          const uint16_t speed_delay)
 {
 	uint16_t strip_size = ws2812_led_get_max_strip_size(mask);
@@ -338,7 +338,7 @@ void led_animate_sparkle(const strip_mask_t mask, const color_hex_code_e color,
 }
 
 
-void led_animate_running_lights(const strip_mask_t mask, const color_hex_code_e color)
+void led_animate_running_lights(const strip_mask_t mask, const led_color_hex_code_e color)
 {
 	uint16_t strip_size = ws2812_led_get_max_strip_size(mask);
     uint8_t color_running_lights_rgb[sizeof(ws2812b_led_t)] = {0};
@@ -389,7 +389,7 @@ void led_animate_rainbow_cycle(const strip_mask_t mask, const uint16_t speed_del
 }
 
 
-void led_animate_theater_chase(const strip_mask_t mask, const color_hex_code_e color,
+void led_animate_theater_chase(const strip_mask_t mask, const led_color_hex_code_e color,
                                const uint16_t speed_delay)
 {
 	uint16_t strip_size = ws2812_led_get_max_strip_size(mask);

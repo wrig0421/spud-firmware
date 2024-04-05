@@ -1,12 +1,15 @@
 // SRW
 
-#include "speed_ctrl.h"
+#include "ws2812b.h"
+#include "led_ctrl.h"
+#include "led_ctrl_speed.h"
 
+extern led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS];
 
-float speed_ctrl(strip_num_e led_strip_index)
+float speed_ctrl(strip_num_e strip_num)
 {
     float speed_factor = 0.0;
-    switch(g_task_led_ctrl[led_strip_index].led_speed)
+    switch(g_task_led_ctrl[strip_num].led_speed)
     {
         case LED_SPEED_10X: speed_factor = 10.0f; break;
         case LED_SPEED_5X: speed_factor = 5.0f; break;
@@ -19,20 +22,20 @@ float speed_ctrl(strip_num_e led_strip_index)
 }
 
 
-void speed_ctrl_adjust(strip_num_e led_strip_index)
+void speed_ctrl_adjust(strip_num_e strip_num)
 {
-    if (LED_SPEED_FIRST == g_task_led_ctrl[led_strip_index].led_speed)
+    if (LED_SPEED_FIRST == g_task_led_ctrl[strip_num].led_speed)
 	{
-    	g_task_led_ctrl[led_strip_index].led_speed = LED_SPEED_LAST;
+    	g_task_led_ctrl[strip_num].led_speed = LED_SPEED_LAST;
 	}
     else
 	{
-    	g_task_led_ctrl[led_strip_index].led_speed = (led_speed_e) (g_task_led_ctrl[led_strip_index].led_speed - 1);
+    	g_task_led_ctrl[strip_num].led_speed = (led_speed_e) (g_task_led_ctrl[strip_num].led_speed - 1);
 	}
 }
 
 
-void speed_ctrl_reset(strip_num_e led_strip_index)
+void speed_ctrl_reset(strip_num_e strip_num)
 {
-	g_task_led_ctrl[led_strip_index].led_speed = LED_SPEED_1X;
+	g_task_led_ctrl[strip_num].led_speed = LED_SPEED_1X;
 }

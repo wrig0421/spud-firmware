@@ -1,4 +1,22 @@
 // SRW
-#if !defined(SPEED_CTRL_H)
+#if !defined(LED_CTRL_SPEED_H)
+#define LED_CTRL_SPEED_H
+
+
+typedef enum
+{
+	LED_SPEED_FIRST,
+	LED_SPEED_10X = LED_SPEED_FIRST,
+	LED_SPEED_5X,
+	//LED_SPEED_2X,
+	LED_SPEED_1X,
+	LED_SPEED_0P5X,
+	LED_SPEED_0P25X,
+	//LED_SPEED_0P1X,
+	LED_SPEED_LAST = LED_SPEED_0P25X,
+	NUM_SPEEDS
+} led_speed_e;
+
+
 
 #endif

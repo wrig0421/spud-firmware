@@ -8,6 +8,8 @@
 #include "led_animate.h"
 #include "flash_info.h"
 #include "flash_access.h"
+#include "led_ctrl_speed.h"
+#include "led_ctrl_brightness.h"
 #include "pkt.h"
 
 #define FLASH_INFO_DEFAULT_IMAGE_SLOT   FLASH_INFO_IMAGE_SLOT_1

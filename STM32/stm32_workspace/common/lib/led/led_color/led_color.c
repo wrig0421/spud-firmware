@@ -25,7 +25,7 @@ led_color_t g_led_color_current_strip_color[NUM_SUPPORTED_STRIPS] =
 
 
 void led_color_set_current_strip_color(strip_num_e strip_num,
-									   color_hex_code_e color_hex_code)
+									   led_color_hex_code_e color_hex_code)
 {
 	g_led_color_current_strip_color[strip_num].color_hex = color_hex_code;
 }
@@ -67,7 +67,7 @@ void led_color_strip_color(strip_num_e strip_num, led_color_t* led_color)
 //
 //
 //
-//color_hex_code_e g_color_hex_codes[NUM_COLORS] =
+//led_color_hex_code_e g_color_hex_codes[NUM_COLORS] =
 //{
 //    [LED_COLOR_RED] = LED_COLOR_HEX_RED,
 //	[LED_COLOR_WHITE] = LED_COLOR_HEX_WHITE,
@@ -95,14 +95,14 @@ void led_color_strip_color(strip_num_e strip_num, led_color_t* led_color)
 //};
 //
 //
-//void led_color_hex_to_rgb(const color_hex_code_e)
+//void led_color_hex_to_rgb(const led_color_hex_code_e)
 //{
 //
 //}
 //
 //
 //
-//void led_color_hex_to_rgb(const color_hex_code_e color, uint8_t *color_array)
+//void led_color_hex_to_rgb(const led_color_hex_code_e color, uint8_t *color_array)
 //{
 //    color_array[offsetof(ws2812b_led_t, red)] = ((color & 0xFF0000) >> (BITS_PER_BYTE * (2 - offsetof(ws2812b_led_t, red))));
 //    color_array[offsetof(ws2812b_led_t, green)] = ((color & 0x00FF00) >> (BITS_PER_BYTE * (2 - offsetof(ws2812b_led_t, green))));

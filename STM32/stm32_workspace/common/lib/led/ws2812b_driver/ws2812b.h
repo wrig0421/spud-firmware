@@ -1,7 +1,9 @@
 #if !defined(WS2812B_H)
 #define WS2812B_H
-#include "config.h"
+#include <stdint.h>
 #include <stdbool.h>
+#include "config.h"
+
 
 #define WS2812B_TIM_FREQ_MHZ                48
 #define WS2812B_TIM_TIME_CYCLES             (float)(1.0f / WS2812B_TIM_FREQ_MHZ)
@@ -38,12 +40,13 @@ typedef enum
 	STRIP_NUM_1 = 0,
 	STRIP_NUM_2,
 	STRIP_NUM_3,
-	NUM_SUPPORTED_STRIPS,
 
 	STRIP_NUM_1_AND_2,
 	STRIP_NUM_1_AND_3,
 	STRIP_NUM_2_AND_3,
 	STRIP_NUM_ALL_SET,
+
+	NUM_SUPPORTED_STRIP_COMBOS,
 
 	STRIP_NUM_INVALID,
 

@@ -2,16 +2,16 @@
  * @file   color_led.h
  * @author SpudGlo LLC
  ***********************************/
-#if !defined(COLOR_LED_H)
-#define COLOR_LED_H
+#if !defined(LED_COLOR_H)
+#define LED_COLOR_H
 
 #include "ws2812b.h"
 
 typedef enum
 {
-    MASTER_COLOR_STATE_DEMO,
-    MASTER_COLOR_STATE_FIXED
-} master_color_state_e;
+    LED_COLOR_MASTER_STATE_DEMO,
+    LED_COLOR_MASTER_STATE_FIXED
+} led_color_master_state_e;
 
 
 // complete list of all hex color codes
@@ -45,7 +45,7 @@ typedef enum
     LED_COLOR_HEX_HOT_PINK      = 0xFF69B4,
     LED_COLOR_HEX_MINT          = 0x4EBD88,
     LED_COLOR_HEX_BROWN         = 0xA52A2A,
-} color_hex_code_e;
+} led_color_hex_code_e;
 
 
 typedef union
@@ -102,7 +102,7 @@ typedef enum
 } led_color_e;
 
 
-void led_color_hex_to_rgb(const color_hex_code_e color, uint8_t *color_array);
+void led_color_hex_to_rgb(const led_color_hex_code_e color, uint8_t *color_array);
 void led_color_strip_color(strip_num_e strip_num, led_color_t* led_color);
 
 

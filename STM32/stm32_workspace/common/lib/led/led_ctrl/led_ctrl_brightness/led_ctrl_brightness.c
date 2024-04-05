@@ -1,19 +1,21 @@
 // SRW
 
-#include "brightness_ctrl.h"
+#include "led_ctrl.h"
+#include "led_ctrl_brightness.h"
 
+extern led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS];
 
-void led_ctrl_brightness_adjust(strip_num_e led_strip_index)
+void led_ctrl_brightness_adjust(strip_num_e strip_num)
 {
-    if (LED_BRIGHTNESS_FIRST == g_task_led_ctrl[led_strip_index].led_brightness)
+    if (LED_BRIGHTNESS_FIRST == g_task_led_ctrl[strip_num].led_brightness)
 	{
-    	g_task_led_ctrl[led_strip_index].led_brightness = LED_BRIGHTNESS_LAST;
+    	g_task_led_ctrl[strip_num].led_brightness = LED_BRIGHTNESS_LAST;
 	}
     else
 	{
-    	g_task_led_ctrl[led_strip_index].led_brightness = (led_brightness_e) (g_task_led_ctrl[led_strip_index].led_brightness - 1);
+    	g_task_led_ctrl[strip_num].led_brightness = (led_brightness_e) (g_task_led_ctrl[strip_num].led_brightness - 1);
 	}
-    switch (g_task_led_ctrl[led_strip_index].led_brightness)
+    switch (g_task_led_ctrl[strip_num].led_brightness)
     {
         case LED_BRIGHTNESS_100_PERCENT: current_monitor_set(1.0f); break;
 //        case LED_BRIGHTNESS_50_PERCENT: current_monitor_set(0.5f); break;
