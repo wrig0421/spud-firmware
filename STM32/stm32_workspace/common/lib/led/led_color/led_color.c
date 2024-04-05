@@ -27,14 +27,14 @@ led_color_t g_led_color_current_strip_color[NUM_SUPPORTED_STRIP_COMBOS] =
 void led_color_set_current_strip_color(const strip_mask_t mask,
 									   led_color_hex_code_e color_hex_code)
 {
-	strip_num_e strip_num = strip_bit_to_strip_num(mask);
+	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
 	g_led_color_current_strip_color[strip_num].color_hex = color_hex_code;
 }
 
 
 void led_color_strip_color(const strip_mask_t mask, led_color_t* led_color)
 {
-	strip_num_e strip_num = strip_bit_to_strip_num(mask);
+	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
 	led_color = &g_led_color_current_strip_color[strip_num];
 }
 

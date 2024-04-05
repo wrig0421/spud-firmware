@@ -5,6 +5,7 @@
 #include <stdint.h>
 #include <math.h>
 #include "numbers.h"
+#include "led_ctrl.h"
 #include "task_led_ctrl.h"
 #include "led_color.h"
 #include "led_animate.h"
@@ -171,7 +172,7 @@ void led_animate_only_spell_word(const strip_mask_t mask, const led_color_hex_co
             }
 			else if (g_task_notification_value.stimulus_bits.color)
 			{
-				led_color_strip_color(strip_bit_to_strip_num(mask), &led_color);
+				led_color_strip_color(ws2812_strip_bit_to_strip_num(mask), &led_color);
 			}
         }
         led_animate_set_pixel(mask, iii, &led_color);
@@ -183,7 +184,6 @@ void led_animate_only_spell_word(const strip_mask_t mask, const led_color_hex_co
 
 void led_animate_fade_in_fade_out(const strip_mask_t mask, const led_color_hex_code_e color)
 {
-    float r, g, b;
     led_color_t led_color;
     led_color.color_hex = color;
     for (int iii = 0; iii < 256; iii++)
@@ -195,9 +195,9 @@ void led_animate_fade_in_fade_out(const strip_mask_t mask, const led_color_hex_c
                 return;
             }
         }
-        r = (iii / 256.0f) * led_color.color_rgb.red;
-        g = (iii / 256.0f) * led_color.color_rgb.green;
-        b = (iii / 256.0f) * led_color.color_rgb.blue;
+        led_color.color_rgb.red *= (iii / 256.0f);
+        led_color.color_rgb.green *= (iii / 256.0f);
+        led_color.color_rgb.blue *= (iii / 256.0f);
         led_animate_set_all_pixels(mask, &led_color);
     }
     for (int iii = 255; iii >= 0; iii = iii-2)
@@ -209,9 +209,9 @@ void led_animate_fade_in_fade_out(const strip_mask_t mask, const led_color_hex_c
                 return;
             }
         }
-        r = (iii / 256.0f) * led_color.color_rgb.red;
-        g = (iii / 256.0f) * led_color.color_rgb.green;
-        b = (iii / 256.0f) * led_color.color_rgb.blue;
+        led_color.color_rgb.red *= (iii / 256.0f);
+        led_color.color_rgb.green *= (iii / 256.0f);
+        led_color.color_rgb.blue *= (iii / 256.0f);
         led_animate_set_all_pixels(mask, &led_color);
     }
 }
@@ -448,7 +448,6 @@ void led_animate_theater_chase_rainbow(const strip_mask_t mask, const uint16_t s
 	led_color_t led_color;
 	led_color.color_hex = LED_COLOR_HEX_BLACK;
 	uint16_t strip_size = ws2812_led_get_max_strip_size(mask);
-    uint8_t *c;
     for (int jjj = 0; jjj < 256; jjj++) // cycle all 256 colors in the led_animate_wheel
     {
         for (int qqq = 0; qqq < 3; qqq++)

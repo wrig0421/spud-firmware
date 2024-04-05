@@ -41,6 +41,7 @@ typedef enum
 	STRIP_NUM_2,
 	STRIP_NUM_3,
 
+
 	STRIP_NUM_1_AND_2,
 	STRIP_NUM_1_AND_3,
 	STRIP_NUM_2_AND_3,
@@ -73,6 +74,7 @@ typedef enum
 #elif defined(ENABLE_STRIP_1)
 	STRIP_BIT_ALL_SET 		= STRIP_BIT_1,
 #endif
+	STRIP_BIT_INVALID	= 0xFFFF - 1
 } strip_bit_e;
 
 
@@ -97,9 +99,10 @@ typedef uint16_t* p_pwm_data_t;
 
 
 void reset_ws2812b(void);
-strip_num_e strip_bit_to_strip_num(strip_bit_e strip_bit);
+strip_num_e ws2812_strip_bit_to_strip_num(strip_bit_e strip_bit);
 strip_bit_e ws2812_strip_num_to_bit(strip_num_e strip_bit);
 strip_num_e ws2812_strip_bit_to_num(strip_bit_e strip_bit);
+strip_num_e ws2812_strip_bit_to_strip_num(strip_bit_e strip_bit);
 
 
 uint16_t ws2812_get_strip_size(const strip_bit_e strip_bit);

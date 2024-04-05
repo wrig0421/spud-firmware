@@ -60,7 +60,7 @@ void reset_ws2812b(void)
 }
 
 
-strip_num_e strip_bit_to_strip_num(strip_bit_e strip_bit)
+strip_num_e ws2812_strip_bit_to_strip_num(strip_bit_e strip_bit)
 {
 	switch (strip_bit)
 	{
@@ -73,6 +73,22 @@ strip_num_e strip_bit_to_strip_num(strip_bit_e strip_bit)
 		default: 				return STRIP_NUM_INVALID;
 	}
 }
+
+
+strip_bit_e ws2812_strip_num_to_strip_bit(strip_num_e strip_num)
+{
+	switch (strip_num)
+	{
+		case STRIP_NUM_1: 			return STRIP_BIT_1;
+		case STRIP_NUM_2:			return STRIP_BIT_2;
+		case STRIP_NUM_3:			return STRIP_BIT_3;
+		case STRIP_NUM_1_AND_2:		return STRIP_BIT_1_AND_2;
+		case STRIP_NUM_1_AND_3:		return STRIP_BIT_1_AND_3;
+		case STRIP_NUM_2_AND_3:		return STRIP_BIT_2_AND_3;
+		default:					return STRIP_BIT_INVALID;
+	}
+}
+
 
 
 /**
@@ -89,8 +105,9 @@ uint16_t ws2812_get_strip_size(const strip_bit_e strip_bit)
 uint16_t ws2812_get_number_of_active_strips(const strip_mask_t strip_mask)
 {
 	uint16_t num_active_strips = 0;
-	for (strip_bit_e iii = STRIP_BIT_1; iii < NUM_STRIPS; iii = (strip_bit_e)(iii + 1))
+	for (strip_num_e iii = STRIP_NUM_1; iii < NUM_STRIPS; iii = (strip_num_e)(iii + 1))
 	{
+
 		if (iii & strip_mask) num_active_strips++;
 	}
 	return num_active_strips;

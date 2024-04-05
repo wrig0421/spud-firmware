@@ -71,7 +71,7 @@ isr_e task_led_ctrl_button_to_isr(const board_init_push_buttons_e button)
 void task_button_press_ctrl_set_interrupt_flag(const strip_mask_t mask, const isr_e isr_src)
 {
 	g_interrupt_flag = true;
-	strip_num_e strip_num = strip_bit_to_strip_num(mask);
+	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
 	switch (isr_src)
 	{
 		case ISR_SPEED:
@@ -102,7 +102,7 @@ void task_button_press_ctrl_set_interrupt_flag(const strip_mask_t mask, const is
 bool task_button_press_ctrl_interrupt_flag(const strip_mask_t mask, const isr_e isr_src)
 {
 	bool return_val = false;
-	strip_num_e strip_num = strip_bit_to_strip_num(mask);
+	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
 	switch (isr_src)
 	{
 		case ISR_SPEED:
@@ -162,14 +162,14 @@ bool task_button_press_check_interrupts(const strip_mask_t mask)
     else if (task_button_press_ctrl_interrupt_flag(mask, ISR_STATE))
     {
         return_val = true;
-        if (LED_STATE_TWO_COLOR != task_led_current_led_state(strip_bit_to_strip_num((strip_bit_e) mask)))
+        if (LED_STATE_TWO_COLOR != task_led_current_led_state(ws2812_strip_bit_to_strip_num((strip_bit_e) mask)))
         {
         	led_animate_solid_custom_color(mask, LED_COLOR_HEX_BLACK);
         }
     }
     else if (task_button_press_ctrl_interrupt_flag(mask, ISR_PAUSE))
     {
-        while (g_task_led_ctrl[strip_bit_to_strip_num(mask)].led_interrupt_info.pause)
+        while (g_task_led_ctrl[ws2812_strip_bit_to_strip_num(mask)].led_interrupt_info.pause)
         {
             osDelay(10);
         }

@@ -1,5 +1,6 @@
 // SRW
 
+#include "current_monitor.h"
 #include "led_ctrl.h"
 #include "led_ctrl_brightness.h"
 

@@ -115,6 +115,7 @@ bool flash_info_color_enabled(strip_bit_e strip_bit,
 #endif
         // future strip num support goes here!
         default:
+
             while(1); // HW limited to 3 strips
         break;
     }

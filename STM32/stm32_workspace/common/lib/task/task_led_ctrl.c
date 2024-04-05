@@ -426,7 +426,7 @@ static void task_led_iterate(led_state_e led_state, strip_bit_e strip_bit)
 
 led_state_e task_led_current_led_state(const strip_mask_t mask)
 {
-	return g_task_led_ctrl[strip_bit_to_strip_num(mask)].led_state_info.led_state;
+	return g_task_led_ctrl[ws2812_strip_bit_to_strip_num(mask)].led_state_info.led_state;
 }
 
 

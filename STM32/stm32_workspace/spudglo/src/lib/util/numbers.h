@@ -1,6 +1,8 @@
 #if !defined(NUMBERS_H)
 #define NUMBERS_H
 
+#include <stdint.h>
+
 #define UINT24_MAX 		16777215
 #define BITS_PER_BYTE   8
 
