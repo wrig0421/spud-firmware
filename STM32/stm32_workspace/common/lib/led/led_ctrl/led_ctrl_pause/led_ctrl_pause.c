@@ -6,14 +6,9 @@
 
 extern led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS];
 
-void pause_ctrl_clear(strip_num_e strip_num)
+void led_ctrl_pause(const strip_mask_t mask)
 {
-	g_task_led_ctrl[strip_num].led_interrupt_info.pause = false;
-}
-
-
-void pause_ctrl(strip_num_e strip_num)
-{
+	strip_num_e strip_num = strip_bit_to_strip_num(mask);
     static uint8_t flip_or_flop = 1;
     if (flip_or_flop) g_task_led_ctrl[strip_num].led_interrupt_info.pause = true;
     else g_task_led_ctrl[strip_num].led_interrupt_info.pause = false;

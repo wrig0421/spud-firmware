@@ -1,15 +1,15 @@
 // SRW
-
+#include <stdint.h>
 #include "ws2812b.h"
 #include "led_ctrl.h"
 #include "led_ctrl_speed.h"
 
 extern led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS];
 
-float speed_ctrl(strip_num_e strip_num)
+float led_ctrl_speed(const strip_mask_t mask)
 {
     float speed_factor = 0.0;
-    switch(g_task_led_ctrl[strip_num].led_speed)
+    switch(g_task_led_ctrl[strip_bit_to_strip_num(mask)].led_speed)
     {
         case LED_SPEED_10X: speed_factor = 10.0f; break;
         case LED_SPEED_5X: speed_factor = 5.0f; break;
@@ -22,8 +22,9 @@ float speed_ctrl(strip_num_e strip_num)
 }
 
 
-void speed_ctrl_adjust(strip_num_e strip_num)
+void led_ctrl_speed_adjust(const strip_mask_t mask)
 {
+	strip_num_e strip_num = strip_bit_to_strip_num(mask);
     if (LED_SPEED_FIRST == g_task_led_ctrl[strip_num].led_speed)
 	{
     	g_task_led_ctrl[strip_num].led_speed = LED_SPEED_LAST;
@@ -35,7 +36,10 @@ void speed_ctrl_adjust(strip_num_e strip_num)
 }
 
 
-void speed_ctrl_reset(strip_num_e strip_num)
+void led_ctrl_speed_reset(const strip_mask_t mask)
 {
-	g_task_led_ctrl[strip_num].led_speed = LED_SPEED_1X;
+	g_task_led_ctrl[strip_bit_to_strip_num(mask)].led_speed = LED_SPEED_1X;
 }
+
+
+

@@ -322,13 +322,13 @@ static void task_led_ctrl_adjust_parameters(strip_num_e strip_num)
 	bool skip_color_check = false;
 
 	led_ctrl_state_info_t *task_led_ctrl_state_info = &g_task_led_ctrl[strip_num].led_state_info;
-	led_color_ctrl_info_t *task_color_ctrl_info = &g_task_led_ctrl[strip_num].led_color_info;
+	led_ctrl_color_info_t *led_ctrl_color_info = &g_task_led_ctrl[strip_num].led_color_info;
 	led_ctrl_state_iterations_t *task_led_ctrl_state_iterations = &g_task_led_ctrl_state_iterations[task_led_ctrl_state_info->led_state];
 
 	task_led_ctrl_state_info->led_state_current_iteration++;
     if (0 < (task_led_ctrl_state_iterations->led_state_iteration_delay_ms))
     {
-    	if (task_led_ctrl_delay(task_led_ctrl_state_iterations->led_state_iteration_delay_ms))
+    	if (led_ctrl_delay(task_led_ctrl_state_iterations->led_state_iteration_delay_ms))
     	{
     		skip_color_check = true;
     	}
@@ -342,16 +342,16 @@ static void task_led_ctrl_adjust_parameters(strip_num_e strip_num)
             task_led_ctrl_state_info->led_state_current_iteration = 0;
         }
     }
-    if ((!skip_color_check) && (LED_COLOR_MASTER_STATE_DEMO == task_color_ctrl_info->led_color_master))
+    if ((!skip_color_check) && (LED_COLOR_MASTER_STATE_DEMO == led_ctrl_color_info->led_color_master))
 	{
     	if (LED_STATE_TWO_COLOR == task_led_ctrl_state_info->led_state)
     	{
-    		task_color_ctrl_random_input(&g_two_color_inner);
-    		task_color_ctrl_random_input(&g_two_color_outer);
+    		led_ctrl_color_random_input(&g_two_color_inner);
+    		led_ctrl_color_random_input(&g_two_color_outer);
     	}
     	else
     	{
-    		task_color_ctrl_random(strip_num);
+    		led_ctrl_color_random(strip_num);
     	}
 	}
 }
@@ -364,7 +364,7 @@ static void task_led_iterate(led_state_e led_state, strip_bit_e strip_bit)
 		switch(led_state)
 		{
 			case LED_STATE_SPELL:
-				led_animate_only_spell_word(strip_bit, task_color_ctrl_hex(), 20);
+				led_animate_only_spell_word(strip_bit, led_ctrl_color_hex(strip_bit), 20);
 
 			break;
 			case LED_STATE_WHITE_COLOR:
@@ -372,7 +372,7 @@ static void task_led_iterate(led_state_e led_state, strip_bit_e strip_bit)
 //				if (LED_CTRL_STATE_MASTER_FIXED == g_task_led_ctrl.led_state_master)
 //				{
 //					task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_5, TASK_LED_CTRL_DELAY_MS_1000);
-//					task_led_ctrl_delay(1000);
+//					led_ctrl_delay(1000);
 //				}
 //				else
 //				{
@@ -381,11 +381,11 @@ static void task_led_iterate(led_state_e led_state, strip_bit_e strip_bit)
 //				}
 			break;
 			case LED_STATE_SOLID_COLOR:
-				led_animate_solid_custom_color((uint16_t)strip_bit, task_color_ctrl_hex());
+				led_animate_solid_custom_color((uint16_t)strip_bit, led_ctrl_color_hex(strip_bit));
 //				if (LED_CTRL_STATE_MASTER_FIXED == g_task_led_ctrl.led_state_master)
 //				{
 //					task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_5, TASK_LED_CTRL_DELAY_MS_1000);
-//					task_led_ctrl_delay(1000);
+//					led_ctrl_delay(1000);
 //				}
 //				else task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_5, TASK_LED_CTRL_DELAY_MS_5000);
 			break;
@@ -400,17 +400,17 @@ static void task_led_iterate(led_state_e led_state, strip_bit_e strip_bit)
 				led_animate_rainbow_cycle(strip_bit, 0);//10);
 			break;
 			case LED_STATE_THEATER_CHASE:
-				led_animate_theater_chase(strip_bit, task_color_ctrl_hex(), 20);
+				led_animate_theater_chase(strip_bit, led_ctrl_color_hex(strip_bit), 20);
 			break;
 			case LED_STATE_THEATER_CHASE_RAINBOW:\
 				led_animate_theater_chase_rainbow(strip_bit, 20);
 			break;
 			case LED_STATE_FADE_IN_AND_OUT:
-				led_animate_fade_in_fade_out((uint16_t)strip_bit, task_color_ctrl_hex());
+				led_animate_fade_in_fade_out((uint16_t)strip_bit, led_ctrl_color_hex(strip_bit));
 			break;
 			case LED_STATE_TWINKLE:
 				led_animate_turn_all_pixels_off();
-				led_animate_twinkle(strip_bit, task_color_ctrl_hex(), (uint32_t)((float)NUM_LEDS * (float)0.9), 20, false);
+				led_animate_twinkle(strip_bit, led_ctrl_color_hex(strip_bit), (uint32_t)((float)NUM_LEDS * (float)0.9), 20, false);
 			break;
 			case LED_STATE_TWO_COLOR:
 				led_animate_set_pixels_in_range(strip_bit, 0, 279, g_color_hex_codes[g_two_color_outer]);

@@ -19,10 +19,10 @@ bool led_ctrl_delay(const uint32_t time_ms)
 }
 
 
-float led_ctrl_delay_time(strip_num_e strip_num)
-{
-    return ((float)g_delay_in_animation_ms / task_speed_ctrl());
-}
+//float led_ctrl_delay_time(strip_num_e strip_num)
+//{
+//    return ((float)g_delay_in_animation_ms / led_ctrl_speed(mask));
+//}
 
 
 

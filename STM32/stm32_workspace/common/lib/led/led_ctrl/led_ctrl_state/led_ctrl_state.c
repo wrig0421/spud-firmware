@@ -6,8 +6,9 @@
 
 extern led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS];
 
-void led_state_ctrl_iteration_reset(strip_num_e strip_num)
+void led_state_ctrl_iteration_reset(const strip_mask_t mask)
 {
+	strip_num_e strip_num = strip_bit_to_strip_num(mask);
 	g_task_led_ctrl[strip_num].led_state_info.led_state_current_iteration = 0;
 }
 
@@ -24,14 +25,16 @@ led_state_e led_state_ctrl_random_state(const led_state_e cur_state)
 }
 
 
-led_state_e led_state_ctrl_state(strip_num_e strip_num)
+led_state_e led_state_ctrl_state(const strip_mask_t mask)
 {
+	strip_num_e strip_num = strip_bit_to_strip_num(mask);
     return g_task_led_ctrl[strip_num].led_state_info.led_state;
 }
 
 
-bool led_state_ctrl_adjust_state(strip_num_e strip_num)
+bool led_state_ctrl_adjust_state(const strip_mask_t mask)
 {
+	strip_num_e strip_num = strip_bit_to_strip_num(mask);
     bool return_val = false;
     if (LED_STATE_LAST == g_task_led_ctrl[strip_num].led_state_info.led_state)
     {
@@ -46,22 +49,25 @@ bool led_state_ctrl_adjust_state(strip_num_e strip_num)
 }
 
 
-void led_state_ctrl_force_fixed_state(strip_num_e strip_num)
+void led_state_ctrl_force_fixed_state(const strip_mask_t mask)
 {
+	strip_num_e strip_num = strip_bit_to_strip_num(mask);
 	g_task_led_ctrl[strip_num].led_state_info.led_state_master = LED_CTRL_STATE_MASTER_FIXED;
 }
 
 
-void led_state_ctrl_force_demo(strip_num_e strip_num)
+void led_state_ctrl_force_demo(const strip_mask_t mask)
 {
+	strip_num_e strip_num = strip_bit_to_strip_num(mask);
 	g_task_led_ctrl[strip_num].led_state_info.led_state_master = LED_CTRL_STATE_MASTER_DEMO;
 	g_task_led_ctrl[strip_num].led_state_info.led_state = LED_STATE_FIRST; // set first state
 	g_task_led_ctrl[strip_num].led_state_info.led_state_current_iteration = 0; // set first state
 }
 
 
-led_ctrl_state_master_e led_state_ctrl_master_state(strip_num_e strip_num)
+led_ctrl_state_master_e led_state_ctrl_master_state(const strip_mask_t mask)
 {
+	strip_num_e strip_num = strip_bit_to_strip_num(mask);
     return g_task_led_ctrl[strip_num].led_state_info.led_state_master;
 }
 

@@ -21,11 +21,13 @@ typedef struct
 typedef struct
 {
 	led_ctrl_state_info_t		led_state_info;
-	led_color_ctrl_info_t		led_color_info;
+	led_ctrl_color_info_t		led_color_info;
 	led_ctrl_interrupt_info_t	led_interrupt_info;
 	led_speed_e					led_speed;
 	led_brightness_e			led_brightness;
 } led_ctrl_t;
 
+
+bool led_ctrl_delay(const uint32_t time_ms);
 
 #endif

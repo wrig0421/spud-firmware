@@ -3,6 +3,7 @@
 #define LED_CTRL_STATE_H
 
 #include <stdint.h>
+#include "ws2812b.h"
 
 typedef enum
 {
@@ -89,6 +90,24 @@ typedef struct
 } led_ctrl_state_iterations_t;
 
 
+void led_state_ctrl_iteration_reset(const strip_mask_t mask);
+led_state_e led_state_ctrl_random_state(const led_state_e cur_state);
+led_state_e led_state_ctrl_state(const strip_mask_t mask);
+bool led_state_ctrl_adjust_state(const strip_mask_t mask);
+void led_state_ctrl_force_fixed_state(const strip_mask_t mask);
+void led_state_ctrl_force_demo(const strip_mask_t mask);
+led_ctrl_state_master_e led_state_ctrl_master_state(const strip_mask_t mask);
+void led_state_ctrl_color_decrement_inner_color(void);
+void led_state_ctrl_color_decrement_outer_color(void);
+void led_state_ctrl_color_increment_inner_color(void);
+void led_state_ctrl_color_increment_outer_color(void);
+
+
+
+void led_state_ctrl_color_decrement_inner_color(void);
+void led_state_ctrl_color_decrement_outer_color(void);
+void led_state_ctrl_color_increment_inner_color(void);
+void led_state_ctrl_color_increment_outer_color(void);
 
 
 #endif
