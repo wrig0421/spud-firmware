@@ -413,8 +413,8 @@ static void task_led_iterate(led_state_e led_state, strip_bit_e strip_bit)
 				led_animate_twinkle(strip_bit, task_color_ctrl_hex(), (uint32_t)((float)NUM_LEDS * (float)0.9), 20, false);
 			break;
 			case LED_STATE_TWO_COLOR:
-				led_animate_set_pixels_in_range(0, 279, g_color_hex_codes[g_two_color_outer]);
-				led_animate_set_pixels_in_range(280, 390, g_color_hex_codes[g_two_color_inner]);
+				led_animate_set_pixels_in_range(strip_bit, 0, 279, g_color_hex_codes[g_two_color_outer]);
+				led_animate_set_pixels_in_range(strip_bit, 280, 390, g_color_hex_codes[g_two_color_inner]);
 			break;
 			break;
 			default:
@@ -426,7 +426,6 @@ static void task_led_iterate(led_state_e led_state, strip_bit_e strip_bit)
 
 led_state_e task_led_current_led_state(const strip_mask_t mask)
 {
-
 	return g_task_led_ctrl[strip_bit_to_strip_num(mask)].led_state_info.led_state;
 }
 
@@ -435,7 +434,7 @@ void task_led_1_ctrl(void *argument)
 {
 	while (1)
 	{
-		task_led_iterate(g_task_led_ctrl[STRIP_NUM_1].led_state, STRIP_BIT_1);
+		task_led_iterate(g_task_led_ctrl[STRIP_NUM_1].led_state_info.led_state, STRIP_BIT_1);
 		task_led_ctrl_adjust_parameters(STRIP_NUM_1);
 	}
 }
@@ -445,7 +444,7 @@ void task_led_2_ctrl(void *argument)
 {
 	while (1)
 	{
-		task_led_iterate(g_task_led_ctrl[STRIP_NUM_2].led_state, STRIP_BIT_2);
+		task_led_iterate(g_task_led_ctrl[STRIP_NUM_2].led_state_info.led_state, STRIP_BIT_2);
 		task_led_ctrl_adjust_parameters(STRIP_NUM_2);
 	}
 }
@@ -455,7 +454,7 @@ void task_led_3_ctrl(void *argument)
 {
 	while (1)
 	{
-		task_led_iterate(g_task_led_ctrl[STRIP_NUM_3].led_state, STRIP_BIT_3);
+		task_led_iterate(g_task_led_ctrl[STRIP_NUM_3].led_state_info.led_state, STRIP_BIT_3);
 		task_led_ctrl_adjust_parameters(STRIP_NUM_3);
 	}
 }

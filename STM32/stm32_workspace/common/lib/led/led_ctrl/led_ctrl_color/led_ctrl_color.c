@@ -1,9 +1,12 @@
 // SRW
 
 #include "led_ctrl.h"
+#include "led_color.h"
 #include "led_ctrl_color.h"
 
 extern led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS];
+extern led_color_hex_code_e g_color_hex_codes[NUM_COLORS];
+
 
 led_color_master_state_e led_color_ctrl_master_state(strip_num_e strip_num)
 {

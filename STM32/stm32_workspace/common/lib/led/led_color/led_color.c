@@ -10,7 +10,7 @@
 #include "task_led_ctrl.h"
 
 
-led_color_t g_led_color_current_strip_color[NUM_SUPPORTED_STRIPS] =
+led_color_t g_led_color_current_strip_color[NUM_SUPPORTED_STRIP_COMBOS] =
 {
 	[STRIP_NUM_1].color_hex 				= LED_COLOR_WHITE,
 	[STRIP_NUM_2].color_hex 				= LED_COLOR_WHITE,
@@ -24,16 +24,18 @@ led_color_t g_led_color_current_strip_color[NUM_SUPPORTED_STRIPS] =
 };
 
 
-void led_color_set_current_strip_color(strip_num_e strip_num,
+void led_color_set_current_strip_color(const strip_mask_t mask,
 									   led_color_hex_code_e color_hex_code)
 {
+	strip_num_e strip_num = strip_bit_to_strip_num(mask);
 	g_led_color_current_strip_color[strip_num].color_hex = color_hex_code;
 }
 
 
-void led_color_strip_color(strip_num_e strip_num, led_color_t* led_color)
+void led_color_strip_color(const strip_mask_t mask, led_color_t* led_color)
 {
-	*led_color = g_led_color_current_strip_color[strip_num];
+	strip_num_e strip_num = strip_bit_to_strip_num(mask);
+	led_color = &g_led_color_current_strip_color[strip_num];
 }
 
 //led_color_t g_led_color[NUM_COLORS] =
@@ -67,32 +69,32 @@ void led_color_strip_color(strip_num_e strip_num, led_color_t* led_color)
 //
 //
 //
-//led_color_hex_code_e g_color_hex_codes[NUM_COLORS] =
-//{
-//    [LED_COLOR_RED] = LED_COLOR_HEX_RED,
-//	[LED_COLOR_WHITE] = LED_COLOR_HEX_WHITE,
-//    [LED_COLOR_LIME] = LED_COLOR_HEX_LIME,
-//    [LED_COLOR_BLUE] = LED_COLOR_HEX_BLUE,
-//    [LED_COLOR_YELLOW] = LED_COLOR_HEX_YELLOW,
-//    [LED_COLOR_CYAN] = LED_COLOR_HEX_CYAN,
-//    [LED_COLOR_MAGENTA] = LED_COLOR_HEX_MAGENTA,
-//    [LED_COLOR_GREEN] = LED_COLOR_HEX_GREEN,
-//    [LED_COLOR_PURPLE] = LED_COLOR_HEX_PURPLE,
-//    [LED_COLOR_TEAL] = LED_COLOR_HEX_TEAL,
-//    [LED_COLOR_NAVY] = LED_COLOR_HEX_NAVY,
-//    [LED_COLOR_ORANGE_RED] = LED_COLOR_HEX_ORANGE_RED,
-//    [LED_COLOR_ORANGE] = LED_COLOR_HEX_ORANGE,
-//    [LED_COLOR_KHAKI] = LED_COLOR_HEX_KHAKI,
-//    [LED_COLOR_LAWN_GREEN] = LED_COLOR_HEX_LAWN_GREEN,
-//    [LED_COLOR_SPRING_GREEN] = LED_COLOR_HEX_SPRING_GREEN,
-//    [LED_COLOR_MIDNIGHT_BLUE] = LED_COLOR_HEX_MIDNIGHT_BLUE,
-//    [LED_COLOR_BLUE_VIOLET] = LED_COLOR_HEX_BLUE_VIOLET,
-//    [LED_COLOR_DARK_MAGENTA] = LED_COLOR_HEX_DARK_MAGENTA,
-//    [LED_COLOR_HOT_PINK] = LED_COLOR_HEX_HOT_PINK,
-//    [LED_COLOR_MINT] = LED_COLOR_HEX_MINT,
-//    //[LED_COLOR_GRAY] = LED_COLOR_HEX_GRAY,
-//    [LED_COLOR_BROWN] = LED_COLOR_HEX_BROWN
-//};
+led_color_hex_code_e g_color_hex_codes[NUM_COLORS] =
+{
+    [LED_COLOR_RED] = LED_COLOR_HEX_RED,
+	[LED_COLOR_WHITE] = LED_COLOR_HEX_WHITE,
+    [LED_COLOR_LIME] = LED_COLOR_HEX_LIME,
+    [LED_COLOR_BLUE] = LED_COLOR_HEX_BLUE,
+    [LED_COLOR_YELLOW] = LED_COLOR_HEX_YELLOW,
+    [LED_COLOR_CYAN] = LED_COLOR_HEX_CYAN,
+    [LED_COLOR_MAGENTA] = LED_COLOR_HEX_MAGENTA,
+    [LED_COLOR_GREEN] = LED_COLOR_HEX_GREEN,
+    [LED_COLOR_PURPLE] = LED_COLOR_HEX_PURPLE,
+    [LED_COLOR_TEAL] = LED_COLOR_HEX_TEAL,
+    [LED_COLOR_NAVY] = LED_COLOR_HEX_NAVY,
+    [LED_COLOR_ORANGE_RED] = LED_COLOR_HEX_ORANGE_RED,
+    [LED_COLOR_ORANGE] = LED_COLOR_HEX_ORANGE,
+    [LED_COLOR_KHAKI] = LED_COLOR_HEX_KHAKI,
+    [LED_COLOR_LAWN_GREEN] = LED_COLOR_HEX_LAWN_GREEN,
+    [LED_COLOR_SPRING_GREEN] = LED_COLOR_HEX_SPRING_GREEN,
+    [LED_COLOR_MIDNIGHT_BLUE] = LED_COLOR_HEX_MIDNIGHT_BLUE,
+    [LED_COLOR_BLUE_VIOLET] = LED_COLOR_HEX_BLUE_VIOLET,
+    [LED_COLOR_DARK_MAGENTA] = LED_COLOR_HEX_DARK_MAGENTA,
+    [LED_COLOR_HOT_PINK] = LED_COLOR_HEX_HOT_PINK,
+    [LED_COLOR_MINT] = LED_COLOR_HEX_MINT,
+//    [LED_COLOR_GRAY] = LED_COLOR_HEX_GRAY,
+    [LED_COLOR_BROWN] = LED_COLOR_HEX_BROWN
+};
 //
 //
 //void led_color_hex_to_rgb(const led_color_hex_code_e)

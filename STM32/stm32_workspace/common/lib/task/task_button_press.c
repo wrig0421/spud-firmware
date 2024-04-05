@@ -16,6 +16,8 @@
 #include "gpio_config_hal_specific.h"
 #include "gpio_access_hal.h"
 #include "ws2812b.h"
+#include "led_ctrl.h"
+#include "task_notify.h"
 #include "led_animate.h"
 
 #define 	SWITCH_HISTORY_DEPTH                		5
@@ -24,7 +26,7 @@
 uint32_t 	g_button_press_timestamp[NUM_PUSH_BUTTONS][NUM_TIMESTAMPS];
 bool 		g_task_button_press_major_change        = false;
 
-extern led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIPS];
+extern led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS];
 
 bool g_interrupt_flag = false;
 
@@ -225,24 +227,24 @@ void task_button_press(void *argument)
     while (1)
     {
     	// wait for task notification from button interrupt.
-        xTaskNotifyWait(0, g_task_notification_value, &g_task_notification_value, portMAX_DELAY);
+        xTaskNotifyWait(0, g_task_notification_value.value, &g_task_notification_value.value, portMAX_DELAY);
         //xTaskNotifyWait(0, button_pressed_bit, &button_pressed_bit, portMAX_DELAY);
         // button_pressed_bit is passed through notification.  Convert to the button pressed enum.
 //        pushed_button = (board_init_push_buttons_e) button_pressed_bit;
-        pushed_button = (board_init_push_buttons_e) g_task_notification_value;
+        pushed_button = (board_init_push_buttons_e) g_task_notification_value.value;
 #if !defined(BOARD_SPUDGLO_V5) && !defined(BOARD_SPUDGLO_V6) && !defined(BOARD_SPUDGLO_V7)
         HAL_GPIO_WritePin(gpio_config_port_lookup(GPIO_PIOB_INT_LVL_EN), gpio_config_pin_lookup(GPIO_PIOB_INT_LVL_EN), GPIO_PIN_RESET);
         osDelay(700);
         HAL_GPIO_WritePin(gpio_config_port_lookup(GPIO_PIOB_INT_LVL_EN), gpio_config_pin_lookup(GPIO_PIOB_INT_LVL_EN), GPIO_PIN_SET);
 #endif
-        if (LED_STATE_TWO_COLOR == task_led_current_led_state())
-		{
-			g_two_color_active = true;
-		}
-		else
-		{
-			g_two_color_active = false;
-		}
+//        if (LED_STATE_TWO_COLOR == task_led_current_led_state())
+//		{
+//			g_two_color_active = true;
+//		}
+//		else
+//		{
+//			g_two_color_active = false;
+//		}
         // get the pin for button pressed
         switch (pushed_button)
         {
@@ -263,7 +265,7 @@ void task_button_press(void *argument)
     		g_low_count_hundred_milliseconds++;
 		}
         // set flag to signal that a button interrupt was received!
-        task_button_press_ctrl_set_interrupt_flag(task_led_ctrl_button_to_isr(pushed_button));
+        task_button_press_ctrl_set_interrupt_flag(STRIP_BIT_ALL_SET, task_led_ctrl_button_to_isr(pushed_button));
         // check if the button was held down longer than SWITCH_MAJOR_STATE_CHANGE_TIME_MILLISECONDS
         if ((g_low_count_hundred_milliseconds * 100) > SWITCH_MAJOR_STATE_CHANGE_TIME_MILLISECONDS)
         {
@@ -310,24 +312,18 @@ void task_button_press(void *argument)
                 break;
             }
             
-            led_color_t led_color = color;
-            led_color_hex_to_rgb(LED_COLOR_HEX_BLACK, color_rgb);
-			led_animate_set_all_pixels((uint16_t)STRIP_BIT_ALL_SET, led_color.color_rgb.red], \
-					led_color.color_rgb.green,
-					led_color.color_rgb.blue);
+            led_color_t led_color;
+            led_color.color_hex = LED_COLOR_HEX_BLACK;
+			led_animate_set_all_pixels((uint16_t)STRIP_BIT_ALL_SET, &led_color);
 			osDelay(500);
             for (uint8_t iii = 0; iii < 3; iii++)
             {
             	// flash the LEDs on the sign signalling that a master state change was made!
-            	led_color_t led_color = color;
-                led_animate_set_all_pixels((uint16_t)STRIP_BIT_ALL_SET, led_color.color_rgb.red], \
-                		led_color.color_rgb.green,
-            			led_color.color_rgb.blue);
+            	led_color.color_hex = LED_COLOR_HEX_GREEN;
+                led_animate_set_all_pixels((uint16_t)STRIP_BIT_ALL_SET, &led_color);
                 osDelay(500);
-            	led_color_hex_to_rgb(LED_COLOR_HEX_BLACK, color_rgb);
-                led_animate_set_all_pixels((uint16_t)STRIP_BIT_ALL_SET, led_color.color_rgb.red], \
-                		led_color.color_rgb.green,
-            			led_color.color_rgb.blue);
+            	led_color.color_hex = LED_COLOR_HEX_BLACK;
+                led_animate_set_all_pixels((uint16_t)STRIP_BIT_ALL_SET, &led_color);
                 osDelay(500);
             }
             g_major_state_change_signal_cmplt = true;

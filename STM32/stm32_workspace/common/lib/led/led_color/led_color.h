@@ -4,8 +4,8 @@
  ***********************************/
 #if !defined(LED_COLOR_H)
 #define LED_COLOR_H
-
 #include "ws2812b.h"
+
 
 typedef enum
 {
@@ -59,6 +59,7 @@ typedef union
 } led_color_t;
 
 
+
 // colors actively used are selected below
 typedef enum
 {
@@ -102,9 +103,10 @@ typedef enum
 } led_color_e;
 
 
-void led_color_hex_to_rgb(const led_color_hex_code_e color, uint8_t *color_array);
-void led_color_strip_color(strip_num_e strip_num, led_color_t* led_color);
 
+void led_color_set_current_strip_color(const strip_mask_t mask,
+									   led_color_hex_code_e color_hex_code);
+void led_color_strip_color(const strip_mask_t mask, led_color_t* led_color);
 
 #endif
 

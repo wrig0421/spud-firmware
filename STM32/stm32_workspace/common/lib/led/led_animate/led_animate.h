@@ -12,12 +12,10 @@
 #include "ws2812b.h"
 #include "led_ctrl_color.h"
 
-
+void led_animate_set_pixel(const strip_mask_t mask, const uint16_t pixel, led_color_t* led_color);
 void led_animate_show_strip(const strip_mask_t strip_mask);
-void led_animate_set_pixel(const strip_mask_t mask, const uint16_t pixel, const uint8_t red, const uint8_t green,
-                           const uint8_t blue);
-void led_animate_set_pixels_in_range(uint16_t start, uint16_t stop, const led_color_hex_code_e color);
-void led_animate_set_all_pixels(const strip_mask_t mask, const uint8_t red, const uint8_t green, const uint8_t blue);
+void led_animate_set_all_pixels(const strip_mask_t mask, led_color_t* led_color);
+void led_animate_set_pixels_in_range(const strip_mask_t mask, uint16_t start, uint16_t stop, const led_color_hex_code_e color);
 void led_animate_multiple_solid_custom_colors(const strip_mask_t mask_solid, const uint32_t* color_array);
 void led_animate_solid_custom_color(const strip_mask_t mask_solid, const led_color_hex_code_e color_spell);
 void led_animate_turn_all_pixels_off(void);
@@ -48,7 +46,6 @@ void led_animate_sparkle(const strip_mask_t mask_sparkle, const led_color_hex_co
                          const uint16_t speed_delay);
 void led_animate_running_lights(const strip_mask_t mask_running_lights, const led_color_hex_code_e color_running_lights);
 void led_animate_rainbow_cycle(const strip_mask_t mask_rainbow_cycle, const uint16_t speed_delay);
-uint8_t* led_animate_wheel(uint8_t wheel_pos);
 void led_animate_theater_chase_multiple_colors(const strip_mask_t mask_theater_chase, const uint32_t* color_array,
                                                const uint16_t speed_delay);
 void led_animate_theater_chase(const strip_mask_t mask_theater_chase, const led_color_hex_code_e color_theater_chase,

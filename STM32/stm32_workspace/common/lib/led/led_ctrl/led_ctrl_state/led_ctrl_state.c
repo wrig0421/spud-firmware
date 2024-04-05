@@ -56,7 +56,7 @@ void led_state_ctrl_force_demo(strip_num_e strip_num)
 {
 	g_task_led_ctrl[strip_num].led_state_info.led_state_master = LED_CTRL_STATE_MASTER_DEMO;
 	g_task_led_ctrl[strip_num].led_state_info.led_state = LED_STATE_FIRST; // set first state
-    g_animation_iterations = 0;
+	g_task_led_ctrl[strip_num].led_state_info.led_state_current_iteration = 0; // set first state
 }
 
 
@@ -68,53 +68,53 @@ led_ctrl_state_master_e led_state_ctrl_master_state(strip_num_e strip_num)
 
 void led_state_ctrl_color_decrement_inner_color(void)
 {
-	if (LED_COLOR_FIRST == g_two_color_inner)
-	{
-		g_two_color_inner = LED_COLOR_LAST;
-	}
-	else
-	{
-		g_two_color_inner = (led_color_e) (g_two_color_inner - 1);
-	}
+//	if (LED_COLOR_FIRST == g_two_color_inner)
+//	{
+//		g_two_color_inner = LED_COLOR_LAST;
+//	}
+//	else
+//	{
+//		g_two_color_inner = (led_color_e) (g_two_color_inner - 1);
+//	}
 }
 
 
 void led_state_ctrl_color_decrement_outer_color(void)
 {
-	if (LED_COLOR_FIRST == g_two_color_outer)
-	{
-		g_two_color_outer = LED_COLOR_LAST;
-	}
-	else
-	{
-		g_two_color_outer = (led_color_e) (g_two_color_outer - 1);
-	}
+//	if (LED_COLOR_FIRST == g_two_color_outer)
+//	{
+//		g_two_color_outer = LED_COLOR_LAST;
+//	}
+//	else
+//	{
+//		g_two_color_outer = (led_color_e) (g_two_color_outer - 1);
+//	}
 }
 
 
 void led_state_ctrl_color_increment_inner_color(void)
 {
-	if (LED_COLOR_LAST == g_two_color_inner)
-	{
-		g_two_color_inner = LED_COLOR_FIRST;
-	}
-	else
-	{
-		g_two_color_inner = (led_color_e) (g_two_color_inner + 1);
-	}
+//	if (LED_COLOR_LAST == g_two_color_inner)
+//	{
+//		g_two_color_inner = LED_COLOR_FIRST;
+//	}
+//	else
+//	{
+//		g_two_color_inner = (led_color_e) (g_two_color_inner + 1);
+//	}
 }
 
 
-void led_state_ctrl_color_decrement_outer_color(void)
+void led_state_ctrl_color_increment_outer_color(void)
 {
-	if (LED_COLOR_LAST == g_two_color_outer)
-	{
-		g_two_color_outer = LED_COLOR_FIRST;
-	}
-	else
-	{
-		g_two_color_outer = (led_color_e) (g_two_color_outer + 1);
-	}
+//	if (LED_COLOR_LAST == g_two_color_outer)
+//	{
+//		g_two_color_outer = LED_COLOR_FIRST;
+//	}
+//	else
+//	{
+//		g_two_color_outer = (led_color_e) (g_two_color_outer + 1);
+//	}
 }
 
 

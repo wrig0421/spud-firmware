@@ -28,7 +28,7 @@ void task_button_press_interrupt_flag_clear(strip_num_e strip_num);
 bool task_button_press_interrupt_major_change(void);
 bool task_button_press_interrupt_occurred(void);
 isr_e task_led_ctrl_button_to_isr(const board_init_push_buttons_e button);
-void task_button_press_ctrl_set_interrupt_flag(const isr_e src);
+void task_button_press_ctrl_set_interrupt_flag(const strip_mask_t mask, const isr_e isr_src);
 bool task_button_press_ctrl_interrupt_flag(const strip_mask_t mask, const isr_e isr_src);
 bool task_button_press_check_interrupts(const strip_mask_t mask);
 void task_button_press(void *argument);

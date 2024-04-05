@@ -8,7 +8,7 @@
 
 #define GENERAL_RX_BUFFER_SIZE 5000
 
-led_state_e task_led_current_led_state(strip_num_e strip_num);
+led_state_e task_led_current_led_state(const strip_mask_t mask);
 void task_led_1_ctrl(void *argument);
 void task_led_2_ctrl(void *argument);
 void task_led_3_ctrl(void *argument);
