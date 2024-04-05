@@ -13,6 +13,10 @@
 #	include "board_init_spudglo_v4/board_init_spudglo_v4.h"
 #elif defined(BOARD_SPUDGLO_V5)
 #	include "board_init_spudglo_v5/board_init_spudglo_v5.h"
+#elif defined(BOARD_SPUDGLO_V6)
+#	include "board_init_spudglo_v6/board_init_spudglo_v6.h"
+#elif defined(BOARD_SPUDGLO_V7)
+#	include "board_init_spudglo_v7/board_init_spudglo_v7.h"
 #else
 #	error "Error - None or unknown board defined!"
 #endif

@@ -2,6 +2,7 @@
 #include "config.h"
 
 #if defined(BOARD_SPUDGLO_V5P0)
+#include "gpio_config_hal.h"
 #include "stm32l4xx_hal.h"
 
 #include "spi_config_hal.h"

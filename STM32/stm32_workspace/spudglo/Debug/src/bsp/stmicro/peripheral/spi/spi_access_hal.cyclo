@@ -1,0 +1,5 @@
+../src/bsp/stmicro/peripheral/spi/spi_access_hal.c:7:6:spi_access_hal_write_byte	2
+../src/bsp/stmicro/peripheral/spi/spi_access_hal.c:16:6:spi_access_hal_write_block	2
+../src/bsp/stmicro/peripheral/spi/spi_access_hal.c:25:6:spi_access_hal_read_byte	2
+../src/bsp/stmicro/peripheral/spi/spi_access_hal.c:34:6:spi_access_hal_read_block	2
+../src/bsp/stmicro/peripheral/spi/spi_access_hal.c:43:6:spi_access_hal_read_and_write_block	2

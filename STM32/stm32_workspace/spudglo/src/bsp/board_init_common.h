@@ -10,10 +10,10 @@
 
 typedef enum
 {
-    PUSH_BUTTON_A = 0,
-    PUSH_BUTTON_B,
-    PUSH_BUTTON_C,
-    PUSH_BUTTON_D,
+    PUSH_BUTTON_A = 0, 	// speed
+    PUSH_BUTTON_B, 		// state
+    PUSH_BUTTON_C, 		// color
+    PUSH_BUTTON_D, 		// pause
     NUM_PUSH_BUTTONS
 } board_init_push_buttons_e;
 

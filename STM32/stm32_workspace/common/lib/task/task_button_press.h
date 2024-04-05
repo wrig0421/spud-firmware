@@ -24,6 +24,7 @@ typedef enum
     NUM_TIMESTAMPS
 } timestamp_e;
 
+void task_button_press_interrupt_flag_clear(strip_num_e strip_num);
 bool task_button_press_interrupt_major_change(void);
 bool task_button_press_interrupt_occurred(void);
 isr_e task_led_ctrl_button_to_isr(const board_init_push_buttons_e button);

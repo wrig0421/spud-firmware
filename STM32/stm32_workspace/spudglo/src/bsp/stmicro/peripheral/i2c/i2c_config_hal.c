@@ -8,7 +8,7 @@ extern uint16_t g_i2c_num_chips_per_bus[NUM_I2C_CONFIG_BUSES];
 extern i2c_handle_t g_i2c_chip_id_handle[NUM_I2C_ACCESS_CHIP_IDS];
 
 
-static i2c_handle_t i2c_config_bus_lookup_from_chip_id(i2c_access_chip_id_e chip_id)
+static i2c_handle_t i2c_config_bus_handle_lookup_from_chip_id(i2c_access_chip_id_e chip_id)
 {
 	for (i2c_config_bus_e bus = I2C_CONFIG_BUS_FIRST; bus < NUM_I2C_CONFIG_BUSES; bus++)
 	{
@@ -23,6 +23,21 @@ static i2c_handle_t i2c_config_bus_lookup_from_chip_id(i2c_access_chip_id_e chip
 	return NULL;
 }
 
+
+i2c_config_bus_e i2c_config_bus_lookup_from_chip_id(i2c_access_chip_id_e chip_id)
+{
+	for (i2c_config_bus_e bus = I2C_CONFIG_BUS_FIRST; bus < NUM_I2C_CONFIG_BUSES; bus++)
+	{
+		for (uint16_t iii = 0; iii < sizeof(g_i2c_chip_bus_lookup[bus]); iii++)
+		{
+			if (g_i2c_chip_bus_lookup[bus][iii] == chip_id)
+			{
+				return bus;
+			}
+		}
+	}
+	return I2C_CONFIG_BUS_INVALID;
+}
 
 
 void i2c_config_hal_setup(void)
@@ -41,7 +56,7 @@ void i2c_config_hal_setup(void)
     	    GPIO_InitStruct.Alternate = g_i2c_config[bus].pin.scl_alt_func;
     	    HAL_GPIO_Init(g_i2c_config[bus].pin.scl_port, &GPIO_InitStruct);
 
-    	    GPIO_InitStruct.Pin       = g_spi_config[bus].pin.sda;
+    	    GPIO_InitStruct.Pin       = g_i2c_config[bus].pin.sda;
     	    GPIO_InitStruct.Mode      = GPIO_MODE_AF_PP;
     	    GPIO_InitStruct.Pull      = GPIO_NOPULL;
     	    GPIO_InitStruct.Speed     = GPIO_SPEED_FREQ_HIGH;
@@ -85,9 +100,9 @@ void i2c_config_hal_setup(void)
 }
 
 
-i2c_handle_t i2c_config_chip_id_to_bus(i2c_access_chip_id_e chip_id)
+i2c_handle_t i2c_config_chip_id_to_bus_handle(i2c_access_chip_id_e chip_id)
 {
-	return i2c_config_bus_lookup_from_chip_id(chip_id);
+	return i2c_config_bus_handle_lookup_from_chip_id(chip_id);
 }
 
 

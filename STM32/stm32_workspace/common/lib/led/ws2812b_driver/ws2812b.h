@@ -35,24 +35,42 @@ typedef enum
 
 typedef enum
 {
-	STRIP_NONE = 0,
-	STRIP_NUM_1 = (1 << 0),
-	STRIP_NUM_2 = (1 << 1),
-	STRIP_NUM_3 = (1 << 2),
-	STRIP_ALL_SET = STRIP_NUM_1 | STRIP_NUM_2 | STRIP_NUM_3,
+	STRIP_NUM_1 = 0,
+	STRIP_NUM_2,
+	STRIP_NUM_3,
+	NUM_SUPPORTED_STRIPS,
+
+	STRIP_NUM_1_AND_2,
+	STRIP_NUM_1_AND_3,
+	STRIP_NUM_2_AND_3,
+	STRIP_NUM_ALL_SET,
+
+	STRIP_NUM_INVALID,
+
 	NUM_STRIPS = NUM_ACTIVE_STRIPS,
-    ALL_STRIPS = NUM_STRIPS
+	ALL_STRIPS = NUM_STRIPS
 } strip_num_e;
 
 
-//typedef enum
-//{
-//	STRIP_BIT_NONE_SET = 0,
-//	STRIP_NUM_3 = (1 << 0),
-//	STRIP_BIT_2 = (1 << 1),
-//	STRIP_BIT_3 = (1 << 2),
-//	STRIP_ALL_SET = STRIP_NUM_1 | STRIP_BIT_2 | STRIP_BIT_3
-//} strip_bit_e;
+typedef enum
+{
+	STRIP_BIT_NONE 		= 0,
+	STRIP_BIT_1 		= (1 << 0),
+	STRIP_BIT_2 		= (1 << 1),
+	STRIP_BIT_3 		= (1 << 2),
+
+	STRIP_BIT_1_AND_2	= STRIP_BIT_1 | STRIP_BIT_2,
+	STRIP_BIT_1_AND_3	= STRIP_BIT_1 | STRIP_BIT_3,
+	STRIP_BIT_2_AND_3	= STRIP_BIT_2 | STRIP_BIT_3,
+
+#if defined(ENABLE_STRIP_3)
+	STRIP_BIT_ALL_SET 		= STRIP_BIT_1 | STRIP_BIT_2 | STRIP_BIT_3,
+#elif defined(ENABLE_STRIP_2)
+	STRIP_BIT_ALL_SET 		= STRIP_BIT_1 | STRIP_BIT_2,
+#elif defined(ENABLE_STRIP_1)
+	STRIP_BIT_ALL_SET 		= STRIP_BIT_1,
+#endif
+} strip_bit_e;
 
 
 typedef struct
@@ -76,14 +94,19 @@ typedef uint16_t* p_pwm_data_t;
 
 
 void reset_ws2812b(void);
-uint16_t ws2812_get_strip_size(const strip_num_e strip_num);
+strip_num_e strip_bit_to_strip_num(strip_bit_e strip_bit);
+strip_bit_e ws2812_strip_num_to_bit(strip_num_e strip_bit);
+strip_num_e ws2812_strip_bit_to_num(strip_bit_e strip_bit);
+
+
+uint16_t ws2812_get_strip_size(const strip_bit_e strip_bit);
 uint16_t ws2812_get_number_of_active_strips(const strip_mask_t strip_mask);
 uint16_t ws2812_get_num_active_animation_leds(const strip_mask_t strip_mask);
 uint16_t ws2812_led_get_max_strip_size(const strip_mask_t strip_mask);
-bool ws2812_pixel_is_in_strip_range(const strip_num_e strip_num, const uint16_t pixel);
-void ws2812b_set_led(const strip_num_e strip_num, const uint16_t led_num, const color_t red, const color_t green,
+bool ws2812_pixel_is_in_strip_range(const strip_bit_e strip_bit, const uint16_t pixel);
+void ws2812b_set_led(const strip_bit_e strip_bit, const uint16_t led_num, const color_t red, const color_t green,
                      const color_t blue);
-void ws2812b_fill_pwm_buffer_strip(strip_num_e strip_num);
+void ws2812b_fill_pwm_buffer_strip(strip_bit_e strip_bit);
 void ws2812b_reset(void);
 void ws2812b_show_strip_one(void);
 void ws2812b_show_strip_two(void);

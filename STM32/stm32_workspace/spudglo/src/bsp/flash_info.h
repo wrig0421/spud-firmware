@@ -2,8 +2,8 @@
 #if !defined(FLASH_INFO_H)
 #define FLASH_INFO_H
 #include <stdint.h>
-#include "animate_led.h"
-#include "color_led.h"
+#include "led_animate.h"
+#include "led_color.h"
 
 #define FLASH_INFO_SIZE_BYTES                       (512 * 4)
 #define FLASH_USER_SPACE_PAGE_START                 250
@@ -150,13 +150,13 @@ typedef struct
 
 void flash_info_read_unique_id(uint32_t *uuid);
 void flash_access_read_sub_block(flash_info_sub_block_t sub_block, uint32_t* sub_block_uint32);
-bool flash_info_animation_enabled(strip_num_e strip_num,
+bool flash_info_animation_enabled(strip_bit_e strip_bit,
                                   led_state_e animation);
 void flash_info_init(void);
 
-all_colors_e flash_info_read_led_color_current(void);
+led_color_e flash_info_read_led_color_current(void);
 led_state_e flash_info_read_led_animation_current(void);
-void flash_info_write_led_color_current(all_colors_e color);
+void flash_info_write_led_color_current(led_color_e color);
 void flash_info_write_led_animation_current(led_state_e state);
 
 #endif

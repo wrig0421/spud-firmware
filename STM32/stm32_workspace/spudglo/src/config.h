@@ -5,14 +5,16 @@
  *      Author: splat
  */
 
-#ifndef SRC_CONFIG_H_
-#define SRC_CONFIG_H_
+#ifndef CONFIG_H
+#define CONFIG_H
 
 // major.minor.beta
 #define FIRMWARE_VERSION    (0x010101)
 
-// define the board!
-#define BOARD_SPUDGLO_V5P0
+// define the board
+#define BOARD_SPUDGLO_V7P0
+//#define BOARD_SPUDGLO_V6P0
+//#define BOARD_SPUDGLO_V5P0
 //#define BOARD_SPUDGLO_V4P3
 //#define BOARD_SPUDGLO_V4P2
 //#define BOARD_SPUDGLO_V4P1
@@ -21,10 +23,40 @@
 //#define BOARD_SPUD_GLO_V1
 //#define BOARD_MN_WILD_SOUND
 
+#if defined(BOARD_SPUDGLO_V7P0)
+	#define BOARD_SPUDGLO_V7
+#elif defined(BOARD_SPUDGLO_V6P0)
+	#define BOARD_SPUDGLO_V6
+#elif defined(BOARD_SPUDGLO_V5P0)
+	#define BOARD_SPUDGLO_V5
+#elif defined(BOARD_SPUDGLO_V4P3) || defined(BOARD_SPUDGLO_V4P2) || defined(BOARD_SPUDGLO_V4P1)
+	#define BOARD_SPUDGLO_V4
+#endif
+
 // define the number of strips
 #define STRIP_1_LENGTH      20// playstation controller! - 390// vice city 432// shucmacher - 636// skull sign=200 // 151 for SWENSON SIGN /// FLYNN FARM SIGN = 166!!
 #define STRIP_2_LENGTH      0//7
 #define STRIP_3_LENGTH      0
+
+#define ENABLE_STRIP_SYNC
+
+#if defined(STRIP_3_LENGTH) && (0 < STRIP_3_LENGTH)
+	#define ENABLE_STRIP_1
+	#define ENABLE_STRIP_2
+	#define ENABLE_STRIP_3
+	#define NUM_ACTIVE_STRIPS	3
+	#define NUM_LEDS        	STRIP_1_LENGTH + STRIP_2_LENGTH + STRIP_3_LENGTH
+#elif defined(STRIP_2_LENGTH) && (0 < STRIP_2_LENGTH)
+	#define ENABLE_STRIP_1
+	#define ENABLE_STRIP_2
+	#define NUM_ACTIVE_STRIPS	2
+	#define NUM_LEDS        	(STRIP_1_LENGTH + STRIP_2_LENGTH)
+#elif defined(STRIP_1_LENGTH) && (0 < STRIP_1_LENGTH)
+	#define ENABLE_STRIP_1
+	#define NUM_ACTIVE_STRIPS	1
+	#define NUM_LEDS        	STRIP_1_LENGTH
+#endif
+
 
 #define ENABLE_LED_STATE_SPELL
 //#define ENABLE_LED_STATE_WHITE_COLOR
@@ -38,34 +70,5 @@
 #define ENABLE_LED_STATE_FADE_IN_AND_OUT
 #define ENABLE_LED_STATE_TWINKLE
 
-#if defined(BOARD_SPUDGLO_V5P0)
-#define BOARD_SPUDGLO_V5
+
 #endif
-
-#if defined(BOARD_SPUDGLO_V4P3) || defined(BOARD_SPUDGLO_V4P2) || defined(BOARD_SPUDGLO_V4P1)
-#define BOARD_SPUDGLO_V4
-#endif
-
-#if defined(STRIP_3_LENGTH) && (STRIP_3_LENGTH > 0)
-#define NUM_ACTIVE_STRIPS	3
-#define NUM_LEDS        	STRIP_1_LENGTH + STRIP_2_LENGTH + STRIP_3_LENGTH
-#elif defined(STRIP_2_LENGTH) && (STRIP_2_LENGTH > 0)
-#define NUM_ACTIVE_STRIPS	2
-#define NUM_LEDS        (STRIP_1_LENGTH + STRIP_2_LENGTH)
-#elif defined(STRIP_1_LENGTH)
-#define NUM_ACTIVE_STRIPS	1
-#define NUM_LEDS        STRIP_1_LENGTH
-#else
-#error "Error - Invalid number of strips defined!"
-#endif
-
-#if defined(BOARD_SPUD_GLO_V2) || defined(BOARD_SPUD_GLO_V1)
-#define ENABLE_RF_INTERFACE
-#endif
-
-#if defined(STRIP_1_LENGTH) && (defined(STRIP_2_LENGTH) || defined(STRIP_3_LENGTH))
-#define MULTIPLE_STRIPS
-#endif
-
-
-#endif /* SRC_CONFIG_H_ */

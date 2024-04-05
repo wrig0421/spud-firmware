@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include "stm32l4xx_hal.h"
 #include "version.h"
-#include "animate_led.h"
+#include "led_animate.h"
 #include "flash_info.h"
 #include "flash_access.h"
 #include "pkt.h"
@@ -53,7 +53,7 @@ typedef struct
 
     uint32_t                        rand_seed;
 
-    all_colors_e                    strip_current_color;
+    led_color_e                    strip_current_color;
 
     led_state_e                     strip_current_animation;
 
@@ -89,25 +89,25 @@ typedef union
 flash_info_block_t  g_flash_info_block;
 
 
-bool flash_info_color_enabled(strip_num_e strip_num,
-                              all_colors_e color)
+bool flash_info_color_enabled(strip_bit_e strip_bit,
+                              led_color_e color)
 {
     bool return_val = false;
     flash_info_color_select_t strip_color_mask;
-    switch (strip_num)
+    switch (strip_bit)
     {
 #if defined(STRIP_1_LENGTH)
-        case STRIP_NUM_1:
+        case STRIP_BIT_1:
             strip_color_mask = g_flash_info_block.flash_info_data.strip_info.strip_1_color;
         break;
 #endif
 #if defined(STRIP_2_LENGTH)
-        case STRIP_NUM_2:
+        case STRIP_BIT_2:
             strip_color_mask = g_flash_info_block.flash_info_data.strip_info.strip_2_color;
         break;
 #endif
 #if defined(STRIP_3_LENGTH)
-        case STRIP_NUM_3:
+        case STRIP_BIT_3:
             strip_color_mask = g_flash_info_block.flash_info_data.strip_info.strip_3_color;
         break;
 #endif
@@ -118,94 +118,94 @@ bool flash_info_color_enabled(strip_num_e strip_num,
     }
 //    switch (color)
 //    {
-//        case COLORS_RED:
+//        case LED_COLOR_RED:
 //            if (strip_color_mask.red) return_val = true;
 //        break;
-//        case COLORS_DARK_RED:
+//        case LED_COLOR_DARK_RED:
 //            if (strip_color_mask.dark_red) return_val = true;
 //        break;
-//        case COLORS_MAROON:
+//        case LED_COLOR_MAROON:
 //            if (strip_color_mask.maroon) return_val = true;
 //        break;
-//        case COLORS_SALMON:
+//        case LED_COLOR_SALMON:
 //            if (strip_color_mask.salmon) return_val = true;
 //        break;
-//        case COLORS_ORANGE_RED:
+//        case LED_COLOR_ORANGE_RED:
 //            if (strip_color_mask.orange_red) return_val = true;
 //        break;
-//        case COLORS_ORANGE:
+//        case LED_COLOR_ORANGE:
 //            if (strip_color_mask.orange) return_val = true;
 //        break;
-//        case COLORS_GOLD:
+//        case LED_COLOR_GOLD:
 //            if (strip_color_mask.gold) return_val = true;
 //        break;
-//        case COLORS_YELLOW:
+//        case LED_COLOR_YELLOW:
 //            if (strip_color_mask.yellow) return_val = true;
 //        break;
-//        case COLORS_GREEN:
+//        case LED_COLOR_GREEN:
 //            if (strip_color_mask.green) return_val = true;
 //        break;
-//        case COLORS_SPRING_GREEN:
+//        case LED_COLOR_SPRING_GREEN:
 //            if (strip_color_mask.spring_green) return_val = true;
 //        break;
-//        case COLORS_FOREST_GREEN:
+//        case LED_COLOR_FOREST_GREEN:
 //            if (strip_color_mask.forest_green) return_val = true;
 //        break;
-//        case COLORS_TEAL:
+//        case LED_COLOR_TEAL:
 //            if (strip_color_mask.teal) return_val = true;
 //        break;
-//        case COLORS_CYAN:
+//        case LED_COLOR_CYAN:
 //            if (strip_color_mask.cyan) return_val = true;
 //        break;
-//        case COLORS_AQUA_MARINE:
+//        case LED_COLOR_AQUA_MARINE:
 //            if (strip_color_mask.aqua_marine) return_val = true;
 //        break;
-//        case COLORS_BLUE:
+//        case LED_COLOR_BLUE:
 //            if (strip_color_mask.blue) return_val = true;
 //        break;
-//        case COLORS_NAVY:
+//        case LED_COLOR_NAVY:
 //            if (strip_color_mask.navy) return_val = true;
 //        break;
-//        case COLORS_DARK_BLUE:
+//        case LED_COLOR_DARK_BLUE:
 //            if (strip_color_mask.dark_blue) return_val = true;
 //        break;
-//        case COLORS_PURPLE:
+//        case LED_COLOR_PURPLE:
 //            if (strip_color_mask.purple) return_val = true;
 //        break;
-//        case COLORS_VIOLET:
+//        case LED_COLOR_VIOLET:
 //            if (strip_color_mask.violet) return_val = true;
 //        break;
-//        case COLORS_INDIGO:
+//        case LED_COLOR_INDIGO:
 //            if (strip_color_mask.indigo) return_val = true;
 //        break;
-//        case COLORS_PLUM:
+//        case LED_COLOR_PLUM:
 //            if (strip_color_mask.plum) return_val = true;
 //        break;
-//        case COLORS_PINK:
+//        case LED_COLOR_PINK:
 //            if (strip_color_mask.pink) return_val = true;
 //        break;
-//        case COLORS_HOT_PINK:
+//        case LED_COLOR_HOT_PINK:
 //            if (strip_color_mask.hot_pink) return_val = true;
 //        break;
-//        case COLORS_DEEP_PINK:
+//        case LED_COLOR_DEEP_PINK:
 //            if (strip_color_mask.deep_pink) return_val = true;
 //        break;
-//        case COLORS_BROWN:
+//        case LED_COLOR_BROWN:
 //            if (strip_color_mask.brown) return_val = true;
 //        break;
-//        case COLORS_CHOCOLATE:
+//        case LED_COLOR_CHOCOLATE:
 //            if (strip_color_mask.chocolate) return_val = true;
 //        break;
-//        case COLORS_WHITE:
+//        case LED_COLOR_WHITE:
 //            if (strip_color_mask.white) return_val = true;
 //        break;
-//        case COLORS_GRAY:
+//        case LED_COLOR_GRAY:
 //            if (strip_color_mask.gray) return_val = true;
 //        break;
-//        case COLORS_SILVER:
+//        case LED_COLOR_SILVER:
 //            if (strip_color_mask.silver) return_val = true;
 //        break;
-//        case COLORS_BLACK:
+//        case LED_COLOR_BLACK:
 //            if (strip_color_mask.black) return_val = true;
 //        break;
 //        default:
@@ -216,25 +216,25 @@ bool flash_info_color_enabled(strip_num_e strip_num,
 }
 
 
-bool flash_info_animation_enabled(strip_num_e strip_num,
+bool flash_info_animation_enabled(strip_bit_e strip_bit,
                                   led_state_e animation)
 {
     bool return_val = false;
     flash_info_animation_select_t strip_animation_mask;
-    switch (strip_num)
+    switch (strip_bit)
     {
 #if defined(STRIP_1_LENGTH)
-        case STRIP_NUM_1:
+        case STRIP_BIT_1:
             strip_animation_mask = g_flash_info_block.flash_info_data.strip_info.strip_1_animation;
         break;
 #endif
 #if defined(STRIP_2_LENGTH)
-        case STRIP_NUM_2:
+        case STRIP_BIT_2:
             strip_animation_mask = g_flash_info_block.flash_info_data.strip_info.strip_2_animation;
         break;
 #endif
 #if defined(STRIP_3_LENGTH)
-        case STRIP_NUM_3:
+        case STRIP_BIT_3:
             strip_animation_mask = g_flash_info_block.flash_info_data.strip_info.strip_3_animation;
         break;
 #endif
@@ -286,24 +286,24 @@ bool flash_info_animation_enabled(strip_num_e strip_num,
 
 
 // function to return the brightness enabled on a particular strip!
-led_brightness_e flash_info_strip_brightness(strip_num_e strip_num)
+led_brightness_e flash_info_strip_brightness(strip_bit_e strip_bit)
 {
     //led_brightness_e strip_brightness = LED_BRIGHTNESS_INVALID;
     flash_info_brightness_select_t strip_brightness_mask;
-    switch (strip_num)
+    switch (strip_bit)
     {
 #if defined(STRIP_1_LENGTH)
-        case STRIP_NUM_1:
+        case STRIP_BIT_1:
             strip_brightness_mask = g_flash_info_block.flash_info_data.strip_info.strip_1_brightness;
         break;
 #endif
 #if defined(STRIP_2_LENGTH)
-        case STRIP_NUM_2:
+        case STRIP_BIT_2:
             strip_brightness_mask = g_flash_info_block.flash_info_data.strip_info.strip_2_brightness;
         break;
 #endif
 #if defined(STRIP_3_LENGTH)
-        case STRIP_NUM_3:
+        case STRIP_BIT_3:
             strip_brightness_mask = g_flash_info_block.flash_info_data.strip_info.strip_3_brightness;
         break;
 #endif
@@ -327,24 +327,24 @@ led_brightness_e flash_info_strip_brightness(strip_num_e strip_num)
 
 
 // function to return the speed enabled on a particular strip!
-led_speed_e flash_info_strip_speed(strip_num_e strip_num)
+led_speed_e flash_info_strip_speed(strip_bit_e strip_bit)
 {
     //led_speed_e strip_speed = LED_SPEED_INVALID;
     flash_info_speed_select_t strip_speed_mask;
-    switch (strip_num)
+    switch (strip_bit)
     {
 #if defined(STRIP_1_LENGTH)
-        case STRIP_NUM_1:
+        case STRIP_BIT_1:
             strip_speed_mask = g_flash_info_block.flash_info_data.strip_info.strip_1_speed;
         break;
 #endif
 #if defined(STRIP_2_LENGTH)
-        case STRIP_NUM_2:
+        case STRIP_BIT_2:
             strip_speed_mask = g_flash_info_block.flash_info_data.strip_info.strip_2_speed;
         break;
 #endif
 #if defined(STRIP_3_LENGTH)
-        case STRIP_NUM_3:
+        case STRIP_BIT_3:
             strip_speed_mask = g_flash_info_block.flash_info_data.strip_info.strip_3_speed;
         break;
 #endif
@@ -601,20 +601,20 @@ void flash_info_init(void)
     flash_info_rand_seed_increment();
     srand(g_flash_info_block.flash_info_data.strip_info.rand_seed);
     rand_color = (uint32_t)((double)rand() / ((double)RAND_MAX + 1) * (NUM_COLORS - 1));
-    g_flash_info_block.flash_info_data.strip_info.strip_current_color = (all_colors_e)rand_color;
-    //if (COLORS_BLACK == g_flash_info_block.flash_info_data.strip_info.strip_current_color) g_flash_info_block.flash_info_data.strip_info.strip_current_color = COLORS_LIME;
+    g_flash_info_block.flash_info_data.strip_info.strip_current_color = (led_color_e)rand_color;
+    //if (LED_COLOR_BLACK == g_flash_info_block.flash_info_data.strip_info.strip_current_color) g_flash_info_block.flash_info_data.strip_info.strip_current_color = LED_COLOR_LIME;
     rand_animation = (uint32_t)((double)rand() / ((double)RAND_MAX + 1) * (NUM_LED_STATES - 1));
     g_flash_info_block.flash_info_data.strip_info.strip_current_animation = rand_animation;
 }
 
 
-void flash_info_write_led_color_current(all_colors_e color)
+void flash_info_write_led_color_current(led_color_e color)
 {
     g_flash_info_block.flash_info_data.strip_info.strip_current_color = color;
 }
 
 
-all_colors_e flash_info_read_led_color_current(void)
+led_color_e flash_info_read_led_color_current(void)
 {
     return g_flash_info_block.flash_info_data.strip_info.strip_current_color;
 }
