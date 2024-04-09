@@ -20,6 +20,7 @@
 //#include "stm32l4xx_hal.h"
 #include "main.h"
 #include "board_common.h"
+#include "stm32l4xx_it.h"
 
 /* Exported functions prototypes ---------------------------------------------*/
 void Error_Handler(void);
@@ -39,9 +40,9 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
 // Function below added by SRW
 static void HAL_Set_DMA_Callbacks(void)
 {
-    HAL_DMA_RegisterCallback(&g_hdma_tim1_ch1, HAL_DMA_XFER_CPLT_CB_ID, HAL_DMA_CMPLT_CALLBACK);
-    HAL_DMA_RegisterCallback(&g_hdma_tim1_ch2, HAL_DMA_XFER_CPLT_CB_ID, HAL_DMA_CMPLT_CALLBACK);
-    HAL_DMA_RegisterCallback(&g_hdma_tim1_ch3, HAL_DMA_XFER_CPLT_CB_ID, HAL_DMA_CMPLT_CALLBACK);
+    HAL_DMA_RegisterCallback(&g_hdma_tim1_ch1, HAL_DMA_XFER_CPLT_CB_ID, TransferComplete_1);
+    HAL_DMA_RegisterCallback(&g_hdma_tim1_ch2, HAL_DMA_XFER_CPLT_CB_ID, TransferComplete_2);
+    HAL_DMA_RegisterCallback(&g_hdma_tim1_ch3, HAL_DMA_XFER_CPLT_CB_ID, TransferComplete_3);
 }
 
 /**

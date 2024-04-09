@@ -114,6 +114,14 @@ void led_animate_turn_all_pixels_off(void)
 }
 
 
+void led_animate_turn_all_pixels_off_in_strip(const strip_mask_t mask)
+{
+	led_color_t led_color;
+	led_color.color_hex = LED_COLOR_HEX_BLACK;
+	led_animate_set_all_pixels((strip_mask_t)mask, &led_color);
+}
+
+
 static void led_animate_wheel(uint8_t wheel_pos, led_color_t* p_led_color)
 {
 	// TODO consider not modifying the passed parameter from the caller.

@@ -42,6 +42,11 @@ void DMA1_Channel7_IRQHandler(void);
 void EXTI15_10_IRQHandler(void);
 void EXTI9_5_IRQHandler(void);
 
+void TransferComplete_1(DMA_HandleTypeDef *DmaHandle);
+void TransferComplete_2(DMA_HandleTypeDef *DmaHandle);
+void TransferComplete_3(DMA_HandleTypeDef *DmaHandle);
+
+
 #ifdef __cplusplus
 }
 #endif

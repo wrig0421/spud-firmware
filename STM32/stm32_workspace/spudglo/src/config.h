@@ -34,11 +34,11 @@
 #endif
 
 // define the number of strips
-#define STRIP_1_LENGTH      20// playstation controller! - 390// vice city 432// shucmacher - 636// skull sign=200 // 151 for SWENSON SIGN /// FLYNN FARM SIGN = 166!!
-#define STRIP_2_LENGTH      0//7
-#define STRIP_3_LENGTH      0
+#define STRIP_1_LENGTH      300// playstation controller! - 390// vice city 432// shucmacher - 636// skull sign=200 // 151 for SWENSON SIGN /// FLYNN FARM SIGN = 166!!
+#define STRIP_2_LENGTH      300//7
+#define STRIP_3_LENGTH      0//20
 
-#define ENABLE_STRIP_SYNC
+#define ENABLE_LED_STRIP_SYNC
 
 #if defined(STRIP_3_LENGTH) && (0 < STRIP_3_LENGTH)
 	#define ENABLE_STRIP_1
@@ -50,7 +50,7 @@
 	#define ENABLE_STRIP_1
 	#define ENABLE_STRIP_2
 	#define NUM_ACTIVE_STRIPS	2
-	#define NUM_LEDS        	(STRIP_1_LENGTH + STRIP_2_LENGTH)
+	#define NUM_LEDS        	(uint32_t)(STRIP_1_LENGTH + STRIP_2_LENGTH)
 #elif defined(STRIP_1_LENGTH) && (0 < STRIP_1_LENGTH)
 	#define ENABLE_STRIP_1
 	#define NUM_ACTIVE_STRIPS	1

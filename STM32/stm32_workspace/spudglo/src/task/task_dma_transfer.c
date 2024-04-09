@@ -26,7 +26,6 @@ extern SemaphoreHandle_t g_dma_transfer_semaphore;
 extern SemaphoreHandle_t g_dma_fill_semaphore;
 extern p_pwm_data_t gp_pwm_data_fill;
 
-uint16_t g_pwm_reset[50] = {0};
 extern p_pwm_data_t gp_pwm_data_ping;
 extern p_pwm_data_t gp_pwm_data_pong;
 extern p_pwm_data_t gp_pwm_data_fill;

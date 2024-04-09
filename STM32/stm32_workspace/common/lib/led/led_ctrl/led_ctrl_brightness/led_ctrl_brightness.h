@@ -14,7 +14,7 @@ typedef enum
 } led_brightness_e;
 
 
-void led_ctrl_brightness_adjust(strip_num_e strip_num);
+void led_ctrl_brightness_adjust(const strip_mask_t mask);
 
 
 #endif

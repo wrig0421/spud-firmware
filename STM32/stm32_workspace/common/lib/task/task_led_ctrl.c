@@ -155,7 +155,7 @@ led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS] =
 	{
 		.led_state_info =
 		{
-			.led_state_master 				= LED_CTRL_STATE_MASTER_FIXED,
+			.led_state_master 				= LED_CTRL_STATE_MASTER_DEMO,
 			.led_state 						= LED_STATE_FIRST,
 			.led_state_current_iteration 	= 0
 		},
@@ -178,7 +178,7 @@ led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS] =
 	{
 		.led_state_info =
 		{
-			.led_state_master 				= LED_CTRL_STATE_MASTER_FIXED,
+			.led_state_master 				= LED_CTRL_STATE_MASTER_DEMO,
 			.led_state 						= LED_STATE_FIRST,
 			.led_state_current_iteration 	= 0
 		},
@@ -201,7 +201,7 @@ led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS] =
 	{
 		.led_state_info =
 		{
-			.led_state_master 				= LED_CTRL_STATE_MASTER_FIXED,
+			.led_state_master 				= LED_CTRL_STATE_MASTER_DEMO,
 			.led_state 						= LED_STATE_FIRST,
 			.led_state_current_iteration 	= 0,
 		},
@@ -225,7 +225,7 @@ led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS] =
 	{
 		.led_state_info =
 		{
-			.led_state_master 				= LED_CTRL_STATE_MASTER_FIXED,
+			.led_state_master 				= LED_CTRL_STATE_MASTER_DEMO,
 			.led_state 						= LED_STATE_FIRST,
 			.led_state_current_iteration 	= 0,
 		},
@@ -248,7 +248,7 @@ led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS] =
 	{
 		.led_state_info =
 		{
-			.led_state_master 				= LED_CTRL_STATE_MASTER_FIXED,
+			.led_state_master 				= LED_CTRL_STATE_MASTER_DEMO,
 			.led_state 						= LED_STATE_FIRST,
 			.led_state_current_iteration 	= 0,
 		},
@@ -271,7 +271,7 @@ led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS] =
 	{
 		.led_state_info =
 		{
-			.led_state_master 				= LED_CTRL_STATE_MASTER_FIXED,
+			.led_state_master 				= LED_CTRL_STATE_MASTER_DEMO,
 			.led_state 						= LED_STATE_FIRST,
 			.led_state_current_iteration 	= 0,
 		},
@@ -295,7 +295,7 @@ led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS] =
 	{
 		.led_state_info =
 		{
-			.led_state_master 				= LED_CTRL_STATE_MASTER_FIXED,
+			.led_state_master 				= LED_CTRL_STATE_MASTER_DEMO,
 			.led_state 						= LED_STATE_FIRST,
 			.led_state_current_iteration 	= 0,
 		},
@@ -317,10 +317,10 @@ led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS] =
 };
 
 
-static void task_led_ctrl_adjust_parameters(strip_num_e strip_num)
+static void task_led_ctrl_adjust_parameters(const strip_mask_t mask)
 {
 	bool skip_color_check = false;
-
+	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
 	led_ctrl_state_info_t *task_led_ctrl_state_info = &g_task_led_ctrl[strip_num].led_state_info;
 	led_ctrl_color_info_t *led_ctrl_color_info = &g_task_led_ctrl[strip_num].led_color_info;
 	led_ctrl_state_iterations_t *task_led_ctrl_state_iterations = &g_task_led_ctrl_state_iterations[task_led_ctrl_state_info->led_state];
@@ -357,18 +357,21 @@ static void task_led_ctrl_adjust_parameters(strip_num_e strip_num)
 }
 
 
-static void task_led_iterate(led_state_e led_state, strip_bit_e strip_bit)
+static void task_led_iterate(led_state_e led_state, const strip_mask_t mask)
 {
 	if (1)//(flash_info_animation_enabled(g_task_led_ctrl.led_state))
 	{
 		switch(led_state)
 		{
 			case LED_STATE_SPELL:
-				led_animate_only_spell_word(strip_bit, led_ctrl_color_hex(strip_bit), 20);
+
+				led_animate_only_spell_word(mask, led_ctrl_color_hex(mask), 20);
+
+				//led_animate_only_spell_word(mask, led_ctrl_color_hex(mask), 20);
 
 			break;
 			case LED_STATE_WHITE_COLOR:
-				led_animate_solid_custom_color((uint16_t)strip_bit, LED_COLOR_HEX_WHITE);
+				led_animate_solid_custom_color(mask, LED_COLOR_HEX_WHITE);
 //				if (LED_CTRL_STATE_MASTER_FIXED == g_task_led_ctrl.led_state_master)
 //				{
 //					task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_5, TASK_LED_CTRL_DELAY_MS_1000);
@@ -381,7 +384,7 @@ static void task_led_iterate(led_state_e led_state, strip_bit_e strip_bit)
 //				}
 			break;
 			case LED_STATE_SOLID_COLOR:
-				led_animate_solid_custom_color((uint16_t)strip_bit, led_ctrl_color_hex(strip_bit));
+				led_animate_solid_custom_color(mask, led_ctrl_color_hex(mask));
 //				if (LED_CTRL_STATE_MASTER_FIXED == g_task_led_ctrl.led_state_master)
 //				{
 //					task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_5, TASK_LED_CTRL_DELAY_MS_1000);
@@ -391,30 +394,30 @@ static void task_led_iterate(led_state_e led_state, strip_bit_e strip_bit)
 			break;
 			case LED_STATE_SPARKLE_NO_FILL:
 				led_animate_turn_all_pixels_off();
-				led_animate_sparkle_only_random_color(strip_bit, false, 100);//random(0, 50));
+				led_animate_sparkle_only_random_color(mask, false, 100);//random(0, 50));
 			break;
 			case LED_STATE_SPARKLE_FILL:
-				led_animate_sparkle_only_random_color(strip_bit, true, 100);
+				led_animate_sparkle_only_random_color(mask, true, 100);
 			break;
 			case LED_STATE_RAINBOW_CYCLE:
-				led_animate_rainbow_cycle(strip_bit, 0);//10);
+				led_animate_rainbow_cycle(mask, 0);//10);
 			break;
 			case LED_STATE_THEATER_CHASE:
-				led_animate_theater_chase(strip_bit, led_ctrl_color_hex(strip_bit), 20);
+				led_animate_theater_chase(mask, led_ctrl_color_hex(mask), 20);
 			break;
 			case LED_STATE_THEATER_CHASE_RAINBOW:\
-				led_animate_theater_chase_rainbow(strip_bit, 20);
+				led_animate_theater_chase_rainbow(mask, 20);
 			break;
 			case LED_STATE_FADE_IN_AND_OUT:
-				led_animate_fade_in_fade_out((uint16_t)strip_bit, led_ctrl_color_hex(strip_bit));
+				led_animate_fade_in_fade_out(mask, led_ctrl_color_hex(mask));
 			break;
 			case LED_STATE_TWINKLE:
 				led_animate_turn_all_pixels_off();
-				led_animate_twinkle(strip_bit, led_ctrl_color_hex(strip_bit), (uint32_t)((float)NUM_LEDS * (float)0.9), 20, false);
+				led_animate_twinkle(mask, led_ctrl_color_hex(mask), (uint32_t)((float)NUM_LEDS * (float)0.9), 20, false);
 			break;
 			case LED_STATE_TWO_COLOR:
-				led_animate_set_pixels_in_range(strip_bit, 0, 279, g_color_hex_codes[g_two_color_outer]);
-				led_animate_set_pixels_in_range(strip_bit, 280, 390, g_color_hex_codes[g_two_color_inner]);
+				led_animate_set_pixels_in_range(mask, 0, 279, g_color_hex_codes[g_two_color_outer]);
+				led_animate_set_pixels_in_range(mask, 280, 390, g_color_hex_codes[g_two_color_inner]);
 			break;
 			break;
 			default:
@@ -432,46 +435,51 @@ led_state_e task_led_current_led_state(const strip_mask_t mask)
 
 void task_led_1_ctrl(void *argument)
 {
+	led_animate_turn_all_pixels_off_in_strip(STRIP_BIT_1);
 	while (1)
 	{
-		task_led_iterate(g_task_led_ctrl[STRIP_NUM_1].led_state_info.led_state, STRIP_BIT_1);
-		task_led_ctrl_adjust_parameters(STRIP_NUM_1);
+		//task_led_iterate(g_task_led_ctrl[STRIP_NUM_1].led_state_info.led_state, STRIP_BIT_1);
+		//task_led_ctrl_adjust_parameters(STRIP_BIT_1);
+		task_led_iterate(LED_STATE_RAINBOW_CYCLE, STRIP_BIT_1);
 	}
 }
 
 
 void task_led_2_ctrl(void *argument)
 {
+	led_animate_turn_all_pixels_off_in_strip(STRIP_BIT_2);
 	while (1)
 	{
-		task_led_iterate(g_task_led_ctrl[STRIP_NUM_2].led_state_info.led_state, STRIP_BIT_2);
-		task_led_ctrl_adjust_parameters(STRIP_NUM_2);
+		task_led_iterate(LED_STATE_RAINBOW_CYCLE, STRIP_BIT_2);
+		//task_led_iterate(g_task_led_ctrl[STRIP_NUM_2].led_state_info.led_state, STRIP_BIT_2);
+		//task_led_ctrl_adjust_parameters(STRIP_BIT_2);
+		// do we need a delay here??
 	}
 }
 
 
 void task_led_3_ctrl(void *argument)
 {
+	led_animate_turn_all_pixels_off_in_strip(STRIP_BIT_3);
 	while (1)
 	{
 		task_led_iterate(g_task_led_ctrl[STRIP_NUM_3].led_state_info.led_state, STRIP_BIT_3);
-		task_led_ctrl_adjust_parameters(STRIP_NUM_3);
+		task_led_ctrl_adjust_parameters(STRIP_BIT_3);
+		// do we need a delay here??
 	}
 }
 
 
 void task_led_sync_ctrl(void *argument)
 {
-	// need a custom init function to clear all these LEDs..  Right now the funcion
-	// below
-	// if in sync then should be able to use any of the strips already active..
-//	led_animate_turn_all_pixels_off();
-//	while (1)
-//	{
-////		while(task_button_press_major_state_change()) osDelay(100);
-//		task_led_iterate(g_task_led_ctrl[CONFIG_LED_STRIP_SYNC_INDEX].led_state, STRIP_BIT_ALL_SET);
-//		task_led_ctrl_adjust_parameters(CONFIG_LED_STRIP_SYNC_INDEX);
-//	}
+	led_animate_turn_all_pixels_off();
+	while (1)
+	{
+		task_led_iterate(LED_STATE_RAINBOW_CYCLE, STRIP_BIT_ALL_SET);
+//		task_led_iterate(g_task_led_ctrl[STRIP_NUM_ALL_SET].led_state_info.led_state, STRIP_BIT_ALL_SET);
+//		task_led_ctrl_adjust_parameters(STRIP_BIT_ALL_SET);
+		// do we need a delay here??
+	}
 }
 
 

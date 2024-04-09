@@ -1,5 +1,6 @@
 #if !defined(WS2812B_H)
 #define WS2812B_H
+#include <math.h>
 #include <stdint.h>
 #include <stdbool.h>
 #include "config.h"
@@ -12,14 +13,17 @@
 #define WS2812B_PULSE_TIME_NANOSECONDS      1250.0f
 #define WS2812B_PULSE_TIME_CYCLES           ((WS2812B_PULSE_TIME_NANOSECONDS / WS2812B_TIM_TIME_CYCLES) / 1000.0f)
 #define WS2812B_RESET_TIME_NANOSECONDS      60000.0f
-//#define WS2812B_RESET_TIME_CYCLES         ((float)((WS2812B_RESET_TIME_NANOSECONDS / WS2812B_TIM_TIME_CYCLES) / 1000.0f))
-#define WS2812B_RESET_TIME_CYCLES           3000.0f
+#define WS2812B_RESET_TIME_CYCLES         	((uint32_t)(((float)((WS2812B_RESET_TIME_NANOSECONDS / WS2812B_TIM_TIME_CYCLES) / 1000.0f))))
 
 #define WS2812B_T0H_TIME_NANOSECONDS        400.0f
 #define WS2812B_T1H_TIME_NANOSECONDS        800.0f
 #define WS2812B_T0L_TIME_NANOSECONDS        850.0f
 #define WS2812B_T1L_TIME_NANOSECONDS        450.0f
 #define WS2812B_TIME_CUSHION_NANOSECONDS    150.0f
+
+
+// WS2812B reset time is >= 50 us
+// WS2812B_RESET_TIME_
 
 #define WS2812B_BIT_SET_CYCLES              ((((WS2812B_T1H_TIME_NANOSECONDS + WS2812B_T0L_TIME_NANOSECONDS) / 2.0f) / WS2812B_TIM_TIME_CYCLES) / 1000.0f)
 #define WS2812B_BIT_RESET_CYCLES            (WS2812B_PULSE_TIME_CYCLES - WS2812B_BIT_SET_CYCLES)
@@ -78,29 +82,31 @@ typedef enum
 } strip_bit_e;
 
 
+#pragma pack(1)
 typedef struct
 {
     color_t red;
     color_t green; 
     color_t blue;
 } ws2812b_led_t;
+typedef ws2812b_led_t* p_ws2812b_led_t;
+typedef uint32_t* p_pwm_data_t;
 
 
 typedef struct
 {
-	ws2812b_led_t*	led_strip;
+	p_ws2812b_led_t	led_strip;
+	uint8_t			fill;
 	uint16_t 		led_strip_length;
 	uint16_t 		pwm_dma_buffer_index_start;
 } ws2812b_info_t;
+#pragma pack(0)
 
 
-typedef ws2812b_led_t* p_ws2812b_led_t;
-typedef uint16_t* p_pwm_data_t;
+//typedef uint16_t* p_pwm_data_t;
 
 
 void reset_ws2812b(void);
-strip_num_e ws2812_strip_bit_to_strip_num(strip_bit_e strip_bit);
-strip_bit_e ws2812_strip_num_to_bit(strip_num_e strip_bit);
 strip_num_e ws2812_strip_bit_to_num(strip_bit_e strip_bit);
 strip_num_e ws2812_strip_bit_to_strip_num(strip_bit_e strip_bit);
 

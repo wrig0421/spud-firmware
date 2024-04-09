@@ -1,4 +1,4 @@
-src/task/task_create.o: ../src/task/task_create.c \
+src/task/task_create.o: ../src/task/task_create.c ../src/config.h \
  ../sdk/FreeRTOS/Source/include/FreeRTOS.h ../src/FreeRTOSConfig.h \
  ../sdk/FreeRTOS/Source/include/projdefs.h \
  ../sdk/FreeRTOS/Source/include/portable.h \
@@ -10,7 +10,7 @@ src/task/task_create.o: ../src/task/task_create.c \
  ../sdk/FreeRTOS/Source/include/list.h \
  ../sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_animate/led_animate.h \
- ../src/config.h ../src/bsp/board_init_common.h ../src/bsp/board_common.h \
+ ../src/bsp/board_init_common.h ../src/bsp/board_common.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h \
  ../src/bsp/stmicro/stm32l4/bloat/stm32l4xx_hal_conf.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h \
@@ -57,6 +57,7 @@ src/task/task_create.o: ../src/task/task_create.c \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_led_ctrl.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_state/led_ctrl_state.h \
  ../src/task/task_create.h
+../src/config.h:
 ../sdk/FreeRTOS/Source/include/FreeRTOS.h:
 ../src/FreeRTOSConfig.h:
 ../sdk/FreeRTOS/Source/include/projdefs.h:
@@ -69,7 +70,6 @@ src/task/task_create.o: ../src/task/task_create.c \
 ../sdk/FreeRTOS/Source/include/list.h:
 ../sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_animate/led_animate.h:
-../src/config.h:
 ../src/bsp/board_init_common.h:
 ../src/bsp/board_common.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h:

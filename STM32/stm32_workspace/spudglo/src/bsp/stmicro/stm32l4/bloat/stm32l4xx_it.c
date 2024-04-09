@@ -300,10 +300,48 @@ void HAL_DMA_CMPLT_CALLBACK(DMA_HandleTypeDef *hdma)
 }
 
 
+/**
+  * @brief  DMA Transfer complete callback
+  * @note   This function is executed when the transfer complete interrupt
+  *         is generated
+  * @retval None
+  */
+void TransferComplete_1(DMA_HandleTypeDef *DmaHandle)
+{
+  /* Turn LED3 on: Transfer correct */
+  while(1);
+}
+
+
+/**
+  * @brief  DMA Transfer complete callback
+  * @note   This function is executed when the transfer complete interrupt
+  *         is generated
+  * @retval None
+  */
+void TransferComplete_2(DMA_HandleTypeDef *DmaHandle)
+{
+  /* Turn LED3 on: Transfer correct */
+  while(1);
+}
+
+/**
+  * @brief  DMA Transfer complete callback
+  * @note   This function is executed when the transfer complete interrupt
+  *         is generated
+  * @retval None
+  */
+void TransferComplete_3(DMA_HandleTypeDef *DmaHandle)
+{
+  /* Turn LED3 on: Transfer correct */
+  while(1);
+}
+
+
 bool g_tim_pwm_transfer_cmplt = false;
-bool gb_dma_cmplt_strip_1 = true;
-bool gb_dma_cmplt_strip_2 = true;
-bool gb_dma_cmplt_strip_3 = true;
+bool gb_dma_cmplt_strip_1 = false;
+bool gb_dma_cmplt_strip_2 = false;
+bool gb_dma_cmplt_strip_3 = false;
 
 void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim)
 {
@@ -311,10 +349,12 @@ void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim)
     {
         case HAL_TIM_ACTIVE_CHANNEL_1:
             HAL_TIM_PWM_Stop_DMA(htim, TIM_CHANNEL_1);
+            osDelay(1);
             gb_dma_cmplt_strip_1 = true;
         break;
         case HAL_TIM_ACTIVE_CHANNEL_2:
             HAL_TIM_PWM_Stop_DMA(htim, TIM_CHANNEL_2);
+            osDelay(1);
             gb_dma_cmplt_strip_2 = true;
         break;
         case HAL_TIM_ACTIVE_CHANNEL_3:

@@ -19,6 +19,7 @@ void led_animate_set_pixels_in_range(const strip_mask_t mask, uint16_t start, ui
 void led_animate_multiple_solid_custom_colors(const strip_mask_t mask_solid, const uint32_t* color_array);
 void led_animate_solid_custom_color(const strip_mask_t mask_solid, const led_color_hex_code_e color_spell);
 void led_animate_turn_all_pixels_off(void);
+void led_animate_turn_all_pixels_off_in_strip(const strip_mask_t mask);
 void led_animate_spell_and_sparkle(const strip_mask_t mask_spell, const strip_mask_t mask_sparkle,
                                    const led_color_hex_code_e color_spell, const bool fill, const uint16_t speed_delay);
 void led_animate_spell_and_solid_color(const strip_mask_t mask_spell, const strip_mask_t mask_solid,
