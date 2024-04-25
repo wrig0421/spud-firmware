@@ -95,10 +95,11 @@ typedef uint32_t* p_pwm_data_t;
 
 typedef struct
 {
-	p_ws2812b_led_t	led_strip;
-	uint8_t			fill;
-	uint16_t 		led_strip_length;
-	uint16_t 		pwm_dma_buffer_index_start;
+	p_ws2812b_led_t		p_led_strip;
+	uint8_t				alignment_fill_1;
+	uint16_t 			led_strip_length;
+	uint16_t			alignment_fill_2;
+	p_pwm_data_t 		p_pwm_data;
 } ws2812b_info_t;
 #pragma pack(0)
 
@@ -109,7 +110,7 @@ typedef struct
 void reset_ws2812b(void);
 strip_num_e ws2812_strip_bit_to_num(strip_bit_e strip_bit);
 strip_num_e ws2812_strip_bit_to_strip_num(strip_bit_e strip_bit);
-
+void ws2812b_dma_transfer(strip_bit_e strip_bit);
 
 uint16_t ws2812_get_strip_size(const strip_bit_e strip_bit);
 uint16_t ws2812_get_number_of_active_strips(const strip_mask_t strip_mask);

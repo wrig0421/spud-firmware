@@ -33,6 +33,7 @@
 #include "FreeRTOSConfig.h"
 #include "gpio_config_hal_specific.h"
 #include <stdbool.h>
+#include "semaphore_access.h"
 
 extern osThreadId_t g_dma_transfer_handle;
 
@@ -364,6 +365,7 @@ void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim)
         default:
         break;
     }
+    semaphore_give(SEMAPHORE_DMA_TRANSFER);
 }
 
 

@@ -13,7 +13,7 @@
 "./common/lib/peripheral/spi/spi_acces.o"
 "./common/lib/peripheral/uart/uart_access.o"
 "./common/lib/pkt/pkt.o"
-"./common/lib/semaphore/semaphore_create.o"
+"./common/lib/semaphore/semaphore_access.o"
 "./common/lib/task/task_button_press.o"
 "./common/lib/task/task_led_ctrl.o"
 "./common/lib/task/task_mn_wild.o"

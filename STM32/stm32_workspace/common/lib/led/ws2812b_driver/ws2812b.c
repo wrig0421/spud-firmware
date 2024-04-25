@@ -1,6 +1,7 @@
 // Spud
 #include "FreeRTOS.h"
 #include "semphr.h"
+#include "task.h"
 #include "cmsis_os.h"
 #include "main.h"
 #include <stdbool.h>
@@ -10,6 +11,8 @@
 #include "current_monitor.h"
 #include "numbers.h"
 #include "ws2812b.h"
+#include "semaphore_access.h"
+#include <string.h>
 
 //extern osThreadId_t g_dma_transfer_handle;
 //extern SemaphoreHandle_t g_dma_transfer_semaphore;
@@ -19,42 +22,42 @@ extern float g_max_current_ratio;
 extern TIM_HandleTypeDef g_tim1_handle;
 extern bool gb_dma_cmplt_strip_1;
 extern bool gb_dma_cmplt_strip_2;
+extern osThreadId_t g_dma_transfer_handle;
 
-p_pwm_data_t gp_pwm_data_fill;
+
+p_pwm_data_t gp_pwm_data_strip_1 = NULL;
+p_pwm_data_t gp_pwm_data_strip_2 = NULL;
+p_pwm_data_t gp_pwm_data_strip_3 = NULL;
+
+ws2812b_led_t g_led_strip_1[STRIP_1_LENGTH];
+ws2812b_led_t g_led_strip_2[STRIP_2_LENGTH];
+ws2812b_led_t g_led_strip_3[STRIP_3_LENGTH];
 
 
-ws2812b_led_t g_led_strip[NUM_LEDS];
-ws2812b_info_t g_ws2812b_info[6] =
+ws2812b_info_t g_ws2812b_info[MAX_NUM_STRIPS] =
 {
 	[STRIP_NUM_1] =
 	{
-		.led_strip_length = STRIP_1_LENGTH,
-		.led_strip = g_led_strip,
-		.pwm_dma_buffer_index_start = 0
+		.led_strip_length 	= STRIP_1_LENGTH,
+		.p_led_strip 		= g_led_strip_1,
+		.p_pwm_data 		= NULL // filled in ws2812b_init function
 	},
 	[STRIP_NUM_2] =
 	{
-		.led_strip_length = STRIP_2_LENGTH,
-		.led_strip = g_led_strip + STRIP_1_LENGTH,
-		.pwm_dma_buffer_index_start = (STRIP_1_LENGTH * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + WS2812B_RESET_TIME_CYCLES
+		.led_strip_length 	= STRIP_2_LENGTH,
+		.p_led_strip 		= g_led_strip_2,
+		.p_pwm_data 		= NULL // filled in ws2812b_init function
 	},
 	[STRIP_NUM_3] =
 	{
-		.led_strip_length = STRIP_3_LENGTH,
-		.led_strip = g_led_strip + STRIP_2_LENGTH,
-		.pwm_dma_buffer_index_start = ((STRIP_2_LENGTH + STRIP_1_LENGTH) * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + (2*WS2812B_RESET_TIME_CYCLES)
-	},
-	[STRIP_NUM_1_AND_2] =
-	{
-		.led_strip_length = STRIP_1_LENGTH,
-		.led_strip = g_led_strip,
-		.pwm_dma_buffer_index_start = 0
-	},
+		.led_strip_length 	= STRIP_3_LENGTH,
+		.p_led_strip 		= g_led_strip_3,
+		.p_pwm_data 		= NULL // filled in ws2812b_init function
+	}
 };
 
 
-// should this array
-uint8_t g_pwm_reset[WS2812B_RESET_TIME_CYCLES] = {0};
+uint32_t g_pwm_reset[3000];
 
 /**
  * @brief   Reset LED strip >= 50 microseconds of 0
@@ -63,10 +66,12 @@ uint8_t g_pwm_reset[WS2812B_RESET_TIME_CYCLES] = {0};
  */
 void reset_ws2812b(void)
 {
-	// something needs to change here... This should be 3000
-    HAL_TIM_PWM_Start_DMA(&g_tim1_handle, TIM_CHANNEL_1, (uint32_t *)g_pwm_reset, sizeof(g_pwm_reset));
-    HAL_TIM_PWM_Start_DMA(&g_tim1_handle, TIM_CHANNEL_2, (uint32_t *)g_pwm_reset, sizeof(g_pwm_reset));
-    HAL_TIM_PWM_Start_DMA(&g_tim1_handle, TIM_CHANNEL_3, (uint32_t *)g_pwm_reset, sizeof(g_pwm_reset));
+    semaphore_take(SEMAPHORE_DMA_TRANSFER);
+    HAL_TIM_PWM_Start_DMA(&g_tim1_handle, TIM_CHANNEL_1, g_pwm_reset, sizeof(g_pwm_reset));
+    semaphore_take(SEMAPHORE_DMA_TRANSFER);
+    HAL_TIM_PWM_Start_DMA(&g_tim1_handle, TIM_CHANNEL_2, g_pwm_reset, sizeof(g_pwm_reset));
+    semaphore_take(SEMAPHORE_DMA_TRANSFER);
+    HAL_TIM_PWM_Start_DMA(&g_tim1_handle, TIM_CHANNEL_3, g_pwm_reset, sizeof(g_pwm_reset));
 }
 
 
@@ -80,6 +85,7 @@ strip_num_e ws2812_strip_bit_to_strip_num(strip_bit_e strip_bit)
 		case STRIP_BIT_1_AND_2: return STRIP_NUM_1_AND_2;
 		case STRIP_BIT_1_AND_3: return STRIP_NUM_1_AND_3;
 		case STRIP_BIT_2_AND_3: return STRIP_NUM_2_AND_3;
+//		case STRIP_BIT_ALL_SET: return STRIP_NUM_ALL_SET;
 		//case STRIP_BIT_ALL_SET:	return STRIP_NUM_ALL_SET;
 		default: 				return STRIP_NUM_INVALID;
 	}
@@ -96,6 +102,7 @@ strip_bit_e ws2812_strip_num_to_strip_bit(strip_num_e strip_num)
 		case STRIP_NUM_1_AND_2:		return STRIP_BIT_1_AND_2;
 		case STRIP_NUM_1_AND_3:		return STRIP_BIT_1_AND_3;
 		case STRIP_NUM_2_AND_3:		return STRIP_BIT_2_AND_3;
+		case STRIP_NUM_ALL_SET: 	return STRIP_BIT_ALL_SET;
 		default:					return STRIP_BIT_INVALID;
 	}
 }
@@ -189,11 +196,30 @@ void ws2812b_set_led(const strip_bit_e strip_bit, const uint16_t led_num, const 
                      const color_t blue)
 {
     strip_num_e strip_num = ws2812_strip_bit_to_strip_num(strip_bit);
-	(g_ws2812b_info[strip_num].led_strip + led_num)->red = red * g_max_current_ratio;
-	(g_ws2812b_info[strip_num].led_strip + led_num)->green = green * g_max_current_ratio;
-	(g_ws2812b_info[strip_num].led_strip + led_num)->blue = blue * g_max_current_ratio;
+	(g_ws2812b_info[strip_num].p_led_strip + led_num)->red = red * g_max_current_ratio;
+	(g_ws2812b_info[strip_num].p_led_strip + led_num)->green = green * g_max_current_ratio;
+	(g_ws2812b_info[strip_num].p_led_strip + led_num)->blue = blue * g_max_current_ratio;
 }
 
+
+
+void ws2812b_dma_transfer(strip_bit_e strip_bit)
+{
+    strip_num_e strip_num = ws2812_strip_bit_to_strip_num(strip_bit);
+    uint32_t timer_channel = 0;
+    switch (strip_bit)
+    {
+    	case STRIP_BIT_1: timer_channel = TIM_CHANNEL_1; break;
+    	case STRIP_BIT_2: timer_channel = TIM_CHANNEL_2; break;
+    	case STRIP_BIT_3: timer_channel = TIM_CHANNEL_3; break;
+    	default: break;
+    }
+    semaphore_take(SEMAPHORE_DMA_TRANSFER);
+    HAL_TIM_PWM_Start_DMA(&g_tim1_handle, timer_channel, g_ws2812b_info[strip_num].p_pwm_data, \
+    						g_ws2812b_info[strip_num].led_strip_length * BITS_PER_BYTE * sizeof(ws2812b_led_t));
+    // semaphore will be given in `HAL_TIM_PWM_PulseFinishedCallback` function
+
+}
 
 /**
  * @brief   Fill the PWM buffer for the strip num
@@ -203,65 +229,26 @@ void ws2812b_set_led(const strip_bit_e strip_bit, const uint16_t led_num, const 
 void ws2812b_fill_pwm_buffer_strip(strip_bit_e strip_bit)
 {
     uint32_t color = 0;
-    uint32_t timer_channel = 0;
-
     strip_num_e strip_num = ws2812_strip_bit_to_strip_num(strip_bit);
     for (uint16_t iii = 0; iii < g_ws2812b_info[strip_num].led_strip_length; iii++)
     {
     	// reconstruct 24 bit color...
-        color = (((g_ws2812b_info[strip_num].led_strip + iii)->green) << 16) | \
-        		(((g_ws2812b_info[strip_num].led_strip + iii)->red) << 8) | \
-				(((g_ws2812b_info[strip_num].led_strip + iii)->blue));
+        color = (((g_ws2812b_info[strip_num].p_led_strip + iii)->green) << 16) | \
+        		(((g_ws2812b_info[strip_num].p_led_strip + iii)->red) << 8) | \
+				(((g_ws2812b_info[strip_num].p_led_strip + iii)->blue));
         // walk over each bit.. starting at msb
         for (uint8_t yyy = 0; yyy < BITS_PER_BYTE * sizeof(ws2812b_led_t); yyy++)
         {
         	// if bit in color is set then fill w/ WS2812B_BIT_SET_CYCLES else WS2812B_BIT_RESET_CYCLES
-            gp_pwm_data_fill[g_ws2812b_info[strip_num].pwm_dma_buffer_index_start + \
-							 (iii * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + yyy] = \
-									 (color & (1 << ((sizeof(ws2812b_led_t) * BITS_PER_BYTE) - 1 - yyy))) ? \
-											 (uint16_t)(WS2812B_BIT_SET_CYCLES + 1) : \
-											 (uint16_t)WS2812B_BIT_RESET_CYCLES;
+
+        	g_ws2812b_info[strip_num].p_pwm_data[(iii * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + yyy] = \
+        			(color & (1 << ((sizeof(ws2812b_led_t) * BITS_PER_BYTE) - 1 - yyy))) ? \
+        					(uint16_t)(WS2812B_BIT_SET_CYCLES + 1) : \
+							(uint16_t)WS2812B_BIT_RESET_CYCLES;
         }
     }
-//    gp_pwm_data_fill[(g_ws2812b_info[strip_num].pwm_dma_buffer_index_start + \
-//    		(g_ws2812b_info[strip_num].led_strip_length * BITS_PER_BYTE * sizeof(ws2812b_led_t)))] = 0;
-//    for (uint16_t iii = 0; iii < WS2812B_RESET_TIME_CYCLES; iii++)
-//    {
-//        gp_pwm_data_fill[(g_ws2812b_info[strip_num].pwm_dma_buffer_index_start + \
-//        		(g_ws2812b_info[strip_num].led_strip_length * BITS_PER_BYTE * sizeof(ws2812b_led_t))) + iii] = 0;
-//    }
-    switch (strip_bit)
-    {
-    	case STRIP_BIT_1: timer_channel = TIM_CHANNEL_1; break;
-    	case STRIP_BIT_2: timer_channel = TIM_CHANNEL_2; break;
-    	case STRIP_BIT_3:
-    		timer_channel = TIM_CHANNEL_3; break;
-    	default: break;
-    }
-    if (TIM_CHANNEL_1 == timer_channel)
-    {
-    	while (!gb_dma_cmplt_strip_1) osDelay(1);
-    	gb_dma_cmplt_strip_1 = false;
-    }
-    if (TIM_CHANNEL_2 == timer_channel)
-    {
-    	while (!gb_dma_cmplt_strip_2) osDelay(1);
-    	gb_dma_cmplt_strip_2 = false;
-    }
-    HAL_TIM_PWM_Start_DMA(&g_tim1_handle, timer_channel,
-    					  (gp_pwm_data_fill + g_ws2812b_info[strip_num].pwm_dma_buffer_index_start),
-						  (100 /*g_ws2812b_info[strip_num].led_strip_length*/ * BITS_PER_BYTE * \
-					      sizeof(ws2812b_led_t))); //+ WS2812B_RESET_TIME_CYCLES);
-//    HAL_TIM_PWM_Start_DMA(&g_tim1_handle, timer_channel,
-//    					  (uint32_t *)(gp_pwm_data_fill + g_ws2812b_info[strip_num].pwm_dma_buffer_index_start),
-//						  (g_ws2812b_info[strip_num].led_strip_length * BITS_PER_BYTE * \
-//					      sizeof(ws2812b_led_t))); //+ WS2812B_RESET_TIME_CYCLES);
-}
+    // reset will automatically occur.  It's filled to 0 once on init.  It will be sent out after the pwm_buffer
 
-
-void ws2812b_reset(void)
-{
-	// call TIM PWM DMA to reset.
 }
 
 
@@ -293,22 +280,38 @@ void ws2812b_show(const strip_mask_t strip_mask)
 	if (STRIP_BIT_1 & strip_mask)
 	{
 		ws2812b_fill_pwm_buffer_strip((STRIP_BIT_1));
+		ws2812b_show_strip_one();
 	}
 	if (STRIP_BIT_2 & strip_mask)
 	{
 		ws2812b_fill_pwm_buffer_strip((STRIP_BIT_2));
+		ws2812b_show_strip_two();
 	}
 	if (STRIP_BIT_3 & strip_mask)
 	{
 		ws2812b_fill_pwm_buffer_strip((STRIP_BIT_3));
+		ws2812b_show_strip_three();
 	}
 }
 
 
 void ws2812b_init(void)
 {
-	uint32_t total_led_bits_in_all_strips = (sizeof(ws2812b_led_t) * BITS_PER_BYTE * NUM_LEDS);
-	//g_all_strip_mask = STRIP_BIT_ALL_SET;
-    gp_pwm_data_fill = (uint32_t *)malloc((sizeof(uint32_t)) * (total_led_bits_in_all_strips));
+	uint32_t constant = sizeof(ws2812b_led_t) * BITS_PER_BYTE;
+
+	gp_pwm_data_strip_1 = (uint32_t *)malloc(constant * STRIP_1_LENGTH + WS2812B_RESET_TIME_CYCLES);
+	gp_pwm_data_strip_2 = (uint32_t *)malloc(constant * STRIP_2_LENGTH + WS2812B_RESET_TIME_CYCLES);
+	gp_pwm_data_strip_3 = (uint32_t *)malloc(constant * STRIP_3_LENGTH + WS2812B_RESET_TIME_CYCLES);
+
+	// should only need to memset the ending once... Nothing else should touch it if things working!
+	memset(gp_pwm_data_strip_1 + constant * STRIP_1_LENGTH, 0, WS2812B_RESET_TIME_CYCLES);
+	memset(gp_pwm_data_strip_2 + constant * STRIP_2_LENGTH, 0, WS2812B_RESET_TIME_CYCLES);
+	memset(gp_pwm_data_strip_3 + constant * STRIP_3_LENGTH, 0, WS2812B_RESET_TIME_CYCLES);
+	memset(g_pwm_reset, 0, sizeof(g_pwm_reset));
+
+	g_ws2812b_info[STRIP_NUM_1].p_pwm_data = gp_pwm_data_strip_1;
+	g_ws2812b_info[STRIP_NUM_2].p_pwm_data = gp_pwm_data_strip_2;
+	g_ws2812b_info[STRIP_NUM_3].p_pwm_data = gp_pwm_data_strip_3;
+
 	current_monitor_init();
 }

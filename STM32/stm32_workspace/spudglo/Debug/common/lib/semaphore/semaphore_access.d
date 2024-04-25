@@ -1,5 +1,5 @@
-common/lib/semaphore/semaphore_create.o: \
- /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/semaphore/semaphore_create.c \
+common/lib/semaphore/semaphore_access.o: \
+ /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/semaphore/semaphore_access.c \
  ../sdk/FreeRTOS/Source/include/FreeRTOS.h ../src/FreeRTOSConfig.h \
  ../sdk/FreeRTOS/Source/include/projdefs.h \
  ../sdk/FreeRTOS/Source/include/portable.h \
@@ -12,7 +12,8 @@ common/lib/semaphore/semaphore_create.o: \
  ../sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h \
  ../sdk/FreeRTOS/Source/include/semphr.h \
  ../sdk/FreeRTOS/Source/include/queue.h \
- ../sdk/FreeRTOS/Source/include/task.h
+ ../sdk/FreeRTOS/Source/include/task.h \
+ /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/semaphore/semaphore_access.h
 ../sdk/FreeRTOS/Source/include/FreeRTOS.h:
 ../src/FreeRTOSConfig.h:
 ../sdk/FreeRTOS/Source/include/projdefs.h:
@@ -27,3 +28,4 @@ common/lib/semaphore/semaphore_create.o: \
 ../sdk/FreeRTOS/Source/include/semphr.h:
 ../sdk/FreeRTOS/Source/include/queue.h:
 ../sdk/FreeRTOS/Source/include/task.h:
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/semaphore/semaphore_access.h:
