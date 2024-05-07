@@ -72,21 +72,21 @@ led_color_hex_code_e led_ctrl_color_hex(const strip_mask_t mask)
 uint8_t led_ctrl_color_red_hex(const strip_mask_t mask)
 {
 	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
-    return (((g_color_hex_codes[g_task_led_ctrl[strip_num].led_color_info.led_color] & 0xFF0000) >> 16));// / current_monitor_ratio());
+    return (((g_color_hex_codes[g_task_led_ctrl[strip_num].led_color_info.led_color] & 0xFF0000) >> 16));// / led_ctrl_power_monitor_ratio());
 }
 
 
 uint8_t led_ctrl_color_green_hex(const strip_mask_t mask)
 {
 	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
-    return (((g_color_hex_codes[g_task_led_ctrl[strip_num].led_color_info.led_color] & 0x00FF00) >> 8));// / current_monitor_ratio());
+    return (((g_color_hex_codes[g_task_led_ctrl[strip_num].led_color_info.led_color] & 0x00FF00) >> 8));// / led_ctrl_power_monitor_ratio());
 }
 
 
 uint8_t led_ctrl_color_blue_hex(const strip_mask_t mask)
 {
 	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
-    return ((g_color_hex_codes[g_task_led_ctrl[strip_num].led_color_info.led_color] & 0x0000FF));// / current_monitor_ratio());
+    return ((g_color_hex_codes[g_task_led_ctrl[strip_num].led_color_info.led_color] & 0x0000FF));// / led_ctrl_power_monitor_ratio());
 }
 
 

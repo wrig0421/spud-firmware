@@ -24,13 +24,13 @@ OBJCOPY_BIN :=
 # Every subdirectory with source files must be described here
 SUBDIRS := \
 common/lib/adafruit_soundboard \
-common/lib/current_monitor \
 common/lib/led/led_animate \
 common/lib/led/led_color \
 common/lib/led/led_ctrl \
 common/lib/led/led_ctrl/led_ctrl_brightness \
 common/lib/led/led_ctrl/led_ctrl_color \
 common/lib/led/led_ctrl/led_ctrl_pause \
+common/lib/led/led_ctrl/led_ctrl_power \
 common/lib/led/led_ctrl/led_ctrl_speed \
 common/lib/led/led_ctrl/led_ctrl_state \
 common/lib/led/ws2812b_driver \

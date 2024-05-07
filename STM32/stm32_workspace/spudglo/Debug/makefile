@@ -51,13 +51,13 @@ RM := rm -rf
 -include common/lib/led/ws2812b_driver/subdir.mk
 -include common/lib/led/led_ctrl/led_ctrl_state/subdir.mk
 -include common/lib/led/led_ctrl/led_ctrl_speed/subdir.mk
+-include common/lib/led/led_ctrl/led_ctrl_power/subdir.mk
 -include common/lib/led/led_ctrl/led_ctrl_pause/subdir.mk
 -include common/lib/led/led_ctrl/led_ctrl_color/subdir.mk
 -include common/lib/led/led_ctrl/led_ctrl_brightness/subdir.mk
 -include common/lib/led/led_ctrl/subdir.mk
 -include common/lib/led/led_color/subdir.mk
 -include common/lib/led/led_animate/subdir.mk
--include common/lib/current_monitor/subdir.mk
 -include common/lib/adafruit_soundboard/subdir.mk
 -include objects.mk
 

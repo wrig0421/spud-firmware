@@ -9,10 +9,10 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include "ws2812b.h"
-#include "current_monitor.h"
+#include "led_ctrl_power.h"
 
-#define CURRENT_MONITOR_MAX_CURRENT_DRAW_A      (float)9.50
-#define CURRENT_MONITOR_MAX_CURRENT_PER_LED_MA  40.0f
+#define LED_CTRL_POWER_MONITOR_MAX_CURRENT_DRAW_A      (float)9.50
+#define LED_CTRL_POWER_MONITOR_MAX_CURRENT_PER_LED_MA  40.0f
 
 // current tracking needs to be maintained per strip.
 //typedef current_t* p_current_t;
@@ -22,7 +22,7 @@ float g_absolute_max_current_ratio = 0.0f; // DO NOT EXCEED!
 //p_current_t gp_current_monitor_strip[NUM_STRIPS];
 
 
-void current_monitor_set(float value)
+void led_ctrl_power_monitor_set(float value)
 {
     if (value < g_absolute_max_current_ratio)
     {
@@ -35,19 +35,19 @@ void current_monitor_set(float value)
 }
 
 
-float current_monitor_ratio(void)
+float led_ctrl_power_monitor_ratio(void)
 {
     return g_max_current_ratio;
 }
 
 
-void current_monitor_init(void)
+void led_ctrl_power_monitor_init(void)
 {
 	uint32_t num_leds = NUM_LEDS;
-	float current_max_per_led_ampere = (float)CURRENT_MONITOR_MAX_CURRENT_PER_LED_MA / 1000.0f;
+	float current_max_per_led_ampere = (float)LED_CTRL_POWER_MONITOR_MAX_CURRENT_PER_LED_MA / 1000.0f;
 	float current_ratio_value = (g_max_current_ratio * (current_max_per_led_ampere) * num_leds);
 	// ws2812b_set_led function uses the current ratio!!
-    while (current_ratio_value > (float)CURRENT_MONITOR_MAX_CURRENT_DRAW_A)
+    while (current_ratio_value > (float)LED_CTRL_POWER_MONITOR_MAX_CURRENT_DRAW_A)
     {
         g_max_current_ratio -= 0.0625f;
         current_ratio_value = (g_max_current_ratio * (current_max_per_led_ampere) * num_leds);

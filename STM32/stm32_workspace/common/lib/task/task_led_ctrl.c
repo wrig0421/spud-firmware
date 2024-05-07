@@ -6,7 +6,7 @@
 #include "board_init_common.h"
 #include "led_ctrl_color.h"
 #include "task_button_press.h"
-#include "current_monitor.h"
+#include "led_ctrl_power.h"
 #include "task_led_ctrl.h"
 #include "board_specific.h"
 #include "uart_access.h"
@@ -435,6 +435,7 @@ led_state_e task_led_current_led_state(const strip_mask_t mask)
 
 void task_led_1_ctrl(void *argument)
 {
+	reset_ws2812b();
 	led_animate_turn_all_pixels_off_in_strip(STRIP_BIT_1);
 	while (1)
 	{

@@ -79,7 +79,6 @@
 									<listOptionValue builtIn="false" value="../sdk/FreeRTOS/Source/include"/>
 									<listOptionValue builtIn="false" value="../sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F"/>
 									<listOptionValue builtIn="false" value="../sdk/CMSIS/Include"/>
-									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/current_monitor&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/led/ws2812b_driver&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/peripheral&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/peripheral/i2c&quot;"/>
@@ -109,6 +108,7 @@
 									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/led/led_ctrl/led_ctrl_brightness&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/led/led_ctrl/led_ctrl_speed&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/led/led_ctrl/led_ctrl_state&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/led/led_ctrl/led_ctrl_power&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/led/led_animate&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/led/led_color&quot;"/>
 								</option>

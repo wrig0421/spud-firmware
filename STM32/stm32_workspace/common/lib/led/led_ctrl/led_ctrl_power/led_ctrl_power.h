@@ -9,8 +9,8 @@
 #define CURRENT_MONITOR_H
 #include <stdint.h>
 
-void current_monitor_set(float value);
-float current_monitor_ratio(void);
-void current_monitor_init(void);
+void led_ctrl_power_monitor_set(float value);
+float led_ctrl_power_monitor_ratio(void);
+void led_ctrl_power_monitor_init(void);
 
 #endif /* CURRENT_MONITOR_H */
