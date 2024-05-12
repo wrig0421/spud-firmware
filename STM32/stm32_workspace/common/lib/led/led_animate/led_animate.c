@@ -28,6 +28,7 @@ void led_animate_show_strip(const strip_mask_t strip_mask)
 {
     if (STRIP_BIT_1 & strip_mask)
     {
+    	//ws2812b_show_strip_two();
         ws2812b_show_strip_one();
     }
     if (STRIP_BIT_2 & strip_mask)
@@ -395,6 +396,7 @@ void led_animate_rainbow_cycle(const strip_mask_t mask, const uint16_t speed_del
 	led_color_t led_color;
 	led_color.color_hex = LED_COLOR_HEX_BLACK;
 	uint16_t strip_size = ws2812_led_get_max_strip_size(mask);
+	//uint16_t strip_size = ws2812_get_strip_size(mask);
     for (uint16_t jjj = 256 * 5; jjj > 0; jjj--)
     {
         if (task_button_press_interrupt_occurred()) if (task_button_press_check_interrupts(mask)) return;

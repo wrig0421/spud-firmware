@@ -4,8 +4,8 @@
 		<cconfiguration id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.2079005053">
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.2079005053" moduleId="org.eclipse.cdt.core.settings" name="Debug">
 				<macros>
-					<stringMacro name="ProjDirPath" type="VALUE_PATH_DIR" value="/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/spudglo"/>
-					<stringMacro name="WorkspaceDirPath" type="VALUE_PATH_DIR" value="/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace"/>
+					<stringMacro name="ProjDirPath" type="VALUE_PATH_DIR" value="C:\Users\Spud\Documents\GitHub\spud-firmware\STM32\stm32_workspace\spudglo"/>
+					<stringMacro name="WorkspaceDirPath" type="VALUE_PATH_DIR" value="C:\Users\Spud\Documents\GitHub\spud-firmware\STM32\stm32_workspace"/>
 				</macros>
 				<externalSettings/>
 				<extensions>
@@ -225,15 +225,6 @@
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
 	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
-	<storageModule moduleId="scannerConfiguration">
-		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
-		<scannerConfigBuildInfo instanceId="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.release.672602957;com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.release.672602957.;com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.783971678;com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.657752239">
-			<autodiscovery enabled="false" problemReportingEnabled="true" selectedProfileId=""/>
-		</scannerConfigBuildInfo>
-		<scannerConfigBuildInfo instanceId="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.2079005053;com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.2079005053.;com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.483812363;com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.743633161">
-			<autodiscovery enabled="false" problemReportingEnabled="true" selectedProfileId=""/>
-		</scannerConfigBuildInfo>
-	</storageModule>
 	<storageModule moduleId="refreshScope" versionNumber="2">
 		<configuration configurationName="Debug">
 			<resource resourceType="PROJECT" workspacePath="/spudglo"/>
@@ -241,5 +232,11 @@
 		<configuration configurationName="Release">
 			<resource resourceType="PROJECT" workspacePath="/spudglo"/>
 		</configuration>
+	</storageModule>
+	<storageModule moduleId="scannerConfiguration">
+		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		<scannerConfigBuildInfo instanceId="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.2079005053;com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.2079005053.;com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.483812363;com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.743633161">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
 	</storageModule>
 </cproject>

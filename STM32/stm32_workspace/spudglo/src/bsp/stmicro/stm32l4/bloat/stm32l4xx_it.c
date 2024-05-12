@@ -341,21 +341,22 @@ void TransferComplete_3(DMA_HandleTypeDef *DmaHandle)
 
 bool g_tim_pwm_transfer_cmplt = false;
 bool gb_dma_cmplt_strip_1 = true;
-bool gb_dma_cmplt_strip_2 = false;
+bool gb_dma_cmplt_strip_2 = true;
 bool gb_dma_cmplt_strip_3 = false;
 
 void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim)
 {
+
     switch (htim->Channel)
     {
         case HAL_TIM_ACTIVE_CHANNEL_1:
             HAL_TIM_PWM_Stop_DMA(htim, TIM_CHANNEL_1);
-            osDelay(1);
+            //osDelay(1);
             gb_dma_cmplt_strip_1 = true;
         break;
         case HAL_TIM_ACTIVE_CHANNEL_2:
             HAL_TIM_PWM_Stop_DMA(htim, TIM_CHANNEL_2);
-            osDelay(1);
+            //osDelay(1);
             gb_dma_cmplt_strip_2 = true;
         break;
         case HAL_TIM_ACTIVE_CHANNEL_3:
@@ -365,7 +366,7 @@ void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim)
         default:
         break;
     }
-//    semaphore_give(SEMAPHORE_DMA_TRANSFER);
+//    semaphore_give_from_isr(SEMAPHORE_DMA_TRANSFER);
 }
 
 

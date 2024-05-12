@@ -18,5 +18,6 @@ typedef enum
 void semaphore_create(void);
 void semaphore_take(semaphore_assignment_e semaphore);
 void semaphore_give(semaphore_assignment_e semaphore);
+void semaphore_give_from_isr(semaphore_assignment_e semaphore);
 
 #endif /* SEMAPHORE_ACCESS_H */

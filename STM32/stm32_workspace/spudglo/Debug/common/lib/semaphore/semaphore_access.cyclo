@@ -1,3 +1,4 @@
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/semaphore/semaphore_access.c:17:6:semaphore_create	1
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/semaphore/semaphore_access.c:24:6:semaphore_take	2
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/semaphore/semaphore_access.c:37:6:semaphore_give	2
+C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/semaphore/semaphore_access.c:17:6:semaphore_create	1
+C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/semaphore/semaphore_access.c:24:6:semaphore_take	2
+C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/semaphore/semaphore_access.c:37:6:semaphore_give	2
+C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/semaphore/semaphore_access.c:50:6:semaphore_give_from_isr	2

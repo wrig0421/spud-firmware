@@ -45,3 +45,18 @@ void semaphore_give(semaphore_assignment_e semaphore)
 		break;
 	}
 }
+
+
+void semaphore_give_from_isr(semaphore_assignment_e semaphore)
+{
+	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+
+	switch (semaphore)
+	{
+		case SEMAPHORE_DMA_TRANSFER:
+			xSemaphoreGiveFromISR(g_dma_transfer_semaphore, &xHigherPriorityTaskWoken);
+		break;
+		default:
+		break;
+	}
+}

@@ -25,8 +25,8 @@
 // WS2812B reset time is >= 50 us
 // WS2812B_RESET_TIME_
 
-#define WS2812B_BIT_SET_CYCLES              ((((WS2812B_T1H_TIME_NANOSECONDS + WS2812B_T0L_TIME_NANOSECONDS) / 2.0f) / WS2812B_TIM_TIME_CYCLES) / 1000.0f)
-#define WS2812B_BIT_RESET_CYCLES            (WS2812B_PULSE_TIME_CYCLES - WS2812B_BIT_SET_CYCLES)
+#define WS2812B_BIT_SET_CYCLES              (uint32_t)((((WS2812B_T1H_TIME_NANOSECONDS + WS2812B_T0L_TIME_NANOSECONDS) / 2.0f) / WS2812B_TIM_TIME_CYCLES) / 1000.0f)
+#define WS2812B_BIT_RESET_CYCLES            (uint32_t)(WS2812B_PULSE_TIME_CYCLES - WS2812B_BIT_SET_CYCLES)
 
 typedef uint8_t color_t;
 typedef uint16_t strip_mask_t; // 16 strips max..
@@ -90,7 +90,7 @@ typedef struct
     color_t blue;
 } ws2812b_led_t;
 typedef ws2812b_led_t* p_ws2812b_led_t;
-typedef uint32_t* p_pwm_data_t;
+typedef uint8_t* p_pwm_data_t;
 
 
 typedef struct
