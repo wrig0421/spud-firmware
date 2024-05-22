@@ -96,7 +96,7 @@ led_color_hex_code_e led_ctrl_color_to_hex(const led_color_e color)
 }
 
 
-void led_ctrl_color_random_input(led_color_e* p_color)
+led_color_e led_ctrl_color_random_input(led_color_e* p_color)
 {
     led_color_e color = (led_color_e)(random_num(0, NUM_COLORS));
     if (*p_color == color)
@@ -108,10 +108,11 @@ void led_ctrl_color_random_input(led_color_e* p_color)
     {
         *p_color = color;
     }
+    return color;
 }
 
 
-void led_ctrl_color_random(const strip_mask_t mask)
+led_color_e led_ctrl_color_random(const strip_mask_t mask)
 {
 	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
     led_color_e color = (led_color_e)(random_num(0, NUM_COLORS));
@@ -130,6 +131,7 @@ void led_ctrl_color_random(const strip_mask_t mask)
     {
     	g_task_led_ctrl[strip_num].led_color_info.led_color = color;
     }
+    return color;
 }
 
 

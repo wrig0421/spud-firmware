@@ -93,58 +93,179 @@ led_ctrl_state_iterations_t g_task_led_ctrl_state_iterations[NUM_LED_STATES] =
 {
 	[LED_STATE_SPELL] =
 	{
-		.led_state_max_iteration 									= 10,
-		.led_state_iteration_delay_ms 								= 0
+		.led_state_max_iteration[LED_SPEED_10X]						= 32,
+		.led_state_max_iteration[LED_SPEED_5X]						= 16,
+		.led_state_max_iteration[LED_SPEED_1X]						= 8,
+		.led_state_max_iteration[LED_SPEED_0P5X]					= 4,
+		.led_state_max_iteration[LED_SPEED_0P25X]					= 2,
+
+		.led_state_iteration_delay_ms[LED_SPEED_10X]				= 0,
+		.led_state_iteration_delay_ms[LED_SPEED_5X]					= 40,
+		.led_state_iteration_delay_ms[LED_SPEED_1X]					= 100,
+		.led_state_iteration_delay_ms[LED_SPEED_0P5X]				= 250,
+		.led_state_iteration_delay_ms[LED_SPEED_0P25X]				= 500,
+
+		.led_state_allow_black_color								= true
 	},
 	[LED_STATE_WHITE_COLOR] =
 	{
-		.led_state_max_iteration 									= 5,
-		.led_state_iteration_delay_ms 								= 5000
+		.led_state_max_iteration[LED_SPEED_10X]						= 1,
+		.led_state_max_iteration[LED_SPEED_5X]						= 1,
+		.led_state_max_iteration[LED_SPEED_1X]						= 1,
+		.led_state_max_iteration[LED_SPEED_0P5X]					= 1,
+		.led_state_max_iteration[LED_SPEED_0P25X]					= 1,
+
+		.led_state_iteration_delay_ms[LED_SPEED_10X]				= 5000,
+		.led_state_iteration_delay_ms[LED_SPEED_5X]					= 5000,
+		.led_state_iteration_delay_ms[LED_SPEED_1X]					= 5000,
+		.led_state_iteration_delay_ms[LED_SPEED_0P5X]				= 5000,
+		.led_state_iteration_delay_ms[LED_SPEED_0P25X]				= 5000,
+
+		.led_state_allow_black_color								= false
 	},
 	[LED_STATE_SOLID_COLOR] =
 	{
-		.led_state_max_iteration 									= 5,
-		.led_state_iteration_delay_ms 								= 5000
+		.led_state_max_iteration[LED_SPEED_10X]						= 32,
+		.led_state_max_iteration[LED_SPEED_5X]						= 16,
+		.led_state_max_iteration[LED_SPEED_1X]						= 8,
+		.led_state_max_iteration[LED_SPEED_0P5X]					= 4,
+		.led_state_max_iteration[LED_SPEED_0P25X]					= 2,
+
+		.led_state_iteration_delay_ms[LED_SPEED_10X]				= 5000,
+		.led_state_iteration_delay_ms[LED_SPEED_5X]					= 5000,
+		.led_state_iteration_delay_ms[LED_SPEED_1X]					= 5000,
+		.led_state_iteration_delay_ms[LED_SPEED_0P5X]				= 5000,
+		.led_state_iteration_delay_ms[LED_SPEED_0P25X]				= 5000,
+
+		.led_state_allow_black_color								= false
 	},
 	[LED_STATE_SPARKLE_NO_FILL] =
 	{
-		.led_state_max_iteration 									= 4,
-		.led_state_iteration_delay_ms 								= 0
+		.led_state_max_iteration[LED_SPEED_10X]						= 4,
+		.led_state_max_iteration[LED_SPEED_5X]						= 4,
+		.led_state_max_iteration[LED_SPEED_1X]						= 4,
+		.led_state_max_iteration[LED_SPEED_0P5X]					= 4,
+		.led_state_max_iteration[LED_SPEED_0P25X]					= 4,
+
+		.led_state_iteration_delay_ms[LED_SPEED_10X]				= 0,
+		.led_state_iteration_delay_ms[LED_SPEED_5X]					= 40,
+		.led_state_iteration_delay_ms[LED_SPEED_1X]					= 100,
+		.led_state_iteration_delay_ms[LED_SPEED_0P5X]				= 250,
+		.led_state_iteration_delay_ms[LED_SPEED_0P25X]				= 500,
+
+		.led_state_allow_black_color								= false
 	},
 	[LED_STATE_SPARKLE_FILL] =
 	{
-		.led_state_max_iteration 									= 4,
-		.led_state_iteration_delay_ms 								= 0
+		.led_state_max_iteration[LED_SPEED_10X]						= 4,
+		.led_state_max_iteration[LED_SPEED_5X]						= 4,
+		.led_state_max_iteration[LED_SPEED_1X]						= 4,
+		.led_state_max_iteration[LED_SPEED_0P5X]					= 4,
+		.led_state_max_iteration[LED_SPEED_0P25X]					= 4,
+
+		.led_state_iteration_delay_ms[LED_SPEED_10X]				= 0,
+		.led_state_iteration_delay_ms[LED_SPEED_5X]					= 40,
+		.led_state_iteration_delay_ms[LED_SPEED_1X]					= 100,
+		.led_state_iteration_delay_ms[LED_SPEED_0P5X]				= 250,
+		.led_state_iteration_delay_ms[LED_SPEED_0P25X]				= 500,
+
+		.led_state_allow_black_color								= false
 	},
 	[LED_STATE_RAINBOW_CYCLE] =
 	{
-		.led_state_max_iteration 									= 5,
-		.led_state_iteration_delay_ms 								= 0
+		.led_state_max_iteration[LED_SPEED_10X]						= 4,
+		.led_state_max_iteration[LED_SPEED_5X]						= 4,
+		.led_state_max_iteration[LED_SPEED_1X]						= 4,
+		.led_state_max_iteration[LED_SPEED_0P5X]					= 4,
+		.led_state_max_iteration[LED_SPEED_0P25X]					= 4,
+
+		.led_state_iteration_delay_ms[LED_SPEED_10X]				= 0,
+		.led_state_iteration_delay_ms[LED_SPEED_5X]					= 40,
+		.led_state_iteration_delay_ms[LED_SPEED_1X]					= 100,
+		.led_state_iteration_delay_ms[LED_SPEED_0P5X]				= 250,
+		.led_state_iteration_delay_ms[LED_SPEED_0P25X]				= 500,
+
+		.led_state_allow_black_color								= false
 	},
 	[LED_STATE_THEATER_CHASE] =
 	{
-		.led_state_max_iteration 									= 10,
-		.led_state_iteration_delay_ms 								= 0
+		.led_state_max_iteration[LED_SPEED_10X]						= 10,
+		.led_state_max_iteration[LED_SPEED_5X]						= 10,
+		.led_state_max_iteration[LED_SPEED_1X]						= 10,
+		.led_state_max_iteration[LED_SPEED_0P5X]					= 10,
+		.led_state_max_iteration[LED_SPEED_0P25X]					= 10,
+
+		.led_state_iteration_delay_ms[LED_SPEED_10X]				= 0,
+		.led_state_iteration_delay_ms[LED_SPEED_5X]					= 40,
+		.led_state_iteration_delay_ms[LED_SPEED_1X]					= 100,
+		.led_state_iteration_delay_ms[LED_SPEED_0P5X]				= 250,
+		.led_state_iteration_delay_ms[LED_SPEED_0P25X]				= 500,
+
+		.led_state_allow_black_color								= false
 	},
 	[LED_STATE_THEATER_CHASE_RAINBOW] =
 	{
-		.led_state_max_iteration 									= 2,
-		.led_state_iteration_delay_ms 								= 0
+		.led_state_max_iteration[LED_SPEED_10X]						= 2,
+		.led_state_max_iteration[LED_SPEED_5X]						= 2,
+		.led_state_max_iteration[LED_SPEED_1X]						= 2,
+		.led_state_max_iteration[LED_SPEED_0P5X]					= 2,
+		.led_state_max_iteration[LED_SPEED_0P25X]					= 2,
+
+		.led_state_iteration_delay_ms[LED_SPEED_10X]				= 0,
+		.led_state_iteration_delay_ms[LED_SPEED_5X]					= 40,
+		.led_state_iteration_delay_ms[LED_SPEED_1X]					= 100,
+		.led_state_iteration_delay_ms[LED_SPEED_0P5X]				= 250,
+		.led_state_iteration_delay_ms[LED_SPEED_0P25X]				= 500,
+
+		.led_state_allow_black_color								= false
 	},
 	[LED_STATE_FADE_IN_AND_OUT] =
 	{
-		.led_state_max_iteration 									= 10,
-		.led_state_iteration_delay_ms 								= 0
+		.led_state_max_iteration[LED_SPEED_10X]						= 10,
+		.led_state_max_iteration[LED_SPEED_5X]						= 10,
+		.led_state_max_iteration[LED_SPEED_1X]						= 10,
+		.led_state_max_iteration[LED_SPEED_0P5X]					= 10,
+		.led_state_max_iteration[LED_SPEED_0P25X]					= 10,
+
+		.led_state_iteration_delay_ms[LED_SPEED_10X]				= 0,
+		.led_state_iteration_delay_ms[LED_SPEED_5X]					= 40,
+		.led_state_iteration_delay_ms[LED_SPEED_1X]					= 100,
+		.led_state_iteration_delay_ms[LED_SPEED_0P5X]				= 250,
+		.led_state_iteration_delay_ms[LED_SPEED_0P25X]				= 500,
+
+		.led_state_allow_black_color								= false
 	},
 	[LED_STATE_TWINKLE] =
 	{
-		.led_state_max_iteration 									= 5,
-		.led_state_iteration_delay_ms 								= 0
+		.led_state_max_iteration[LED_SPEED_10X]						= 5,
+		.led_state_max_iteration[LED_SPEED_5X]						= 5,
+		.led_state_max_iteration[LED_SPEED_1X]						= 5,
+		.led_state_max_iteration[LED_SPEED_0P5X]					= 5,
+		.led_state_max_iteration[LED_SPEED_0P25X]					= 5,
+
+		.led_state_iteration_delay_ms[LED_SPEED_10X]				= 0,
+		.led_state_iteration_delay_ms[LED_SPEED_5X]					= 40,
+		.led_state_iteration_delay_ms[LED_SPEED_1X]					= 100,
+		.led_state_iteration_delay_ms[LED_SPEED_0P5X]				= 250,
+		.led_state_iteration_delay_ms[LED_SPEED_0P25X]				= 500,
+
+		.led_state_allow_black_color								= false
 	},
 	[LED_STATE_TWO_COLOR] =
 	{
-		.led_state_max_iteration 									= 10,
-		.led_state_iteration_delay_ms 								= 5000
+		.led_state_max_iteration[LED_SPEED_10X]						= 10,
+		.led_state_max_iteration[LED_SPEED_5X]						= 10,
+		.led_state_max_iteration[LED_SPEED_1X]						= 10,
+		.led_state_max_iteration[LED_SPEED_0P5X]					= 10,
+		.led_state_max_iteration[LED_SPEED_0P25X]					= 10,
+
+		.led_state_iteration_delay_ms[LED_SPEED_10X]				= 5000,
+		.led_state_iteration_delay_ms[LED_SPEED_5X]					= 5000,
+		.led_state_iteration_delay_ms[LED_SPEED_1X]					= 5000,
+		.led_state_iteration_delay_ms[LED_SPEED_0P5X]				= 5000,
+		.led_state_iteration_delay_ms[LED_SPEED_0P25X]				= 5000,
+
+		.led_state_allow_black_color								= false
 	}
 };
 
@@ -155,8 +276,8 @@ led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS] =
 	{
 		.led_state_info =
 		{
-			.led_state_master 				= LED_CTRL_STATE_MASTER_DEMO,
-			.led_state 						= LED_STATE_FIRST,
+			.led_state_master 				= LED_CTRL_STATE_MASTER_FIXED,//LED_CTRL_STATE_MASTER_DEMO,
+			.led_state 						= LED_STATE_RAINBOW_CYCLE,//LED_STATE_FIRST,
 			.led_state_current_iteration 	= 0
 		},
 		.led_color_info =
@@ -171,7 +292,7 @@ led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS] =
 			.speed							= false,
 			.pause							= false
 		},
-		.led_speed 							= LED_SPEED_1X,
+		.led_speed 							= LED_SPEED_10X,
 		.led_brightness 					= LED_BRIGHTNESS_100_PERCENT
 	},
 	[STRIP_NUM_2] =
@@ -323,19 +444,20 @@ static void task_led_ctrl_adjust_parameters(const strip_mask_t mask)
 	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
 	led_ctrl_state_info_t *task_led_ctrl_state_info = &g_task_led_ctrl[strip_num].led_state_info;
 	led_ctrl_color_info_t *led_ctrl_color_info = &g_task_led_ctrl[strip_num].led_color_info;
+	led_speed_e led_speed = g_task_led_ctrl[strip_num].led_speed;
 	led_ctrl_state_iterations_t *task_led_ctrl_state_iterations = &g_task_led_ctrl_state_iterations[task_led_ctrl_state_info->led_state];
 
 	task_led_ctrl_state_info->led_state_current_iteration++;
-    if (0 < (task_led_ctrl_state_iterations->led_state_iteration_delay_ms))
+    if (0 < (task_led_ctrl_state_iterations->led_state_iteration_delay_ms[led_speed]))
     {
-    	if (led_ctrl_delay(task_led_ctrl_state_iterations->led_state_iteration_delay_ms))
+    	if (led_ctrl_delay(task_led_ctrl_state_iterations->led_state_iteration_delay_ms[led_speed]))
     	{
     		skip_color_check = true;
     	}
 	}
     if (LED_CTRL_STATE_MASTER_DEMO == (task_led_ctrl_state_info->led_state_master))
     {
-        if (task_led_ctrl_state_iterations->led_state_max_iteration == task_led_ctrl_state_info->led_state_current_iteration)
+        if (task_led_ctrl_state_iterations->led_state_max_iteration[led_speed] == task_led_ctrl_state_info->led_state_current_iteration)
         {
         	task_led_ctrl_state_info->led_state = (led_state_e) (task_led_ctrl_state_info->led_state + 1);
             if (NUM_LED_STATES == task_led_ctrl_state_info->led_state) task_led_ctrl_state_info->led_state = LED_STATE_FIRST;
@@ -346,12 +468,19 @@ static void task_led_ctrl_adjust_parameters(const strip_mask_t mask)
 	{
     	if (LED_STATE_TWO_COLOR == task_led_ctrl_state_info->led_state)
     	{
-    		led_ctrl_color_random_input(&g_two_color_inner);
-    		led_ctrl_color_random_input(&g_two_color_outer);
+    		while (LED_COLOR_BLACK == led_ctrl_color_random_input(&g_two_color_inner));
+    		while (LED_COLOR_BLACK == led_ctrl_color_random_input(&g_two_color_outer));
     	}
     	else
     	{
-    		led_ctrl_color_random(strip_num);
+    		if (!task_led_ctrl_state_iterations->led_state_allow_black_color)
+    		{
+    			while (LED_COLOR_BLACK == led_ctrl_color_random(mask));
+    		}
+    		else
+    		{
+    			led_ctrl_color_random(mask);
+    		}
     	}
 	}
 }
@@ -359,13 +488,15 @@ static void task_led_ctrl_adjust_parameters(const strip_mask_t mask)
 
 static void task_led_iterate(led_state_e led_state, const strip_mask_t mask)
 {
+	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
+	uint16_t animation_delay_ms = g_task_led_ctrl_state_iterations[g_task_led_ctrl[ws2812_strip_bit_to_strip_num(mask)].led_state_info.led_state].led_state_iteration_delay_ms[g_task_led_ctrl[strip_num].led_speed];
 	if (1)//(flash_info_animation_enabled(g_task_led_ctrl.led_state))
 	{
 		switch(led_state)
 		{
 			case LED_STATE_SPELL:
 
-				led_animate_only_spell_word(mask, led_ctrl_color_hex(mask), 20);
+				led_animate_only_spell_word(mask, led_ctrl_color_hex(mask), animation_delay_ms);
 
 				//led_animate_only_spell_word(mask, led_ctrl_color_hex(mask), 20);
 
@@ -394,30 +525,30 @@ static void task_led_iterate(led_state_e led_state, const strip_mask_t mask)
 			break;
 			case LED_STATE_SPARKLE_NO_FILL:
 				led_animate_turn_all_pixels_off();
-				led_animate_sparkle_only_random_color(mask, false, 100);//random(0, 50));
+				led_animate_sparkle_only_random_color(mask, false, animation_delay_ms);//random(0, 50));
 			break;
 			case LED_STATE_SPARKLE_FILL:
-				led_animate_sparkle_only_random_color(mask, true, 100);
+				led_animate_sparkle_only_random_color(mask, true, animation_delay_ms);
 			break;
 			case LED_STATE_RAINBOW_CYCLE:
-				led_animate_rainbow_cycle(mask, 0);//10);
+				led_animate_rainbow_cycle(mask, animation_delay_ms);//10);
 			break;
 			case LED_STATE_THEATER_CHASE:
-				led_animate_theater_chase(mask, led_ctrl_color_hex(mask), 20);
+				led_animate_theater_chase(mask, led_ctrl_color_hex(mask), animation_delay_ms);
 			break;
 			case LED_STATE_THEATER_CHASE_RAINBOW:\
-				led_animate_theater_chase_rainbow(mask, 20);
+				led_animate_theater_chase_rainbow(mask, animation_delay_ms);
 			break;
 			case LED_STATE_FADE_IN_AND_OUT:
 				led_animate_fade_in_fade_out(mask, led_ctrl_color_hex(mask));
 			break;
 			case LED_STATE_TWINKLE:
 				led_animate_turn_all_pixels_off();
-				led_animate_twinkle(mask, led_ctrl_color_hex(mask), (uint32_t)((float)NUM_LEDS * (float)0.9), 20, false);
+				led_animate_twinkle(mask, led_ctrl_color_hex(mask), (uint32_t)((float)NUM_LEDS * (float)0.9), animation_delay_ms, false);
 			break;
 			case LED_STATE_TWO_COLOR:
-				led_animate_set_pixels_in_range(mask, 0, 279, g_color_hex_codes[g_two_color_outer]);
-				led_animate_set_pixels_in_range(mask, 280, 390, g_color_hex_codes[g_two_color_inner]);
+				led_animate_set_pixels_in_range(mask, 0, 334, g_color_hex_codes[g_two_color_outer]);
+				led_animate_set_pixels_in_range(mask, 335, 492, g_color_hex_codes[g_two_color_inner]);
 			break;
 			break;
 			default:
@@ -437,11 +568,12 @@ void task_led_1_ctrl(void *argument)
 {
 	reset_ws2812b();
 	led_animate_turn_all_pixels_off_in_strip(STRIP_BIT_1);
+
 	while (1)
 	{
-		//task_led_iterate(g_task_led_ctrl[STRIP_NUM_1].led_state_info.led_state, STRIP_BIT_1);
-		//task_led_ctrl_adjust_parameters(STRIP_BIT_1);
-		task_led_iterate(LED_STATE_RAINBOW_CYCLE, STRIP_BIT_1);
+		task_led_iterate(g_task_led_ctrl[STRIP_NUM_1].led_state_info.led_state, STRIP_BIT_1);
+		task_led_ctrl_adjust_parameters(STRIP_BIT_1);
+//		task_led_iterate(LED_STATE_THEATER_CHASE_RAINBOW, STRIP_BIT_1);
 	}
 }
 

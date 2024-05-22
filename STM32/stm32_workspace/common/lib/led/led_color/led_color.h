@@ -53,8 +53,8 @@ typedef union
 	uint32_t 			color_hex;
 	struct
 	{
-		uint8_t			rsvd;
 		ws2812b_led_t	color_rgb;
+		uint8_t			rsvd;
 	};
 } led_color_t;
 

@@ -21,10 +21,8 @@ uint8_t led_ctrl_color_red_hex(const strip_mask_t mask);
 uint8_t led_ctrl_color_green_hex(const strip_mask_t mask);
 uint8_t led_ctrl_color_blue_hex(const strip_mask_t mask);
 led_color_hex_code_e led_ctrl_color_to_hex(const led_color_e color);
-void led_ctrl_color_random_input(led_color_e* p_color);
-void led_ctrl_color_random(const strip_mask_t mask);
-
-
+led_color_e led_ctrl_color_random(const strip_mask_t mask);
+led_color_e led_ctrl_color_random_input(led_color_e* p_color);
 
 #endif
 

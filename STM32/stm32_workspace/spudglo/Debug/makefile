@@ -47,6 +47,7 @@ RM := rm -rf
 -include common/lib/pkt/subdir.mk
 -include common/lib/peripheral/uart/subdir.mk
 -include common/lib/peripheral/spi/subdir.mk
+-include common/lib/peripheral/i2c/sensors/subdir.mk
 -include common/lib/peripheral/i2c/subdir.mk
 -include common/lib/led/ws2812b_driver/subdir.mk
 -include common/lib/led/led_ctrl/led_ctrl_state/subdir.mk

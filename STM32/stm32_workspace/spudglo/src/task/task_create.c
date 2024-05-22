@@ -155,7 +155,7 @@ void task_create(void)
 #	endif
 #endif
 
-//	g_button_press_handle = osThreadNew(task_button_press, NULL, &g_task_button_press_attributes);
+    g_button_press_handle = osThreadNew(task_button_press, NULL, &g_task_button_press_attributes);
     //g_dma_transfer_handle = osThreadNew(task_dma_transfer, NULL, &g_task_dma_transfer_attributes);
     g_tasks_running = true; // technically will be running after task scheduler started
 }

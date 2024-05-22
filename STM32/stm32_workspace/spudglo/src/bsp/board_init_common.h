@@ -25,7 +25,7 @@ typedef enum
 
 typedef enum
 {
-#if defined(BOARD_SPUDGLO_V5)
+#if defined(BOARD_SPUDGLO_V5) || defined(BOARD_SPUDGLO_V7)
     PUSH_BUTTON_A_PIN = GPIO_PIN_5,
     PUSH_BUTTON_B_PIN = GPIO_PIN_13,
     PUSH_BUTTON_C_PIN = GPIO_PIN_0,
@@ -42,7 +42,7 @@ typedef enum
 
 typedef enum
 {
-#if defined(BOARD_SPUDGLO_V5)
+#if defined(BOARD_SPUDGLO_V5) || defined(BOARD_SPUDGLO_V7)
     PUSH_BUTTON_A_IRQ = EXTI9_5_IRQn, //PIN_WKUP_4_IRQ, // EXTI2_IRQn
     PUSH_BUTTON_B_IRQ = EXTI15_10_IRQn, //PIN_WKUP_2_IRQ, // EXTI15_10_IRQn
     PUSH_BUTTON_C_IRQ = EXTI0_IRQn, //PIN_WKUP_3_IRQ, // EXTI9_5_IRQn

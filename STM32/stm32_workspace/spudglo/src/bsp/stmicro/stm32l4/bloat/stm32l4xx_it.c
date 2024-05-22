@@ -194,7 +194,7 @@ volatile uint32_t d_passes = 0;
 void EXTI0_IRQHandler(void)
 {
     BaseType_t xHigherPriorityTaskWoken;
-#if defined(BOARD_SPUDGLO_V5)
+#if defined(BOARD_SPUDGLO_V5) || defined(BOARD_SPUDGLO_V7)
 	// C is color
     board_init_push_button_pin_e button_pin = PUSH_BUTTON_C_PIN;
     board_init_push_buttons_e button = PUSH_BUTTON_C;
@@ -222,7 +222,7 @@ void EXTI2_IRQHandler(void)
 {
     // A is speed
     BaseType_t xHigherPriorityTaskWoken;
-#if defined(BOARD_SPUDGLO_V5)
+#if defined(BOARD_SPUDGLO_V5) || defined(BOARD_SPUDGLO_V7)
 	// D is speed!
     board_init_push_button_pin_e button_pin = PUSH_BUTTON_D_PIN;
     board_init_push_buttons_e button = PUSH_BUTTON_D;
@@ -267,7 +267,7 @@ volatile uint32_t c_passes = 0;
 void EXTI9_5_IRQHandler(void)
 {
     BaseType_t xHigherPriorityTaskWoken;
-#if defined(BOARD_SPUDGLO_V5)
+#if defined(BOARD_SPUDGLO_V5) || defined(BOARD_SPUDGLO_V7)
 	// A is speed!
     board_init_push_button_pin_e button_pin = gpio_config_pin_lookup(GPIO_PIN_PUSH_BUTTON_A);
     board_init_push_buttons_e button = PUSH_BUTTON_A;

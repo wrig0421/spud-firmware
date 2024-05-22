@@ -4,6 +4,7 @@
 
 #include <stdint.h>
 #include "ws2812b.h"
+#include "led_ctrl_speed.h"
 
 typedef enum
 {
@@ -85,8 +86,9 @@ typedef struct
 
 typedef struct
 {
-	uint16_t				led_state_max_iteration;
-	uint16_t				led_state_iteration_delay_ms;
+	uint16_t				led_state_max_iteration[NUM_SPEEDS];
+	uint16_t				led_state_iteration_delay_ms[NUM_SPEEDS];
+	bool					led_state_allow_black_color;
 } led_ctrl_state_iterations_t;
 
 

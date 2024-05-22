@@ -193,10 +193,14 @@ void led_animate_only_spell_word(const strip_mask_t mask, const led_color_hex_co
 
 void led_animate_fade_in_fade_out(const strip_mask_t mask, const led_color_hex_code_e color)
 {
+	float fade_factor = 0.0f;
     led_color_t led_color;
+    led_color_t temp_led_color;
+
     led_color.color_hex = color;
     for (int iii = 0; iii < 256; iii++)
     {
+    	fade_factor = (float)iii / 256.0f;
         if (task_button_press_interrupt_occurred())
         {
             if (task_button_press_check_interrupts(mask))
@@ -204,13 +208,14 @@ void led_animate_fade_in_fade_out(const strip_mask_t mask, const led_color_hex_c
                 return;
             }
         }
-        led_color.color_rgb.red *= (iii / 256.0f);
-        led_color.color_rgb.green *= (iii / 256.0f);
-        led_color.color_rgb.blue *= (iii / 256.0f);
-        led_animate_set_all_pixels(mask, &led_color);
+        temp_led_color.color_rgb.red = led_color.color_rgb.red * fade_factor;
+        temp_led_color.color_rgb.green = led_color.color_rgb.green * fade_factor;
+        temp_led_color.color_rgb.blue = led_color.color_rgb.blue * fade_factor;
+        led_animate_set_all_pixels(mask, &temp_led_color);
     }
     for (int iii = 255; iii >= 0; iii = iii-2)
     {
+    	fade_factor = (float)iii / 256.0f;
         if (task_button_press_interrupt_occurred())
         {
             if (task_button_press_check_interrupts(mask))
@@ -218,10 +223,10 @@ void led_animate_fade_in_fade_out(const strip_mask_t mask, const led_color_hex_c
                 return;
             }
         }
-        led_color.color_rgb.red *= (iii / 256.0f);
-        led_color.color_rgb.green *= (iii / 256.0f);
-        led_color.color_rgb.blue *= (iii / 256.0f);
-        led_animate_set_all_pixels(mask, &led_color);
+        temp_led_color.color_rgb.red = led_color.color_rgb.red * fade_factor;
+        temp_led_color.color_rgb.green = led_color.color_rgb.green * fade_factor;
+        temp_led_color.color_rgb.blue = led_color.color_rgb.blue * fade_factor;
+        led_animate_set_all_pixels(mask, &temp_led_color);
     }
 }
 
@@ -407,6 +412,8 @@ void led_animate_rainbow_cycle(const strip_mask_t mask, const uint16_t speed_del
             led_animate_set_pixel(mask, iii, &led_color);
         }
         led_animate_show_strip(mask);
+        led_ctrl_delay((float_t)speed_delay / led_ctrl_speed(mask));
+
 //        if (LED_SPEED_10X == led_ctrl_speed(mask)) led_ctrl_delay(0);
 //        else led_ctrl_delay((float_t)speed_delay / led_ctrl_speed(mask));
     }
@@ -419,7 +426,7 @@ void led_animate_theater_chase(const strip_mask_t mask, const led_color_hex_code
 	led_color_t led_color;
 	led_color.color_hex = color;
 	uint16_t strip_size = ws2812_led_get_max_strip_size(mask);
-    for (int jjj = 0; jjj < 10; jjj++)
+    for (int jjj = 0; jjj < 100; jjj++)
     {
         for (int qqq = 0; qqq < 3; qqq++)
         {
@@ -448,6 +455,7 @@ void led_animate_theater_chase(const strip_mask_t mask, const led_color_hex_code
             	led_color.color_hex = LED_COLOR_HEX_BLACK;
             	led_animate_set_pixel(mask, iii + qqq, &led_color); // turn every third pixel off
 			}
+        	led_color.color_hex = color;
         }
     }
 }

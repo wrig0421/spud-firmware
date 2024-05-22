@@ -35,6 +35,7 @@ common/lib/led/led_ctrl/led_ctrl_speed \
 common/lib/led/led_ctrl/led_ctrl_state \
 common/lib/led/ws2812b_driver \
 common/lib/peripheral/i2c \
+common/lib/peripheral/i2c/sensors \
 common/lib/peripheral/spi \
 common/lib/peripheral/uart \
 common/lib/pkt \
