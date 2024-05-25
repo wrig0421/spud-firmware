@@ -20,6 +20,10 @@
 //extern bool g_tim_pwm_transfer_cmplt;
 extern float g_max_current_ratio;
 extern TIM_HandleTypeDef g_tim1_handle;
+
+extern bool gb_dma_started_strip_1;
+extern bool gb_dma_started_strip_2;
+
 extern bool gb_dma_cmplt_strip_1;
 extern bool gb_dma_cmplt_strip_2;
 extern osThreadId_t g_dma_transfer_handle;
@@ -79,14 +83,16 @@ strip_num_e ws2812_strip_bit_to_strip_num(strip_bit_e strip_bit)
 {
 	switch (strip_bit)
 	{
-		case STRIP_BIT_1: 		return STRIP_NUM_1;
-		case STRIP_BIT_2: 		return STRIP_NUM_2;
-		case STRIP_BIT_3: 		return STRIP_NUM_3;
-		case STRIP_BIT_1_AND_2: return STRIP_NUM_1_AND_2;
-		case STRIP_BIT_1_AND_3: return STRIP_NUM_1_AND_3;
-		case STRIP_BIT_2_AND_3: return STRIP_NUM_2_AND_3;
-//		case STRIP_BIT_ALL_SET: return STRIP_NUM_ALL_SET;
-		//case STRIP_BIT_ALL_SET:	return STRIP_NUM_ALL_SET;
+		case STRIP_BIT_1: 			return STRIP_NUM_1;
+		case STRIP_BIT_2: 			return STRIP_NUM_2;
+		case STRIP_BIT_3: 			return STRIP_NUM_3;
+#		if defined(ENABLE_LED_STRIP_SYNC)
+			case STRIP_BIT_ALL_SET: return STRIP_NUM_ALL_SET;
+#		else
+			case STRIP_BIT_1_AND_2: return STRIP_NUM_1_AND_2;
+			case STRIP_BIT_1_AND_3: return STRIP_NUM_1_AND_3;
+			case STRIP_BIT_2_AND_3: return STRIP_NUM_2_AND_3;
+#		endif
 		default: 				return STRIP_NUM_INVALID;
 	}
 }
@@ -96,13 +102,16 @@ strip_bit_e ws2812_strip_num_to_strip_bit(strip_num_e strip_num)
 {
 	switch (strip_num)
 	{
-		case STRIP_NUM_1: 			return STRIP_BIT_1;
-		case STRIP_NUM_2:			return STRIP_BIT_2;
-		case STRIP_NUM_3:			return STRIP_BIT_3;
-		case STRIP_NUM_1_AND_2:		return STRIP_BIT_1_AND_2;
-		case STRIP_NUM_1_AND_3:		return STRIP_BIT_1_AND_3;
-		case STRIP_NUM_2_AND_3:		return STRIP_BIT_2_AND_3;
-		case STRIP_NUM_ALL_SET: 	return STRIP_BIT_ALL_SET;
+		case STRIP_NUM_1: 				return STRIP_BIT_1;
+		case STRIP_NUM_2:				return STRIP_BIT_2;
+		case STRIP_NUM_3:				return STRIP_BIT_3;
+#		if defined(ENABLE_LED_STRIP_SYNC)
+			case STRIP_NUM_ALL_SET: 	return STRIP_BIT_ALL_SET;
+#		else
+			case STRIP_NUM_1_AND_2:		return STRIP_BIT_1_AND_2;
+			case STRIP_NUM_1_AND_3:		return STRIP_BIT_1_AND_3;
+			case STRIP_NUM_2_AND_3:		return STRIP_BIT_2_AND_3;
+#		endif
 		default:					return STRIP_BIT_INVALID;
 	}
 }
@@ -215,8 +224,47 @@ void ws2812b_dma_transfer(strip_bit_e strip_bit)
     	default: break;
     }
 //    semaphore_take(SEMAPHORE_DMA_TRANSFER);
+
+    if (gb_dma_started_strip_1)
+    {
+    	gb_dma_started_strip_1 = false;
+    	while (!gb_dma_cmplt_strip_1) osDelay(10);
+		gb_dma_cmplt_strip_1 = false;
+    }
+
+    if (gb_dma_started_strip_2)
+    {
+    	gb_dma_started_strip_2 = false;
+    	while (!gb_dma_cmplt_strip_2) osDelay(10);
+		gb_dma_cmplt_strip_2 = false;
+    }
+
+    if (STRIP_BIT_1 == strip_bit)
+    {
+    	gb_dma_started_strip_1 = true;
+    }
+
+	if (STRIP_BIT_2 == strip_bit)
+	{
+		osDelay(1);
+    	gb_dma_started_strip_2 = true;
+	}
+
+
+//    if (STRIP_BIT_1 == strip_bit)
+//    {
+//    	while (!gb_dma_cmplt_strip_1) osDelay(10);
+//    	gb_dma_cmplt_strip_1 = false;
+//    }
+//
+//	if (STRIP_BIT_2 == strip_bit)
+//	{
+//		while (!gb_dma_cmplt_strip_2) osDelay(10);
+//		gb_dma_cmplt_strip_2 = false;
+//	}
+
     while (HAL_OK != HAL_TIM_PWM_Start_DMA(&g_tim1_handle, timer_channel, (uint32_t *)g_ws2812b_info[strip_num].p_pwm_data, \
-    						g_ws2812b_info[strip_num].led_strip_length * BITS_PER_BYTE * sizeof(ws2812b_led_t) + WS2812B_RESET_TIME_CYCLES))
+    						(g_ws2812b_info[strip_num].led_strip_length * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + WS2812B_RESET_TIME_CYCLES))
 	{
         osDelay(10);
 	}
@@ -253,18 +301,11 @@ void ws2812b_fill_pwm_buffer_strip(strip_bit_e strip_bit)
 							(uint16_t)WS2812B_BIT_RESET_CYCLES;
         }
     }
-//    if (STRIP_BIT_1 == strip_bit)
-//    {
-//    	while (!gb_dma_cmplt_strip_1) osDelay(10);
-//    	gb_dma_cmplt_strip_1 = false;
-//    }
+
 //    if (!first_pass)
 //    {
-//		if (STRIP_BIT_2 == strip_bit)
-//		{
-//			while (!gb_dma_cmplt_strip_2) osDelay(10);
-//			gb_dma_cmplt_strip_2 = false;
-//		}
+
+
 //    }
 //    else
 //    {
@@ -321,8 +362,12 @@ void ws2812b_show(const strip_mask_t strip_mask)
 //uint32_t g_pwm_data_strip_2[10000];
 
 //uint32_t g_pwm_data_strip_1[3];
-uint8_t g_pwm_data_strip_1[sizeof(ws2812b_led_t) * BITS_PER_BYTE * STRIP_1_LENGTH + WS2812B_RESET_TIME_CYCLES];
-uint8_t g_pwm_data_strip_2[sizeof(ws2812b_led_t) * BITS_PER_BYTE * STRIP_2_LENGTH + WS2812B_RESET_TIME_CYCLES];
+
+// below hard coded 2880 because WS2812B_RESET_TIME_CYCLES
+uint8_t g_pwm_data_strip_1[sizeof(ws2812b_led_t) * BITS_PER_BYTE * STRIP_1_LENGTH + WS2812B_RESET_TIME_CYCLES + 2*sizeof(uint32_t)];
+uint8_t g_pwm_data_strip_2[sizeof(ws2812b_led_t) * BITS_PER_BYTE * STRIP_2_LENGTH + WS2812B_RESET_TIME_CYCLES + 2*sizeof(uint32_t)];
+
+uint32_t g_reset_cycles = WS2812B_RESET_TIME_CYCLES;
 
 void ws2812b_init(void)
 {
@@ -340,7 +385,8 @@ void ws2812b_init(void)
 //	memset(gp_pwm_data_strip_2, 0, sizeof(uint32_t) * constant * STRIP_2_LENGTH + WS2812B_RESET_TIME_CYCLES);
 //	memset(gp_pwm_data_strip_3, 0, sizeof(uint32_t) * constant * STRIP_3_LENGTH + WS2812B_RESET_TIME_CYCLES);
 	//memset(g_pwm_reset, 0, sizeof(g_pwm_reset));
-
+	memset(g_pwm_data_strip_1 + sizeof(ws2812b_led_t) * BITS_PER_BYTE * STRIP_1_LENGTH, 0, WS2812B_RESET_TIME_CYCLES + 2*sizeof(uint32_t));
+	memset(g_pwm_data_strip_2 + sizeof(ws2812b_led_t) * BITS_PER_BYTE * STRIP_2_LENGTH, 0, WS2812B_RESET_TIME_CYCLES + 2*sizeof(uint32_t));
 	g_ws2812b_info[STRIP_NUM_1].p_pwm_data = g_pwm_data_strip_1;
 	g_ws2812b_info[STRIP_NUM_2].p_pwm_data = g_pwm_data_strip_2;
 //	g_ws2812b_info[STRIP_NUM_2].p_pwm_data = gp_pwm_data_strip_2;

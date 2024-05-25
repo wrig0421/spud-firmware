@@ -277,7 +277,7 @@ led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS] =
 		.led_state_info =
 		{
 			.led_state_master 				= LED_CTRL_STATE_MASTER_FIXED,//LED_CTRL_STATE_MASTER_DEMO,
-			.led_state 						= LED_STATE_RAINBOW_CYCLE,//LED_STATE_FIRST,
+			.led_state 						= LED_STATE_WHITE_COLOR,//LED_STATE_FIRST,
 			.led_state_current_iteration 	= 0
 		},
 		.led_color_info =
@@ -299,8 +299,8 @@ led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS] =
 	{
 		.led_state_info =
 		{
-			.led_state_master 				= LED_CTRL_STATE_MASTER_DEMO,
-			.led_state 						= LED_STATE_FIRST,
+			.led_state_master 				= LED_CTRL_STATE_MASTER_FIXED,
+			.led_state 						= LED_STATE_WHITE_COLOR,
 			.led_state_current_iteration 	= 0
 		},
 		.led_color_info =
@@ -346,8 +346,8 @@ led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS] =
 	{
 		.led_state_info =
 		{
-			.led_state_master 				= LED_CTRL_STATE_MASTER_DEMO,
-			.led_state 						= LED_STATE_FIRST,
+			.led_state_master 				= LED_CTRL_STATE_MASTER_FIXED,
+			.led_state 						= LED_STATE_SRW_DEBUG,
 			.led_state_current_iteration 	= 0,
 		},
 		.led_color_info =
@@ -423,7 +423,7 @@ led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS] =
 		.led_color_info =
 		{
 			.led_color_master 				= LED_COLOR_MASTER_STATE_DEMO,
-			.led_color 						= LED_COLOR_MINT
+			.led_color 						= LED_COLOR_FIRST
 		},
 		.led_interrupt_info =
 		{
@@ -432,10 +432,22 @@ led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS] =
 			.speed							= false,
 			.pause							= false
 		},
-		.led_speed 							= LED_SPEED_1X,
+		.led_speed 							= LED_SPEED_5X,
 		.led_brightness 					= LED_BRIGHTNESS_100_PERCENT
 	}
 };
+
+
+//LED_STATE_WHITE_COLOR,
+//LED_STATE_SOLID_COLOR,
+//LED_STATE_SPARKLE_NO_FILL,
+//LED_STATE_SPARKLE_FILL,
+//LED_STATE_RAINBOW_CYCLE,
+//LED_STATE_THEATER_CHASE,
+//LED_STATE_THEATER_CHASE_RAINBOW,
+//LED_STATE_FADE_IN_AND_OUT,
+//LED_STATE_TWINKLE,
+//LED_STATE_TWO_COLOR,
 
 
 static void task_led_ctrl_adjust_parameters(const strip_mask_t mask)
@@ -547,10 +559,26 @@ static void task_led_iterate(led_state_e led_state, const strip_mask_t mask)
 				led_animate_twinkle(mask, led_ctrl_color_hex(mask), (uint32_t)((float)NUM_LEDS * (float)0.9), animation_delay_ms, false);
 			break;
 			case LED_STATE_TWO_COLOR:
-				led_animate_set_pixels_in_range(mask, 0, 334, g_color_hex_codes[g_two_color_outer]);
-				led_animate_set_pixels_in_range(mask, 335, 492, g_color_hex_codes[g_two_color_inner]);
+				led_animate_set_all_pixels_hex_color(STRIP_BIT_1, g_color_hex_codes[g_two_color_outer]);
+				led_animate_set_all_pixels_hex_color(STRIP_BIT_2, g_color_hex_codes[g_two_color_inner]);
+
+//				led_animate_set_pixels_in_range(mask, 0, 334, g_color_hex_codes[g_two_color_outer]);
+//				led_animate_set_pixels_in_range(mask, 335, 492, g_color_hex_codes[g_two_color_inner]);
 			break;
 			break;
+			case LED_STATE_SRW_DEBUG:
+#				if defined(ENABLE_STRIP_1)
+					led_animate_determine_number_pixels_in_strip(STRIP_BIT_1);
+#				endif
+#				if defined(ENABLE_STRIP_2)
+					led_animate_determine_number_pixels_in_strip(STRIP_BIT_2);
+#				endif
+#				if defined(ENABLE_STRIP_3)
+					led_animate_determine_number_pixels_in_strip(STRIP_BIT_3);
+#				endif
+
+			break;
+
 			default:
 			break;
 		}
@@ -583,10 +611,8 @@ void task_led_2_ctrl(void *argument)
 	led_animate_turn_all_pixels_off_in_strip(STRIP_BIT_2);
 	while (1)
 	{
-		task_led_iterate(LED_STATE_RAINBOW_CYCLE, STRIP_BIT_2);
-		//task_led_iterate(g_task_led_ctrl[STRIP_NUM_2].led_state_info.led_state, STRIP_BIT_2);
-		//task_led_ctrl_adjust_parameters(STRIP_BIT_2);
-		// do we need a delay here??
+		task_led_iterate(g_task_led_ctrl[STRIP_NUM_2].led_state_info.led_state, STRIP_BIT_2);
+		task_led_ctrl_adjust_parameters(STRIP_BIT_2);
 	}
 }
 

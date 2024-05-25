@@ -52,6 +52,7 @@ void led_animate_theater_chase_multiple_colors(const strip_mask_t mask_theater_c
 void led_animate_theater_chase(const strip_mask_t mask_theater_chase, const led_color_hex_code_e color_theater_chase,
                                const uint16_t speed_delay);
 void led_animate_theater_chase_rainbow(const strip_mask_t mask_theater_chase, const uint16_t speed_delay);
-
+void led_animate_determine_number_pixels_in_strip(const strip_mask_t mask);
+void led_animate_set_all_pixels_hex_color(const strip_mask_t mask, const led_color_hex_code_e color);
 
 #endif

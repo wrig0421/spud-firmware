@@ -91,13 +91,22 @@ void led_animate_set_all_pixels(const strip_mask_t mask, led_color_t* led_color)
 }
 
 
+void led_animate_set_all_pixels_hex_color(const strip_mask_t mask, const led_color_hex_code_e color)
+{
+    led_color_t led_color;
+    led_color.color_hex = color;
+    led_animate_set_all_pixels(mask, &led_color); // passed locally.  3 bytes nbd
+}
+
+
+
 void led_animate_set_pixels_in_range(const strip_mask_t mask, uint16_t start, uint16_t stop, const led_color_hex_code_e color)
 {
     led_color_t led_color;
     led_color.color_hex = color;
     if (task_button_press_interrupt_occurred()) if (task_button_press_check_interrupts(mask)) return;
-	for (uint16_t yyy = start; yyy <= stop; yyy++) ws2812b_set_led(STRIP_BIT_1, yyy, led_color.color_rgb.red, led_color.color_rgb.green, led_color.color_rgb.blue);
-	led_animate_show_strip(STRIP_BIT_1);
+	for (uint16_t yyy = start; yyy <= stop; yyy++) ws2812b_set_led(mask, yyy, led_color.color_rgb.red, led_color.color_rgb.green, led_color.color_rgb.blue);
+	led_animate_show_strip(mask);
 }
 
 
@@ -161,7 +170,7 @@ void led_animate_solid_custom_color(const strip_mask_t mask, const led_color_hex
 //    led_color_t led_color.color_hex = color;
     if (task_button_press_interrupt_occurred()) if (task_button_press_check_interrupts(mask)) return;
     led_animate_set_all_pixels(mask, &led_color);
-	led_animate_show_strip(mask);
+	//led_animate_show_strip(mask);
 }
 
 
@@ -246,11 +255,11 @@ void led_animate_strobe(const strip_mask_t mask, const led_color_hex_code_e colo
             }
         }
         led_animate_set_all_pixels(mask, &led_color);
-        led_animate_show_strip(mask);
+//        led_animate_show_strip(mask);
         led_ctrl_delay(flash_delay);
         led_color.color_hex = LED_COLOR_HEX_BLACK;
         led_animate_set_all_pixels(mask, &led_color);
-        led_animate_show_strip(mask);
+//        led_animate_show_strip(mask);
         led_ctrl_delay(flash_delay);
     }
     led_ctrl_delay(end_pause);
@@ -486,6 +495,34 @@ void led_animate_theater_chase_rainbow(const strip_mask_t mask, const uint16_t s
 			}
         }
     }
+}
+
+
+uint16_t g_num_pixels = 0;
+uint16_t g_dbg_pixel_start = 0;
+uint16_t g_dbg_pixel_stop = 10;
+bool g_dbg_num_flag = false;
+bool g_dbg_num_pixels_turn_off_all_pixels;
+bool g_dbg_num_pixels_complete = false;
+void led_animate_determine_number_pixels_in_strip(const strip_mask_t mask)
+{
+	led_animate_turn_all_pixels_off();
+	do
+	{
+
+		if (g_dbg_num_pixels_turn_off_all_pixels)
+		{
+			g_dbg_num_pixels_turn_off_all_pixels = false;
+			led_animate_turn_all_pixels_off();
+			led_ctrl_delay(5000);
+		}
+		else
+		{
+			led_animate_set_pixels_in_range(mask, g_dbg_pixel_start, g_dbg_pixel_stop, LED_COLOR_HEX_DARK_MAGENTA);
+			led_ctrl_delay(2000);
+		}
+	} while ((!g_dbg_num_pixels_complete));
+	g_dbg_num_pixels_complete = false;
 }
 
 

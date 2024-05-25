@@ -11,7 +11,7 @@
 #include "ws2812b.h"
 #include "led_ctrl_power.h"
 
-#define LED_CTRL_POWER_MONITOR_MAX_CURRENT_DRAW_A      (float)9.50
+#define LED_CTRL_POWER_MONITOR_MAX_CURRENT_DRAW_A      (float)9.5
 #define LED_CTRL_POWER_MONITOR_MAX_CURRENT_PER_LED_MA  40.0f
 
 // current tracking needs to be maintained per strip.
