@@ -34,9 +34,9 @@
 #endif
 
 // define the number of strips
-#define STRIP_1_LENGTH      459 // HELLO SPRING STRIP 1 = 459      //492// playstation controller! - 390// vice city 432// shucmacher - 636// skull sign=200 // 151 for SWENSON SIGN /// FLYNN FARM SIGN = 166!!
-#define STRIP_2_LENGTH      156 // HELLO SPRING STRIP 2 = 156
-#define STRIP_3_LENGTH      0//20
+#define STRIP_1_LENGTH      200 // HELLO SPRING STRIP 1 = 459      //492// playstation controller! - 390// vice city 432// shucmacher - 636// skull sign=200 // 151 for SWENSON SIGN /// FLYNN FARM SIGN = 166!!
+#define STRIP_2_LENGTH      200 // HELLO SPRING STRIP 2 = 156
+#define STRIP_3_LENGTH      200//20
 
 #define MAX_NUM_STRIPS		3
 #define ENABLE_LED_STRIP_SYNC

@@ -23,9 +23,14 @@ extern TIM_HandleTypeDef g_tim1_handle;
 
 extern bool gb_dma_started_strip_1;
 extern bool gb_dma_started_strip_2;
+extern bool gb_dma_started_strip_3;
+
 
 extern bool gb_dma_cmplt_strip_1;
 extern bool gb_dma_cmplt_strip_2;
+extern bool gb_dma_cmplt_strip_3;
+
+
 extern osThreadId_t g_dma_transfer_handle;
 
 
@@ -239,6 +244,13 @@ void ws2812b_dma_transfer(strip_bit_e strip_bit)
 		gb_dma_cmplt_strip_2 = false;
     }
 
+    if (gb_dma_started_strip_3)
+    {
+    	gb_dma_started_strip_3 = false;
+    	while (!gb_dma_cmplt_strip_3) osDelay(10);
+		gb_dma_cmplt_strip_3 = false;
+    }
+
     if (STRIP_BIT_1 == strip_bit)
     {
     	gb_dma_started_strip_1 = true;
@@ -248,6 +260,12 @@ void ws2812b_dma_transfer(strip_bit_e strip_bit)
 	{
 		osDelay(1);
     	gb_dma_started_strip_2 = true;
+	}
+
+	if (STRIP_BIT_3 == strip_bit)
+	{
+		osDelay(1);
+    	gb_dma_started_strip_3 = true;
 	}
 
 
@@ -366,6 +384,7 @@ void ws2812b_show(const strip_mask_t strip_mask)
 // below hard coded 2880 because WS2812B_RESET_TIME_CYCLES
 uint8_t g_pwm_data_strip_1[sizeof(ws2812b_led_t) * BITS_PER_BYTE * STRIP_1_LENGTH + WS2812B_RESET_TIME_CYCLES + 2*sizeof(uint32_t)];
 uint8_t g_pwm_data_strip_2[sizeof(ws2812b_led_t) * BITS_PER_BYTE * STRIP_2_LENGTH + WS2812B_RESET_TIME_CYCLES + 2*sizeof(uint32_t)];
+uint8_t g_pwm_data_strip_3[sizeof(ws2812b_led_t) * BITS_PER_BYTE * STRIP_3_LENGTH + WS2812B_RESET_TIME_CYCLES + 2*sizeof(uint32_t)];
 
 uint32_t g_reset_cycles = WS2812B_RESET_TIME_CYCLES;
 
@@ -387,8 +406,11 @@ void ws2812b_init(void)
 	//memset(g_pwm_reset, 0, sizeof(g_pwm_reset));
 	memset(g_pwm_data_strip_1 + sizeof(ws2812b_led_t) * BITS_PER_BYTE * STRIP_1_LENGTH, 0, WS2812B_RESET_TIME_CYCLES + 2*sizeof(uint32_t));
 	memset(g_pwm_data_strip_2 + sizeof(ws2812b_led_t) * BITS_PER_BYTE * STRIP_2_LENGTH, 0, WS2812B_RESET_TIME_CYCLES + 2*sizeof(uint32_t));
+	memset(g_pwm_data_strip_3 + sizeof(ws2812b_led_t) * BITS_PER_BYTE * STRIP_3_LENGTH, 0, WS2812B_RESET_TIME_CYCLES + 2*sizeof(uint32_t));
 	g_ws2812b_info[STRIP_NUM_1].p_pwm_data = g_pwm_data_strip_1;
 	g_ws2812b_info[STRIP_NUM_2].p_pwm_data = g_pwm_data_strip_2;
+	g_ws2812b_info[STRIP_NUM_3].p_pwm_data = g_pwm_data_strip_3;
+
 //	g_ws2812b_info[STRIP_NUM_2].p_pwm_data = gp_pwm_data_strip_2;
 //	g_ws2812b_info[STRIP_NUM_3].p_pwm_data = gp_pwm_data_strip_3;
 

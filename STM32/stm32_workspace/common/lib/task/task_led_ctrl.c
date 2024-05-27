@@ -417,7 +417,7 @@ led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS] =
 		.led_state_info =
 		{
 			.led_state_master 				= LED_CTRL_STATE_MASTER_DEMO,
-			.led_state 						= LED_STATE_FIRST,
+			.led_state 						= LED_STATE_RAINBOW_CYCLE,
 			.led_state_current_iteration 	= 0,
 		},
 		.led_color_info =
