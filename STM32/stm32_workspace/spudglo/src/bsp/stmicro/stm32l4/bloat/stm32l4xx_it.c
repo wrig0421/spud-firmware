@@ -344,11 +344,12 @@ bool g_tim_pwm_transfer_cmplt = false;
 
 bool gb_dma_started_strip_1 = false;
 bool gb_dma_started_strip_2 = false;
+bool gb_dma_started_strip_3 = false;
 
 
 bool gb_dma_cmplt_strip_1 = true;
 bool gb_dma_cmplt_strip_2 = true;
-bool gb_dma_cmplt_strip_3 = false;
+bool gb_dma_cmplt_strip_3 = true;
 
 void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim)
 {
