@@ -20,6 +20,7 @@
 #include "task_notify.h"
 #include "led_ctrl_color.h"
 #include "led_ctrl.h"
+#include "rv8803.h"
 #include <string.h>
 extern UART_HandleTypeDef      gh_host_usart;
 
@@ -631,6 +632,7 @@ void task_led_3_ctrl(void *argument)
 
 void task_led_sync_ctrl(void *argument)
 {
+	rv8803_write_current_tod();
 	led_animate_turn_all_pixels_off();
 	while (1)
 	{

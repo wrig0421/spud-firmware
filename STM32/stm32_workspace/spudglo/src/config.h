@@ -29,7 +29,7 @@
 	#define BOARD_SPUDGLO_V6
 #elif defined(BOARD_SPUDGLO_V5P0)
 	#define BOARD_SPUDGLO_V5
-#elif defined(BOARD_SPUDGLO_V4P3) || defined(BOARD_SPUDGLO_V4P2) || defined(BOARD_SPUDGLO_V4P1)
+#elif defined(BOARD_SP	UDGLO_V4P3) || defined(BOARD_SPUDGLO_V4P2) || defined(BOARD_SPUDGLO_V4P1)
 	#define BOARD_SPUDGLO_V4
 #endif
 

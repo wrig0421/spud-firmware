@@ -106,13 +106,13 @@ const gpio_config_t g_gpio_config[NUM_GPIO_PINS] =
 	[GPIO_PIOC_PIN_14] = // OSC_32K INPUT SIGNAL!!!
 	{
 		.pin = GPIO_PIOC_PIN_14,
-		.port = GPIO_PORT_A,
+		.port = GPIO_PORT_C,
 		.mode = GPIO_CONFIG_MODE_NO_SETTING
 	},
 	[GPIO_PIOC_PIN_15] = // OSC_32K INPUT SIGNAL!!!
 	{
-		.pin = GPIO_PIOC_PIN_6,
-		.port = GPIO_PORT_A,
+		.pin = GPIO_PIOC_PIN_15,
+		.port = GPIO_PORT_C,
 		.mode = GPIO_CONFIG_MODE_NO_SETTING
 	},
 
@@ -241,7 +241,7 @@ const gpio_config_t g_gpio_config[NUM_GPIO_PINS] =
 	},
 	[GPIO_PIOB_PIN_2] = // NC
 	{
-		.pin = GPIO_PIOB_PIN_0,
+		.pin = GPIO_PIOB_PIN_2,
 		.port = GPIO_PORT_B,
 		.mode = GPIO_CONFIG_MODE_INPUT_PULLDOWN
 	},
@@ -253,7 +253,7 @@ const gpio_config_t g_gpio_config[NUM_GPIO_PINS] =
 	},
 	[GPIO_PIOB_PIN_4] = // PROGRAMMING SIGNAL
 	{
-		.pin = GPIO_PIOB_PIN_3,
+		.pin = GPIO_PIOB_PIN_4,
 		.port = GPIO_PORT_B,
 		.mode = GPIO_CONFIG_MODE_NO_SETTING
 	},

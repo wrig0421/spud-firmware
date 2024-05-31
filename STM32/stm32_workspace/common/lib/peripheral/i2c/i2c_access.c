@@ -52,6 +52,7 @@ i2c_access_chip_info_t* i2c_struct_generator(i2c_access_chip_id_e i2c_chip_id, u
 {
 	// need to look up bus from chip id here...
 	i2c_config_bus_e i2c_config_bus = i2c_config_bus_lookup_from_chip_id(i2c_chip_id);
+	g_i2c_access_chip_info[i2c_config_bus].chip_id = i2c_chip_id;
 	g_i2c_access_chip_info[i2c_config_bus].chip_address = g_i2c_access_chip_config[I2C_ACCESS_CHIP_ID_RV_8803].chip_memory_address;
 	g_i2c_access_chip_info[i2c_config_bus].chip_memory_address_width_bytes = g_i2c_access_chip_config[I2C_ACCESS_CHIP_ID_RV_8803].chip_memory_address_width_bytes;
 	g_i2c_access_chip_info[i2c_config_bus].chip_memory_address = memory_address;

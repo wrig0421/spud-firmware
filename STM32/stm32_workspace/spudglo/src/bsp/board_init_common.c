@@ -11,6 +11,7 @@
 #include "board_init_common.h"
 #include "gpio_config_hal.h"
 #include "gpio_config_hal_specific.h"
+#include "i2c_config_hal.h"
 
 typedef enum
 {
@@ -150,6 +151,11 @@ void board_init_common_stop_timer(void)
 
 void board_init_common_board_init(void)
 {
+
+//	time_t rawtime;
+//	time(&rawtime);
+
+
     srand(time(0)); // TODO determine a better seed.  Analog input noise would be superb!
 
     HAL_Init();
@@ -158,6 +164,9 @@ void board_init_common_board_init(void)
     gpio_config_hal_setup();
 #if defined(BOARD_SPUDGLO_V5)
     board_init_peripheral_setup(); // TODO determine whether to continue supporting boards that don't have peripheral access or not...
+#endif
+#if defined(BOARD_SPUDGLO_V7)
+    i2c_config_hal_setup();
 #endif
     board_init_common_timer_init(); // TODO determine if timer should be part of a separate config file??
     ws2812b_init();

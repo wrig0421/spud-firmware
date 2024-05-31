@@ -1,2 +1,2 @@
 ../src/bsp/stmicro/peripheral/i2c/i2c_access_hal.c:11:6:i2c_access_hal_write_block	48	static
-../src/bsp/stmicro/peripheral/i2c/i2c_access_hal.c:20:6:i2c_access_hal_read_block	48	static
+../src/bsp/stmicro/peripheral/i2c/i2c_access_hal.c:23:6:i2c_access_hal_read_block	48	static

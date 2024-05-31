@@ -1,7 +1,7 @@
 src/bsp/stmicro/peripheral/i2c/i2c_config_hal.o: \
  ../src/bsp/stmicro/peripheral/i2c/i2c_config_hal.c \
  ../src/bsp/stmicro/peripheral/i2c/i2c_config_hal.h \
- /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/i2c/i2c_access.h \
+ C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/peripheral/i2c/i2c_access.h \
  ../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h \
  ../sdk/CMSIS/Include/core_cm4.h ../sdk/CMSIS/Include/cmsis_version.h \
  ../sdk/CMSIS/Include/cmsis_compiler.h ../sdk/CMSIS/Include/cmsis_gcc.h \
@@ -39,7 +39,7 @@ src/bsp/stmicro/peripheral/i2c/i2c_config_hal.o: \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h
 ../src/bsp/stmicro/peripheral/i2c/i2c_config_hal.h:
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/i2c/i2c_access.h:
+C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/peripheral/i2c/i2c_access.h:
 ../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h:
 ../sdk/CMSIS/Include/core_cm4.h:
 ../sdk/CMSIS/Include/cmsis_version.h:

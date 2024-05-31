@@ -51,7 +51,7 @@ uint8_t g_big_buffer[41000] = {0};
 uint16_t g_big_buffer_index = 0;
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
-	static bool first_pass = true;
+//	static bool first_pass = true;
 
 	// save time of rx.  Unknown amounts of data are sent back from ESP8266..  Need to use timeout functionality to know we're done rxing.
 	if (g_firmware_update_in_progress)
@@ -188,6 +188,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 static TickType_t uart_access_hal_rx_tick_time_reset(void)
 {
 	g_receive_tick_time = xTaskGetTickCount();
+	return g_receive_tick_time;
 }
 
 

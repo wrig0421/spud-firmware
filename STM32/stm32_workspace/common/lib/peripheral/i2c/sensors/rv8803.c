@@ -1,62 +1,101 @@
-///***********************************
-// * @file   animate_led.c
-// * @author SpudGlo LLC
-// ***********************************/
-//
-//#include "i2c_access.h"
-//#include "rv8803.h"
-//
-//
-//typedef enum
-//{
-//	RV8803_REGISTER_TEN_MILLISECONDS 	= 0x10,
-//	RV8803_REGISTER_SECONDS 			= 0x11,
-//	RV8803_REGISTER_MINUTES 			= 0x12,
-//	RV8803_REGISTER_HOURS 				= 0x13,
-//	RV8803_REGISTER_WEEKDAY 			= 0x14,
-//	RV8803_REGISTER_DATE 				= 0x15,
-//	RV8803_REGISTER_MONTH 				= 0x16,
-//	RV8803_REGISTER_YEAR 				= 0x17,
-//	RV8803_REGISTER_MINUTES_ALARM 		= 0x18,
-//	RV8803_REGISTER_HOURS_ALARM 		= 0x19,
-//	RV8803_REGISTER_WEEKDAY_DATE_ALARM 	= 0x1A,
-//	RV8803_REGISTER_TIMER_COUNTER_0 	= 0x1B,
-//	RV8803_REGISTER_TIMER_COUNTER_1 	= 0x1C,
-//	RV8803_REGISTER_EXTENSION 			= 0x1D,
-//	RV8803_REGISTER_FLAG 				= 0x1E,
-//	RV8803_REGISTER_CONTROL 			= 0x1F
-//} rv8803_register_e;
-//
-//
-//void rv8803_write_register(rv8803_register_e register, uint8_t data)
-//{
-//	i2c_access_write_block(I2C_ACCESS_CHIP_ID_RV_8803, &data, )
-//}
-//
-//
-//
-//
-//void i2c_access_write_block(i2c_access_chip_id_e i2c_chip_id, uint32_t memory_address, uint8_t* data, uint16_t data_length)
-//{
-//	i2c_access_hal_write_block(i2c_struct_generator(i2c_chip_id, memory_address, data, data_length));
-//}
-//
-//
-//void i2c_access_write_byte(i2c_access_chip_id_e i2c_chip_id, uint32_t memory_address, uint8_t data)
-//{
-//	i2c_access_write_block(i2c_chip_id, memory_address, &data, 1);
-//}
-//
-//
-//void i2c_access_read_block(i2c_access_chip_id_e i2c_chip_id, uint32_t memory_address, uint8_t* data, uint16_t data_length)
-//{
-//	i2c_access_hal_read_block(i2c_struct_generator(i2c_chip_id, memory_address, data, data_length));
-//}
-//
-//
-//void i2c_access_read_byte(i2c_access_chip_id_e i2c_chip_id, uint32_t memory_address, uint8_t* data)
-//{
-//	i2c_access_read_block(i2c_chip_id, memory_address, data, 1);
-//}
+/***********************************
+ * @file   animate_led.c
+ * @author SpudGlo LLC
+ ***********************************/
+#include <stdint.h>
+#include <stdbool.h>
+#include "i2c_access.h"
+#include "rv8803.h"
+#include "cmsis_os.h"
+
+
+void rv8803_write_register(rv8803_register_e reg_addr, uint8_t data)
+{
+	i2c_access_write_byte(I2C_ACCESS_CHIP_ID_RV_8803, (uint32_t)reg_addr, data);
+}
+
+
+void rv8803_read_register(rv8803_register_e reg_addr, uint8_t* data)
+{
+	i2c_access_read_byte(I2C_ACCESS_CHIP_ID_RV_8803, (uint32_t)reg_addr, data);
+}
+
+
+// reg_addr increments by one after every byte write
+void rv8803_write_register_burst(rv8803_register_e reg_addr_start, uint8_t* data, uint16_t data_length)
+{
+	i2c_access_write_block(I2C_ACCESS_CHIP_ID_RV_8803, (uint32_t)reg_addr_start, data, data_length);
+}
+
+
+void rv8803_read_register_burst(rv8803_register_e reg_addr_start, uint8_t* data, uint16_t data_length)
+{
+	i2c_access_read_block(I2C_ACCESS_CHIP_ID_RV_8803, (uint32_t)reg_addr_start, data, data_length);
+}
+
+
+void rv8803_read_tod(rv8803_tod_t* rv8803_tod)
+{
+	rv8803_read_register_burst(RV8803_REGISTER_TEN_MILLISECONDS, (uint8_t *)rv8803_tod, sizeof(rv8803_tod_t));
+}
+
+
+uint8_t numbers_hex_to_bcd(uint8_t val_hex)
+{
+	return (((val_hex / 10) * (1 << 4)) + (val_hex % 10));
+}
+
+
+bool g_ready_to_write_time = false;
+uint8_t g_dbg_second = 0;
+uint8_t g_dbg_minute = 5;
+uint8_t g_dbg_hour = 11;
+uint8_t g_dbg_weekday = 0;
+uint8_t g_dbg_date = 27;
+uint8_t g_dbg_month = 5;
+uint8_t g_dbg_year = 24;
+//rv8803_data_t ten_millisecond_count;
+//			rv8803_data_t second;
+//			rv8803_data_t minute;
+//			rv8803_data_t hour;
+//			rv8803_data_t weekday;
+//			rv8803_data_t date;
+//			rv8803_data_t month;
+//			rv8803_data_t year;
+void rv8803_write_current_tod(void)
+{
+
+
+	while (!g_ready_to_write_time)
+	{
+        osDelay(portTICK_PERIOD_MS);
+	}
+
+
+	rv8803_tod_t rv8803_tod =
+	{
+	    // all in BCD except weekday
+		.second = numbers_hex_to_bcd(g_dbg_second),
+		.minute = numbers_hex_to_bcd(g_dbg_minute),
+		.hour = numbers_hex_to_bcd(g_dbg_hour),
+		.weekday = numbers_hex_to_bcd(g_dbg_weekday),
+	    .date = numbers_hex_to_bcd(g_dbg_date),
+		.month = numbers_hex_to_bcd(g_dbg_month),
+		.year = numbers_hex_to_bcd(g_dbg_year)
+	};
+
+	rv8803_write_register_burst(RV8803_REGISTER_SECONDS, (uint8_t *)&rv8803_tod, sizeof(rv8803_tod_t));
+
+	while (1)
+	{
+        osDelay(portTICK_PERIOD_MS * 1000);
+        rv8803_read_register_burst(RV8803_REGISTER_SECONDS, (uint8_t *)&rv8803_tod, sizeof(rv8803_tod_t));
+	}
+
+
+}
+
+
+
 
 
