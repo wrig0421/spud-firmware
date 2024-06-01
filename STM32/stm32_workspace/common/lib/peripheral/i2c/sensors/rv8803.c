@@ -46,6 +46,12 @@ uint8_t numbers_hex_to_bcd(uint8_t val_hex)
 }
 
 
+uint8_t numbers_bcd_to_hex(uint8_t val_bcd)
+{
+	return ((val_bcd & 0xF) + (((val_bcd & 0xF0) >> 4) * 10));
+}
+
+
 bool g_ready_to_write_time = false;
 uint8_t g_dbg_second = 0;
 uint8_t g_dbg_minute = 5;
@@ -62,14 +68,15 @@ uint8_t g_dbg_year = 24;
 //			rv8803_data_t date;
 //			rv8803_data_t month;
 //			rv8803_data_t year;
+uint8_t g_sec_count = 0;
 void rv8803_write_current_tod(void)
 {
 
 
-	while (!g_ready_to_write_time)
-	{
-        osDelay(portTICK_PERIOD_MS);
-	}
+//	while (!g_ready_to_write_time)
+//	{
+//        osDelay(portTICK_PERIOD_MS);
+//	}
 
 
 	rv8803_tod_t rv8803_tod =
@@ -85,11 +92,12 @@ void rv8803_write_current_tod(void)
 	};
 
 	rv8803_write_register_burst(RV8803_REGISTER_SECONDS, (uint8_t *)&rv8803_tod, sizeof(rv8803_tod_t));
-
 	while (1)
 	{
         osDelay(portTICK_PERIOD_MS * 1000);
-        rv8803_read_register_burst(RV8803_REGISTER_SECONDS, (uint8_t *)&rv8803_tod, sizeof(rv8803_tod_t));
+//        g_sec_count = rv8803_tod.second;
+    	rv8803_read_register(RV8803_REGISTER_SECONDS, &g_sec_count);
+//        rv8803_read_register_burst(RV8803_REGISTER_SECONDS, (uint8_t *)&rv8803_tod, sizeof(rv8803_tod_t));
 	}
 
 

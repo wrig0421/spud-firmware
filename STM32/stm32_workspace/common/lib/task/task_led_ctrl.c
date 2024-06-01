@@ -637,8 +637,8 @@ void task_led_sync_ctrl(void *argument)
 	while (1)
 	{
 		//task_led_iterate(LED_STATE_RAINBOW_CYCLE, STRIP_BIT_ALL_SET);
-		task_led_iterate(g_task_led_ctrl[STRIP_NUM_ALL_SET].led_state_info.led_state, STRIP_BIT_ALL_SET);
-		task_led_ctrl_adjust_parameters(STRIP_BIT_ALL_SET);
+//		task_led_iterate(g_task_led_ctrl[STRIP_NUM_ALL_SET].led_state_info.led_state, STRIP_BIT_ALL_SET);
+//		task_led_ctrl_adjust_parameters(STRIP_BIT_ALL_SET);
 		// do we need a delay here??
 	}
 }

@@ -50,16 +50,16 @@ void i2c_config_hal_setup(void)
     	if (g_i2c_num_chips_per_bus[bus])
     	{
     	    GPIO_InitStruct.Pin       = g_i2c_config[bus].pin.scl;
-    	    GPIO_InitStruct.Mode      = GPIO_MODE_AF_PP;
+    	    GPIO_InitStruct.Mode      = GPIO_MODE_AF_OD;
     	    GPIO_InitStruct.Pull      = GPIO_NOPULL;
-    	    GPIO_InitStruct.Speed     = GPIO_SPEED_FREQ_HIGH;
+    	    GPIO_InitStruct.Speed     = GPIO_SPEED_FREQ_VERY_HIGH;
     	    GPIO_InitStruct.Alternate = g_i2c_config[bus].pin.scl_alt_func;
     	    HAL_GPIO_Init(g_i2c_config[bus].pin.scl_port, &GPIO_InitStruct);
 
     	    GPIO_InitStruct.Pin       = g_i2c_config[bus].pin.sda;
-    	    GPIO_InitStruct.Mode      = GPIO_MODE_AF_PP;
+    	    GPIO_InitStruct.Mode      = GPIO_MODE_AF_OD;
     	    GPIO_InitStruct.Pull      = GPIO_NOPULL;
-    	    GPIO_InitStruct.Speed     = GPIO_SPEED_FREQ_HIGH;
+    	    GPIO_InitStruct.Speed     = GPIO_SPEED_FREQ_VERY_HIGH;
     	    GPIO_InitStruct.Alternate = g_i2c_config[bus].pin.sda_alt_func;
     	    HAL_GPIO_Init(g_i2c_config[bus].pin.sda_port, &GPIO_InitStruct);
 
@@ -70,6 +70,7 @@ void i2c_config_hal_setup(void)
         		    PeriphClkInit.I2c2ClockSelection = RCC_I2C2CLKSOURCE_PCLK1;
         		    if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
         		    {
+        		    	while (1);
         		    	//Error_Handler();
         		    }
         		    __HAL_RCC_I2C2_CLK_ENABLE();
@@ -87,6 +88,19 @@ void i2c_config_hal_setup(void)
     	        /* Initialization Error */
     	        while(1);
     	    }
+
+    	    if (HAL_I2CEx_ConfigAnalogFilter(g_i2c_config[bus].handle, I2C_ANALOGFILTER_DISABLE) != HAL_OK)
+    	    {
+    	    	while (1);
+    	    }
+
+    	    /** Configure Digital filter
+    	    */
+    	    if (HAL_I2CEx_ConfigDigitalFilter(g_i2c_config[bus].handle, 0) != HAL_OK)
+    	    {
+    	    	while (1);
+    	    }
+
     	    HAL_NVIC_SetPriority(g_i2c_config[bus].irqn, 0, 1);
     	    HAL_NVIC_EnableIRQ(g_i2c_config[bus].irqn);
     	    HAL_NVIC_ClearPendingIRQ(g_i2c_config[bus].irqn);

@@ -47,7 +47,7 @@ src/task/task_dma_transfer.o: ../src/task/task_dma_transfer.c \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h \
- C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/ws2812b_driver/ws2812b.h \
+ /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/ws2812b_driver/ws2812b.h \
  ../src/config.h ../src/lib/util/numbers.h \
  ../src/task/task_dma_transfer.h
 ../sdk/FreeRTOS/Source/include/FreeRTOS.h:
@@ -102,7 +102,7 @@ src/task/task_dma_transfer.o: ../src/task/task_dma_transfer.c \
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h:
-C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/ws2812b_driver/ws2812b.h:
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/ws2812b_driver/ws2812b.h:
 ../src/config.h:
 ../src/lib/util/numbers.h:
 ../src/task/task_dma_transfer.h:

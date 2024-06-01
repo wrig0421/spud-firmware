@@ -55,6 +55,7 @@ void rv8803_write_register_burst(rv8803_register_e reg_addr_start, uint8_t* data
 void rv8803_read_register_burst(rv8803_register_e reg_addr_start, uint8_t* data, uint16_t data_length);
 void rv8803_read_tod(rv8803_tod_t* rv8803_tod);
 uint8_t numbers_hex_to_bcd(uint8_t val_hex);
+uint8_t numbers_bcd_to_hex(uint8_t val_bcd);
 void rv8803_write_current_tod(void);
 
 

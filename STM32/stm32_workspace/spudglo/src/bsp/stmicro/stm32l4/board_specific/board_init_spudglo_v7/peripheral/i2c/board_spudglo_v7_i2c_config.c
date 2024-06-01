@@ -16,7 +16,7 @@ I2C_HandleTypeDef	g_i2c_handle_config[NUM_I2C_CONFIG_BUSES] =
 	[I2C_CONFIG_BUS_I2C2] =
 	{
 		.Instance = I2C2,
-		.Init.Timing = 0x00000004,
+		.Init.Timing = 0x00B0D8FF,
 		.Init.OwnAddress1 = 0,
 		.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT,
 		.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE,
