@@ -9,6 +9,44 @@
 #include "cmsis_os.h"
 
 
+typedef struct
+{
+	uint8_t minutes_alarm 				: 7;
+	uint8_t minutes_alarm_enable 		: 1;
+} rv8803_minutes_alarm_register_t;
+
+
+typedef struct
+{
+	uint8_t hours_alarm 				: 6;
+	uint8_t hours_gp0					: 1;
+	uint8_t hours_alarm_enable 			: 1;
+} rv8803_hours_alarm_register_t;
+
+
+typedef struct
+{
+	uint8_t weekday_date_alarm 			: 7;
+	uint8_t weekday_date_alarm_enable 	: 1;
+} rv8803_weekday_date_alarm_register_t;
+
+
+typedef struct
+{
+	uint8_t weekday_alarm 				: 7;
+	uint8_t weekday_alarm_enable 		: 1;
+} rv8803_weekday_alarm_register_t;
+
+
+typedef struct
+{
+	uint8_t date_alarm 					: 6;
+	uint8_t date_gp1					: 1;
+	uint8_t date_alarm_enable 			: 1;
+} rv8803_weekday_alarm_register_t;
+
+
+
 void rv8803_write_register(rv8803_register_e reg_addr, uint8_t data)
 {
 	i2c_access_write_byte(I2C_ACCESS_CHIP_ID_RV_8803, (uint32_t)reg_addr, data);
@@ -34,9 +72,128 @@ void rv8803_read_register_burst(rv8803_register_e reg_addr_start, uint8_t* data,
 }
 
 
+void rv8803_init(void)
+{
+
+}
+
+
+
 void rv8803_read_tod(rv8803_tod_t* rv8803_tod)
 {
 	rv8803_read_register_burst(RV8803_REGISTER_TEN_MILLISECONDS, (uint8_t *)rv8803_tod, sizeof(rv8803_tod_t));
+}
+
+
+uint8_t rv8803_read_current_register(rv8803_register_e rv8803_reg)
+{
+	uint8_t data = 0;
+	rv8803_read_register(rv8803_reg, &data);
+	return data;
+}
+
+
+uint8_t rv8803_read_register_current_tens_of_milliseconds(void)
+{
+	return rv8803_read_current_register(RV8803_REGISTER_TEN_MILLISECONDS);
+}
+
+
+uint8_t rv8803_read_register_current_seconds(void)
+{
+	return rv8803_read_current_register(RV8803_REGISTER_SECONDS);
+}
+
+
+uint8_t rv8803_read_register_current_minutes(void)
+{
+	return rv8803_read_current_register(RV8803_REGISTER_MINUTES);
+}
+
+
+uint8_t rv8803_read_register_current_hours(void)
+{
+	return rv8803_read_current_register(RV8803_REGISTER_HOURS);
+}
+
+
+uint8_t rv8803_read_register_current_weekday(void)
+{
+	return rv8803_read_current_register(RV8803_REGISTER_WEEKDAY);
+}
+
+
+uint8_t rv8803_read_register_current_date(void)
+{
+	return rv8803_read_current_register(RV8803_REGISTER_DATE);
+}
+
+
+uint8_t rv8803_read_register_current_month(void)
+{
+	return rv8803_read_current_register(RV8803_REGISTER_MONTH);
+}
+
+
+uint8_t rv8803_read_register_current_year(void)
+{
+	return rv8803_read_current_register(RV8803_REGISTER_YEAR);
+}
+
+
+uint8_t rv8803_read_minutes_alarm(void)
+{
+	return rv8803_read_current_register(RV8803_REGISTER_MINUTES_ALARM);
+}
+
+
+uint8_t rv8803_read_register_hours_alarm(void)
+{
+	return rv8803_read_current_register(RV8803_REGISTER_HOURS_ALARM);
+}
+
+
+uint8_t rv8803_read_register_weekday_or_date_alarm(void)
+{
+	return rv8803_read_current_register(RV8803_REGISTER_WEEKDAY_DATE_ALARM);
+}
+
+
+uint8_t rv8803_read_register_timer_counter_0(void)
+{
+	return rv8803_read_current_register(RV8803_REGISTER_TIMER_COUNTER_0);
+}
+
+
+uint8_t rv8803_read_register_timer_counter_1(void)
+{
+	return rv8803_read_current_register(RV8803_REGISTER_TIMER_COUNTER_1);
+}
+
+
+uint8_t rv8803_read_register_extension(void)
+{
+	return rv8803_read_current_register(RV8803_REGISTER_EXTENSION);
+}
+
+
+uint8_t rv8803_read_register_flag(void)
+{
+	return rv8803_read_current_register(RV8803_REGISTER_FLAG);
+}
+
+
+uint8_t rv8803_read_register_control(void)
+{
+	return rv8803_read_current_register(RV8803_REGISTER_CONTROL);
+}
+
+
+uint8_t rv8803_read_current_seconds(void)
+{
+	uint8_t data = 0;
+	rv8803_read_register(RV8803_REGISTER_TEN_MILLISECONDS, &data);
+	return data;
 }
 
 
