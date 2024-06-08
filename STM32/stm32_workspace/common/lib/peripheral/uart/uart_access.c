@@ -44,6 +44,9 @@ void uart_access_write_byte_host(uint8_t data)
 }
 
 
+
+
+
 void uart_access_write_block_host(uint8_t* data, uint16_t len)
 {
 	uart_access_hal_write_block(uart_config_host_handle(), data, len);

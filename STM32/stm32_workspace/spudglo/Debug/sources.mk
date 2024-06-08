@@ -51,9 +51,6 @@ src/bsp \
 src/bsp/stmicro/peripheral/gpio \
 src/bsp/stmicro/peripheral/i2c \
 src/bsp/stmicro/peripheral/spi \
-src/bsp/stmicro/peripheral/uart/board_init_spudglo_v4 \
-src/bsp/stmicro/peripheral/uart/board_init_spudglo_v4/peripheral/gpio \
-src/bsp/stmicro/peripheral/uart/board_init_spudglo_v4/peripheral/spi \
 src/bsp/stmicro/peripheral/uart \
 src/bsp/stmicro/stm32l4/bloat \
 src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v3 \

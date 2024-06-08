@@ -30,9 +30,9 @@
 ../sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.c:686:10:osThreadGetCount	16	static,ignoring_inline_asm
 ../sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.c:699:10:osThreadEnumerate	32	static,ignoring_inline_asm
 ../sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.c:729:10:osThreadFlagsSet	40	static,ignoring_inline_asm
-../sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.c:757:10:osThreadFlagsClear	32	static,ignoring_inline_asm
-../sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.c:787:10:osThreadFlagsGet	24	static,ignoring_inline_asm
-../sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.c:805:10:osThreadFlagsWait	56	static,ignoring_inline_asm
+../sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.c:757:10:osThreadFlagsClear	40	static,ignoring_inline_asm
+../sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.c:787:10:osThreadFlagsGet	32	static,ignoring_inline_asm
+../sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.c:805:10:osThreadFlagsWait	64	static,ignoring_inline_asm
 ../sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.c:881:12:osDelay	24	static,ignoring_inline_asm
 ../sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.c:898:12:osDelayUntil	32	static,ignoring_inline_asm
 ../sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.c:929:13:TimerCallback	24	static

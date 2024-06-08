@@ -59,7 +59,7 @@ bool g_clear = false;
 
 typedef enum
 {
-    TASK_LED_CTRL_LOOP_ITERATIONS_0 = 0,
+    TASK_LED_CTRL_LOOP_ITERATIONS_0 	= 0,
     TASK_LED_CTRL_LOOP_ITERATIONS_1,
     TASK_LED_CTRL_LOOP_ITERATIONS_2,
     TASK_LED_CTRL_LOOP_ITERATIONS_3,
@@ -70,23 +70,23 @@ typedef enum
     TASK_LED_CTRL_LOOP_ITERATIONS_8,
     TASK_LED_CTRL_LOOP_ITERATIONS_9,
     TASK_LED_CTRL_LOOP_ITERATIONS_10,
-    TASK_LED_CTRL_LOOP_ITERATIONS_50 = 50,
-    TASK_LED_CTRL_LOOP_ITERATIONS_100 = 100
+    TASK_LED_CTRL_LOOP_ITERATIONS_50 	= 50,
+    TASK_LED_CTRL_LOOP_ITERATIONS_100 	= 100
 } task_led_ctrl_loop_iterations_e;
 
 
 typedef enum
 {
-    TASK_LED_CTRL_DELAY_MS_0 = 0,
-	TASK_LED_CTRL_DELAY_MS_10 = 10,
-    TASK_LED_CTRL_DELAY_MS_1000 = 1000,
-    TASK_LED_CTRL_DELAY_MS_2000 = 2000,
-    TASK_LED_CTRL_DELAY_MS_3000 = 3000,
-    TASK_LED_CTRL_DELAY_MS_4000 = 4000,
-    TASK_LED_CTRL_DELAY_MS_5000 = 5000,
-    TASK_LED_CTRL_DELAY_MS_10000 = 10000,
-    TASK_LED_CTRL_DELAY_MS_15000 = 15000,
-    TASK_LED_CTRL_DELAY_MS_20000 = 20000
+    TASK_LED_CTRL_DELAY_MS_0 		= 0,
+	TASK_LED_CTRL_DELAY_MS_10 		= 10,
+    TASK_LED_CTRL_DELAY_MS_1000 	= 1000,
+    TASK_LED_CTRL_DELAY_MS_2000 	= 2000,
+    TASK_LED_CTRL_DELAY_MS_3000 	= 3000,
+    TASK_LED_CTRL_DELAY_MS_4000 	= 4000,
+    TASK_LED_CTRL_DELAY_MS_5000 	= 5000,
+    TASK_LED_CTRL_DELAY_MS_10000 	= 10000,
+    TASK_LED_CTRL_DELAY_MS_15000 	= 15000,
+    TASK_LED_CTRL_DELAY_MS_20000 	= 20000
 } task_led_ctrl_delay_ms_e;
 
 
@@ -496,7 +496,6 @@ static void task_led_iterate(led_state_e led_state, const strip_mask_t mask)
 		switch(led_state)
 		{
 			case LED_STATE_SPELL:
-
 				led_animate_only_spell_word(mask, led_ctrl_color_hex(mask), animation_delay_ms);
 			break;
 			case LED_STATE_WHITE_COLOR:
@@ -589,7 +588,6 @@ void task_led_3_ctrl(void *argument)
 	{
 		task_led_iterate(g_task_led_ctrl[STRIP_NUM_3].led_state_info.led_state, STRIP_BIT_3);
 		task_led_ctrl_adjust_parameters(STRIP_BIT_3);
-		// do we need a delay here??
 	}
 }
 
