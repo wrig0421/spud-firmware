@@ -277,8 +277,8 @@ led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS] =
 	{
 		.led_state_info =
 		{
-			.led_state_master 				= LED_CTRL_STATE_MASTER_FIXED,//LED_CTRL_STATE_MASTER_DEMO,
-			.led_state 						= LED_STATE_WHITE_COLOR,//LED_STATE_FIRST,
+			.led_state_master 				= LED_CTRL_STATE_MASTER_DEMO,//LED_CTRL_STATE_MASTER_DEMO,
+			.led_state 						= LED_STATE_FIRST,//LED_STATE_FIRST,
 			.led_state_current_iteration 	= 0
 		},
 		.led_color_info =
@@ -293,7 +293,7 @@ led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS] =
 			.speed							= false,
 			.pause							= false
 		},
-		.led_speed 							= LED_SPEED_10X,
+		.led_speed 							= LED_SPEED_5X,
 		.led_brightness 					= LED_BRIGHTNESS_100_PERCENT
 	},
 	[STRIP_NUM_2] =
@@ -439,18 +439,6 @@ led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS] =
 };
 
 
-//LED_STATE_WHITE_COLOR,
-//LED_STATE_SOLID_COLOR,
-//LED_STATE_SPARKLE_NO_FILL,
-//LED_STATE_SPARKLE_FILL,
-//LED_STATE_RAINBOW_CYCLE,
-//LED_STATE_THEATER_CHASE,
-//LED_STATE_THEATER_CHASE_RAINBOW,
-//LED_STATE_FADE_IN_AND_OUT,
-//LED_STATE_TWINKLE,
-//LED_STATE_TWO_COLOR,
-
-
 static void task_led_ctrl_adjust_parameters(const strip_mask_t mask)
 {
 	bool skip_color_check = false;
@@ -510,31 +498,12 @@ static void task_led_iterate(led_state_e led_state, const strip_mask_t mask)
 			case LED_STATE_SPELL:
 
 				led_animate_only_spell_word(mask, led_ctrl_color_hex(mask), animation_delay_ms);
-
-				//led_animate_only_spell_word(mask, led_ctrl_color_hex(mask), 20);
-
 			break;
 			case LED_STATE_WHITE_COLOR:
 				led_animate_solid_custom_color(mask, LED_COLOR_HEX_WHITE);
-//				if (LED_CTRL_STATE_MASTER_FIXED == g_task_led_ctrl.led_state_master)
-//				{
-//					task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_5, TASK_LED_CTRL_DELAY_MS_1000);
-//					led_ctrl_delay(1000);
-//				}
-//				else
-//				{
-//					//led_animate_solid_custom_color((uint16_t)STRIP_BIT_2, LED_COLOR_HEX_WHITE);
-//					task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_1, TASK_LED_CTRL_DELAY_MS_5000);
-//				}
 			break;
 			case LED_STATE_SOLID_COLOR:
 				led_animate_solid_custom_color(mask, led_ctrl_color_hex(mask));
-//				if (LED_CTRL_STATE_MASTER_FIXED == g_task_led_ctrl.led_state_master)
-//				{
-//					task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_5, TASK_LED_CTRL_DELAY_MS_1000);
-//					led_ctrl_delay(1000);
-//				}
-//				else task_led_ctrl_adjust_parameters(TASK_LED_CTRL_LOOP_ITERATIONS_5, TASK_LED_CTRL_DELAY_MS_5000);
 			break;
 			case LED_STATE_SPARKLE_NO_FILL:
 				led_animate_turn_all_pixels_off();
@@ -562,9 +531,6 @@ static void task_led_iterate(led_state_e led_state, const strip_mask_t mask)
 			case LED_STATE_TWO_COLOR:
 				led_animate_set_all_pixels_hex_color(STRIP_BIT_1, g_color_hex_codes[g_two_color_outer]);
 				led_animate_set_all_pixels_hex_color(STRIP_BIT_2, g_color_hex_codes[g_two_color_inner]);
-
-//				led_animate_set_pixels_in_range(mask, 0, 334, g_color_hex_codes[g_two_color_outer]);
-//				led_animate_set_pixels_in_range(mask, 335, 492, g_color_hex_codes[g_two_color_inner]);
 			break;
 			break;
 			case LED_STATE_SRW_DEBUG:
@@ -577,9 +543,7 @@ static void task_led_iterate(led_state_e led_state, const strip_mask_t mask)
 #				if defined(ENABLE_STRIP_3)
 					led_animate_determine_number_pixels_in_strip(STRIP_BIT_3);
 #				endif
-
 			break;
-
 			default:
 			break;
 		}
@@ -632,13 +596,13 @@ void task_led_3_ctrl(void *argument)
 
 void task_led_sync_ctrl(void *argument)
 {
-	rv8803_write_current_tod();
+	//rv8803_write_current_tod();
 	led_animate_turn_all_pixels_off();
 	while (1)
 	{
 		//task_led_iterate(LED_STATE_RAINBOW_CYCLE, STRIP_BIT_ALL_SET);
-//		task_led_iterate(g_task_led_ctrl[STRIP_NUM_ALL_SET].led_state_info.led_state, STRIP_BIT_ALL_SET);
-//		task_led_ctrl_adjust_parameters(STRIP_BIT_ALL_SET);
+		task_led_iterate(g_task_led_ctrl[STRIP_NUM_ALL_SET].led_state_info.led_state, STRIP_BIT_ALL_SET);
+		task_led_ctrl_adjust_parameters(STRIP_BIT_ALL_SET);
 		// do we need a delay here??
 	}
 }

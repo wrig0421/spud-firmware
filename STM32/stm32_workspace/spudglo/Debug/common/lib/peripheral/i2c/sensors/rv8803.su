@@ -4,4 +4,5 @@
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/i2c/sensors/rv8803.c:31:6:rv8803_read_register_burst	16	static
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/i2c/sensors/rv8803.c:37:6:rv8803_read_tod	16	static
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/i2c/sensors/rv8803.c:43:9:numbers_hex_to_bcd	16	static
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/i2c/sensors/rv8803.c:66:6:rv8803_write_current_tod	16	static
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/i2c/sensors/rv8803.c:49:9:numbers_bcd_to_hex	16	static
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/i2c/sensors/rv8803.c:72:6:rv8803_write_current_tod	16	static
