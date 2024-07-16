@@ -3,7 +3,7 @@
 
 #if defined(BOARD_SPUDGLO_V7)
 
-#include "cmsis_os.h"
+
 #include "stm32l4xx_hal.h"
 #include "board_common.h"
 #include "board_specific.h"
@@ -11,7 +11,7 @@
 #include "uart_config_hal.h"
 #include "gpio_config_hal_specific.h"
 #include "gpio_access_hal.h"
-
+#include "free_rtos_convenience.h"
 
 void board_init_peripheral_setup(void)
 {
@@ -23,7 +23,7 @@ void board_init_peripheral_setup(void)
 void board_init_specific_power_cycle_level_shifter(void)
 {
 	gpio_access_hal_write_output_level_low(GPIO_PIN_LVL_EN);
-    osDelay(1000);
+    free_rtos_delay_ms(1000);
 	gpio_access_hal_write_output_level_high(GPIO_PIN_LVL_EN);
 }
 

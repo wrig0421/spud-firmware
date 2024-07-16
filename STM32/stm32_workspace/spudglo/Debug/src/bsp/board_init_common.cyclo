@@ -1,8 +1,6 @@
-../src/bsp/board_init_common.c:34:13:board_init_common_rtc_init	2
-../src/bsp/board_init_common.c:47:13:SystemClock_Config	5
-../src/bsp/board_init_common.c:77:13:board_init_common_timer_init	9
-../src/bsp/board_init_common.c:144:6:board_init_common_stop_timer	1
-../src/bsp/board_init_common.c:152:6:board_init_common_board_init	1
-../src/bsp/board_init_common.c:177:6:board_init_common_button_pressed	1
-../src/bsp/board_init_common.c:184:6:board_init_common_button_is_pressed	1
-../src/bsp/board_init_common.c:207:6:Error_Handler	1
+../src/bsp/board_init_common.c:32:13:board_init_common_rtc_init	2
+../src/bsp/board_init_common.c:45:13:SystemClock_Config	5
+../src/bsp/board_init_common.c:75:13:board_init_common_timer_init	9
+../src/bsp/board_init_common.c:146:6:board_init_common_stop_timer	1
+../src/bsp/board_init_common.c:154:6:board_init_common_board_init	1
+../src/bsp/board_init_common.c:184:6:Error_Handler	1

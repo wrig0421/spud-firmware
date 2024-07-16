@@ -6,11 +6,12 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include "numbers.h"
-#include "cmsis_os.h"
+
 #include "FreeRTOS.h"
 #include "task.h"
 #include "board_init_common.h"
 #include "adafruit_soundboard.h"
+#include "free_rtos_convenience.h"
 
 
 #define ADAFRUIT_VOLUME_MIN_MAX_ITERATIONS                  (uint8_t)(10)
@@ -41,7 +42,7 @@ static void adafruit_soundboard_mode(adafruit_soundboard_mode_e mode)
 {
     board_init_adafruit_soundboard_enable_mode(mode);
     adafruit_soundboard_reset_enable();
-    osDelay(ADAFRUIT_SOUNDBOARD_RESET_TIME_MILLISECONDS);
+    free_rtos_delay_ms(ADAFRUIT_SOUNDBOARD_RESET_TIME_MILLISECONDS);
     adafruit_soundboard_reset_disable();
 }
 
@@ -49,9 +50,9 @@ static void adafruit_soundboard_mode(adafruit_soundboard_mode_e mode)
 static void adafruit_soundboard_adjust_volume(adafruit_soundboard_volume_e volume)
 {
     board_init_adafruit_soundboard_adjust_volume(volume);
-    osDelay(ADAFRUIT_SOUNDBOARD_VOLUME_DELAY_MILLISECONDS);
+    free_rtos_delay_ms(ADAFRUIT_SOUNDBOARD_VOLUME_DELAY_MILLISECONDS);
     board_init_adafruit_soundboard_adjust_volume(ADAFRUIT_SOUNDBOARD_VOLUME_RELEASE);
-    osDelay(ADAFRUIT_SOUNDBOARD_VOLUME_DELAY_MILLISECONDS);
+    free_rtos_delay_ms(ADAFRUIT_SOUNDBOARD_VOLUME_DELAY_MILLISECONDS);
 
 }
 

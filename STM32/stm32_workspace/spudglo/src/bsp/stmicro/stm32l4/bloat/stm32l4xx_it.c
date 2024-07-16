@@ -17,7 +17,7 @@
   ******************************************************************************
   */
 #include "main.h"
-#include "cmsis_os.h"
+
 #include "FreeRTOS.h"
 #include "semphr.h"
 #include "task.h"
@@ -34,18 +34,21 @@
 #include "gpio_config_hal_specific.h"
 #include <stdbool.h>
 #include "semaphore_access.h"
+#include "button_config_hal_specific.h"
+#include "button_access.h"
 
-extern osThreadId_t g_dma_transfer_handle;
+//extern osThreadId_t g_dma_transfer_handle;
 
 extern DMA_HandleTypeDef g_hdma_tim1_ch1;
 extern DMA_HandleTypeDef g_hdma_tim1_ch2;
 extern DMA_HandleTypeDef g_hdma_tim1_ch3;
 extern SemaphoreHandle_t g_dma_transfer_semaphore;
+extern TaskHandle_t 	g_button_press_handle;
 
 extern bool g_tasks_running;
-extern osThreadId_t g_button_press_handle;
+//extern osThreadId_t g_button_press_handle;
 
-extern uint32_t g_button_press_timestamp[NUM_PUSH_BUTTONS][NUM_TIMESTAMPS];
+extern uint32_t g_button_press_timestamp[NUM_BUTTONS][NUM_TIMESTAMPS];
 extern UART_HandleTypeDef      gh_host_usart;
 
 
@@ -69,6 +72,7 @@ void NMI_Handler(void)
     }
 }
 
+
 /**
   * @brief This function handles Hard fault interrupt.
   */
@@ -86,6 +90,7 @@ void HardFault_Handler(void)
     }
 }
 
+
 /**
   * @brief This function handles Memory management fault.
   */
@@ -102,6 +107,8 @@ void MemManage_Handler(void)
         HAL_Delay(3000);
     }
 }
+
+
 /**
   * @brief This function handles Prefetch fault, memory access fault.
   */
@@ -118,6 +125,7 @@ void BusFault_Handler(void)
         HAL_Delay(3000);
     }
 }
+
 
 /**
   * @brief This function handles Undefined instruction or illegal state.
@@ -136,34 +144,14 @@ void UsageFault_Handler(void)
     }
 }
 
-///**
-//  * @brief This function handles System service call via SWI instruction.
-//  */
-//void SVC_Handler(void)
-//{
-//}
 
 /**
   * @brief This function handles Debug monitor.
   */
 void DebugMon_Handler(void)
 {
+
 }
-
-///**
-//  * @brief This function handles Pendable request for system service.
-//  */
-//void PendSV_Handler(void)
-//{
-//}
-
-///**
-//  * @brief This function handles System tick timer.
-//  */
-//void SysTick_Handler(void)
-//{
-//  HAL_IncTick();
-//}
 
 
 void USARTx_IRQHandler(void)
@@ -188,104 +176,70 @@ volatile uint32_t d_passes = 0;
 // C = WKUP1 PA0
 // D = WKUP4 PA2
 
+// 	SPUDGLO BUSINESS CARD
+// 		COLOR 		PC5
+// 		ANIMATION 	PC13
+// 		SPEED 		PA0
+//		PAUSE 		PA2
+
+
+
 /**
   * @brief This function handles EXTI line0 interrupt.
   */
 void EXTI0_IRQHandler(void)
 {
     BaseType_t xHigherPriorityTaskWoken;
-#if defined(BOARD_SPUDGLO_V5) || defined(BOARD_SPUDGLO_V7)
-	// C is color
-    board_init_push_button_pin_e button_pin = PUSH_BUTTON_C_PIN;
-    board_init_push_buttons_e button = PUSH_BUTTON_C;
-    board_init_push_button_irq_e button_irq = PUSH_BUTTON_C_IRQ;
-#else
-    // D is pause
-    board_init_push_button_pin_e button_pin = PUSH_BUTTON_D_PIN;
-    board_init_push_buttons_e button = PUSH_BUTTON_D;
-    board_init_push_button_irq_e button_irq = PUSH_BUTTON_D_IRQ;
-    //d_passes++;
-#endif
-    HAL_GPIO_EXTI_IRQHandler(button_pin);
-    g_button_press_timestamp[button][TIMESTAMP_PREVIOUS] = g_button_press_timestamp[button][TIMESTAMP_CURRENT];
-    g_button_press_timestamp[button][TIMESTAMP_CURRENT] = xTaskGetTickCountFromISR();
-    HAL_NVIC_DisableIRQ(button_irq);
-    xTaskNotifyFromISR(g_button_press_handle, button, eSetValueWithOverwrite, &xHigherPriorityTaskWoken);
+	button_e btn = button_config_irq_to_button(EXTI0_IRQn);
+    HAL_GPIO_EXTI_IRQHandler(button_config_button_pin(btn));
+    g_button_press_timestamp[btn][TIMESTAMP_PREVIOUS] = g_button_press_timestamp[btn][TIMESTAMP_CURRENT];
+    g_button_press_timestamp[btn][TIMESTAMP_CURRENT] = xTaskGetTickCountFromISR();
+    HAL_NVIC_DisableIRQ(EXTI0_IRQn);
+    xTaskNotifyFromISR(g_button_press_handle, btn, eSetValueWithOverwrite, &xHigherPriorityTaskWoken);
 }
 
-volatile uint32_t a_passes = 0;
-uint32_t g_dbg_b_interrupt_count = 0;
 /**
   * @brief This function handles EXTI line2 interrupt.
   */
 void EXTI2_IRQHandler(void)
 {
-    // A is speed
     BaseType_t xHigherPriorityTaskWoken;
-#if defined(BOARD_SPUDGLO_V5) || defined(BOARD_SPUDGLO_V7)
-	// D is speed!
-    board_init_push_button_pin_e button_pin = PUSH_BUTTON_D_PIN;
-    board_init_push_buttons_e button = PUSH_BUTTON_D;
-    board_init_push_button_irq_e button_irq = PUSH_BUTTON_D_IRQ;
-#else
-    board_init_push_button_pin_e button_pin = PUSH_BUTTON_A_PIN;
-    board_init_push_buttons_e button = PUSH_BUTTON_A;
-    board_init_push_button_irq_e button_irq = PUSH_BUTTON_A_IRQ;
-    a_passes++;
-#endif
-    HAL_GPIO_EXTI_IRQHandler(button_pin);
-    g_button_press_timestamp[button][TIMESTAMP_PREVIOUS] = g_button_press_timestamp[button][TIMESTAMP_CURRENT];
-    g_button_press_timestamp[button][TIMESTAMP_CURRENT] = xTaskGetTickCountFromISR();
-    HAL_NVIC_DisableIRQ(button_irq);
-    xTaskNotifyFromISR(g_button_press_handle, button, eSetValueWithOverwrite, &xHigherPriorityTaskWoken);
+	button_e btn = button_config_irq_to_button(EXTI2_IRQn);
+    HAL_GPIO_EXTI_IRQHandler(button_config_button_pin(btn));
+    g_button_press_timestamp[btn][TIMESTAMP_PREVIOUS] = g_button_press_timestamp[btn][TIMESTAMP_CURRENT];
+    g_button_press_timestamp[btn][TIMESTAMP_CURRENT] = xTaskGetTickCountFromISR();
+    HAL_NVIC_DisableIRQ(EXTI2_IRQn);
+    xTaskNotifyFromISR(g_button_press_handle, btn, eSetValueWithOverwrite, &xHigherPriorityTaskWoken);
 }
 
 
-volatile uint32_t b_passes = 0;
 /**
   * @brief This function handles EXTI line[15:10] interrupts.
   */
 void EXTI15_10_IRQHandler(void)
 {
-	// B is animation
     BaseType_t xHigherPriorityTaskWoken;
-    board_init_push_button_pin_e button_pin = PUSH_BUTTON_B_PIN;
-    board_init_push_buttons_e button = PUSH_BUTTON_B;
-    board_init_push_button_irq_e button_irq = PUSH_BUTTON_B_IRQ;
-    b_passes++;
-    HAL_GPIO_EXTI_IRQHandler(button_pin);
-    g_button_press_timestamp[button][TIMESTAMP_PREVIOUS] = g_button_press_timestamp[button][TIMESTAMP_CURRENT];
-    g_button_press_timestamp[button][TIMESTAMP_CURRENT] = xTaskGetTickCountFromISR();
-    HAL_NVIC_DisableIRQ(button_irq);
-    xTaskNotifyFromISR(g_button_press_handle, button, eSetValueWithOverwrite, &xHigherPriorityTaskWoken);
+    button_e btn = button_config_irq_to_button(EXTI15_10_IRQn);
+    HAL_GPIO_EXTI_IRQHandler(button_config_button_pin(btn));
+    g_button_press_timestamp[btn][TIMESTAMP_PREVIOUS] = g_button_press_timestamp[btn][TIMESTAMP_CURRENT];
+    g_button_press_timestamp[btn][TIMESTAMP_CURRENT] = xTaskGetTickCountFromISR();
+    HAL_NVIC_DisableIRQ(EXTI15_10_IRQn);
+    xTaskNotifyFromISR(g_button_press_handle, btn, eSetValueWithOverwrite, &xHigherPriorityTaskWoken);
 }
 
-volatile uint32_t c_passes = 0;
+
 /**
   * @brief This function handles EXTI line[9:5] interrupts.
   */
 void EXTI9_5_IRQHandler(void)
 {
     BaseType_t xHigherPriorityTaskWoken;
-#if defined(BOARD_SPUDGLO_V5) || defined(BOARD_SPUDGLO_V7)
-	// A is speed!
-    board_init_push_button_pin_e button_pin = gpio_config_pin_lookup(GPIO_PIN_PUSH_BUTTON_A);
-    board_init_push_buttons_e button = PUSH_BUTTON_A;
-    board_init_push_button_irq_e button_irq = gpio_config_irqn_lookup(GPIO_PIN_PUSH_BUTTON_A);
-    a_passes++;
-#else
-    // C is color
-    board_init_push_button_pin_e button_pin = PUSH_BUTTON_C_PIN;
-    board_init_push_buttons_e button = PUSH_BUTTON_C;
-    board_init_push_button_irq_e button_irq = PUSH_BUTTON_C_IRQ;
-    c_passes++;
-#endif
-    // add button irq here..
-    HAL_GPIO_EXTI_IRQHandler(button_pin);
-    g_button_press_timestamp[button][TIMESTAMP_PREVIOUS] = g_button_press_timestamp[button][TIMESTAMP_CURRENT];
-    g_button_press_timestamp[button][TIMESTAMP_CURRENT] = xTaskGetTickCountFromISR();
-    HAL_NVIC_DisableIRQ(button_irq);
-    xTaskNotifyFromISR(g_button_press_handle, button, eSetValueWithOverwrite, &xHigherPriorityTaskWoken);
+    button_e btn = button_config_irq_to_button(EXTI9_5_IRQn);
+    HAL_GPIO_EXTI_IRQHandler(button_config_button_pin(btn));
+    g_button_press_timestamp[btn][TIMESTAMP_PREVIOUS] = g_button_press_timestamp[btn][TIMESTAMP_CURRENT];
+    g_button_press_timestamp[btn][TIMESTAMP_CURRENT] = xTaskGetTickCountFromISR();
+    HAL_NVIC_DisableIRQ(EXTI9_5_IRQn);
+    xTaskNotifyFromISR(g_button_press_handle, btn, eSetValueWithOverwrite, &xHigherPriorityTaskWoken);
 }
 
 
@@ -339,17 +293,10 @@ void TransferComplete_3(DMA_HandleTypeDef *DmaHandle)
 }
 
 
-bool g_tim_pwm_transfer_cmplt = false;
-
-
-bool gb_dma_started_strip_1 = false;
-bool gb_dma_started_strip_2 = false;
-bool gb_dma_started_strip_3 = false;
-
-
 bool gb_dma_cmplt_strip_1 = true;
 bool gb_dma_cmplt_strip_2 = true;
 bool gb_dma_cmplt_strip_3 = true;
+
 
 void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim)
 {
@@ -358,12 +305,12 @@ void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim)
     {
         case HAL_TIM_ACTIVE_CHANNEL_1:
             HAL_TIM_PWM_Stop_DMA(htim, TIM_CHANNEL_1);
-            //osDelay(1);
+            //free_rtos_delay_ms(1);
             gb_dma_cmplt_strip_1 = true;
         break;
         case HAL_TIM_ACTIVE_CHANNEL_2:
             HAL_TIM_PWM_Stop_DMA(htim, TIM_CHANNEL_2);
-            //osDelay(1);
+            //free_rtos_delay_ms(1);
             gb_dma_cmplt_strip_2 = true;
         break;
         case HAL_TIM_ACTIVE_CHANNEL_3:
@@ -393,21 +340,21 @@ void DMA1_Channel3_IRQHandler(void)
     HAL_DMA_IRQHandler(&g_hdma_tim1_ch2);
 }
 
-/**
-  * @brief This function handles DMA1 channel5 global interrupt.
-  */
-void DMA1_Channel5_IRQHandler(void)
-{
-    //HAL_DMA_IRQHandler(&hdma_tim15_ch1_up_trig_com);
-}
-
-/**
-  * @brief This function handles DMA1 channel6 global interrupt.
-  */
-void DMA1_Channel6_IRQHandler(void)
-{
-    //HAL_DMA_IRQHandler(&hdma_tim16_ch1_up);
-}
+///**
+//  * @brief This function handles DMA1 channel5 global interrupt.
+//  */
+//void DMA1_Channel5_IRQHandler(void)
+//{
+//    //HAL_DMA_IRQHandler(&hdma_tim15_ch1_up_trig_com);
+//}
+//
+///**
+//  * @brief This function handles DMA1 channel6 global interrupt.
+//  */
+//void DMA1_Channel6_IRQHandler(void)
+//{
+//    //HAL_DMA_IRQHandler(&hdma_tim16_ch1_up);
+//}
 
 /**
   * @brief This function handles DMA1 channel7 global interrupt.

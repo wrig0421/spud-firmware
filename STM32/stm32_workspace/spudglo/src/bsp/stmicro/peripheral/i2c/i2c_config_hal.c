@@ -100,10 +100,11 @@ void i2c_config_hal_setup(void)
     	    {
     	    	while (1);
     	    }
+    	    HAL_NVIC_DisableIRQ(g_i2c_config[bus].irqn);
 
-    	    HAL_NVIC_SetPriority(g_i2c_config[bus].irqn, 0, 1);
-    	    HAL_NVIC_EnableIRQ(g_i2c_config[bus].irqn);
-    	    HAL_NVIC_ClearPendingIRQ(g_i2c_config[bus].irqn);
+//    	    HAL_NVIC_SetPriority(g_i2c_config[bus].irqn, 0, 1);
+//    	    HAL_NVIC_EnableIRQ(g_i2c_config[bus].irqn);
+//    	    HAL_NVIC_ClearPendingIRQ(g_i2c_config[bus].irqn);
     	}
     }
     // TODO make this an array that gets populated so you don't need to lookup everytime..

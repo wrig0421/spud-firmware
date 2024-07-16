@@ -1,0 +1,9 @@
+// SRW
+#include "config.h"
+
+#if !defined(BOARD_SPUDGLO_BUSINESS_CARD_UART_CONFIG_H) && defined(BOARD_SPUDGLO_BUSINESS_CARD)
+#define BOARD_SPUDGLO_V7_UART_CONFIG_H
+
+
+
+#endif

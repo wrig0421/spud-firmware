@@ -2,12 +2,14 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include "board_init_common.h"
-#include "cmsis_os.h"
+
 #include "ws2812b.h"
 #include "task_create.h"
 #include "led_animate.h"
 #include "flash_info.h"
 #include "semaphore_access.h"
+#include "FreeRTOS.h"
+#include "task.h"
 
 int main(void)
 {
@@ -17,5 +19,5 @@ int main(void)
     semaphore_create();
 	//semaphore_create();
     //reset_ws2812b();
-	osKernelStart();
+    vTaskStartScheduler();
 }

@@ -131,7 +131,7 @@ const uint16_t g_gpio_lookup_table[NUM_GPIO_PINS] =
 };
 
 
-IRQn_Type gpio_config_irqn_lookup(gpio_pin_e pin)
+IRQn_Type gpio_config_irqn_lookup(gpio_hal_pin_e pin)
 {
 	if (GPIO_CONFIG_INTERRUPT_MODE_ENABLE == g_gpio_config[pin].interrupt_mode)
 	{
@@ -144,13 +144,13 @@ IRQn_Type gpio_config_irqn_lookup(gpio_pin_e pin)
 }
 
 
-port_t gpio_config_port_lookup(gpio_pin_e pin)
+port_t gpio_config_port_lookup(gpio_hal_pin_e pin)
 {
 	return g_gpio_port_lookup_table[pin];
 }
 
 
-uint16_t gpio_config_pin_lookup(gpio_pin_e pin)
+uint16_t gpio_config_pin_lookup(gpio_hal_pin_e pin)
 {
 	return g_gpio_lookup_table[pin];
 }
@@ -167,7 +167,7 @@ void gpio_config_hal_setup(void)
 	bool gpio_setup = false;
     //RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
     GPIO_InitTypeDef  GPIO_InitStruct;
-    for (gpio_pin_e pin = GPIO_PIN_FIRST; pin < NUM_GPIO_PINS; pin++)
+    for (gpio_hal_pin_e pin = GPIO_PIN_FIRST; pin < NUM_GPIO_PINS; pin++)
     {
     	gpio_setup = true;
     	GPIO_InitStruct.Pin = g_gpio_lookup_table[pin];

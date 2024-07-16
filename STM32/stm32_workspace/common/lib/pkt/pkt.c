@@ -1,8 +1,10 @@
 
 #include <string.h>
 #include "FreeRTOS.h"
-#include "cmsis_os2.h"
 #include "pkt.h"
+
+#if 0
+
 
 
 typedef enum
@@ -224,4 +226,4 @@ bool packet_rsp_was_received(void)
     }
 }
 
-
+#endif

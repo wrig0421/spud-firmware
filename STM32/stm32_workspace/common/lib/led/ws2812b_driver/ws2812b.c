@@ -2,7 +2,7 @@
 #include "FreeRTOS.h"
 #include "semphr.h"
 #include "task.h"
-#include "cmsis_os.h"
+
 #include "main.h"
 #include <stdbool.h>
 #include <stdint.h>
@@ -13,6 +13,7 @@
 #include "ws2812b.h"
 #include "semaphore_access.h"
 #include <string.h>
+#include "free_rtos_convenience.h"
 
 //extern osThreadId_t g_dma_transfer_handle;
 //extern SemaphoreHandle_t g_dma_transfer_semaphore;
@@ -21,9 +22,9 @@
 extern float g_max_current_ratio;
 extern TIM_HandleTypeDef g_tim1_handle;
 
-extern bool gb_dma_started_strip_1;
-extern bool gb_dma_started_strip_2;
-extern bool gb_dma_started_strip_3;
+bool gb_dma_started_strip_1;
+bool gb_dma_started_strip_2;
+bool gb_dma_started_strip_3;
 
 
 extern bool gb_dma_cmplt_strip_1;
@@ -31,7 +32,7 @@ extern bool gb_dma_cmplt_strip_2;
 extern bool gb_dma_cmplt_strip_3;
 
 
-extern osThreadId_t g_dma_transfer_handle;
+//extern osThreadId_t g_dma_transfer_handle;
 
 
 p_pwm_data_t gp_pwm_data_strip_1 = NULL;
@@ -233,21 +234,21 @@ void ws2812b_dma_transfer(strip_bit_e strip_bit)
     if (gb_dma_started_strip_1)
     {
     	gb_dma_started_strip_1 = false;
-    	while (!gb_dma_cmplt_strip_1) osDelay(10);
+    	while (!gb_dma_cmplt_strip_1) free_rtos_delay_ms(10);
 		gb_dma_cmplt_strip_1 = false;
     }
 
     if (gb_dma_started_strip_2)
     {
     	gb_dma_started_strip_2 = false;
-    	while (!gb_dma_cmplt_strip_2) osDelay(10);
+    	while (!gb_dma_cmplt_strip_2) free_rtos_delay_ms(10);
 		gb_dma_cmplt_strip_2 = false;
     }
 
     if (gb_dma_started_strip_3)
     {
     	gb_dma_started_strip_3 = false;
-    	while (!gb_dma_cmplt_strip_3) osDelay(10);
+    	while (!gb_dma_cmplt_strip_3) free_rtos_delay_ms(10);
 		gb_dma_cmplt_strip_3 = false;
     }
 
@@ -258,33 +259,33 @@ void ws2812b_dma_transfer(strip_bit_e strip_bit)
 
 	if (STRIP_BIT_2 == strip_bit)
 	{
-		osDelay(1);
+		free_rtos_delay_ms(1);
     	gb_dma_started_strip_2 = true;
 	}
 
 	if (STRIP_BIT_3 == strip_bit)
 	{
-		osDelay(1);
+		free_rtos_delay_ms(1);
     	gb_dma_started_strip_3 = true;
 	}
 
 
 //    if (STRIP_BIT_1 == strip_bit)
 //    {
-//    	while (!gb_dma_cmplt_strip_1) osDelay(10);
+//    	while (!gb_dma_cmplt_strip_1) free_rtos_delay_ms(10);
 //    	gb_dma_cmplt_strip_1 = false;
 //    }
 //
 //	if (STRIP_BIT_2 == strip_bit)
 //	{
-//		while (!gb_dma_cmplt_strip_2) osDelay(10);
+//		while (!gb_dma_cmplt_strip_2) free_rtos_delay_ms(10);
 //		gb_dma_cmplt_strip_2 = false;
 //	}
 
     while (HAL_OK != HAL_TIM_PWM_Start_DMA(&g_tim1_handle, timer_channel, (uint32_t *)g_ws2812b_info[strip_num].p_pwm_data, \
     						(g_ws2812b_info[strip_num].led_strip_length * BITS_PER_BYTE * sizeof(ws2812b_led_t)) + WS2812B_RESET_TIME_CYCLES))
 	{
-        osDelay(10);
+    	free_rtos_delay_ms(10);
 	}
     // semaphore will be given in `HAL_TIM_PWM_PulseFinishedCallback` function
 
@@ -299,7 +300,6 @@ uint16_t yyy = 0;
 uint16_t iii = 0;
 void ws2812b_fill_pwm_buffer_strip(strip_bit_e strip_bit)
 {
-	static bool first_pass = true;
     uint32_t color = 0;
     strip_num_e strip_num = ws2812_strip_bit_to_strip_num(strip_bit);
     for (iii = 0; iii < g_ws2812b_info[strip_num].led_strip_length; iii++)
@@ -319,19 +319,7 @@ void ws2812b_fill_pwm_buffer_strip(strip_bit_e strip_bit)
 							(uint16_t)WS2812B_BIT_RESET_CYCLES;
         }
     }
-
-//    if (!first_pass)
-//    {
-
-
-//    }
-//    else
-//    {
-//    	first_pass = false;
-//    }
-
     // reset will automatically occur.  It's filled to 0 once on init.  It will be sent out after the pwm_buffer
-
 }
 
 

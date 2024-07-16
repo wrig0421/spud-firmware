@@ -1,8 +1,9 @@
 // SRW
-
+#include "FreeRTOS.h"
+#include "task.h"
 #include "stm32l4xx_hal.h"
 #include "uart_access_hal.h"
-#include "cmsis_os.h"
+
 #include "task_led_ctrl.h"
 #include "esp8266.h"
 #include <string.h>

@@ -12,6 +12,7 @@
 #define FIRMWARE_VERSION    (0x010101)
 
 // define the board
+//#define BOARD_SPUDGLO_BUSINESS_CARD
 #define BOARD_SPUDGLO_V7P0
 //#define BOARD_SPUDGLO_V6P0
 //#define BOARD_SPUDGLO_V5P0
@@ -29,14 +30,14 @@
 	#define BOARD_SPUDGLO_V6
 #elif defined(BOARD_SPUDGLO_V5P0)
 	#define BOARD_SPUDGLO_V5
-#elif defined(BOARD_SP	UDGLO_V4P3) || defined(BOARD_SPUDGLO_V4P2) || defined(BOARD_SPUDGLO_V4P1)
+#elif defined(BOARD_SPUDGLO_V4P3) || defined(BOARD_SPUDGLO_V4P2) || defined(BOARD_SPUDGLO_V4P1)
 	#define BOARD_SPUDGLO_V4
 #endif
 
 // define the number of strips
-#define STRIP_1_LENGTH      302// biker dude 500// MN summit 214 // HELLO SPRING STRIP 1 = 459      //492// playstation controller! - 390// vice city 432// shucmacher - 636// skull sign=200 // 151 for SWENSON SIGN /// FLYNN FARM SIGN = 166!!
-#define STRIP_2_LENGTH      220 // HELLO SPRING STRIP 2 = 156
-#define STRIP_3_LENGTH      0//20
+#define STRIP_1_LENGTH      30// bar 302// biker dude 500// MN summit 214 // HELLO SPRING STRIP 1 = 459      //492// playstation controller! - 390// vice city 432// shucmacher - 636// skull sign=200 // 151 for SWENSON SIGN /// FLYNN FARM SIGN = 166!!
+#define STRIP_2_LENGTH      30// bar 220 // HELLO SPRING STRIP 2 = 156
+#define STRIP_3_LENGTH      30//20
 
 #define MAX_NUM_STRIPS		3
 #define ENABLE_LED_STRIP_SYNC

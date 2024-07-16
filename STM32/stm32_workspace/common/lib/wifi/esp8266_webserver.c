@@ -1,7 +1,7 @@
 #include "config.h"
 #include <string.h>
 #include <stdbool.h>
-#include "cmsis_os.h"
+
 #include <string.h>
 
 #if defined(BOARD_SPUDGLO_V5)
@@ -36,26 +36,26 @@ extern char g_general_rx_buffer[GENERAL_RX_BUFFER_SIZE];
 
 bool esp8266_start_webserver(void)
 {
-	while(!esp8266_write_command_and_read_response(ESP8266_AT_STARTUP, false, 0, (char *)g_general_rx_buffer, 10, 1000)) osDelay(100);
-	osDelay(200);
-	while (!esp8266_write_command_and_read_response(ESP8266_AT_RESTART, false, 0, (char *)g_general_rx_buffer, 10, 1000)) osDelay(100);
-	osDelay(200);
-	while (!esp8266_write_command_and_read_response(ESP8266_AT_CW_MODE_CUR, true, "1", (char *)g_general_rx_buffer, 10, 500)) osDelay(100);
-	osDelay(200);
-	while (!esp8266_write_command_and_read_response(ESP8266_AT_CWJAP_CUR, true, ssid, (char *)g_general_rx_buffer, 10, 10000)) osDelay(100);
-	osDelay(4000);
+	while(!esp8266_write_command_and_read_response(ESP8266_AT_STARTUP, false, 0, (char *)g_general_rx_buffer, 10, 1000)) free_rtos_delay_ms(100);
+	free_rtos_delay_ms(200);
+	while (!esp8266_write_command_and_read_response(ESP8266_AT_RESTART, false, 0, (char *)g_general_rx_buffer, 10, 1000)) free_rtos_delay_ms(100);
+	free_rtos_delay_ms(200);
+	while (!esp8266_write_command_and_read_response(ESP8266_AT_CW_MODE_CUR, true, "1", (char *)g_general_rx_buffer, 10, 500)) free_rtos_delay_ms(100);
+	free_rtos_delay_ms(200);
+	while (!esp8266_write_command_and_read_response(ESP8266_AT_CWJAP_CUR, true, ssid, (char *)g_general_rx_buffer, 10, 10000)) free_rtos_delay_ms(100);
+	free_rtos_delay_ms(4000);
 	while (!esp8266_write_command_and_read_response(ESP8266_AT_CIFSR, false, 0, (char *)g_general_rx_buffer, 75, 1000))
 	{
-		osDelay(500);
+		free_rtos_delay_ms(500);
 	}
-	osDelay(200);
-	while (!esp8266_write_command_and_read_response(ESP8266_AT_CIPMUX, true, "1", (char *)g_general_rx_buffer, 10, 500)) osDelay(100);
-	osDelay(200);
-	while (!esp8266_write_command_and_read_response(ESP8266_AT_CIPSERVER, true, "1,80", (char *)g_general_rx_buffer, 30, 500)) osDelay(100);
+	free_rtos_delay_ms(200);
+	while (!esp8266_write_command_and_read_response(ESP8266_AT_CIPMUX, true, "1", (char *)g_general_rx_buffer, 10, 500)) free_rtos_delay_ms(100);
+	free_rtos_delay_ms(200);
+	while (!esp8266_write_command_and_read_response(ESP8266_AT_CIPSERVER, true, "1,80", (char *)g_general_rx_buffer, 30, 500)) free_rtos_delay_ms(100);
 	gb_waiting_on_request = true;
 	while (!esp8266_response_contains(g_general_rx_buffer, search, sizeof(search), sizeof(g_general_rx_buffer)))
 	{
-		osDelay(500);
+		free_rtos_delay_ms(500);
 	}
 	return true;
 }

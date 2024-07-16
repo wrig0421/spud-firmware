@@ -6,7 +6,7 @@
  */
 
 #include "FreeRTOS.h"
-#include "cmsis_os.h"
+
 #include "semphr.h"
 #include "semaphore_access.h"
 

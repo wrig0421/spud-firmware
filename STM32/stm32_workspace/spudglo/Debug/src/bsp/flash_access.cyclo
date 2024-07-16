@@ -1,8 +1,8 @@
-../src/bsp/flash_access.c:15:6:HAL_FLASH_EndOfOperationCallback	1
-../src/bsp/flash_access.c:22:6:flash_access_read_flash	1
-../src/bsp/flash_access.c:28:6:flash_access_write_to_flash	4
-../src/bsp/flash_access.c:41:6:flash_access_read_sector	2
-../src/bsp/flash_access.c:58:6:flash_access_erase_from_to_address	4
-../src/bsp/flash_access.c:83:6:flash_access_erase_slot	2
-../src/bsp/flash_access.c:107:6:flash_access_write_sector	5
-../src/bsp/flash_access.c:151:6:flash_access_write_sector_with_address	1
+../src/bsp/flash_access.c:16:6:HAL_FLASH_EndOfOperationCallback	1
+../src/bsp/flash_access.c:23:6:flash_access_read_flash	1
+../src/bsp/flash_access.c:29:6:flash_access_write_to_flash	4
+../src/bsp/flash_access.c:42:6:flash_access_read_sector	2
+../src/bsp/flash_access.c:59:6:flash_access_erase_from_to_address	4
+../src/bsp/flash_access.c:84:6:flash_access_erase_slot	2
+../src/bsp/flash_access.c:108:6:flash_access_write_sector	5
+../src/bsp/flash_access.c:152:6:flash_access_write_sector_with_address	1

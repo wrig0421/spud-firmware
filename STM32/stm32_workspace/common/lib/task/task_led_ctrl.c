@@ -1,7 +1,7 @@
 // SRW
 #include <stdbool.h>
 #include "stm32l4xx_hal.h"
-#include "cmsis_os.h"
+
 #include "numbers.h"
 #include "board_init_common.h"
 #include "led_ctrl_color.h"
@@ -271,6 +271,30 @@ led_ctrl_state_iterations_t g_task_led_ctrl_state_iterations[NUM_LED_STATES] =
 };
 
 
+//typedef struct
+//{
+//	struct
+//	{
+//		union
+//		{
+//			led_ctrl_interrupt_status_t 	minor_interrupt_status;
+//			uint8_t 						minor_interrupt_status_flat;
+//		};
+//		bool minor_interrupt_flag;
+//	};
+//	struct
+//	{
+//		union
+//		{
+//			led_ctrl_interrupt_status_t 	major_interrupt_status;
+//			uint8_t 						major_intterupt_status_flat;
+//		};
+//		bool major_interrupt_flag;
+//		bool major_interrupt_transition_cmplt_flag;
+//	};
+//} led_ctrl_interrupt_info_t;
+
+
 led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS] =
 {
 	[STRIP_NUM_1] =
@@ -288,10 +312,10 @@ led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS] =
 		},
 		.led_interrupt_info =
 		{
-			.state							= false,
-			.color							= false,
-			.speed							= false,
-			.pause							= false
+			.minor.interrupt_status_flat 	= 0,
+			.minor_interrupt_flag 			= false,
+			.major.interrupt_status_flat 	= 0,
+			.major_interrupt_flag 			= false,
 		},
 		.led_speed 							= LED_SPEED_5X,
 		.led_brightness 					= LED_BRIGHTNESS_100_PERCENT
@@ -311,10 +335,10 @@ led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS] =
 		},
 		.led_interrupt_info =
 		{
-			.state							= false,
-			.color							= false,
-			.speed							= false,
-			.pause							= false
+			.minor.interrupt_status_flat 	= 0,
+			.minor_interrupt_flag 			= false,
+			.major.interrupt_status_flat 	= 0,
+			.major_interrupt_flag 			= false,
 		},
 		.led_speed 							= LED_SPEED_1X,
 		.led_brightness 					= LED_BRIGHTNESS_100_PERCENT
@@ -334,10 +358,10 @@ led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS] =
 		},
 		.led_interrupt_info =
 		{
-			.state							= false,
-			.color							= false,
-			.speed							= false,
-			.pause							= false
+			.minor.interrupt_status_flat 	= 0,
+			.minor_interrupt_flag 			= false,
+			.major.interrupt_status_flat 	= 0,
+			.major_interrupt_flag 			= false,
 		},
 		.led_speed 							= LED_SPEED_1X,
 		.led_brightness 					= LED_BRIGHTNESS_100_PERCENT
@@ -358,10 +382,10 @@ led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS] =
 		},
 		.led_interrupt_info =
 		{
-			.state							= false,
-			.color							= false,
-			.speed							= false,
-			.pause							= false
+			.minor.interrupt_status_flat 	= 0,
+			.minor_interrupt_flag 			= false,
+			.major.interrupt_status_flat 	= 0,
+			.major_interrupt_flag 			= false,
 		},
 		.led_speed 							= LED_SPEED_1X,
 		.led_brightness 					= LED_BRIGHTNESS_100_PERCENT
@@ -381,10 +405,10 @@ led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS] =
 		},
 		.led_interrupt_info =
 		{
-			.state							= false,
-			.color							= false,
-			.speed							= false,
-			.pause							= false
+			.minor.interrupt_status_flat 	= 0,
+			.minor_interrupt_flag 			= false,
+			.major.interrupt_status_flat 	= 0,
+			.major_interrupt_flag 			= false,
 		},
 		.led_speed 							= LED_SPEED_1X,
 		.led_brightness 					= LED_BRIGHTNESS_100_PERCENT
@@ -404,10 +428,10 @@ led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS] =
 		},
 		.led_interrupt_info =
 		{
-			.state							= false,
-			.color							= false,
-			.speed							= false,
-			.pause							= false
+			.minor.interrupt_status_flat 	= 0,
+			.minor_interrupt_flag 			= false,
+			.major.interrupt_status_flat 	= 0,
+			.major_interrupt_flag 			= false,
 		},
 		.led_speed 							= LED_SPEED_1X,
 		.led_brightness 					= LED_BRIGHTNESS_100_PERCENT
@@ -428,10 +452,10 @@ led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS] =
 		},
 		.led_interrupt_info =
 		{
-			.state							= false,
-			.color							= false,
-			.speed							= false,
-			.pause							= false
+			.minor.interrupt_status_flat 	= 0,
+			.minor_interrupt_flag 			= false,
+			.major.interrupt_status_flat 	= 0,
+			.major_interrupt_flag 			= false,
 		},
 		.led_speed 							= LED_SPEED_5X,
 		.led_brightness 					= LED_BRIGHTNESS_100_PERCENT

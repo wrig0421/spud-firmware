@@ -5,6 +5,7 @@
 #if !defined(LED_COLOR_H)
 #define LED_COLOR_H
 #include "ws2812b.h"
+#include "button_access.h"
 
 
 typedef enum
@@ -103,10 +104,20 @@ typedef enum
 } led_color_e;
 
 
+typedef enum
+{
+	LED_COLOR_MAJOR_STATE_CHANGE_SPEED 		= LED_COLOR_HEX_GREEN,
+	LED_COLOR_MAJOR_STATE_CHANGE_STATE 		= LED_COLOR_HEX_BLUE,
+	LED_COLOR_MAJOR_STATE_CHANGE_COLOR 		= LED_COLOR_HEX_RED,
+	LED_COLOR_MAJOR_STATE_CHANGE_BRIGHTNESS = LED_COLOR_HEX_WHITE
+} led_color_major_state_change_e;
+
+
 
 void led_color_set_current_strip_color(const strip_mask_t mask,
 									   led_color_hex_code_e color_hex_code);
 void led_color_strip_color(const strip_mask_t mask, led_color_t* led_color);
 
+led_color_hex_code_e led_color_major_state_change_color(button_e btn);
 #endif
 

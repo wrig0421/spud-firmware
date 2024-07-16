@@ -1,0 +1,4 @@
+../src/bsp/stmicro/peripheral/button/button_access_hal.c:12:6:button_access_hal_button_is_active	48	static
+../src/bsp/stmicro/peripheral/button/button_access_hal.c:35:6:button_access_hal_button_is_not_active	16	static
+../src/bsp/stmicro/peripheral/button/button_access_hal.c:41:6:button_access_hal_button_is_high	48	static
+../src/bsp/stmicro/peripheral/button/button_access_hal.c:49:6:button_access_hal_button_is_low	16	static

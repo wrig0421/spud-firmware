@@ -1,7 +1,7 @@
 #include "config.h"
 #include <string.h>
 #include <stdbool.h>
-#include "cmsis_os.h"
+
 
 #if defined(BOARD_SPUDGLO_V5)
 
@@ -79,7 +79,7 @@ bool esp8266_write_data(char* data, uint16_t len, uint32_t timeout_ms)
 	uint32_t timestamp = xTaskGetTickCount();
 	esp8266_write_and_read_block((uint8_t *)g_buffer_tx, strlen(g_buffer_tx), (uint8_t *)g_general_rx_buffer, 300);
 
-	while ((xTaskGetTickCount() - timestamp) < timeout_ms) osDelay(100);
+	while ((xTaskGetTickCount() - timestamp) < timeout_ms) free_rtos_delay_ms(100);
 	if (!esp8266_response_ok_received(g_general_rx_buffer, 200)) return false;
 	return true;
 }
@@ -106,7 +106,7 @@ bool esp8266_write_command_and_read_response(esp8266_at_commands_e cmd_tag, bool
 	uint32_t timestamp = xTaskGetTickCount();
 	esp8266_write_and_read_block((uint8_t *)g_buffer_tx, strlen(g_buffer_tx), (uint8_t *)read_buf, read_len);
 
-	while (!uart_access_hal_rx_done(timestamp, timeout_ms)) osDelay(100);
+	while (!uart_access_hal_rx_done(timestamp, timeout_ms)) free_rtos_delay_ms(100);
 	if (cmd_tag != ESP8266_AT_CWJAP_CUR)
 	{
 		if (!esp8266_response_ok_received(g_general_rx_buffer, 200)) return false;
@@ -162,15 +162,15 @@ bool esp8266_response_contains(char *buffer, char *msg, uint16_t msg_len, uint16
 void esp8266_startup(void)
 {
 	board_init_specific_esp8266_power_disable();
-	osDelay(1000);
+	free_rtos_delay_ms(1000);
 	board_init_specific_esp8266_power_enable();
-	osDelay(1000);
+	free_rtos_delay_ms(1000);
 
 	board_init_specific_esp8266_uart_boot_disable();
 	board_init_specific_esp8266_reset_assert();
-	osDelay(1000);
+	free_rtos_delay_ms(1000);
 	board_init_specific_esp8266_reset_deassert();
-	osDelay(1000);
+	free_rtos_delay_ms(1000);
 	uart_config_hal_setup();
 }
 

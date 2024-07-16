@@ -15,6 +15,8 @@
 #include "board_spudglo_v6_uart_config.h"
 #elif defined(BOARD_SPUDGLO_V7)
 #include "board_spudglo_v7_uart_config.h"
+#elif defined(BOARD_SPUDGLO_BUSINESS_CARD)
+	// no UART on SPUDGLO BUSINESS CARD
 #else
 #error "Error - None or unknown board defined!"
 #endif

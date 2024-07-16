@@ -6,7 +6,8 @@
 #include <stdbool.h>
 #include "i2c_access.h"
 #include "rv8803.h"
-#include "cmsis_os.h"
+#include "free_rtos_convenience.h"
+
 
 
 typedef struct
@@ -43,7 +44,7 @@ typedef struct
 	uint8_t date_alarm 					: 6;
 	uint8_t date_gp1					: 1;
 	uint8_t date_alarm_enable 			: 1;
-} rv8803_weekday_alarm_register_t;
+} rv8803_date_alarm_register_t;
 
 
 
@@ -232,7 +233,7 @@ void rv8803_write_current_tod(void)
 
 //	while (!g_ready_to_write_time)
 //	{
-//        osDelay(portTICK_PERIOD_MS);
+//        free_rtos_delay_ms(portTICK_PERIOD_MS);
 //	}
 
 
@@ -251,7 +252,7 @@ void rv8803_write_current_tod(void)
 	rv8803_write_register_burst(RV8803_REGISTER_SECONDS, (uint8_t *)&rv8803_tod, sizeof(rv8803_tod_t));
 	while (1)
 	{
-        osDelay(portTICK_PERIOD_MS * 1000);
+		free_rtos_delay_ms(1000);
 //        g_sec_count = rv8803_tod.second;
     	rv8803_read_register(RV8803_REGISTER_SECONDS, &g_sec_count);
 //        rv8803_read_register_burst(RV8803_REGISTER_SECONDS, (uint8_t *)&rv8803_tod, sizeof(rv8803_tod_t));

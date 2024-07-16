@@ -8,14 +8,7 @@
 #include "board_common.h"
 #include "board_specific.h"
 
-typedef enum
-{
-    PUSH_BUTTON_A = 0, 	// speed
-    PUSH_BUTTON_B, 		// state
-    PUSH_BUTTON_C, 		// color
-    PUSH_BUTTON_D, 		// pause
-    NUM_PUSH_BUTTONS
-} board_init_push_buttons_e;
+
 
 
 // A EXTI2
@@ -57,7 +50,7 @@ typedef enum
 
 
 void board_init_common_board_init(void);
-void board_init_common_button_pressed(const board_init_push_buttons_e button);
+//void board_init_common_button_pressed(const board_init_push_buttons_e button);
 void board_init_common_stop_timer(void);
 
 void board_init_red_led_on(void);

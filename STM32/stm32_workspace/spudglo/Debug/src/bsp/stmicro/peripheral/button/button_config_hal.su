@@ -1,0 +1,5 @@
+../src/bsp/stmicro/peripheral/button/button_config_hal.c:9:6:button_config_hal_setup	32	static
+../src/bsp/stmicro/peripheral/button/button_config_hal.c:29:6:button_config_clear_interrupt	16	static
+../src/bsp/stmicro/peripheral/button/button_config_hal.c:35:6:button_config_disable_interrupt	16	static
+../src/bsp/stmicro/peripheral/button/button_config_hal.c:41:6:button_config_enable_interrupt	16	static
+../src/bsp/stmicro/peripheral/button/button_config_hal.c:47:6:button_config_irq_handler	4	static

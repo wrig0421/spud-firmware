@@ -1,7 +1,7 @@
-C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/task/task_led_ctrl.c:454:13:task_led_ctrl_adjust_parameters	13
-C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/task/task_led_ctrl.c:502:13:task_led_iterate	13
-C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/task/task_led_ctrl.c:590:13:task_led_current_led_state	1
-C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/task/task_led_ctrl.c:596:6:task_led_1_ctrl	1
-C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/task/task_led_ctrl.c:610:6:task_led_2_ctrl	1
-C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/task/task_led_ctrl.c:621:6:task_led_3_ctrl	1
-C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/task/task_led_ctrl.c:633:6:task_led_sync_ctrl	1
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_led_ctrl.c:466:13:task_led_ctrl_adjust_parameters	13
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_led_ctrl.c:514:13:task_led_iterate	13
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_led_ctrl.c:577:13:task_led_current_led_state	1
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_led_ctrl.c:583:6:task_led_1_ctrl	1
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_led_ctrl.c:597:6:task_led_2_ctrl	1
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_led_ctrl.c:608:6:task_led_3_ctrl	1
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_led_ctrl.c:619:6:task_led_sync_ctrl	1

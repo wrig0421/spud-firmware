@@ -4,8 +4,8 @@
 		<cconfiguration id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.2079005053">
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.2079005053" moduleId="org.eclipse.cdt.core.settings" name="Debug">
 				<macros>
-					<stringMacro name="ProjDirPath" type="VALUE_PATH_DIR" value="C:\Users\Spud\Documents\GitHub\spud-firmware\STM32\stm32_workspace\spudglo"/>
-					<stringMacro name="WorkspaceDirPath" type="VALUE_PATH_DIR" value="C:\Users\Spud\Documents\GitHub\spud-firmware\STM32\stm32_workspace"/>
+					<stringMacro name="ProjDirPath" type="VALUE_PATH_DIR" value="/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/spudglo"/>
+					<stringMacro name="WorkspaceDirPath" type="VALUE_PATH_DIR" value="/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace"/>
 				</macros>
 				<externalSettings/>
 				<extensions>
@@ -55,6 +55,7 @@
 									<listOptionValue builtIn="false" value="../src/bsp/peripheral"/>
 									<listOptionValue builtIn="false" value="../src/bsp/stmicro"/>
 									<listOptionValue builtIn="false" value="../src/bsp/stmicro/peripheral"/>
+									<listOptionValue builtIn="false" value="../src/bsp/stmicro/peripheral/button"/>
 									<listOptionValue builtIn="false" value="../src/bsp/stmicro/peripheral/gpio"/>
 									<listOptionValue builtIn="false" value="../src/bsp/stmicro/peripheral/i2c"/>
 									<listOptionValue builtIn="false" value="../src/bsp/stmicro/peripheral/spi"/>
@@ -81,6 +82,8 @@
 									<listOptionValue builtIn="false" value="../sdk/CMSIS/Include"/>
 									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/led/ws2812b_driver&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/peripheral&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/peripheral/button&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/peripheral/gpio&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/peripheral/i2c&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/peripheral/spi&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/peripheral/uart&quot;"/>
@@ -90,18 +93,23 @@
 									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/queue&quot;"/>
 									<listOptionValue builtIn="false" value="../src/task"/>
 									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/wifi&quot;"/>
+									<listOptionValue builtIn="false" value="../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v4/peripheral/button"/>
+									<listOptionValue builtIn="false" value="../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v4/peripheral/gpio"/>
 									<listOptionValue builtIn="false" value="../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v4/peripheral/i2c"/>
 									<listOptionValue builtIn="false" value="../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v4/peripheral/spi"/>
 									<listOptionValue builtIn="false" value="../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v4/peripheral/uart"/>
 									<listOptionValue builtIn="false" value="../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral"/>
+									<listOptionValue builtIn="false" value="../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/button"/>
+									<listOptionValue builtIn="false" value="../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/gpio"/>
 									<listOptionValue builtIn="false" value="../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/i2c"/>
 									<listOptionValue builtIn="false" value="../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/periphera/spi"/>
 									<listOptionValue builtIn="false" value="../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/uart"/>
 									<listOptionValue builtIn="false" value="../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral"/>
+									<listOptionValue builtIn="false" value="../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/button"/>
+									<listOptionValue builtIn="false" value="../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/gpio"/>
 									<listOptionValue builtIn="false" value="../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/i2c"/>
 									<listOptionValue builtIn="false" value="../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/spi"/>
 									<listOptionValue builtIn="false" value="../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/uart"/>
-									<listOptionValue builtIn="false" value="../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/gpio"/>
 									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/led/led_ctrl&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/led/led_ctrl/led_ctrl_color&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/led/led_ctrl/led_ctrl_pause&quot;"/>
@@ -112,6 +120,13 @@
 									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/led/led_animate&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/led/led_color&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/peripheral/i2c/sensors&quot;"/>
+									<listOptionValue builtIn="false" value="../sdk/FreeRTOS/Source/convenience"/>
+									<listOptionValue builtIn="false" value="../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card"/>
+									<listOptionValue builtIn="false" value="../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/peripheral"/>
+									<listOptionValue builtIn="false" value="../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/peripheral/gpio"/>
+									<listOptionValue builtIn="false" value="../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/peripheral/i2c"/>
+									<listOptionValue builtIn="false" value="../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/peripheral//spi"/>
+									<listOptionValue builtIn="false" value="../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/peripheral/uart"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.743633161" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c"/>
 							</tool>

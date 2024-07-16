@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include "numbers.h"
 #include "task_led_ctrl.h"
+#include "button_access.h"
 
 
 led_color_t g_led_color_current_strip_color[NUM_SUPPORTED_STRIP_COMBOS] =
@@ -95,6 +96,19 @@ led_color_hex_code_e g_color_hex_codes[NUM_COLORS] =
 //    [LED_COLOR_GRAY] = LED_COLOR_HEX_GRAY,
     [LED_COLOR_BROWN] = LED_COLOR_HEX_BROWN
 };
+
+led_color_hex_code_e led_color_major_state_change_color(button_e btn)
+{
+	switch (btn)
+	{
+		case BUTTON_A: return LED_COLOR_MAJOR_STATE_CHANGE_SPEED;
+		case BUTTON_B: return LED_COLOR_MAJOR_STATE_CHANGE_STATE;
+		case BUTTON_C: return LED_COLOR_MAJOR_STATE_CHANGE_COLOR;
+		case BUTTON_D: return LED_COLOR_MAJOR_STATE_CHANGE_BRIGHTNESS;
+		default: while (1);
+	}
+}
+
 //
 //
 //void led_color_hex_to_rgb(const led_color_hex_code_e)

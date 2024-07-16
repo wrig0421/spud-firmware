@@ -1,5 +1,5 @@
 common/lib/led/ws2812b_driver/ws2812b.o: \
- C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/ws2812b_driver/ws2812b.c \
+ /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/ws2812b_driver/ws2812b.c \
  ../sdk/FreeRTOS/Source/include/FreeRTOS.h ../src/FreeRTOSConfig.h \
  ../sdk/FreeRTOS/Source/include/projdefs.h \
  ../sdk/FreeRTOS/Source/include/portable.h \
@@ -10,9 +10,7 @@ common/lib/led/ws2812b_driver/ws2812b.o: \
  ../sdk/FreeRTOS/Source/include/queue.h \
  ../sdk/FreeRTOS/Source/include/task.h \
  ../sdk/FreeRTOS/Source/include/list.h \
- ../sdk/FreeRTOS/Source/include/task.h \
- ../sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h \
- ../sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h ../src/main.h \
+ ../sdk/FreeRTOS/Source/include/task.h ../src/main.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h \
  ../src/bsp/stmicro/stm32l4/bloat/stm32l4xx_hal_conf.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h \
@@ -48,10 +46,11 @@ common/lib/led/ws2812b_driver/ws2812b.o: \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h ../src/config.h \
- C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_power/led_ctrl_power.h \
+ /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_power/led_ctrl_power.h \
  ../src/lib/util/numbers.h \
- C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/ws2812b_driver/ws2812b.h \
- C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/semaphore/semaphore_access.h
+ /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/ws2812b_driver/ws2812b.h \
+ /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/semaphore/semaphore_access.h \
+ ../sdk/FreeRTOS/Source/convenience/free_rtos_convenience.h
 ../sdk/FreeRTOS/Source/include/FreeRTOS.h:
 ../src/FreeRTOSConfig.h:
 ../sdk/FreeRTOS/Source/include/projdefs.h:
@@ -64,8 +63,6 @@ common/lib/led/ws2812b_driver/ws2812b.o: \
 ../sdk/FreeRTOS/Source/include/task.h:
 ../sdk/FreeRTOS/Source/include/list.h:
 ../sdk/FreeRTOS/Source/include/task.h:
-../sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h:
-../sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h:
 ../src/main.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
 ../src/bsp/stmicro/stm32l4/bloat/stm32l4xx_hal_conf.h:
@@ -105,7 +102,8 @@ common/lib/led/ws2812b_driver/ws2812b.o: \
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h:
 ../src/config.h:
-C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_power/led_ctrl_power.h:
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_power/led_ctrl_power.h:
 ../src/lib/util/numbers.h:
-C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/ws2812b_driver/ws2812b.h:
-C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/semaphore/semaphore_access.h:
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/ws2812b_driver/ws2812b.h:
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/semaphore/semaphore_access.h:
+../sdk/FreeRTOS/Source/convenience/free_rtos_convenience.h:

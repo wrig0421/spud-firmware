@@ -1,16 +1,6 @@
 src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/board_init_spudglo_v7.o: \
  ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/board_init_spudglo_v7.c \
- ../src/config.h ../sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h \
- ../sdk/FreeRTOS/Source/include/FreeRTOS.h ../src/FreeRTOSConfig.h \
- ../sdk/FreeRTOS/Source/include/projdefs.h \
- ../sdk/FreeRTOS/Source/include/portable.h \
- ../sdk/FreeRTOS/Source/include/deprecated_definitions.h \
- ../sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h \
- ../sdk/FreeRTOS/Source/include/mpu_wrappers.h \
- ../sdk/FreeRTOS/Source/include/task.h \
- ../sdk/FreeRTOS/Source/include/list.h \
- ../sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h \
- ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h \
+ ../src/config.h ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h \
  ../src/bsp/stmicro/stm32l4/bloat/stm32l4xx_hal_conf.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h \
@@ -51,24 +41,15 @@ src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/board_init_spudglo_
  ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/board_init_spudglo_v7.h \
  ../src/bsp/stmicro/peripheral/spi/spi_config_hal.h \
  ../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h \
- C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/peripheral/spi/spi_access.h \
+ /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/spi/spi_access.h \
  ../src/bsp/stmicro/peripheral/uart/uart_config_hal.h \
  ../src/bsp/stmicro/peripheral/gpio/gpio_config_hal_specific.h \
  ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/gpio/board_spudglo_v7_gpio_config.h \
  ../src/bsp/stmicro/peripheral/gpio/gpio_config_hal.h \
- ../src/bsp/peripheral/gpio_access_hal.h
+ /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/gpio/gpio_access.h \
+ ../src/bsp/peripheral/gpio_access_hal.h \
+ ../sdk/FreeRTOS/Source/convenience/free_rtos_convenience.h
 ../src/config.h:
-../sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h:
-../sdk/FreeRTOS/Source/include/FreeRTOS.h:
-../src/FreeRTOSConfig.h:
-../sdk/FreeRTOS/Source/include/projdefs.h:
-../sdk/FreeRTOS/Source/include/portable.h:
-../sdk/FreeRTOS/Source/include/deprecated_definitions.h:
-../sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h:
-../sdk/FreeRTOS/Source/include/mpu_wrappers.h:
-../sdk/FreeRTOS/Source/include/task.h:
-../sdk/FreeRTOS/Source/include/list.h:
-../sdk/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
 ../src/bsp/stmicro/stm32l4/bloat/stm32l4xx_hal_conf.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h:
@@ -113,9 +94,11 @@ src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/board_init_spudglo_
 ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/board_init_spudglo_v7.h:
 ../src/bsp/stmicro/peripheral/spi/spi_config_hal.h:
 ../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h:
-C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/peripheral/spi/spi_access.h:
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/spi/spi_access.h:
 ../src/bsp/stmicro/peripheral/uart/uart_config_hal.h:
 ../src/bsp/stmicro/peripheral/gpio/gpio_config_hal_specific.h:
 ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/gpio/board_spudglo_v7_gpio_config.h:
 ../src/bsp/stmicro/peripheral/gpio/gpio_config_hal.h:
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/gpio/gpio_access.h:
 ../src/bsp/peripheral/gpio_access_hal.h:
+../sdk/FreeRTOS/Source/convenience/free_rtos_convenience.h:

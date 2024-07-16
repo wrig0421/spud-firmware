@@ -3,12 +3,13 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdint.h>
-#include "cmsis_os.h"
+
 #include "main.h"
 #include "stm32l4xx_hal.h"
 #include "stm32l4xx_hal_flash.h"
 #include "flash_info.h"
 #include "flash_access.h"
+#include "free_rtos_convenience.h"
 
 
 bool gb_flash_write_done = true;
@@ -136,7 +137,7 @@ void flash_access_write_sector(uint64_t *p_data, flash_info_sub_block_t sub_bloc
 
     for (uint16_t iii = 0; iii < num_double_words; iii++)
     {
-    	while (!gb_flash_write_done) osDelay(1);
+    	while (!gb_flash_write_done) free_rtos_delay_ms(1);
     	gb_flash_write_done = false;
     	HAL_FLASH_Program_IT(FLASH_TYPEPROGRAM_DOUBLEWORD, \
                         flash_sub_block_address + (iii * sizeof(uint64_t)), \
@@ -158,7 +159,7 @@ void flash_access_write_sector_with_address(uint64_t *p_data, uint32_t address)
 ////    	least_sig = __builtin_bswap32(least_sig);
 ////    	most_sig = __builtin_bswap32(most_sig);
 ////    	constructed_value = (most_sig << 32) | (least_sig);
-//    	//while (!gb_flash_write_done) osDelay(1);
+//    	//while (!gb_flash_write_done) free_rtos_delay_ms(1);
 //		//gb_flash_write_done = false;
 //		HAL_FLASH_Program(FLASH_TYPEPROGRAM_DOUBLEWORD, \
 //						address + (iii * sizeof(uint64_t)), \

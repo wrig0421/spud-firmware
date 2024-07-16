@@ -1,7 +1,7 @@
 // SRW
 #include <stdbool.h>
 #include "stm32l4xx_hal.h"
-#include "cmsis_os.h"
+
 #include "pkt.h"
 #include "task_uart.h"
 

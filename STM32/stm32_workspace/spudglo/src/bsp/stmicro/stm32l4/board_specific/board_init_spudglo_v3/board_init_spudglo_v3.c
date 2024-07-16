@@ -35,7 +35,7 @@ void board_init_specific(void)
 void board_init_specific_power_cycle_level_shifter(void)
 {
     HAL_GPIO_WritePin(PIN_PORT_C, PIN_LVL_EN, GPIO_PIN_RESET);
-    osDelay(1000);
+    free_rtos_delay_ms(1000);
     HAL_GPIO_WritePin(PIN_PORT_C, PIN_LVL_EN, GPIO_PIN_SET);
 }
 

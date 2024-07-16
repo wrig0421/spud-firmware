@@ -11,6 +11,7 @@
 #include "board_init_common.h"
 #include "gpio_config_hal.h"
 #include "gpio_config_hal_specific.h"
+#include "button_config_hal_specific.h"
 #include "i2c_config_hal.h"
 
 typedef enum
@@ -25,9 +26,6 @@ DMA_HandleTypeDef 	g_hdma_tim1_ch2;
 DMA_HandleTypeDef 	g_hdma_tim1_ch3;
 RTC_HandleTypeDef 	g_rtc_handle;
 TIM_HandleTypeDef 	g_tim1_handle;
-
-uint32_t 			g_button_on_count[NUM_PUSH_BUTTONS] 	= {0};
-bool 				g_button_press_state[NUM_PUSH_BUTTONS] 	= {false};
 
 extern UART_HandleTypeDef      gh_host_usart;
 
@@ -123,7 +121,11 @@ static void board_init_common_timer_init(void)
     HAL_TIM_PWM_Stop_DMA(&g_tim1_handle, TIM_CHANNEL_1);
     HAL_TIM_PWM_Stop_DMA(&g_tim1_handle, TIM_CHANNEL_2);
     HAL_TIM_PWM_Stop_DMA(&g_tim1_handle, TIM_CHANNEL_3);
+#if defined(BOARD_SPUDGLO_BUSINESS_CARD)
+    GPIO_InitStruct.Pin = gpio_config_pin_lookup(GPIO_PIN_TIM1_CH1); // hack for now...
+#else
     GPIO_InitStruct.Pin = gpio_config_pin_lookup(GPIO_PIN_TIM1_CH1) | gpio_config_pin_lookup(GPIO_PIN_TIM1_CH2) | gpio_config_pin_lookup(GPIO_PIN_TIM1_CH3);
+#endif
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -168,35 +170,10 @@ void board_init_common_board_init(void)
 #if defined(BOARD_SPUDGLO_V7)
     i2c_config_hal_setup();
 #endif
+    button_config_hal_setup();
     board_init_common_timer_init(); // TODO determine if timer should be part of a separate config file??
     ws2812b_init();
     board_init_common_rtc_init();
-}
-
-
-void board_init_common_button_pressed(const board_init_push_buttons_e button)
-{
-    g_button_press_state[(uint8_t)button] = true;
-}
-
-
-// what is the function below used for??
-void board_init_common_button_is_pressed(const board_init_push_buttons_e button)
-{
-//	uint32_t port = 0;
-//	uint32_t pin = 0;
-//	switch (button)
-//	{
-//		case PUSH_BUTTON_A:
-//			//port =
-//		break;
-//		case PUSH_BUTTON_B:
-//		break;
-//		case PUSH_BUTTON_C:
-//		break;
-//		case PUSH_BUTTON_D:
-//		break;
-//	}
 }
 
 

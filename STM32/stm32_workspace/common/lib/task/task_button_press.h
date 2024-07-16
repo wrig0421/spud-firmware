@@ -3,18 +3,11 @@
 #ifndef TASK_BUTTON_PRESS_H
 #define TASK_BUTTON_PRESS_H
 
+#include "button_access.h"
 #include "board_specific.h"
 
 // typedefs, structs, enums
-typedef enum
-{
-    ISR_SPEED = 0,
-    ISR_STATE,
-    ISR_COLOR,
-    ISR_PAUSE,
-    NUM_ISR,
-	ISR_INVALID
-} isr_e;
+
 
 
 typedef enum
@@ -24,15 +17,11 @@ typedef enum
     NUM_TIMESTAMPS
 } timestamp_e;
 
-void task_button_press_interrupt_flag_clear(void);
-bool task_button_press_interrupt_major_change(void);
 bool task_button_press_interrupt_occurred(void);
-isr_e task_led_ctrl_button_to_isr(const board_init_push_buttons_e button);
-void task_button_press_ctrl_set_interrupt_flag(const strip_mask_t mask, const isr_e isr_src);
-bool task_button_press_ctrl_interrupt_flag(const strip_mask_t mask, const isr_e isr_src);
+bool task_button_press_major_interupt_occurred(void);
+bool task_button_press_minor_interupt_occurred(void);
+button_isr_e task_led_ctrl_button_to_isr(const button_e btn);
 bool task_button_press_check_interrupts(const strip_mask_t mask);
 void task_button_press(void *argument);
-bool task_button_press_isr_hit(void);
-void task_button_press_major_state_change_clear(void);
-bool task_button_press_major_state_change(void);
+
 #endif /* TASK_PIN_LEVEL_COUNT_H_ */
