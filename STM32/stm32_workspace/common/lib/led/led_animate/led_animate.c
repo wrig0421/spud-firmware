@@ -311,7 +311,7 @@ void led_animate_twinkle_random(const strip_mask_t mask, const uint16_t count,
         led_ctrl_delay((float_t)speed_delay / led_ctrl_speed(mask));
         if (only_one)
 		{
-        	led_color.color_hex = LED_COLOR_BLACK;
+        	led_color.color_hex = LED_COLOR_HEX_BLACK;
         	led_animate_set_all_pixels(mask, &led_color);
 		}
     }
@@ -336,7 +336,7 @@ void led_animate_sparkle_only_random_color(const strip_mask_t mask, const bool f
         led_ctrl_delay((float_t)speed_delay / led_ctrl_speed(mask));
 		if (!fill)
 		{
-			led_color.color_hex = LED_COLOR_BLACK;
+			led_color.color_hex = LED_COLOR_HEX_BLACK;
 			led_animate_set_all_pixels(mask, &led_color);
 		}
 	}

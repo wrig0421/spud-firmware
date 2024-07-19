@@ -364,4 +364,13 @@ void DMA1_Channel7_IRQHandler(void)
     HAL_DMA_IRQHandler(&g_hdma_tim1_ch3);
 }
 
+
+void vApplicationMallocFailedHook( void )
+{
+	while (1);
+}
+
+
+
+
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

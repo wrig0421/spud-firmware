@@ -137,6 +137,7 @@ static void task_button_press_ctrl_set_interrupt_flag(const strip_mask_t mask, b
 bool task_button_press_check_interrupts(const strip_mask_t mask)
 {
 	p_led_ctrl_interrupt_status_t p_interrupt_status;
+	bool b_interrupt_occurred = false;
     bool return_val = false;
 	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
 	uint8_t bit_mask = 0;
@@ -149,6 +150,7 @@ bool task_button_press_check_interrupts(const strip_mask_t mask)
 	// check if major interrupt occurred
 	if (g_task_led_ctrl[strip_num].led_interrupt_info.major_interrupt_flag)
 	{
+		b_interrupt_occurred = true;
 		// save major interrupt status
 		p_interrupt_status = &g_task_led_ctrl[strip_num].led_interrupt_info.major.interrupt_status;
 		// save major interrupt flag
@@ -161,25 +163,23 @@ bool task_button_press_check_interrupts(const strip_mask_t mask)
         	// check every 50 ms for the major state change signal to clear.
         	free_rtos_delay_ms(50);
 		}
-        // set pixels in the strip(s) of interest to black for 500 ms.
-        led_animate_solid_custom_color(mask, LED_COLOR_HEX_BLACK);
-        // delay 500 ms before major state change
-        free_rtos_delay_ms(500);
+        // clear the flag for the next go
+        *pb_major_interrupt_transition_cmplt_flag = false;
+//        // set pixels in the strip(s) of interest to black for 500 ms.
+//        led_animate_solid_custom_color(mask, LED_COLOR_HEX_BLACK);
+//        // delay 500 ms before major state change
+//        free_rtos_delay_ms(500);
 	}
 	// else check if minor interrupt occurred
 	else if (g_task_led_ctrl[strip_num].led_interrupt_info.minor_interrupt_flag)
 	{
+		b_interrupt_occurred = true;
 		// save major interrupt status
 		p_interrupt_status = &g_task_led_ctrl[strip_num].led_interrupt_info.minor.interrupt_status;
 		// save minor interrupt flag
 		pb_interrupt_flag = &g_task_led_ctrl[strip_num].led_interrupt_info.minor_interrupt_flag;
 	}
-	else
-	{
-		// no interrupts detected.  Just return false.
-		return_val = false;
-	}
-	if (!return_val)
+	if (b_interrupt_occurred)
 	{
 		switch (p_interrupt_status->flat_interrupt_status)
 		{
@@ -212,6 +212,7 @@ bool task_button_press_check_interrupts(const strip_mask_t mask)
 			default:
 			break;
 		}
+		*pb_interrupt_flag = false;
 	}
     return return_val;
 }
@@ -249,7 +250,7 @@ void task_button_press(void *argument)
         // task wakes up from button press.  Record the approximate time in ms.
         if (1000 == configTICK_RATE_HZ)
 		{
-            timestamp_button_press_ms = xTaskGetTickCount() * configTICK_RATE_HZ;
+            timestamp_button_press_ms = xTaskGetTickCount(); // * configTICK_RATE_HZ;
 		}
         else
 		{
@@ -268,7 +269,7 @@ void task_button_press(void *argument)
 			free_rtos_delay_ms(50);
 		}
         // record the approximate time in ms after the button is released.
-        timestamp_button_release_ms = xTaskGetTickCount() * configTICK_RATE_HZ;
+        timestamp_button_release_ms = xTaskGetTickCount(); // * configTICK_RATE_HZ;
         // calculate the approximate time in ms that button is pressed.
         button_active_time_ms = timestamp_button_release_ms - timestamp_button_press_ms;
         if (SWITCH_MAJOR_STATE_CHANGE_TIME_MILLISECONDS < button_active_time_ms)
@@ -335,7 +336,8 @@ void task_button_press(void *argument)
             // re-enable the button interrupt
             HAL_NVIC_SetPriority(irq_type, 24, 0);
             HAL_NVIC_EnableIRQ(irq_type);
-            g_task_led_ctrl[strip_num].led_interrupt_info.major_interrupt_transition_cmplt_flag = true;
+            *pb_major_interrupt_flag = false;
+            *pb_major_interrupt_transition_cmplt_flag = true;
         }
         else
         {
@@ -392,6 +394,8 @@ void task_button_press(void *argument)
                 default:
                 break;
             }
+        	*pb_minor_interrupt_flag = false;
+
             // re-enable the interrupt
             HAL_NVIC_SetPriority(irq_type, 24, 0);
             HAL_NVIC_EnableIRQ(irq_type);

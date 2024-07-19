@@ -87,7 +87,8 @@ typedef struct
 typedef struct
 {
 	uint16_t				led_state_max_iteration[NUM_SPEEDS];
-	uint16_t				led_state_iteration_delay_ms[NUM_SPEEDS];
+	uint16_t				led_state_inner_animation_delay_ms[NUM_SPEEDS];
+	uint16_t				led_state_between_animation_delay_ms[NUM_SPEEDS];
 	bool					led_state_allow_black_color;
 } led_ctrl_state_iterations_t;
 

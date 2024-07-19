@@ -16,9 +16,9 @@ bool led_ctrl_delay(const uint32_t time_ms)
 
     ticks = time_ms / portTICK_PERIOD_MS;
 
-    while (ms_count++ < time_ms)
+    while (ms_count++ < ticks)
     {
-    	free_rtos_delay_ms(ticks);
+    	free_rtos_delay_ms(portTICK_PERIOD_MS);
         if (task_button_press_interrupt_occurred()) return true;
     }
     return false;
