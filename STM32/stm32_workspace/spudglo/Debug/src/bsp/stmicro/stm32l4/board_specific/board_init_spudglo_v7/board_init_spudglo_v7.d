@@ -1,6 +1,6 @@
 src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/board_init_spudglo_v7.o: \
  ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/board_init_spudglo_v7.c \
- ../src/config.h ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h \
+ ../src/app/config.h ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h \
  ../src/bsp/stmicro/stm32l4/bloat/stm32l4xx_hal_conf.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h \
@@ -49,7 +49,7 @@ src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/board_init_spudglo_
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/gpio/gpio_access.h \
  ../src/bsp/peripheral/gpio_access_hal.h \
  ../sdk/FreeRTOS/Source/convenience/free_rtos_convenience.h
-../src/config.h:
+../src/app/config.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
 ../src/bsp/stmicro/stm32l4/bloat/stm32l4xx_hal_conf.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h:

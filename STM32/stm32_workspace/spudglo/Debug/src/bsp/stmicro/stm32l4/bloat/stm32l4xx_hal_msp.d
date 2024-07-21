@@ -1,5 +1,5 @@
 src/bsp/stmicro/stm32l4/bloat/stm32l4xx_hal_msp.o: \
- ../src/bsp/stmicro/stm32l4/bloat/stm32l4xx_hal_msp.c ../src/main.h \
+ ../src/bsp/stmicro/stm32l4/bloat/stm32l4xx_hal_msp.c ../src/app/main.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h \
  ../src/bsp/stmicro/stm32l4/bloat/stm32l4xx_hal_conf.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h \
@@ -37,7 +37,7 @@ src/bsp/stmicro/stm32l4/bloat/stm32l4xx_hal_msp.o: \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h \
  ../src/bsp/board_common.h \
  ../src/bsp/stmicro/stm32l4/bloat/stm32l4xx_it.h
-../src/main.h:
+../src/app/main.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
 ../src/bsp/stmicro/stm32l4/bloat/stm32l4xx_hal_conf.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h:

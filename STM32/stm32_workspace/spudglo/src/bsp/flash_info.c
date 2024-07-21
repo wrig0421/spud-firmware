@@ -356,11 +356,11 @@ led_speed_e flash_info_strip_speed(strip_bit_e strip_bit)
             while(1); // HW limited to 3 strips
         break;
     }
-//    if (strip_speed_mask.speed_1000p) strip_speed = LED_SPEED_10X;
-//    else if (strip_speed_mask.speed_500p) strip_speed = LED_SPEED_5X;
-//    else if (strip_speed_mask.speed_100p) strip_speed = LED_SPEED_1X;
-//    else if (strip_speed_mask.speed_50p) strip_speed = LED_SPEED_0P5X;
-//    else if (strip_speed_mask.speed_25p) strip_speed = LED_SPEED_0P25X;
+//    if (strip_speed_mask.speed_1000p) strip_speed = LED_SPEED_1;
+//    else if (strip_speed_mask.speed_500p) strip_speed = LED_SPEED_2;
+//    else if (strip_speed_mask.speed_100p) strip_speed = LED_SPEED_3;
+//    else if (strip_speed_mask.speed_50p) strip_speed = LED_SPEED_4;
+//    else if (strip_speed_mask.speed_25p) strip_speed = LED_SPEED_5;
 //    else while(1); // hang for debug..  Shouldn't be encountering an invalid speed
 //    return strip_speed;
 }

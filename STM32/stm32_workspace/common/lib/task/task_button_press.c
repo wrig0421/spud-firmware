@@ -181,6 +181,7 @@ bool task_button_press_check_interrupts(const strip_mask_t mask)
 	}
 	if (b_interrupt_occurred)
 	{
+		pb_interrupt_flag = false;
 		switch (p_interrupt_status->flat_interrupt_status)
 		{
 			case LED_CTRL_INTERRUPT_BIT_STATE:
@@ -366,12 +367,9 @@ void task_button_press(void *argument)
 						// master state is demo, change to fixed master state.
 						led_state_ctrl_force_fixed_state(STRIP_BIT_ALL_SET);
 					}
-					else
-					{
-						// master state is fixed.  Adjust the state and reset the animation count.
-						led_state_ctrl_iteration_reset(STRIP_BIT_ALL_SET);
-						led_state_ctrl_adjust_state(STRIP_BIT_ALL_SET);
-					}
+					led_state_ctrl_iteration_reset(STRIP_BIT_ALL_SET);
+					led_state_ctrl_adjust_state(STRIP_BIT_ALL_SET);
+
                 break;
                 case BUTTON_C:
                 	// 'C' is color.  Adjust it!
@@ -394,8 +392,6 @@ void task_button_press(void *argument)
                 default:
                 break;
             }
-        	*pb_minor_interrupt_flag = false;
-
             // re-enable the interrupt
             HAL_NVIC_SetPriority(irq_type, 24, 0);
             HAL_NVIC_EnableIRQ(irq_type);

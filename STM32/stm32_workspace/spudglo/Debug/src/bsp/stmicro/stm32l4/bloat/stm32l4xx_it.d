@@ -1,5 +1,5 @@
 src/bsp/stmicro/stm32l4/bloat/stm32l4xx_it.o: \
- ../src/bsp/stmicro/stm32l4/bloat/stm32l4xx_it.c ../src/main.h \
+ ../src/bsp/stmicro/stm32l4/bloat/stm32l4xx_it.c ../src/app/main.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h \
  ../src/bsp/stmicro/stm32l4/bloat/stm32l4xx_hal_conf.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h \
@@ -35,7 +35,7 @@ src/bsp/stmicro/stm32l4/bloat/stm32l4xx_it.o: \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h \
- ../sdk/FreeRTOS/Source/include/FreeRTOS.h ../src/FreeRTOSConfig.h \
+ ../sdk/FreeRTOS/Source/include/FreeRTOS.h ../src/app/FreeRTOSConfig.h \
  ../sdk/FreeRTOS/Source/include/projdefs.h \
  ../sdk/FreeRTOS/Source/include/portable.h \
  ../sdk/FreeRTOS/Source/include/deprecated_definitions.h \
@@ -46,7 +46,7 @@ src/bsp/stmicro/stm32l4/bloat/stm32l4xx_it.o: \
  ../sdk/FreeRTOS/Source/include/task.h \
  ../sdk/FreeRTOS/Source/include/list.h \
  ../sdk/FreeRTOS/Source/include/task.h \
- ../src/bsp/stmicro/stm32l4/bloat/stm32l4xx_it.h ../src/config.h \
+ ../src/bsp/stmicro/stm32l4/bloat/stm32l4xx_it.h ../src/app/config.h \
  ../src/bsp/board_init_common.h ../src/bsp/board_common.h \
  ../src/bsp/stmicro/stm32l4/board_specific/board_specific.h \
  ../src/bsp/board_common.h \
@@ -65,7 +65,7 @@ src/bsp/stmicro/stm32l4/bloat/stm32l4xx_it.o: \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/semaphore/semaphore_access.h \
  ../src/bsp/stmicro/peripheral/button/button_config_hal_specific.h \
  ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/button/board_spudglo_v7_button_config.h
-../src/main.h:
+../src/app/main.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
 ../src/bsp/stmicro/stm32l4/bloat/stm32l4xx_hal_conf.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h:
@@ -104,7 +104,7 @@ src/bsp/stmicro/stm32l4/bloat/stm32l4xx_it.o: \
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h:
 ../sdk/FreeRTOS/Source/include/FreeRTOS.h:
-../src/FreeRTOSConfig.h:
+../src/app/FreeRTOSConfig.h:
 ../sdk/FreeRTOS/Source/include/projdefs.h:
 ../sdk/FreeRTOS/Source/include/portable.h:
 ../sdk/FreeRTOS/Source/include/deprecated_definitions.h:
@@ -116,7 +116,7 @@ src/bsp/stmicro/stm32l4/bloat/stm32l4xx_it.o: \
 ../sdk/FreeRTOS/Source/include/list.h:
 ../sdk/FreeRTOS/Source/include/task.h:
 ../src/bsp/stmicro/stm32l4/bloat/stm32l4xx_it.h:
-../src/config.h:
+../src/app/config.h:
 ../src/bsp/board_init_common.h:
 ../src/bsp/board_common.h:
 ../src/bsp/stmicro/stm32l4/board_specific/board_specific.h:

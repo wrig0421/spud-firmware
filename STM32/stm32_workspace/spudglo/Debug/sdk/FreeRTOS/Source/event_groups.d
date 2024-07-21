@@ -1,5 +1,5 @@
 sdk/FreeRTOS/Source/event_groups.o: ../sdk/FreeRTOS/Source/event_groups.c \
- ../sdk/FreeRTOS/Source/include/FreeRTOS.h ../src/FreeRTOSConfig.h \
+ ../sdk/FreeRTOS/Source/include/FreeRTOS.h ../src/app/FreeRTOSConfig.h \
  ../sdk/FreeRTOS/Source/include/projdefs.h \
  ../sdk/FreeRTOS/Source/include/portable.h \
  ../sdk/FreeRTOS/Source/include/deprecated_definitions.h \
@@ -12,7 +12,7 @@ sdk/FreeRTOS/Source/event_groups.o: ../sdk/FreeRTOS/Source/event_groups.c \
  ../sdk/FreeRTOS/Source/include/event_groups.h \
  ../sdk/FreeRTOS/Source/include/timers.h
 ../sdk/FreeRTOS/Source/include/FreeRTOS.h:
-../src/FreeRTOSConfig.h:
+../src/app/FreeRTOSConfig.h:
 ../sdk/FreeRTOS/Source/include/projdefs.h:
 ../sdk/FreeRTOS/Source/include/portable.h:
 ../sdk/FreeRTOS/Source/include/deprecated_definitions.h:

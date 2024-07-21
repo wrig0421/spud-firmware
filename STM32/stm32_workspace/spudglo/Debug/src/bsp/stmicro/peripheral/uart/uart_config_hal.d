@@ -39,8 +39,8 @@ src/bsp/stmicro/peripheral/uart/uart_config_hal.o: \
  ../src/bsp/stmicro/peripheral/uart/uart_config_hal.h \
  ../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h \
  ../src/bsp/stmicro/peripheral/uart/uart_config_hal_specific.h \
- ../src/config.h ../src/bsp/board_common.h ../src/bsp/board_init_common.h \
- ../src/bsp/board_common.h \
+ ../src/app/config.h ../src/bsp/board_common.h \
+ ../src/bsp/board_init_common.h ../src/bsp/board_common.h \
  ../src/bsp/stmicro/stm32l4/board_specific/board_specific.h \
  ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/board_init_spudglo_v7.h \
  ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/uart/board_spudglo_v7_uart_config.h \
@@ -86,7 +86,7 @@ src/bsp/stmicro/peripheral/uart/uart_config_hal.o: \
 ../src/bsp/stmicro/peripheral/uart/uart_config_hal.h:
 ../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h:
 ../src/bsp/stmicro/peripheral/uart/uart_config_hal_specific.h:
-../src/config.h:
+../src/app/config.h:
 ../src/bsp/board_common.h:
 ../src/bsp/board_init_common.h:
 ../src/bsp/board_common.h:

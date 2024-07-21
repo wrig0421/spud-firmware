@@ -1,6 +1,6 @@
 sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.o: \
  ../sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c \
- ../sdk/FreeRTOS/Source/include/FreeRTOS.h ../src/FreeRTOSConfig.h \
+ ../sdk/FreeRTOS/Source/include/FreeRTOS.h ../src/app/FreeRTOSConfig.h \
  ../sdk/FreeRTOS/Source/include/projdefs.h \
  ../sdk/FreeRTOS/Source/include/portable.h \
  ../sdk/FreeRTOS/Source/include/deprecated_definitions.h \
@@ -9,7 +9,7 @@ sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.o: \
  ../sdk/FreeRTOS/Source/include/task.h \
  ../sdk/FreeRTOS/Source/include/list.h
 ../sdk/FreeRTOS/Source/include/FreeRTOS.h:
-../src/FreeRTOSConfig.h:
+../src/app/FreeRTOSConfig.h:
 ../sdk/FreeRTOS/Source/include/projdefs.h:
 ../sdk/FreeRTOS/Source/include/portable.h:
 ../sdk/FreeRTOS/Source/include/deprecated_definitions.h:

@@ -10,7 +10,6 @@ RM := rm -rf
 # All of the sources participating in the build are defined here
 -include sources.mk
 -include startup/subdir.mk
--include src/task/subdir.mk
 -include src/lib/util/subdir.mk
 -include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/uart/subdir.mk
 -include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/spi/subdir.mk
@@ -39,24 +38,25 @@ RM := rm -rf
 -include src/bsp/stmicro/peripheral/gpio/subdir.mk
 -include src/bsp/stmicro/peripheral/button/subdir.mk
 -include src/bsp/subdir.mk
--include src/subdir.mk
+-include src/app/subdir.mk
 -include sdk/STM32L4xx_HAL_Driver/Src/subdir.mk
 -include sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F/subdir.mk
 -include sdk/FreeRTOS/Source/convenience/subdir.mk
 -include sdk/FreeRTOS/Source/subdir.mk
--include common/lib/wifi/subdir.mk
 -include common/lib/task/subdir.mk
+-include common/lib/sensor_third_party/wifi/subdir.mk
+-include common/lib/sensor_third_party/rv8803/subdir.mk
+-include common/lib/sensor_third_party/adafruit_soundboard/subdir.mk
 -include common/lib/semaphore/subdir.mk
--include common/lib/pkt/subdir.mk
 -include common/lib/peripheral/uart/subdir.mk
 -include common/lib/peripheral/spi/subdir.mk
--include common/lib/peripheral/i2c/sensors/subdir.mk
 -include common/lib/peripheral/i2c/subdir.mk
 -include common/lib/peripheral/gpio/subdir.mk
 -include common/lib/peripheral/button/subdir.mk
 -include common/lib/led/ws2812b_driver/subdir.mk
 -include common/lib/led/led_ctrl/led_ctrl_state/subdir.mk
 -include common/lib/led/led_ctrl/led_ctrl_speed/subdir.mk
+-include common/lib/led/led_ctrl/led_ctrl_setup/subdir.mk
 -include common/lib/led/led_ctrl/led_ctrl_power/subdir.mk
 -include common/lib/led/led_ctrl/led_ctrl_pause/subdir.mk
 -include common/lib/led/led_ctrl/led_ctrl_color/subdir.mk
@@ -64,7 +64,7 @@ RM := rm -rf
 -include common/lib/led/led_ctrl/subdir.mk
 -include common/lib/led/led_color/subdir.mk
 -include common/lib/led/led_animate/subdir.mk
--include common/lib/adafruit_soundboard/subdir.mk
+-include common/api/pkt/subdir.mk
 -include objects.mk
 
 ifneq ($(MAKECMDGOALS),clean)
