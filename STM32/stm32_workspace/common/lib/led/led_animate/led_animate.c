@@ -12,6 +12,10 @@
 #include "task_notify.h"
 #include "task_button_press.h"
 #include "led_ctrl_speed.h"
+#include "FreeRTOSConfig.h"
+#include "FreeRTOS.h"
+#include "task.h"
+
 
 
 extern uint32_t g_max_strip_length;
@@ -166,7 +170,7 @@ static void led_animate_wheel(uint8_t wheel_pos, led_color_t* p_led_color)
 void led_animate_solid_custom_color(const strip_mask_t mask, const led_color_hex_code_e color)
 {
     led_color_t led_color;
-    led_color.color_hex = color;
+    led_color.color_hex = led_color_to_hex_code(color);
 //    led_color_t led_color.color_hex = color;
     if (task_button_press_interrupt_occurred()) if (task_button_press_check_interrupts(mask)) return;
     led_animate_set_all_pixels(mask, &led_color);
@@ -336,9 +340,12 @@ void led_animate_twinkle_random(const strip_mask_t mask, const uint16_t count,
 }
 
 
+uint32_t g_start_time = 0; // * configTICK_RATE_HZ;
+uint32_t g_stop_time = 0;
 void led_animate_sparkle_only_random_color(const strip_mask_t mask, const bool fill,
                                            const uint16_t* p_delay_ms)
 {
+	g_start_time = xTaskGetTickCount();
 	led_color_t led_color;
 	float percent_to_fill = 0.7;
 	uint16_t strip_size = ws2812_led_get_max_strip_size(mask);
@@ -358,6 +365,7 @@ void led_animate_sparkle_only_random_color(const strip_mask_t mask, const bool f
 			led_animate_set_all_pixels(mask, &led_color);
 		}
 	}
+	g_stop_time = xTaskGetTickCount();
 }
 
 

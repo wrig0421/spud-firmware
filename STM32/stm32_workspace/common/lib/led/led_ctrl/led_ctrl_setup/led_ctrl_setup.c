@@ -86,7 +86,7 @@ led_ctrl_state_iterations_t g_task_led_ctrl_state_iterations[NUM_LED_STATES] =
 	},
 	[LED_STATE_SPARKLE_NO_FILL] =
 	{
-		.led_state_max_iteration[LED_SPEED_1]					= 4,
+		.led_state_max_iteration[LED_SPEED_1]					= 441,
 		.led_state_max_iteration[LED_SPEED_2]					= 4,
 		.led_state_max_iteration[LED_SPEED_3]					= 4,
 		.led_state_max_iteration[LED_SPEED_4]					= 4,
@@ -434,7 +434,7 @@ led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS] =
 		.led_state_info =
 		{
 			.led_state_master 				= LED_CTRL_STATE_MASTER_DEMO,
-			.led_state 						= LED_STATE_RAINBOW_CYCLE,
+			.led_state 						= LED_STATE_SPARKLE_NO_FILL,
 			.led_state_current_iteration 	= 0,
 		},
 		.led_color_info =
@@ -449,7 +449,7 @@ led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS] =
 			.major.interrupt_status_flat 	= 0,
 			.major_interrupt_flag 			= false,
 		},
-		.led_speed 							= LED_SPEED_2,
+		.led_speed 							= LED_SPEED_1,
 		.led_brightness 					= LED_BRIGHTNESS_100_PERCENT
 	}
 };

@@ -298,12 +298,14 @@ void task_led_3_ctrl(void *argument)
 }
 
 
+led_state_e g_task_led_ctrl_state = LED_STATE_SRW_DEBUG;
 void task_led_sync_ctrl(void *argument)
 {
 	//rv8803_write_current_tod();
 	led_animate_turn_all_pixels_off();
 	while (1)
 	{
+		g_task_led_ctrl_state = g_task_led_ctrl[STRIP_NUM_ALL_SET].led_state_info.led_state;
 		//task_led_iterate(LED_STATE_RAINBOW_CYCLE, STRIP_BIT_ALL_SET);
 		task_led_iterate(g_task_led_ctrl[STRIP_NUM_ALL_SET].led_state_info.led_state, STRIP_BIT_ALL_SET);
 		task_led_ctrl_adjust_parameters(STRIP_BIT_ALL_SET);
