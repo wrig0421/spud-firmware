@@ -36,11 +36,11 @@
 
 // define the number of strips
 #define STRIP_1_LENGTH      10 // bar 302// biker dude 500// MN summit 214 // HELLO SPRING STRIP 1 = 459      //492// playstation controller! - 390// vice city 432// shucmacher - 636// skull sign=200 // 151 for SWENSON SIGN /// FLYNN FARM SIGN = 166!!
-#define STRIP_2_LENGTH      10 // bar 220 // HELLO SPRING STRIP 2 = 156
-#define STRIP_3_LENGTH      10 //20
+#define STRIP_2_LENGTH      0 // bar 220 // HELLO SPRING STRIP 2 = 156
+#define STRIP_3_LENGTH      0 //20
 
 #define MAX_NUM_STRIPS		3
-#define ENABLE_LED_STRIP_SYNC
+//#define ENABLE_LED_STRIP_SYNC
 
 #if defined(STRIP_3_LENGTH) && (0 < STRIP_3_LENGTH)
 	#define ENABLE_STRIP_1
