@@ -85,9 +85,12 @@ typedef enum
 #pragma pack(1)
 typedef struct
 {
-    color_t red;
-    color_t green; 
     color_t blue;
+    color_t green;
+    color_t red;
+//    color_t red;
+//    color_t green;
+//    color_t blue;
 } ws2812b_led_t;
 typedef ws2812b_led_t* p_ws2812b_led_t;
 typedef uint8_t* p_pwm_data_t;

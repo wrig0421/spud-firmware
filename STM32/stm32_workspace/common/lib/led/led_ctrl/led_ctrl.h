@@ -17,6 +17,7 @@ typedef enum
 } led_ctrl_interrupt_bit_e;
 
 
+#pragma pack(1)
 typedef struct
 {
 	union
@@ -26,20 +27,18 @@ typedef struct
 			uint8_t state 				: 1;
 			uint8_t color 				: 1;
 			uint8_t speed 				: 1;
-			union
-			{
-				uint8_t pause			: 1;
-				uint8_t brightness      : 1;
-			} pause_brightness;
+			uint8_t pause_brightness	: 1;
 			uint8_t rsvd  				: 4;
 		} bits;
 		uint8_t flat_interrupt_status;
 	};
 } led_ctrl_interrupt_status_t;
+#pragma pack()
 
 
 typedef led_ctrl_interrupt_status_t* p_led_ctrl_interrupt_status_t;
 
+#pragma pack(1)
 typedef struct
 {
 	union
@@ -56,8 +55,9 @@ typedef struct
 	bool major_interrupt_flag;
 	bool major_interrupt_transition_cmplt_flag;
 } led_ctrl_interrupt_info_t;
+#pragma pack()
 
-
+#pragma pack(1)
 typedef struct
 {
 	led_ctrl_state_info_t		led_state_info;
@@ -66,7 +66,7 @@ typedef struct
 	led_speed_e					led_speed;
 	led_brightness_e			led_brightness;
 } led_ctrl_t;
-
+#pragma pack()
 
 bool led_ctrl_delay(const uint32_t time_ms);
 void led_ctrl_init(void);

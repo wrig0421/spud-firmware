@@ -4,6 +4,7 @@
  ***********************************/
 #if !defined(LED_COLOR_H)
 #define LED_COLOR_H
+#include <limits.h>
 #include "ws2812b.h"
 #include "button_access.h"
 
@@ -46,6 +47,7 @@ typedef enum
     LED_COLOR_HEX_HOT_PINK      = 0xFF69B4,
     LED_COLOR_HEX_MINT          = 0x4EBD88,
     LED_COLOR_HEX_BROWN         = 0xA52A2A,
+	LED_COLOR_HEX_LAST_VALUE	= UINT32_MAX - 1,
 } led_color_hex_code_e;
 
 

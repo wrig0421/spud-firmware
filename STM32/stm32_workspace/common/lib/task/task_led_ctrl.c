@@ -99,8 +99,33 @@ extern uint32_t g_animation_iteration_count[MAX_NUM_STRIPS][NUM_LED_STATES][NUM_
 extern led_ctrl_state_iterations_t g_task_led_ctrl_state_iterations[NUM_LED_STATES];
 extern led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS];
 
+
+bool g_skip_adjust_parameters = false;
+void task_led_ctrl_set_skip_adjust_parameters(bool skip)
+{
+	g_skip_adjust_parameters = true;
+}
+
+
+bool task_led_ctrl_skip_adjust_parameters(void)
+{
+	return g_skip_adjust_parameters;
+}
+
+
+void task_led_ctrl_clear_skip_adjust_parameters(void)
+{
+	g_skip_adjust_parameters = false;
+}
+
+
 static void task_led_ctrl_adjust_parameters(const strip_mask_t mask)
 {
+	if (task_led_ctrl_skip_adjust_parameters())
+	{
+		task_led_ctrl_clear_skip_adjust_parameters();
+		return;
+	}
 	bool skip_color_check = false;
 	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
 	led_ctrl_state_info_t *task_led_ctrl_state_info = &g_task_led_ctrl[strip_num].led_state_info;
@@ -108,14 +133,16 @@ static void task_led_ctrl_adjust_parameters(const strip_mask_t mask)
 	led_speed_e led_speed = g_task_led_ctrl[strip_num].led_speed;
 	led_ctrl_state_iterations_t *task_led_ctrl_state_iterations = &g_task_led_ctrl_state_iterations[task_led_ctrl_state_info->led_state];
 	uint16_t max_animation_iteration_count = g_animation_iteration_count[strip_num][task_led_ctrl_state_info->led_state][led_speed];
+	p_led_ctrl_interrupt_status_t p_interrupt_status;
 
 	task_led_ctrl_state_info->led_state_current_iteration++;
     if (0 < (task_led_ctrl_state_iterations->led_state_between_animation_delay_ms[led_speed]))
     {
-    	if (led_ctrl_delay(task_led_ctrl_state_iterations->led_state_between_animation_delay_ms[led_speed]))
-    	{
-    		skip_color_check = true;
-    	}
+    	led_ctrl_delay(task_led_ctrl_state_iterations->led_state_between_animation_delay_ms[led_speed]);
+//    	if (led_ctrl_delay(task_led_ctrl_state_iterations->led_state_between_animation_delay_ms[led_speed]))
+//    	{
+//    		skip_color_check = true;
+//    	}
 	}
     if (LED_CTRL_STATE_MASTER_DEMO == (task_led_ctrl_state_info->led_state_master))
     {
@@ -158,47 +185,6 @@ static void task_led_iterate(led_state_e led_state, const strip_mask_t mask)
 			&g_task_led_ctrl_state_iterations[g_task_led_ctrl[strip_num].led_state_info.led_state].led_state_inner_animation_delay_ms[g_task_led_ctrl[strip_num].led_speed];
 	led_color_e *p_led_color = \
 			&g_task_led_ctrl[strip_num].led_color_info.led_color;
-
-//	led_animate_solid_custom_color(mask, LED_COLOR_HEX_BLACK);
-
-
-//	time_start = xTaskGetTickCount();
-//	led_color_t led_color;
-//    led_color.color_hex = led_color_to_hex_code(LED_COLOR_MAGENTA);
-//	// no time
-//    time_stop = xTaskGetTickCount();
-//	g_time_diff = time_stop - time_start;
-//
-//	time_start = xTaskGetTickCount();
-//    if (task_button_press_interrupt_occurred())
-//    {
-//		if (task_button_press_check_interrupts(mask))
-//        {
-//            return;
-//        }
-//		else if (g_task_notification_value.stimulus_bits.color)
-//		{
-//			led_color.color_hex = led_color_to_hex_code(LED_COLOR_YELLOW);
-//		}
-//    }
-//	time_stop = xTaskGetTickCount();
-//	g_time_diff = time_stop - time_start;
-//	// 0 time
-//	time_start = xTaskGetTickCount();
-//    led_animate_set_pixel(mask, 0, &led_color); // setting does nothing
-//	time_stop = xTaskGetTickCount();
-//	g_time_diff = time_stop - time_start;
-//	// 0
-//	time_start = xTaskGetTickCount();
-//    led_animate_show_strip(mask); // time is for showing
-//	time_stop = xTaskGetTickCount();
-//	g_time_diff = time_stop - time_start;
-//	// 16 ms above
-//	time_start = xTaskGetTickCount();
-//	led_animate_set_all_pixels(mask, &led_color); // 5 ms for 100
-//	time_stop = xTaskGetTickCount();
-//	g_time_diff = time_stop - time_start; // 1 ms for 20 leds, // 2 ms for 40
-
 	if (1)//(flash_info_animation_enabled(g_task_led_ctrl.led_state))
 	{
 		switch(led_state)
@@ -213,7 +199,7 @@ static void task_led_iterate(led_state_e led_state, const strip_mask_t mask)
 				led_animate_solid_custom_color(mask, led_color_to_hex_code(*p_led_color));
 			break;
 			case LED_STATE_SPARKLE_NO_FILL:
-				led_animate_turn_all_pixels_off();
+//				led_animate_turn_all_pixels_off();
 				led_animate_sparkle_only_random_color(mask, false, p_led_state_inner_animation_delay_ms);//random(0, 50));
 			break;
 			case LED_STATE_SPARKLE_FILL:
@@ -350,7 +336,6 @@ void task_led_3_ctrl(void *argument)
 }
 
 
-led_state_e g_task_led_ctrl_state = LED_STATE_SRW_DEBUG;
 void task_led_sync_ctrl(void *argument)
 {
 	//rv8803_write_current_tod();
@@ -358,8 +343,8 @@ void task_led_sync_ctrl(void *argument)
 	while (1)
 	{
 //		g_task_led_ctrl_state = g_task_led_ctrl[STRIP_NUM_ALL_SET].led_state_info.led_state;
-//		task_led_iterate(g_task_led_ctrl[STRIP_NUM_ALL_SET].led_state_info.led_state, STRIP_BIT_ALL_SET);
-//		task_led_ctrl_adjust_parameters(STRIP_BIT_ALL_SET);
+		task_led_iterate(g_task_led_ctrl[STRIP_NUM_ALL_SET].led_state_info.led_state, STRIP_BIT_ALL_SET);
+		task_led_ctrl_adjust_parameters(STRIP_BIT_ALL_SET);
 		// do we need a delay here??
 	}
 }

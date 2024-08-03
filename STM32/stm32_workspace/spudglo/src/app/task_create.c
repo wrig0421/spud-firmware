@@ -6,13 +6,11 @@
 #include "FreeRTOS.h"
 #include "task.h"
 
-
 #include "FreeRTOSConfig.h"
 #include "led_animate.h"
 #include "task_button_press.h"
 #include "task_led_ctrl.h"
 #include "task_create.h"
-
 
 #define TASK_CREATE_STACK_SIZE_STANDARD		(2 * configMINIMAL_STACK_SIZE)
 

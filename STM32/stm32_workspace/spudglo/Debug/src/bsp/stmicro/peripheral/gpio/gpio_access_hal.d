@@ -37,7 +37,7 @@ src/bsp/stmicro/peripheral/gpio/gpio_access_hal.o: \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h \
  ../src/bsp/peripheral/gpio_access_hal.h \
  ../src/bsp/stmicro/peripheral/gpio/gpio_config_hal.h \
- /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/gpio/gpio_access.h \
+ C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/peripheral/gpio/gpio_access.h \
  ../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h \
  ../src/bsp/stmicro/peripheral/gpio/gpio_config_hal.h
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
@@ -79,6 +79,6 @@ src/bsp/stmicro/peripheral/gpio/gpio_access_hal.o: \
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h:
 ../src/bsp/peripheral/gpio_access_hal.h:
 ../src/bsp/stmicro/peripheral/gpio/gpio_config_hal.h:
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/gpio/gpio_access.h:
+C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/peripheral/gpio/gpio_access.h:
 ../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h:
 ../src/bsp/stmicro/peripheral/gpio/gpio_config_hal.h:

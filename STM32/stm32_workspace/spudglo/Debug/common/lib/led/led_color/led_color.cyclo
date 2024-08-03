@@ -1,4 +1,4 @@
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_color/led_color.c:28:6:led_color_set_current_strip_color	1
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_color/led_color.c:36:6:led_color_strip_color	1
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_color/led_color.c:105:22:led_color_major_state_change_color	5
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_color/led_color.c:118:22:led_color_to_hex_code	1
+C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/led_color/led_color.c:28:6:led_color_set_current_strip_color	1
+C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/led_color/led_color.c:36:6:led_color_strip_color	1
+C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/led_color/led_color.c:106:22:led_color_major_state_change_color	5
+C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/led_color/led_color.c:119:22:led_color_to_hex_code	1

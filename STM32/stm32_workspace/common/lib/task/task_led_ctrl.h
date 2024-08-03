@@ -21,6 +21,10 @@ led_ctrl_state_master_e task_led_state(const strip_mask_t mask);
 uint16_t task_led_state_current_iteration(const strip_mask_t mask);
 led_state_e task_led_current_led_state(const strip_mask_t mask);
 
+void task_led_ctrl_set_skip_adjust_parameters(bool skip);
+bool task_led_ctrl_skip_adjust_parameters(void);
+void task_led_ctrl_clear_skip_adjust_parameters(void);
+
 
 void task_led_1_ctrl(void *argument);
 void task_led_2_ctrl(void *argument);

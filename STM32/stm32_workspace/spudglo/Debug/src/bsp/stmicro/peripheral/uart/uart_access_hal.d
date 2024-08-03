@@ -46,21 +46,21 @@ src/bsp/stmicro/peripheral/uart/uart_access_hal.o: \
  ../src/bsp/peripheral/uart_access_hal.h \
  ../src/bsp/stmicro/peripheral/uart/uart_config_hal.h \
  ../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h \
- /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_led_ctrl.h \
- /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_brightness/led_ctrl_brightness.h \
- /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/ws2812b_driver/ws2812b.h \
+ C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/task/task_led_ctrl.h \
+ C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_brightness/led_ctrl_brightness.h \
+ C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/ws2812b_driver/ws2812b.h \
  ../src/app/config.h \
- /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_state/led_ctrl_state.h \
- /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_speed/led_ctrl_speed.h \
- /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_color/led_ctrl_color.h \
- /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_color/led_color.h \
- /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/button/button_access.h \
- /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_animate/led_animate.h \
+ C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_state/led_ctrl_state.h \
+ C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_speed/led_ctrl_speed.h \
+ C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_color/led_ctrl_color.h \
+ C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/led_color/led_color.h \
+ C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/peripheral/button/button_access.h \
+ C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/led_animate/led_animate.h \
  ../src/bsp/board_init_common.h ../src/bsp/board_common.h \
  ../src/bsp/stmicro/stm32l4/board_specific/board_specific.h \
  ../src/bsp/board_common.h \
  ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/board_init_spudglo_v7.h \
- /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/sensor_third_party/wifi/esp8266.h
+ C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/sensor_third_party/wifi/esp8266.h
 ../sdk/FreeRTOS/Source/include/FreeRTOS.h:
 ../src/app/FreeRTOSConfig.h:
 ../sdk/FreeRTOS/Source/include/projdefs.h:
@@ -110,19 +110,19 @@ src/bsp/stmicro/peripheral/uart/uart_access_hal.o: \
 ../src/bsp/peripheral/uart_access_hal.h:
 ../src/bsp/stmicro/peripheral/uart/uart_config_hal.h:
 ../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h:
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_led_ctrl.h:
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_brightness/led_ctrl_brightness.h:
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/ws2812b_driver/ws2812b.h:
+C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/task/task_led_ctrl.h:
+C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_brightness/led_ctrl_brightness.h:
+C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/ws2812b_driver/ws2812b.h:
 ../src/app/config.h:
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_state/led_ctrl_state.h:
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_speed/led_ctrl_speed.h:
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_color/led_ctrl_color.h:
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_color/led_color.h:
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/button/button_access.h:
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_animate/led_animate.h:
+C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_state/led_ctrl_state.h:
+C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_speed/led_ctrl_speed.h:
+C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_color/led_ctrl_color.h:
+C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/led_color/led_color.h:
+C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/peripheral/button/button_access.h:
+C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/led_animate/led_animate.h:
 ../src/bsp/board_init_common.h:
 ../src/bsp/board_common.h:
 ../src/bsp/stmicro/stm32l4/board_specific/board_specific.h:
 ../src/bsp/board_common.h:
 ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/board_init_spudglo_v7.h:
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/sensor_third_party/wifi/esp8266.h:
+C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/sensor_third_party/wifi/esp8266.h:

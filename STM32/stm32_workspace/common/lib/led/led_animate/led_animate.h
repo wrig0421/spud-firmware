@@ -21,13 +21,13 @@ void led_animate_turn_all_pixels_off(void);
 void led_animate_turn_all_pixels_off_in_strip(const strip_mask_t mask);
 void led_animate_solid_custom_color(const strip_mask_t mask, const led_color_hex_code_e color);
 void led_animate_only_spell_word(const strip_mask_t mask, const led_color_e* p_color,
-                                 const uint16_t* p_delay_ms);
+                                 uint16_t* p_delay_ms);
 void led_animate_fade_in_fade_out(const strip_mask_t mask, const led_color_e* p_color,
-								  const uint16_t* p_delay_ms);
+								  uint16_t* p_delay_ms);
 void led_animate_strobe(const strip_mask_t mask, const led_color_e* p_color,
                         const uint16_t led_animate_strobe_count, const uint16_t flash_delay, const uint16_t end_pause);
 void led_animate_twinkle(const strip_mask_t mask, const led_color_e* p_color, const uint16_t count,
-                         const uint16_t* p_delay_ms, const bool only_one);
+                         uint16_t* p_delay_ms, const bool only_one);
 void led_animate_twinkle_random(const strip_mask_t mask, const uint16_t count,
                                 const uint16_t* p_delay_ms, const bool only_one);
 void led_animate_sparkle_only_random_color(const strip_mask_t mask, const bool fill,
@@ -38,11 +38,16 @@ void led_animate_sparkle(const strip_mask_t mask, const led_color_e* p_color,
                          const uint16_t* p_delay_ms);
 void led_animate_running_lights(const strip_mask_t mask, const led_color_e* p_color,
 								const uint16_t* p_delay_ms);
-void led_animate_rainbow_cycle(const strip_mask_t mask, const uint16_t* p_delay_ms);
+void led_animate_rainbow_cycle(const strip_mask_t mask, uint16_t* p_delay_ms);
 void led_animate_theater_chase(const strip_mask_t mask, const led_color_e* p_color,
-                               const uint16_t* p_delay_ms);
-void led_animate_theater_chase_rainbow(const strip_mask_t mask, const uint16_t* p_delay_ms);
+                               uint16_t* p_delay_ms);
+void led_animate_theater_chase_rainbow(const strip_mask_t mask, uint16_t* p_delay_ms);
 void led_animate_determine_number_pixels_in_strip(const strip_mask_t mask);
+
+
+bool led_animate_need_to_adjust_speed(void);
+void led_animate_set_adjust_speed(bool);
+void led_animate_clear_adjust_speed(void);
 
 
 #endif

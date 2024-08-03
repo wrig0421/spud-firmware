@@ -2,7 +2,10 @@
 //SRW
 #if !defined(TASK_CREATE_H)
 #define TASK_CREATE_H
+#include "FreeRTOS.h"
+#include "task.h"
 
+#include "FreeRTOSConfig.h"
 
 typedef enum
 {
@@ -14,7 +17,6 @@ typedef enum
 	TASK_LIST_DMA_XFER,
 	NUM_TASKS
 } task_list_e;
-
 
 void task_create(void);
 
