@@ -69,5 +69,7 @@ typedef struct
 
 
 bool led_ctrl_delay(const uint32_t time_ms);
+void led_ctrl_init(void);
+
 
 #endif

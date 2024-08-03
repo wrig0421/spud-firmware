@@ -1,6 +1,6 @@
-../src/bsp/board_init_common.c:32:13:board_init_common_rtc_init	8	static
-../src/bsp/board_init_common.c:45:13:SystemClock_Config	192	static
-../src/bsp/board_init_common.c:75:13:board_init_common_timer_init	144	static
-../src/bsp/board_init_common.c:146:6:board_init_common_stop_timer	8	static
-../src/bsp/board_init_common.c:154:6:board_init_common_board_init	8	static
-../src/bsp/board_init_common.c:184:6:Error_Handler	4	static,ignoring_inline_asm
+../src/bsp/board_init_common.c:33:13:board_init_common_rtc_init	8	static
+../src/bsp/board_init_common.c:46:13:SystemClock_Config	192	static
+../src/bsp/board_init_common.c:76:13:board_init_common_timer_init	144	static
+../src/bsp/board_init_common.c:147:6:board_init_common_stop_timer	8	static
+../src/bsp/board_init_common.c:155:6:board_init_common_board_init	8	static
+../src/bsp/board_init_common.c:185:6:Error_Handler	4	static,ignoring_inline_asm
