@@ -63,11 +63,9 @@ typedef enum
 
 	GPIO_ACCESS_PIOH_PIN0,
 	GPIO_ACCESS_PIOH_PIN1,
-	GPIO_ACCESS_PIOH_PIN2,
+//	GPIO_ACCESS_PIOH_PIN2,
 	GPIO_ACCESS_PIOH_PIN3,
 
-	// PH2 not an option
-	GPIO_ACCESS_PIOH_PIN_3,
 } gpio_access_pin_e;
 
 void gpio_access_write_pin_low(gpio_access_pin_e pin);

@@ -35,12 +35,12 @@
 #endif
 
 // define the number of strips
-#define STRIP_1_LENGTH      8// bar 302// biker dude 500// MN summit 214 // HELLO SPRING STRIP 1 = 459      //492// playstation controller! - 390// vice city 432// shucmacher - 636// skull sign=200 // 151 for SWENSON SIGN /// FLYNN FARM SIGN = 166!!
-#define STRIP_2_LENGTH      8// bar 220 // HELLO SPRING STRIP 2 = 156
-#define STRIP_3_LENGTH      8//20
+#define STRIP_1_LENGTH      400  // bar 302// biker dude 500// MN summit 214 // HELLO SPRING STRIP 1 = 459      //492// playstation controller! - 390// vice city 432// shucmacher - 636// skull sign=200 // 151 for SWENSON SIGN /// FLYNN FARM SIGN = 166!!
+#define STRIP_2_LENGTH      0 // bar 220 // HELLO SPRING STRIP 2 = 156
+#define STRIP_3_LENGTH      0 //20
 
 #define MAX_NUM_STRIPS		3
-#define ENABLE_LED_STRIP_SYNC
+//#define ENABLE_LED_STRIP_SYNC
 
 #if defined(STRIP_3_LENGTH) && (0 < STRIP_3_LENGTH)
 	#define ENABLE_STRIP_1
@@ -48,15 +48,35 @@
 	#define ENABLE_STRIP_3
 	#define NUM_ACTIVE_STRIPS	3
 	#define NUM_LEDS        	STRIP_1_LENGTH + STRIP_2_LENGTH + STRIP_3_LENGTH
+# 	if (STRIP_2_LENGTH) > (STRIP_1_LENGTH)
+#		if (STRIP_3_LENGTH) > (STRIP_2_LENGTH)
+#			define LARGEST_LED_STRIP_SIZE	STRIP_3_LENGTH
+#		else
+#			define LARGEST_LED_STRIP_SIZE	STRIP_2_LENGTH
+#		endif
+#	else
+#		if (STRIP_3_LENGTH) > (STRIP_1_LENGTH)
+#			define LARGEST_LED_STRIP_SIZE	STRIP_3_LENGTH
+#		else
+#			define LARGEST_LED_STRIP_SIZE	STRIP_1_LENGTH
+#		endif
+#	endif
+
 #elif defined(STRIP_2_LENGTH) && (0 < STRIP_2_LENGTH)
 	#define ENABLE_STRIP_1
 	#define ENABLE_STRIP_2
 	#define NUM_ACTIVE_STRIPS	2
 	#define NUM_LEDS        	(uint32_t)(STRIP_1_LENGTH + STRIP_2_LENGTH)
+# 	if (STRIP_2_LENGTH) > (STRIP_1_LENGTH)
+#		define LARGEST_LED_STRIP_SIZE	STRIP_2_LENGTH
+#	else
+#		define LARGEST_LED_STRIP_SIZE	STRIP_1_LENGTH
+#	endif
 #elif defined(STRIP_1_LENGTH) && (0 < STRIP_1_LENGTH)
 	#define ENABLE_STRIP_1
-	#define NUM_ACTIVE_STRIPS	1
-	#define NUM_LEDS        	STRIP_1_LENGTH
+	#define NUM_ACTIVE_STRIPS		1
+	#define NUM_LEDS        		STRIP_1_LENGTH
+#	define LARGEST_LED_STRIP_SIZE	STRIP_1_LENGTH
 #endif
 
 
@@ -72,5 +92,8 @@
 #define ENABLE_LED_STATE_FADE_IN_AND_OUT
 #define ENABLE_LED_STATE_TWINKLE
 
+#if (NUM_ACTIVE_STRIPS > 1)
+#	define ENABLE_LED_STATE_TWO_COLOR
+#endif
 
 #endif

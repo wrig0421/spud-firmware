@@ -21,6 +21,7 @@
 #include "FreeRTOS.h"
 #include "semphr.h"
 #include "task.h"
+#include "FreeRTOSConfig.h"
 #include "stm32l4xx_it.h"
 //#include "stm32l4xx_hal.h"
 #include "config.h"
@@ -50,6 +51,31 @@ extern bool g_tasks_running;
 
 extern uint32_t g_button_press_timestamp[NUM_BUTTONS][NUM_TIMESTAMPS];
 extern UART_HandleTypeDef      gh_host_usart;
+
+
+
+#if defined(SysTick)
+#undef SysTick_Handler
+
+/* CMSIS SysTick interrupt handler prototype */
+extern void SysTick_Handler     (void);
+/* FreeRTOS tick timer interrupt handler prototype */
+extern void xPortSysTickHandler (void);
+/*
+  SysTick handler implementation that also clears overflow flag.
+*/
+#if (USE_CUSTOM_SYSTICK_HANDLER_IMPLEMENTATION == 0)
+void SysTick_Handler (void) {
+  /* Clear overflow flag */
+  SysTick->CTRL;
+
+  if (xTaskGetSchedulerState() != taskSCHEDULER_NOT_STARTED) {
+    /* Call tick handler */
+    xPortSysTickHandler();
+  }
+}
+#endif
+#endif
 
 
 /******************************************************************************/

@@ -3,6 +3,7 @@
 #include "main.h"
 #include "stm32l4xx_hal.h"
 #include <time.h>
+#include "led_ctrl.h"
 #include "led_animate.h"
 #include "board_common.h"
 #include "board_specific.h"
@@ -162,7 +163,6 @@ void board_init_common_board_init(void)
 
     HAL_Init();
     SystemClock_Config(); // 32.768 kHz LSE, 48 MHz HSE enabled by default.
-
     gpio_config_hal_setup();
 #if defined(BOARD_SPUDGLO_V5)
     board_init_peripheral_setup(); // TODO determine whether to continue supporting boards that don't have peripheral access or not...
@@ -174,6 +174,7 @@ void board_init_common_board_init(void)
     board_init_common_timer_init(); // TODO determine if timer should be part of a separate config file??
     ws2812b_init();
     board_init_common_rtc_init();
+    led_ctrl_init();
 }
 
 

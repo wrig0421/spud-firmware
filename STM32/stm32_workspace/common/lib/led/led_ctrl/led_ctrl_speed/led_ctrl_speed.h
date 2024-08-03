@@ -18,7 +18,7 @@ typedef enum
 	LED_SPEED_6,
 	LED_SPEED_LAST = LED_SPEED_6,
 	LED_SPEED_SLOW = LED_SPEED_6,
-	NUM_SPEEDS
+	NUM_LED_SPEEDS
 } led_speed_e;
 
 float led_ctrl_speed(const strip_mask_t mask);

@@ -2,6 +2,7 @@
 #if !defined(LED_CTRL_STATE_H)
 #define LED_CTRL_STATE_H
 
+#include "config.h"
 #include <stdint.h>
 #include "ws2812b.h"
 #include "led_ctrl_speed.h"
@@ -41,26 +42,28 @@ typedef struct
 
 typedef enum
 {
-	LED_STATE_FIRST = 0,
-	LED_STATE_SPELL = LED_STATE_FIRST,
+	LED_STATE_FIRST = 0,					// 0
+	LED_STATE_SPELL = LED_STATE_FIRST, 		// 0
 	//LED_STATE_MINT_NOHBZ,
-	LED_STATE_WHITE_COLOR,
-	LED_STATE_SOLID_COLOR,
-	LED_STATE_SPARKLE_NO_FILL,
-    LED_STATE_SPARKLE_FILL,
-    LED_STATE_RAINBOW_CYCLE,
-    LED_STATE_THEATER_CHASE,
-    LED_STATE_THEATER_CHASE_RAINBOW,
-    LED_STATE_FADE_IN_AND_OUT,
-    LED_STATE_TWINKLE,
-	LED_STATE_TWO_COLOR,
-	LED_STATE_LAST = LED_STATE_TWO_COLOR,
+	LED_STATE_WHITE_COLOR,					// 1
+	LED_STATE_SOLID_COLOR,					// 2
+	LED_STATE_SPARKLE_NO_FILL, 				// 3
+    LED_STATE_SPARKLE_FILL,					// 4
+    LED_STATE_RAINBOW_CYCLE, 				// 5
+    LED_STATE_THEATER_CHASE, 				// 6
+    LED_STATE_THEATER_CHASE_RAINBOW, 		// 7
+    LED_STATE_FADE_IN_AND_OUT, 				// 8
+#	if (NUM_ACTIVE_STRIPS > 1) && defined(ENABLE_LED_STATE_TWO_COLOR)
+		LED_STATE_TWO_COLOR,				// 9
+#	endif
+	LED_STATE_TWINKLE, 						// 10
+	LED_STATE_LAST = LED_STATE_TWINKLE,
 //#if (NUM_ACTIVE_STRIPS > 2)
 //	LED_STATE_SPELL_AND_SPARKLE,
 //	LED_STATE_SPELL_AND_RAINBOW
 //#endif
-    NUM_LED_STATES,
-    LED_STATE_SRW_DEBUG,
+    NUM_LED_STATES,							// 11
+    LED_STATE_SRW_DEBUG,					// 12
 	// future states below
 	//LED_STATE_FADE_IN_AND_OUT_RANDOM,
     //LED_STATE_METEOR,
@@ -86,9 +89,9 @@ typedef struct
 
 typedef struct
 {
-	uint16_t				led_state_max_iteration[NUM_SPEEDS];
-	uint16_t				led_state_inner_animation_delay_ms[NUM_SPEEDS];
-	uint16_t				led_state_between_animation_delay_ms[NUM_SPEEDS];
+	uint16_t				led_state_max_iteration[NUM_LED_SPEEDS];
+	uint16_t				led_state_inner_animation_delay_ms[NUM_LED_SPEEDS];
+	uint16_t				led_state_between_animation_delay_ms[NUM_LED_SPEEDS];
 	bool					led_state_allow_black_color;
 } led_ctrl_state_iterations_t;
 

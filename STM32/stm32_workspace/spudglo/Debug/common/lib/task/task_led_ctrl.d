@@ -63,7 +63,9 @@ common/lib/task/task_led_ctrl.o: \
  ../sdk/FreeRTOS/Source/include/deprecated_definitions.h \
  ../sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h \
  ../sdk/FreeRTOS/Source/include/mpu_wrappers.h ../src/bsp/flash_info.h \
- ../src/bsp/flash_access.h ../src/bsp/flash_info.h \
+ ../sdk/FreeRTOS/Source/include/task.h \
+ ../sdk/FreeRTOS/Source/include/list.h ../src/bsp/flash_access.h \
+ ../src/bsp/flash_info.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_notify.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/sensor_third_party/rv8803/rv8803.h
@@ -136,6 +138,8 @@ common/lib/task/task_led_ctrl.o: \
 ../sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h:
 ../sdk/FreeRTOS/Source/include/mpu_wrappers.h:
 ../src/bsp/flash_info.h:
+../sdk/FreeRTOS/Source/include/task.h:
+../sdk/FreeRTOS/Source/include/list.h:
 ../src/bsp/flash_access.h:
 ../src/bsp/flash_info.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_notify.h:
