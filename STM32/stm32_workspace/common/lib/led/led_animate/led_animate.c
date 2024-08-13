@@ -4,6 +4,7 @@
  ***********************************/
 #include <stdint.h>
 #include <math.h>
+#include "config.h"
 #include "numbers.h"
 #include "led_ctrl.h"
 #include "task_led_ctrl.h"
@@ -185,6 +186,310 @@ static void led_animate_wheel(uint8_t wheel_pos, led_color_t* p_led_color)
 }
 
 
+#define LED_ANIMATE_HEART_BEAT_BPM		60
+uint16_t fade_max = 20;
+uint16_t fade_increment_amount = 2;
+uint16_t delay_amount = 10;
+uint16_t delay_between_animations = 1000;
+uint16_t delay_between_beats = 250;
+
+void led_animate_heart_beat(const strip_mask_t mask, const led_color_e* p_color,
+							uint16_t* p_delay_ms)
+{
+	uint16_t delay_copy = (uint16_t)(*p_delay_ms);
+
+	float fade_factor = 0.0f;
+	led_color_t led_color;
+	led_color_t temp_led_color;
+	led_color.color_hex = led_color_to_hex_code(*p_color);
+
+	for (int iii = 0; iii < fade_max; iii += fade_increment_amount)
+	{
+        if (task_button_press_interrupt_occurred())
+        {
+            if (task_button_press_check_interrupts(mask))
+            {
+                return;
+            }
+			else if (g_task_notification_value.stimulus_bits.color)
+			{
+				led_color.color_hex = led_color_to_hex_code(*p_color);
+			}
+        	else if (led_animate_need_to_adjust_speed())
+			{
+        		delay_copy = task_led_state_inner_animation_delay_ms(mask, LED_STATE_RAINBOW_CYCLE);
+				led_animate_clear_adjust_speed();
+			}
+        }
+		fade_factor = (float)iii / (float)fade_max;
+		temp_led_color.color_rgb.red = led_color.color_rgb.red * fade_factor;
+		temp_led_color.color_rgb.green = led_color.color_rgb.green * fade_factor;
+		temp_led_color.color_rgb.blue = led_color.color_rgb.blue * fade_factor;
+		led_animate_set_all_pixels(mask, &temp_led_color);
+		led_ctrl_delay(delay_amount);
+	}
+	for (int iii = fade_max; iii > 0; iii -= fade_increment_amount)
+	{
+        if (task_button_press_interrupt_occurred())
+        {
+            if (task_button_press_check_interrupts(mask))
+            {
+                return;
+            }
+			else if (g_task_notification_value.stimulus_bits.color)
+			{
+				led_color.color_hex = led_color_to_hex_code(*p_color);
+			}
+        	else if (led_animate_need_to_adjust_speed())
+			{
+        		delay_copy = task_led_state_inner_animation_delay_ms(mask, LED_STATE_RAINBOW_CYCLE);
+				led_animate_clear_adjust_speed();
+			}
+        }
+		fade_factor = (float)iii / (float)fade_max;
+		temp_led_color.color_rgb.red = led_color.color_rgb.red * fade_factor;
+		temp_led_color.color_rgb.green = led_color.color_rgb.green * fade_factor;
+		temp_led_color.color_rgb.blue = led_color.color_rgb.blue * fade_factor;
+		led_animate_set_all_pixels(mask, &temp_led_color);
+		led_ctrl_delay(delay_amount);
+	}
+	led_animate_turn_all_pixels_off();
+	led_animate_show_strip(mask);
+	led_ctrl_delay(delay_between_beats);
+	for (int iii = 0; iii < fade_max; iii += fade_increment_amount)
+	{
+        if (task_button_press_interrupt_occurred())
+        {
+            if (task_button_press_check_interrupts(mask))
+            {
+                return;
+            }
+			else if (g_task_notification_value.stimulus_bits.color)
+			{
+				led_color.color_hex = led_color_to_hex_code(*p_color);
+			}
+        	else if (led_animate_need_to_adjust_speed())
+			{
+        		delay_copy = task_led_state_inner_animation_delay_ms(mask, LED_STATE_RAINBOW_CYCLE);
+				led_animate_clear_adjust_speed();
+			}
+        }
+		fade_factor = (float)iii / (float)fade_max;
+		temp_led_color.color_rgb.red = led_color.color_rgb.red * fade_factor;
+		temp_led_color.color_rgb.green = led_color.color_rgb.green * fade_factor;
+		temp_led_color.color_rgb.blue = led_color.color_rgb.blue * fade_factor;
+		led_animate_set_all_pixels(mask, &temp_led_color);
+		led_ctrl_delay(delay_amount);
+	}
+	for (int iii = fade_max; iii > 0; iii -= fade_increment_amount)
+	{
+        if (task_button_press_interrupt_occurred())
+        {
+            if (task_button_press_check_interrupts(mask))
+            {
+                return;
+            }
+			else if (g_task_notification_value.stimulus_bits.color)
+			{
+				led_color.color_hex = led_color_to_hex_code(*p_color);
+			}
+        	else if (led_animate_need_to_adjust_speed())
+			{
+        		delay_copy = task_led_state_inner_animation_delay_ms(mask, LED_STATE_RAINBOW_CYCLE);
+				led_animate_clear_adjust_speed();
+			}
+        }
+		fade_factor = (float)iii / (float)fade_max;
+		temp_led_color.color_rgb.red = led_color.color_rgb.red * fade_factor;
+		temp_led_color.color_rgb.green = led_color.color_rgb.green * fade_factor;
+		temp_led_color.color_rgb.blue = led_color.color_rgb.blue * fade_factor;
+		led_animate_set_all_pixels(mask, &temp_led_color);
+		led_ctrl_delay(delay_amount);
+	}
+	led_animate_turn_all_pixels_off();
+	led_animate_show_strip(mask);
+
+	led_ctrl_delay(delay_between_animations);
+}
+
+
+#define LED_ANIMATE_BOTTOM_STARTBURT_SHORT_SIDE_NUM_LEDS		30
+#define LED_ANIMATE_BOTTOM_STARTBURT_LONG_SIDE_NUM_LEDS			30//91//91
+
+#define LED_ANIMATE_TOP_STARTBURT_SHORT_SIDE_NUM_LEDS			84
+#define LED_ANIMATE_TOP_STARTBURT_LONG_SIDE_NUM_LEDS			130
+
+
+void led_animate_starburts(const strip_mask_t mask, const led_color_e* p_color,
+							uint16_t* p_delay_ms, led_animate_starburst_mode_e mode,
+							bool b_two_random_color)
+{
+	uint16_t yyy = 0;
+    led_color_t led_color;
+	led_color_t led_color_1;
+	led_color_t led_color_2;
+    if (b_two_random_color)
+    {
+    	led_color_1.color_hex = random_num(0, UINT24_MAX);
+    	led_color_2.color_hex = random_num(0, UINT24_MAX);
+    }
+
+    led_color.color_hex = led_color_to_hex_code(*p_color);
+	uint16_t delay_copy = (uint16_t)(*p_delay_ms);
+
+	uint16_t short_leg = 0;
+	uint16_t long_leg = 0;
+
+	uint16_t strip_size = ws2812_led_get_max_strip_size(mask);
+
+	uint16_t strip_half = 0;
+
+#if defined(ENABLE_ZABINSKI_TABLE_BOTTOM)
+	short_leg = LED_ANIMATE_BOTTOM_STARTBURT_SHORT_SIDE_NUM_LEDS;
+	long_leg = LED_ANIMATE_BOTTOM_STARTBURT_LONG_SIDE_NUM_LEDS;
+#elif defined(ENABLE_ZABINSKI_TABLE_TOP)
+	short_leg = LED_ANIMATE_TOP_STARTBURT_SHORT_SIDE_NUM_LEDS;
+	long_leg = LED_ANIMATE_TOP_STARTBURT_LONG_SIDE_NUM_LEDS;
+#endif
+	strip_half = short_leg + long_leg;
+
+	if (LED_ANIMATE_STARBURTS_MODE_1 == mode)
+	{
+		for (yyy=0; yyy < short_leg; yyy++)
+		{
+	        if (task_button_press_interrupt_occurred())
+	        {
+	            if (task_button_press_check_interrupts(mask))
+	            {
+	                return;
+	            }
+				else if (g_task_notification_value.stimulus_bits.color)
+				{
+					led_color.color_hex = led_color_to_hex_code(*p_color);
+				}
+	        	else if (led_animate_need_to_adjust_speed())
+				{
+	        		delay_copy = task_led_state_inner_animation_delay_ms(mask, LED_STATE_RAINBOW_CYCLE);
+					led_animate_clear_adjust_speed();
+				}
+	        }
+		    if (b_two_random_color)
+		    {
+		    	led_animate_set_pixel(mask, yyy, &led_color_1);
+				led_animate_set_pixel(mask, strip_size - 1 - yyy, &led_color_2);
+		    }
+		    else
+		    {
+		    	led_animate_set_pixel(mask, yyy, &led_color);
+				led_animate_set_pixel(mask, strip_size - 1 - yyy, &led_color);
+		    }
+			led_animate_show_strip(mask);
+	 		led_ctrl_delay(delay_copy);
+		}
+		for (uint16_t iii = short_leg; iii < short_leg + long_leg; iii++)
+		{
+	        if (task_button_press_interrupt_occurred())
+	        {
+	            if (task_button_press_check_interrupts(mask))
+	            {
+	                return;
+	            }
+				else if (g_task_notification_value.stimulus_bits.color)
+				{
+					led_color.color_hex = led_color_to_hex_code(*p_color);
+				}
+	        	else if (led_animate_need_to_adjust_speed())
+				{
+	        		delay_copy = task_led_state_inner_animation_delay_ms(mask, LED_STATE_RAINBOW_CYCLE);
+					led_animate_clear_adjust_speed();
+				}
+	        }
+		    if (b_two_random_color)
+		    {
+				led_animate_set_pixel(mask, iii, &led_color_1);
+				led_animate_set_pixel(mask, strip_size - 1 - iii, &led_color_2);
+		    }
+		    else
+		    {
+				led_animate_set_pixel(mask, iii, &led_color);
+				led_animate_set_pixel(mask, strip_size - 1 - iii, &led_color);
+		    }
+			led_animate_show_strip(mask);
+	 		led_ctrl_delay(delay_copy);
+		}
+	}
+	else if (LED_ANIMATE_STARBURTS_MODE_2 == mode)
+	{
+		for (uint16_t iii = 0; iii < short_leg; iii++)
+		{
+	        if (task_button_press_interrupt_occurred())
+	        {
+	            if (task_button_press_check_interrupts(mask))
+	            {
+	                return;
+	            }
+				else if (g_task_notification_value.stimulus_bits.color)
+				{
+					led_color.color_hex = led_color_to_hex_code(*p_color);
+				}
+	        	else if (led_animate_need_to_adjust_speed())
+				{
+	        		delay_copy = task_led_state_inner_animation_delay_ms(mask, LED_STATE_RAINBOW_CYCLE);
+					led_animate_clear_adjust_speed();
+				}
+	        }
+		    if (b_two_random_color)
+		    {
+		    	led_animate_set_pixel(mask, iii, &led_color_1);
+		    	led_animate_set_pixel(mask, strip_size - 1 - iii, &led_color_1);
+				led_animate_set_pixel(mask, strip_half + iii, &led_color_2);
+				led_animate_set_pixel(mask, strip_half - 1 - iii, &led_color_2);
+		    }
+		    else
+		    {
+		    	led_animate_set_pixel(mask, iii, &led_color);
+		    	led_animate_set_pixel(mask, strip_size - 1 - iii, &led_color);
+				led_animate_set_pixel(mask, strip_half + iii, &led_color);
+				led_animate_set_pixel(mask, strip_half - 1 - iii, &led_color);
+		    }
+			led_animate_show_strip(mask);
+	 		led_ctrl_delay(delay_copy);
+		}
+		for (uint16_t iii = short_leg; iii < long_leg; iii++)
+		{
+	        if (task_button_press_interrupt_occurred())
+	        {
+	            if (task_button_press_check_interrupts(mask))
+	            {
+	                return;
+	            }
+				else if (g_task_notification_value.stimulus_bits.color)
+				{
+					led_color.color_hex = led_color_to_hex_code(*p_color);
+				}
+	        	else if (led_animate_need_to_adjust_speed())
+				{
+	        		delay_copy = task_led_state_inner_animation_delay_ms(mask, LED_STATE_RAINBOW_CYCLE);
+					led_animate_clear_adjust_speed();
+				}
+	        }
+		    if (b_two_random_color)
+		    {
+				led_animate_set_pixel(mask, strip_size - 1 - iii, &led_color_1);
+				led_animate_set_pixel(mask, strip_half - 1 - iii, &led_color_2);
+		    }
+		    else
+		    {
+				led_animate_set_pixel(mask, strip_size - 1 - iii, &led_color);
+				led_animate_set_pixel(mask, strip_half - 1 - iii, &led_color);
+		    }
+			led_animate_show_strip(mask);
+	 		led_ctrl_delay(delay_copy);
+		}
+	}
+}
+
+
 void led_animate_solid_custom_color(const strip_mask_t mask, const led_color_hex_code_e color)
 {
     led_color_t led_color;
@@ -308,7 +613,6 @@ void led_animate_fade_in_fade_out(const strip_mask_t mask, const led_color_e* p_
 void led_animate_strobe(const strip_mask_t mask, const led_color_e* p_color,
                         const uint16_t led_animate_strobe_count, const uint16_t flash_delay, const uint16_t end_pause)
 {
-
     led_color_t led_color;
     led_color.color_hex = led_color_to_hex_code(*p_color);
     for (int iii = 0; iii < led_animate_strobe_count; iii++)
@@ -390,7 +694,18 @@ void led_animate_twinkle_random(const strip_mask_t mask, const uint16_t count,
      // not used but not worth creating a unique function IMO
     for (int iii = 0; iii < count; iii++)
     {
-        if (task_button_press_interrupt_occurred()) if (task_button_press_check_interrupts(mask)) return;
+        if (task_button_press_interrupt_occurred())
+        {
+            if (task_button_press_check_interrupts(mask))
+            {
+                return;
+            }
+        	else if (led_animate_need_to_adjust_speed())
+			{
+        		delay_copy = task_led_state_inner_animation_delay_ms(mask, LED_STATE_RAINBOW_CYCLE);
+				led_animate_clear_adjust_speed();
+			}
+        }
         led_color.color_hex = random_num(0, UINT24_MAX);
         led_animate_set_pixel(mask, random_num(0, g_max_strip_length), &led_color);
         led_animate_show_strip(mask);
@@ -418,7 +733,18 @@ void led_animate_sparkle_only_random_color(const strip_mask_t mask, const bool f
      // not used but not worth creating a unique function IMO
 	for (uint16_t iii = 0; iii < (percent_to_fill * (float)num_active_leds); iii++)
 	{
-	    if (task_button_press_interrupt_occurred()) if (task_button_press_check_interrupts(mask)) return;
+        if (task_button_press_interrupt_occurred())
+        {
+            if (task_button_press_check_interrupts(mask))
+            {
+                return;
+            }
+        	else if (led_animate_need_to_adjust_speed())
+			{
+        		delay_copy = task_led_state_inner_animation_delay_ms(mask, LED_STATE_RAINBOW_CYCLE);
+				led_animate_clear_adjust_speed();
+			}
+        }
 		int pix = random_num(0, strip_size);
 		led_color.color_hex = random_num(0, UINT24_MAX);
 		led_animate_set_pixel(mask, pix, &led_color);
@@ -439,7 +765,18 @@ void led_animate_sparkle_random_color(const strip_mask_t mask, const bool fill,
                                       const uint16_t* p_delay_ms)
 {
 	uint16_t delay_copy = (uint16_t)(*p_delay_ms);
-
+    if (task_button_press_interrupt_occurred())
+    {
+        if (task_button_press_check_interrupts(mask))
+        {
+            return;
+        }
+    	else if (led_animate_need_to_adjust_speed())
+		{
+    		delay_copy = task_led_state_inner_animation_delay_ms(mask, LED_STATE_RAINBOW_CYCLE);
+			led_animate_clear_adjust_speed();
+		}
+    }
 	led_color_t led_color;
 	led_color.color_hex = random_num(0, UINT24_MAX);
 	uint16_t strip_size = ws2812_led_get_max_strip_size(mask);
@@ -459,7 +796,18 @@ void led_animate_sparkle(const strip_mask_t mask, const led_color_e* p_color,
                          const uint16_t* p_delay_ms)
 {
 	uint16_t delay_copy = (uint16_t)(*p_delay_ms);
-
+    if (task_button_press_interrupt_occurred())
+    {
+        if (task_button_press_check_interrupts(mask))
+        {
+            return;
+        }
+    	else if (led_animate_need_to_adjust_speed())
+		{
+    		delay_copy = task_led_state_inner_animation_delay_ms(mask, LED_STATE_RAINBOW_CYCLE);
+			led_animate_clear_adjust_speed();
+		}
+    }
 	led_color_t led_color;
 	led_color.color_hex = led_color_to_hex_code(*p_color);
 	uint16_t strip_size = ws2812_led_get_max_strip_size(mask);

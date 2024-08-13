@@ -11,6 +11,10 @@
 // major.minor.beta
 #define FIRMWARE_VERSION    (0x010101)
 
+//#define ENABLE_ZABINSKI_TABLE_TOP
+#define ENABLE_ZABINSKI_TABLE_BOTTOM
+
+
 // define the board
 //#define BOARD_SPUDGLO_BUSINESS_CARD
 #define BOARD_SPUDGLO_V7P0
@@ -35,7 +39,14 @@
 #endif
 
 // define the number of strips
-#define STRIP_1_LENGTH      400  // bar 302// biker dude 500// MN summit 214 // HELLO SPRING STRIP 1 = 459      //492// playstation controller! - 390// vice city 432// shucmacher - 636// skull sign=200 // 151 for SWENSON SIGN /// FLYNN FARM SIGN = 166!!
+#if defined(ENABLE_ZABINSKI_TABLE_BOTTOM)
+#	define STRIP_1_LENGTH	115//238  // bar 302// biker dude 500// MN summit 214 // HELLO SPRING STRIP 1 = 459      //492// playstation controller! - 390// vice city 432// shucmacher - 636// skull sign=200 // 151 for SWENSON SIGN /// FLYNN FARM SIGN = 166!!
+#elif defined(ENABLE_ZABINSKI_TABLE_TOP)
+#	define STRIP_1_LENGTH	374  // bar 302// biker dude 500// MN summit 214 // HELLO SPRING STRIP 1 = 459      //492// playstation controller! - 390// vice city 432// shucmacher - 636// skull sign=200 // 151 for SWENSON SIGN /// FLYNN FARM SIGN = 166!!
+#else
+#	define STRIP_1_LENGTH	115  // bar 302// biker dude 500// MN summit 214 // HELLO SPRING STRIP 1 = 459      //492// playstation controller! - 390// vice city 432// shucmacher - 636// skull sign=200 // 151 for SWENSON SIGN /// FLYNN FARM SIGN = 166!!
+#endif
+//#define STRIP_1_LENGTH      374 //238    115  // bar 302// biker dude 500// MN summit 214 // HELLO SPRING STRIP 1 = 459      //492// playstation controller! - 390// vice city 432// shucmacher - 636// skull sign=200 // 151 for SWENSON SIGN /// FLYNN FARM SIGN = 166!!
 #define STRIP_2_LENGTH      0 // bar 220 // HELLO SPRING STRIP 2 = 156
 #define STRIP_3_LENGTH      0 //20
 

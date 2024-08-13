@@ -12,6 +12,12 @@
 #include "ws2812b.h"
 #include "led_ctrl_color.h"
 
+typedef enum
+{
+	LED_ANIMATE_STARBURTS_MODE_1,
+	LED_ANIMATE_STARBURTS_MODE_2
+} led_animate_starburst_mode_e;
+
 void led_animate_show_strip(const strip_mask_t strip_mask);
 void led_animate_set_pixel(const strip_mask_t mask, const uint16_t pixel, led_color_t* led_color);
 void led_animate_set_all_pixels(const strip_mask_t mask, led_color_t* led_color);
@@ -19,6 +25,11 @@ void led_animate_set_all_pixels_hex_color(const strip_mask_t mask, const led_col
 void led_animate_set_pixels_in_range(const strip_mask_t mask, uint16_t start, uint16_t stop, const led_color_hex_code_e color);
 void led_animate_turn_all_pixels_off(void);
 void led_animate_turn_all_pixels_off_in_strip(const strip_mask_t mask);
+void led_animate_heart_beat(const strip_mask_t mask, const led_color_e* p_color,
+							uint16_t* p_delay_ms);
+void led_animate_starburts(const strip_mask_t mask, const led_color_e* p_color,
+							uint16_t* p_delay_ms, led_animate_starburst_mode_e mode,
+							bool b_two_random_color);
 void led_animate_solid_custom_color(const strip_mask_t mask, const led_color_hex_code_e color);
 void led_animate_only_spell_word(const strip_mask_t mask, const led_color_e* p_color,
                                  uint16_t* p_delay_ms);

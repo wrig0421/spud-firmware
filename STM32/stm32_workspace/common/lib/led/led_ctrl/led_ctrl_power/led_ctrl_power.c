@@ -55,6 +55,7 @@ void led_ctrl_power_monitor_init(void)
     if (g_max_current_ratio <= 0) while(1); // broken..
     //g_max_current_ratio = 0.1f;
 //    g_max_current_ratio = 0.89f;// SRW debug
-    g_absolute_max_current_ratio = g_max_current_ratio;
 
+    g_absolute_max_current_ratio = g_max_current_ratio;
+    g_absolute_max_current_ratio = 1.0f;
 }

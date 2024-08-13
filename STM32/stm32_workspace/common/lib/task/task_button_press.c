@@ -184,39 +184,33 @@ bool task_button_press_check_interrupts(const strip_mask_t mask)
 	}
 	if (b_interrupt_occurred)
 	{
-		//pb_interrupt_flag = false;
-		switch (p_interrupt_status->flat_interrupt_status)
+		if (LED_CTRL_INTERRUPT_BIT_STATE & p_interrupt_status->flat_interrupt_status)
 		{
-			case LED_CTRL_INTERRUPT_BIT_STATE:
-				// reset state interrupt
-				task_led_ctrl_set_skip_adjust_parameters(true);
-				p_interrupt_status->bits.state = false;
-				return_val = true;
-			break;
-			case LED_CTRL_INTERRUPT_BIT_COLOR:
-				// reset color interrupt
-				p_interrupt_status->bits.color = false;
-			break;
-			case LED_CTRL_INTERRUPT_BIT_SPEED:
-				// reset speed interrupt
-				led_animate_set_adjust_speed(true);
-				p_interrupt_status->bits.speed = false;
-			break;
-			case LED_CTRL_INTERRUPT_BIT_PAUSE_BRIGHTNESS:
-				// check if minor flag is set
-				if (g_task_led_ctrl[strip_num].led_interrupt_info.minor_interrupt_flag)
+			task_led_ctrl_set_skip_adjust_parameters(true);
+			p_interrupt_status->bits.state = false;
+			return_val = true;
+		}
+		if (LED_CTRL_INTERRUPT_BIT_COLOR & p_interrupt_status->flat_interrupt_status)
+		{
+			p_interrupt_status->bits.color = false;
+		}
+		if (LED_CTRL_INTERRUPT_BIT_SPEED & p_interrupt_status->flat_interrupt_status)
+		{
+			led_animate_set_adjust_speed(true);
+			p_interrupt_status->bits.speed = false;
+		}
+		if (LED_CTRL_INTERRUPT_BIT_PAUSE_BRIGHTNESS & p_interrupt_status->flat_interrupt_status)
+		{
+			if (g_task_led_ctrl[strip_num].led_interrupt_info.minor_interrupt_flag)
+			{
+				// wait for the pause flag to reset
+				while (p_interrupt_status->bits.pause_brightness)
 				{
-					// wait for the pause flag to reset
-					while (p_interrupt_status->bits.pause_brightness)
-					{
-						// check for the flag to clear every 50 ms.
-						free_rtos_delay_ms(50);
-					}
+					// check for the flag to clear every 50 ms.
+					free_rtos_delay_ms(50);
 				}
-				p_interrupt_status->bits.pause_brightness = false;
-			break;
-			default:
-			break;
+			}
+			p_interrupt_status->bits.pause_brightness = false;
 		}
 		*pb_interrupt_flag = false;
 	}
@@ -282,24 +276,24 @@ void task_button_press(void *argument)
 
         // a hack below for Keefe wedding... Power up white.  If any button held for 10 seconds or longer on first power up go into demo mode.
 		irq_type = button_config_button_to_irq(btn);
-        if ((first_pass) && (button_active_time_ms < 10000))
-        {
-			HAL_NVIC_SetPriority(irq_type, 24, 0);
-			HAL_NVIC_EnableIRQ(irq_type);
-        }
-        else if ((first_pass) && (button_active_time_ms > 10000))
-		{
-			// prevent random 433 MHz stuff from switching display states initially
-        	first_pass = false;
-        	button_gate_open = true;
-        	btn = BUTTON_B; // hack to force demo as next state...
-			*pb_major_interrupt_flag = true;
-			*pb_major_interrupt_transition_cmplt_flag = false;
-			*pb_minor_interrupt_flag = false;
-		}
-
-        if (button_gate_open)
-        {
+//        if ((first_pass) && (button_active_time_ms < 10000))
+//        {
+//			HAL_NVIC_SetPriority(irq_type, 24, 0);
+//			HAL_NVIC_EnableIRQ(irq_type);
+//        }
+//        else if ((first_pass) && (button_active_time_ms > 10000))
+//		{
+//			// prevent random 433 MHz stuff from switching display states initially
+//        	first_pass = false;
+//        	button_gate_open = true;
+//        	btn = BUTTON_B; // hack to force demo as next state...
+//			*pb_major_interrupt_flag = true;
+//			*pb_major_interrupt_transition_cmplt_flag = false;
+//			*pb_minor_interrupt_flag = false;
+//		}
+//
+//        if (button_gate_open)
+//        {
 			if (SWITCH_MAJOR_STATE_CHANGE_TIME_MILLISECONDS < button_active_time_ms)
 			{
 				// button active for long enough to signal major state transition
@@ -424,7 +418,7 @@ void task_button_press(void *argument)
 				// re-enable the interrupt
 				HAL_NVIC_SetPriority(irq_type, 24, 0);
 				HAL_NVIC_EnableIRQ(irq_type);
-			}
+//			}
         }
 	}
 }
