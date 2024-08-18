@@ -27,7 +27,10 @@ void led_animate_turn_all_pixels_off(void);
 void led_animate_turn_all_pixels_off_in_strip(const strip_mask_t mask);
 void led_animate_heart_beat(const strip_mask_t mask, const led_color_e* p_color,
 							uint16_t* p_delay_ms);
-void led_animate_starburts(const strip_mask_t mask, const led_color_e* p_color,
+void led_animate_starburst_zabinski(const strip_mask_t mask, const led_color_e* p_color,
+							uint16_t* p_delay_ms, led_animate_starburst_mode_e mode,
+							bool b_two_random_color);
+void led_animate_starburst(const strip_mask_t mask, const led_color_e* p_color,
 							uint16_t* p_delay_ms, led_animate_starburst_mode_e mode,
 							bool b_two_random_color);
 void led_animate_solid_custom_color(const strip_mask_t mask, const led_color_hex_code_e color);

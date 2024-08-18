@@ -218,17 +218,23 @@ static void task_led_iterate(led_state_e led_state, const strip_mask_t mask)
 				led_animate_fade_in_fade_out(mask, p_led_color, p_led_state_inner_animation_delay_ms);
 			break;
 			case LED_STATE_STARBURST_MODE_1:
-				led_animate_starburts(mask, p_led_color, p_led_state_inner_animation_delay_ms, LED_ANIMATE_STARBURTS_MODE_1, false);
+				led_animate_starburst(mask, p_led_color, p_led_state_inner_animation_delay_ms, LED_ANIMATE_STARBURTS_MODE_1, false);
 			break;
 			case LED_STATE_STARBURST_MODE_2:
-				led_animate_starburts(mask, p_led_color, p_led_state_inner_animation_delay_ms, LED_ANIMATE_STARBURTS_MODE_2, false);
+				led_animate_starburst(mask, p_led_color, p_led_state_inner_animation_delay_ms, LED_ANIMATE_STARBURTS_MODE_2, false);
 			break;
 			case LED_STATE_STARBURST_RANDOM_MODE_1:
-				led_animate_starburts(mask, p_led_color, p_led_state_inner_animation_delay_ms, LED_ANIMATE_STARBURTS_MODE_1, true);
+				led_animate_starburst(mask, p_led_color, p_led_state_inner_animation_delay_ms, LED_ANIMATE_STARBURTS_MODE_1, true);
 			break;
 			case LED_STATE_STARBURST_RANDOM_MODE_2:
-				led_animate_starburts(mask, p_led_color, p_led_state_inner_animation_delay_ms, LED_ANIMATE_STARBURTS_MODE_2, true);
+				led_animate_starburst(mask, p_led_color, p_led_state_inner_animation_delay_ms, LED_ANIMATE_STARBURTS_MODE_2, true);
 			break;
+//			case LED_STATE_STARBURST_RANDOM_MODE_1_ZABINSKI:
+//				led_animate_starburst(mask, p_led_color, p_led_state_inner_animation_delay_ms, LED_ANIMATE_STARBURTS_MODE_1, true);
+//			break;
+//			case LED_STATE_STARBURST_RANDOM_MODE_2_ZABINSKI:
+//				led_animate_starburst(mask, p_led_color, p_led_state_inner_animation_delay_ms, LED_ANIMATE_STARBURTS_MODE_2, true);
+//			break;
 			case LED_STATE_HEARTBEAT:
 				led_animate_heart_beat(mask, p_led_color, p_led_state_inner_animation_delay_ms);
 			break;

@@ -25,9 +25,11 @@
 #include "led_ctrl_color.h"
 #include "free_rtos_convenience.h"
 
+#include "led_animate.h"
 #include "task_create.h"
 #include "button_config_hal_specific.h"
 
+#define					SWITCH_TURN_OFF_TIME_MILLISECONDS						10000
 #define 				SWITCH_MAJOR_STATE_CHANGE_TIME_MILLISECONDS				5000
 extern led_ctrl_t 		g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS];
 uint32_t 				g_button_press_timestamp[NUM_BUTTONS][NUM_TIMESTAMPS] 	= {0};
@@ -217,7 +219,17 @@ bool task_button_press_check_interrupts(const strip_mask_t mask)
     return return_val;
 }
 
+typedef enum
+{
+	STARBURST_ANIMATION_0,
+	STARBURST_ANIMATION_1,
+	NUM_STARBURST_ANIMATIONS
+} starburst_animation_e;
 
+starburst_animation_e g_starburst_animation = STARBURST_ANIMATION_0;
+
+bool gb_standard_a_button = false;
+led_color_e g_led_color_dummy = LED_COLOR_BROWN;
 /**
  * @brief   Task to control all button press action
  * @param   *arguments: UNUSED!!
@@ -225,6 +237,7 @@ bool task_button_press_check_interrupts(const strip_mask_t mask)
  */
 void task_button_press(void *argument)
 {
+	uint32_t off_val = 0;
 	static bool button_gate_open = false;
 	static bool first_pass = true;
 	// variable to track the button press time
@@ -233,6 +246,7 @@ void task_button_press(void *argument)
 	uint32_t timestamp_button_release_ms = 0;
 	// variable to track the button active time
 	uint32_t button_active_time_ms = 0;
+	uint32_t zabinski_return_val = 0;
 	button_e btn = BUTTON_INVALID;
     led_color_hex_code_e color = LED_COLOR_HEX_BLACK;
     IRQn_Type irq_type = 0;
@@ -294,6 +308,16 @@ void task_button_press(void *argument)
 //
 //        if (button_gate_open)
 //        {
+			if (SWITCH_TURN_OFF_TIME_MILLISECONDS < button_active_time_ms)
+			{
+				vTaskSuspend(g_led_strip_1_ctrl_handle);
+				led_animate_turn_all_pixels_off();
+				// re-enable the interrupt
+				HAL_NVIC_SetPriority(irq_type, 24, 0);
+				HAL_NVIC_EnableIRQ(irq_type);
+		        xTaskNotifyWait(0, 0xffffffff, (uint32_t *)&off_val, portMAX_DELAY);
+		        NVIC_SystemReset();
+			}
 			if (SWITCH_MAJOR_STATE_CHANGE_TIME_MILLISECONDS < button_active_time_ms)
 			{
 				// button active for long enough to signal major state transition
@@ -303,6 +327,14 @@ void task_button_press(void *argument)
 			}
 			else
 			{
+				if (BUTTON_A == btn)
+				{
+					if (button_active_time_ms > 2000)
+					{
+						gb_standard_a_button = true;
+						// trigger regulator speed update..
+					}
+				}
 				// button pressed, signal minor interrupt
 				*pb_major_interrupt_flag = false;
 				*pb_major_interrupt_transition_cmplt_flag = false;
@@ -370,17 +402,36 @@ void task_button_press(void *argument)
 				{
 					case BUTTON_A:
 						// 'A' is speed.  Adjust it!
-						led_ctrl_speed_adjust(STRIP_BIT_1);
-	//                    if (g_two_color_active)
-	//					{
-	//                    	led_ctrl_color_master_state_force_fixed(STRIP_BIT_ALL_SET);
-	//						led_state_ctrl_color_decrement_inner_color();
-	//					}
-	//                    else
-	//                    {
-
-	//                    	led_ctrl_speed_adjust(STRIP_BIT_ALL_SET);
-	//                    }
+						if (gb_standard_a_button)
+						{
+							gb_standard_a_button = false;
+							led_ctrl_speed_adjust(STRIP_BIT_1);
+						}
+						else
+						{
+							vTaskSuspend(g_led_strip_1_ctrl_handle);
+							led_animate_turn_all_pixels_off();
+							led_animate_show_strip(STRIP_BIT_1);
+							switch (g_starburst_animation)
+							{
+								case STARBURST_ANIMATION_0:
+									g_starburst_animation = STARBURST_ANIMATION_1;
+									led_animate_starburst_zabinski(STRIP_BIT_1, &g_led_color_dummy, 100, LED_ANIMATE_STARBURTS_MODE_1, true);
+								break;
+								case STARBURST_ANIMATION_1:
+									led_animate_starburst_zabinski(STRIP_BIT_1, &g_led_color_dummy, 100, LED_ANIMATE_STARBURTS_MODE_2, true);
+									g_starburst_animation = STARBURST_ANIMATION_0;
+								break;
+								default:
+									g_starburst_animation = STARBURST_ANIMATION_1;
+								break;
+							}
+					        xTaskNotifyWait(0, 0xffffffff, (uint32_t *)&zabinski_return_val, portMAX_DELAY);
+					        if (zabinski_return_val == 0x39)
+					        {
+					        	vTaskResume(g_led_strip_1_ctrl_handle);
+					        }
+						}
 					break;
 					case BUTTON_B:
 						// 'B' is state.  Adjust it!

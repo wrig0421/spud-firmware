@@ -73,6 +73,14 @@ led_ctrl_state_master_e led_state_ctrl_master_state(const strip_mask_t mask)
 }
 
 
+void led_state_ctrl_force_state(const strip_mask_t mask, led_state_e led_state)
+{
+	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
+	g_task_led_ctrl[strip_num].led_state_info.led_state = led_state; // set first state
+	g_task_led_ctrl[strip_num].led_state_info.led_state_current_iteration = 0; // set first state
+}
+
+
 void led_state_ctrl_color_decrement_inner_color(void)
 {
 //	if (LED_COLOR_FIRST == g_two_color_inner)
