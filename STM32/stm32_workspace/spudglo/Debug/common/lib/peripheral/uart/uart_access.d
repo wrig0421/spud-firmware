@@ -1,5 +1,5 @@
 common/lib/peripheral/uart/uart_access.o: \
- /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/uart/uart_access.c \
+ C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/peripheral/uart/uart_access.c \
  ../src/bsp/peripheral/uart_access_hal.h \
  ../src/bsp/stmicro/peripheral/uart/uart_config_hal.h \
  ../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h \
@@ -44,7 +44,7 @@ common/lib/peripheral/uart/uart_access.o: \
  ../sdk/FreeRTOS/Source/include/deprecated_definitions.h \
  ../sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h \
  ../sdk/FreeRTOS/Source/include/mpu_wrappers.h \
- /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/uart/uart_access.h
+ C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/peripheral/uart/uart_access.h
 ../src/bsp/peripheral/uart_access_hal.h:
 ../src/bsp/stmicro/peripheral/uart/uart_config_hal.h:
 ../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h:
@@ -92,4 +92,4 @@ common/lib/peripheral/uart/uart_access.o: \
 ../sdk/FreeRTOS/Source/include/deprecated_definitions.h:
 ../sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h:
 ../sdk/FreeRTOS/Source/include/mpu_wrappers.h:
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/uart/uart_access.h:
+C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/peripheral/uart/uart_access.h:

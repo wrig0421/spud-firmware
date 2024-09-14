@@ -9,6 +9,14 @@
 
 #define GENERAL_RX_BUFFER_SIZE 5000
 
+
+typedef enum
+{
+	TASK_LED_CTRL_NOTIFICATION_VALUE_TIMER_ELAPSED = 0x10,
+
+} task_led_ctrl_notification_value_e;
+
+
 led_state_e task_led_current_led_state(const strip_mask_t mask);
 
 uint16_t task_led_state_max_iterations(const strip_mask_t mask, led_state_e led_state);

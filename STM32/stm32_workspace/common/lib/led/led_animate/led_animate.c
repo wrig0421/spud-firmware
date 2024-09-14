@@ -39,7 +39,7 @@ void led_animate_set_adjust_speed(bool)
 
 void led_animate_clear_adjust_speed(void)
 {
-	g_led_animate_adjust_speed =false;
+	g_led_animate_adjust_speed = false;
 }
 
 
@@ -319,7 +319,6 @@ void led_animate_starburst_zabinski(const strip_mask_t mask, const led_color_e* 
 							uint16_t* p_delay_ms, led_animate_starburst_mode_e mode,
 							bool b_two_random_color)
 {
-	uint32_t time_start = xTaskGetTickCount();
 	uint16_t yyy = 0;
     led_color_t led_color;
 	led_color_t led_color_1;
@@ -487,8 +486,6 @@ void led_animate_starburst_zabinski(const strip_mask_t mask, const led_color_e* 
 			}
 		}
 	}
-    xTaskNotify(g_button_press_handle, 0x39, eSetValueWithOverwrite);
-
 }
 
 
@@ -686,7 +683,6 @@ void led_animate_only_spell_word(const strip_mask_t mask, const led_color_e* p_c
                                  uint16_t* p_delay_ms)
 {
 	uint16_t delay_copy = (uint16_t)(*p_delay_ms);
-	uint32_t time_start = xTaskGetTickCount();
 	uint16_t strip_size = ws2812_led_get_max_strip_size(mask);
     led_color_t led_color;
     led_color.color_hex = led_color_to_hex_code(*p_color);
@@ -712,14 +708,12 @@ void led_animate_only_spell_word(const strip_mask_t mask, const led_color_e* p_c
         led_animate_show_strip(mask);
  		led_ctrl_delay(delay_copy);
 	}
-	g_time_differences[LED_STATE_SPELL] = xTaskGetTickCount() - time_start;
 }
 
 
 void led_animate_fade_in_fade_out(const strip_mask_t mask, const led_color_e* p_color,
 								  uint16_t* p_delay_ms)
 {
-	uint32_t time_start = xTaskGetTickCount();
 	uint16_t delay_copy = (uint16_t)(*p_delay_ms);
 
 	float fade_factor = 0.0f;
@@ -777,8 +771,6 @@ void led_animate_fade_in_fade_out(const strip_mask_t mask, const led_color_e* p_
         led_animate_set_all_pixels(mask, &temp_led_color);
  		led_ctrl_delay(delay_copy);
     }
-	g_time_differences[LED_STATE_FADE_IN_AND_OUT] = xTaskGetTickCount() - time_start;
-
 }
 
 
@@ -996,7 +988,6 @@ void led_animate_running_lights(const strip_mask_t mask, const led_color_e* p_co
 								const uint16_t* p_delay_ms)
 {
 	uint16_t delay_copy = (uint16_t)(*p_delay_ms);
-
 	led_color_t led_color;
 	led_color.color_hex = led_color_to_hex_code(*p_color);
 	uint16_t strip_size = ws2812_led_get_max_strip_size(mask);
@@ -1033,7 +1024,6 @@ void led_animate_running_lights(const strip_mask_t mask, const led_color_e* p_co
 void led_animate_rainbow_cycle(const strip_mask_t mask, uint16_t* p_delay_ms)
 {
 	uint16_t delay_copy = (uint16_t)(*p_delay_ms);
-
 	led_color_t led_color;
 	led_color.color_hex = LED_COLOR_HEX_BLACK;
 	uint16_t strip_size = ws2812_led_get_max_strip_size(mask);
@@ -1087,7 +1077,6 @@ void led_animate_theater_chase(const strip_mask_t mask, const led_color_e* p_col
                                uint16_t* p_delay_ms)
 {
 	uint16_t delay_copy = (uint16_t)(*p_delay_ms);
-
 	led_color_t led_color;
 	led_color.color_hex = led_color_to_hex_code((led_color_e)*p_color);
 	uint16_t strip_size = ws2812_led_get_max_strip_size(mask);
@@ -1135,9 +1124,6 @@ void led_animate_theater_chase(const strip_mask_t mask, const led_color_e* p_col
 void led_animate_theater_chase_rainbow(const strip_mask_t mask, uint16_t* p_delay_ms)
 {
 	uint16_t delay_copy = (uint16_t)(*p_delay_ms);
-
-	uint32_t time_start = xTaskGetTickCount();
-
 	led_color_t led_color;
 	led_color.color_hex = LED_COLOR_HEX_BLACK;
 	uint16_t strip_size = ws2812_led_get_max_strip_size(mask);
@@ -1194,8 +1180,6 @@ void led_animate_theater_chase_rainbow(const strip_mask_t mask, uint16_t* p_dela
 //			}
         }
     }
-	g_time_differences[LED_STATE_THEATER_CHASE_RAINBOW] = xTaskGetTickCount() - time_start;
-
 }
 
 

@@ -1,6 +1,7 @@
 // SRW
 
 #include "FreeRTOS.h"
+#include "timers.h"
 #include "portmacro.h"
 
 #include "led_ctrl.h"
@@ -8,6 +9,36 @@
 #include "free_rtos_convenience.h"
 #include "ws2812b.h"
 #include "led_ctrl_speed.h"
+
+#define LED_CTRL_MASTER_STATE_TIME_MS	180000
+
+extern TimerHandle_t g_led_ctrl_timer_handle;
+
+void led_ctrl_timer_start(void)
+{
+	xTimerStart(g_led_ctrl_timer_handle, LED_CTRL_MASTER_STATE_TIME_MS);
+}
+
+
+void timer_led_ctrl_callback(TimerHandle_t timer_handle)
+{
+#	if defined(ENABLE_LED_STRIP_SYNC)
+		xTaskNotify(g_led_strip_sync_ctrl_handle, TASK_LED_CTRL_NOTIFICATION_VALUE_TIMER_ELAPSED, eSetValueWithoutOverwrite);
+#	else
+#		if (1 == NUM_ACTIVE_STRIPS)
+			xTaskNotify(g_led_strip_1_ctrl_handle, TASK_LED_CTRL_NOTIFICATION_VALUE_TIMER_ELAPSED, eSetValueWithoutOverwrite);
+#		elif (2 == NUM_ACTIVE_STRIPS)
+			xTaskNotify(g_led_strip_1_ctrl_handle, TASK_LED_CTRL_NOTIFICATION_VALUE_TIMER_ELAPSED, eSetValueWithoutOverwrite);
+			xTaskNotify(g_led_strip_2_ctrl_handle, TASK_LED_CTRL_NOTIFICATION_VALUE_TIMER_ELAPSED, eSetValueWithoutOverwrite);
+#		elif (3 == NUM_ACTIVE_STRIPS)
+			xTaskNotify(g_led_strip_1_ctrl_handle, TASK_LED_CTRL_NOTIFICATION_VALUE_TIMER_ELAPSED, eSetValueWithoutOverwrite);
+			xTaskNotify(g_led_strip_2_ctrl_handle, TASK_LED_CTRL_NOTIFICATION_VALUE_TIMER_ELAPSED, eSetValueWithoutOverwrite);
+			xTaskNotify(g_led_strip_3_ctrl_handle, TASK_LED_CTRL_NOTIFICATION_VALUE_TIMER_ELAPSED, eSetValueWithoutOverwrite);
+#		endif
+#	endif
+}
+
+
 
 
 bool led_ctrl_delay(const uint32_t time_ms)

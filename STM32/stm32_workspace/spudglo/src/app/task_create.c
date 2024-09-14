@@ -14,24 +14,24 @@
 
 #define TASK_CREATE_STACK_SIZE_STANDARD		(2 * configMINIMAL_STACK_SIZE)
 
-TaskHandle_t 	g_led_strip_1_ctrl_handle;
-TaskHandle_t 	g_led_strip_2_ctrl_handle;
-TaskHandle_t 	g_led_strip_3_ctrl_handle;
-TaskHandle_t 	g_led_strip_sync_ctrl_handle;
-TaskHandle_t 	g_button_press_handle;
+TaskHandle_t g_led_strip_1_ctrl_handle;
+TaskHandle_t g_led_strip_2_ctrl_handle;
+TaskHandle_t g_led_strip_3_ctrl_handle;
+TaskHandle_t g_led_strip_sync_ctrl_handle;
+TaskHandle_t g_button_press_handle;
 
-StaticTask_t	g_task_led_strip_1_buffer;
-StaticTask_t	g_task_led_strip_2_buffer;
-StaticTask_t	g_task_led_strip_3_buffer;
-StaticTask_t	g_task_led_sync_buffer;
-StaticTask_t	g_button_press_buffer;
+StaticTask_t g_task_led_strip_1_buffer;
+StaticTask_t g_task_led_strip_2_buffer;
+StaticTask_t g_task_led_strip_3_buffer;
+StaticTask_t g_task_led_sync_buffer;
+StaticTask_t g_button_press_buffer;
 
-StackType_t		g_task_led_strip_1_stack[TASK_CREATE_STACK_SIZE_STANDARD];
-StackType_t		g_task_led_strip_2_stack[TASK_CREATE_STACK_SIZE_STANDARD];
-StackType_t		g_task_led_strip_3_stack[TASK_CREATE_STACK_SIZE_STANDARD];
-StackType_t		g_task_led_sync_stack[TASK_CREATE_STACK_SIZE_STANDARD];
+StackType_t g_task_led_strip_1_stack[TASK_CREATE_STACK_SIZE_STANDARD];
+StackType_t g_task_led_strip_2_stack[TASK_CREATE_STACK_SIZE_STANDARD];
+StackType_t g_task_led_strip_3_stack[TASK_CREATE_STACK_SIZE_STANDARD];
+StackType_t g_task_led_sync_stack[TASK_CREATE_STACK_SIZE_STANDARD];
 
-StackType_t		g_button_press_stack[TASK_CREATE_STACK_SIZE_STANDARD];
+StackType_t g_button_press_stack[TASK_CREATE_STACK_SIZE_STANDARD];
 
 //#if defined(ENABLE_LED_STRIP_SYNC)
 //
@@ -93,7 +93,6 @@ StackType_t		g_button_press_stack[TASK_CREATE_STACK_SIZE_STANDARD];
 //#	endif
 //#endif
 
-
 //osThreadId_t g_dma_transfer_handle;
 //osThreadId_t g_button_press_handle;
 //uint32_t g_dma_transfer_stack[512];
@@ -103,8 +102,7 @@ StackType_t		g_button_press_stack[TASK_CREATE_STACK_SIZE_STANDARD];
 
 bool g_tasks_running = false;
 
-void task_create(void)
-{
+void task_create(void) {
 //    osKernelInitialize();
 
 #	if defined(ENABLE_LED_STRIP_SYNC)
@@ -115,8 +113,10 @@ void task_create(void)
 #	else
 #		if (1 == NUM_ACTIVE_STRIPS)
 
-			g_led_strip_1_ctrl_handle = xTaskCreateStatic(task_led_1_ctrl, "task_strip_1", TASK_CREATE_STACK_SIZE_STANDARD,
-															(void *) 1, tskIDLE_PRIORITY, g_task_led_strip_1_stack, &g_task_led_strip_1_buffer);
+	g_led_strip_1_ctrl_handle = xTaskCreateStatic(task_led_1_ctrl,
+			"task_strip_1", TASK_CREATE_STACK_SIZE_STANDARD, (void*) 1,
+			tskIDLE_PRIORITY, g_task_led_strip_1_stack,
+			&g_task_led_strip_1_buffer);
 
 #		elif (2 == NUM_ACTIVE_STRIPS)
 
@@ -137,9 +137,11 @@ void task_create(void)
 #		endif
 
 #endif
-	g_button_press_handle = xTaskCreateStatic(task_button_press, "task_button_press", TASK_CREATE_STACK_SIZE_STANDARD,
-													NULL, tskIDLE_PRIORITY, g_button_press_stack, &g_button_press_buffer);
+	g_button_press_handle = xTaskCreateStatic(task_button_press,
+			"task_button_press", TASK_CREATE_STACK_SIZE_STANDARD,
+			NULL, tskIDLE_PRIORITY, g_button_press_stack,
+			&g_button_press_buffer);
 
-    //g_dma_transfer_handle = osThreadNew(task_dma_transfer, NULL, &g_task_dma_transfer_attributes);
-    g_tasks_running = true; // technically will be running after task scheduler started
+	//g_dma_transfer_handle = osThreadNew(task_dma_transfer, NULL, &g_task_dma_transfer_attributes);
+	g_tasks_running = true; // technically will be running after task scheduler started
 }
