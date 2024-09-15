@@ -342,7 +342,7 @@ void led_animate_starburst_zabinski(const strip_mask_t mask, const led_color_e* 
 	long_leg = LED_ANIMATE_TOP_STARTBURT_LONG_SIDE_NUM_LEDS;
 #endif
 	strip_half = short_leg + long_leg;
-	diff_time = ((xTaskGetTickCount() - time_start) / configTICK_RATE_HZ);
+//	diff_time = ((xTaskGetTickCount() - time_start) / configTICK_RATE_HZ);
 	while (diff_time < 8)
 	{
 	    if (b_two_random_color)
@@ -350,7 +350,6 @@ void led_animate_starburst_zabinski(const strip_mask_t mask, const led_color_e* 
 	    	led_color_1.color_hex = random_num(0, UINT24_MAX);
 	    	led_color_2.color_hex = random_num(0, UINT24_MAX);
 	    }
-		diff_time = ((xTaskGetTickCount() - time_start) / configTICK_RATE_HZ);
 		if (LED_ANIMATE_STARBURTS_MODE_1 == mode)
 		{
 			for (yyy=0; yyy < short_leg; yyy++)

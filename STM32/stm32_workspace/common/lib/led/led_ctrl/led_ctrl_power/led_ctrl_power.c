@@ -57,5 +57,4 @@ void led_ctrl_power_monitor_init(void)
 //    g_max_current_ratio = 0.89f;// SRW debug
 
     g_absolute_max_current_ratio = g_max_current_ratio;
-    g_absolute_max_current_ratio = 1.0f;
 }

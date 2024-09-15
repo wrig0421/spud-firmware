@@ -41,12 +41,12 @@ src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/board_init_spudglo_
  ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/board_init_spudglo_v7.h \
  ../src/bsp/stmicro/peripheral/spi/spi_config_hal.h \
  ../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h \
- C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/peripheral/spi/spi_access.h \
+ /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/spi/spi_access.h \
  ../src/bsp/stmicro/peripheral/uart/uart_config_hal.h \
  ../src/bsp/stmicro/peripheral/gpio/gpio_config_hal_specific.h \
  ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/gpio/board_spudglo_v7_gpio_config.h \
  ../src/bsp/stmicro/peripheral/gpio/gpio_config_hal.h \
- C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/peripheral/gpio/gpio_access.h \
+ /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/gpio/gpio_access.h \
  ../src/bsp/peripheral/gpio_access_hal.h \
  ../sdk/FreeRTOS/Source/convenience/free_rtos_convenience.h
 ../src/app/config.h:
@@ -94,11 +94,11 @@ src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/board_init_spudglo_
 ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/board_init_spudglo_v7.h:
 ../src/bsp/stmicro/peripheral/spi/spi_config_hal.h:
 ../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h:
-C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/peripheral/spi/spi_access.h:
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/spi/spi_access.h:
 ../src/bsp/stmicro/peripheral/uart/uart_config_hal.h:
 ../src/bsp/stmicro/peripheral/gpio/gpio_config_hal_specific.h:
 ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/gpio/board_spudglo_v7_gpio_config.h:
 ../src/bsp/stmicro/peripheral/gpio/gpio_config_hal.h:
-C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/peripheral/gpio/gpio_access.h:
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/gpio/gpio_access.h:
 ../src/bsp/peripheral/gpio_access_hal.h:
 ../sdk/FreeRTOS/Source/convenience/free_rtos_convenience.h:
