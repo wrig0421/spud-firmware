@@ -35,6 +35,15 @@ src/bsp/board_init_common.o: ../src/bsp/board_init_common.c \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h \
  C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl.h \
+ ../sdk/FreeRTOS/Source/include/FreeRTOS.h ../src/app/FreeRTOSConfig.h \
+ ../sdk/FreeRTOS/Source/include/projdefs.h \
+ ../sdk/FreeRTOS/Source/include/portable.h \
+ ../sdk/FreeRTOS/Source/include/deprecated_definitions.h \
+ ../sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h \
+ ../sdk/FreeRTOS/Source/include/mpu_wrappers.h \
+ ../sdk/FreeRTOS/Source/include/timers.h \
+ ../sdk/FreeRTOS/Source/include/task.h \
+ ../sdk/FreeRTOS/Source/include/list.h \
  C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_state/led_ctrl_state.h \
  ../src/app/config.h \
  C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/ws2812b_driver/ws2812b.h \
@@ -48,7 +57,7 @@ src/bsp/board_init_common.o: ../src/bsp/board_init_common.c \
  ../src/bsp/stmicro/stm32l4/board_specific/board_specific.h \
  ../src/bsp/board_common.h \
  ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/board_init_spudglo_v7.h \
- ../src/app/FreeRTOSConfig.h ../src/bsp/board_init_common.h \
+ ../src/bsp/board_init_common.h \
  ../src/bsp/stmicro/peripheral/gpio/gpio_config_hal.h \
  C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/peripheral/gpio/gpio_access.h \
  ../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h \
@@ -97,6 +106,16 @@ src/bsp/board_init_common.o: ../src/bsp/board_init_common.c \
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h:
 C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl.h:
+../sdk/FreeRTOS/Source/include/FreeRTOS.h:
+../src/app/FreeRTOSConfig.h:
+../sdk/FreeRTOS/Source/include/projdefs.h:
+../sdk/FreeRTOS/Source/include/portable.h:
+../sdk/FreeRTOS/Source/include/deprecated_definitions.h:
+../sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h:
+../sdk/FreeRTOS/Source/include/mpu_wrappers.h:
+../sdk/FreeRTOS/Source/include/timers.h:
+../sdk/FreeRTOS/Source/include/task.h:
+../sdk/FreeRTOS/Source/include/list.h:
 C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_state/led_ctrl_state.h:
 ../src/app/config.h:
 C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/ws2812b_driver/ws2812b.h:
@@ -111,7 +130,6 @@ C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/le
 ../src/bsp/stmicro/stm32l4/board_specific/board_specific.h:
 ../src/bsp/board_common.h:
 ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/board_init_spudglo_v7.h:
-../src/app/FreeRTOSConfig.h:
 ../src/bsp/board_init_common.h:
 ../src/bsp/stmicro/peripheral/gpio/gpio_config_hal.h:
 C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/peripheral/gpio/gpio_access.h:

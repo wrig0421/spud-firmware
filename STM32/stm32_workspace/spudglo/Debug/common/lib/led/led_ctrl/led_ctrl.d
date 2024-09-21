@@ -6,6 +6,9 @@ common/lib/led/led_ctrl/led_ctrl.o: \
  ../sdk/FreeRTOS/Source/include/deprecated_definitions.h \
  ../sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h \
  ../sdk/FreeRTOS/Source/include/mpu_wrappers.h \
+ ../sdk/FreeRTOS/Source/include/timers.h \
+ ../sdk/FreeRTOS/Source/include/task.h \
+ ../sdk/FreeRTOS/Source/include/list.h \
  C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl.h \
  C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_state/led_ctrl_state.h \
  ../src/app/config.h \
@@ -63,6 +66,9 @@ common/lib/led/led_ctrl/led_ctrl.o: \
 ../sdk/FreeRTOS/Source/include/deprecated_definitions.h:
 ../sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h:
 ../sdk/FreeRTOS/Source/include/mpu_wrappers.h:
+../sdk/FreeRTOS/Source/include/timers.h:
+../sdk/FreeRTOS/Source/include/task.h:
+../sdk/FreeRTOS/Source/include/list.h:
 C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl.h:
 C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_state/led_ctrl_state.h:
 ../src/app/config.h:

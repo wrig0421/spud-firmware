@@ -238,6 +238,12 @@ static void task_led_iterate(led_state_e led_state, const strip_mask_t mask)
 			case LED_STATE_HEARTBEAT:
 				led_animate_heart_beat(mask, p_led_color, p_led_state_inner_animation_delay_ms);
 			break;
+			case LED_STATE_FIXED_ASSORTED_COLOR:
+				led_animate_fixed_assorted_color(mask);
+			break;
+			case LED_STATE_RANDOM_ASSORTED_COLOR:
+				led_animate_random_assorted_color(mask);
+			break;
 			case LED_STATE_TWINKLE:
 				led_animate_turn_all_pixels_off();
 				led_animate_twinkle(mask, p_led_color, (uint32_t)((float)NUM_LEDS * (float)0.9), p_led_state_inner_animation_delay_ms, false);
@@ -250,15 +256,16 @@ static void task_led_iterate(led_state_e led_state, const strip_mask_t mask)
 #			endif
 			break;
 			case LED_STATE_SRW_DEBUG:
-#				if defined(ENABLE_STRIP_1)
-					led_animate_determine_number_pixels_in_strip(STRIP_BIT_1);
-#				endif
-#				if defined(ENABLE_STRIP_2)
-					led_animate_determine_number_pixels_in_strip(STRIP_BIT_2);
-#				endif
-#				if defined(ENABLE_STRIP_3)
-					led_animate_determine_number_pixels_in_strip(STRIP_BIT_3);
-#				endif
+				led_animate_srw_debug();
+//#				if defined(ENABLE_STRIP_1)
+//					led_animate_determine_number_pixels_in_strip(STRIP_BIT_1);
+//#				endif
+//#				if defined(ENABLE_STRIP_2)
+//					led_animate_determine_number_pixels_in_strip(STRIP_BIT_2);
+//#				endif
+//#				if defined(ENABLE_STRIP_3)
+//					led_animate_determine_number_pixels_in_strip(STRIP_BIT_3);
+//#				endif
 			break;
 			default:
 			break;

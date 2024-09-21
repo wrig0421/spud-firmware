@@ -68,6 +68,8 @@ common/lib/task/task_led_ctrl.o: \
  ../src/bsp/flash_info.h \
  C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/task/task_notify.h \
  C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl.h \
+ ../sdk/FreeRTOS/Source/include/timers.h \
+ ../sdk/FreeRTOS/Source/include/task.h \
  C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/sensor_third_party/rv8803/rv8803.h
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
 ../src/bsp/stmicro/stm32l4/bloat/stm32l4xx_hal_conf.h:
@@ -144,4 +146,6 @@ C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/se
 ../src/bsp/flash_info.h:
 C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/task/task_notify.h:
 C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl.h:
+../sdk/FreeRTOS/Source/include/timers.h:
+../sdk/FreeRTOS/Source/include/task.h:
 C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/sensor_third_party/rv8803/rv8803.h:

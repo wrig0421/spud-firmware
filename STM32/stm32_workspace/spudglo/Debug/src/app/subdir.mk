@@ -6,15 +6,18 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
 ../src/app/main.c \
-../src/app/task_create.c 
+../src/app/task_create.c \
+../src/app/timer_create.c 
 
 OBJS += \
 ./src/app/main.o \
-./src/app/task_create.o 
+./src/app/task_create.o \
+./src/app/timer_create.o 
 
 C_DEPS += \
 ./src/app/main.d \
-./src/app/task_create.d 
+./src/app/task_create.d \
+./src/app/timer_create.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
@@ -24,7 +27,7 @@ src/app/%.o src/app/%.su src/app/%.cyclo: ../src/app/%.c src/app/subdir.mk
 clean: clean-src-2f-app
 
 clean-src-2f-app:
-	-$(RM) ./src/app/main.cyclo ./src/app/main.d ./src/app/main.o ./src/app/main.su ./src/app/task_create.cyclo ./src/app/task_create.d ./src/app/task_create.o ./src/app/task_create.su
+	-$(RM) ./src/app/main.cyclo ./src/app/main.d ./src/app/main.o ./src/app/main.su ./src/app/task_create.cyclo ./src/app/task_create.d ./src/app/task_create.o ./src/app/task_create.su ./src/app/timer_create.cyclo ./src/app/timer_create.d ./src/app/timer_create.o ./src/app/timer_create.su
 
 .PHONY: clean-src-2f-app
 

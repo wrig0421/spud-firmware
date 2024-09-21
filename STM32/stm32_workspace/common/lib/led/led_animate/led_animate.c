@@ -134,6 +134,25 @@ void led_animate_set_pixels_in_range(const strip_mask_t mask, uint16_t start, ui
 }
 
 
+void led_animate_set_pixels_in_range_uint32(const strip_mask_t mask, uint16_t start, uint16_t stop, uint32_t color_hex_code_val)
+{
+    led_color_t led_color;
+    led_color.color_hex = color_hex_code_val;
+    if (task_button_press_interrupt_occurred()) if (task_button_press_check_interrupts(mask)) return;
+	for (uint16_t yyy = start; yyy <= stop; yyy++) ws2812b_set_led(mask, yyy, led_color.color_rgb.red, led_color.color_rgb.green, led_color.color_rgb.blue);
+}
+
+
+void led_animate_set_pixels_in_range_and_show_uint32(const strip_mask_t mask, uint16_t start, uint16_t stop, uint32_t color_hex_code_val)
+{
+    led_color_t led_color;
+    led_color.color_hex = color_hex_code_val;
+    if (task_button_press_interrupt_occurred()) if (task_button_press_check_interrupts(mask)) return;
+	for (uint16_t yyy = start; yyy <= stop; yyy++) ws2812b_set_led(mask, yyy, led_color.color_rgb.red, led_color.color_rgb.green, led_color.color_rgb.blue);
+	led_animate_show_strip(mask);
+}
+
+
 /**
  * @brief   Set all pixels to black and show the strips
  * @param   void
@@ -184,6 +203,199 @@ static void led_animate_wheel(uint8_t wheel_pos, led_color_t* p_led_color)
         p_led_color->color_rgb.green = wheel_pos * 3;
         p_led_color->color_rgb.blue = UINT8_MAX - (wheel_pos * 3);
     }
+}
+
+
+void led_animate_fixed_assorted_color(const strip_mask_t mask)
+{
+	uint32_t random_color;
+	random_color = random_num(0, UINT24_MAX);
+	led_animate_set_pixels_in_range_uint32(mask, 0, 292, random_color);
+	// pumpkin_base stop = 404
+	led_animate_set_pixels_in_range(mask, 0, 292, LED_COLOR_HEX_ORANGE);
+	led_animate_set_pixels_in_range(mask, 293, 404, LED_COLOR_HEX_ORANGE_RED);
+	// pumpkin stem start = 405
+	// pumpkin stem stop = 427
+	led_animate_set_pixels_in_range(mask, 405, 427, LED_COLOR_HEX_GREEN);
+	// coffee cup base start = 428
+	// coffee cup base stop = 458
+	led_animate_set_pixels_in_range(mask, 428, 458, LED_COLOR_HEX_WHITE);
+	// coffee cup sleeve start = 459
+	// coffee cup sleeve stop = 475
+	led_animate_set_pixels_in_range(mask, 459, 475, LED_COLOR_HEX_SPRING_GREEN);
+	// coffee cup top start = 476
+	// coffee cup top stop = 516
+	led_animate_set_pixels_in_range(mask, 476, 516, LED_COLOR_HEX_CHARCOAL);
+	// leaf stem start = 517
+	// leaf stem stop = 529
+	led_animate_set_pixels_in_range(mask, 517, 529, LED_COLOR_HEX_RED_BROWN);
+	led_animate_set_pixels_in_range(mask, 530, 579, LED_COLOR_HEX_RED);
+}
+
+void led_animate_random_assorted_color(const strip_mask_t mask)
+{
+	uint32_t random_color;
+
+	for (uint16_t iii = 0; iii < 80; iii++)
+	{
+        if (task_button_press_interrupt_occurred())
+        {
+            if (task_button_press_check_interrupts(mask))
+            {
+                return;
+            }
+//			else if (g_task_notification_value.stimulus_bits.color)
+//			{
+//				led_color.color_hex = led_color_to_hex_code(*p_color);
+//			}
+//        	else if (led_animate_need_to_adjust_speed())
+//			{
+//        		delay_copy = task_led_state_inner_animation_delay_ms(mask, LED_STATE_RAINBOW_CYCLE);
+//				led_animate_clear_adjust_speed();
+//			}
+        }
+		random_color = random_num(0, UINT24_MAX);
+		led_animate_set_pixels_in_range_uint32(mask, 0, 65, random_color);
+		random_color = random_num(0, UINT24_MAX);
+		led_animate_set_pixels_in_range_uint32(mask, 66, 141, random_color);
+		random_color = random_num(0, UINT24_MAX);
+		led_animate_set_pixels_in_range_uint32(mask, 142, 292, random_color);
+		random_color = random_num(0, UINT24_MAX);
+		led_animate_set_pixels_in_range_uint32(mask, 293, 404, random_color);
+		random_color = random_num(0, UINT24_MAX);
+		led_animate_set_pixels_in_range_uint32(mask, 405, 427, random_color);
+		random_color = random_num(0, UINT24_MAX);
+		led_animate_set_pixels_in_range_uint32(mask, 428, 458, random_color);
+		random_color = random_num(0, UINT24_MAX);
+		led_animate_set_pixels_in_range_uint32(mask, 459, 475, random_color);
+		random_color = random_num(0, UINT24_MAX);
+		led_animate_set_pixels_in_range_uint32(mask, 476, 516, random_color);
+		random_color = random_num(0, UINT24_MAX);
+		led_animate_set_pixels_in_range_uint32(mask, 517, 529, random_color);
+		random_color = random_num(0, UINT24_MAX);
+		led_animate_set_pixels_in_range_uint32(mask, 530, 579, random_color);
+		led_animate_show_strip(mask);
+		if (5 > iii)
+		{
+			led_ctrl_delay(1500);
+		}
+		else if (25 > iii)
+		{
+			led_ctrl_delay(750);
+		}
+		else
+		{
+			led_ctrl_delay(100);
+		}
+	}
+}
+
+
+bool g_clear_and_show_all_pixels = false;
+bool g_show_all_pixels = false;
+uint32_t g_start_pixel = 0;
+uint32_t g_stop_pixel = 0;
+void led_animate_srw_debug(void)
+{
+	uint32_t random_color = 0;
+	strip_mask_t mask = STRIP_BIT_1;
+
+//	while (1)
+//	{
+//		if (g_clear_and_show_all_pixels)
+//		{
+//			g_clear_and_show_all_pixels = false;
+//			led_ctrl_delay(250);
+//			led_animate_turn_all_pixels_off();
+//		}
+//		if (g_show_all_pixels)
+//		{
+//			g_show_all_pixels = false;
+//			led_animate_turn_all_pixels_off();
+//			led_ctrl_delay(250);
+//			led_animate_set_pixels_in_range(mask, g_start_pixel, g_stop_pixel, LED_COLOR_HEX_BLUE);
+//		}
+//		led_ctrl_delay(100);
+//	}
+
+
+
+
+	// pumpkin_base start = 293
+	// pumpkin_base stop = 404
+	led_animate_set_pixels_in_range(mask, 0, 292, LED_COLOR_HEX_ORANGE);
+	led_animate_set_pixels_in_range(mask, 293, 404, LED_COLOR_HEX_ORANGE_RED);
+	// pumpkin stem start = 405
+	// pumpkin stem stop = 427
+	led_animate_set_pixels_in_range(mask, 405, 427, LED_COLOR_HEX_GREEN);
+	// coffee cup base start = 428
+	// coffee cup base stop = 458
+	led_animate_set_pixels_in_range(mask, 428, 458, LED_COLOR_HEX_WHITE);
+	// coffee cup sleeve start = 459
+	// coffee cup sleeve stop = 475
+	led_animate_set_pixels_in_range(mask, 459, 475, LED_COLOR_HEX_SPRING_GREEN);
+	// coffee cup top start = 476
+	// coffee cup top stop = 516
+	led_animate_set_pixels_in_range(mask, 476, 516, LED_COLOR_HEX_CHARCOAL);
+	// leaf stem start = 517
+	// leaf stem stop = 529
+	led_animate_set_pixels_in_range(mask, 517, 529, LED_COLOR_HEX_RED_BROWN);
+	led_animate_set_pixels_in_range(mask, 530, 579, LED_COLOR_HEX_RED);
+
+	// leaf part start = 530
+	// leaf part stop = 579
+	while (1)
+	{
+		random_color = random_num(0, UINT24_MAX);
+		led_animate_set_pixels_in_range_uint32(mask, 0, 65, random_color);
+		random_color = random_num(0, UINT24_MAX);
+		led_animate_set_pixels_in_range_uint32(mask, 66, 141, random_color);
+		random_color = random_num(0, UINT24_MAX);
+		led_animate_set_pixels_in_range_uint32(mask, 142, 292, random_color);
+		random_color = random_num(0, UINT24_MAX);
+		led_animate_set_pixels_in_range_uint32(mask, 293, 404, random_color);
+		random_color = random_num(0, UINT24_MAX);
+		led_animate_set_pixels_in_range_uint32(mask, 405, 427, random_color);
+		random_color = random_num(0, UINT24_MAX);
+		led_animate_set_pixels_in_range_uint32(mask, 428, 458, random_color);
+		random_color = random_num(0, UINT24_MAX);
+		led_animate_set_pixels_in_range_uint32(mask, 459, 475, random_color);
+		random_color = random_num(0, UINT24_MAX);
+		led_animate_set_pixels_in_range_uint32(mask, 476, 516, random_color);
+		random_color = random_num(0, UINT24_MAX);
+		led_animate_set_pixels_in_range_uint32(mask, 517, 529, random_color);
+		random_color = random_num(0, UINT24_MAX);
+		led_animate_set_pixels_in_range_uint32(mask, 530, 579, random_color);
+		led_ctrl_delay(1500);
+
+//		random_color = random_num(0, UINT24_MAX);
+//		led_animate_set_pixels_in_range_uint32(mask, 0, 292, random_color);
+//		led_animate_set_pixels_in_range(mask, 530, 579, LED_COLOR_HEX_RED);
+//		led_animate_set_pixels_in_range(mask, 428, 458, LED_COLOR_HEX_WHITE);
+//		led_animate_set_pixels_in_range(mask, 459, 475, LED_COLOR_HEX_SPRING_GREEN);
+//		led_animate_set_pixels_in_range(mask, 476, 516, LED_COLOR_HEX_SPRING_GREEN);
+//		led_animate_set_pixels_in_range(mask, 530, 579, LED_COLOR_HEX_LAWN_GREEN);
+//		led_ctrl_delay(3000);
+//		random_color = random_num(0, UINT24_MAX);
+//		led_animate_set_pixels_in_range_uint32(mask, 0, 292, random_color);
+//		led_animate_set_pixels_in_range(mask, 428, 458, LED_COLOR_HEX_CHARCOAL);
+//		led_animate_set_pixels_in_range(mask, 459, 475, LED_COLOR_HEX_WHITE);
+//		led_animate_set_pixels_in_range(mask, 476, 516, LED_COLOR_HEX_SPRING_GREEN);
+//		led_animate_set_pixels_in_range(mask, 530, 579, LED_COLOR_HEX_LAWN_GREEN);
+//		led_ctrl_delay(3000);
+//		random_color = random_num(0, UINT24_MAX);
+//		led_animate_set_pixels_in_range_uint32(mask, 0, 292, random_color);
+//		led_animate_set_pixels_in_range(mask, 428, 458, LED_COLOR_HEX_SPRING_GREEN);
+//		led_animate_set_pixels_in_range(mask, 459, 475, LED_COLOR_HEX_CHARCOAL);
+//		led_animate_set_pixels_in_range(mask, 476, 516, LED_COLOR_HEX_WHITE);
+//		led_animate_set_pixels_in_range(mask, 530, 579, LED_COLOR_HEX_YELLOW);
+//		led_ctrl_delay(3000);
+	}
+
+	// a function to determine start/stop of LEDs
+
+
+
 }
 
 
@@ -342,7 +554,7 @@ void led_animate_starburst_zabinski(const strip_mask_t mask, const led_color_e* 
 	long_leg = LED_ANIMATE_TOP_STARTBURT_LONG_SIDE_NUM_LEDS;
 #endif
 	strip_half = short_leg + long_leg;
-	diff_time = ((xTaskGetTickCount() - time_start) / configTICK_RATE_HZ);
+//	diff_time = ((xTaskGetTickCount() - time_start) / configTICK_RATE_HZ);
 	while (diff_time < 8)
 	{
 	    if (b_two_random_color)
@@ -350,7 +562,7 @@ void led_animate_starburst_zabinski(const strip_mask_t mask, const led_color_e* 
 	    	led_color_1.color_hex = random_num(0, UINT24_MAX);
 	    	led_color_2.color_hex = random_num(0, UINT24_MAX);
 	    }
-		diff_time = ((xTaskGetTickCount() - time_start) / configTICK_RATE_HZ);
+//		diff_time = ((xTaskGetTickCount() - time_start) / configTICK_RATE_HZ);
 		if (LED_ANIMATE_STARBURTS_MODE_1 == mode)
 		{
 			for (yyy=0; yyy < short_leg; yyy++)

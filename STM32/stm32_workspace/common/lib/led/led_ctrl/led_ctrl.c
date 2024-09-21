@@ -22,20 +22,20 @@ void led_ctrl_timer_start(void)
 
 void timer_led_ctrl_callback(TimerHandle_t timer_handle)
 {
-#	if defined(ENABLE_LED_STRIP_SYNC)
-		xTaskNotify(g_led_strip_sync_ctrl_handle, TASK_LED_CTRL_NOTIFICATION_VALUE_TIMER_ELAPSED, eSetValueWithoutOverwrite);
-#	else
-#		if (1 == NUM_ACTIVE_STRIPS)
-			xTaskNotify(g_led_strip_1_ctrl_handle, TASK_LED_CTRL_NOTIFICATION_VALUE_TIMER_ELAPSED, eSetValueWithoutOverwrite);
-#		elif (2 == NUM_ACTIVE_STRIPS)
-			xTaskNotify(g_led_strip_1_ctrl_handle, TASK_LED_CTRL_NOTIFICATION_VALUE_TIMER_ELAPSED, eSetValueWithoutOverwrite);
-			xTaskNotify(g_led_strip_2_ctrl_handle, TASK_LED_CTRL_NOTIFICATION_VALUE_TIMER_ELAPSED, eSetValueWithoutOverwrite);
-#		elif (3 == NUM_ACTIVE_STRIPS)
-			xTaskNotify(g_led_strip_1_ctrl_handle, TASK_LED_CTRL_NOTIFICATION_VALUE_TIMER_ELAPSED, eSetValueWithoutOverwrite);
-			xTaskNotify(g_led_strip_2_ctrl_handle, TASK_LED_CTRL_NOTIFICATION_VALUE_TIMER_ELAPSED, eSetValueWithoutOverwrite);
-			xTaskNotify(g_led_strip_3_ctrl_handle, TASK_LED_CTRL_NOTIFICATION_VALUE_TIMER_ELAPSED, eSetValueWithoutOverwrite);
-#		endif
-#	endif
+//#	if defined(ENABLE_LED_STRIP_SYNC)
+//		xTaskNotify(g_led_strip_sync_ctrl_handle, TASK_LED_CTRL_NOTIFICATION_VALUE_TIMER_ELAPSED, eSetValueWithoutOverwrite);
+//#	else
+//#		if (1 == NUM_ACTIVE_STRIPS)
+//			xTaskNotify(g_led_strip_1_ctrl_handle, TASK_LED_CTRL_NOTIFICATION_VALUE_TIMER_ELAPSED, eSetValueWithoutOverwrite);
+//#		elif (2 == NUM_ACTIVE_STRIPS)
+//			xTaskNotify(g_led_strip_1_ctrl_handle, TASK_LED_CTRL_NOTIFICATION_VALUE_TIMER_ELAPSED, eSetValueWithoutOverwrite);
+//			xTaskNotify(g_led_strip_2_ctrl_handle, TASK_LED_CTRL_NOTIFICATION_VALUE_TIMER_ELAPSED, eSetValueWithoutOverwrite);
+//#		elif (3 == NUM_ACTIVE_STRIPS)
+//			xTaskNotify(g_led_strip_1_ctrl_handle, TASK_LED_CTRL_NOTIFICATION_VALUE_TIMER_ELAPSED, eSetValueWithoutOverwrite);
+//			xTaskNotify(g_led_strip_2_ctrl_handle, TASK_LED_CTRL_NOTIFICATION_VALUE_TIMER_ELAPSED, eSetValueWithoutOverwrite);
+//			xTaskNotify(g_led_strip_3_ctrl_handle, TASK_LED_CTRL_NOTIFICATION_VALUE_TIMER_ELAPSED, eSetValueWithoutOverwrite);
+//#		endif
+//#	endif
 }
 
 

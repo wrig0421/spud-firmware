@@ -64,6 +64,8 @@ common/lib/task/task_button_press.o: \
  ../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h \
  ../src/bsp/peripheral/gpio_access_hal.h \
  C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl.h \
+ ../sdk/FreeRTOS/Source/include/timers.h \
+ ../sdk/FreeRTOS/Source/include/task.h \
  C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/task/task_notify.h \
  C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_pause/led_ctrl_pause.h \
  ../sdk/FreeRTOS/Source/convenience/free_rtos_convenience.h \
@@ -140,6 +142,8 @@ C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/pe
 ../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h:
 ../src/bsp/peripheral/gpio_access_hal.h:
 C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl.h:
+../sdk/FreeRTOS/Source/include/timers.h:
+../sdk/FreeRTOS/Source/include/task.h:
 C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/task/task_notify.h:
 C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_pause/led_ctrl_pause.h:
 ../sdk/FreeRTOS/Source/convenience/free_rtos_convenience.h:

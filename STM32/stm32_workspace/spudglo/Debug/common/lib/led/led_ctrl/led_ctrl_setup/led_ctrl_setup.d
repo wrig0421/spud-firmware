@@ -6,6 +6,15 @@ common/lib/led/led_ctrl/led_ctrl_setup/led_ctrl_setup.o: \
  C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_speed/led_ctrl_speed.h \
  C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_setup/led_ctrl_setup.h \
  C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl.h \
+ ../sdk/FreeRTOS/Source/include/FreeRTOS.h ../src/app/FreeRTOSConfig.h \
+ ../sdk/FreeRTOS/Source/include/projdefs.h \
+ ../sdk/FreeRTOS/Source/include/portable.h \
+ ../sdk/FreeRTOS/Source/include/deprecated_definitions.h \
+ ../sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h \
+ ../sdk/FreeRTOS/Source/include/mpu_wrappers.h \
+ ../sdk/FreeRTOS/Source/include/timers.h \
+ ../sdk/FreeRTOS/Source/include/task.h \
+ ../sdk/FreeRTOS/Source/include/list.h \
  C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_color/led_ctrl_color.h \
  C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/led_color/led_color.h \
  C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/peripheral/button/button_access.h \
@@ -16,6 +25,16 @@ C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/le
 C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_speed/led_ctrl_speed.h:
 C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_setup/led_ctrl_setup.h:
 C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl.h:
+../sdk/FreeRTOS/Source/include/FreeRTOS.h:
+../src/app/FreeRTOSConfig.h:
+../sdk/FreeRTOS/Source/include/projdefs.h:
+../sdk/FreeRTOS/Source/include/portable.h:
+../sdk/FreeRTOS/Source/include/deprecated_definitions.h:
+../sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h:
+../sdk/FreeRTOS/Source/include/mpu_wrappers.h:
+../sdk/FreeRTOS/Source/include/timers.h:
+../sdk/FreeRTOS/Source/include/task.h:
+../sdk/FreeRTOS/Source/include/list.h:
 C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_color/led_ctrl_color.h:
 C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/led_color/led_color.h:
 C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/peripheral/button/button_access.h:

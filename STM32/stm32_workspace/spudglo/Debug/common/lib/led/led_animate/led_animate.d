@@ -2,6 +2,15 @@ common/lib/led/led_animate/led_animate.o: \
  C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/led_animate/led_animate.c \
  ../src/app/config.h ../src/lib/util/numbers.h \
  C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl.h \
+ ../sdk/FreeRTOS/Source/include/FreeRTOS.h ../src/app/FreeRTOSConfig.h \
+ ../sdk/FreeRTOS/Source/include/projdefs.h \
+ ../sdk/FreeRTOS/Source/include/portable.h \
+ ../sdk/FreeRTOS/Source/include/deprecated_definitions.h \
+ ../sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h \
+ ../sdk/FreeRTOS/Source/include/mpu_wrappers.h \
+ ../sdk/FreeRTOS/Source/include/timers.h \
+ ../sdk/FreeRTOS/Source/include/task.h \
+ ../sdk/FreeRTOS/Source/include/list.h \
  C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_state/led_ctrl_state.h \
  C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/ws2812b_driver/ws2812b.h \
  C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_speed/led_ctrl_speed.h \
@@ -53,17 +62,20 @@ common/lib/led/led_animate/led_animate.o: \
  C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/led_animate/led_animate.h \
  C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/task/task_notify.h \
  C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/task/task_button_press.h \
- ../src/app/FreeRTOSConfig.h ../sdk/FreeRTOS/Source/include/FreeRTOS.h \
- ../sdk/FreeRTOS/Source/include/projdefs.h \
- ../sdk/FreeRTOS/Source/include/portable.h \
- ../sdk/FreeRTOS/Source/include/deprecated_definitions.h \
- ../sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h \
- ../sdk/FreeRTOS/Source/include/mpu_wrappers.h \
- ../sdk/FreeRTOS/Source/include/task.h \
- ../sdk/FreeRTOS/Source/include/list.h
+ ../sdk/FreeRTOS/Source/include/task.h
 ../src/app/config.h:
 ../src/lib/util/numbers.h:
 C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl.h:
+../sdk/FreeRTOS/Source/include/FreeRTOS.h:
+../src/app/FreeRTOSConfig.h:
+../sdk/FreeRTOS/Source/include/projdefs.h:
+../sdk/FreeRTOS/Source/include/portable.h:
+../sdk/FreeRTOS/Source/include/deprecated_definitions.h:
+../sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h:
+../sdk/FreeRTOS/Source/include/mpu_wrappers.h:
+../sdk/FreeRTOS/Source/include/timers.h:
+../sdk/FreeRTOS/Source/include/task.h:
+../sdk/FreeRTOS/Source/include/list.h:
 C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_state/led_ctrl_state.h:
 C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/ws2812b_driver/ws2812b.h:
 C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_speed/led_ctrl_speed.h:
@@ -118,12 +130,4 @@ C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/le
 C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/led_animate/led_animate.h:
 C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/task/task_notify.h:
 C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/task/task_button_press.h:
-../src/app/FreeRTOSConfig.h:
-../sdk/FreeRTOS/Source/include/FreeRTOS.h:
-../sdk/FreeRTOS/Source/include/projdefs.h:
-../sdk/FreeRTOS/Source/include/portable.h:
-../sdk/FreeRTOS/Source/include/deprecated_definitions.h:
-../sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h:
-../sdk/FreeRTOS/Source/include/mpu_wrappers.h:
 ../sdk/FreeRTOS/Source/include/task.h:
-../sdk/FreeRTOS/Source/include/list.h:
