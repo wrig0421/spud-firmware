@@ -43,6 +43,9 @@ RM := rm -rf
 -include sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F/subdir.mk
 -include sdk/FreeRTOS/Source/convenience/subdir.mk
 -include sdk/FreeRTOS/Source/subdir.mk
+-include common/lib/timer/create/subdir.mk
+-include common/lib/timer/subdir.mk
+-include common/lib/task/create/subdir.mk
 -include common/lib/task/subdir.mk
 -include common/lib/sensor_third_party/wifi/subdir.mk
 -include common/lib/sensor_third_party/rv8803/subdir.mk

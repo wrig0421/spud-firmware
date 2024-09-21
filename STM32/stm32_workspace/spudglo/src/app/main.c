@@ -4,6 +4,7 @@
 #include "board_init_common.h"
 
 #include "ws2812b.h"
+#include "timer_create.h"
 #include "task_create.h"
 #include "led_animate.h"
 #include "flash_info.h"
@@ -16,6 +17,7 @@ int main(void)
 	board_init_common_board_init();
     //flash_info_init();
     task_create();
+    timer_create();
     semaphore_create();
 	//semaphore_create();
     //reset_ws2812b();

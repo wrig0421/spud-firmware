@@ -69,7 +69,7 @@ common/lib/task/task_button_press.o: \
  C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/task/task_notify.h \
  C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_pause/led_ctrl_pause.h \
  ../sdk/FreeRTOS/Source/convenience/free_rtos_convenience.h \
- ../src/app/task_create.h ../src/app/FreeRTOSConfig.h \
+ C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/task/create/task_create.h \
  ../src/bsp/stmicro/peripheral/button/button_config_hal_specific.h \
  ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/button/board_spudglo_v7_button_config.h
 ../src/app/main.h:
@@ -147,7 +147,6 @@ C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/le
 C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/task/task_notify.h:
 C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_pause/led_ctrl_pause.h:
 ../sdk/FreeRTOS/Source/convenience/free_rtos_convenience.h:
-../src/app/task_create.h:
-../src/app/FreeRTOSConfig.h:
+C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/task/create/task_create.h:
 ../src/bsp/stmicro/peripheral/button/button_config_hal_specific.h:
 ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/button/board_spudglo_v7_button_config.h:

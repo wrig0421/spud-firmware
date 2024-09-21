@@ -44,7 +44,10 @@ common/lib/semaphore \
 common/lib/sensor_third_party/adafruit_soundboard \
 common/lib/sensor_third_party/rv8803 \
 common/lib/sensor_third_party/wifi \
+common/lib/task/create \
 common/lib/task \
+common/lib/timer/create \
+common/lib/timer \
 sdk/FreeRTOS/Source/convenience \
 sdk/FreeRTOS/Source \
 sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F \
