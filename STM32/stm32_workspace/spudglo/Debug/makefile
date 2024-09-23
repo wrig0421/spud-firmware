@@ -30,6 +30,7 @@ RM := rm -rf
 -include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/peripheral/spi/subdir.mk
 -include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/peripheral/i2c/subdir.mk
 -include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/peripheral/gpio/subdir.mk
+-include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/peripheral/button/subdir.mk
 -include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/subdir.mk
 -include src/bsp/stmicro/stm32l4/bloat/subdir.mk
 -include src/bsp/stmicro/peripheral/uart/subdir.mk

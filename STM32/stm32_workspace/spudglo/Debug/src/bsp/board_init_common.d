@@ -63,6 +63,7 @@ src/bsp/board_init_common.o: ../src/bsp/board_init_common.c \
  ../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h \
  ../src/bsp/stmicro/peripheral/gpio/gpio_config_hal_specific.h \
  ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/gpio/board_spudglo_v7_gpio_config.h \
+ ../src/bsp/stmicro/peripheral/button/button_config_hal.h \
  ../src/bsp/stmicro/peripheral/button/button_config_hal_specific.h \
  ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/button/board_spudglo_v7_button_config.h \
  ../src/bsp/stmicro/peripheral/i2c/i2c_config_hal.h \
@@ -136,6 +137,7 @@ C:/Users/Spud/Documents/GitHub/spud-firmware/STM32/stm32_workspace/common/lib/pe
 ../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h:
 ../src/bsp/stmicro/peripheral/gpio/gpio_config_hal_specific.h:
 ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/gpio/board_spudglo_v7_gpio_config.h:
+../src/bsp/stmicro/peripheral/button/button_config_hal.h:
 ../src/bsp/stmicro/peripheral/button/button_config_hal_specific.h:
 ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/button/board_spudglo_v7_button_config.h:
 ../src/bsp/stmicro/peripheral/i2c/i2c_config_hal.h:

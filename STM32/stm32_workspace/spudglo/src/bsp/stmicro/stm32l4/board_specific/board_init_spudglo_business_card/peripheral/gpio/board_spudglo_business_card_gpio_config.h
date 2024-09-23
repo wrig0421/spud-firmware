@@ -4,10 +4,6 @@
 #define BOARD_SPUDGLO_BUSINESS_CARD_GPIO_CONFIG_H
 #include "gpio_config_hal.h"
 
-
-
-
-
 typedef enum
 {
 	// mapping of specific GPIO to the GPIO defined in gpio_config_hal.h

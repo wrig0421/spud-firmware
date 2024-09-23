@@ -453,7 +453,7 @@ void led_animate_srw_debug(void)
 void led_animate_solid_custom_color(const strip_mask_t mask, const led_color_hex_code_e color)
 {
     led_color_t led_color;
-	led_color_e led_color_dummy;
+	led_color_e led_color_dummy = LED_COLOR_NONE;
     led_color.color_hex = color; //led_color_to_hex_code(color);
 //    led_color_t led_color.color_hex = color;
 	if (led_animate_check_for_animation_exit_stimulus(mask, &led_color, &led_color_dummy)) return;
@@ -563,7 +563,7 @@ void led_animate_twinkle_random(const strip_mask_t mask, const uint16_t count,
                                 const uint16_t* p_delay_ms, const bool only_one)
 {
 	uint16_t delay_copy = (uint16_t)(*p_delay_ms);
-	led_color_e led_color_dummy;
+	led_color_e led_color_dummy = LED_COLOR_NONE;
 	led_color_t led_color;
 	led_color.color_hex = LED_COLOR_BLACK;
     led_animate_set_all_pixels(mask, &led_color);
@@ -590,7 +590,7 @@ void led_animate_sparkle_only_random_color(const strip_mask_t mask, const bool f
                                            const uint16_t* p_delay_ms)
 {
 	uint16_t delay_copy = (uint16_t)(*p_delay_ms);
-	led_color_e led_color_dummy;
+	led_color_e led_color_dummy = LED_COLOR_NONE;
 	led_color_t led_color;
 	float percent_to_fill = 0.7;
 	uint16_t strip_size = ws2812_led_get_max_strip_size(mask);
@@ -619,7 +619,7 @@ void led_animate_sparkle_random_color(const strip_mask_t mask, const bool fill,
                                       const uint16_t* p_delay_ms)
 {
 	uint16_t delay_copy = (uint16_t)(*p_delay_ms);
-	led_color_e led_color_dummy;
+	led_color_e led_color_dummy = LED_COLOR_NONE;
 	led_color_t led_color;
 	led_color.color_hex = random_num(0, UINT24_MAX);
 	if (led_animate_check_for_animation_exit_stimulus(mask, &led_color, &led_color_dummy)) return;
@@ -684,7 +684,7 @@ void led_animate_running_lights(const strip_mask_t mask, const led_color_e* p_co
 void led_animate_rainbow_cycle(const strip_mask_t mask, uint16_t* p_delay_ms)
 {
 	uint16_t delay_copy = (uint16_t)(*p_delay_ms);
-	led_color_e led_color_dummy;
+	led_color_e led_color_dummy = LED_COLOR_NONE;
 	led_color_t led_color;
 	led_color.color_hex = LED_COLOR_HEX_BLACK;
 	uint16_t strip_size = ws2812_led_get_max_strip_size(mask);
@@ -744,7 +744,7 @@ void led_animate_theater_chase(const strip_mask_t mask, const led_color_e* p_col
 void led_animate_theater_chase_rainbow(const strip_mask_t mask, uint16_t* p_delay_ms)
 {
 	uint16_t delay_copy = (uint16_t)(*p_delay_ms);
-	led_color_e led_color_dummy;
+	led_color_e led_color_dummy = LED_COLOR_NONE;
 	led_color_t led_color;
 	led_color.color_hex = LED_COLOR_HEX_BLACK;
 	uint16_t strip_size = ws2812_led_get_max_strip_size(mask);

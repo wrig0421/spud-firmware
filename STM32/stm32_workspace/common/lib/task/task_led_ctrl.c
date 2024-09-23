@@ -240,12 +240,15 @@ static void task_led_iterate(led_state_e led_state, const strip_mask_t mask)
 //			case LED_STATE_HEARTBEAT:
 //				led_animate_heart_beat(mask, p_led_color, p_led_state_inner_animation_delay_ms);
 //			break;
-			case LED_STATE_FIXED_ASSORTED_COLOR:
-				led_animate_fixed_assorted_color(mask);
-			break;
-			case LED_STATE_RANDOM_ASSORTED_COLOR:
-				led_animate_random_assorted_color(mask);
-			break;
+
+			// the two states below were enabled for the fall sign!!
+//			case LED_STATE_FIXED_ASSORTED_COLOR:
+//				led_animate_fixed_assorted_color(mask);
+//			break;
+//			case LED_STATE_RANDOM_ASSORTED_COLOR:
+//				led_animate_random_assorted_color(mask);
+//			break;
+
 			case LED_STATE_TWINKLE:
 				led_animate_turn_all_pixels_off();
 				led_animate_twinkle(mask, p_led_color, (uint32_t)((float)NUM_LEDS * (float)0.9), p_led_state_inner_animation_delay_ms, false);

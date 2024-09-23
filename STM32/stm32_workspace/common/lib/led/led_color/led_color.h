@@ -111,7 +111,8 @@ typedef enum
     LED_COLOR_BROWN,
 	LED_COLOR_TAN,
 	LED_COLOR_LAST             = LED_COLOR_BROWN,
-    NUM_COLORS
+    NUM_COLORS,
+	LED_COLOR_NONE
 } led_color_e;
 
 

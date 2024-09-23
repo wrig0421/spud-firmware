@@ -12,6 +12,7 @@
 #include "board_init_common.h"
 #include "gpio_config_hal.h"
 #include "gpio_config_hal_specific.h"
+#include "button_config_hal.h"
 #include "button_config_hal_specific.h"
 #include "i2c_config_hal.h"
 

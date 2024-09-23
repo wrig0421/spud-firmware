@@ -329,11 +329,12 @@ void task_button_press(void *argument)
 			{
 				if (BUTTON_A == btn)
 				{
-					if (button_active_time_ms > 2000)
-					{
-						gb_standard_a_button = true;
-						// trigger regulator speed update..
-					}
+					gb_standard_a_button = true; // hack to get by zabinski stuff...
+//					if (button_active_time_ms > 2000)
+//					{
+//						gb_standard_a_button = true;
+//						// trigger regulator speed update..
+//					}
 				}
 				// button pressed, signal minor interrupt
 				*pb_major_interrupt_flag = false;
