@@ -23,8 +23,20 @@ void led_animate_set_pixel(const strip_mask_t mask, const uint16_t pixel, led_co
 void led_animate_set_all_pixels(const strip_mask_t mask, led_color_t* led_color);
 void led_animate_set_all_pixels_hex_color(const strip_mask_t mask, const led_color_hex_code_e color);
 void led_animate_set_pixels_in_range(const strip_mask_t mask, uint16_t start, uint16_t stop, const led_color_hex_code_e color);
+void led_animate_set_pixels_in_range_uint32(const strip_mask_t mask, uint16_t start, uint16_t stop, uint32_t color_hex_code_val);
+void led_animate_set_pixels_in_range_and_show_uint32(const strip_mask_t mask, uint16_t start, uint16_t stop, uint32_t color_hex_code_val);
 void led_animate_turn_all_pixels_off(void);
 void led_animate_turn_all_pixels_off_in_strip(const strip_mask_t mask);
+void led_animate_force_exit_stimulus(void);
+void led_animate_clear_exit_stimulus(void);
+bool led_animate_exit_stimulus_flag(void);
+bool led_animate_check_for_animation_exit_stimulus(const strip_mask_t mask, led_color_t *p_led_color,
+												   const led_color_e* p_color);
+void led_animate_srw_debug(void);
+
+void led_animate_fixed_assorted_color(const strip_mask_t mask);
+void led_animate_random_assorted_color(const strip_mask_t mask);
+
 void led_animate_heart_beat(const strip_mask_t mask, const led_color_e* p_color,
 							uint16_t* p_delay_ms);
 void led_animate_starburst_zabinski(const strip_mask_t mask, const led_color_e* p_color,

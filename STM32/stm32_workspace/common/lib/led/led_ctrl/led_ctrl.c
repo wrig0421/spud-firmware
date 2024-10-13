@@ -14,14 +14,14 @@
 
 extern TimerHandle_t g_led_ctrl_timer_handle;
 
-//void led_ctrl_timer_start(void)
-//{
-//	xTimerStart(g_led_ctrl_timer_handle, LED_CTRL_MASTER_STATE_TIME_MS);
-//}
-//
-//
-//void timer_led_ctrl_callback(TimerHandle_t timer_handle)
-//{
+void led_ctrl_timer_start(void)
+{
+	xTimerStart(g_led_ctrl_timer_handle, LED_CTRL_MASTER_STATE_TIME_MS);
+}
+
+
+void timer_led_ctrl_callback(TimerHandle_t timer_handle)
+{
 //#	if defined(ENABLE_LED_STRIP_SYNC)
 //		xTaskNotify(g_led_strip_sync_ctrl_handle, TASK_LED_CTRL_NOTIFICATION_VALUE_TIMER_ELAPSED, eSetValueWithoutOverwrite);
 //#	else
@@ -36,7 +36,7 @@ extern TimerHandle_t g_led_ctrl_timer_handle;
 //			xTaskNotify(g_led_strip_3_ctrl_handle, TASK_LED_CTRL_NOTIFICATION_VALUE_TIMER_ELAPSED, eSetValueWithoutOverwrite);
 //#		endif
 //#	endif
-//}
+}
 
 
 
@@ -240,26 +240,26 @@ void led_ctrl_init(void)
 						led_animate_ctrl_time.dynamic_ms *= 2; // 2x instances of setting pixels
 						led_animate_ctrl_time.static_ms *= (256.0f + (256.0f / 2.0f));
 					break;
-					case LED_STATE_STARBURST_MODE_1:
-						led_animate_ctrl_time.dynamic_ms = LED_ANIMATE_DYNAMIC_TIME_MS *  num_10_led_chunks;
-						led_animate_ctrl_time.static_ms *= num_leds; // delay is PER LED not per 10 LEDs
-					break;
-					case LED_STATE_STARBURST_MODE_2:
-						led_animate_ctrl_time.dynamic_ms = LED_ANIMATE_DYNAMIC_TIME_MS *  num_10_led_chunks;
-						led_animate_ctrl_time.static_ms *= num_leds; // delay is PER LED not per 10 LEDs
-					break;
-					case LED_STATE_STARBURST_RANDOM_MODE_1:
-						led_animate_ctrl_time.dynamic_ms = LED_ANIMATE_DYNAMIC_TIME_MS *  num_10_led_chunks;
-						led_animate_ctrl_time.static_ms *= num_leds; // delay is PER LED not per 10 LEDs
-					break;
-					case LED_STATE_STARBURST_RANDOM_MODE_2:
-						led_animate_ctrl_time.dynamic_ms = LED_ANIMATE_DYNAMIC_TIME_MS *  num_10_led_chunks;
-						led_animate_ctrl_time.static_ms *= num_leds; // delay is PER LED not per 10 LEDs
-					break;
-					case LED_STATE_HEARTBEAT:
-						led_animate_ctrl_time.dynamic_ms = LED_ANIMATE_DYNAMIC_TIME_MS *  num_10_led_chunks;
-						led_animate_ctrl_time.static_ms *= num_leds; // delay is PER LED not per 10 LEDs
-					break;
+//					case LED_STATE_STARBURST_MODE_1:
+//						led_animate_ctrl_time.dynamic_ms = LED_ANIMATE_DYNAMIC_TIME_MS *  num_10_led_chunks;
+//						led_animate_ctrl_time.static_ms *= num_leds; // delay is PER LED not per 10 LEDs
+//					break;
+//					case LED_STATE_STARBURST_MODE_2:
+//						led_animate_ctrl_time.dynamic_ms = LED_ANIMATE_DYNAMIC_TIME_MS *  num_10_led_chunks;
+//						led_animate_ctrl_time.static_ms *= num_leds; // delay is PER LED not per 10 LEDs
+//					break;
+//					case LED_STATE_STARBURST_RANDOM_MODE_1:
+//						led_animate_ctrl_time.dynamic_ms = LED_ANIMATE_DYNAMIC_TIME_MS *  num_10_led_chunks;
+//						led_animate_ctrl_time.static_ms *= num_leds; // delay is PER LED not per 10 LEDs
+//					break;
+//					case LED_STATE_STARBURST_RANDOM_MODE_2:
+//						led_animate_ctrl_time.dynamic_ms = LED_ANIMATE_DYNAMIC_TIME_MS *  num_10_led_chunks;
+//						led_animate_ctrl_time.static_ms *= num_leds; // delay is PER LED not per 10 LEDs
+//					break;
+//					case LED_STATE_HEARTBEAT:
+//						led_animate_ctrl_time.dynamic_ms = LED_ANIMATE_DYNAMIC_TIME_MS *  num_10_led_chunks;
+//						led_animate_ctrl_time.static_ms *= num_leds; // delay is PER LED not per 10 LEDs
+//					break;
 					case LED_STATE_TWINKLE:
 						led_animate_ctrl_time.dynamic_ms = LED_ANIMATE_DYNAMIC_TIME_MS *  num_10_led_chunks;
 						led_animate_ctrl_time.static_ms *= 0.9f * num_leds;

@@ -3,7 +3,7 @@
 
 #if defined(BOARD_SPUDGLO_V6P0)
 #include "stm32l4xx_hal.h"
-
+#include "gpio_config_hal.h"
 #include "spi_config_hal.h"
 
 #define ESP8266_SCK			GPIO_PIN_1
