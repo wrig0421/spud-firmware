@@ -2191,7 +2191,7 @@ Discarded input sections
  .debug_macro   0x00000000      0xab4 ./common/lib/sensor_third_party/adafruit_soundboard/adafruit_soundboard.o
  .debug_macro   0x00000000       0x9a ./common/lib/sensor_third_party/adafruit_soundboard/adafruit_soundboard.o
  .debug_line    0x00000000       0xc7 ./common/lib/sensor_third_party/adafruit_soundboard/adafruit_soundboard.o
- .debug_str     0x00000000     0x3161 ./common/lib/sensor_third_party/adafruit_soundboard/adafruit_soundboard.o
+ .debug_str     0x00000000     0x3162 ./common/lib/sensor_third_party/adafruit_soundboard/adafruit_soundboard.o
  .comment       0x00000000       0x44 ./common/lib/sensor_third_party/adafruit_soundboard/adafruit_soundboard.o
  .ARM.attributes
                 0x00000000       0x34 ./common/lib/sensor_third_party/adafruit_soundboard/adafruit_soundboard.o
@@ -2354,7 +2354,7 @@ Discarded input sections
  .debug_macro   0x00000000       0x20 ./common/lib/sensor_third_party/wifi/esp8266.o
  .debug_macro   0x00000000       0x22 ./common/lib/sensor_third_party/wifi/esp8266.o
  .debug_line    0x00000000      0x556 ./common/lib/sensor_third_party/wifi/esp8266.o
- .debug_str     0x00000000     0x6a40 ./common/lib/sensor_third_party/wifi/esp8266.o
+ .debug_str     0x00000000     0x6a41 ./common/lib/sensor_third_party/wifi/esp8266.o
  .comment       0x00000000       0x44 ./common/lib/sensor_third_party/wifi/esp8266.o
  .ARM.attributes
                 0x00000000       0x34 ./common/lib/sensor_third_party/wifi/esp8266.o
@@ -2413,7 +2413,7 @@ Discarded input sections
  .debug_macro   0x00000000       0x20 ./common/lib/sensor_third_party/wifi/esp8266_webserver.o
  .debug_macro   0x00000000       0x22 ./common/lib/sensor_third_party/wifi/esp8266_webserver.o
  .debug_line    0x00000000      0x560 ./common/lib/sensor_third_party/wifi/esp8266_webserver.o
- .debug_str     0x00000000     0x6a4a ./common/lib/sensor_third_party/wifi/esp8266_webserver.o
+ .debug_str     0x00000000     0x6a4b ./common/lib/sensor_third_party/wifi/esp8266_webserver.o
  .comment       0x00000000       0x44 ./common/lib/sensor_third_party/wifi/esp8266_webserver.o
  .ARM.attributes
                 0x00000000       0x34 ./common/lib/sensor_third_party/wifi/esp8266_webserver.o
@@ -3089,7 +3089,7 @@ Discarded input sections
  .debug_macro   0x00000000       0x9a ./common/lib/task/task_pkt_process.o
  .debug_macro   0x00000000       0x58 ./common/lib/task/task_pkt_process.o
  .debug_line    0x00000000      0xe27 ./common/lib/task/task_pkt_process.o
- .debug_str     0x00000000    0xe3228 ./common/lib/task/task_pkt_process.o
+ .debug_str     0x00000000    0xe3229 ./common/lib/task/task_pkt_process.o
  .comment       0x00000000       0x44 ./common/lib/task/task_pkt_process.o
  .debug_frame   0x00000000       0x30 ./common/lib/task/task_pkt_process.o
  .ARM.attributes
@@ -3243,7 +3243,7 @@ Discarded input sections
  .debug_macro   0x00000000       0x9a ./common/lib/task/task_uart.o
  .debug_macro   0x00000000       0x58 ./common/lib/task/task_uart.o
  .debug_line    0x00000000      0xe0e ./common/lib/task/task_uart.o
- .debug_str     0x00000000    0xe323e ./common/lib/task/task_uart.o
+ .debug_str     0x00000000    0xe323f ./common/lib/task/task_uart.o
  .comment       0x00000000       0x44 ./common/lib/task/task_uart.o
  .debug_frame   0x00000000       0x50 ./common/lib/task/task_uart.o
  .ARM.attributes
@@ -8551,7 +8551,7 @@ Discarded input sections
  .debug_macro   0x00000000       0xc3 ./src/app/timer_create.o
  .debug_macro   0x00000000      0x14f ./src/app/timer_create.o
  .debug_line    0x00000000      0x601 ./src/app/timer_create.o
- .debug_str     0x00000000    0x11d87 ./src/app/timer_create.o
+ .debug_str     0x00000000    0x11d88 ./src/app/timer_create.o
  .comment       0x00000000       0x44 ./src/app/timer_create.o
  .ARM.attributes
                 0x00000000       0x34 ./src/app/timer_create.o
@@ -8920,7 +8920,7 @@ Discarded input sections
  .debug_macro   0x00000000      0x118 ./src/bsp/flash_access.o
  .debug_macro   0x00000000       0x40 ./src/bsp/flash_access.o
  .debug_line    0x00000000     0x10f8 ./src/bsp/flash_access.o
- .debug_str     0x00000000    0xe3d64 ./src/bsp/flash_access.o
+ .debug_str     0x00000000    0xe3d65 ./src/bsp/flash_access.o
  .comment       0x00000000       0x44 ./src/bsp/flash_access.o
  .debug_frame   0x00000000      0x158 ./src/bsp/flash_access.o
  .ARM.attributes
@@ -9144,7 +9144,7 @@ Discarded input sections
  .debug_macro   0x00000000       0x40 ./src/bsp/flash_info.o
  .debug_macro   0x00000000       0x10 ./src/bsp/flash_info.o
  .debug_line    0x00000000     0x1a59 ./src/bsp/flash_info.o
- .debug_str     0x00000000    0xe5c8e ./src/bsp/flash_info.o
+ .debug_str     0x00000000    0xe5c8f ./src/bsp/flash_info.o
  .comment       0x00000000       0x44 ./src/bsp/flash_info.o
  .debug_frame   0x00000000      0x224 ./src/bsp/flash_info.o
  .ARM.attributes
@@ -10392,7 +10392,7 @@ Discarded input sections
  .debug_macro   0x00000000       0x22 ./src/bsp/stmicro/peripheral/uart/uart_config_hal.o
  .debug_macro   0x00000000       0x9a ./src/bsp/stmicro/peripheral/uart/uart_config_hal.o
  .debug_line    0x00000000      0xaac ./src/bsp/stmicro/peripheral/uart/uart_config_hal.o
- .debug_str     0x00000000    0xdfceb ./src/bsp/stmicro/peripheral/uart/uart_config_hal.o
+ .debug_str     0x00000000    0xdfcec ./src/bsp/stmicro/peripheral/uart/uart_config_hal.o
  .comment       0x00000000       0x44 ./src/bsp/stmicro/peripheral/uart/uart_config_hal.o
  .debug_frame   0x00000000       0x58 ./src/bsp/stmicro/peripheral/uart/uart_config_hal.o
  .ARM.attributes
@@ -10928,7 +10928,7 @@ Discarded input sections
  .debug_macro   0x00000000      0xab4 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/board_init_spudglo_business_card.o
  .debug_macro   0x00000000       0x9a ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/board_init_spudglo_business_card.o
  .debug_line    0x00000000       0xa5 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/board_init_spudglo_business_card.o
- .debug_str     0x00000000     0x313f ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/board_init_spudglo_business_card.o
+ .debug_str     0x00000000     0x3140 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/board_init_spudglo_business_card.o
  .comment       0x00000000       0x44 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/board_init_spudglo_business_card.o
  .ARM.attributes
                 0x00000000       0x34 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/board_init_spudglo_business_card.o
@@ -10945,7 +10945,7 @@ Discarded input sections
  .debug_macro   0x00000000      0xab4 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/peripheral/gpio/board_spudglo_business_card_gpio_config.o
  .debug_macro   0x00000000       0x9a ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/peripheral/gpio/board_spudglo_business_card_gpio_config.o
  .debug_line    0x00000000       0xbc ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/peripheral/gpio/board_spudglo_business_card_gpio_config.o
- .debug_str     0x00000000     0x3156 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/peripheral/gpio/board_spudglo_business_card_gpio_config.o
+ .debug_str     0x00000000     0x3157 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/peripheral/gpio/board_spudglo_business_card_gpio_config.o
  .comment       0x00000000       0x44 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/peripheral/gpio/board_spudglo_business_card_gpio_config.o
  .ARM.attributes
                 0x00000000       0x34 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/peripheral/gpio/board_spudglo_business_card_gpio_config.o
@@ -10962,7 +10962,7 @@ Discarded input sections
  .debug_macro   0x00000000      0xab4 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/peripheral/i2c/board_spudglo_business_card_i2c_config.o
  .debug_macro   0x00000000       0x9a ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/peripheral/i2c/board_spudglo_business_card_i2c_config.o
  .debug_line    0x00000000       0xba ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/peripheral/i2c/board_spudglo_business_card_i2c_config.o
- .debug_str     0x00000000     0x3154 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/peripheral/i2c/board_spudglo_business_card_i2c_config.o
+ .debug_str     0x00000000     0x3155 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/peripheral/i2c/board_spudglo_business_card_i2c_config.o
  .comment       0x00000000       0x44 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/peripheral/i2c/board_spudglo_business_card_i2c_config.o
  .ARM.attributes
                 0x00000000       0x34 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/peripheral/i2c/board_spudglo_business_card_i2c_config.o
@@ -10979,7 +10979,7 @@ Discarded input sections
  .debug_macro   0x00000000      0xab4 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/peripheral/spi/board_spudglo_business_card_spi_config.o
  .debug_macro   0x00000000       0x9a ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/peripheral/spi/board_spudglo_business_card_spi_config.o
  .debug_line    0x00000000       0xba ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/peripheral/spi/board_spudglo_business_card_spi_config.o
- .debug_str     0x00000000     0x3154 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/peripheral/spi/board_spudglo_business_card_spi_config.o
+ .debug_str     0x00000000     0x3155 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/peripheral/spi/board_spudglo_business_card_spi_config.o
  .comment       0x00000000       0x44 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/peripheral/spi/board_spudglo_business_card_spi_config.o
  .ARM.attributes
                 0x00000000       0x34 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/peripheral/spi/board_spudglo_business_card_spi_config.o
@@ -10996,7 +10996,7 @@ Discarded input sections
  .debug_macro   0x00000000      0xab4 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/peripheral/uart/board_spudglo_business_card_uart_config.o
  .debug_macro   0x00000000       0x9a ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/peripheral/uart/board_spudglo_business_card_uart_config.o
  .debug_line    0x00000000       0xbc ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/peripheral/uart/board_spudglo_business_card_uart_config.o
- .debug_str     0x00000000     0x3156 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/peripheral/uart/board_spudglo_business_card_uart_config.o
+ .debug_str     0x00000000     0x3157 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/peripheral/uart/board_spudglo_business_card_uart_config.o
  .comment       0x00000000       0x44 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/peripheral/uart/board_spudglo_business_card_uart_config.o
  .ARM.attributes
                 0x00000000       0x34 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/peripheral/uart/board_spudglo_business_card_uart_config.o
@@ -11105,7 +11105,7 @@ Discarded input sections
  .debug_macro   0x00000000       0x9a ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v3/board_init_spudglo_v3.o
  .debug_macro   0x00000000       0x22 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v3/board_init_spudglo_v3.o
  .debug_line    0x00000000      0x8ca ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v3/board_init_spudglo_v3.o
- .debug_str     0x00000000    0xdeea6 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v3/board_init_spudglo_v3.o
+ .debug_str     0x00000000    0xdeea7 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v3/board_init_spudglo_v3.o
  .comment       0x00000000       0x44 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v3/board_init_spudglo_v3.o
  .ARM.attributes
                 0x00000000       0x34 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v3/board_init_spudglo_v3.o
@@ -11122,7 +11122,7 @@ Discarded input sections
  .debug_macro   0x00000000      0xab4 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/board_init_spudglo_v5.o
  .debug_macro   0x00000000       0x9a ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/board_init_spudglo_v5.o
  .debug_line    0x00000000       0x8f ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/board_init_spudglo_v5.o
- .debug_str     0x00000000     0x3129 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/board_init_spudglo_v5.o
+ .debug_str     0x00000000     0x312a ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/board_init_spudglo_v5.o
  .comment       0x00000000       0x44 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/board_init_spudglo_v5.o
  .ARM.attributes
                 0x00000000       0x34 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/board_init_spudglo_v5.o
@@ -11139,7 +11139,7 @@ Discarded input sections
  .debug_macro   0x00000000      0xab4 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/peripheral/gpio/board_spudglo_v5_gpio_config.o
  .debug_macro   0x00000000       0x9a ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/peripheral/gpio/board_spudglo_v5_gpio_config.o
  .debug_line    0x00000000       0xa6 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/peripheral/gpio/board_spudglo_v5_gpio_config.o
- .debug_str     0x00000000     0x3140 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/peripheral/gpio/board_spudglo_v5_gpio_config.o
+ .debug_str     0x00000000     0x3141 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/peripheral/gpio/board_spudglo_v5_gpio_config.o
  .comment       0x00000000       0x44 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/peripheral/gpio/board_spudglo_v5_gpio_config.o
  .ARM.attributes
                 0x00000000       0x34 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/peripheral/gpio/board_spudglo_v5_gpio_config.o
@@ -11156,7 +11156,7 @@ Discarded input sections
  .debug_macro   0x00000000      0xab4 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/peripheral/spi/board_spudglo_v5_spi_config.o
  .debug_macro   0x00000000       0x9a ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/peripheral/spi/board_spudglo_v5_spi_config.o
  .debug_line    0x00000000       0xa4 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/peripheral/spi/board_spudglo_v5_spi_config.o
- .debug_str     0x00000000     0x313e ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/peripheral/spi/board_spudglo_v5_spi_config.o
+ .debug_str     0x00000000     0x313f ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/peripheral/spi/board_spudglo_v5_spi_config.o
  .comment       0x00000000       0x44 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/peripheral/spi/board_spudglo_v5_spi_config.o
  .ARM.attributes
                 0x00000000       0x34 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/peripheral/spi/board_spudglo_v5_spi_config.o
@@ -11173,7 +11173,7 @@ Discarded input sections
  .debug_macro   0x00000000      0xab4 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/peripheral/uart/board_spudglo_v5_uart_config.o
  .debug_macro   0x00000000       0x9a ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/peripheral/uart/board_spudglo_v5_uart_config.o
  .debug_line    0x00000000       0xa6 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/peripheral/uart/board_spudglo_v5_uart_config.o
- .debug_str     0x00000000     0x3140 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/peripheral/uart/board_spudglo_v5_uart_config.o
+ .debug_str     0x00000000     0x3141 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/peripheral/uart/board_spudglo_v5_uart_config.o
  .comment       0x00000000       0x44 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/peripheral/uart/board_spudglo_v5_uart_config.o
  .ARM.attributes
                 0x00000000       0x34 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/peripheral/uart/board_spudglo_v5_uart_config.o
@@ -11190,7 +11190,7 @@ Discarded input sections
  .debug_macro   0x00000000      0xab4 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/board_init_spudglo_v6.o
  .debug_macro   0x00000000       0x9a ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/board_init_spudglo_v6.o
  .debug_line    0x00000000       0x8f ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/board_init_spudglo_v6.o
- .debug_str     0x00000000     0x3129 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/board_init_spudglo_v6.o
+ .debug_str     0x00000000     0x312a ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/board_init_spudglo_v6.o
  .comment       0x00000000       0x44 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/board_init_spudglo_v6.o
  .ARM.attributes
                 0x00000000       0x34 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/board_init_spudglo_v6.o
@@ -11207,7 +11207,7 @@ Discarded input sections
  .debug_macro   0x00000000      0xab4 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/gpio/board_spudglo_v6_gpio_config.o
  .debug_macro   0x00000000       0x9a ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/gpio/board_spudglo_v6_gpio_config.o
  .debug_line    0x00000000       0xa6 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/gpio/board_spudglo_v6_gpio_config.o
- .debug_str     0x00000000     0x3140 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/gpio/board_spudglo_v6_gpio_config.o
+ .debug_str     0x00000000     0x3141 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/gpio/board_spudglo_v6_gpio_config.o
  .comment       0x00000000       0x44 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/gpio/board_spudglo_v6_gpio_config.o
  .ARM.attributes
                 0x00000000       0x34 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/gpio/board_spudglo_v6_gpio_config.o
@@ -11224,7 +11224,7 @@ Discarded input sections
  .debug_macro   0x00000000      0xab4 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/spi/board_spudglo_v6_spi_config.o
  .debug_macro   0x00000000       0x9a ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/spi/board_spudglo_v6_spi_config.o
  .debug_line    0x00000000       0xa4 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/spi/board_spudglo_v6_spi_config.o
- .debug_str     0x00000000     0x313e ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/spi/board_spudglo_v6_spi_config.o
+ .debug_str     0x00000000     0x313f ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/spi/board_spudglo_v6_spi_config.o
  .comment       0x00000000       0x44 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/spi/board_spudglo_v6_spi_config.o
  .ARM.attributes
                 0x00000000       0x34 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/spi/board_spudglo_v6_spi_config.o
@@ -11241,7 +11241,7 @@ Discarded input sections
  .debug_macro   0x00000000      0xab4 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/uart/board_spudglo_v6_uart_config.o
  .debug_macro   0x00000000       0x9a ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/uart/board_spudglo_v6_uart_config.o
  .debug_line    0x00000000       0xa6 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/uart/board_spudglo_v6_uart_config.o
- .debug_str     0x00000000     0x3140 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/uart/board_spudglo_v6_uart_config.o
+ .debug_str     0x00000000     0x3141 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/uart/board_spudglo_v6_uart_config.o
  .comment       0x00000000       0x44 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/uart/board_spudglo_v6_uart_config.o
  .ARM.attributes
                 0x00000000       0x34 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/uart/board_spudglo_v6_uart_config.o
@@ -11372,7 +11372,7 @@ Discarded input sections
  .debug_macro   0x00000000       0x22 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/board_init_spudglo_v7.o
  .debug_macro   0x00000000       0x34 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/board_init_spudglo_v7.o
  .debug_line    0x00000000      0xbed ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/board_init_spudglo_v7.o
- .debug_str     0x00000000    0xdf814 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/board_init_spudglo_v7.o
+ .debug_str     0x00000000    0xdf815 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/board_init_spudglo_v7.o
  .comment       0x00000000       0x44 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/board_init_spudglo_v7.o
  .debug_frame   0x00000000      0x10c ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/board_init_spudglo_v7.o
  .ARM.attributes
@@ -11803,7 +11803,7 @@ Discarded input sections
  .debug_macro   0x00000000      0x26d ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/spi/board_spudglo_v7_spi_config.o
  .debug_macro   0x00000000       0x34 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/spi/board_spudglo_v7_spi_config.o
  .debug_line    0x00000000      0x959 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/spi/board_spudglo_v7_spi_config.o
- .debug_str     0x00000000    0xdfe4a ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/spi/board_spudglo_v7_spi_config.o
+ .debug_str     0x00000000    0xdfe4b ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/spi/board_spudglo_v7_spi_config.o
  .comment       0x00000000       0x44 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/spi/board_spudglo_v7_spi_config.o
  .ARM.attributes
                 0x00000000       0x34 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/spi/board_spudglo_v7_spi_config.o
@@ -11928,7 +11928,7 @@ Discarded input sections
  .debug_macro   0x00000000      0x26d ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/uart/board_spudglo_v7_uart_config.o
  .debug_macro   0x00000000       0x22 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/uart/board_spudglo_v7_uart_config.o
  .debug_line    0x00000000      0x8d8 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/uart/board_spudglo_v7_uart_config.o
- .debug_str     0x00000000    0xdf9b0 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/uart/board_spudglo_v7_uart_config.o
+ .debug_str     0x00000000    0xdf9b1 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/uart/board_spudglo_v7_uart_config.o
  .comment       0x00000000       0x44 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/uart/board_spudglo_v7_uart_config.o
  .debug_frame   0x00000000       0x30 ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/uart/board_spudglo_v7_uart_config.o
  .ARM.attributes
@@ -13694,7 +13694,7 @@ LOAD /Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.id
  .igot.plt      0x20000410        0x0 /Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.macos64_1.0.200.202406191456/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/crtbegin.o
                 0x20000410                        . = ALIGN (0x4)
 
-.bss            0x20000410     0x1ad0 load address 0x0800d008
+.bss            0x20000410     0x2f60 load address 0x0800d008
                 0x20000410                        _sbss = .
                 0x20000410                        __bss_start__ = _sbss
  *(.bss)
@@ -13745,209 +13745,208 @@ LOAD /Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.id
                 0x200008bc        0x4 ./common/lib/led/ws2812b_driver/ws2812b.o
                 0x200008bc                gp_pwm_data_strip_3
  .bss.g_led_strip_1
-                0x200008c0       0x4b ./common/lib/led/ws2812b_driver/ws2812b.o
+                0x200008c0      0x294 ./common/lib/led/ws2812b_driver/ws2812b.o
                 0x200008c0                g_led_strip_1
- *fill*         0x2000090b        0x1 
  .bss.g_led_strip_2
-                0x2000090c        0x0 ./common/lib/led/ws2812b_driver/ws2812b.o
-                0x2000090c                g_led_strip_2
+                0x20000b54        0x0 ./common/lib/led/ws2812b_driver/ws2812b.o
+                0x20000b54                g_led_strip_2
  .bss.g_led_strip_3
-                0x2000090c        0x0 ./common/lib/led/ws2812b_driver/ws2812b.o
-                0x2000090c                g_led_strip_3
- .bss.yyy       0x2000090c        0x2 ./common/lib/led/ws2812b_driver/ws2812b.o
-                0x2000090c                yyy
- .bss.iii       0x2000090e        0x2 ./common/lib/led/ws2812b_driver/ws2812b.o
-                0x2000090e                iii
+                0x20000b54        0x0 ./common/lib/led/ws2812b_driver/ws2812b.o
+                0x20000b54                g_led_strip_3
+ .bss.yyy       0x20000b54        0x2 ./common/lib/led/ws2812b_driver/ws2812b.o
+                0x20000b54                yyy
+ .bss.iii       0x20000b56        0x2 ./common/lib/led/ws2812b_driver/ws2812b.o
+                0x20000b56                iii
  .bss.g_pwm_data_strip_1
-                0x20000910      0x292 ./common/lib/led/ws2812b_driver/ws2812b.o
-                0x20000910                g_pwm_data_strip_1
- *fill*         0x20000ba2        0x2 
+                0x20000b58     0x14da ./common/lib/led/ws2812b_driver/ws2812b.o
+                0x20000b58                g_pwm_data_strip_1
+ *fill*         0x20002032        0x2 
  .bss.g_pwm_data_strip_2
-                0x20000ba4       0x3a ./common/lib/led/ws2812b_driver/ws2812b.o
-                0x20000ba4                g_pwm_data_strip_2
- *fill*         0x20000bde        0x2 
+                0x20002034       0x3a ./common/lib/led/ws2812b_driver/ws2812b.o
+                0x20002034                g_pwm_data_strip_2
+ *fill*         0x2000206e        0x2 
  .bss.g_pwm_data_strip_3
-                0x20000be0       0x3a ./common/lib/led/ws2812b_driver/ws2812b.o
-                0x20000be0                g_pwm_data_strip_3
- *fill*         0x20000c1a        0x2 
+                0x20002070       0x3a ./common/lib/led/ws2812b_driver/ws2812b.o
+                0x20002070                g_pwm_data_strip_3
+ *fill*         0x200020aa        0x2 
  .bss.g_dma_transfer_semaphore
-                0x20000c1c        0x4 ./common/lib/semaphore/semaphore_access.o
-                0x20000c1c                g_dma_transfer_semaphore
+                0x200020ac        0x4 ./common/lib/semaphore/semaphore_access.o
+                0x200020ac                g_dma_transfer_semaphore
  .bss.g_dma_transfer_semaphore_buffer
-                0x20000c20       0x48 ./common/lib/semaphore/semaphore_access.o
-                0x20000c20                g_dma_transfer_semaphore_buffer
+                0x200020b0       0x48 ./common/lib/semaphore/semaphore_access.o
+                0x200020b0                g_dma_transfer_semaphore_buffer
  .bss.g_button_press_timestamp
-                0x20000c68       0x20 ./common/lib/task/task_button_press.o
-                0x20000c68                g_button_press_timestamp
+                0x200020f8       0x20 ./common/lib/task/task_button_press.o
+                0x200020f8                g_button_press_timestamp
  .bss.g_task_button_press_button_count
-                0x20000c88       0x10 ./common/lib/task/task_button_press.o
-                0x20000c88                g_task_button_press_button_count
+                0x20002118       0x10 ./common/lib/task/task_button_press.o
+                0x20002118                g_task_button_press_button_count
  .bss.g_starburst_animation
-                0x20000c98        0x1 ./common/lib/task/task_button_press.o
-                0x20000c98                g_starburst_animation
+                0x20002128        0x1 ./common/lib/task/task_button_press.o
+                0x20002128                g_starburst_animation
  .bss.gb_standard_a_button
-                0x20000c99        0x1 ./common/lib/task/task_button_press.o
-                0x20000c99                gb_standard_a_button
+                0x20002129        0x1 ./common/lib/task/task_button_press.o
+                0x20002129                gb_standard_a_button
  .bss.g_skip_adjust_parameters
-                0x20000c9a        0x1 ./common/lib/task/task_led_ctrl.o
-                0x20000c9a                g_skip_adjust_parameters
- *fill*         0x20000c9b        0x1 
+                0x2000212a        0x1 ./common/lib/task/task_led_ctrl.o
+                0x2000212a                g_skip_adjust_parameters
+ *fill*         0x2000212b        0x1 
  .bss.g_task_notification_value
-                0x20000c9c        0x4 ./common/lib/task/task_notify.o
-                0x20000c9c                g_task_notification_value
+                0x2000212c        0x4 ./common/lib/task/task_notify.o
+                0x2000212c                g_task_notification_value
  .bss.xQueueRegistry
-                0x20000ca0       0x40 ./sdk/FreeRTOS/Source/queue.o
-                0x20000ca0                xQueueRegistry
+                0x20002130       0x40 ./sdk/FreeRTOS/Source/queue.o
+                0x20002130                xQueueRegistry
  .bss.pxCurrentTCB
-                0x20000ce0        0x4 ./sdk/FreeRTOS/Source/tasks.o
-                0x20000ce0                pxCurrentTCB
+                0x20002170        0x4 ./sdk/FreeRTOS/Source/tasks.o
+                0x20002170                pxCurrentTCB
  .bss.pxReadyTasksLists
-                0x20000ce4       0x64 ./sdk/FreeRTOS/Source/tasks.o
+                0x20002174       0x64 ./sdk/FreeRTOS/Source/tasks.o
  .bss.xDelayedTaskList1
-                0x20000d48       0x14 ./sdk/FreeRTOS/Source/tasks.o
+                0x200021d8       0x14 ./sdk/FreeRTOS/Source/tasks.o
  .bss.xDelayedTaskList2
-                0x20000d5c       0x14 ./sdk/FreeRTOS/Source/tasks.o
+                0x200021ec       0x14 ./sdk/FreeRTOS/Source/tasks.o
  .bss.pxDelayedTaskList
-                0x20000d70        0x4 ./sdk/FreeRTOS/Source/tasks.o
+                0x20002200        0x4 ./sdk/FreeRTOS/Source/tasks.o
  .bss.pxOverflowDelayedTaskList
-                0x20000d74        0x4 ./sdk/FreeRTOS/Source/tasks.o
+                0x20002204        0x4 ./sdk/FreeRTOS/Source/tasks.o
  .bss.xPendingReadyList
-                0x20000d78       0x14 ./sdk/FreeRTOS/Source/tasks.o
+                0x20002208       0x14 ./sdk/FreeRTOS/Source/tasks.o
  .bss.xTasksWaitingTermination
-                0x20000d8c       0x14 ./sdk/FreeRTOS/Source/tasks.o
+                0x2000221c       0x14 ./sdk/FreeRTOS/Source/tasks.o
  .bss.uxDeletedTasksWaitingCleanUp
-                0x20000da0        0x4 ./sdk/FreeRTOS/Source/tasks.o
+                0x20002230        0x4 ./sdk/FreeRTOS/Source/tasks.o
  .bss.xSuspendedTaskList
-                0x20000da4       0x14 ./sdk/FreeRTOS/Source/tasks.o
+                0x20002234       0x14 ./sdk/FreeRTOS/Source/tasks.o
  .bss.uxCurrentNumberOfTasks
-                0x20000db8        0x4 ./sdk/FreeRTOS/Source/tasks.o
+                0x20002248        0x4 ./sdk/FreeRTOS/Source/tasks.o
  .bss.xTickCount
-                0x20000dbc        0x4 ./sdk/FreeRTOS/Source/tasks.o
+                0x2000224c        0x4 ./sdk/FreeRTOS/Source/tasks.o
  .bss.uxTopReadyPriority
-                0x20000dc0        0x4 ./sdk/FreeRTOS/Source/tasks.o
+                0x20002250        0x4 ./sdk/FreeRTOS/Source/tasks.o
  .bss.xSchedulerRunning
-                0x20000dc4        0x4 ./sdk/FreeRTOS/Source/tasks.o
+                0x20002254        0x4 ./sdk/FreeRTOS/Source/tasks.o
  .bss.xPendedTicks
-                0x20000dc8        0x4 ./sdk/FreeRTOS/Source/tasks.o
+                0x20002258        0x4 ./sdk/FreeRTOS/Source/tasks.o
  .bss.xYieldPendings
-                0x20000dcc        0x4 ./sdk/FreeRTOS/Source/tasks.o
+                0x2000225c        0x4 ./sdk/FreeRTOS/Source/tasks.o
  .bss.xNumOfOverflows
-                0x20000dd0        0x4 ./sdk/FreeRTOS/Source/tasks.o
+                0x20002260        0x4 ./sdk/FreeRTOS/Source/tasks.o
  .bss.uxTaskNumber
-                0x20000dd4        0x4 ./sdk/FreeRTOS/Source/tasks.o
+                0x20002264        0x4 ./sdk/FreeRTOS/Source/tasks.o
  .bss.xNextTaskUnblockTime
-                0x20000dd8        0x4 ./sdk/FreeRTOS/Source/tasks.o
+                0x20002268        0x4 ./sdk/FreeRTOS/Source/tasks.o
  .bss.xIdleTaskHandles
-                0x20000ddc        0x4 ./sdk/FreeRTOS/Source/tasks.o
+                0x2000226c        0x4 ./sdk/FreeRTOS/Source/tasks.o
  .bss.uxSchedulerSuspended
-                0x20000de0        0x4 ./sdk/FreeRTOS/Source/tasks.o
+                0x20002270        0x4 ./sdk/FreeRTOS/Source/tasks.o
  .bss.xIdleTaskTCB.3
-                0x20000de4       0x54 ./sdk/FreeRTOS/Source/tasks.o
+                0x20002274       0x54 ./sdk/FreeRTOS/Source/tasks.o
  .bss.uxIdleTaskStack.2
-                0x20000e38      0x200 ./sdk/FreeRTOS/Source/tasks.o
+                0x200022c8      0x200 ./sdk/FreeRTOS/Source/tasks.o
  .bss.xTimerTaskTCB.1
-                0x20001038       0x54 ./sdk/FreeRTOS/Source/tasks.o
+                0x200024c8       0x54 ./sdk/FreeRTOS/Source/tasks.o
  .bss.uxTimerTaskStack.0
-                0x2000108c      0x200 ./sdk/FreeRTOS/Source/tasks.o
+                0x2000251c      0x200 ./sdk/FreeRTOS/Source/tasks.o
  .bss.xActiveTimerList1
-                0x2000128c       0x14 ./sdk/FreeRTOS/Source/timers.o
+                0x2000271c       0x14 ./sdk/FreeRTOS/Source/timers.o
  .bss.xActiveTimerList2
-                0x200012a0       0x14 ./sdk/FreeRTOS/Source/timers.o
+                0x20002730       0x14 ./sdk/FreeRTOS/Source/timers.o
  .bss.pxCurrentTimerList
-                0x200012b4        0x4 ./sdk/FreeRTOS/Source/timers.o
+                0x20002744        0x4 ./sdk/FreeRTOS/Source/timers.o
  .bss.pxOverflowTimerList
-                0x200012b8        0x4 ./sdk/FreeRTOS/Source/timers.o
+                0x20002748        0x4 ./sdk/FreeRTOS/Source/timers.o
  .bss.xTimerQueue
-                0x200012bc        0x4 ./sdk/FreeRTOS/Source/timers.o
+                0x2000274c        0x4 ./sdk/FreeRTOS/Source/timers.o
  .bss.xTimerTaskHandle
-                0x200012c0        0x4 ./sdk/FreeRTOS/Source/timers.o
+                0x20002750        0x4 ./sdk/FreeRTOS/Source/timers.o
  .bss.xLastTime.2
-                0x200012c4        0x4 ./sdk/FreeRTOS/Source/timers.o
+                0x20002754        0x4 ./sdk/FreeRTOS/Source/timers.o
  .bss.ucStaticTimerQueueStorage.1
-                0x200012c8       0x78 ./sdk/FreeRTOS/Source/timers.o
+                0x20002758       0x78 ./sdk/FreeRTOS/Source/timers.o
  .bss.xStaticTimerQueue.0
-                0x20001340       0x48 ./sdk/FreeRTOS/Source/timers.o
+                0x200027d0       0x48 ./sdk/FreeRTOS/Source/timers.o
  .bss.ucMaxSysCallPriority
-                0x20001388        0x1 ./sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.o
- *fill*         0x20001389        0x3 
+                0x20002818        0x1 ./sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.o
+ *fill*         0x20002819        0x3 
  .bss.ulMaxPRIGROUPValue
-                0x2000138c        0x4 ./sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.o
- .bss.uwTick    0x20001390        0x4 ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal.o
-                0x20001390                uwTick
+                0x2000281c        0x4 ./sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.o
+ .bss.uwTick    0x20002820        0x4 ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal.o
+                0x20002820                uwTick
  .bss.g_led_strip_1_ctrl_handle
-                0x20001394        0x4 ./src/app/task_create.o
-                0x20001394                g_led_strip_1_ctrl_handle
+                0x20002824        0x4 ./src/app/task_create.o
+                0x20002824                g_led_strip_1_ctrl_handle
  .bss.g_button_press_handle
-                0x20001398        0x4 ./src/app/task_create.o
-                0x20001398                g_button_press_handle
+                0x20002828        0x4 ./src/app/task_create.o
+                0x20002828                g_button_press_handle
  .bss.g_task_led_strip_1_buffer
-                0x2000139c       0x54 ./src/app/task_create.o
-                0x2000139c                g_task_led_strip_1_buffer
+                0x2000282c       0x54 ./src/app/task_create.o
+                0x2000282c                g_task_led_strip_1_buffer
  .bss.g_button_press_buffer
-                0x200013f0       0x54 ./src/app/task_create.o
-                0x200013f0                g_button_press_buffer
+                0x20002880       0x54 ./src/app/task_create.o
+                0x20002880                g_button_press_buffer
  .bss.g_task_led_strip_1_stack
-                0x20001444      0x400 ./src/app/task_create.o
-                0x20001444                g_task_led_strip_1_stack
+                0x200028d4      0x400 ./src/app/task_create.o
+                0x200028d4                g_task_led_strip_1_stack
  .bss.g_button_press_stack
-                0x20001844      0x400 ./src/app/task_create.o
-                0x20001844                g_button_press_stack
+                0x20002cd4      0x400 ./src/app/task_create.o
+                0x20002cd4                g_button_press_stack
  .bss.g_tasks_running
-                0x20001c44        0x1 ./src/app/task_create.o
-                0x20001c44                g_tasks_running
- *fill*         0x20001c45        0x3 
+                0x200030d4        0x1 ./src/app/task_create.o
+                0x200030d4                g_tasks_running
+ *fill*         0x200030d5        0x3 
  .bss.g_hdma_tim1_ch1
-                0x20001c48       0x48 ./src/bsp/board_init_common.o
-                0x20001c48                g_hdma_tim1_ch1
+                0x200030d8       0x48 ./src/bsp/board_init_common.o
+                0x200030d8                g_hdma_tim1_ch1
  .bss.g_hdma_tim1_ch2
-                0x20001c90       0x48 ./src/bsp/board_init_common.o
-                0x20001c90                g_hdma_tim1_ch2
+                0x20003120       0x48 ./src/bsp/board_init_common.o
+                0x20003120                g_hdma_tim1_ch2
  .bss.g_hdma_tim1_ch3
-                0x20001cd8       0x48 ./src/bsp/board_init_common.o
-                0x20001cd8                g_hdma_tim1_ch3
+                0x20003168       0x48 ./src/bsp/board_init_common.o
+                0x20003168                g_hdma_tim1_ch3
  .bss.g_rtc_handle
-                0x20001d20       0x24 ./src/bsp/board_init_common.o
-                0x20001d20                g_rtc_handle
+                0x200031b0       0x24 ./src/bsp/board_init_common.o
+                0x200031b0                g_rtc_handle
  .bss.g_tim1_handle
-                0x20001d44       0x4c ./src/bsp/board_init_common.o
-                0x20001d44                g_tim1_handle
+                0x200031d4       0x4c ./src/bsp/board_init_common.o
+                0x200031d4                g_tim1_handle
  .bss.__sbrk_heap_end
-                0x20001d90        0x4 ./src/bsp/stmicro/stm32l4/bloat/sysmem.o
- .bss.__sf      0x20001d94      0x138 /Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.macos64_1.0.200.202406191456/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-findfp.o)
-                0x20001d94                __sf
+                0x20003220        0x4 ./src/bsp/stmicro/stm32l4/bloat/sysmem.o
+ .bss.__sf      0x20003224      0x138 /Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.macos64_1.0.200.202406191456/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-findfp.o)
+                0x20003224                __sf
  .bss.__stdio_exit_handler
-                0x20001ecc        0x4 /Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.macos64_1.0.200.202406191456/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-findfp.o)
-                0x20001ecc                __stdio_exit_handler
+                0x2000335c        0x4 /Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.macos64_1.0.200.202406191456/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-findfp.o)
+                0x2000335c                __stdio_exit_handler
  .bss.__lock___malloc_recursive_mutex
-                0x20001ed0        0x1 /Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.macos64_1.0.200.202406191456/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-lock.o)
-                0x20001ed0                __lock___malloc_recursive_mutex
+                0x20003360        0x1 /Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.macos64_1.0.200.202406191456/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-lock.o)
+                0x20003360                __lock___malloc_recursive_mutex
  .bss.__lock___sfp_recursive_mutex
-                0x20001ed1        0x1 /Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.macos64_1.0.200.202406191456/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-lock.o)
-                0x20001ed1                __lock___sfp_recursive_mutex
- *fill*         0x20001ed2        0x2 
+                0x20003361        0x1 /Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.macos64_1.0.200.202406191456/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-lock.o)
+                0x20003361                __lock___sfp_recursive_mutex
+ *fill*         0x20003362        0x2 
  .bss.__malloc_sbrk_start
-                0x20001ed4        0x4 /Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.macos64_1.0.200.202406191456/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-mallocr.o)
-                0x20001ed4                __malloc_sbrk_start
+                0x20003364        0x4 /Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.macos64_1.0.200.202406191456/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-mallocr.o)
+                0x20003364                __malloc_sbrk_start
  .bss.__malloc_free_list
-                0x20001ed8        0x4 /Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.macos64_1.0.200.202406191456/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-mallocr.o)
-                0x20001ed8                __malloc_free_list
- .bss.errno     0x20001edc        0x4 /Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.macos64_1.0.200.202406191456/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-reent.o)
-                0x20001edc                errno
+                0x20003368        0x4 /Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.macos64_1.0.200.202406191456/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-mallocr.o)
+                0x20003368                __malloc_free_list
+ .bss.errno     0x2000336c        0x4 /Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.macos64_1.0.200.202406191456/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-reent.o)
+                0x2000336c                errno
  *(COMMON)
-                0x20001ee0                        . = ALIGN (0x4)
-                0x20001ee0                        _ebss = .
-                0x20001ee0                        __bss_end__ = _ebss
+                0x20003370                        . = ALIGN (0x4)
+                0x20003370                        _ebss = .
+                0x20003370                        __bss_end__ = _ebss
 
 ._user_heap_stack
-                0x20001ee0      0x600 load address 0x0800d008
-                0x20001ee0                        . = ALIGN (0x8)
+                0x20003370      0x600 load address 0x0800d008
+                0x20003370                        . = ALIGN (0x8)
                 [!provide]                        PROVIDE (end = .)
-                0x20001ee0                        PROVIDE (_end = .)
-                0x200020e0                        . = (. + _Min_Heap_Size)
- *fill*         0x20001ee0      0x200 
-                0x200024e0                        . = (. + _Min_Stack_Size)
- *fill*         0x200020e0      0x400 
-                0x200024e0                        . = ALIGN (0x8)
+                0x20003370                        PROVIDE (_end = .)
+                0x20003570                        . = (. + _Min_Heap_Size)
+ *fill*         0x20003370      0x200 
+                0x20003970                        . = (. + _Min_Stack_Size)
+ *fill*         0x20003570      0x400 
+                0x20003970                        . = ALIGN (0x8)
 
 /DISCARD/
  libc.a(*)
@@ -14670,112 +14669,112 @@ LOAD /Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.id
  .debug_line    0x00031e5d      0x526 ./src/lib/util/numbers.o
  .debug_line    0x00032383       0x7a ./startup/startup_stm32l431rctx.o
 
-.debug_str      0x00000000    0xff4a2
- .debug_str     0x00000000    0xeef34 ./common/lib/led/led_animate/led_animate.o
-                              0xef5a0 (size before relaxing)
- .debug_str     0x000eef34      0x393 ./common/lib/led/led_color/led_color.o
-                              0xe3dbd (size before relaxing)
- .debug_str     0x000ef2c7      0x48a ./common/lib/led/led_ctrl/led_ctrl.o
-                              0xeef59 (size before relaxing)
- .debug_str     0x000ef751      0x2f9 ./common/lib/led/led_ctrl/led_ctrl_brightness/led_ctrl_brightness.o
-                              0x13f84 (size before relaxing)
- .debug_str     0x000efa4a      0x1c8 ./common/lib/led/led_ctrl/led_ctrl_color/led_ctrl_color.o
-                              0x1435d (size before relaxing)
- .debug_str     0x000efc12       0xae ./common/lib/led/led_ctrl/led_ctrl_pause/led_ctrl_pause.o
-                              0x13f5f (size before relaxing)
- .debug_str     0x000efcc0      0x18c ./common/lib/led/led_ctrl/led_ctrl_power/led_ctrl_power.o
-                              0xe2c9f (size before relaxing)
- .debug_str     0x000efe4c       0x92 ./common/lib/led/led_ctrl/led_ctrl_setup/led_ctrl_setup.o
-                              0x14179 (size before relaxing)
- .debug_str     0x000efede       0xc7 ./common/lib/led/led_ctrl/led_ctrl_speed/led_ctrl_speed.o
-                              0x13f78 (size before relaxing)
- .debug_str     0x000effa5      0x214 ./common/lib/led/led_ctrl/led_ctrl_state/led_ctrl_state.o
-                              0x1411e (size before relaxing)
- .debug_str     0x000f01b9     0x1775 ./common/lib/led/ws2812b_driver/ws2812b.o
-                              0xeee8b (size before relaxing)
- .debug_str     0x000f192e      0x1d1 ./common/lib/peripheral/button/button_access.o
+.debug_str      0x00000000    0xff4a3
+ .debug_str     0x00000000    0xeef35 ./common/lib/led/led_animate/led_animate.o
+                              0xef5a1 (size before relaxing)
+ .debug_str     0x000eef35      0x393 ./common/lib/led/led_color/led_color.o
+                              0xe3dbe (size before relaxing)
+ .debug_str     0x000ef2c8      0x48a ./common/lib/led/led_ctrl/led_ctrl.o
+                              0xeef5a (size before relaxing)
+ .debug_str     0x000ef752      0x2f9 ./common/lib/led/led_ctrl/led_ctrl_brightness/led_ctrl_brightness.o
+                              0x13f85 (size before relaxing)
+ .debug_str     0x000efa4b      0x1c8 ./common/lib/led/led_ctrl/led_ctrl_color/led_ctrl_color.o
+                              0x1435e (size before relaxing)
+ .debug_str     0x000efc13       0xae ./common/lib/led/led_ctrl/led_ctrl_pause/led_ctrl_pause.o
+                              0x13f60 (size before relaxing)
+ .debug_str     0x000efcc1      0x18c ./common/lib/led/led_ctrl/led_ctrl_power/led_ctrl_power.o
+                              0xe2ca0 (size before relaxing)
+ .debug_str     0x000efe4d       0x92 ./common/lib/led/led_ctrl/led_ctrl_setup/led_ctrl_setup.o
+                              0x1417a (size before relaxing)
+ .debug_str     0x000efedf       0xc7 ./common/lib/led/led_ctrl/led_ctrl_speed/led_ctrl_speed.o
+                              0x13f79 (size before relaxing)
+ .debug_str     0x000effa6      0x214 ./common/lib/led/led_ctrl/led_ctrl_state/led_ctrl_state.o
+                              0x1411f (size before relaxing)
+ .debug_str     0x000f01ba     0x1775 ./common/lib/led/ws2812b_driver/ws2812b.o
+                              0xeee8c (size before relaxing)
+ .debug_str     0x000f192f      0x1d1 ./common/lib/peripheral/button/button_access.o
                               0xe08aa (size before relaxing)
- .debug_str     0x000f1aff      0x26d ./common/lib/semaphore/semaphore_access.o
+ .debug_str     0x000f1b00      0x26d ./common/lib/semaphore/semaphore_access.o
                                0xfa8d (size before relaxing)
- .debug_str     0x000f1d6c      0xf6c ./common/lib/task/task_button_press.o
-                              0xf0465 (size before relaxing)
- .debug_str     0x000f2cd8      0x5a0 ./common/lib/task/task_led_ctrl.o
-                              0xefa6e (size before relaxing)
- .debug_str     0x000f3278      0x1f2 ./common/lib/task/task_notify.o
+ .debug_str     0x000f1d6d      0xf6c ./common/lib/task/task_button_press.o
+                              0xf0466 (size before relaxing)
+ .debug_str     0x000f2cd9      0x5a0 ./common/lib/task/task_led_ctrl.o
+                              0xefa6f (size before relaxing)
+ .debug_str     0x000f3279      0x1f2 ./common/lib/task/task_notify.o
                               0xdee3e (size before relaxing)
- .debug_str     0x000f346a       0x75 ./sdk/FreeRTOS/Source/convenience/free_rtos_convenience.o
+ .debug_str     0x000f346b       0x75 ./sdk/FreeRTOS/Source/convenience/free_rtos_convenience.o
                                0xe92f (size before relaxing)
- .debug_str     0x000f34df      0x16e ./sdk/FreeRTOS/Source/list.o
+ .debug_str     0x000f34e0      0x16e ./sdk/FreeRTOS/Source/list.o
                               0x1077b (size before relaxing)
- .debug_str     0x000f364d      0xcaf ./sdk/FreeRTOS/Source/queue.o
+ .debug_str     0x000f364e      0xcaf ./sdk/FreeRTOS/Source/queue.o
                               0x1324a (size before relaxing)
- .debug_str     0x000f42fc     0x1869 ./sdk/FreeRTOS/Source/tasks.o
+ .debug_str     0x000f42fd     0x1869 ./sdk/FreeRTOS/Source/tasks.o
                               0x14183 (size before relaxing)
- .debug_str     0x000f5b65      0x5bb ./sdk/FreeRTOS/Source/timers.o
+ .debug_str     0x000f5b66      0x5bb ./sdk/FreeRTOS/Source/timers.o
                               0x1364b (size before relaxing)
- .debug_str     0x000f6120      0x8f3 ./sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.o
+ .debug_str     0x000f6121      0x8f3 ./sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.o
                                0xf2c0 (size before relaxing)
- .debug_str     0x000f6a13      0x796 ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal.o
+ .debug_str     0x000f6a14      0x796 ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal.o
                               0xdf7f3 (size before relaxing)
- .debug_str     0x000f71a9      0x31c ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.o
+ .debug_str     0x000f71aa      0x31c ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.o
                               0xdf4a4 (size before relaxing)
- .debug_str     0x000f74c5      0x254 ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.o
+ .debug_str     0x000f74c6      0x254 ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.o
                               0xdefaa (size before relaxing)
- .debug_str     0x000f7719      0x1d1 ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_gpio.o
+ .debug_str     0x000f771a      0x1d1 ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_gpio.o
                               0xdeeb7 (size before relaxing)
- .debug_str     0x000f78ea     0x102b ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_i2c.o
+ .debug_str     0x000f78eb     0x102b ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_i2c.o
                               0xdff44 (size before relaxing)
- .debug_str     0x000f8915       0xb4 ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_i2c_ex.o
+ .debug_str     0x000f8916       0xb4 ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_i2c_ex.o
                               0xdf27a (size before relaxing)
- .debug_str     0x000f89c9      0x348 ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_pwr.o
+ .debug_str     0x000f89ca      0x348 ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_pwr.o
                               0xdf08d (size before relaxing)
- .debug_str     0x000f8d11      0x33e ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_pwr_ex.o
+ .debug_str     0x000f8d12      0x33e ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_pwr_ex.o
                               0xdf17a (size before relaxing)
- .debug_str     0x000f904f      0x53f ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rcc.o
+ .debug_str     0x000f9050      0x53f ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rcc.o
                               0xdf343 (size before relaxing)
- .debug_str     0x000f958e      0x6c5 ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rcc_ex.o
+ .debug_str     0x000f958f      0x6c5 ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rcc_ex.o
                               0xdf5ce (size before relaxing)
- .debug_str     0x000f9c53      0x586 ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc.o
+ .debug_str     0x000f9c54      0x586 ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc.o
                               0xdf1cb (size before relaxing)
- .debug_str     0x000fa1d9      0xeb7 ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim.o
+ .debug_str     0x000fa1da      0xeb7 ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim.o
                               0xe0070 (size before relaxing)
- .debug_str     0x000fb090      0x603 ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim_ex.o
+ .debug_str     0x000fb091      0x603 ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim_ex.o
                               0xdf994 (size before relaxing)
- .debug_str     0x000fb693       0x40 ./src/app/main.o
-                              0xed99f (size before relaxing)
- .debug_str     0x000fb6d3      0x1c0 ./src/app/task_create.o
-                              0xee2d2 (size before relaxing)
- .debug_str     0x000fb893      0xe77 ./src/bsp/board_init_common.o
-                              0xf1066 (size before relaxing)
- .debug_str     0x000fc70a      0x1af ./src/bsp/stmicro/peripheral/button/button_access_hal.o
+ .debug_str     0x000fb694       0x40 ./src/app/main.o
+                              0xed9a0 (size before relaxing)
+ .debug_str     0x000fb6d4      0x1c0 ./src/app/task_create.o
+                              0xee2d3 (size before relaxing)
+ .debug_str     0x000fb894      0xe77 ./src/bsp/board_init_common.o
+                              0xf1067 (size before relaxing)
+ .debug_str     0x000fc70b      0x1af ./src/bsp/stmicro/peripheral/button/button_access_hal.o
                               0xe0deb (size before relaxing)
- .debug_str     0x000fc8b9       0xb0 ./src/bsp/stmicro/peripheral/button/button_config_hal.o
+ .debug_str     0x000fc8ba       0xb0 ./src/bsp/stmicro/peripheral/button/button_config_hal.o
                               0xe0e69 (size before relaxing)
- .debug_str     0x000fc969      0x312 ./src/bsp/stmicro/peripheral/gpio/gpio_config_hal.o
+ .debug_str     0x000fc96a      0x312 ./src/bsp/stmicro/peripheral/gpio/gpio_config_hal.o
                               0xdfe10 (size before relaxing)
- .debug_str     0x000fcc7b      0x1c4 ./src/bsp/stmicro/peripheral/i2c/i2c_config_hal.o
+ .debug_str     0x000fcc7c      0x1c4 ./src/bsp/stmicro/peripheral/i2c/i2c_config_hal.o
                               0xdfa7c (size before relaxing)
- .debug_str     0x000fce3f      0x56d ./src/bsp/stmicro/peripheral/uart/uart_access_hal.o
-                              0xee778 (size before relaxing)
- .debug_str     0x000fd3ac       0xa9 ./src/bsp/stmicro/stm32l4/bloat/stm32l4xx_hal_msp.o
+ .debug_str     0x000fce40      0x56d ./src/bsp/stmicro/peripheral/uart/uart_access_hal.o
+                              0xee779 (size before relaxing)
+ .debug_str     0x000fd3ad       0xa9 ./src/bsp/stmicro/stm32l4/bloat/stm32l4xx_hal_msp.o
                               0xdf655 (size before relaxing)
- .debug_str     0x000fd455      0x1f3 ./src/bsp/stmicro/stm32l4/bloat/stm32l4xx_it.o
-                              0xf030d (size before relaxing)
- .debug_str     0x000fd648     0x1a23 ./src/bsp/stmicro/stm32l4/bloat/syscalls.o
+ .debug_str     0x000fd456      0x1f3 ./src/bsp/stmicro/stm32l4/bloat/stm32l4xx_it.o
+                              0xf030e (size before relaxing)
+ .debug_str     0x000fd649     0x1a23 ./src/bsp/stmicro/stm32l4/bloat/syscalls.o
                                0x98e4 (size before relaxing)
- .debug_str     0x000ff06b       0x80 ./src/bsp/stmicro/stm32l4/bloat/sysmem.o
+ .debug_str     0x000ff06c       0x80 ./src/bsp/stmicro/stm32l4/bloat/sysmem.o
                                0x60fc (size before relaxing)
- .debug_str     0x000ff0eb       0x55 ./src/bsp/stmicro/stm32l4/bloat/system_stm32l4xx.o
+ .debug_str     0x000ff0ec       0x55 ./src/bsp/stmicro/stm32l4/bloat/system_stm32l4xx.o
                               0xded5c (size before relaxing)
- .debug_str     0x000ff140      0x19b ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/button/board_spudglo_v7_button_config.o
-                              0xe119d (size before relaxing)
- .debug_str     0x000ff2db       0x6f ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/gpio/board_spudglo_v7_gpio_config.o
-                              0xe0065 (size before relaxing)
- .debug_str     0x000ff34a       0xff ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/i2c/board_spudglo_v7_i2c_config.o
-                              0xdfecf (size before relaxing)
- .debug_str     0x000ff449       0x1a ./src/lib/util/numbers.o
+ .debug_str     0x000ff141      0x19b ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/button/board_spudglo_v7_button_config.o
+                              0xe119e (size before relaxing)
+ .debug_str     0x000ff2dc       0x6f ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/gpio/board_spudglo_v7_gpio_config.o
+                              0xe0066 (size before relaxing)
+ .debug_str     0x000ff34b       0xff ./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/i2c/board_spudglo_v7_i2c_config.o
+                              0xdfed0 (size before relaxing)
+ .debug_str     0x000ff44a       0x1a ./src/lib/util/numbers.o
                                0x72b8 (size before relaxing)
- .debug_str     0x000ff463       0x3f ./startup/startup_stm32l431rctx.o
+ .debug_str     0x000ff464       0x3f ./startup/startup_stm32l431rctx.o
                                  0x95 (size before relaxing)
 
 .comment        0x00000000       0x43

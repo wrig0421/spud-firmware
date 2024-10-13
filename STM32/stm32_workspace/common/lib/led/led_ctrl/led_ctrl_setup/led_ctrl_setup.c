@@ -428,7 +428,7 @@ led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS] =
 	{
 		.led_state_info =
 		{
-			.led_state_master 				= LED_CTRL_STATE_MASTER_FIXED, //LED_CTRL_STATE_MASTER_DEMO,//LED_CTRL_STATE_MASTER_DEMO,
+			.led_state_master 				= LED_CTRL_STATE_MASTER_DEMO, //LED_CTRL_STATE_MASTER_DEMO,//LED_CTRL_STATE_MASTER_DEMO,
 			.led_state 						= LED_STATE_RAINBOW_CYCLE, //LED_STATE_SPARKLE_NO_FILL,//LED_STATE_FIRST,
 			.led_state_current_iteration 	= 0
 		},
