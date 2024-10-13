@@ -1,5 +1,5 @@
 /***********************************
- * @file   animate_led.c
+ * @file   rv8803.c
  * @author SpudGlo LLC
  ***********************************/
 #include <stdint.h>
@@ -9,6 +9,41 @@
 #include "free_rtos_convenience.h"
 
 
+// reg_addr increments by one after every byte write
+
+// `g_rv8803_tod` will keep track of the read time any
+// time that a read is performed.
+rv8803_tod_t g_rv8803_tod =
+{
+	.second 		= 0,
+	.minute 		= 0,
+	.hour 			= 0,
+	.weekday 		= 0,
+	.date 			= 0,
+	.month 			= 0,
+	.year 			= 0
+};
+
+
+typedef enum
+{
+	RV8803_REGISTER_TEN_MILLISECOND 	= 0x10,
+	RV8803_REGISTER_SECOND 				= 0x11,
+	RV8803_REGISTER_MINUTE 				= 0x12,
+	RV8803_REGISTER_HOUR 				= 0x13,
+	RV8803_REGISTER_WEEKDAY 			= 0x14,
+	RV8803_REGISTER_DATE 				= 0x15,
+	RV8803_REGISTER_MONTH 				= 0x16,
+	RV8803_REGISTER_YEAR 				= 0x17,
+	RV8803_REGISTER_MINUTES_ALARM 		= 0x18,
+	RV8803_REGISTER_HOURS_ALARM 		= 0x19,
+	RV8803_REGISTER_WEEKDAY_DATE_ALARM 	= 0x1A,
+	RV8803_REGISTER_TIMER_COUNTER_0 	= 0x1B,
+	RV8803_REGISTER_TIMER_COUNTER_1 	= 0x1C,
+	RV8803_REGISTER_EXTENSION 			= 0x1D,
+	RV8803_REGISTER_FLAG 				= 0x1E,
+	RV8803_REGISTER_CONTROL 			= 0x1F
+} rv8803_register_e;
 
 typedef struct
 {
@@ -48,26 +83,25 @@ typedef struct
 
 
 
-void rv8803_write_register(rv8803_register_e reg_addr, uint8_t data)
+static void rv8803_write_register(rv8803_register_e reg_addr, uint8_t data)
 {
 	i2c_access_write_byte(I2C_ACCESS_CHIP_ID_RV_8803, (uint32_t)reg_addr, data);
 }
 
 
-void rv8803_read_register(rv8803_register_e reg_addr, uint8_t* data)
+static void rv8803_read_register(rv8803_register_e reg_addr, uint8_t* data)
 {
 	i2c_access_read_byte(I2C_ACCESS_CHIP_ID_RV_8803, (uint32_t)reg_addr, data);
 }
 
 
-// reg_addr increments by one after every byte write
-void rv8803_write_register_burst(rv8803_register_e reg_addr_start, uint8_t* data, uint16_t data_length)
+static void rv8803_write_register_burst(rv8803_register_e reg_addr_start, uint8_t* data, uint16_t data_length)
 {
 	i2c_access_write_block(I2C_ACCESS_CHIP_ID_RV_8803, (uint32_t)reg_addr_start, data, data_length);
 }
 
 
-void rv8803_read_register_burst(rv8803_register_e reg_addr_start, uint8_t* data, uint16_t data_length)
+static void rv8803_read_register_burst(rv8803_register_e reg_addr_start, uint8_t* data, uint16_t data_length)
 {
 	i2c_access_read_block(I2C_ACCESS_CHIP_ID_RV_8803, (uint32_t)reg_addr_start, data, data_length);
 }
@@ -75,70 +109,63 @@ void rv8803_read_register_burst(rv8803_register_e reg_addr_start, uint8_t* data,
 
 void rv8803_init(void)
 {
-
+	// perform any initialization here..
 }
 
 
-
-void rv8803_read_tod(rv8803_tod_t* rv8803_tod)
+uint8_t rv8803_current_seconds(void)
 {
-	rv8803_read_register_burst(RV8803_REGISTER_TEN_MILLISECONDS, (uint8_t *)rv8803_tod, sizeof(rv8803_tod_t));
+	rv8803_data_t rv8803_data = 0;
+	rv8803_read_register(RV8803_REGISTER_SECOND, &rv8803_data.second);
+	return rv8803_data.second;
 }
 
 
-uint8_t rv8803_read_current_register(rv8803_register_e rv8803_reg)
+uint8_t rv8803_current_minutes(void)
 {
-	uint8_t data = 0;
-	rv8803_read_register(rv8803_reg, &data);
-	return data;
+	rv8803_data_t rv8803_data = 0;
+	rv8803_read_register(RV8803_REGISTER_MINUTE, &rv8803_data.minute);
+	return rv8803_data.minute;
 }
 
 
-uint8_t rv8803_read_register_current_tens_of_milliseconds(void)
+uint8_t rv8803_current_hours(void)
 {
-	return rv8803_read_current_register(RV8803_REGISTER_TEN_MILLISECONDS);
+	rv8803_data_t rv8803_data = 0;
+	rv8803_read_register(RV8803_REGISTER_HOUR, &rv8803_data.hour);
+	return rv8803_data.hour;
 }
 
 
-uint8_t rv8803_read_register_current_seconds(void)
+uint8_t rv8803_current_weekday(void)
 {
-	return rv8803_read_current_register(RV8803_REGISTER_SECONDS);
+	rv8803_data_t rv8803_data = 0;
+	rv8803_read_register(RV8803_REGISTER_WEEKDAY, &rv8803_data.weekday);
+	return rv8803_data.weekday;
 }
 
 
-uint8_t rv8803_read_register_current_minutes(void)
+uint8_t rv8803_current_date(void)
 {
-	return rv8803_read_current_register(RV8803_REGISTER_MINUTES);
+	rv8803_data_t rv8803_data = 0;
+	rv8803_read_register(RV8803_REGISTER_DATE, &rv8803_data.date);
+	return rv8803_data.date;
 }
 
 
-uint8_t rv8803_read_register_current_hours(void)
+uint8_t rv8803_current_month(void)
 {
-	return rv8803_read_current_register(RV8803_REGISTER_HOURS);
+	rv8803_data_t rv8803_data = 0;
+	rv8803_read_register(RV8803_REGISTER_MONTH, &rv8803_data.month);
+	return rv8803_data.month;
 }
 
 
-uint8_t rv8803_read_register_current_weekday(void)
+uint8_t rv8803_current_year(void)
 {
-	return rv8803_read_current_register(RV8803_REGISTER_WEEKDAY);
-}
-
-
-uint8_t rv8803_read_register_current_date(void)
-{
-	return rv8803_read_current_register(RV8803_REGISTER_DATE);
-}
-
-
-uint8_t rv8803_read_register_current_month(void)
-{
-	return rv8803_read_current_register(RV8803_REGISTER_MONTH);
-}
-
-
-uint8_t rv8803_read_register_current_year(void)
-{
-	return rv8803_read_current_register(RV8803_REGISTER_YEAR);
+	rv8803_data_t rv8803_data = 0;
+	rv8803_read_register(RV8803_REGISTER_YEAR, &rv8803_data.year);
+	return rv8803_data.year;
 }
 
 
@@ -218,25 +245,12 @@ uint8_t g_dbg_weekday = 0;
 uint8_t g_dbg_date = 27;
 uint8_t g_dbg_month = 5;
 uint8_t g_dbg_year = 24;
-//rv8803_data_t ten_millisecond_count;
-//			rv8803_data_t second;
-//			rv8803_data_t minute;
-//			rv8803_data_t hour;
-//			rv8803_data_t weekday;
-//			rv8803_data_t date;
-//			rv8803_data_t month;
-//			rv8803_data_t year;
+
 uint8_t g_sec_count = 0;
 void rv8803_write_current_tod(void)
 {
-
-
-//	while (!g_ready_to_write_time)
-//	{
-//        free_rtos_delay_ms(portTICK_PERIOD_MS);
-//	}
-
-
+	// need to get the current time from the debugger and write it down
+	// through debugger..
 	rv8803_tod_t rv8803_tod =
 	{
 	    // all in BCD except weekday
@@ -259,6 +273,13 @@ void rv8803_write_current_tod(void)
 	}
 
 
+}
+
+
+void rv8803_read_current_tod(rv8803_tod_t* rv8803_tod)
+{
+	rv8803_read_register_burst(RV8803_REGISTER_TEN_MILLISECOND, &rv8803_tod, sizeof(rv8803_tod_t));
+	memcpy(&g_rv8803_tod, rv8803_tod, sizeof(rv8803_tod_t));
 }
 
 
