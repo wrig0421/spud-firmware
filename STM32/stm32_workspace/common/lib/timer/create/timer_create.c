@@ -11,7 +11,7 @@
 //#define TIMER_LED_STATE_TIME_MIN	2
 //#define TIMER_LED_STATE_TIME_MS		TIMER_LED_STATE_TIME_MIN * 60 * 1000
 
-#define TIMER_LED_STATE_TIME_MS		 	15000
+#define TIMER_LED_STATE_TIME_MS		 	60000
 
 TimerHandle_t g_led_ctrl_timer_handle = NULL;
 StaticTimer_t g_led_ctrl_timer_buffer;
