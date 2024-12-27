@@ -30,9 +30,9 @@ typedef struct
 	rv8803_data_t minute;
 	rv8803_data_t hour;
 	rv8803_data_t weekday;
-	rv8803_data_t dates;
-	rv8803_data_t months;
-	rv8803_data_t years;
+	rv8803_data_t date;
+	rv8803_data_t month;
+	rv8803_data_t year;
 } rv8803_tod_t;
 
 

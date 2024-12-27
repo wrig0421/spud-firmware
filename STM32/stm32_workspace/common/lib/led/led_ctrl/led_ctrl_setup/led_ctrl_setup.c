@@ -417,8 +417,37 @@ led_ctrl_state_iterations_t g_task_led_ctrl_state_iterations[NUM_LED_STATES] =
 			.led_state_between_animation_delay_ms[LED_SPEED_6]		= 5000,
 
 			.led_state_allow_black_color							= false
+		},
+#endif
+#	if (NUM_ACTIVE_STRIPS > 1) && defined(ENABLE_LED_STATE_STATIC_AND_DYNAMIC_STRIP)
+		[LED_STATE_STATIC_AND_DYNAMIC_STRIP] =
+		{
+			.led_state_max_iteration[LED_SPEED_1]					= 10,
+			.led_state_max_iteration[LED_SPEED_2]					= 10,
+			.led_state_max_iteration[LED_SPEED_3]					= 10,
+			.led_state_max_iteration[LED_SPEED_4]					= 10,
+			.led_state_max_iteration[LED_SPEED_5]					= 10,
+			.led_state_max_iteration[LED_SPEED_6]					= 10,
+
+			.led_state_inner_animation_delay_ms[LED_SPEED_1]     	= 0,
+			.led_state_inner_animation_delay_ms[LED_SPEED_2]   		= 0,
+			.led_state_inner_animation_delay_ms[LED_SPEED_3]   		= 0,
+			.led_state_inner_animation_delay_ms[LED_SPEED_4]      	= 0,
+			.led_state_inner_animation_delay_ms[LED_SPEED_5]      	= 0,
+			.led_state_inner_animation_delay_ms[LED_SPEED_6]      	= 0,
+
+			.led_state_between_animation_delay_ms[LED_SPEED_1]		= 5000,
+			.led_state_between_animation_delay_ms[LED_SPEED_2]		= 5000,
+			.led_state_between_animation_delay_ms[LED_SPEED_3]		= 5000,
+			.led_state_between_animation_delay_ms[LED_SPEED_4]		= 5000,
+			.led_state_between_animation_delay_ms[LED_SPEED_5]		= 5000,
+			.led_state_between_animation_delay_ms[LED_SPEED_6]		= 5000,
+
+			.led_state_allow_black_color							= false
 		}
 #endif
+
+
 };
 
 

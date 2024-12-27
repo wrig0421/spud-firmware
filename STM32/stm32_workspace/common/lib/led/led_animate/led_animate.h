@@ -23,6 +23,7 @@ void led_animate_set_pixel(const strip_mask_t mask, const uint16_t pixel, led_co
 void led_animate_set_all_pixels(const strip_mask_t mask, led_color_t* led_color);
 void led_animate_set_all_pixels_hex_color(const strip_mask_t mask, const led_color_hex_code_e color);
 void led_animate_set_pixels_in_range(const strip_mask_t mask, uint16_t start, uint16_t stop, const led_color_hex_code_e color);
+void led_animate_set_pixels_in_range_and_show(const strip_mask_t mask, uint16_t start, uint16_t stop, const led_color_hex_code_e color);
 void led_animate_set_pixels_in_range_uint32(const strip_mask_t mask, uint16_t start, uint16_t stop, uint32_t color_hex_code_val);
 void led_animate_set_pixels_in_range_and_show_uint32(const strip_mask_t mask, uint16_t start, uint16_t stop, uint32_t color_hex_code_val);
 void led_animate_turn_all_pixels_off(void);

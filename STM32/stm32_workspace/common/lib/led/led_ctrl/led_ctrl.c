@@ -80,7 +80,10 @@ uint32_t g_animation_measured_task_per_10_leds_time_ms[NUM_LED_STATES] =
 	[LED_STATE_FADE_IN_AND_OUT] = 10,
 	[LED_STATE_TWINKLE] = 10,
 #	if defined(ENABLE_LED_STATE_TWO_COLOR)
-		[LED_STATE_TWO_COLOR] = 10
+		[LED_STATE_TWO_COLOR] = 10,
+#	endif
+#	if defined(ENABLE_LED_STATE_STATIC_AND_DYNAMIC_STRIP)
+		[LED_STATE_STATIC_AND_DYNAMIC_STRIP] = 10
 #	endif
 };
 
@@ -266,6 +269,14 @@ void led_ctrl_init(void)
 					break;
 #					if defined(ENABLE_LED_STATE_TWO_COLOR)
 						case LED_STATE_TWO_COLOR:
+	//						animation_time_dynamic_ms = LED_ANIMATE_DYNAMIC_TIME_MS *  num_10_led_chunks;
+							led_animate_ctrl_time.dynamic_ms = 1;
+							led_animate_ctrl_time.static_ms = 1;
+							led_animate_ctrl_time.between_ms = 1;
+						break;
+#					endif
+#					if defined(ENABLE_LED_STATE_STATIC_AND_DYNAMIC_STRIP)
+						case LED_STATE_STATIC_AND_DYNAMIC_STRIP:
 	//						animation_time_dynamic_ms = LED_ANIMATE_DYNAMIC_TIME_MS *  num_10_led_chunks;
 							led_animate_ctrl_time.dynamic_ms = 1;
 							led_animate_ctrl_time.static_ms = 1;
