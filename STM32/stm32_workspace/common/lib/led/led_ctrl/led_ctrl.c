@@ -131,174 +131,149 @@ typedef struct
 
 void led_ctrl_init(void)
 {
-	// adjust the time so we at minimum get LED_CTRL_MINIMUM_ANIMATION_LOOPS loops
-//	for (led_speed_e led_speed = LED_SPEED_FIRST; led_speed < NUM_LED_SPEEDS; led_speed++)
+//	led_animate_ctrl_time_t led_animate_ctrl_time;
+//	led_animate_ctrl_time.dynamic_ms = 0;
+//	led_animate_ctrl_time.static_ms = 0;
+//	led_animate_ctrl_time.between_ms = 0;
+//
+//	uint16_t animation_iterations = 0;
+//	uint16_t num_leds = 0;
+//	uint16_t num_10_led_chunks = 0;
+//	uint32_t total_time = 0;
+//
+//	for (led_state_e led_state = LED_STATE_FIRST; led_state < NUM_LED_STATES; led_state++)
 //	{
-//		uint16_t animation_loops_remainder = (g_animation_time_ms[led_speed] % LED_CTRL_WORST_CASE_TOTAL_ANIMATION_TIME);
-//		uint16_t animation_loops = (g_animation_time_ms[led_speed] / LED_CTRL_WORST_CASE_TOTAL_ANIMATION_TIME);
-//		if (LED_CTRL_MINIMUM_ANIMATION_LOOPS > animation_loops)
+//		for (led_speed_e led_speed = LED_SPEED_FIRST; led_speed < NUM_LED_SPEEDS; led_speed++)
 //		{
-//			switch (animation_loops)
+//			for (strip_num_e strip_num = STRIP_NUM_1;
+//#if defined(ENABLE_STRIP_3)
+//					strip_num <= STRIP_NUM_3;
+//#elif defined(ENABLE_STRIP_2)
+//					strip_num <= STRIP_NUM_2;
+//#else
+//					strip_num <= STRIP_NUM_1;
+//#endif
+//					strip_num++)
 //			{
-//				case 0:
-//					g_animation_time_ms[led_speed] = LED_CTRL_MINIMUM_ANIMATION_LOOPS * LED_CTRL_WORST_CASE_TOTAL_ANIMATION_TIME;
-//				break;
-//				case 1:
-//					g_animation_time_ms[led_speed] += g_animation_time_ms[led_speed] - (animation_loops_remainder * LED_CTRL_WORST_CASE_TOTAL_ANIMATION_TIME);
-//					g_animation_time_ms[led_speed] += g_animation_time_ms[led_speed] / 2;
-//				break;
-//				case 2:
-//					g_animation_time_ms[led_speed] += g_animation_time_ms[led_speed] - (animation_loops_remainder * LED_CTRL_WORST_CASE_TOTAL_ANIMATION_TIME);
-//				break;
-//				default:
-//				break;
+//				switch (strip_num)
+//				{
+//					case STRIP_NUM_1:
+//						num_leds = STRIP_1_LENGTH;
+//					break;
+//					case STRIP_NUM_2:
+//						num_leds = STRIP_2_LENGTH;
+//					break;
+//					case STRIP_NUM_3:
+//						num_leds = STRIP_3_LENGTH;
+//					break;
+//					default:
+//						num_leds = 0;
+//					break;
+//				}
+//				if (num_leds % 10) num_10_led_chunks = (num_leds / 10) + 1; // round up
+//				else num_10_led_chunks = num_leds;
+//
+//				led_animate_ctrl_time.static_ms = \
+//					g_task_led_ctrl_state_iterations[led_state].led_state_inner_animation_delay_ms[led_speed];
+//				led_animate_ctrl_time.between_ms = \
+//					g_task_led_ctrl_state_iterations[led_state].led_state_between_animation_delay_ms[led_speed];
+//				led_animate_ctrl_time.dynamic_ms = 0;
+//				switch (led_state)
+//				{
+//					case LED_STATE_SPELL:
+//						led_animate_ctrl_time.dynamic_ms = LED_ANIMATE_DYNAMIC_TIME_MS *  num_10_led_chunks;
+//						led_animate_ctrl_time.static_ms *= num_leds; // delay is PER LED not per 10 LEDs
+//					break;
+//					case LED_STATE_WHITE_COLOR:
+//						led_animate_ctrl_time.dynamic_ms = LED_ANIMATE_DYNAMIC_TIME_MS *  num_10_led_chunks;
+//					break;
+//					case LED_STATE_SOLID_COLOR:
+//						led_animate_ctrl_time.dynamic_ms = LED_ANIMATE_DYNAMIC_TIME_MS *  num_10_led_chunks;
+//					break;
+//					case LED_STATE_SPARKLE_NO_FILL:
+//						led_animate_ctrl_time.dynamic_ms = LED_ANIMATE_DYNAMIC_TIME_MS *  num_10_led_chunks;
+//						led_animate_ctrl_time.dynamic_ms *= 2; // 2x instances of setting pixels
+////						led_animate_ctrl_time.static_ms *= num_leds;
+//						led_animate_ctrl_time.static_ms *= (0.7f * num_leds);
+//					break;
+//					case LED_STATE_SPARKLE_FILL:
+//						led_animate_ctrl_time.dynamic_ms = LED_ANIMATE_DYNAMIC_TIME_MS *  num_10_led_chunks;
+////						led_animate_ctrl_time.static_ms *= num_leds;
+//						led_animate_ctrl_time.static_ms *= (0.7f * num_leds);
+//					break;
+//					case LED_STATE_RAINBOW_CYCLE:
+//						led_animate_ctrl_time.dynamic_ms = LED_ANIMATE_DYNAMIC_TIME_MS *  num_10_led_chunks;
+//						led_animate_ctrl_time.static_ms *= 256 * 5; // todo remove the magic number...
+//					break;
+//					case LED_STATE_THEATER_CHASE:
+//						led_animate_ctrl_time.dynamic_ms = LED_ANIMATE_DYNAMIC_TIME_MS *  num_10_led_chunks;
+//						led_animate_ctrl_time.static_ms *= 3 * 100; // todo remove the magic number...
+//					break;
+//					case LED_STATE_THEATER_CHASE_RAINBOW:
+//						led_animate_ctrl_time.dynamic_ms = LED_ANIMATE_DYNAMIC_TIME_MS *  num_10_led_chunks;
+//						led_animate_ctrl_time.static_ms *= 3 * 100; // todo remove the magic number...
+//					break;
+//					case LED_STATE_FADE_IN_AND_OUT:
+//						led_animate_ctrl_time.dynamic_ms = LED_ANIMATE_DYNAMIC_TIME_MS *  num_10_led_chunks;
+//						led_animate_ctrl_time.dynamic_ms *= 2; // 2x instances of setting pixels
+//						led_animate_ctrl_time.static_ms *= (256.0f + (256.0f / 2.0f));
+//					break;
+////					case LED_STATE_STARBURST_MODE_1:
+////						led_animate_ctrl_time.dynamic_ms = LED_ANIMATE_DYNAMIC_TIME_MS *  num_10_led_chunks;
+////						led_animate_ctrl_time.static_ms *= num_leds; // delay is PER LED not per 10 LEDs
+////					break;
+////					case LED_STATE_STARBURST_MODE_2:
+////						led_animate_ctrl_time.dynamic_ms = LED_ANIMATE_DYNAMIC_TIME_MS *  num_10_led_chunks;
+////						led_animate_ctrl_time.static_ms *= num_leds; // delay is PER LED not per 10 LEDs
+////					break;
+////					case LED_STATE_STARBURST_RANDOM_MODE_1:
+////						led_animate_ctrl_time.dynamic_ms = LED_ANIMATE_DYNAMIC_TIME_MS *  num_10_led_chunks;
+////						led_animate_ctrl_time.static_ms *= num_leds; // delay is PER LED not per 10 LEDs
+////					break;
+////					case LED_STATE_STARBURST_RANDOM_MODE_2:
+////						led_animate_ctrl_time.dynamic_ms = LED_ANIMATE_DYNAMIC_TIME_MS *  num_10_led_chunks;
+////						led_animate_ctrl_time.static_ms *= num_leds; // delay is PER LED not per 10 LEDs
+////					break;
+////					case LED_STATE_HEARTBEAT:
+////						led_animate_ctrl_time.dynamic_ms = LED_ANIMATE_DYNAMIC_TIME_MS *  num_10_led_chunks;
+////						led_animate_ctrl_time.static_ms *= num_leds; // delay is PER LED not per 10 LEDs
+////					break;
+//					case LED_STATE_TWINKLE:
+//						led_animate_ctrl_time.dynamic_ms = LED_ANIMATE_DYNAMIC_TIME_MS *  num_10_led_chunks;
+//						led_animate_ctrl_time.static_ms *= 0.9f * num_leds;
+//					break;
+//#					if defined(ENABLE_LED_STATE_TWO_COLOR)
+//						case LED_STATE_TWO_COLOR:
+//	//						animation_time_dynamic_ms = LED_ANIMATE_DYNAMIC_TIME_MS *  num_10_led_chunks;
+//							led_animate_ctrl_time.dynamic_ms = 1;
+//							led_animate_ctrl_time.static_ms = 1;
+//							led_animate_ctrl_time.between_ms = 1;
+//						break;
+//#					endif
+//#					if defined(ENABLE_LED_STATE_STATIC_AND_DYNAMIC_STRIP)
+//						case LED_STATE_STATIC_AND_DYNAMIC_STRIP:
+//	//						animation_time_dynamic_ms = LED_ANIMATE_DYNAMIC_TIME_MS *  num_10_led_chunks;
+//							led_animate_ctrl_time.dynamic_ms = 1;
+//							led_animate_ctrl_time.static_ms = 1;
+//							led_animate_ctrl_time.between_ms = 1;
+//						break;
+//#					endif
+//					default:
+//						led_animate_ctrl_time.dynamic_ms = 1;
+//						led_animate_ctrl_time.static_ms = 1;
+//						led_animate_ctrl_time.between_ms = 1;
+//					break;
+//				}
+//				total_time = led_animate_ctrl_time.dynamic_ms + led_animate_ctrl_time.static_ms + led_animate_ctrl_time.between_ms;
+//				animation_iterations = (g_animation_time_ms[led_speed] / total_time);
+//				if (!animation_iterations)
+//				{
+//					animation_iterations = 1;
+//				}
+//				g_animation_iteration_count[strip_num][led_state][led_speed] = animation_iterations;
 //			}
 //		}
 //	}
-
-	led_animate_ctrl_time_t led_animate_ctrl_time;
-	led_animate_ctrl_time.dynamic_ms = 0;
-	led_animate_ctrl_time.static_ms = 0;
-	led_animate_ctrl_time.between_ms = 0;
-
-	uint16_t animation_iterations = 0;
-	uint16_t num_leds = 0;
-	uint16_t num_10_led_chunks = 0;
-	uint32_t total_time = 0;
-
-	for (led_state_e led_state = LED_STATE_FIRST; led_state < NUM_LED_STATES; led_state++)
-	{
-		for (led_speed_e led_speed = LED_SPEED_FIRST; led_speed < NUM_LED_SPEEDS; led_speed++)
-		{
-			for (strip_num_e strip_num = STRIP_NUM_1;
-#if defined(ENABLE_STRIP_3)
-					strip_num <= STRIP_NUM_3;
-#elif defined(ENABLE_STRIP_2)
-					strip_num <= STRIP_NUM_2;
-#else
-					strip_num <= STRIP_NUM_1;
-#endif
-					strip_num++)
-			{
-				switch (strip_num)
-				{
-					case STRIP_NUM_1:
-						num_leds = STRIP_1_LENGTH;
-					break;
-					case STRIP_NUM_2:
-						num_leds = STRIP_2_LENGTH;
-					break;
-					case STRIP_NUM_3:
-						num_leds = STRIP_3_LENGTH;
-					break;
-					default:
-						num_leds = 0;
-					break;
-				}
-				if (num_leds % 10) num_10_led_chunks = (num_leds / 10) + 1; // round up
-				else num_10_led_chunks = num_leds;
-
-				led_animate_ctrl_time.static_ms = \
-					g_task_led_ctrl_state_iterations[led_state].led_state_inner_animation_delay_ms[led_speed];
-				led_animate_ctrl_time.between_ms = \
-					g_task_led_ctrl_state_iterations[led_state].led_state_between_animation_delay_ms[led_speed];
-				led_animate_ctrl_time.dynamic_ms = 0;
-				switch (led_state)
-				{
-					case LED_STATE_SPELL:
-						led_animate_ctrl_time.dynamic_ms = LED_ANIMATE_DYNAMIC_TIME_MS *  num_10_led_chunks;
-						led_animate_ctrl_time.static_ms *= num_leds; // delay is PER LED not per 10 LEDs
-					break;
-					case LED_STATE_WHITE_COLOR:
-						led_animate_ctrl_time.dynamic_ms = LED_ANIMATE_DYNAMIC_TIME_MS *  num_10_led_chunks;
-					break;
-					case LED_STATE_SOLID_COLOR:
-						led_animate_ctrl_time.dynamic_ms = LED_ANIMATE_DYNAMIC_TIME_MS *  num_10_led_chunks;
-					break;
-					case LED_STATE_SPARKLE_NO_FILL:
-						led_animate_ctrl_time.dynamic_ms = LED_ANIMATE_DYNAMIC_TIME_MS *  num_10_led_chunks;
-						led_animate_ctrl_time.dynamic_ms *= 2; // 2x instances of setting pixels
-//						led_animate_ctrl_time.static_ms *= num_leds;
-						led_animate_ctrl_time.static_ms *= (0.7f * num_leds);
-					break;
-					case LED_STATE_SPARKLE_FILL:
-						led_animate_ctrl_time.dynamic_ms = LED_ANIMATE_DYNAMIC_TIME_MS *  num_10_led_chunks;
-//						led_animate_ctrl_time.static_ms *= num_leds;
-						led_animate_ctrl_time.static_ms *= (0.7f * num_leds);
-					break;
-					case LED_STATE_RAINBOW_CYCLE:
-						led_animate_ctrl_time.dynamic_ms = LED_ANIMATE_DYNAMIC_TIME_MS *  num_10_led_chunks;
-						led_animate_ctrl_time.static_ms *= 256 * 5; // todo remove the magic number...
-					break;
-					case LED_STATE_THEATER_CHASE:
-						led_animate_ctrl_time.dynamic_ms = LED_ANIMATE_DYNAMIC_TIME_MS *  num_10_led_chunks;
-						led_animate_ctrl_time.static_ms *= 3 * 100; // todo remove the magic number...
-					break;
-					case LED_STATE_THEATER_CHASE_RAINBOW:
-						led_animate_ctrl_time.dynamic_ms = LED_ANIMATE_DYNAMIC_TIME_MS *  num_10_led_chunks;
-						led_animate_ctrl_time.static_ms *= 3 * 100; // todo remove the magic number...
-					break;
-					case LED_STATE_FADE_IN_AND_OUT:
-						led_animate_ctrl_time.dynamic_ms = LED_ANIMATE_DYNAMIC_TIME_MS *  num_10_led_chunks;
-						led_animate_ctrl_time.dynamic_ms *= 2; // 2x instances of setting pixels
-						led_animate_ctrl_time.static_ms *= (256.0f + (256.0f / 2.0f));
-					break;
-//					case LED_STATE_STARBURST_MODE_1:
-//						led_animate_ctrl_time.dynamic_ms = LED_ANIMATE_DYNAMIC_TIME_MS *  num_10_led_chunks;
-//						led_animate_ctrl_time.static_ms *= num_leds; // delay is PER LED not per 10 LEDs
-//					break;
-//					case LED_STATE_STARBURST_MODE_2:
-//						led_animate_ctrl_time.dynamic_ms = LED_ANIMATE_DYNAMIC_TIME_MS *  num_10_led_chunks;
-//						led_animate_ctrl_time.static_ms *= num_leds; // delay is PER LED not per 10 LEDs
-//					break;
-//					case LED_STATE_STARBURST_RANDOM_MODE_1:
-//						led_animate_ctrl_time.dynamic_ms = LED_ANIMATE_DYNAMIC_TIME_MS *  num_10_led_chunks;
-//						led_animate_ctrl_time.static_ms *= num_leds; // delay is PER LED not per 10 LEDs
-//					break;
-//					case LED_STATE_STARBURST_RANDOM_MODE_2:
-//						led_animate_ctrl_time.dynamic_ms = LED_ANIMATE_DYNAMIC_TIME_MS *  num_10_led_chunks;
-//						led_animate_ctrl_time.static_ms *= num_leds; // delay is PER LED not per 10 LEDs
-//					break;
-//					case LED_STATE_HEARTBEAT:
-//						led_animate_ctrl_time.dynamic_ms = LED_ANIMATE_DYNAMIC_TIME_MS *  num_10_led_chunks;
-//						led_animate_ctrl_time.static_ms *= num_leds; // delay is PER LED not per 10 LEDs
-//					break;
-					case LED_STATE_TWINKLE:
-						led_animate_ctrl_time.dynamic_ms = LED_ANIMATE_DYNAMIC_TIME_MS *  num_10_led_chunks;
-						led_animate_ctrl_time.static_ms *= 0.9f * num_leds;
-					break;
-#					if defined(ENABLE_LED_STATE_TWO_COLOR)
-						case LED_STATE_TWO_COLOR:
-	//						animation_time_dynamic_ms = LED_ANIMATE_DYNAMIC_TIME_MS *  num_10_led_chunks;
-							led_animate_ctrl_time.dynamic_ms = 1;
-							led_animate_ctrl_time.static_ms = 1;
-							led_animate_ctrl_time.between_ms = 1;
-						break;
-#					endif
-#					if defined(ENABLE_LED_STATE_STATIC_AND_DYNAMIC_STRIP)
-						case LED_STATE_STATIC_AND_DYNAMIC_STRIP:
-	//						animation_time_dynamic_ms = LED_ANIMATE_DYNAMIC_TIME_MS *  num_10_led_chunks;
-							led_animate_ctrl_time.dynamic_ms = 1;
-							led_animate_ctrl_time.static_ms = 1;
-							led_animate_ctrl_time.between_ms = 1;
-						break;
-#					endif
-					default:
-						led_animate_ctrl_time.dynamic_ms = 1;
-						led_animate_ctrl_time.static_ms = 1;
-						led_animate_ctrl_time.between_ms = 1;
-					break;
-				}
-				total_time = led_animate_ctrl_time.dynamic_ms + led_animate_ctrl_time.static_ms + led_animate_ctrl_time.between_ms;
-				animation_iterations = (g_animation_time_ms[led_speed] / total_time);
-				if (!animation_iterations)
-				{
-					animation_iterations = 1;
-				}
-				g_animation_iteration_count[strip_num][led_state][led_speed] = animation_iterations;
-			}
-		}
-	}
 }
 
 

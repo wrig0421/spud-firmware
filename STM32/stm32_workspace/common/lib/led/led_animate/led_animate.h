@@ -46,6 +46,7 @@ void led_animate_starburst_zabinski(const strip_mask_t mask, const led_color_e* 
 void led_animate_starburst(const strip_mask_t mask, const led_color_e* p_color,
 							uint16_t* p_delay_ms, led_animate_starburst_mode_e mode,
 							bool b_two_random_color);
+void led_animate_static_harley_color(const strip_mask_t mask, const led_color_e* p_color);
 void led_animate_solid_custom_color(const strip_mask_t mask, const led_color_hex_code_e color);
 void led_animate_only_spell_word(const strip_mask_t mask, const led_color_e* p_color,
                                  uint16_t* p_delay_ms);

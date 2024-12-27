@@ -68,6 +68,12 @@ typedef enum
 #	endif
 #	if (NUM_ACTIVE_STRIPS > 1) && defined(ENABLE_LED_STATE_TWO_COLOR)
 		LED_STATE_STATIC_AND_DYNAMIC_STRIP,
+
+
+
+
+
+
 #	endif
 
 	LED_STATE_TWINKLE, 						// 10

@@ -185,7 +185,10 @@ void led_animate_turn_all_pixels_off_in_strip(const strip_mask_t mask)
 
 void led_animate_force_exit_stimulus(void)
 {
-	g_led_animate_exit_stimulus = true;
+	if (LED_CTRL_STATE_MASTER_DEMO == task_led_master_state((strip_mask_t)STRIP_BIT_ALL_SET))
+	{
+		g_led_animate_exit_stimulus = true;
+	}
 }
 
 
@@ -285,22 +288,6 @@ void led_animate_fixed_assorted_color(const strip_mask_t mask)
 	led_animate_set_pixels_in_range(mask, 530, 579, LED_COLOR_HEX_RED);
 }
 
-
-void led_animate_harley_static_color(const strip_mask_t mask)
-{
-	uint32_t random_color;
-
-	random_color = random_num(0, UINT24_MAX);
-	led_animate_set_pixels_in_range_uint32(mask, 0, 65, random_color);
-
-//	while (1)
-//	{
-//
-//	}
-//
-
-//	led_animate_set_pixels_in_range
-}
 
 void led_animate_random_assorted_color(const strip_mask_t mask)
 {
@@ -469,6 +456,43 @@ void led_animate_srw_debug(void)
 
 }
 
+
+void led_animate_static_harley_color(const strip_mask_t mask, const led_color_e* p_color)
+{
+    led_color_t led_color;
+	led_color_e led_color_dummy = LED_COLOR_NONE;
+	led_color.color_hex = led_color_to_hex_code(*p_color);
+	if (led_animate_check_for_animation_exit_stimulus(mask, &led_color, &led_color_dummy)) return;
+    // handle bar + forks
+  	led_animate_set_pixels_in_range_and_show(mask, 0, 16, LED_COLOR_HEX_WHITE);
+    // bottom frame
+  	led_animate_set_pixels_in_range_and_show(mask, 17, 36, led_color.color_hex);
+    // shifter?
+  	led_animate_set_pixels_in_range_and_show(mask, 37, 40, LED_COLOR_HEX_WHITE);
+    // pipes
+  	led_animate_set_pixels_in_range_and_show(mask, 41, 69, LED_COLOR_HEX_WHITE);
+    // near seat frame
+  	led_animate_set_pixels_in_range_and_show(mask, 70, 77, led_color.color_hex);
+  	// rear tire
+  	led_animate_set_pixels_in_range_and_show(mask, 78, 99, LED_COLOR_HEX_DEBUG);
+  	// rear brake
+  	led_animate_set_pixels_in_range_and_show(mask, 100, 112, LED_COLOR_HEX_DEBUG);
+  	// seat
+  	led_animate_set_pixels_in_range_and_show(mask, 113, 119, LED_COLOR_HEX_SADDLE_BROWN);
+  	// rear fender
+  	led_animate_set_pixels_in_range_and_show(mask, 120, 133, led_color.color_hex);
+  	// gas tank
+  	led_animate_set_pixels_in_range_and_show(mask, 134, 150, led_color.color_hex);
+  	// light
+  	led_animate_set_pixels_in_range_and_show(mask, 151, 154, LED_COLOR_HEX_YELLOW);
+  	// front fender
+  	led_animate_set_pixels_in_range_and_show(mask, 155, 163, led_color.color_hex);
+  	// front tire
+  	led_animate_set_pixels_in_range_and_show(mask, 164, 191, LED_COLOR_HEX_DEBUG);
+  	// front brake
+  	led_animate_set_pixels_in_range_and_show(mask, 192, 208, LED_COLOR_HEX_DEBUG);
+  	led_animate_show_strip(mask);
+}
 
 
 
@@ -790,16 +814,7 @@ void led_animate_theater_chase_rainbow(const strip_mask_t mask, uint16_t* p_dela
             	led_color.color_hex = LED_COLOR_HEX_BLACK;
             	led_animate_set_pixel(mask, iii + qqq, &led_color); // turn every third pixel off
 			}
-            led_animate_show_strip(mask);
-//            led_ctrl_delay(5);
-//            led_ctrl_delay(1);
-//
-//            led_ctrl_delay(*p_delay_ms);
-//            for (int iii = 0; iii < strip_size; iii += 3)
-//			{
-//            	led_color.color_hex = LED_COLOR_HEX_BLACK;
-//            	led_animate_set_pixel(mask, iii + qqq, &led_color); // turn every third pixel off
-//			}
+            if (255 != jjj) led_animate_show_strip(mask);
         }
     }
 }
@@ -1298,44 +1313,24 @@ void led_animate_determine_number_pixels_in_strip(const strip_mask_t mask)
 
 	led_animate_turn_all_pixels_off();
 
-	// frame
-	led_animate_set_pixels_in_range_and_show(mask, 0, 77, LED_COLOR_HEX_WHITE);
-	// rear tire
-	led_animate_set_pixels_in_range_and_show(mask, 78, 99, LED_COLOR_HEX_DEBUG);
-	// rear brake
-	led_animate_set_pixels_in_range_and_show(mask, 100, 112, LED_COLOR_HEX_WHITE);
-	// seat
-	led_animate_set_pixels_in_range_and_show(mask, 113, 119, LED_COLOR_HEX_SADDLE_BROWN);
-	// rear fender
-	led_animate_set_pixels_in_range_and_show(mask, 120, 133, LED_COLOR_HEX_DARK_TAN);
-	// gas tank
-	led_animate_set_pixels_in_range_and_show(mask, 134, 150, LED_COLOR_HEX_DARK_TAN);
-	// light
-	led_animate_set_pixels_in_range_and_show(mask, 151, 154, LED_COLOR_HEX_YELLOW);
-	// front fender
-	led_animate_set_pixels_in_range_and_show(mask, 155, 163, LED_COLOR_HEX_SADDLE_BROWN);
-	// front tire
-	led_animate_set_pixels_in_range_and_show(mask, 164, 191, LED_COLOR_HEX_DEBUG);
-	// front brake
-	led_animate_set_pixels_in_range_and_show(mask, 192, 208, LED_COLOR_HEX_WHITE);
+	while(1);
 
-	while (1);
-//	do
-//	{
-//		// strip 1 is motorcycle
-//
-//		if (g_dbg_num_pixels_turn_off_all_pixels)
-//		{
-//			g_dbg_num_pixels_turn_off_all_pixels = false;
-//			led_animate_turn_all_pixels_off();
-//			led_ctrl_delay(5000);
-//		}
-//		else
-//		{
-//			led_animate_set_pixels_in_range_and_show(mask, g_dbg_pixel_start, g_dbg_pixel_stop, LED_COLOR_HEX_DARK_MAGENTA);
-//			led_ctrl_delay(2000);
-//		}
-//	} while ((!g_dbg_num_pixels_complete));
-//	g_dbg_num_pixels_complete = false;
+	do
+	{
+		// strip 1 is motorcycle
+
+		if (g_dbg_num_pixels_turn_off_all_pixels)
+		{
+			g_dbg_num_pixels_turn_off_all_pixels = false;
+			led_animate_turn_all_pixels_off();
+			led_ctrl_delay(5000);
+		}
+		else
+		{
+			led_animate_set_pixels_in_range_and_show(mask, g_dbg_pixel_start, g_dbg_pixel_stop, LED_COLOR_HEX_DARK_MAGENTA);
+			led_ctrl_delay(2000);
+		}
+	} while ((!g_dbg_num_pixels_complete));
+	g_dbg_num_pixels_complete = false;
 }
 

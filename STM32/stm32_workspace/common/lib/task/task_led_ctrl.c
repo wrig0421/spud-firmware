@@ -254,6 +254,7 @@ static void task_led_iterate(led_state_e led_state, const strip_mask_t mask)
 				led_animate_turn_all_pixels_off();
 				led_animate_twinkle(mask, p_led_color, (uint32_t)((float)NUM_LEDS * (float)0.9), p_led_state_inner_animation_delay_ms, false);
 			break;
+
 #			if	defined(ENABLE_LED_STATE_TWO_COLOR)
 				case LED_STATE_TWO_COLOR:
 					led_animate_set_all_pixels_hex_color(STRIP_BIT_1, g_color_hex_codes[g_two_color_outer]);
@@ -262,10 +263,16 @@ static void task_led_iterate(led_state_e led_state, const strip_mask_t mask)
 #			endif
 #			if	defined(ENABLE_LED_STATE_STATIC_AND_DYNAMIC_STRIP)
 				case LED_STATE_STATIC_AND_DYNAMIC_STRIP:
-					led_animate_set_all_pixels_hex_color(STRIP_BIT_1, g_color_hex_codes[g_two_color_outer]);
-					led_animate_set_all_pixels_hex_color(STRIP_BIT_2, g_color_hex_codes[g_two_color_inner]);
+					led_animate_static_harley_color(STRIP_BIT_1, p_led_color);
+					led_animate_theater_chase_rainbow(STRIP_BIT_2, p_led_state_inner_animation_delay_ms);
 				break;
 #			endif
+
+
+
+
+
+
 			break;
 			case LED_STATE_SRW_DEBUG:
 				led_animate_srw_debug();
@@ -382,7 +389,7 @@ void task_led_sync_ctrl(void *argument)
 	led_animate_turn_all_pixels_off();
 	while (1)
 	{
-		led_animate_determine_number_pixels_in_strip(STRIP_BIT_1);
+//		led_animate_determine_number_pixels_in_strip(STRIP_BIT_1);
 //		g_task_led_ctrl_state = g_task_led_ctrl[STRIP_NUM_ALL_SET].led_state_info.led_state;
 		task_led_iterate(g_task_led_ctrl[STRIP_NUM_ALL_SET].led_state_info.led_state, STRIP_BIT_ALL_SET);
 		task_led_ctrl_adjust_parameters(STRIP_BIT_ALL_SET);

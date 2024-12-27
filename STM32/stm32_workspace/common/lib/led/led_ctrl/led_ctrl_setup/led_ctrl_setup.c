@@ -436,12 +436,12 @@ led_ctrl_state_iterations_t g_task_led_ctrl_state_iterations[NUM_LED_STATES] =
 			.led_state_inner_animation_delay_ms[LED_SPEED_5]      	= 0,
 			.led_state_inner_animation_delay_ms[LED_SPEED_6]      	= 0,
 
-			.led_state_between_animation_delay_ms[LED_SPEED_1]		= 5000,
-			.led_state_between_animation_delay_ms[LED_SPEED_2]		= 5000,
-			.led_state_between_animation_delay_ms[LED_SPEED_3]		= 5000,
-			.led_state_between_animation_delay_ms[LED_SPEED_4]		= 5000,
-			.led_state_between_animation_delay_ms[LED_SPEED_5]		= 5000,
-			.led_state_between_animation_delay_ms[LED_SPEED_6]		= 5000,
+			.led_state_between_animation_delay_ms[LED_SPEED_1]		= 0,
+			.led_state_between_animation_delay_ms[LED_SPEED_2]		= 0,
+			.led_state_between_animation_delay_ms[LED_SPEED_3]		= 0,
+			.led_state_between_animation_delay_ms[LED_SPEED_4]		= 0,
+			.led_state_between_animation_delay_ms[LED_SPEED_5]		= 0,
+			.led_state_between_animation_delay_ms[LED_SPEED_6]		= 0,
 
 			.led_state_allow_black_color							= false
 		}
@@ -457,8 +457,8 @@ led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS] =
 	{
 		.led_state_info =
 		{
-			.led_state_master 				= LED_CTRL_STATE_MASTER_DEMO, //LED_CTRL_STATE_MASTER_DEMO,//LED_CTRL_STATE_MASTER_DEMO,
-			.led_state 						= LED_STATE_RAINBOW_CYCLE, //LED_STATE_SPARKLE_NO_FILL,//LED_STATE_FIRST,
+			.led_state_master 				= LED_CTRL_STATE_MASTER_FIXED, //LED_CTRL_STATE_MASTER_DEMO,//LED_CTRL_STATE_MASTER_DEMO,
+			.led_state 						= LED_STATE_STATIC_AND_DYNAMIC_STRIP, //LED_STATE_SPARKLE_NO_FILL,//LED_STATE_FIRST,
 			.led_state_current_iteration 	= 0
 		},
 		.led_color_info =
@@ -597,8 +597,8 @@ led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS] =
 	{
 		.led_state_info =
 		{
-			.led_state_master 				= LED_CTRL_STATE_MASTER_DEMO,
-			.led_state 						= LED_STATE_RAINBOW_CYCLE,
+			.led_state_master 				= LED_CTRL_STATE_MASTER_FIXED,
+			.led_state 						= LED_STATE_STATIC_AND_DYNAMIC_STRIP,
 			.led_state_current_iteration 	= 0,
 		},
 		.led_color_info =
