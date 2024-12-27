@@ -8,5 +8,6 @@
 #include "FreeRTOSConfig.h"
 
 void timer_create(void);
+void timer_reset(void);
 
 #endif // TIMER_CREATE_H

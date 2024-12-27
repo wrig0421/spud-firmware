@@ -1,6 +1,7 @@
 common/lib/task/task_button_press.o: \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_button_press.c \
- ../src/app/main.h ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h \
+ ../src/app/config.h ../src/app/main.h \
+ ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h \
  ../src/bsp/stmicro/stm32l4/bloat/stm32l4xx_hal_conf.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h \
@@ -43,7 +44,7 @@ common/lib/task/task_button_press.o: \
  ../sdk/FreeRTOS/Source/include/mpu_wrappers.h \
  ../sdk/FreeRTOS/Source/include/task.h \
  ../sdk/FreeRTOS/Source/include/list.h ../src/bsp/board_init_common.h \
- ../src/app/config.h ../src/bsp/board_common.h \
+ ../src/bsp/board_common.h \
  ../src/bsp/stmicro/stm32l4/board_specific/board_specific.h \
  ../src/bsp/board_common.h \
  ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/board_init_spudglo_v7.h \
@@ -72,6 +73,7 @@ common/lib/task/task_button_press.o: \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/create/task_create.h \
  ../src/bsp/stmicro/peripheral/button/button_config_hal_specific.h \
  ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/button/board_spudglo_v7_button_config.h
+../src/app/config.h:
 ../src/app/main.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
 ../src/bsp/stmicro/stm32l4/bloat/stm32l4xx_hal_conf.h:
@@ -120,7 +122,6 @@ common/lib/task/task_button_press.o: \
 ../sdk/FreeRTOS/Source/include/task.h:
 ../sdk/FreeRTOS/Source/include/list.h:
 ../src/bsp/board_init_common.h:
-../src/app/config.h:
 ../src/bsp/board_common.h:
 ../src/bsp/stmicro/stm32l4/board_specific/board_specific.h:
 ../src/bsp/board_common.h:

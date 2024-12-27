@@ -278,9 +278,9 @@ bool flash_info_animation_enabled(strip_bit_e strip_bit,
         case LED_STATE_TWINKLE:
             if (strip_animation_mask.twinkle) return_val = true;
         break;
-        case LED_STATE_SRW_DEBUG:
-            if (strip_animation_mask.solid_white) return_val = true;
-        break;
+//        case LED_STATE_SRW_DEBUG:
+//            if (strip_animation_mask.solid_white) return_val = true;
+//        break;
         default:
         break;
     }

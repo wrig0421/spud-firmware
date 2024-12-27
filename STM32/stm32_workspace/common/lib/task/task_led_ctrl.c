@@ -138,8 +138,8 @@ static void task_led_ctrl_adjust_parameters(const strip_mask_t mask)
 	task_led_ctrl_state_info->led_state_current_iteration++;
     if (0 < (task_led_ctrl_state_iterations->led_state_between_animation_delay_ms[led_speed]))
     {
-    	led_ctrl_delay(task_led_ctrl_state_iterations->led_state_between_animation_delay_ms[led_speed]);
-//    	if (led_ctrl_delay(task_led_ctrl_state_iterations->led_state_between_animation_delay_ms[led_speed]))
+    	led_ctrl_delay(mask, task_led_ctrl_state_iterations->led_state_between_animation_delay_ms[led_speed]);
+//    	if (led_ctrl_delay(mask, task_led_ctrl_state_iterations->led_state_between_animation_delay_ms[led_speed]))
 //    	{
 //    		skip_color_check = true;
 //    	}
@@ -180,13 +180,20 @@ static void task_led_ctrl_adjust_parameters(const strip_mask_t mask)
 }
 
 uint32_t g_time_diff = 0;
-static void task_led_iterate(led_state_e led_state, const strip_mask_t mask)
+static void task_led_iterate(led_state_e led_state, strip_mask_t mask)
 {
 	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
 	uint16_t *p_led_state_inner_animation_delay_ms = \
 			&g_task_led_ctrl_state_iterations[g_task_led_ctrl[strip_num].led_state_info.led_state].led_state_inner_animation_delay_ms[g_task_led_ctrl[strip_num].led_speed];
 	led_color_e *p_led_color = \
 			&g_task_led_ctrl[strip_num].led_color_info.led_color;
+
+	if (1)
+	{
+		led_animate_static_harley_color(STRIP_BIT_1, p_led_color);
+		// mask to control do the second strip here...
+		mask = (strip_mask_t)STRIP_BIT_2;
+	}
 	if (1)//(flash_info_animation_enabled(g_task_led_ctrl.led_state))
 	{
 		switch(led_state)
@@ -251,41 +258,28 @@ static void task_led_iterate(led_state_e led_state, const strip_mask_t mask)
 //			break;
 
 			case LED_STATE_TWINKLE:
-				led_animate_turn_all_pixels_off();
+				led_animate_turn_all_pixels_off_in_strip(mask);
 				led_animate_twinkle(mask, p_led_color, (uint32_t)((float)NUM_LEDS * (float)0.9), p_led_state_inner_animation_delay_ms, false);
 			break;
 
 #			if	defined(ENABLE_LED_STATE_TWO_COLOR)
 				case LED_STATE_TWO_COLOR:
-					led_animate_set_all_pixels_hex_color(STRIP_BIT_1, g_color_hex_codes[g_two_color_outer]);
+					//led_animate_set_all_pixels_hex_color(STRIP_BIT_1, g_color_hex_codes[g_two_color_outer]);
 					led_animate_set_all_pixels_hex_color(STRIP_BIT_2, g_color_hex_codes[g_two_color_inner]);
 				break;
 #			endif
-#			if	defined(ENABLE_LED_STATE_STATIC_AND_DYNAMIC_STRIP)
-				case LED_STATE_STATIC_AND_DYNAMIC_STRIP:
-					led_animate_static_harley_color(STRIP_BIT_1, p_led_color);
-					led_animate_theater_chase_rainbow(STRIP_BIT_2, p_led_state_inner_animation_delay_ms);
-				break;
-#			endif
-
-
-
-
-
-
-			break;
-			case LED_STATE_SRW_DEBUG:
-				led_animate_srw_debug();
-//#				if defined(ENABLE_STRIP_1)
-//					led_animate_determine_number_pixels_in_strip(STRIP_BIT_1);
-//#				endif
-//#				if defined(ENABLE_STRIP_2)
-//					led_animate_determine_number_pixels_in_strip(STRIP_BIT_2);
-//#				endif
-//#				if defined(ENABLE_STRIP_3)
-//					led_animate_determine_number_pixels_in_strip(STRIP_BIT_3);
-//#				endif
-			break;
+//			case LED_STATE_SRW_DEBUG:
+//				led_animate_srw_debug();
+////#				if defined(ENABLE_STRIP_1)
+////					led_animate_determine_number_pixels_in_strip(STRIP_BIT_1);
+////#				endif
+////#				if defined(ENABLE_STRIP_2)
+////					led_animate_determine_number_pixels_in_strip(STRIP_BIT_2);
+////#				endif
+////#				if defined(ENABLE_STRIP_3)
+////					led_animate_determine_number_pixels_in_strip(STRIP_BIT_3);
+////#				endif
+//			break;
 			default:
 			break;
 		}

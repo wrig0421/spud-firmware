@@ -76,7 +76,7 @@ typedef struct
 
 void led_ctrl_timer_callback(TimerHandle_t timer_handle);
 
-bool led_ctrl_delay(const uint32_t time_ms);
+bool led_ctrl_delay(const strip_mask_t mask, const uint32_t time_ms);
 void led_ctrl_init(void);
 
 

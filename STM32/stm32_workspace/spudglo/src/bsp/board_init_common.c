@@ -175,7 +175,7 @@ void board_init_common_board_init(void)
     board_init_common_timer_init(); // TODO determine if timer should be part of a separate config file??
     ws2812b_init();
     board_init_common_rtc_init();
-    led_ctrl_init();
+//    led_ctrl_init();
 }
 
 

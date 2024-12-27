@@ -419,33 +419,33 @@ led_ctrl_state_iterations_t g_task_led_ctrl_state_iterations[NUM_LED_STATES] =
 			.led_state_allow_black_color							= false
 		},
 #endif
-#	if (NUM_ACTIVE_STRIPS > 1) && defined(ENABLE_LED_STATE_STATIC_AND_DYNAMIC_STRIP)
-		[LED_STATE_STATIC_AND_DYNAMIC_STRIP] =
-		{
-			.led_state_max_iteration[LED_SPEED_1]					= 10,
-			.led_state_max_iteration[LED_SPEED_2]					= 10,
-			.led_state_max_iteration[LED_SPEED_3]					= 10,
-			.led_state_max_iteration[LED_SPEED_4]					= 10,
-			.led_state_max_iteration[LED_SPEED_5]					= 10,
-			.led_state_max_iteration[LED_SPEED_6]					= 10,
-
-			.led_state_inner_animation_delay_ms[LED_SPEED_1]     	= 0,
-			.led_state_inner_animation_delay_ms[LED_SPEED_2]   		= 0,
-			.led_state_inner_animation_delay_ms[LED_SPEED_3]   		= 0,
-			.led_state_inner_animation_delay_ms[LED_SPEED_4]      	= 0,
-			.led_state_inner_animation_delay_ms[LED_SPEED_5]      	= 0,
-			.led_state_inner_animation_delay_ms[LED_SPEED_6]      	= 0,
-
-			.led_state_between_animation_delay_ms[LED_SPEED_1]		= 0,
-			.led_state_between_animation_delay_ms[LED_SPEED_2]		= 0,
-			.led_state_between_animation_delay_ms[LED_SPEED_3]		= 0,
-			.led_state_between_animation_delay_ms[LED_SPEED_4]		= 0,
-			.led_state_between_animation_delay_ms[LED_SPEED_5]		= 0,
-			.led_state_between_animation_delay_ms[LED_SPEED_6]		= 0,
-
-			.led_state_allow_black_color							= false
-		}
-#endif
+//#	if (NUM_ACTIVE_STRIPS > 1) && defined(ENABLE_LED_STATE_STATIC_AND_RAINBOW_CHASE)
+//		[LED_STATE_STATIC_AND_RAINBOW_CHASE] =
+//		{
+//			.led_state_max_iteration[LED_SPEED_1]					= 10,
+//			.led_state_max_iteration[LED_SPEED_2]					= 10,
+//			.led_state_max_iteration[LED_SPEED_3]					= 10,
+//			.led_state_max_iteration[LED_SPEED_4]					= 10,
+//			.led_state_max_iteration[LED_SPEED_5]					= 10,
+//			.led_state_max_iteration[LED_SPEED_6]					= 10,
+//
+//			.led_state_inner_animation_delay_ms[LED_SPEED_1]  		= 10,
+//			.led_state_inner_animation_delay_ms[LED_SPEED_2] 		= 45,
+//			.led_state_inner_animation_delay_ms[LED_SPEED_3]    	= 66,
+//			.led_state_inner_animation_delay_ms[LED_SPEED_4]     	= 132,
+//			.led_state_inner_animation_delay_ms[LED_SPEED_5]   		= 250,
+//			.led_state_inner_animation_delay_ms[LED_SPEED_6]   		= 400,
+//
+//			.led_state_between_animation_delay_ms[LED_SPEED_1]		= 0,
+//			.led_state_between_animation_delay_ms[LED_SPEED_2]		= 0,
+//			.led_state_between_animation_delay_ms[LED_SPEED_3]		= 0,
+//			.led_state_between_animation_delay_ms[LED_SPEED_4]		= 0,
+//			.led_state_between_animation_delay_ms[LED_SPEED_5]		= 0,
+//			.led_state_between_animation_delay_ms[LED_SPEED_6]		= 0,
+//
+//			.led_state_allow_black_color							= false
+//		}
+//#endif
 
 
 };
@@ -458,7 +458,7 @@ led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS] =
 		.led_state_info =
 		{
 			.led_state_master 				= LED_CTRL_STATE_MASTER_FIXED, //LED_CTRL_STATE_MASTER_DEMO,//LED_CTRL_STATE_MASTER_DEMO,
-			.led_state 						= LED_STATE_STATIC_AND_DYNAMIC_STRIP, //LED_STATE_SPARKLE_NO_FILL,//LED_STATE_FIRST,
+			.led_state 						= LED_STATE_FIRST, //LED_STATE_SPARKLE_NO_FILL,//LED_STATE_FIRST,
 			.led_state_current_iteration 	= 0
 		},
 		.led_color_info =
@@ -528,7 +528,7 @@ led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS] =
 		.led_state_info =
 		{
 			.led_state_master 				= LED_CTRL_STATE_MASTER_FIXED,
-			.led_state 						= LED_STATE_SRW_DEBUG,
+//			.led_state 						= LED_STATE_SRW_DEBUG,
 			.led_state_current_iteration 	= 0,
 		},
 		.led_color_info =
@@ -597,8 +597,8 @@ led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS] =
 	{
 		.led_state_info =
 		{
-			.led_state_master 				= LED_CTRL_STATE_MASTER_FIXED,
-			.led_state 						= LED_STATE_STATIC_AND_DYNAMIC_STRIP,
+			.led_state_master 				= LED_CTRL_STATE_MASTER_DEMO,
+			.led_state 						= LED_STATE_SPELL,
 			.led_state_current_iteration 	= 0,
 		},
 		.led_color_info =
@@ -613,7 +613,7 @@ led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS] =
 			.major.interrupt_status_flat 	= 0,
 			.major_interrupt_flag 			= false,
 		},
-		.led_speed 							= LED_SPEED_1,
+		.led_speed 							= LED_SPEED_NORMAL,
 		.led_brightness 					= LED_BRIGHTNESS_100_PERCENT
 	}
 };

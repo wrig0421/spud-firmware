@@ -1,8 +1,8 @@
 ../sdk/CMSIS/Include/core_cm4.h:1933:34:__NVIC_SystemReset	1
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_button_press.c:43:6:task_button_press_interrupt_occurred	3
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_button_press.c:52:6:task_button_press_major_interupt_occurred	1
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_button_press.c:58:6:task_button_press_minor_interupt_occurred	1
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_button_press.c:69:14:task_led_ctrl_button_to_isr	5
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_button_press.c:82:13:task_button_press_ctrl_set_interrupt_flag	7
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_button_press.c:142:6:task_button_press_check_interrupts	11
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_button_press.c:238:6:task_button_press	20
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_button_press.c:55:6:task_button_press_interrupt_occurred	3
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_button_press.c:66:6:task_button_press_major_interupt_occurred	1
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_button_press.c:72:6:task_button_press_minor_interupt_occurred	1
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_button_press.c:83:14:task_led_ctrl_button_to_isr	5
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_button_press.c:96:13:task_button_press_ctrl_set_interrupt_flag	7
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_button_press.c:156:6:task_button_press_check_interrupts	11
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_button_press.c:249:6:task_button_press	17

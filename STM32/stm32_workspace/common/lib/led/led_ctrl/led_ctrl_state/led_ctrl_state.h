@@ -66,15 +66,9 @@ typedef enum
 #	if (NUM_ACTIVE_STRIPS > 1) && defined(ENABLE_LED_STATE_TWO_COLOR)
 		LED_STATE_TWO_COLOR,				// 9
 #	endif
-#	if (NUM_ACTIVE_STRIPS > 1) && defined(ENABLE_LED_STATE_TWO_COLOR)
-		LED_STATE_STATIC_AND_DYNAMIC_STRIP,
-
-
-
-
-
-
-#	endif
+//#	if (NUM_ACTIVE_STRIPS > 1) && defined(ENABLE_LED_STATE_STATIC_AND_RAINBOW_CHASE)
+//		LED_STATE_STATIC_AND_RAINBOW_CHASE,
+//#	endif
 
 	LED_STATE_TWINKLE, 						// 10
 	LED_STATE_LAST = LED_STATE_TWINKLE,
@@ -83,7 +77,7 @@ typedef enum
 //	LED_STATE_SPELL_AND_RAINBOW
 //#endif
     NUM_LED_STATES,							// 11
-    LED_STATE_SRW_DEBUG,					// 12
+//    LED_STATE_SRW_DEBUG,					// 12
 	// future states below
 	//LED_STATE_FADE_IN_AND_OUT_RANDOM,
     //LED_STATE_METEOR,
