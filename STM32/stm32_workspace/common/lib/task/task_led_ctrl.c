@@ -188,7 +188,7 @@ static void task_led_iterate(led_state_e led_state, strip_mask_t mask)
 	led_color_e *p_led_color = \
 			&g_task_led_ctrl[strip_num].led_color_info.led_color;
 
-	if (1)
+	if (0)
 	{
 		led_animate_static_harley_color(STRIP_BIT_1, p_led_color);
 		// mask to control do the second strip here...
