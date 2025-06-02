@@ -257,21 +257,21 @@ bool flash_info_animation_enabled(strip_bit_e strip_bit,
         case LED_STATE_SOLID_COLOR:
             if (strip_animation_mask.solid_color) return_val = true;
         break;
-        case LED_STATE_SPARKLE_NO_FILL:
-            if (strip_animation_mask.sparkle_no_fill) return_val = true;
-        break;
+//        case LED_STATE_SPARKLE_NO_FILL:
+//            if (strip_animation_mask.sparkle_no_fill) return_val = true;
+//        break;
         case LED_STATE_SPARKLE_FILL:
             if (strip_animation_mask.sparkle_fill) return_val = true;
         break;
         case LED_STATE_RAINBOW_CYCLE:
             if (strip_animation_mask.rainbow) return_val = true;
         break;
-        case LED_STATE_THEATER_CHASE:
-            if (strip_animation_mask.chase) return_val = true;
-        break;
-        case LED_STATE_THEATER_CHASE_RAINBOW:
-            if (strip_animation_mask.chase_rainbow) return_val = true;
-        break;
+//        case LED_STATE_THEATER_CHASE:
+//            if (strip_animation_mask.chase) return_val = true;
+//        break;
+//        case LED_STATE_THEATER_CHASE_RAINBOW:
+//            if (strip_animation_mask.chase_rainbow) return_val = true;
+//        break;
         case LED_STATE_FADE_IN_AND_OUT:
             if (strip_animation_mask.fade) return_val = true;
         break;

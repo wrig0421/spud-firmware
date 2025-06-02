@@ -1,5 +1,5 @@
 ../src/bsp/flash_info.c:94:6:flash_info_color_enabled	5
-../src/bsp/flash_info.c:222:6:flash_info_animation_enabled	25
+../src/bsp/flash_info.c:222:6:flash_info_animation_enabled	19
 ../src/bsp/flash_info.c:292:18:flash_info_strip_brightness	5
 ../src/bsp/flash_info.c:333:13:flash_info_strip_speed	5
 ../src/bsp/flash_info.c:369:6:flash_info_block_init	1

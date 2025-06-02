@@ -207,22 +207,22 @@ static void task_led_iterate(led_state_e led_state, strip_mask_t mask)
 			case LED_STATE_SOLID_COLOR:
 				led_animate_solid_custom_color(mask, led_color_to_hex_code(*p_led_color));
 			break;
-			case LED_STATE_SPARKLE_NO_FILL:
-//				led_animate_turn_all_pixels_off();
-				led_animate_sparkle_only_random_color(mask, false, p_led_state_inner_animation_delay_ms);//random(0, 50));
-			break;
+//			case LED_STATE_SPARKLE_NO_FILL:
+////				led_animate_turn_all_pixels_off();
+//				led_animate_sparkle_only_random_color(mask, false, p_led_state_inner_animation_delay_ms);//random(0, 50));
+//			break;
 			case LED_STATE_SPARKLE_FILL:
 				led_animate_sparkle_only_random_color(mask, true, p_led_state_inner_animation_delay_ms);
 			break;
 			case LED_STATE_RAINBOW_CYCLE:
 				led_animate_rainbow_cycle(mask, p_led_state_inner_animation_delay_ms);//10);
 			break;
-			case LED_STATE_THEATER_CHASE:
-				led_animate_theater_chase(mask, p_led_color, p_led_state_inner_animation_delay_ms);
-			break;
-			case LED_STATE_THEATER_CHASE_RAINBOW:\
-				led_animate_theater_chase_rainbow(mask, p_led_state_inner_animation_delay_ms);
-			break;
+//			case LED_STATE_THEATER_CHASE:
+//				led_animate_theater_chase(mask, p_led_color, p_led_state_inner_animation_delay_ms);
+//			break;
+//			case LED_STATE_THEATER_CHASE_RAINBOW:\
+//				led_animate_theater_chase_rainbow(mask, p_led_state_inner_animation_delay_ms);
+//			break;
 			case LED_STATE_FADE_IN_AND_OUT:
 				led_animate_fade_in_fade_out(mask, p_led_color, p_led_state_inner_animation_delay_ms);
 			break;

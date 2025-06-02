@@ -53,7 +53,7 @@ static void SystemClock_Config(void)
     HAL_PWR_EnableBkUpAccess();
     __HAL_RCC_LSEDRIVE_CONFIG(RCC_LSEDRIVE_LOW);
 
-    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE|RCC_OSCILLATORTYPE_LSE;
+    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE|RCC_OSCILLATORTYPE_LSI;
     RCC_OscInitStruct.HSEState = RCC_HSE_ON;
     RCC_OscInitStruct.LSEState = RCC_LSI_ON;
     RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
@@ -174,7 +174,7 @@ void board_init_common_board_init(void)
     button_config_hal_setup();
     board_init_common_timer_init(); // TODO determine if timer should be part of a separate config file??
     ws2812b_init();
-    board_init_common_rtc_init();
+//    board_init_common_rtc_init();
 //    led_ctrl_init();
 }
 

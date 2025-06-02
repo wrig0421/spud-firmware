@@ -283,13 +283,13 @@ const gpio_config_t g_gpio_config[NUM_GPIO_PINS] =
 		.port = GPIO_PORT_B,
 		.mode = GPIO_CONFIG_MODE_INPUT_PULLDOWN
 	},
-	[GPIO_PIN_I2C2_SCL] = // NC
+	[GPIO_PIOB_PIN_10] = // NC
 	{
 		.pin = GPIO_PIOB_PIN_10,
 		.port = GPIO_PORT_B,
 		.mode = GPIO_CONFIG_MODE_ALTERNATE_FUNCTION // I2C2
 	},
-	[GPIO_PIN_I2C2_SDA] = // NC
+	[GPIO_PIOB_PIN_11] = // NC
 	{
 		.pin = GPIO_PIOB_PIN_11,
 		.port = GPIO_PORT_B,
