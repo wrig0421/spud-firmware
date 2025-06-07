@@ -4,6 +4,8 @@
 #include <stdint.h>
 #include "config.h"
 
+#if defined(ENABLE_BUTTON)
+
 #include "main.h"
 
 #include "FreeRTOSConfig.h"
@@ -472,4 +474,8 @@ void task_button_press(void *argument)
 //			}
         }
 	}
+
 }
+
+
+#endif

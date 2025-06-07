@@ -15,6 +15,8 @@
 #	include "board_init_spudglo_v7/peripheral/gpio/board_spudglo_v7_gpio_config.h"
 #elif defined(BOARD_SPUDGLO_BUSINESS_CARD)
 #	include "board_init_spudglo_business_card/peripheral/gpio/board_spudglo_business_card_gpio_config.h"
+#elif defined(BOARD_SPUDGLO_BABY_DINOSAUR_V1)
+#	include "board_init_spudglo_baby_dinosaur_v1/peripheral/gpio/board_spudglo_baby_dinosaur_v1_gpio_config.h"
 #else
 #	error "Error - None or unknown board defined!"
 #endif

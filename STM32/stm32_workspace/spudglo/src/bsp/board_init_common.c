@@ -123,7 +123,7 @@ static void board_init_common_timer_init(void)
     HAL_TIM_PWM_Stop_DMA(&g_tim1_handle, TIM_CHANNEL_1);
     HAL_TIM_PWM_Stop_DMA(&g_tim1_handle, TIM_CHANNEL_2);
     HAL_TIM_PWM_Stop_DMA(&g_tim1_handle, TIM_CHANNEL_3);
-#if defined(BOARD_SPUDGLO_BUSINESS_CARD)
+#if defined(BOARD_SPUDGLO_BUSINESS_CARD) || defined(BOARD_SPUDGLO_BABY_DINOSAUR_V1)
     GPIO_InitStruct.Pin = gpio_config_pin_lookup(GPIO_PIN_TIM1_CH1); // hack for now...
 #else
     GPIO_InitStruct.Pin = gpio_config_pin_lookup(GPIO_PIN_TIM1_CH1) | gpio_config_pin_lookup(GPIO_PIN_TIM1_CH2) | gpio_config_pin_lookup(GPIO_PIN_TIM1_CH3);
@@ -155,27 +155,25 @@ void board_init_common_stop_timer(void)
 
 void board_init_common_board_init(void)
 {
-
-//	time_t rawtime;
-//	time(&rawtime);
-
-
     srand(time(0)); // TODO determine a better seed.  Analog input noise would be superb!
 
     HAL_Init();
     SystemClock_Config(); // 32.768 kHz LSE, 48 MHz HSE enabled by default.
+
+    // setup gpio
     gpio_config_hal_setup();
-#if defined(BOARD_SPUDGLO_V5)
-    board_init_peripheral_setup(); // TODO determine whether to continue supporting boards that don't have peripheral access or not...
-#endif
-#if defined(BOARD_SPUDGLO_V7)
-    i2c_config_hal_setup();
-#endif
-    button_config_hal_setup();
+
+    // setup i2c, spi, uart if present
+    board_init_peripheral_setup();
+
+    // setup timers on board
     board_init_common_timer_init(); // TODO determine if timer should be part of a separate config file??
+
+    // initialize the LED strip
     ws2812b_init();
-//    board_init_common_rtc_init();
-//    led_ctrl_init();
+
+    // setup any board specific items
+    board_init_specific();
 }
 
 

@@ -29,6 +29,28 @@ extern led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS];
 bool g_led_animate_exit_stimulus = false;
 
 bool g_led_animate_adjust_speed = false;
+
+
+bool led_animate_interrupt_occurred(const strip_mask_t mask)
+{
+#	if defined(ENABLE_BUTTON)
+		return task_button_press_interrupt_occurred(mask);
+#	else
+		return false;
+#	endif
+}
+
+
+bool led_animate_check_interrupts(const strip_mask_t mask)
+{
+#	if defined(ENABLE_BUTTON)
+		return task_button_press_check_interrupts(mask);
+#	else
+		return false;
+#	endif
+}
+
+
 bool led_animate_need_to_adjust_speed(void)
 {
 	return g_led_animate_adjust_speed;
@@ -56,7 +78,6 @@ void led_animate_show_strip(const strip_mask_t strip_mask)
 {
     if (STRIP_BIT_1 & strip_mask)
     {
-    	//ws2812b_show_strip_two();
         ws2812b_show_strip_one();
     }
     if (STRIP_BIT_2 & strip_mask)
@@ -138,7 +159,7 @@ void led_animate_set_pixels_in_range(const strip_mask_t mask, uint16_t start, ui
 {
     led_color_t led_color;
     led_color.color_hex = color;
-    if (task_button_press_interrupt_occurred(mask)) if (task_button_press_check_interrupts(mask)) return;
+    if (led_animate_interrupt_occurred(mask)) if (led_animate_check_interrupts(mask)) return;
 	for (uint16_t yyy = start; yyy <= stop; yyy++) ws2812b_set_led(mask, yyy, led_color.color_rgb.red, led_color.color_rgb.green, led_color.color_rgb.blue);
 //	led_animate_show_strip(mask);
 }
@@ -157,7 +178,7 @@ void led_animate_set_pixels_in_range_uint32(const strip_mask_t mask, uint16_t st
 {
     led_color_t led_color;
     led_color.color_hex = color_hex_code_val;
-    if (task_button_press_interrupt_occurred(mask)) if (task_button_press_check_interrupts(mask)) return;
+    if (led_animate_interrupt_occurred(mask)) if (led_animate_check_interrupts(mask)) return;
 	for (uint16_t yyy = start; yyy <= stop; yyy++) ws2812b_set_led(mask, yyy, led_color.color_rgb.red, led_color.color_rgb.green, led_color.color_rgb.blue);
 }
 
@@ -166,7 +187,7 @@ void led_animate_set_pixels_in_range_and_show_uint32(const strip_mask_t mask, ui
 {
     led_color_t led_color;
     led_color.color_hex = color_hex_code_val;
-    if (task_button_press_interrupt_occurred(mask)) if (task_button_press_check_interrupts(mask)) return;
+    if (led_animate_interrupt_occurred(mask)) if (led_animate_check_interrupts(mask)) return;
 	for (uint16_t yyy = start; yyy <= stop; yyy++) ws2812b_set_led(mask, yyy, led_color.color_rgb.red, led_color.color_rgb.green, led_color.color_rgb.blue);
 	led_animate_show_strip(mask);
 }
@@ -227,9 +248,9 @@ bool led_animate_check_for_animation_exit_stimulus(const strip_mask_t mask, led_
 		led_animate_turn_all_pixels_off_in_strip((strip_mask_t)mask);
 		timer_reset();
 	}
-	else if (task_button_press_interrupt_occurred(mask))
+	else if (led_animate_interrupt_occurred(mask))
     {
-        if (task_button_press_check_interrupts(mask))
+        if (led_animate_check_interrupts(mask))
         {
         	return_val = true;
         }
@@ -318,9 +339,9 @@ void led_animate_random_assorted_color(const strip_mask_t mask)
 	for (uint16_t iii = 0; iii < 80; iii++)
 	{
 
-        if (task_button_press_interrupt_occurred(mask))
+        if (led_animate_interrupt_occurred(mask))
         {
-            if (task_button_press_check_interrupts(mask))
+            if (led_animate_check_interrupts(mask))
             {
                 return;
             }
@@ -868,9 +889,9 @@ void led_animate_heart_beat(const strip_mask_t mask, const led_color_e* p_color,
 	for (int iii = 0; iii < fade_max; iii += fade_increment_amount)
 	{
 
-        if (task_button_press_interrupt_occurred(mask))
+        if (led_animate_interrupt_occurred(mask))
         {
-            if (task_button_press_check_interrupts(mask))
+            if (led_animate_check_interrupts(mask))
             {
                 return;
             }
@@ -893,9 +914,9 @@ void led_animate_heart_beat(const strip_mask_t mask, const led_color_e* p_color,
 	}
 	for (int iii = fade_max; iii > 0; iii -= fade_increment_amount)
 	{
-        if (task_button_press_interrupt_occurred(mask))
+        if (led_animate_interrupt_occurred(mask))
         {
-            if (task_button_press_check_interrupts(mask))
+            if (led_animate_check_interrupts(mask))
             {
                 return;
             }
@@ -921,9 +942,9 @@ void led_animate_heart_beat(const strip_mask_t mask, const led_color_e* p_color,
 	led_ctrl_delay(mask, delay_between_beats);
 	for (int iii = 0; iii < fade_max; iii += fade_increment_amount)
 	{
-        if (task_button_press_interrupt_occurred(mask))
+        if (led_animate_interrupt_occurred(mask))
         {
-            if (task_button_press_check_interrupts(mask))
+            if (led_animate_check_interrupts(mask))
             {
                 return;
             }
@@ -946,9 +967,9 @@ void led_animate_heart_beat(const strip_mask_t mask, const led_color_e* p_color,
 	}
 	for (int iii = fade_max; iii > 0; iii -= fade_increment_amount)
 	{
-        if (task_button_press_interrupt_occurred(mask))
+        if (led_animate_interrupt_occurred(mask))
         {
-            if (task_button_press_check_interrupts(mask))
+            if (led_animate_check_interrupts(mask))
             {
                 return;
             }
@@ -1017,9 +1038,9 @@ void led_animate_starburst_zabinski(const strip_mask_t mask, const led_color_e* 
 		{
 			for (yyy=0; yyy < short_leg; yyy++)
 			{
-				if (task_button_press_interrupt_occurred(mask))
+				if (led_animate_interrupt_occurred(mask))
 				{
-					if (task_button_press_check_interrupts(mask))
+					if (led_animate_check_interrupts(mask))
 					{
 						return;
 					}
@@ -1048,9 +1069,9 @@ void led_animate_starburst_zabinski(const strip_mask_t mask, const led_color_e* 
 			}
 			for (uint16_t iii = short_leg; iii < short_leg + long_leg; iii++)
 			{
-				if (task_button_press_interrupt_occurred(mask))
+				if (led_animate_interrupt_occurred(mask))
 				{
-					if (task_button_press_check_interrupts(mask))
+					if (led_animate_check_interrupts(mask))
 					{
 						return;
 					}
@@ -1082,9 +1103,9 @@ void led_animate_starburst_zabinski(const strip_mask_t mask, const led_color_e* 
 		{
 			for (uint16_t iii = 0; iii < short_leg; iii++)
 			{
-				if (task_button_press_interrupt_occurred(mask))
+				if (led_animate_interrupt_occurred(mask))
 				{
-					if (task_button_press_check_interrupts(mask))
+					if (led_animate_check_interrupts(mask))
 					{
 						return;
 					}
@@ -1117,9 +1138,9 @@ void led_animate_starburst_zabinski(const strip_mask_t mask, const led_color_e* 
 			}
 			for (uint16_t iii = short_leg; iii < long_leg; iii++)
 			{
-				if (task_button_press_interrupt_occurred(mask))
+				if (led_animate_interrupt_occurred(mask))
 				{
-					if (task_button_press_check_interrupts(mask))
+					if (led_animate_check_interrupts(mask))
 					{
 						return;
 					}
@@ -1188,9 +1209,9 @@ void led_animate_starburst(const strip_mask_t mask, const led_color_e* p_color,
 	{
 		for (yyy=0; yyy < short_leg; yyy++)
 		{
-	        if (task_button_press_interrupt_occurred(mask))
+	        if (led_animate_interrupt_occurred(mask))
 	        {
-	            if (task_button_press_check_interrupts(mask))
+	            if (led_animate_check_interrupts(mask))
 	            {
 	                return;
 	            }
@@ -1219,9 +1240,9 @@ void led_animate_starburst(const strip_mask_t mask, const led_color_e* p_color,
 		}
 		for (uint16_t iii = short_leg; iii < short_leg + long_leg; iii++)
 		{
-	        if (task_button_press_interrupt_occurred(mask))
+	        if (led_animate_interrupt_occurred(mask))
 	        {
-	            if (task_button_press_check_interrupts(mask))
+	            if (led_animate_check_interrupts(mask))
 	            {
 	                return;
 	            }
@@ -1253,9 +1274,9 @@ void led_animate_starburst(const strip_mask_t mask, const led_color_e* p_color,
 	{
 		for (uint16_t iii = 0; iii < short_leg; iii++)
 		{
-	        if (task_button_press_interrupt_occurred(mask))
+	        if (led_animate_interrupt_occurred(mask))
 	        {
-	            if (task_button_press_check_interrupts(mask))
+	            if (led_animate_check_interrupts(mask))
 	            {
 	                return;
 	            }
@@ -1288,9 +1309,9 @@ void led_animate_starburst(const strip_mask_t mask, const led_color_e* p_color,
 		}
 		for (uint16_t iii = short_leg; iii < long_leg; iii++)
 		{
-	        if (task_button_press_interrupt_occurred(mask))
+	        if (led_animate_interrupt_occurred(mask))
 	        {
-	            if (task_button_press_check_interrupts(mask))
+	            if (led_animate_check_interrupts(mask))
 	            {
 	                return;
 	            }

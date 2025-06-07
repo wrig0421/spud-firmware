@@ -1,11 +1,8 @@
 ../src/bsp/stmicro/peripheral/uart/uart_access_hal.c:17:6:USART1_IRQHandler	1
 ../src/bsp/stmicro/peripheral/uart/uart_access_hal.c:25:6:HAL_UART_TxCpltCallback	1
-../src/bsp/stmicro/peripheral/uart/uart_access_hal.c:53:6:HAL_UART_RxCpltCallback	5
-../src/bsp/stmicro/peripheral/uart/uart_access_hal.c:189:19:uart_access_hal_rx_tick_time_reset	1
-../src/bsp/stmicro/peripheral/uart/uart_access_hal.c:196:19:uart_access_hal_last_rx_tick_time	1
-../src/bsp/stmicro/peripheral/uart/uart_access_hal.c:202:6:uart_access_hal_rx_done	2
-../src/bsp/stmicro/peripheral/uart/uart_access_hal.c:210:6:uart_access_hal_write_and_read_block	4
-../src/bsp/stmicro/peripheral/uart/uart_access_hal.c:237:6:uart_access_hal_write_byte	2
-../src/bsp/stmicro/peripheral/uart/uart_access_hal.c:246:6:uart_access_hal_write_block	2
-../src/bsp/stmicro/peripheral/uart/uart_access_hal.c:255:6:uart_access_hal_read_byte	2
-../src/bsp/stmicro/peripheral/uart/uart_access_hal.c:264:6:uart_access_hal_read_block	2
+../src/bsp/stmicro/peripheral/uart/uart_access_hal.c:30:6:HAL_UART_RxCpltCallback	1
+../src/bsp/stmicro/peripheral/uart/uart_access_hal.c:41:6:uart_access_hal_write_and_read_block	1
+../src/bsp/stmicro/peripheral/uart/uart_access_hal.c:47:6:uart_access_hal_write_byte	2
+../src/bsp/stmicro/peripheral/uart/uart_access_hal.c:56:6:uart_access_hal_write_block	2
+../src/bsp/stmicro/peripheral/uart/uart_access_hal.c:65:6:uart_access_hal_read_byte	2
+../src/bsp/stmicro/peripheral/uart/uart_access_hal.c:74:6:uart_access_hal_read_block	2

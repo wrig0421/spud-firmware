@@ -32,6 +32,9 @@ RM := rm -rf
 -include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/peripheral/gpio/subdir.mk
 -include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/peripheral/button/subdir.mk
 -include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/subdir.mk
+-include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_baby_dinosaur_v1/peripheral/uart/subdir.mk
+-include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_baby_dinosaur_v1/peripheral/gpio/subdir.mk
+-include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_baby_dinosaur_v1/subdir.mk
 -include src/bsp/stmicro/stm32l4/bloat/subdir.mk
 -include src/bsp/stmicro/peripheral/uart/subdir.mk
 -include src/bsp/stmicro/peripheral/spi/subdir.mk
@@ -44,6 +47,7 @@ RM := rm -rf
 -include sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F/subdir.mk
 -include sdk/FreeRTOS/Source/convenience/subdir.mk
 -include sdk/FreeRTOS/Source/subdir.mk
+-include common/lib/uart/subdir.mk
 -include common/lib/timer/create/subdir.mk
 -include common/lib/timer/subdir.mk
 -include common/lib/task/create/subdir.mk

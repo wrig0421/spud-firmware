@@ -137,10 +137,12 @@ void task_create(void) {
 #		endif
 
 #endif
-	g_button_press_handle = xTaskCreateStatic(task_button_press,
-			"task_button_press", TASK_CREATE_STACK_SIZE_STANDARD,
-			NULL, tskIDLE_PRIORITY, g_button_press_stack,
-			&g_button_press_buffer);
+#	if defined(ENABLE_BUTTON)
+		g_button_press_handle = xTaskCreateStatic(task_button_press,
+				"task_button_press", TASK_CREATE_STACK_SIZE_STANDARD,
+				NULL, tskIDLE_PRIORITY, g_button_press_stack,
+				&g_button_press_buffer);
+#	endif
 
 	//g_dma_transfer_handle = osThreadNew(task_dma_transfer, NULL, &g_task_dma_transfer_attributes);
 	g_tasks_running = true; // technically will be running after task scheduler started

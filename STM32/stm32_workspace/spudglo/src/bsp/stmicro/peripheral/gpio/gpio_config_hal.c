@@ -182,6 +182,7 @@ void gpio_config_hal_setup(void)
     	}
 		switch (g_gpio_config[pin].mode)
     	{
+			case GPIO_CONFIG_MODE_PROGRAMMING:
 			case GPIO_CONFIG_MODE_ALTERNATE_FUNCTION: // fall through intentionally!!
     		case GPIO_CONFIG_MODE_NO_SETTING: // do nothing!
     			gpio_setup = false;

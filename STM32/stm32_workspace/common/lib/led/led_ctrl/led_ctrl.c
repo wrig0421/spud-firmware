@@ -40,6 +40,14 @@ void timer_led_ctrl_callback(TimerHandle_t timer_handle)
 }
 
 
+static bool led_ctrl_interrupt_occurred(const strip_mask_t mask)
+{
+#	if defined(ENABLE_BUTTON)
+		return task_button_press_interrupt_occurred(mask);
+#	else
+		return false;
+#	endif
+}
 
 
 bool led_ctrl_delay(const strip_mask_t mask, const uint32_t time_ms)
@@ -53,7 +61,7 @@ bool led_ctrl_delay(const strip_mask_t mask, const uint32_t time_ms)
     while (ms_count++ < ticks)
     {
     	free_rtos_delay_ms(portTICK_PERIOD_MS);
-        if (task_button_press_interrupt_occurred(mask)) return true;
+        if (led_ctrl_interrupt_occurred(mask)) return true;
     }
     return false;
 }

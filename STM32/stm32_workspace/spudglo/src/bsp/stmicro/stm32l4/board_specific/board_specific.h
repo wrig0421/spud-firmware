@@ -19,6 +19,8 @@
 #	include "board_init_spudglo_v7/board_init_spudglo_v7.h"
 #elif defined(BOARD_SPUDGLO_BUSINESS_CARD)
 #	include "board_init_spudglo_business_card/board_init_spudglo_business_card.h"
+#elif defined(BOARD_SPUDGLO_BABY_DINOSAUR_V1)
+#	include "board_init_spudglo_baby_dinosaur_v1/board_init_spudglo_baby_dinosaur_v1.h"
 #else
 #	error "Error - None or unknown board defined!"
 #endif

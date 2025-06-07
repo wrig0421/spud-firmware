@@ -23,8 +23,6 @@ typedef uint8_t					alt_func_t;
 #define GPIO_PORT_G              GPIOG
 #define GPIO_PORT_H              GPIOH
 
-
-
 typedef enum
 {
 	GPIO_PIN_FIRST,
@@ -98,7 +96,8 @@ typedef enum
 	GPIO_CONFIG_MODE_INPUT_PULLUP,
 	GPIO_CONFIG_MODE_OUTPUT_PUSHPULL,
 	GPIO_CONFIG_MODE_OUTPUT_OPEN_DRAIN,
-	GPIO_CONFIG_MODE_ALTERNATE_FUNCTION
+	GPIO_CONFIG_MODE_ALTERNATE_FUNCTION,
+	GPIO_CONFIG_MODE_PROGRAMMING
 } gpio_config_mode_e;
 
 

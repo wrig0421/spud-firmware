@@ -48,6 +48,7 @@ common/lib/task/create \
 common/lib/task \
 common/lib/timer/create \
 common/lib/timer \
+common/lib/uart \
 sdk/FreeRTOS/Source/convenience \
 sdk/FreeRTOS/Source \
 sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F \
@@ -60,6 +61,9 @@ src/bsp/stmicro/peripheral/i2c \
 src/bsp/stmicro/peripheral/spi \
 src/bsp/stmicro/peripheral/uart \
 src/bsp/stmicro/stm32l4/bloat \
+src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_baby_dinosaur_v1 \
+src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_baby_dinosaur_v1/peripheral/gpio \
+src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_baby_dinosaur_v1/peripheral/uart \
 src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card \
 src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/peripheral/button \
 src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/peripheral/gpio \

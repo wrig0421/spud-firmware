@@ -215,6 +215,7 @@ volatile uint32_t d_passes = 0;
   */
 void EXTI0_IRQHandler(void)
 {
+#if defined(ENABLE_BUTTON)
     BaseType_t xHigherPriorityTaskWoken;
 	button_e btn = button_config_irq_to_button(EXTI0_IRQn);
     HAL_GPIO_EXTI_IRQHandler(button_config_button_pin(btn));
@@ -222,6 +223,7 @@ void EXTI0_IRQHandler(void)
     g_button_press_timestamp[btn][TIMESTAMP_CURRENT] = xTaskGetTickCountFromISR();
     HAL_NVIC_DisableIRQ(EXTI0_IRQn);
     xTaskNotifyFromISR(g_button_press_handle, btn, eSetValueWithOverwrite, &xHigherPriorityTaskWoken);
+#endif
 }
 
 /**
@@ -229,6 +231,7 @@ void EXTI0_IRQHandler(void)
   */
 void EXTI2_IRQHandler(void)
 {
+#if defined(ENABLE_BUTTON)
     BaseType_t xHigherPriorityTaskWoken;
 	button_e btn = button_config_irq_to_button(EXTI2_IRQn);
     HAL_GPIO_EXTI_IRQHandler(button_config_button_pin(btn));
@@ -236,6 +239,7 @@ void EXTI2_IRQHandler(void)
     g_button_press_timestamp[btn][TIMESTAMP_CURRENT] = xTaskGetTickCountFromISR();
     HAL_NVIC_DisableIRQ(EXTI2_IRQn);
     xTaskNotifyFromISR(g_button_press_handle, btn, eSetValueWithOverwrite, &xHigherPriorityTaskWoken);
+#endif
 }
 
 
@@ -244,6 +248,7 @@ void EXTI2_IRQHandler(void)
   */
 void EXTI15_10_IRQHandler(void)
 {
+#if defined(ENABLE_BUTTON)
     BaseType_t xHigherPriorityTaskWoken;
     button_e btn = button_config_irq_to_button(EXTI15_10_IRQn);
     HAL_GPIO_EXTI_IRQHandler(button_config_button_pin(btn));
@@ -251,6 +256,7 @@ void EXTI15_10_IRQHandler(void)
     g_button_press_timestamp[btn][TIMESTAMP_CURRENT] = xTaskGetTickCountFromISR();
     HAL_NVIC_DisableIRQ(EXTI15_10_IRQn);
     xTaskNotifyFromISR(g_button_press_handle, btn, eSetValueWithOverwrite, &xHigherPriorityTaskWoken);
+#endif
 }
 
 
@@ -259,6 +265,7 @@ void EXTI15_10_IRQHandler(void)
   */
 void EXTI9_5_IRQHandler(void)
 {
+#if defined(ENABLE_BUTTON)
     BaseType_t xHigherPriorityTaskWoken;
     button_e btn = button_config_irq_to_button(EXTI9_5_IRQn);
     HAL_GPIO_EXTI_IRQHandler(button_config_button_pin(btn));
@@ -266,6 +273,7 @@ void EXTI9_5_IRQHandler(void)
     g_button_press_timestamp[btn][TIMESTAMP_CURRENT] = xTaskGetTickCountFromISR();
     HAL_NVIC_DisableIRQ(EXTI9_5_IRQn);
     xTaskNotifyFromISR(g_button_press_handle, btn, eSetValueWithOverwrite, &xHigherPriorityTaskWoken);
+#endif
 }
 
 
