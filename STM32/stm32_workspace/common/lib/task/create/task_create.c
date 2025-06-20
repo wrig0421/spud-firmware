@@ -12,7 +12,6 @@
 #include "task_led_ctrl.h"
 #include "task_create.h"
 
-#define TASK_CREATE_STACK_SIZE_STANDARD		(2 * configMINIMAL_STACK_SIZE)
 
 TaskHandle_t g_led_strip_1_ctrl_handle;
 TaskHandle_t g_led_strip_2_ctrl_handle;
@@ -143,6 +142,10 @@ void task_create(void) {
 				NULL, tskIDLE_PRIORITY, g_button_press_stack,
 				&g_button_press_buffer);
 #	endif
+
+//#	if defined(ENABLE_UART)
+		task_uart_create();
+//#	endif
 
 	//g_dma_transfer_handle = osThreadNew(task_dma_transfer, NULL, &g_task_dma_transfer_attributes);
 	g_tasks_running = true; // technically will be running after task scheduler started

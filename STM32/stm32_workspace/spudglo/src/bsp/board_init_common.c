@@ -68,7 +68,7 @@ static void SystemClock_Config(void)
 
     if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK) while(1);
     PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_RTC;
-    PeriphClkInit.RTCClockSelection = RCC_RTCCLKSOURCE_LSE;
+    PeriphClkInit.RTCClockSelection = RCC_RTCCLKSOURCE_LSI;
     if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK) Error_Handler();
     if (HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1) != HAL_OK) Error_Handler();
 }
@@ -77,6 +77,7 @@ static void SystemClock_Config(void)
 static void board_init_common_timer_init(void)
 {
     __HAL_RCC_DMA1_CLK_ENABLE(); // TODO determine a better place for this clock enable call.
+    __HAL_RCC_DMA2_CLK_ENABLE();
 
     GPIO_InitTypeDef GPIO_InitStruct = {0};
     TIM_ClockConfigTypeDef sClockSourceConfig = {0};

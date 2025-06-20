@@ -37,14 +37,20 @@
 #include "semaphore_access.h"
 #include "button_config_hal_specific.h"
 #include "button_access.h"
-
+#include "uart_config_hal_specific.h"
+#include "uart_config_hal.h"
 //extern osThreadId_t g_dma_transfer_handle;
 
 extern DMA_HandleTypeDef g_hdma_tim1_ch1;
 extern DMA_HandleTypeDef g_hdma_tim1_ch2;
 extern DMA_HandleTypeDef g_hdma_tim1_ch3;
+
+extern DMA_HandleTypeDef gh_dma_lpuart1_rx;
+extern DMA_HandleTypeDef gh_dma_lpuart1_tx;
+
 extern SemaphoreHandle_t g_dma_transfer_semaphore;
 extern TaskHandle_t 	g_button_press_handle;
+extern UART_HandleTypeDef g_uart_handle_config[NUM_UART_CONFIG_BUSES];
 
 extern bool g_tasks_running;
 //extern osThreadId_t g_button_press_handle;
@@ -389,6 +395,20 @@ void DMA1_Channel3_IRQHandler(void)
 //{
 //    //HAL_DMA_IRQHandler(&hdma_tim16_ch1_up);
 //}
+/**
+  * @brief This function handles LPUART1 global interrupt.
+  */
+void LPUART1_IRQHandler(void)
+{
+  /* USER CODE BEGIN LPUART1_IRQn 0 */
+
+  /* USER CODE END LPUART1_IRQn 0 */
+  HAL_UART_IRQHandler(&g_uart_handle_config[UART_CONFIG_BUS_HOST]);
+  /* USER CODE BEGIN LPUART1_IRQn 1 */
+
+  /* USER CODE END LPUART1_IRQn 1 */
+}
+
 
 /**
   * @brief This function handles DMA1 channel7 global interrupt.
@@ -405,6 +425,29 @@ void vApplicationMallocFailedHook( void )
 }
 
 
+void DMA2_Channel6_IRQHandler(void)
+{
+  /* USER CODE BEGIN DMA2_Channel6_IRQn 0 */
 
+  /* USER CODE END DMA2_Channel6_IRQn 0 */
+  HAL_DMA_IRQHandler(&gh_dma_lpuart1_tx);
+  /* USER CODE BEGIN DMA2_Channel6_IRQn 1 */
+
+  /* USER CODE END DMA2_Channel6_IRQn 1 */
+}
+
+/**
+  * @brief This function handles DMA2 channel7 global interrupt.
+  */
+void DMA2_Channel7_IRQHandler(void)
+{
+  /* USER CODE BEGIN DMA2_Channel7_IRQn 0 */
+
+  /* USER CODE END DMA2_Channel7_IRQn 0 */
+  HAL_DMA_IRQHandler(&gh_dma_lpuart1_rx);
+  /* USER CODE BEGIN DMA2_Channel7_IRQn 1 */
+
+  /* USER CODE END DMA2_Channel7_IRQn 1 */
+}
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

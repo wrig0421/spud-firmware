@@ -1,7 +1,7 @@
 common/lib/peripheral/uart/uart_access.o: \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/uart/uart_access.c \
  ../src/bsp/peripheral/uart_access_hal.h \
- ../src/bsp/stmicro/peripheral/uart/uart_config_hal.h \
+ ../src/bsp/stmicro/peripheral/uart_config_hal.h \
  ../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h \
  ../sdk/CMSIS/Include/core_cm4.h ../sdk/CMSIS/Include/cmsis_version.h \
  ../sdk/CMSIS/Include/cmsis_compiler.h ../sdk/CMSIS/Include/cmsis_gcc.h \
@@ -46,7 +46,7 @@ common/lib/peripheral/uart/uart_access.o: \
  ../sdk/FreeRTOS/Source/include/mpu_wrappers.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/uart/uart_access.h
 ../src/bsp/peripheral/uart_access_hal.h:
-../src/bsp/stmicro/peripheral/uart/uart_config_hal.h:
+../src/bsp/stmicro/peripheral/uart_config_hal.h:
 ../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h:
 ../sdk/CMSIS/Include/core_cm4.h:
 ../sdk/CMSIS/Include/cmsis_version.h:

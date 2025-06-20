@@ -35,16 +35,17 @@ src/bsp/stmicro/peripheral/uart/uart_config_hal.o: \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h \
+ /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/api/pkt/pkt.h \
+ /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/api/pkt/pkt.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/uart/uart_access.h \
- ../src/bsp/stmicro/peripheral/uart/uart_config_hal.h \
+ ../src/bsp/stmicro/peripheral/uart_config_hal.h \
  ../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h \
  ../src/bsp/stmicro/peripheral/uart/uart_config_hal_specific.h \
  ../src/app/config.h ../src/bsp/board_common.h \
  ../src/bsp/board_init_common.h ../src/bsp/board_common.h \
  ../src/bsp/stmicro/stm32l4/board_specific/board_specific.h \
  ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_baby_dinosaur_v1/board_init_spudglo_baby_dinosaur_v1.h \
- ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_baby_dinosaur_v1/peripheral/uart/board_spudglo_baby_dinosaur_v1_uart_config.h \
- ../src/bsp/stmicro/peripheral/uart/uart_config_hal.h
+ ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_baby_dinosaur_v1/peripheral/uart/board_spudglo_baby_dinosaur_v1_uart_config.h
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
 ../src/bsp/stmicro/stm32l4/bloat/stm32l4xx_hal_conf.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h:
@@ -82,8 +83,10 @@ src/bsp/stmicro/peripheral/uart/uart_config_hal.o: \
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h:
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/api/pkt/pkt.h:
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/api/pkt/pkt.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/uart/uart_access.h:
-../src/bsp/stmicro/peripheral/uart/uart_config_hal.h:
+../src/bsp/stmicro/peripheral/uart_config_hal.h:
 ../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h:
 ../src/bsp/stmicro/peripheral/uart/uart_config_hal_specific.h:
 ../src/app/config.h:
@@ -93,4 +96,3 @@ src/bsp/stmicro/peripheral/uart/uart_config_hal.o: \
 ../src/bsp/stmicro/stm32l4/board_specific/board_specific.h:
 ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_baby_dinosaur_v1/board_init_spudglo_baby_dinosaur_v1.h:
 ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_baby_dinosaur_v1/peripheral/uart/board_spudglo_baby_dinosaur_v1_uart_config.h:
-../src/bsp/stmicro/peripheral/uart/uart_config_hal.h:

@@ -1,6 +1,6 @@
 src/bsp/stmicro/peripheral/uart/uart_access_hal.o: \
  ../src/bsp/stmicro/peripheral/uart/uart_access_hal.c \
- ../sdk/FreeRTOS/Source/include/FreeRTOS.h ../src/app/FreeRTOSConfig.h \
+ ../src/app/FreeRTOSConfig.h ../sdk/FreeRTOS/Source/include/FreeRTOS.h \
  ../sdk/FreeRTOS/Source/include/projdefs.h \
  ../sdk/FreeRTOS/Source/include/portable.h \
  ../sdk/FreeRTOS/Source/include/deprecated_definitions.h \
@@ -44,7 +44,7 @@ src/bsp/stmicro/peripheral/uart/uart_access_hal.o: \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h \
  ../src/bsp/peripheral/uart_access_hal.h \
- ../src/bsp/stmicro/peripheral/uart/uart_config_hal.h \
+ ../src/bsp/stmicro/peripheral/uart_config_hal.h \
  ../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_led_ctrl.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_brightness/led_ctrl_brightness.h \
@@ -60,9 +60,11 @@ src/bsp/stmicro/peripheral/uart/uart_access_hal.o: \
  ../src/bsp/stmicro/stm32l4/board_specific/board_specific.h \
  ../src/bsp/board_common.h \
  ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_baby_dinosaur_v1/board_init_spudglo_baby_dinosaur_v1.h \
- /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/sensor_third_party/wifi/esp8266.h
-../sdk/FreeRTOS/Source/include/FreeRTOS.h:
+ /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/sensor_third_party/wifi/esp8266.h \
+ /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/api/pkt/pkt.h \
+ /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/api/pkt/pkt.h
 ../src/app/FreeRTOSConfig.h:
+../sdk/FreeRTOS/Source/include/FreeRTOS.h:
 ../sdk/FreeRTOS/Source/include/projdefs.h:
 ../sdk/FreeRTOS/Source/include/portable.h:
 ../sdk/FreeRTOS/Source/include/deprecated_definitions.h:
@@ -108,7 +110,7 @@ src/bsp/stmicro/peripheral/uart/uart_access_hal.o: \
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h:
 ../src/bsp/peripheral/uart_access_hal.h:
-../src/bsp/stmicro/peripheral/uart/uart_config_hal.h:
+../src/bsp/stmicro/peripheral/uart_config_hal.h:
 ../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_led_ctrl.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_brightness/led_ctrl_brightness.h:
@@ -126,3 +128,5 @@ src/bsp/stmicro/peripheral/uart/uart_access_hal.o: \
 ../src/bsp/board_common.h:
 ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_baby_dinosaur_v1/board_init_spudglo_baby_dinosaur_v1.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/sensor_third_party/wifi/esp8266.h:
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/api/pkt/pkt.h:
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/api/pkt/pkt.h:

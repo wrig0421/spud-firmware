@@ -1,6 +1,6 @@
 src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_baby_dinosaur_v1/board_init_spudglo_baby_dinosaur_v1.o: \
  ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_baby_dinosaur_v1/board_init_spudglo_baby_dinosaur_v1.c \
- ../src/app/config.h ../src/bsp/stmicro/peripheral/uart/uart_config_hal.h \
+ ../src/app/config.h ../src/bsp/stmicro/peripheral/uart_config_hal.h \
  ../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h \
  ../sdk/CMSIS/Include/core_cm4.h ../sdk/CMSIS/Include/cmsis_version.h \
  ../sdk/CMSIS/Include/cmsis_compiler.h ../sdk/CMSIS/Include/cmsis_gcc.h \
@@ -42,7 +42,7 @@ src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_baby_dinosaur_v1/board
  ../src/bsp/stmicro/peripheral/gpio/gpio_config_hal.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/gpio/gpio_access.h
 ../src/app/config.h:
-../src/bsp/stmicro/peripheral/uart/uart_config_hal.h:
+../src/bsp/stmicro/peripheral/uart_config_hal.h:
 ../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h:
 ../sdk/CMSIS/Include/core_cm4.h:
 ../sdk/CMSIS/Include/cmsis_version.h:

@@ -3,10 +3,13 @@
 
 #define PACKET_DEF_H
 
+
 #include <stdbool.h>
 #include <stdint.h>
 
 #include "pkt.h"
+
+#define FREE_QUEUE_DEPTH 15
 
 
 typedef uint16_t pkt_check_sum_t;

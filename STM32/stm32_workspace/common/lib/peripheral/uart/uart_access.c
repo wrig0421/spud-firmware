@@ -8,6 +8,7 @@
 #include "uart_config_hal.h"
 #include "uart_access.h"
 
+
 void uart_access_setup(void)
 {
 	uart_config_hal_setup();
@@ -42,9 +43,6 @@ void uart_access_write_byte_host(uint8_t data)
 {
 	uart_access_hal_write_byte(uart_config_host_handle(), data);
 }
-
-
-
 
 
 void uart_access_write_block_host(uint8_t* data, uint16_t len)

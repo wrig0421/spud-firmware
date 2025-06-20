@@ -6,3 +6,7 @@
 #include "led_animate.h"
 
 //#endif /* SRC_TASK_led_ctrl_H_ */
+
+void task_uart_create(void);
+void task_uart_rx(void *argument);
+void task_uart_tx(void *argument);

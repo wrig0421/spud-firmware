@@ -7,6 +7,8 @@
 
 #include "FreeRTOSConfig.h"
 
+#define TASK_CREATE_STACK_SIZE_STANDARD		(2 * configMINIMAL_STACK_SIZE)
+
 typedef enum
 {
 	TASK_LIST_LED_STRIP_SYNC = 0,

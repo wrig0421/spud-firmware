@@ -5,6 +5,7 @@
 #include "uart_config_hal.h"
 #include "gpio_config_hal_specific.h"
 
+
 void board_init_peripheral_setup(void)
 {
 	uart_config_hal_setup();

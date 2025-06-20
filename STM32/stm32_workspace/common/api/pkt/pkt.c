@@ -3,6 +3,13 @@
 #include "FreeRTOS.h"
 #include "pkt.h"
 
+
+uint8_t g_rx_queue_buffer[FREE_QUEUE_DEPTH * sizeof(pkt_t)];
+uint8_t g_tx_queue_buffer[FREE_QUEUE_DEPTH * sizeof(pkt_t)];
+
+uint32_t g_rx_queue_buffer_index = 0;
+uint32_t g_tx_queue_buffer_index = 0;
+
 #if 0
 
 
@@ -89,6 +96,14 @@ typedef pkt_queue_t* p_pkt_queue_t;
 void packet_rsp_set(void);
 pkt_queue_t g_pkt_queue[2];
 
+uint32_t g_free_queue_pkt_index = 0;
+
+
+uint32_t free_queue_pkt_index(void)
+{
+	return g_free_queue_pkt_index;
+}
+
 
 void packet_queue_init(void)
 {
@@ -110,6 +125,7 @@ p_pkt_t pkt_dequeue_from_free(void)
 {
     p_pkt_t pkt = NULL;
     if (osOK != osMessageQueueGet(gp_tx_queue, (uint8_t *)pkt, NULL, osWaitForever)) while(1); // queue full?
+    g_free_queue_pkt_index--;
     return pkt;
 }
 

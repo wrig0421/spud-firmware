@@ -5,6 +5,7 @@
 #include "stm32l4xx_hal.h"
 #include "uart_access.h"
 #include "uart_config_hal.h"
+#include "gpio_config_hal.h"
 
 #define PIN_XR_TX               GPIO_PIN_0
 #define PIN_XR_RX               GPIO_PIN_1
@@ -14,7 +15,7 @@ UART_HandleTypeDef g_uart_handle_config[NUM_UART_CONFIG_BUSES] =
 	[LPUART_CONFIG_BUS_INSTANCE_1] =
 	{
 		.Instance = LPUART1,
-		.Init.BaudRate = 921600,
+		.Init.BaudRate = 38400,
 		.Init.WordLength = UART_WORDLENGTH_8B,
 		.Init.StopBits = UART_STOPBITS_1,
 		.Init.Parity = UART_PARITY_NONE,
@@ -34,8 +35,10 @@ const uart_config_t g_uart_config[NUM_UART_CONFIG_BUSES] =
 	[LPUART_CONFIG_BUS_INSTANCE_1] =
 	{
 		.pin.rx = PIN_XR_TX,
+		.pin.rx_port = GPIO_PORT_C,
 		.pin.rx_alt_func = GPIO_AF8_LPUART1,
 		.pin.tx = PIN_XR_RX,
+		.pin.tx_port = GPIO_PORT_C,
 		.pin.tx_alt_func = GPIO_AF8_LPUART1,
 		.irqn = LPUART1_IRQn
 	}
