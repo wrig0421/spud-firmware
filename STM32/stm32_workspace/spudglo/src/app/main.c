@@ -13,7 +13,8 @@
 #include "task.h"
 
 int main(void)
-{	board_init_common_board_init();
+{
+	board_init_common_board_init();
     //flash_info_init();
     task_create();
     timer_create();

@@ -7,7 +7,7 @@
 #include "uart_access_hal.h"
 
 #include "task_led_ctrl.h"
-#include "esp8266.h"/,mk
+#include "esp8266.h"
 #include "pkt.h"
 #include <string.h>
 #include <stdbool.h>
@@ -38,6 +38,7 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
 
 }
 
+
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
     BaseType_t xHigherPriorityTaskWoken;
@@ -49,10 +50,6 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 		xTaskNotifyFromISR(g_task_uart_rx_handle, 0, eSetValueWithOverwrite, &xHigherPriorityTaskWoken);
     }
 }
-
-
-
-
 
 
 uint16_t sizeof_array = 0;
