@@ -2,6 +2,7 @@
  * @file   animate_led.c
  * @author SpudGlo LLC
  ***********************************/
+#include <animation_timer_access.h>
 #include <stdint.h>
 #include <math.h>
 #include "config.h"
@@ -239,14 +240,14 @@ bool led_animate_exit_stimulus_flag(void)
 bool led_animate_check_for_animation_exit_stimulus(const strip_mask_t mask, led_color_t *p_led_color,
 												   const led_color_e* p_color)
 {
-	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
+//	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
 	bool return_val = false;
 	if (g_led_animate_exit_stimulus)
 	{
 		return_val = true;
 //		g_led_animate_exit_stimulus = false;
 		led_animate_turn_all_pixels_off_in_strip((strip_mask_t)mask);
-		timer_reset();
+		animation_timer_access_reset();
 	}
 	else if (led_animate_interrupt_occurred(mask))
     {
@@ -503,7 +504,7 @@ void led_animate_srw_debug(void)
 void led_animate_static_harley_color(const strip_mask_t mask, const led_color_e* p_color)
 {
     led_color_t led_color;
-	led_color_e led_color_dummy = LED_COLOR_NONE;
+//	led_color_e led_color_dummy = LED_COLOR_NONE;
 	led_color.color_hex = led_color_to_hex_code(*p_color);
 //	if (led_animate_check_for_animation_exit_stimulus(mask, &led_color, &led_color_dummy)) return;
     // handle bar + forks
@@ -880,7 +881,7 @@ void led_animate_heart_beat(const strip_mask_t mask, const led_color_e* p_color,
 							uint16_t* p_delay_ms)
 {
 	uint16_t delay_copy = (uint16_t)(*p_delay_ms);
-
+	UNUSED(delay_copy);
 	float fade_factor = 0.0f;
 	led_color_t led_color;
 	led_color_t temp_led_color;

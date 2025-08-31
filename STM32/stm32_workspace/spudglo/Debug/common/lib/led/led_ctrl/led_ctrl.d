@@ -20,7 +20,7 @@ common/lib/led/led_ctrl/led_ctrl.o: \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_brightness/led_ctrl_brightness.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_button_press.h \
  ../src/bsp/stmicro/stm32l4/board_specific/board_specific.h \
- ../src/bsp/board_common.h \
+ ../src/bsp/board_init_common.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h \
  ../src/bsp/stmicro/stm32l4/bloat/stm32l4xx_hal_conf.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h \
@@ -56,7 +56,6 @@ common/lib/led/led_ctrl/led_ctrl.o: \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h \
- ../src/bsp/board_init_common.h ../src/bsp/board_common.h \
  ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_baby_dinosaur_v1/board_init_spudglo_baby_dinosaur_v1.h \
  ../sdk/FreeRTOS/Source/convenience/free_rtos_convenience.h
 ../sdk/FreeRTOS/Source/include/FreeRTOS.h:
@@ -80,7 +79,7 @@ common/lib/led/led_ctrl/led_ctrl.o: \
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_brightness/led_ctrl_brightness.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_button_press.h:
 ../src/bsp/stmicro/stm32l4/board_specific/board_specific.h:
-../src/bsp/board_common.h:
+../src/bsp/board_init_common.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
 ../src/bsp/stmicro/stm32l4/bloat/stm32l4xx_hal_conf.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h:
@@ -118,7 +117,5 @@ common/lib/led/led_ctrl/led_ctrl.o: \
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h:
-../src/bsp/board_init_common.h:
-../src/bsp/board_common.h:
 ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_baby_dinosaur_v1/board_init_spudglo_baby_dinosaur_v1.h:
 ../sdk/FreeRTOS/Source/convenience/free_rtos_convenience.h:

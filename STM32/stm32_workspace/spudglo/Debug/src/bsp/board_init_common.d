@@ -53,9 +53,8 @@ src/bsp/board_init_common.o: ../src/bsp/board_init_common.c \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/button/button_access.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_brightness/led_ctrl_brightness.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_animate/led_animate.h \
- ../src/bsp/board_init_common.h ../src/bsp/board_common.h \
+ ../src/bsp/board_init_common.h \
  ../src/bsp/stmicro/stm32l4/board_specific/board_specific.h \
- ../src/bsp/board_common.h \
  ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_baby_dinosaur_v1/board_init_spudglo_baby_dinosaur_v1.h \
  ../src/bsp/board_init_common.h \
  ../src/bsp/stmicro/peripheral/gpio/gpio_config_hal.h \
@@ -65,6 +64,8 @@ src/bsp/board_init_common.o: ../src/bsp/board_init_common.c \
  ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_baby_dinosaur_v1/peripheral/gpio/board_spudglo_baby_dinosaur_v1_gpio_config.h \
  ../src/bsp/stmicro/peripheral/button/button_config_hal.h \
  ../src/bsp/stmicro/peripheral/button/button_config_hal_specific.h \
+ ../src/bsp/stmicro/peripheral/timer/timer_config_hal.h \
+ /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/timer/animation_timer_access.h \
  ../src/bsp/stmicro/peripheral/i2c/i2c_config_hal.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/i2c/i2c_access.h
 ../src/app/main.h:
@@ -126,9 +127,7 @@ src/bsp/board_init_common.o: ../src/bsp/board_init_common.c \
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_brightness/led_ctrl_brightness.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_animate/led_animate.h:
 ../src/bsp/board_init_common.h:
-../src/bsp/board_common.h:
 ../src/bsp/stmicro/stm32l4/board_specific/board_specific.h:
-../src/bsp/board_common.h:
 ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_baby_dinosaur_v1/board_init_spudglo_baby_dinosaur_v1.h:
 ../src/bsp/board_init_common.h:
 ../src/bsp/stmicro/peripheral/gpio/gpio_config_hal.h:
@@ -138,5 +137,7 @@ src/bsp/board_init_common.o: ../src/bsp/board_init_common.c \
 ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_baby_dinosaur_v1/peripheral/gpio/board_spudglo_baby_dinosaur_v1_gpio_config.h:
 ../src/bsp/stmicro/peripheral/button/button_config_hal.h:
 ../src/bsp/stmicro/peripheral/button/button_config_hal_specific.h:
+../src/bsp/stmicro/peripheral/timer/timer_config_hal.h:
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/timer/animation_timer_access.h:
 ../src/bsp/stmicro/peripheral/i2c/i2c_config_hal.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/i2c/i2c_access.h:

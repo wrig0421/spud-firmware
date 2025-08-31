@@ -115,10 +115,12 @@ bool flash_info_color_enabled(strip_bit_e strip_bit,
 #endif
         // future strip num support goes here!
         default:
-
             while(1); // HW limited to 3 strips
         break;
     }
+
+    // TODO use strip_color_mask!!
+    UNUSED(strip_color_mask);
 //    switch (color)
 //    {
 //        case LED_COLOR_RED:
@@ -243,46 +245,49 @@ bool flash_info_animation_enabled(strip_bit_e strip_bit,
 #endif
         // future strip num support goes here!
         default:
-            while(1); // HW limited to 3 strips
+        	return_val = false;
         break;
     }
-    switch (animation)
+    if (return_val)
     {
-        case LED_STATE_SPELL:
-            if (strip_animation_mask.spell) return_val = true;
-        break;
-        case LED_STATE_WHITE_COLOR:
-            if (strip_animation_mask.solid_white) return_val = true;
-        break;
-        case LED_STATE_SOLID_COLOR:
-            if (strip_animation_mask.solid_color) return_val = true;
-        break;
-//        case LED_STATE_SPARKLE_NO_FILL:
-//            if (strip_animation_mask.sparkle_no_fill) return_val = true;
-//        break;
-        case LED_STATE_SPARKLE_FILL:
-            if (strip_animation_mask.sparkle_fill) return_val = true;
-        break;
-        case LED_STATE_RAINBOW_CYCLE:
-            if (strip_animation_mask.rainbow) return_val = true;
-        break;
-//        case LED_STATE_THEATER_CHASE:
-//            if (strip_animation_mask.chase) return_val = true;
-//        break;
-//        case LED_STATE_THEATER_CHASE_RAINBOW:
-//            if (strip_animation_mask.chase_rainbow) return_val = true;
-//        break;
-        case LED_STATE_FADE_IN_AND_OUT:
-            if (strip_animation_mask.fade) return_val = true;
-        break;
-        case LED_STATE_TWINKLE:
-            if (strip_animation_mask.twinkle) return_val = true;
-        break;
-//        case LED_STATE_SRW_DEBUG:
-//            if (strip_animation_mask.solid_white) return_val = true;
-//        break;
-        default:
-        break;
+        switch (animation)
+        {
+            case LED_STATE_SPELL:
+                if (strip_animation_mask.spell) return_val = true;
+            break;
+            case LED_STATE_WHITE_COLOR:
+                if (strip_animation_mask.solid_white) return_val = true;
+            break;
+            case LED_STATE_SOLID_COLOR:
+                if (strip_animation_mask.solid_color) return_val = true;
+            break;
+    //        case LED_STATE_SPARKLE_NO_FILL:
+    //            if (strip_animation_mask.sparkle_no_fill) return_val = true;
+    //        break;
+            case LED_STATE_SPARKLE_FILL:
+                if (strip_animation_mask.sparkle_fill) return_val = true;
+            break;
+            case LED_STATE_RAINBOW_CYCLE:
+                if (strip_animation_mask.rainbow) return_val = true;
+            break;
+    //        case LED_STATE_THEATER_CHASE:
+    //            if (strip_animation_mask.chase) return_val = true;
+    //        break;
+    //        case LED_STATE_THEATER_CHASE_RAINBOW:
+    //            if (strip_animation_mask.chase_rainbow) return_val = true;
+    //        break;
+            case LED_STATE_FADE_IN_AND_OUT:
+                if (strip_animation_mask.fade) return_val = true;
+            break;
+            case LED_STATE_TWINKLE:
+                if (strip_animation_mask.twinkle) return_val = true;
+            break;
+    //        case LED_STATE_SRW_DEBUG:
+    //            if (strip_animation_mask.solid_white) return_val = true;
+    //        break;
+            default:
+            break;
+        }
     }
     return return_val;
 }
@@ -292,6 +297,7 @@ bool flash_info_animation_enabled(strip_bit_e strip_bit,
 led_brightness_e flash_info_strip_brightness(strip_bit_e strip_bit)
 {
     //led_brightness_e strip_brightness = LED_BRIGHTNESS_INVALID;
+	led_brightness_e led_brightness = LED_BRIGHTNESS_100_PERCENT;
     flash_info_brightness_select_t strip_brightness_mask;
     switch (strip_bit)
     {
@@ -312,27 +318,42 @@ led_brightness_e flash_info_strip_brightness(strip_bit_e strip_bit)
 #endif
         // future strip num support goes here!
         default:
+        	UNUSED(strip_brightness_mask);
             while(1); // HW limited to 3 strips
         break;
     }
-//    if (strip_brightness_mask.brightness_100p) strip_brightness = LED_BRIGHTNESS_100_PERCENT;
-//    else if (strip_brightness_mask.brightness_75p) strip_brightness = LED_BRIGHTNESS_75_PERCENT;
-//    else if (strip_brightness_mask.brightness_50p) strip_brightness = LED_BRIGHTNESS_50_PERCENT;
-//    else if (strip_brightness_mask.brightness_25p) strip_brightness = LED_BRIGHTNESS_25_PERCENT;
-//    else if (strip_brightness_mask.brightness_1p) strip_brightness = LED_BRIGHTNESS_1_PERCENT;
-//    else
-//    {
-//        strip_brightness = LED_BRIGHTNESS_INVALID;
-//        while(1); // hang for debug..  Shouldn't be encountering an invalid brightness
-//    }
-    //return strip_brightness;
+    if (strip_brightness_mask.brightness_100p)
+    {
+    	led_brightness = LED_BRIGHTNESS_100_PERCENT;
+    }
+    else if (strip_brightness_mask.brightness_75p)
+    {
+    	led_brightness = LED_BRIGHTNESS_75_PERCENT;
+    }
+    else if (strip_brightness_mask.brightness_50p)
+    {
+    	led_brightness = LED_BRIGHTNESS_50_PERCENT;
+    }
+    else if (strip_brightness_mask.brightness_25p)
+    {
+    	led_brightness = LED_BRIGHTNESS_25_PERCENT;
+    }
+    else if (strip_brightness_mask.brightness_1p)
+    {
+    	led_brightness = LED_BRIGHTNESS_1_PERCENT;
+    }
+    else
+    {
+    	while (1);
+    }
+    return led_brightness;
 }
 
 
 // function to return the speed enabled on a particular strip!
 led_speed_e flash_info_strip_speed(strip_bit_e strip_bit)
 {
-    //led_speed_e strip_speed = LED_SPEED_INVALID;
+    led_speed_e strip_speed = LED_SPEED_INVALID;
     flash_info_speed_select_t strip_speed_mask;
     switch (strip_bit)
     {
@@ -356,13 +377,27 @@ led_speed_e flash_info_strip_speed(strip_bit_e strip_bit)
             while(1); // HW limited to 3 strips
         break;
     }
-//    if (strip_speed_mask.speed_1000p) strip_speed = LED_SPEED_1;
-//    else if (strip_speed_mask.speed_500p) strip_speed = LED_SPEED_2;
-//    else if (strip_speed_mask.speed_100p) strip_speed = LED_SPEED_3;
-//    else if (strip_speed_mask.speed_50p) strip_speed = LED_SPEED_4;
-//    else if (strip_speed_mask.speed_25p) strip_speed = LED_SPEED_5;
-//    else while(1); // hang for debug..  Shouldn't be encountering an invalid speed
-//    return strip_speed;
+    if (strip_speed_mask.speed_1000p)
+    {
+    	strip_speed = LED_SPEED_FAST; // LED_SPEED_1
+    }
+    else if (strip_speed_mask.speed_500p)
+	{
+    	strip_speed = LED_SPEED_2; // LED_SPEED_1
+	}
+    else if (strip_speed_mask.speed_100p)
+	{
+    	strip_speed = LED_SPEED_3; // LED_SPEED_1
+	}
+    else if (strip_speed_mask.speed_50p)
+	{
+    	strip_speed = LED_SPEED_4; // LED_SPEED_1
+	}
+    else if (strip_speed_mask.speed_25p)
+	{
+    	strip_speed = LED_SPEED_5; // LED_SPEED_1
+	}
+    return strip_speed;
 }
 
 
@@ -574,7 +609,7 @@ void flash_info_write_data(void *p_data, uint16_t address, uint16_t num_bytes)
     }
     if (write_to_flash)
     {
-        flash_access_write_to_flash((void *)p_data, (void *)flash_address, num_bytes);
+        flash_access_write_to_flash((void *)p_data, flash_address, num_bytes);
     }
 }
 
@@ -637,7 +672,7 @@ led_state_e flash_info_read_led_animation_current(void)
 
 void flash_info_firmware_version(void)
 {
-    version_date_and_time_t version_date_time = \
+    version_date_and_time_t version_date_time =
     {
         .year = BUILD_DATE_YEAR,
         .month = BUILD_DATE_MONTH,
@@ -647,6 +682,9 @@ void flash_info_firmware_version(void)
         .seconds = BUILD_TIME_SECOND,
         .fill = 0xFF
     };
+
+    // TODO use version_date_time
+    UNUSED(version_date_time);
 //    if (0 != memcmp((void *)&version_date_time,
 //                    (void *)(&g_flash_info_block.flash_info_data.image_info.active_image_fw_version),
 //                    sizeof(version_date_and_time_t)))

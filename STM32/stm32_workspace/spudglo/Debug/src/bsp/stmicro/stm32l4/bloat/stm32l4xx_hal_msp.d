@@ -35,7 +35,6 @@ src/bsp/stmicro/stm32l4/bloat/stm32l4xx_hal_msp.o: \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h \
- ../src/bsp/board_common.h \
  ../src/bsp/stmicro/stm32l4/bloat/stm32l4xx_it.h
 ../src/app/main.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
@@ -75,5 +74,4 @@ src/bsp/stmicro/stm32l4/bloat/stm32l4xx_hal_msp.o: \
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h:
-../src/bsp/board_common.h:
 ../src/bsp/stmicro/stm32l4/bloat/stm32l4xx_it.h:

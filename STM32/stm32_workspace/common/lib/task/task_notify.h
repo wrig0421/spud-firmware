@@ -7,12 +7,16 @@
 
 typedef enum
 {
-	TASK_NOTIFICATION_STIMULUS_STATE			= (1 << 0),
-	TASK_NOTIFICATION_STIMULUS_COLOR			= (1 << 1),
-	TASK_NOTIFICATION_STIMULUS_SPEED			= (1 << 2),
-	TASK_NOTIFICATION_STIMULUS_PAUSE			= (1 << 3),
-	TASK_NOTIFICATION_STIMULUS_CUSTOM_STATE		= (1 << 4),
-	TASK_NOTIFICATION_STIMULUS_BRIGHTNESS		= (1 << 5)
+	TASK_NOTIFICATION_STIMULUS_STATE				= (1 << 0),
+	TASK_NOTIFICATION_STIMULUS_COLOR				= (1 << 1),
+	TASK_NOTIFICATION_STIMULUS_SPEED				= (1 << 2),
+	TASK_NOTIFICATION_STIMULUS_PAUSE				= (1 << 3),
+	TASK_NOTIFICATION_STIMULUS_CUSTOM_STATE			= (1 << 4),
+	TASK_NOTIFICATION_STIMULUS_BRIGHTNESS			= (1 << 5),
+	TASK_NOTIFICATION_STIMULUS_STRIP_1_DMA_CMPLT 	= (1 << 6),
+	TASK_NOTIFICATION_STIMULUS_STRIP_2_DMA_CMPLT 	= (1 << 7),
+	TASK_NOTIFICATION_STIMULUS_STRIP_3_DMA_CMPLT 	= (1 << 8)
+
 } task_notification_stimulus_e;
 
 
@@ -33,14 +37,16 @@ typedef union
 		{
 			struct
 			{
-				uint8_t state 			: 1;
-				uint8_t color 			: 1;
-				uint8_t speed 			: 1;
-				uint8_t pause 			: 1;
-				uint8_t custom_state 	: 1;
-				uint8_t brightness 		: 1;
-				uint8_t rsvd			: 2;
-				uint8_t rsvd_2;
+				uint8_t state 				: 1;
+				uint8_t color 				: 1;
+				uint8_t speed 				: 1;
+				uint8_t pause 				: 1;
+				uint8_t custom_state 		: 1;
+				uint8_t brightness 			: 1;
+				uint8_t dma_cmplt			: 1;
+				uint8_t rsvd				: 1;
+
+				uint8_t rsvd_2				: 8;
 			} stimulus_bits;
 			uint16_t flat_stimulus;
 		};

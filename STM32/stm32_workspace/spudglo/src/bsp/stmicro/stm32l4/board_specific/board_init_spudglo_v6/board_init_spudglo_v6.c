@@ -3,7 +3,7 @@
 #if defined(BOARD_SPUDGLO_V6)
 
 #include "stm32l4xx_hal.h"
-#include "board_common.h"
+
 #include "board_specific.h"
 #include "spi_config_hal.h"
 #include "uart_config_hal.h"

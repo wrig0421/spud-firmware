@@ -51,7 +51,13 @@ common/lib/led/ws2812b_driver/ws2812b.o: \
  ../src/lib/util/numbers.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/ws2812b_driver/ws2812b.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/semaphore/semaphore_access.h \
- ../sdk/FreeRTOS/Source/convenience/free_rtos_convenience.h
+ ../sdk/FreeRTOS/Source/convenience/free_rtos_convenience.h \
+ ../src/bsp/peripheral/timer_access_hal.h \
+ ../src/bsp/stmicro/peripheral/timer/timer_config_hal.h \
+ /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/timer/animation_timer_access.h \
+ ../sdk/FreeRTOS/Source/include/timers.h \
+ ../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h \
+ /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_notify.h
 ../sdk/FreeRTOS/Source/include/FreeRTOS.h:
 ../src/app/FreeRTOSConfig.h:
 ../sdk/FreeRTOS/Source/include/projdefs.h:
@@ -108,3 +114,9 @@ common/lib/led/ws2812b_driver/ws2812b.o: \
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/ws2812b_driver/ws2812b.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/semaphore/semaphore_access.h:
 ../sdk/FreeRTOS/Source/convenience/free_rtos_convenience.h:
+../src/bsp/peripheral/timer_access_hal.h:
+../src/bsp/stmicro/peripheral/timer/timer_config_hal.h:
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/timer/animation_timer_access.h:
+../sdk/FreeRTOS/Source/include/timers.h:
+../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h:
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_notify.h:

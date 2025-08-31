@@ -42,18 +42,6 @@ extern TaskHandle_t 	g_led_strip_sync_ctrl_handle;
 extern bool g_led_animate_exit_stimulus;
 
 
-///**
-// * @brief   Check if interrupt occurred
-// * @return  bool: true if an interrupt (major or minor) has occurred
-// */
-//bool task_button_press_interrupt_occurred(void)
-//{
-//	// todo!!!! revisit this.  This is a major hack..
-//	//  check for either minor or major flag interrupt
-//	return (g_task_led_ctrl[STRIP_NUM_1].led_interrupt_info.major_interrupt_flag || \
-//			g_task_led_ctrl[STRIP_NUM_1].led_interrupt_info.minor_interrupt_flag);
-//}
-
 bool task_button_press_interrupt_occurred(const strip_mask_t mask)
 {
 	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);

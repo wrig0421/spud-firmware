@@ -1,7 +1,6 @@
 // SRW
 
 #include "stm32l4xx_hal.h"
-#include "board_common.h"
 #include "board_specific.h"
 
 #if defined(BOARD_SPUD_GLO_V3)

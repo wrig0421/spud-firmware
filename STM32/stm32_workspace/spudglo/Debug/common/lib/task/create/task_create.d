@@ -9,7 +9,7 @@ common/lib/task/create/task_create.o: \
  ../sdk/FreeRTOS/Source/include/task.h \
  ../sdk/FreeRTOS/Source/include/list.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_animate/led_animate.h \
- ../src/bsp/board_init_common.h ../src/bsp/board_common.h \
+ ../src/bsp/board_init_common.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h \
  ../src/bsp/stmicro/stm32l4/bloat/stm32l4xx_hal_conf.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h \
@@ -46,7 +46,6 @@ common/lib/task/create/task_create.o: \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h \
  ../src/bsp/stmicro/stm32l4/board_specific/board_specific.h \
- ../src/bsp/board_common.h \
  ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_baby_dinosaur_v1/board_init_spudglo_baby_dinosaur_v1.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/ws2812b_driver/ws2812b.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_color/led_ctrl_color.h \
@@ -57,7 +56,8 @@ common/lib/task/create/task_create.o: \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_brightness/led_ctrl_brightness.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_state/led_ctrl_state.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_speed/led_ctrl_speed.h \
- /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/create/task_create.h
+ /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/create/task_create.h \
+ /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_uart.h
 ../src/app/config.h:
 ../sdk/FreeRTOS/Source/include/FreeRTOS.h:
 ../src/app/FreeRTOSConfig.h:
@@ -70,7 +70,6 @@ common/lib/task/create/task_create.o: \
 ../sdk/FreeRTOS/Source/include/list.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_animate/led_animate.h:
 ../src/bsp/board_init_common.h:
-../src/bsp/board_common.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
 ../src/bsp/stmicro/stm32l4/bloat/stm32l4xx_hal_conf.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h:
@@ -109,7 +108,6 @@ common/lib/task/create/task_create.o: \
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h:
 ../src/bsp/stmicro/stm32l4/board_specific/board_specific.h:
-../src/bsp/board_common.h:
 ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_baby_dinosaur_v1/board_init_spudglo_baby_dinosaur_v1.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/ws2812b_driver/ws2812b.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_color/led_ctrl_color.h:
@@ -121,3 +119,4 @@ common/lib/task/create/task_create.o: \
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_state/led_ctrl_state.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_speed/led_ctrl_speed.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/create/task_create.h:
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_uart.h:

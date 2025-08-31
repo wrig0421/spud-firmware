@@ -38,6 +38,8 @@ void task_uart_rx(void *argument)
 {
 	uint32_t notification = 0;
     p_pkt_t p_pkt;
+    // TODO use p_pkt
+    UNUSED(p_pkt);
 
     while (1)
     {
@@ -55,6 +57,8 @@ void task_uart_tx(void *argument)
 {
 	uint32_t notification = 0;
 	pkt_t pkt;
+    // TODO use p_pkt
+    UNUSED(pkt);
     while (1)
     {
         uart_access_write_block_host(g_test_buffer, 10);

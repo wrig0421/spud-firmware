@@ -2,10 +2,10 @@
 
 #if !defined(BOARD_INIT_COMMON_H)
 #define BOARD_INIT_COMMON_H
+#include "stm32l4xx_hal.h"
 #include "config.h"
 #include <stdint.h>
 #include <stdbool.h>
-#include "board_common.h"
 #include "board_specific.h"
 
 

@@ -11,7 +11,7 @@
 #include "FreeRTOS.h"
 #include "task.h"
 #include "stm32l4xx_hal.h"
-#include "board_common.h"
+
 #include "board_init_common.h"
 #include "board_specific.h"
 

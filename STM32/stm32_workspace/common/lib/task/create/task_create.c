@@ -11,6 +11,7 @@
 #include "task_button_press.h"
 #include "task_led_ctrl.h"
 #include "task_create.h"
+#include "task_uart.h"
 
 
 TaskHandle_t g_led_strip_1_ctrl_handle;
@@ -99,7 +100,6 @@ StackType_t g_button_press_stack[TASK_CREATE_STACK_SIZE_STANDARD];
 //osStaticThreadDef_t g_dma_transfer_control_block;
 //osStaticThreadDef_t g_button_press_control_block;;
 
-bool g_tasks_running = false;
 
 void task_create(void) {
 //    osKernelInitialize();
@@ -144,9 +144,8 @@ void task_create(void) {
 #	endif
 
 //#	if defined(ENABLE_UART)
-		task_uart_create();
+	task_uart_create();
 //#	endif
 
 	//g_dma_transfer_handle = osThreadNew(task_dma_transfer, NULL, &g_task_dma_transfer_attributes);
-	g_tasks_running = true; // technically will be running after task scheduler started
 }

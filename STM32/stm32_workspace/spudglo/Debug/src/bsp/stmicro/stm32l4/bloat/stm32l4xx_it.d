@@ -47,9 +47,8 @@ src/bsp/stmicro/stm32l4/bloat/stm32l4xx_it.o: \
  ../sdk/FreeRTOS/Source/include/list.h \
  ../sdk/FreeRTOS/Source/include/task.h \
  ../src/bsp/stmicro/stm32l4/bloat/stm32l4xx_it.h ../src/app/config.h \
- ../src/bsp/board_init_common.h ../src/bsp/board_common.h \
+ ../src/bsp/board_init_common.h \
  ../src/bsp/stmicro/stm32l4/board_specific/board_specific.h \
- ../src/bsp/board_common.h \
  ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_baby_dinosaur_v1/board_init_spudglo_baby_dinosaur_v1.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_animate/led_animate.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/ws2812b_driver/ws2812b.h \
@@ -66,7 +65,8 @@ src/bsp/stmicro/stm32l4/bloat/stm32l4xx_it.o: \
  ../src/bsp/stmicro/peripheral/button/button_config_hal_specific.h \
  ../src/bsp/stmicro/peripheral/uart/uart_config_hal_specific.h \
  ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_baby_dinosaur_v1/peripheral/uart/board_spudglo_baby_dinosaur_v1_uart_config.h \
- ../src/bsp/stmicro/peripheral/uart_config_hal.h
+ ../src/bsp/stmicro/peripheral/uart_config_hal.h \
+ /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_notify.h
 ../src/app/main.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
 ../src/bsp/stmicro/stm32l4/bloat/stm32l4xx_hal_conf.h:
@@ -120,9 +120,7 @@ src/bsp/stmicro/stm32l4/bloat/stm32l4xx_it.o: \
 ../src/bsp/stmicro/stm32l4/bloat/stm32l4xx_it.h:
 ../src/app/config.h:
 ../src/bsp/board_init_common.h:
-../src/bsp/board_common.h:
 ../src/bsp/stmicro/stm32l4/board_specific/board_specific.h:
-../src/bsp/board_common.h:
 ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_baby_dinosaur_v1/board_init_spudglo_baby_dinosaur_v1.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_animate/led_animate.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/ws2812b_driver/ws2812b.h:
@@ -140,3 +138,4 @@ src/bsp/stmicro/stm32l4/bloat/stm32l4xx_it.o: \
 ../src/bsp/stmicro/peripheral/uart/uart_config_hal_specific.h:
 ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_baby_dinosaur_v1/peripheral/uart/board_spudglo_baby_dinosaur_v1_uart_config.h:
 ../src/bsp/stmicro/peripheral/uart_config_hal.h:
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_notify.h:

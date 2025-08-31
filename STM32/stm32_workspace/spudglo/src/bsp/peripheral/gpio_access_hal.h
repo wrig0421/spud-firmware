@@ -1,4 +1,3 @@
-// SRW
 
 #if !defined(GPIO_ACCESS_HAL_H)
 #define GPIO_ACCESS_HAL_H

@@ -132,8 +132,8 @@ static void task_led_ctrl_adjust_parameters(const strip_mask_t mask)
     led_ctrl_color_info_t *led_ctrl_color_info = &g_task_led_ctrl[strip_num].led_color_info;
 	led_speed_e led_speed = g_task_led_ctrl[strip_num].led_speed;
 	led_ctrl_state_iterations_t *task_led_ctrl_state_iterations = &g_task_led_ctrl_state_iterations[task_led_ctrl_state_info->led_state];
-	uint16_t max_animation_iteration_count = g_animation_iteration_count[strip_num][task_led_ctrl_state_info->led_state][led_speed];
-	p_led_ctrl_interrupt_status_t p_interrupt_status;
+//	uint16_t max_animation_iteration_count = g_animation_iteration_count[strip_num][task_led_ctrl_state_info->led_state][led_speed];
+//	p_led_ctrl_interrupt_status_t p_interrupt_status;
 
 	task_led_ctrl_state_info->led_state_current_iteration++;
     if (0 < (task_led_ctrl_state_iterations->led_state_between_animation_delay_ms[led_speed]))
@@ -146,9 +146,6 @@ static void task_led_ctrl_adjust_parameters(const strip_mask_t mask)
 	}
     if (LED_CTRL_STATE_MASTER_DEMO == (task_led_ctrl_state_info->led_state_master))
     {
-//        if (task_led_ctrl_state_iterations->led_state_max_iteration[led_speed] == task_led_ctrl_state_info->led_state_current_iteration)
-//    	if ( max_animation_iteration_count == \
-//        		task_led_ctrl_state_info->led_state_current_iteration)
     	if (led_animate_exit_stimulus_flag())
 		{
     		led_animate_clear_exit_stimulus();
@@ -220,7 +217,7 @@ static void task_led_iterate(led_state_e led_state, strip_mask_t mask)
 //			case LED_STATE_THEATER_CHASE:
 //				led_animate_theater_chase(mask, p_led_color, p_led_state_inner_animation_delay_ms);
 //			break;
-//			case LED_STATE_THEATER_CHASE_RAINBOW:\
+//			case LED_STATE_THEATER_CHASE_RAINBOW:
 //				led_animate_theater_chase_rainbow(mask, p_led_state_inner_animation_delay_ms);
 //			break;
 			case LED_STATE_FADE_IN_AND_OUT:

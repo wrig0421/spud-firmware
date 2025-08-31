@@ -1,8 +1,11 @@
 
+#include "FreeRTOS.h"
+#include "queue.h"
+#include "pkt_queue.h"
 #include <string.h>
 #include "FreeRTOS.h"
 
-#include "queue.h"
+#include "pkt.h"
 
 
 /* The queue is to be created to hold a maximum of 10 uint64\_t
@@ -18,42 +21,40 @@
 #define ITEM_SIZE       sizeof( uint64_t )
 
 /* The variable used to hold the queue's data structure. */
-static StaticQueue_t xStaticQueue;
+//static StaticQueue_t xStaticQueue;
 
 /* The array to use as the queue's storage area. This must be at least
    uxQueueLength * uxItemSize bytes. */
-uint8_t ucQueueStorageArea[ QUEUE_LENGTH * ITEM_SIZE ];
-uint8_t g_queue_rx_buffer[QUEUE_RX_LENGTH * PKT_SIZE_BYTES];
-uint8_t g_queue_tx_buffer[QUEUE_TX_LENGTH * PKT_SIZE_BYTES];
-uint8_t g_queue_free_buffer[QUEUE_FREE_LENGTH * PKT_SIZE_BYTES];
-
-
-
+//uint8_t ucQueueStorageArea[ QUEUE_LENGTH * ITEM_SIZE ];
+uint8_t g_queue_rx_buffer[QUEUE_RX_DEPTH_ITEMS * QUEUE_RX_QUEUE_ITEM_SIZE_BYTES];
+uint8_t g_queue_tx_buffer[QUEUE_TX_DEPTH_ITEMS * QUEUE_TX_QUEUE_ITEM_SIZE_BYTES];
+uint8_t g_queue_free_buffer[QUEUE_FREE_DEPTH_ITEMS * QUEUE_FREE_QUEUE_ITEM_SIZE_BYTES];
+//
 QueueHandle_t g_queue_rx;
 QueueHandle_t g_queue_tx;
 QueueHandle_t g_queue_free;
-
-queue_item_t g_queue_entry[NUM_QUEUES] =
-{
-	[QUEUE_FREE] =
-	{
-//		.p_cur_item =
-	    .queue = g_queue_free,
-		.queue_index = 0
-	},
-	[QUEUE_RX] =
-	{
-//		.p_cur_item =
-	    .queue = g_queue_rx,
-		.queue_index = 0
-	},
-	[QUEUE_TX] =
-	{
-//		.p_cur_item =
-	    .queue = g_queue_tx,
-		.queue_index = 0
-	},
-};
+//
+//queue_item_t g_queue_entry[NUM_QUEUES] =
+//{
+//	[QUEUE_FREE] =
+//	{
+////		.p_cur_item =
+//	    .queue = g_queue_free,
+//		.queue_index = 0
+//	},
+//	[QUEUE_RX] =
+//	{
+////		.p_cur_item =
+//	    .queue = g_queue_rx,
+//		.queue_index = 0
+//	},
+//	[QUEUE_TX] =
+//	{
+////		.p_cur_item =
+//	    .queue = g_queue_tx,
+//		.queue_index = 0
+//	},
+//};
 
 /* The variable used to hold the queue's data structure. */
 static StaticQueue_t g_static_queue_rx;

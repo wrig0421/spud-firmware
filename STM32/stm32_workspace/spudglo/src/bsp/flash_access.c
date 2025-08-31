@@ -161,8 +161,8 @@ void flash_access_write_sector_with_address(uint64_t *p_data, uint32_t address)
 ////    	constructed_value = (most_sig << 32) | (least_sig);
 //    	//while (!gb_flash_write_done) free_rtos_delay_ms(1);
 //		//gb_flash_write_done = false;
-//		HAL_FLASH_Program(FLASH_TYPEPROGRAM_DOUBLEWORD, \
-//						address + (iii * sizeof(uint64_t)), \
+//		HAL_FLASH_Program(FLASH_TYPEPROGRAM_DOUBLEWORD,
+//						address + (iii * sizeof(uint64_t)),
 //						*(p_data + (iii)));
 //		if (g_buffer_full) while(1);
 //    }

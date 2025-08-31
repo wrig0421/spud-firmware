@@ -19,7 +19,6 @@
   */
 //#include "stm32l4xx_hal.h"
 #include "main.h"
-#include "board_common.h"
 #include "stm32l4xx_it.h"
 
 /* Exported functions prototypes ---------------------------------------------*/

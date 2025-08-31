@@ -17,21 +17,18 @@ led_ctrl_state_iterations_t g_task_led_ctrl_state_iterations[NUM_LED_STATES] =
 		.led_state_max_iteration[LED_SPEED_3]					= 10,
 		.led_state_max_iteration[LED_SPEED_4]					= 10,
 		.led_state_max_iteration[LED_SPEED_5]					= 10,
-		.led_state_max_iteration[LED_SPEED_6]					= 10,
 
 		.led_state_inner_animation_delay_ms[LED_SPEED_1]  		= 0,
 		.led_state_inner_animation_delay_ms[LED_SPEED_2] 		= 20,
 		.led_state_inner_animation_delay_ms[LED_SPEED_3]    	= 66,
 		.led_state_inner_animation_delay_ms[LED_SPEED_4]     	= 132,
 		.led_state_inner_animation_delay_ms[LED_SPEED_5]   		= 250,
-		.led_state_inner_animation_delay_ms[LED_SPEED_6]   		= 400,
 
 		.led_state_between_animation_delay_ms[LED_SPEED_1]		= 0,
 		.led_state_between_animation_delay_ms[LED_SPEED_2]		= 0,
 		.led_state_between_animation_delay_ms[LED_SPEED_3]		= 0,
 		.led_state_between_animation_delay_ms[LED_SPEED_4]		= 0,
 		.led_state_between_animation_delay_ms[LED_SPEED_5]		= 0,
-		.led_state_between_animation_delay_ms[LED_SPEED_6]		= 0,
 
 		.led_state_allow_black_color							= true
 	},
@@ -42,21 +39,18 @@ led_ctrl_state_iterations_t g_task_led_ctrl_state_iterations[NUM_LED_STATES] =
 		.led_state_max_iteration[LED_SPEED_3]					= 1,
 		.led_state_max_iteration[LED_SPEED_4]					= 1,
 		.led_state_max_iteration[LED_SPEED_5]					= 1,
-		.led_state_max_iteration[LED_SPEED_6]					= 1,
 
 		.led_state_inner_animation_delay_ms[LED_SPEED_1]  		= 0, // NA
 		.led_state_inner_animation_delay_ms[LED_SPEED_2] 		= 0, // NA
 		.led_state_inner_animation_delay_ms[LED_SPEED_3]    	= 0, // NA
 		.led_state_inner_animation_delay_ms[LED_SPEED_4]     	= 0, // NA
 		.led_state_inner_animation_delay_ms[LED_SPEED_5]   		= 0, // NA
-		.led_state_inner_animation_delay_ms[LED_SPEED_6]   		= 0, // NA
 
 		.led_state_between_animation_delay_ms[LED_SPEED_1]		= 10000,
 		.led_state_between_animation_delay_ms[LED_SPEED_2]		= 10000,
 		.led_state_between_animation_delay_ms[LED_SPEED_3]		= 10000,
 		.led_state_between_animation_delay_ms[LED_SPEED_4]		= 10000,
 		.led_state_between_animation_delay_ms[LED_SPEED_5]		= 10000,
-		.led_state_between_animation_delay_ms[LED_SPEED_6]		= 10000,
 
 		.led_state_allow_black_color								= false
 	},
@@ -67,21 +61,18 @@ led_ctrl_state_iterations_t g_task_led_ctrl_state_iterations[NUM_LED_STATES] =
 		.led_state_max_iteration[LED_SPEED_3]					= 6,
 		.led_state_max_iteration[LED_SPEED_4]					= 6,
 		.led_state_max_iteration[LED_SPEED_5]					= 6,
-		.led_state_max_iteration[LED_SPEED_6]					= 6,
 
 		.led_state_inner_animation_delay_ms[LED_SPEED_1]  		= 0, // NA
 		.led_state_inner_animation_delay_ms[LED_SPEED_2] 		= 0, // NA
 		.led_state_inner_animation_delay_ms[LED_SPEED_3]    	= 0, // NA
 		.led_state_inner_animation_delay_ms[LED_SPEED_4]     	= 0, // NA
 		.led_state_inner_animation_delay_ms[LED_SPEED_5]   		= 0, // NA
-		.led_state_inner_animation_delay_ms[LED_SPEED_6]   		= 0, // NA
 
 		.led_state_between_animation_delay_ms[LED_SPEED_1]		= 5000,
 		.led_state_between_animation_delay_ms[LED_SPEED_2]		= 5000,
 		.led_state_between_animation_delay_ms[LED_SPEED_3]		= 5000,
 		.led_state_between_animation_delay_ms[LED_SPEED_4]		= 5000,
 		.led_state_between_animation_delay_ms[LED_SPEED_5]		= 5000,
-		.led_state_between_animation_delay_ms[LED_SPEED_6]		= 5000,
 
 		.led_state_allow_black_color							= false
 	},
@@ -124,21 +115,18 @@ led_ctrl_state_iterations_t g_task_led_ctrl_state_iterations[NUM_LED_STATES] =
 		.led_state_max_iteration[LED_SPEED_3]					= 4,
 		.led_state_max_iteration[LED_SPEED_4]					= 4,
 		.led_state_max_iteration[LED_SPEED_5]					= 4,
-		.led_state_max_iteration[LED_SPEED_6]					= 4,
 
 		.led_state_inner_animation_delay_ms[LED_SPEED_1]  		= 0,
 		.led_state_inner_animation_delay_ms[LED_SPEED_2] 		= 20,
 		.led_state_inner_animation_delay_ms[LED_SPEED_3]    	= 66,
 		.led_state_inner_animation_delay_ms[LED_SPEED_4]     	= 132,
 		.led_state_inner_animation_delay_ms[LED_SPEED_5]   		= 250,
-		.led_state_inner_animation_delay_ms[LED_SPEED_6]   		= 400,
 
 		.led_state_between_animation_delay_ms[LED_SPEED_1]		= 0,
 		.led_state_between_animation_delay_ms[LED_SPEED_2]		= 0,
 		.led_state_between_animation_delay_ms[LED_SPEED_3]		= 0,
 		.led_state_between_animation_delay_ms[LED_SPEED_4]		= 0,
 		.led_state_between_animation_delay_ms[LED_SPEED_5]		= 0,
-		.led_state_between_animation_delay_ms[LED_SPEED_6]		= 0,
 
 		.led_state_allow_black_color							= false
 	},
@@ -149,21 +137,18 @@ led_ctrl_state_iterations_t g_task_led_ctrl_state_iterations[NUM_LED_STATES] =
 		.led_state_max_iteration[LED_SPEED_3]					= 4,
 		.led_state_max_iteration[LED_SPEED_4]					= 4,
 		.led_state_max_iteration[LED_SPEED_5]					= 4,
-		.led_state_max_iteration[LED_SPEED_6]					= 4,
 
 		.led_state_inner_animation_delay_ms[LED_SPEED_1]  		= 0,
 		.led_state_inner_animation_delay_ms[LED_SPEED_2] 		= 20,
 		.led_state_inner_animation_delay_ms[LED_SPEED_3]    	= 66,
 		.led_state_inner_animation_delay_ms[LED_SPEED_4]     	= 132,
 		.led_state_inner_animation_delay_ms[LED_SPEED_5]   		= 250,
-		.led_state_inner_animation_delay_ms[LED_SPEED_6]   		= 400,
 
 		.led_state_between_animation_delay_ms[LED_SPEED_1]		= 0,
 		.led_state_between_animation_delay_ms[LED_SPEED_2]		= 0,
 		.led_state_between_animation_delay_ms[LED_SPEED_3]		= 0,
 		.led_state_between_animation_delay_ms[LED_SPEED_4]		= 0,
 		.led_state_between_animation_delay_ms[LED_SPEED_5]		= 0,
-		.led_state_between_animation_delay_ms[LED_SPEED_6]		= 0,
 
 		.led_state_allow_black_color							= false
 	},
@@ -224,21 +209,18 @@ led_ctrl_state_iterations_t g_task_led_ctrl_state_iterations[NUM_LED_STATES] =
 		.led_state_max_iteration[LED_SPEED_3]					= 10,
 		.led_state_max_iteration[LED_SPEED_4]					= 10,
 		.led_state_max_iteration[LED_SPEED_5]					= 10,
-		.led_state_max_iteration[LED_SPEED_6]					= 10,
 
 		.led_state_inner_animation_delay_ms[LED_SPEED_1]  		= 10,
 		.led_state_inner_animation_delay_ms[LED_SPEED_2] 		= 45,
 		.led_state_inner_animation_delay_ms[LED_SPEED_3]    	= 66,
 		.led_state_inner_animation_delay_ms[LED_SPEED_4]     	= 132,
 		.led_state_inner_animation_delay_ms[LED_SPEED_5]   		= 250,
-		.led_state_inner_animation_delay_ms[LED_SPEED_6]   		= 400,
 
 		.led_state_between_animation_delay_ms[LED_SPEED_1]		= 0,
 		.led_state_between_animation_delay_ms[LED_SPEED_2]		= 0,
 		.led_state_between_animation_delay_ms[LED_SPEED_3]		= 0,
 		.led_state_between_animation_delay_ms[LED_SPEED_4]		= 0,
 		.led_state_between_animation_delay_ms[LED_SPEED_5]		= 0,
-		.led_state_between_animation_delay_ms[LED_SPEED_6]		= 0,
 
 		.led_state_allow_black_color							= false
 	},
@@ -374,21 +356,18 @@ led_ctrl_state_iterations_t g_task_led_ctrl_state_iterations[NUM_LED_STATES] =
 		.led_state_max_iteration[LED_SPEED_3]					= 5,
 		.led_state_max_iteration[LED_SPEED_4]					= 5,
 		.led_state_max_iteration[LED_SPEED_5]					= 5,
-		.led_state_max_iteration[LED_SPEED_6]					= 5,
 
 		.led_state_inner_animation_delay_ms[LED_SPEED_1]  		= 0,
 		.led_state_inner_animation_delay_ms[LED_SPEED_2] 		= 50,
 		.led_state_inner_animation_delay_ms[LED_SPEED_3]    	= 100,
 		.led_state_inner_animation_delay_ms[LED_SPEED_4]     	= 150,
 		.led_state_inner_animation_delay_ms[LED_SPEED_5]   		= 200,
-		.led_state_inner_animation_delay_ms[LED_SPEED_6]   		= 250,
 
 		.led_state_between_animation_delay_ms[LED_SPEED_1]		= 0,
 		.led_state_between_animation_delay_ms[LED_SPEED_2]		= 0,
 		.led_state_between_animation_delay_ms[LED_SPEED_3]		= 0,
 		.led_state_between_animation_delay_ms[LED_SPEED_4]		= 0,
 		.led_state_between_animation_delay_ms[LED_SPEED_5]		= 0,
-		.led_state_between_animation_delay_ms[LED_SPEED_6]		= 0,
 
 		.led_state_allow_black_color							= false
 	},
@@ -400,21 +379,18 @@ led_ctrl_state_iterations_t g_task_led_ctrl_state_iterations[NUM_LED_STATES] =
 			.led_state_max_iteration[LED_SPEED_3]					= 10,
 			.led_state_max_iteration[LED_SPEED_4]					= 10,
 			.led_state_max_iteration[LED_SPEED_5]					= 10,
-			.led_state_max_iteration[LED_SPEED_6]					= 10,
 
 			.led_state_inner_animation_delay_ms[LED_SPEED_1]     	= 0,
 			.led_state_inner_animation_delay_ms[LED_SPEED_2]   		= 0,
 			.led_state_inner_animation_delay_ms[LED_SPEED_3]   		= 0,
 			.led_state_inner_animation_delay_ms[LED_SPEED_4]      	= 0,
 			.led_state_inner_animation_delay_ms[LED_SPEED_5]      	= 0,
-			.led_state_inner_animation_delay_ms[LED_SPEED_6]      	= 0,
 
 			.led_state_between_animation_delay_ms[LED_SPEED_1]		= 5000,
 			.led_state_between_animation_delay_ms[LED_SPEED_2]		= 5000,
 			.led_state_between_animation_delay_ms[LED_SPEED_3]		= 5000,
 			.led_state_between_animation_delay_ms[LED_SPEED_4]		= 5000,
 			.led_state_between_animation_delay_ms[LED_SPEED_5]		= 5000,
-			.led_state_between_animation_delay_ms[LED_SPEED_6]		= 5000,
 
 			.led_state_allow_black_color							= false
 		},

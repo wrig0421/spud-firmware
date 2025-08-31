@@ -24,6 +24,7 @@ OBJCOPY_BIN :=
 # Every subdirectory with source files must be described here
 SUBDIRS := \
 common/api/pkt \
+common/api/queue \
 common/lib/led/led_animate \
 common/lib/led/led_color \
 common/lib/led/led_ctrl \
@@ -46,8 +47,8 @@ common/lib/sensor_third_party/rv8803 \
 common/lib/sensor_third_party/wifi \
 common/lib/task/create \
 common/lib/task \
-common/lib/timer/create \
 common/lib/timer \
+common/lib/timer/create \
 common/lib/uart \
 sdk/FreeRTOS/Source/convenience \
 sdk/FreeRTOS/Source \
@@ -59,10 +60,12 @@ src/bsp/stmicro/peripheral/button \
 src/bsp/stmicro/peripheral/gpio \
 src/bsp/stmicro/peripheral/i2c \
 src/bsp/stmicro/peripheral/spi \
+src/bsp/stmicro/peripheral/timer \
 src/bsp/stmicro/peripheral/uart \
 src/bsp/stmicro/stm32l4/bloat \
 src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_baby_dinosaur_v1 \
 src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_baby_dinosaur_v1/peripheral/gpio \
+src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_baby_dinosaur_v1/peripheral/timer \
 src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_baby_dinosaur_v1/peripheral/uart \
 src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card \
 src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/peripheral/button \

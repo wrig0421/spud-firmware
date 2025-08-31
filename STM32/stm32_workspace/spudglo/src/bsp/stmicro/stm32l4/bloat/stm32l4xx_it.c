@@ -26,7 +26,7 @@
 //#include "stm32l4xx_hal.h"
 #include "config.h"
 #include "board_init_common.h"
-#include "board_common.h"
+
 #include "board_specific.h"
 #include "led_animate.h"
 #include "led_ctrl_color.h"
@@ -39,48 +39,54 @@
 #include "button_access.h"
 #include "uart_config_hal_specific.h"
 #include "uart_config_hal.h"
-//extern osThreadId_t g_dma_transfer_handle;
+#include "task_notify.h"
 
-extern DMA_HandleTypeDef g_hdma_tim1_ch1;
-extern DMA_HandleTypeDef g_hdma_tim1_ch2;
-extern DMA_HandleTypeDef g_hdma_tim1_ch3;
+extern TaskHandle_t 		g_led_strip_1_ctrl_handle;
+extern TaskHandle_t 		g_led_strip_2_ctrl_handle;
+extern TaskHandle_t 		g_led_strip_3_ctrl_handle;
+extern TaskHandle_t 		g_led_strip_sync_ctrl_handle;
 
-extern DMA_HandleTypeDef gh_dma_lpuart1_rx;
-extern DMA_HandleTypeDef gh_dma_lpuart1_tx;
+extern DMA_HandleTypeDef 	g_hdma_tim1_ch1;
+extern DMA_HandleTypeDef 	g_hdma_tim1_ch2;
+extern DMA_HandleTypeDef 	g_hdma_tim1_ch3;
+extern DMA_HandleTypeDef 	gh_dma_lpuart1_rx;
+extern DMA_HandleTypeDef 	gh_dma_lpuart1_tx;
 
-extern SemaphoreHandle_t g_dma_transfer_semaphore;
-extern TaskHandle_t 	g_button_press_handle;
-extern UART_HandleTypeDef g_uart_handle_config[NUM_UART_CONFIG_BUSES];
+extern SemaphoreHandle_t 	g_dma_transfer_semaphore;
+extern TaskHandle_t 		g_button_press_handle;
+extern UART_HandleTypeDef 	g_uart_handle_config[NUM_UART_CONFIG_BUSES];
 
-extern bool g_tasks_running;
-//extern osThreadId_t g_button_press_handle;
+extern uint32_t 			g_button_press_timestamp[NUM_BUTTONS][NUM_TIMESTAMPS];
+extern UART_HandleTypeDef 	gh_host_usart;
 
-extern uint32_t g_button_press_timestamp[NUM_BUTTONS][NUM_TIMESTAMPS];
-extern UART_HandleTypeDef      gh_host_usart;
+volatile uint32_t valuesss = configMAX_SYSCALL_INTERRUPT_PRIORITY;
+volatile uint32_t d_passes = 0;
 
-
+//bool gb_dma_cmplt_strip_1 = true;
+//bool gb_dma_cmplt_strip_2 = true;
+//bool gb_dma_cmplt_strip_3 = true;
 
 #if defined(SysTick)
-#undef SysTick_Handler
+#	undef SysTick_Handler
 
-/* CMSIS SysTick interrupt handler prototype */
-extern void SysTick_Handler     (void);
-/* FreeRTOS tick timer interrupt handler prototype */
-extern void xPortSysTickHandler (void);
-/*
-  SysTick handler implementation that also clears overflow flag.
-*/
-#if (USE_CUSTOM_SYSTICK_HANDLER_IMPLEMENTATION == 0)
-void SysTick_Handler (void) {
-  /* Clear overflow flag */
-  SysTick->CTRL;
+	/* CMSIS SysTick interrupt handler prototype */
+	extern void SysTick_Handler     (void);
+	/* FreeRTOS tick timer interrupt handler prototype */
+	extern void xPortSysTickHandler (void);
+	/*
+	  SysTick handler implementation that also clears overflow flag.
+	*/
+#	if (USE_CUSTOM_SYSTICK_HANDLER_IMPLEMENTATION == 0)
+		void SysTick_Handler (void) {
+		  /* Clear overflow flag */
+		  SysTick->CTRL;
 
-  if (xTaskGetSchedulerState() != taskSCHEDULER_NOT_STARTED) {
-    /* Call tick handler */
-    xPortSysTickHandler();
-  }
-}
-#endif
+		  if (xTaskGetSchedulerState() != taskSCHEDULER_NOT_STARTED) {
+			/* Call tick handler */
+			xPortSysTickHandler();
+		  }
+		}
+#	endif
 #endif
 
 
@@ -92,16 +98,7 @@ void SysTick_Handler (void) {
   */
 void NMI_Handler(void)
 {
-    while (1)
-    {
-        for (uint8_t iii = 0; iii < 1; iii++)
-        {
-            //board_init_red_led_on();
-            HAL_Delay(100);
-            //board_init_red_led_off();
-        }
-        HAL_Delay(3000);
-    }
+	while (1);
 }
 
 
@@ -110,16 +107,7 @@ void NMI_Handler(void)
   */
 void HardFault_Handler(void)
 {
-    while (1)
-    {
-        for (uint8_t iii = 0; iii < 2; iii++)
-        {
-            //board_init_red_led_on();
-            HAL_Delay(100);
-            //board_init_red_led_off();
-        }
-        HAL_Delay(3000);
-    }
+	while (1);
 }
 
 
@@ -128,16 +116,7 @@ void HardFault_Handler(void)
   */
 void MemManage_Handler(void)
 {
-    while (1)
-    {
-        for (uint8_t iii = 0; iii < 3; iii++)
-        {
-            //board_init_red_led_on();
-            HAL_Delay(100);
-            //board_init_red_led_off();
-        }
-        HAL_Delay(3000);
-    }
+	while (1);
 }
 
 
@@ -146,16 +125,7 @@ void MemManage_Handler(void)
   */
 void BusFault_Handler(void)
 {
-    while (1)
-    {
-        for (uint8_t iii = 0; iii < 4; iii++)
-        {
-            //board_init_red_led_on();
-            HAL_Delay(100);
-            //board_init_red_led_off();
-        }
-        HAL_Delay(3000);
-    }
+	while (1);
 }
 
 
@@ -164,16 +134,7 @@ void BusFault_Handler(void)
   */
 void UsageFault_Handler(void)
 {
-    while (1)
-    {
-        for (uint8_t iii = 0; iii < 5; iii++)
-        {
-            //board_init_red_led_on();
-            HAL_Delay(100);
-            //board_init_red_led_off();
-        }
-        HAL_Delay(3000);
-    }
+	while (1);
 }
 
 
@@ -191,30 +152,6 @@ void USARTx_IRQHandler(void)
   HAL_UART_IRQHandler(&gh_host_usart);
 }
 
-/******************************************************************************/
-/* STM32L4xx Peripheral Interrupt Handlers                                    */
-/* Add here the Interrupt Handlers for the used peripherals.                  */
-/* For the available peripheral interrupt handler names,                      */
-/* please refer to the startup file (startup_stm32l4xx.s).                    */
-/******************************************************************************/
-volatile uint32_t valuesss = configMAX_SYSCALL_INTERRUPT_PRIORITY;
-volatile uint32_t d_passes = 0;
-
-
-// FROM THE LAYOUT FILE....
-
-// A = WKUP3 PC5
-// B = WKUP2 PC13
-// C = WKUP1 PA0
-// D = WKUP4 PA2
-
-// 	SPUDGLO BUSINESS CARD
-// 		COLOR 		PC5
-// 		ANIMATION 	PC13
-// 		SPEED 		PA0
-//		PAUSE 		PA2
-
-
 
 /**
   * @brief This function handles EXTI line0 interrupt.
@@ -223,11 +160,17 @@ void EXTI0_IRQHandler(void)
 {
 #if defined(ENABLE_BUTTON)
     BaseType_t xHigherPriorityTaskWoken;
+    // lookup button from IRQ
 	button_e btn = button_config_irq_to_button(EXTI0_IRQn);
+	// handle button IRQ
     HAL_GPIO_EXTI_IRQHandler(button_config_button_pin(btn));
+    // update previous button timestamp from previous "current"
     g_button_press_timestamp[btn][TIMESTAMP_PREVIOUS] = g_button_press_timestamp[btn][TIMESTAMP_CURRENT];
+    // update current timestamp
     g_button_press_timestamp[btn][TIMESTAMP_CURRENT] = xTaskGetTickCountFromISR();
+    // disable the IRQ to prevent nested interrupts.
     HAL_NVIC_DisableIRQ(EXTI0_IRQn);
+    // notify button press task
     xTaskNotifyFromISR(g_button_press_handle, btn, eSetValueWithOverwrite, &xHigherPriorityTaskWoken);
 #endif
 }
@@ -239,11 +182,17 @@ void EXTI2_IRQHandler(void)
 {
 #if defined(ENABLE_BUTTON)
     BaseType_t xHigherPriorityTaskWoken;
+    // lookup button from IRQ
 	button_e btn = button_config_irq_to_button(EXTI2_IRQn);
+	// handle button IRQ
     HAL_GPIO_EXTI_IRQHandler(button_config_button_pin(btn));
+    // update previous button timestamp from previous "current"
     g_button_press_timestamp[btn][TIMESTAMP_PREVIOUS] = g_button_press_timestamp[btn][TIMESTAMP_CURRENT];
+    // update current timestamp
     g_button_press_timestamp[btn][TIMESTAMP_CURRENT] = xTaskGetTickCountFromISR();
+    // disable the IRQ to prevent nested interrupts.
     HAL_NVIC_DisableIRQ(EXTI2_IRQn);
+    // notify button press task
     xTaskNotifyFromISR(g_button_press_handle, btn, eSetValueWithOverwrite, &xHigherPriorityTaskWoken);
 #endif
 }
@@ -256,11 +205,17 @@ void EXTI15_10_IRQHandler(void)
 {
 #if defined(ENABLE_BUTTON)
     BaseType_t xHigherPriorityTaskWoken;
+    // lookup button from IRQ
     button_e btn = button_config_irq_to_button(EXTI15_10_IRQn);
+	// handle button IRQ
     HAL_GPIO_EXTI_IRQHandler(button_config_button_pin(btn));
+    // update previous button timestamp from previous "current"
     g_button_press_timestamp[btn][TIMESTAMP_PREVIOUS] = g_button_press_timestamp[btn][TIMESTAMP_CURRENT];
+    // update current timestamp
     g_button_press_timestamp[btn][TIMESTAMP_CURRENT] = xTaskGetTickCountFromISR();
+    // disable the IRQ to prevent nested interrupts.
     HAL_NVIC_DisableIRQ(EXTI15_10_IRQn);
+    // notify button press task
     xTaskNotifyFromISR(g_button_press_handle, btn, eSetValueWithOverwrite, &xHigherPriorityTaskWoken);
 #endif
 }
@@ -273,11 +228,17 @@ void EXTI9_5_IRQHandler(void)
 {
 #if defined(ENABLE_BUTTON)
     BaseType_t xHigherPriorityTaskWoken;
+    // lookup button from IRQ
     button_e btn = button_config_irq_to_button(EXTI9_5_IRQn);
+	// handle button IRQ
     HAL_GPIO_EXTI_IRQHandler(button_config_button_pin(btn));
+    // update previous button timestamp from previous "current"
     g_button_press_timestamp[btn][TIMESTAMP_PREVIOUS] = g_button_press_timestamp[btn][TIMESTAMP_CURRENT];
+    // update current timestamp
     g_button_press_timestamp[btn][TIMESTAMP_CURRENT] = xTaskGetTickCountFromISR();
+    // disable the IRQ to prevent nested interrupts.
     HAL_NVIC_DisableIRQ(EXTI9_5_IRQn);
+    // notify button press task
     xTaskNotifyFromISR(g_button_press_handle, btn, eSetValueWithOverwrite, &xHigherPriorityTaskWoken);
 #endif
 }
@@ -285,7 +246,7 @@ void EXTI9_5_IRQHandler(void)
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
-
+	UNUSED(GPIO_Pin);
 }
 
 
@@ -303,8 +264,8 @@ void HAL_DMA_CMPLT_CALLBACK(DMA_HandleTypeDef *hdma)
   */
 void TransferComplete_1(DMA_HandleTypeDef *DmaHandle)
 {
-  /* Turn LED3 on: Transfer correct */
-  while(1);
+	/* Turn LED3 on: Transfer correct */
+	while(1);
 }
 
 
@@ -316,9 +277,10 @@ void TransferComplete_1(DMA_HandleTypeDef *DmaHandle)
   */
 void TransferComplete_2(DMA_HandleTypeDef *DmaHandle)
 {
-  /* Turn LED3 on: Transfer correct */
-  while(1);
+	/* Turn LED3 on: Transfer correct */
+	while(1);
 }
+
 
 /**
   * @brief  DMA Transfer complete callback
@@ -328,39 +290,74 @@ void TransferComplete_2(DMA_HandleTypeDef *DmaHandle)
   */
 void TransferComplete_3(DMA_HandleTypeDef *DmaHandle)
 {
-  /* Turn LED3 on: Transfer correct */
-  while(1);
+	/* Turn LED3 on: Transfer correct */
+	while(1);
 }
 
-
-bool gb_dma_cmplt_strip_1 = true;
-bool gb_dma_cmplt_strip_2 = true;
-bool gb_dma_cmplt_strip_3 = true;
 
 
 void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim)
 {
+    BaseType_t xHigherPriorityTaskWoken;
+	TaskHandle_t task_handle = NULL;
+	task_notification_value_format_t task_notification_value =
+	{
+		// set DMA CMPLT [common] in IRQ
+		.stimulus_bits.dma_cmplt = true
+	};
+
+#	if defined(ENABLE_STRIP_SYNC)
+		// set task_handle to sync task
+		task_handle =  g_led_strip_sync_ctrl_handle;
+		// set flag indicating sync task
+		task_notification_value.entity_bits.strip_sync = true;
+#	else
+		switch (htim->Channel)
+		{
+			case HAL_TIM_ACTIVE_CHANNEL_1:
+				// set task_handle to strip 1 task
+				task_handle = g_led_strip_1_ctrl_handle;
+				// set flag indicating strip_1 is reason for dma cmplt
+				task_notification_value.entity_bits.strip_1 = true;
+			break;
+			case HAL_TIM_ACTIVE_CHANNEL_2:
+				// set task_handle to strip 2 task
+				task_handle = g_led_strip_2_ctrl_handle;
+				// set flag indicating strip_2 is reason for dma cmplt
+				task_notification_value.entity_bits.strip_2 = true;
+			break;
+			case HAL_TIM_ACTIVE_CHANNEL_3:
+				// set task_handle to strip 3 task
+				task_handle = g_led_strip_3_ctrl_handle;
+				// set flag indicating strip_3 is reason for dma cmplt
+				task_notification_value.entity_bits.strip_3 = true;
+			break;
+			default:
+				// how did we get here?  set task_handle to null and entity to false
+				task_handle = NULL;
+				task_notification_value.flat_entity = false;
+			break;
+		}
+#	endif
 
     switch (htim->Channel)
     {
         case HAL_TIM_ACTIVE_CHANNEL_1:
             HAL_TIM_PWM_Stop_DMA(htim, TIM_CHANNEL_1);
-            //free_rtos_delay_ms(1);
-            gb_dma_cmplt_strip_1 = true;
+//            gb_dma_cmplt_strip_1 = true;
         break;
         case HAL_TIM_ACTIVE_CHANNEL_2:
             HAL_TIM_PWM_Stop_DMA(htim, TIM_CHANNEL_2);
-            //free_rtos_delay_ms(1);
-            gb_dma_cmplt_strip_2 = true;
+//            gb_dma_cmplt_strip_2 = true;
         break;
         case HAL_TIM_ACTIVE_CHANNEL_3:
             HAL_TIM_PWM_Stop_DMA(htim, TIM_CHANNEL_3);
-            gb_dma_cmplt_strip_3 = true;
+//            gb_dma_cmplt_strip_3 = true;
         break;
         default:
         break;
     }
-//    semaphore_give_from_isr(SEMAPHORE_DMA_TRANSFER);
+    xTaskNotifyFromISR(task_handle, task_notification_value.value, eSetValueWithOverwrite, &xHigherPriorityTaskWoken);
 }
 
 
@@ -372,41 +369,13 @@ void DMA1_Channel2_IRQHandler(void)
     HAL_DMA_IRQHandler(&g_hdma_tim1_ch1);
 }
 
+
 /**
   * @brief This function handles DMA1 channel3 global interrupt.
   */
 void DMA1_Channel3_IRQHandler(void)
 {
     HAL_DMA_IRQHandler(&g_hdma_tim1_ch2);
-}
-
-///**
-//  * @brief This function handles DMA1 channel5 global interrupt.
-//  */
-//void DMA1_Channel5_IRQHandler(void)
-//{
-//    //HAL_DMA_IRQHandler(&hdma_tim15_ch1_up_trig_com);
-//}
-//
-///**
-//  * @brief This function handles DMA1 channel6 global interrupt.
-//  */
-//void DMA1_Channel6_IRQHandler(void)
-//{
-//    //HAL_DMA_IRQHandler(&hdma_tim16_ch1_up);
-//}
-/**
-  * @brief This function handles LPUART1 global interrupt.
-  */
-void LPUART1_IRQHandler(void)
-{
-  /* USER CODE BEGIN LPUART1_IRQn 0 */
-
-  /* USER CODE END LPUART1_IRQn 0 */
-  HAL_UART_IRQHandler(&g_uart_handle_config[UART_CONFIG_BUS_HOST]);
-  /* USER CODE BEGIN LPUART1_IRQn 1 */
-
-  /* USER CODE END LPUART1_IRQn 1 */
 }
 
 
@@ -419,6 +388,15 @@ void DMA1_Channel7_IRQHandler(void)
 }
 
 
+/**
+  * @brief This function handles LPUART1 global interrupt.
+  */
+void LPUART1_IRQHandler(void)
+{
+	HAL_UART_IRQHandler(&g_uart_handle_config[UART_CONFIG_BUS_HOST]);
+}
+
+
 void vApplicationMallocFailedHook( void )
 {
 	while (1);
@@ -427,27 +405,16 @@ void vApplicationMallocFailedHook( void )
 
 void DMA2_Channel6_IRQHandler(void)
 {
-  /* USER CODE BEGIN DMA2_Channel6_IRQn 0 */
-
-  /* USER CODE END DMA2_Channel6_IRQn 0 */
-  HAL_DMA_IRQHandler(&gh_dma_lpuart1_tx);
-  /* USER CODE BEGIN DMA2_Channel6_IRQn 1 */
-
-  /* USER CODE END DMA2_Channel6_IRQn 1 */
+	HAL_DMA_IRQHandler(&gh_dma_lpuart1_tx);
 }
+
 
 /**
   * @brief This function handles DMA2 channel7 global interrupt.
   */
 void DMA2_Channel7_IRQHandler(void)
 {
-  /* USER CODE BEGIN DMA2_Channel7_IRQn 0 */
-
-  /* USER CODE END DMA2_Channel7_IRQn 0 */
-  HAL_DMA_IRQHandler(&gh_dma_lpuart1_rx);
-  /* USER CODE BEGIN DMA2_Channel7_IRQn 1 */
-
-  /* USER CODE END DMA2_Channel7_IRQn 1 */
+	HAL_DMA_IRQHandler(&gh_dma_lpuart1_rx);
 }
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

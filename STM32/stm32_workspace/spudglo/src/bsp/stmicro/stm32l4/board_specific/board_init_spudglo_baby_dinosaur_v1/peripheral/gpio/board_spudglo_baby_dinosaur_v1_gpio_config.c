@@ -8,24 +8,31 @@
 
 const gpio_config_t g_gpio_config[NUM_GPIO_PINS] =
 {
-	[GPIO_PIN_SWDIO] =
+
+	[GPIO_PIOA_PIN_9] =
 	{
-		.pin = GPIO_PIOA_PIN_13,
+		.pin = GPIO_PIN_TIM1_CH1,
+		.mode = GPIO_CONFIG_MODE_ALTERNATE_FUNCTION
+	},
+
+	[GPIO_PIOA_PIN_13] =
+	{
+		.pin = GPIO_PIN_SWDIO,
 		.mode = GPIO_CONFIG_MODE_PROGRAMMING
 	},
-	[GPIO_PIN_SWCLK] =
+	[GPIO_PIOA_PIN_14] =
 	{
-		.pin = GPIO_PIOA_PIN_14,
+		.pin = GPIO_PIN_SWCLK,
 		.mode = GPIO_CONFIG_MODE_PROGRAMMING
 	},
-	[GPIO_PIN_XR_TX] =
+	[GPIO_PIOC_PIN_0] =
 	{
-		.pin = GPIO_PIOC_PIN_0,
+		.pin = GPIO_PIN_XR_TX,
 		.mode = GPIO_CONFIG_MODE_ALTERNATE_FUNCTION // LPUART1
 	},
-	[GPIO_PIN_XR_RX] =
+	[GPIO_PIOC_PIN_1] =
 	{
-		.pin = GPIO_PIOC_PIN_1,
+		.pin = GPIO_PIN_XR_RX,
 		.mode = GPIO_CONFIG_MODE_ALTERNATE_FUNCTION // LPUART1
 	},
 	[GPIO_PIN_OSC48_HI] =
