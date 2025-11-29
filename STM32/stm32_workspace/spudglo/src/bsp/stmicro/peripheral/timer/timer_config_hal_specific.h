@@ -8,6 +8,8 @@
 
 #if defined(BOARD_SPUDGLO_BABY_DINOSAUR_V1)
 #include "board_spudglo_baby_dinosaur_v1_timer_config.h"
+#elif defined(BOARD_SPUDGLO_V7P0)
+#include "board_spudglo_v7_timer_config.h"
 #else
 #error "Error - None or unknown board defined!"
 #endif

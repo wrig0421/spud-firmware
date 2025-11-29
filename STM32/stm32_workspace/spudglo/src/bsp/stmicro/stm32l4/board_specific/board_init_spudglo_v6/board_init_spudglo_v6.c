@@ -7,6 +7,7 @@
 #include "board_specific.h"
 #include "spi_config_hal.h"
 #include "uart_config_hal.h"
+#include "free_rtos_convenience.h"
 #include "gpio_config_hal_specific.h"
 #include "gpio_access_hal.h"
 

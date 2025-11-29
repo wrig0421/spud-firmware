@@ -18,7 +18,7 @@ UART_HandleTypeDef g_uart_handle_config[NUM_UART_CONFIG_BUSES] =
 	[UART_CONFIG_BUS_HOST] =
 	{
 		.Instance = LPUART1,
-		.Init.BaudRate = 9600,
+		.Init.BaudRate = 19200,
 		.Init.WordLength = UART_WORDLENGTH_8B,
 		.Init.StopBits = UART_STOPBITS_1,
 		.Init.Parity = UART_PARITY_NONE,
@@ -93,7 +93,7 @@ const uart_access_id_e g_usart1_chips[] =
 
 
 #define LPUART1_NUM_CHIPS (sizeof(g_lpuart1_chips) / sizeof(uart_access_id_e))
-#define USART1_NUM_CHIPS (sizeof(g_usart1_chips) / sizeof(uart_access_id_e))
+#define USART1_NUM_CHIPS  (sizeof(g_usart1_chips) / sizeof(uart_access_id_e))
 
 
 uint16_t g_uart_num_chips_per_bus[NUM_UART_CONFIG_BUSES] =

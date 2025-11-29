@@ -87,6 +87,7 @@ src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/button \
 src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/gpio \
 src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/i2c \
 src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/spi \
+src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/timer \
 src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/uart \
 src/lib/util \
 startup \

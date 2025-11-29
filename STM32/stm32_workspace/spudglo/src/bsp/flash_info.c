@@ -460,8 +460,9 @@ void flash_info_block_init(void)
 
 void flash_info_read_data(void *p_data, uint16_t address, uint16_t num_bytes)
 {
-    uint64_t flash_address = FLASH_START_ADDRESS + FLASH_SUB_BLOCK_CONFIG_ADDRESS_OFFSET + address;
-    flash_access_read_flash(p_data, (void *)flash_address, num_bytes);
+    uint32_t flash_address = FLASH_START_ADDRESS + FLASH_SUB_BLOCK_CONFIG_ADDRESS_OFFSET + address;
+    flash_access_read_flash((void *)p_data, (void *)flash_address, num_bytes);
+
 //    switch (address)
 //    {
 //        case offsetof(flash_info_block_t, flash_info_data.strip_info.strip_config):
@@ -502,7 +503,7 @@ uint8_t g_flash_read_buffer[100] = {0};
 void flash_info_write_data(void *p_data, uint16_t address, uint16_t num_bytes)
 {
     bool write_to_flash = false;
-    uint64_t flash_address = FLASH_START_ADDRESS + FLASH_SUB_BLOCK_CONFIG_ADDRESS_OFFSET + address;
+    uint32_t flash_address = FLASH_START_ADDRESS + FLASH_SUB_BLOCK_CONFIG_ADDRESS_OFFSET + address;
     switch (address)
     {
         case offsetof(flash_info_block_t, flash_info_data.strip_info.strip_config):

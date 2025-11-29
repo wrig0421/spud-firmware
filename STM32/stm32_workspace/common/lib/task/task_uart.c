@@ -10,6 +10,11 @@
 #include "task_create.h"
 #include "task_uart.h"
 
+#include "free_rtos_convenience.h"
+
+
+extern UART_HandleTypeDef g_uart_handle_config[NUM_UART_CONFIG_BUSES];
+
 TaskHandle_t 	g_task_uart_rx_handle;
 StaticTask_t 	g_task_uart_rx_buffer;
 StackType_t 	g_task_uart_rx_stack[TASK_CREATE_STACK_SIZE_STANDARD];
@@ -17,7 +22,11 @@ StackType_t 	g_task_uart_rx_stack[TASK_CREATE_STACK_SIZE_STANDARD];
 TaskHandle_t 	g_task_uart_tx_handle;
 StaticTask_t 	g_task_uart_tx_buffer;
 StackType_t 	g_task_uart_tx_stack[TASK_CREATE_STACK_SIZE_STANDARD];
+extern uint8_t g_rx_queue_buffer[FREE_QUEUE_DEPTH * sizeof(pkt_t)];
+extern uint8_t g_tx_queue_buffer[FREE_QUEUE_DEPTH * sizeof(pkt_t)];
 
+extern uint32_t g_rx_queue_buffer_index;
+extern uint32_t g_tx_queue_buffer_index;
 
 void task_uart_create(void)
 {
@@ -43,7 +52,19 @@ void task_uart_rx(void *argument)
 
     while (1)
     {
-        xTaskNotifyWait(0, 0, &notification, portMAX_DELAY);
+		//HAL_UART_Transmit(&g_uart_handle_config[UART_CONFIG_BUS_HOST], g_rx_queue_buffer, 10, 5000);
+//		HAL_UART_Transmit_DMA(&g_uart_handle_config[bus],
+//							 g_rx_queue_buffer,
+//							 10);
+//
+//		HAL_UART_Receive_DMA(&g_uart_handle_config[bus],
+//							 g_rx_queue_buffer + g_rx_queue_buffer_index * PKT_SIZE_BYTES,
+//							 10);//PKT_SIZE_BYTES);
+//    	HAL_UART_Transmit(&g_uart_handle_config[UART_CONFIG_BUS_HOST], g_rx_queue_buffer, 10, 5000);
+    	HAL_UART_Receive(&g_uart_handle_config[UART_CONFIG_BUS_HOST],
+					     g_rx_queue_buffer, 10, 5000);
+//        xTaskNotifyWait(0, 0, &notification, portMAX_DELAY);
+        free_rtos_delay_ms(3000);
 		// did we get a pkt?  do something with the pkt.
     }
 }
@@ -61,7 +82,8 @@ void task_uart_tx(void *argument)
     UNUSED(pkt);
     while (1)
     {
-        uart_access_write_block_host(g_test_buffer, 10);
-        xTaskNotifyWait(0, 0, &notification, portMAX_DELAY);
+    	free_rtos_delay_ms(400);
+//        uart_access_write_block_host(g_test_buffer, 10);
+//        xTaskNotifyWait(0, 0, &notification, portMAX_DELAY);
     }
 }

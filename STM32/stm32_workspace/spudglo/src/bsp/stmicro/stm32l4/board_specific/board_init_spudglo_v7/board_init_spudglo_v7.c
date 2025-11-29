@@ -16,7 +16,7 @@
 void board_init_peripheral_setup(void)
 {
 	uart_config_hal_setup();
-	spi_config_hal_setup();
+//	spi_config_hal_setup();
 }
 
 
@@ -75,6 +75,11 @@ bool board_init_specific_vbus_is_present(void)
 	return gpio_access_hal_input_is_high(GPIO_PIN_VBUS_PRESENT);
 }
 
+
+void board_init_specific(void)
+{
+
+}
 
 #endif
 

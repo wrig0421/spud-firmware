@@ -26,7 +26,7 @@ void flash_access_read_flash(void *p_data, void *address, uint16_t num_bytes)
 }
 
 
-void flash_access_write_to_flash(uint64_t *p_data, uint64_t address, uint16_t num_bytes)
+void flash_access_write_to_flash(uint64_t *p_data, uint32_t address, uint16_t num_bytes)
 {
     uint16_t num_double_words = num_bytes / sizeof(uint64_t);
     uint8_t remainder = num_bytes % sizeof(uint64_t);
@@ -56,7 +56,7 @@ void flash_access_read_sector(void *p_data, flash_info_sub_block_t sub_block)
 }
 
 
-void flash_access_erase_from_to_address(uint64_t start_address, uint64_t end_address)
+void flash_access_erase_from_to_address(uint32_t start_address, uint32_t end_address)
 {
 	static FLASH_EraseInitTypeDef EraseInitStruct;
 	if (start_address < FLASH_START_ADDRESS) return;
@@ -147,7 +147,7 @@ void flash_access_write_sector(uint64_t *p_data, flash_info_sub_block_t sub_bloc
     HAL_FLASH_Lock();
 }
 
-extern bool g_buffer_full;
+//extern bool g_buffer_full;
 uint64_t g_prog_flash_val = 9;
 void flash_access_write_sector_with_address(uint64_t *p_data, uint32_t address)
 {

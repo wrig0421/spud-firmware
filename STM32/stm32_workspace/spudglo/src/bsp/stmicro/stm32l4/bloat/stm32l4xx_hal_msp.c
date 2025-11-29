@@ -33,7 +33,7 @@ extern DMA_HandleTypeDef g_hdma_tim1_ch2;
 extern DMA_HandleTypeDef g_hdma_tim1_ch3;
 
 
-void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
+//void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
 
 
 // Function below added by SRW

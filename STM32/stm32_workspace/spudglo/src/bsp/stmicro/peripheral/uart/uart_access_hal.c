@@ -33,9 +33,10 @@ void USART1_IRQHandler(void)
 }
 
 
+bool g_tx_complete = false;
 void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
 {
-
+	g_tx_complete = true;
 }
 
 

@@ -41,14 +41,27 @@
 #include "uart_config_hal.h"
 #include "task_notify.h"
 
-extern TaskHandle_t 		g_led_strip_1_ctrl_handle;
-extern TaskHandle_t 		g_led_strip_2_ctrl_handle;
-extern TaskHandle_t 		g_led_strip_3_ctrl_handle;
-extern TaskHandle_t 		g_led_strip_sync_ctrl_handle;
+#if defined(ENABLE_STRIP_1)
+	extern TaskHandle_t 		g_led_strip_1_ctrl_handle;
+#endif
 
+#if defined(ENABLE_STRIP_2)
+	extern TaskHandle_t 		g_led_strip_2_ctrl_handle;
+#endif
+
+#if defined(ENABLE_STRIP_3)
+	extern TaskHandle_t 		g_led_strip_3_ctrl_handle;
+#endif
+
+#if defined(ENABLE_LED_STRIP_SYNC)
+	extern TaskHandle_t 		g_led_strip_sync_ctrl_handle;
+#endif
 extern DMA_HandleTypeDef 	g_hdma_tim1_ch1;
 extern DMA_HandleTypeDef 	g_hdma_tim1_ch2;
 extern DMA_HandleTypeDef 	g_hdma_tim1_ch3;
+
+
+
 extern DMA_HandleTypeDef 	gh_dma_lpuart1_rx;
 extern DMA_HandleTypeDef 	gh_dma_lpuart1_tx;
 
@@ -315,22 +328,28 @@ void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim)
 		switch (htim->Channel)
 		{
 			case HAL_TIM_ACTIVE_CHANNEL_1:
-				// set task_handle to strip 1 task
-				task_handle = g_led_strip_1_ctrl_handle;
-				// set flag indicating strip_1 is reason for dma cmplt
-				task_notification_value.entity_bits.strip_1 = true;
+#				if defined(ENABLE_STRIP_1)
+					// set task_handle to strip 1 task
+					task_handle = g_led_strip_1_ctrl_handle;
+					// set flag indicating strip_1 is reason for dma cmplt
+					task_notification_value.entity_bits.strip_1 = true;
+#				endif
 			break;
 			case HAL_TIM_ACTIVE_CHANNEL_2:
-				// set task_handle to strip 2 task
-				task_handle = g_led_strip_2_ctrl_handle;
-				// set flag indicating strip_2 is reason for dma cmplt
-				task_notification_value.entity_bits.strip_2 = true;
+#				if defined(ENABLE_STRIP_2)
+					// set task_handle to strip 2 task
+					task_handle = g_led_strip_2_ctrl_handle;
+					// set flag indicating strip_2 is reason for dma cmplt
+					task_notification_value.entity_bits.strip_2 = true;
+#				endif
 			break;
 			case HAL_TIM_ACTIVE_CHANNEL_3:
-				// set task_handle to strip 3 task
-				task_handle = g_led_strip_3_ctrl_handle;
-				// set flag indicating strip_3 is reason for dma cmplt
-				task_notification_value.entity_bits.strip_3 = true;
+#				if defined(ENABLE_STRIP_3)
+					// set task_handle to strip 3 task
+					task_handle = g_led_strip_3_ctrl_handle;
+					// set flag indicating strip_3 is reason for dma cmplt
+					task_notification_value.entity_bits.strip_3 = true;
+#				endif
 			break;
 			default:
 				// how did we get here?  set task_handle to null and entity to false

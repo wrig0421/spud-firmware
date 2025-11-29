@@ -34,6 +34,8 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32l4xx_hal.h"
+#include "FreeRTOS.h"
+#include "task.h"
 
 /** @addtogroup STM32L4xx_HAL_Driver
   * @{
@@ -337,8 +339,8 @@ __weak void HAL_IncTick(void)
   */
 __weak uint32_t HAL_GetTick(void)
 {
-    //return xTaskGetTickCount();
-    return uwTick;
+//    return uwTick;
+    return xTaskGetTickCount() * portTICK_PERIOD_MS;
 }
 
 /**

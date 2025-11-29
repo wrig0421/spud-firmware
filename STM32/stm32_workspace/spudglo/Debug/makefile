@@ -12,6 +12,7 @@ RM := rm -rf
 -include startup/subdir.mk
 -include src/lib/util/subdir.mk
 -include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/uart/subdir.mk
+-include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/timer/subdir.mk
 -include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/spi/subdir.mk
 -include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/i2c/subdir.mk
 -include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/gpio/subdir.mk

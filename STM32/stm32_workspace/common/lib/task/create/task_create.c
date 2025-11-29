@@ -104,44 +104,44 @@ StackType_t g_button_press_stack[TASK_CREATE_STACK_SIZE_STANDARD];
 void task_create(void) {
 //    osKernelInitialize();
 
-#	if defined(ENABLE_LED_STRIP_SYNC)
-
-    	g_led_strip_sync_ctrl_handle = xTaskCreateStatic(task_led_sync_ctrl, "task_strip_sync", TASK_CREATE_STACK_SIZE_STANDARD,
-														NULL, tskIDLE_PRIORITY, g_task_led_sync_stack, &g_task_led_sync_buffer);
-
-#	else
-#		if (1 == NUM_ACTIVE_STRIPS)
-
-	g_led_strip_1_ctrl_handle = xTaskCreateStatic(task_led_1_ctrl,
-			"task_strip_1", TASK_CREATE_STACK_SIZE_STANDARD, (void*) 1,
-			tskIDLE_PRIORITY, g_task_led_strip_1_stack,
-			&g_task_led_strip_1_buffer);
-
-#		elif (2 == NUM_ACTIVE_STRIPS)
-
-			g_led_strip_1_ctrl_handle = xTaskCreateStatic(task_led_1_ctrl, "task_strip_1", TASK_CREATE_STACK_SIZE_STANDARD,
-															(void *) 1, tskIDLE_PRIORITY, g_task_led_strip_1_stack, &g_task_led_strip_1_buffer);
-			g_led_strip_2_ctrl_handle = xTaskCreateStatic(task_led_2_ctrl, "task_strip_2", TASK_CREATE_STACK_SIZE_STANDARD,
-															(void *) 1, tskIDLE_PRIORITY, g_task_led_strip_2_stack, &g_task_led_strip_2_buffer);
-
-#		elif (3 == NUM_ACTIVE_STRIPS)
-
-			g_led_strip_1_ctrl_handle = xTaskCreateStatic(task_led_1_ctrl, "task_strip_1", TASK_CREATE_STACK_SIZE_STANDARD,
-															(void *) 1, tskIDLE_PRIORITY, g_task_led_strip_1_stack, &g_task_led_strip_1_buffer);
-			g_led_strip_2_ctrl_handle = xTaskCreateStatic(task_led_2_ctrl, "task_strip_2", TASK_CREATE_STACK_SIZE_STANDARD,
-															(void *) 1, tskIDLE_PRIORITY, g_task_led_strip_2_stack, &g_task_led_strip_2_buffer);
-			g_led_strip_3_ctrl_handle = xTaskCreateStatic(task_led_3_ctrl, "task_strip_3", TASK_CREATE_STACK_SIZE_STANDARD,
-															(void *) 1, tskIDLE_PRIORITY, g_task_led_strip_3_stack, &g_task_led_strip_3_buffer);
-
-#		endif
-
-#endif
-#	if defined(ENABLE_BUTTON)
-		g_button_press_handle = xTaskCreateStatic(task_button_press,
-				"task_button_press", TASK_CREATE_STACK_SIZE_STANDARD,
-				NULL, tskIDLE_PRIORITY, g_button_press_stack,
-				&g_button_press_buffer);
-#	endif
+//#	if defined(ENABLE_LED_STRIP_SYNC)
+//
+//    	g_led_strip_sync_ctrl_handle = xTaskCreateStatic(task_led_sync_ctrl, "task_strip_sync", TASK_CREATE_STACK_SIZE_STANDARD,
+//														NULL, tskIDLE_PRIORITY, g_task_led_sync_stack, &g_task_led_sync_buffer);
+//
+//#	else
+//#		if (1 == NUM_ACTIVE_STRIPS)
+//
+//	g_led_strip_1_ctrl_handle = xTaskCreateStatic(task_led_1_ctrl,
+//			"task_strip_1", TASK_CREATE_STACK_SIZE_STANDARD, (void*) 1,
+//			tskIDLE_PRIORITY, g_task_led_strip_1_stack,
+//			&g_task_led_strip_1_buffer);
+//
+//#		elif (2 == NUM_ACTIVE_STRIPS)
+//
+//			g_led_strip_1_ctrl_handle = xTaskCreateStatic(task_led_1_ctrl, "task_strip_1", TASK_CREATE_STACK_SIZE_STANDARD,
+//															(void *) 1, tskIDLE_PRIORITY, g_task_led_strip_1_stack, &g_task_led_strip_1_buffer);
+//			g_led_strip_2_ctrl_handle = xTaskCreateStatic(task_led_2_ctrl, "task_strip_2", TASK_CREATE_STACK_SIZE_STANDARD,
+//															(void *) 1, tskIDLE_PRIORITY, g_task_led_strip_2_stack, &g_task_led_strip_2_buffer);
+//
+//#		elif (3 == NUM_ACTIVE_STRIPS)
+//
+//			g_led_strip_1_ctrl_handle = xTaskCreateStatic(task_led_1_ctrl, "task_strip_1", TASK_CREATE_STACK_SIZE_STANDARD,
+//															(void *) 1, tskIDLE_PRIORITY, g_task_led_strip_1_stack, &g_task_led_strip_1_buffer);
+//			g_led_strip_2_ctrl_handle = xTaskCreateStatic(task_led_2_ctrl, "task_strip_2", TASK_CREATE_STACK_SIZE_STANDARD,
+//															(void *) 1, tskIDLE_PRIORITY, g_task_led_strip_2_stack, &g_task_led_strip_2_buffer);
+//			g_led_strip_3_ctrl_handle = xTaskCreateStatic(task_led_3_ctrl, "task_strip_3", TASK_CREATE_STACK_SIZE_STANDARD,
+//															(void *) 1, tskIDLE_PRIORITY, g_task_led_strip_3_stack, &g_task_led_strip_3_buffer);
+//
+//#		endif
+//
+//#endif
+//#	if defined(ENABLE_BUTTON)
+//		g_button_press_handle = xTaskCreateStatic(task_button_press,
+//				"task_button_press", TASK_CREATE_STACK_SIZE_STANDARD,
+//				NULL, tskIDLE_PRIORITY, g_button_press_stack,
+//				&g_button_press_buffer);
+//#	endif
 
 //#	if defined(ENABLE_UART)
 	task_uart_create();
