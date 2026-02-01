@@ -58,7 +58,10 @@ common/lib/task/task_uart.o: \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_animate/led_animate.h \
  ../src/bsp/board_init_common.h \
  ../src/bsp/stmicro/stm32l4/board_specific/board_specific.h \
- ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/board_init_spudglo_v7.h \
+ ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/board_init_spudglo_v6.h \
+ /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/api/queue/pkt_queue.h \
+ ../sdk/FreeRTOS/Source/include/queue.h \
+ ../sdk/FreeRTOS/Source/include/task.h \
  ../sdk/FreeRTOS/Source/convenience/free_rtos_convenience.h
 ../src/app/FreeRTOSConfig.h:
 ../sdk/FreeRTOS/Source/include/FreeRTOS.h:
@@ -121,5 +124,8 @@ common/lib/task/task_uart.o: \
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_animate/led_animate.h:
 ../src/bsp/board_init_common.h:
 ../src/bsp/stmicro/stm32l4/board_specific/board_specific.h:
-../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/board_init_spudglo_v7.h:
+../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/board_init_spudglo_v6.h:
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/api/queue/pkt_queue.h:
+../sdk/FreeRTOS/Source/include/queue.h:
+../sdk/FreeRTOS/Source/include/task.h:
 ../sdk/FreeRTOS/Source/convenience/free_rtos_convenience.h:

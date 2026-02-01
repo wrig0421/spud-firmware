@@ -27,11 +27,6 @@ uint8_t g_pwm_data_strip_3[sizeof(ws2812b_led_t) * BITS_PER_BYTE * STRIP_3_LENGT
 
 uint32_t g_reset_cycles = WS2812B_RESET_TIME_CYCLES;
 
-
-
-//extern osThreadId_t g_dma_transfer_handle;
-
-
 p_pwm_data_t gp_pwm_data_strip_1 = NULL;
 p_pwm_data_t gp_pwm_data_strip_2 = NULL;
 p_pwm_data_t gp_pwm_data_strip_3 = NULL;
@@ -344,9 +339,9 @@ void ws2812b_init(void)
 	gp_pwm_data_strip_2 = NULL;
 	gp_pwm_data_strip_3 = NULL;
 	// should only need to memset the ending once... Nothing else should touch it if things working!
-	memset(g_pwm_data_strip_1 + sizeof(ws2812b_led_t) * BITS_PER_BYTE * STRIP_1_LENGTH, 0, WS2812B_RESET_TIME_CYCLES + 2*sizeof(uint32_t));
-	memset(g_pwm_data_strip_2 + sizeof(ws2812b_led_t) * BITS_PER_BYTE * STRIP_2_LENGTH, 0, WS2812B_RESET_TIME_CYCLES + 2*sizeof(uint32_t));
-	memset(g_pwm_data_strip_3 + sizeof(ws2812b_led_t) * BITS_PER_BYTE * STRIP_3_LENGTH, 0, WS2812B_RESET_TIME_CYCLES + 2*sizeof(uint32_t));
+	memset(g_pwm_data_strip_1 + sizeof(ws2812b_led_t) * BITS_PER_BYTE * STRIP_1_LENGTH, 0, WS2812B_RESET_TIME_CYCLES + 2 * sizeof(uint32_t));
+	memset(g_pwm_data_strip_2 + sizeof(ws2812b_led_t) * BITS_PER_BYTE * STRIP_2_LENGTH, 0, WS2812B_RESET_TIME_CYCLES + 2 * sizeof(uint32_t));
+	memset(g_pwm_data_strip_3 + sizeof(ws2812b_led_t) * BITS_PER_BYTE * STRIP_3_LENGTH, 0, WS2812B_RESET_TIME_CYCLES + 2 * sizeof(uint32_t));
 	g_ws2812b_info[STRIP_NUM_1].p_pwm_data = g_pwm_data_strip_1;
 	g_ws2812b_info[STRIP_NUM_2].p_pwm_data = g_pwm_data_strip_2;
 	g_ws2812b_info[STRIP_NUM_3].p_pwm_data = g_pwm_data_strip_3;

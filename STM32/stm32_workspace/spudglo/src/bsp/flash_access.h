@@ -13,7 +13,8 @@ void flash_access_write_to_flash(uint64_t *p_data, uint32_t address, uint16_t nu
 void flash_access_read_sector(void *p_data, flash_info_sub_block_t sub_block);
 void flash_access_write_sector(uint64_t *p_data, flash_info_sub_block_t sub_block);
 void flash_access_write_sector_with_address(uint64_t *p_data, uint32_t address);
-void flash_access_erase_slot(void);
+void flash_access_erase_slot(flash_info_sub_block_t sub_block);
 void flash_access_erase_from_to_address(uint32_t start_address, uint32_t end_address);
+void flash_access_read_programmed_uid(uint32_t* p_uid);
 
 #endif

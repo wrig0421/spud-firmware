@@ -46,7 +46,7 @@ src/app/main.o: ../src/app/main.c \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h \
  ../src/bsp/board_init_common.h ../src/app/config.h \
  ../src/bsp/stmicro/stm32l4/board_specific/board_specific.h \
- ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/board_init_spudglo_v7.h \
+ ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/board_init_spudglo_v6.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/ws2812b_driver/ws2812b.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/create/task_create.h \
  ../sdk/FreeRTOS/Source/include/task.h \
@@ -57,6 +57,8 @@ src/app/main.o: ../src/app/main.c \
  ../src/bsp/flash_info.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_state/led_ctrl_state.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_speed/led_ctrl_speed.h \
+ /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_brightness/led_ctrl_brightness.h \
+ ../src/lib/util/version.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/semaphore/semaphore_access.h
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/timer/create/animation_timer_create.h:
 ../sdk/FreeRTOS/Source/include/FreeRTOS.h:
@@ -110,7 +112,7 @@ src/app/main.o: ../src/app/main.c \
 ../src/bsp/board_init_common.h:
 ../src/app/config.h:
 ../src/bsp/stmicro/stm32l4/board_specific/board_specific.h:
-../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/board_init_spudglo_v7.h:
+../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/board_init_spudglo_v6.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/ws2812b_driver/ws2812b.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/create/task_create.h:
 ../sdk/FreeRTOS/Source/include/task.h:
@@ -121,4 +123,6 @@ src/app/main.o: ../src/app/main.c \
 ../src/bsp/flash_info.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_state/led_ctrl_state.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_speed/led_ctrl_speed.h:
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_brightness/led_ctrl_brightness.h:
+../src/lib/util/version.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/semaphore/semaphore_access.h:

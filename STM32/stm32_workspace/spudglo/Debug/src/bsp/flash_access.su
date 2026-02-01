@@ -1,8 +1,8 @@
-../src/bsp/flash_access.c:16:6:HAL_FLASH_EndOfOperationCallback	16	static
-../src/bsp/flash_access.c:23:6:flash_access_read_flash	24	static
-../src/bsp/flash_access.c:29:6:flash_access_write_to_flash	32	static
-../src/bsp/flash_access.c:42:6:flash_access_read_sector	24	static
-../src/bsp/flash_access.c:59:6:flash_access_erase_from_to_address	40	static
-../src/bsp/flash_access.c:84:6:flash_access_erase_slot	32	static
-../src/bsp/flash_access.c:108:6:flash_access_write_sector	48	static
-../src/bsp/flash_access.c:152:6:flash_access_write_sector_with_address	16	static
+../src/bsp/flash_access.c:19:6:flash_access_load_struct	8	static
+../src/bsp/flash_access.c:26:6:HAL_FLASH_EndOfOperationCallback	16	static
+../src/bsp/flash_access.c:32:6:flash_access_read_flash	24	static
+../src/bsp/flash_access.c:38:6:flash_access_write_to_flash	32	static
+../src/bsp/flash_access.c:51:6:flash_access_read_sector	24	static
+../src/bsp/flash_access.c:68:6:flash_access_erase_from_to_address	40	static
+../src/bsp/flash_access.c:93:6:flash_access_erase_slot	24	static
+../src/bsp/flash_access.c:122:6:flash_access_write_sector	24	static

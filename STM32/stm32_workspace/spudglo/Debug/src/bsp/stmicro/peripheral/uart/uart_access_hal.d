@@ -6,8 +6,10 @@ src/bsp/stmicro/peripheral/uart/uart_access_hal.o: \
  ../sdk/FreeRTOS/Source/include/deprecated_definitions.h \
  ../sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h \
  ../sdk/FreeRTOS/Source/include/mpu_wrappers.h \
+ ../sdk/FreeRTOS/Source/include/queue.h \
  ../sdk/FreeRTOS/Source/include/task.h \
  ../sdk/FreeRTOS/Source/include/list.h \
+ ../sdk/FreeRTOS/Source/include/task.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h \
  ../src/bsp/stmicro/stm32l4/bloat/stm32l4xx_hal_conf.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h \
@@ -46,6 +48,7 @@ src/bsp/stmicro/peripheral/uart/uart_access_hal.o: \
  ../src/bsp/peripheral/uart_access_hal.h \
  ../src/bsp/stmicro/peripheral/uart_config_hal.h \
  ../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h \
+ ../src/bsp/stmicro/stm32l4/bloat/stm32l4xx_it.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_led_ctrl.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_brightness/led_ctrl_brightness.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/ws2812b_driver/ws2812b.h \
@@ -58,7 +61,7 @@ src/bsp/stmicro/peripheral/uart/uart_access_hal.o: \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_animate/led_animate.h \
  ../src/bsp/board_init_common.h \
  ../src/bsp/stmicro/stm32l4/board_specific/board_specific.h \
- ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/board_init_spudglo_v7.h \
+ ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/board_init_spudglo_v6.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/sensor_third_party/wifi/esp8266.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/api/pkt/pkt.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/api/pkt/pkt.h
@@ -69,8 +72,10 @@ src/bsp/stmicro/peripheral/uart/uart_access_hal.o: \
 ../sdk/FreeRTOS/Source/include/deprecated_definitions.h:
 ../sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h:
 ../sdk/FreeRTOS/Source/include/mpu_wrappers.h:
+../sdk/FreeRTOS/Source/include/queue.h:
 ../sdk/FreeRTOS/Source/include/task.h:
 ../sdk/FreeRTOS/Source/include/list.h:
+../sdk/FreeRTOS/Source/include/task.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
 ../src/bsp/stmicro/stm32l4/bloat/stm32l4xx_hal_conf.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h:
@@ -111,6 +116,7 @@ src/bsp/stmicro/peripheral/uart/uart_access_hal.o: \
 ../src/bsp/peripheral/uart_access_hal.h:
 ../src/bsp/stmicro/peripheral/uart_config_hal.h:
 ../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h:
+../src/bsp/stmicro/stm32l4/bloat/stm32l4xx_it.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_led_ctrl.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_brightness/led_ctrl_brightness.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/ws2812b_driver/ws2812b.h:
@@ -123,7 +129,7 @@ src/bsp/stmicro/peripheral/uart/uart_access_hal.o: \
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_animate/led_animate.h:
 ../src/bsp/board_init_common.h:
 ../src/bsp/stmicro/stm32l4/board_specific/board_specific.h:
-../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/board_init_spudglo_v7.h:
+../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/board_init_spudglo_v6.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/sensor_third_party/wifi/esp8266.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/api/pkt/pkt.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/api/pkt/pkt.h:

@@ -71,14 +71,15 @@
 
 typedef struct
 {
-    uint16_t    year;
-    uint8_t     month;
-    uint8_t     day;
-    uint8_t     hour;
-    uint8_t     minutes;
-    uint8_t     seconds;
-    uint8_t     fill;
-} version_date_and_time_t;
+    uint16_t    year;					// 1 B
+    uint8_t     month;					// 1 B
+    uint8_t     day;					// 1 B
+    uint8_t     hour;					// 1 B
+    uint8_t     minutes;				// 1 B
+    uint8_t     seconds;				// 1 B
+    uint8_t		tens_of_milliseconds; 	// 1 B
+    uint8_t     fill;					// 1 B
+} version_date_and_time_t;				// 8 B total
 
 
 

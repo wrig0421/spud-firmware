@@ -14,13 +14,8 @@
 #define LED_CTRL_POWER_MONITOR_MAX_CURRENT_DRAW_A      (float)9.5
 #define LED_CTRL_POWER_MONITOR_MAX_CURRENT_PER_LED_MA  40.0f
 
-// current tracking needs to be maintained per strip.
-//typedef current_t* p_current_t;
-
 float g_max_current_ratio = 1.0f;
 float g_absolute_max_current_ratio = 0.0f; // DO NOT EXCEED!
-//p_current_t gp_current_monitor_strip[NUM_STRIPS];
-
 
 void led_ctrl_power_monitor_set(float value)
 {
@@ -53,8 +48,6 @@ void led_ctrl_power_monitor_init(void)
         current_ratio_value = (g_max_current_ratio * (current_max_per_led_ampere) * num_leds);
     }
     if (g_max_current_ratio <= 0) while(1); // broken..
-    //g_max_current_ratio = 0.1f;
-//    g_max_current_ratio = 0.2f;// SRW debug
 
     g_absolute_max_current_ratio = g_max_current_ratio;
 }

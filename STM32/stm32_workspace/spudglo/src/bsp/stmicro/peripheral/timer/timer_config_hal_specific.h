@@ -10,6 +10,8 @@
 #include "board_spudglo_baby_dinosaur_v1_timer_config.h"
 #elif defined(BOARD_SPUDGLO_V7P0)
 #include "board_spudglo_v7_timer_config.h"
+#elif defined(BOARD_SPUDGLO_V6P0)
+#include "board_spudglo_v6_timer_config.h"
 #else
 #error "Error - None or unknown board defined!"
 #endif

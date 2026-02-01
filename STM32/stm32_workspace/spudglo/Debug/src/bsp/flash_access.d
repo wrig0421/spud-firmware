@@ -42,11 +42,12 @@ src/bsp/flash_access.o: ../src/bsp/flash_access.c ../src/app/main.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_animate/led_animate.h \
  ../src/bsp/board_init_common.h \
  ../src/bsp/stmicro/stm32l4/board_specific/board_specific.h \
- ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/board_init_spudglo_v7.h \
+ ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/board_init_spudglo_v6.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_color/led_ctrl_color.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_color/led_color.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/button/button_access.h \
- ../src/bsp/flash_access.h \
+ /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_brightness/led_ctrl_brightness.h \
+ ../src/lib/util/version.h ../src/bsp/flash_access.h \
  ../sdk/FreeRTOS/Source/convenience/free_rtos_convenience.h
 ../src/app/main.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
@@ -94,9 +95,11 @@ src/bsp/flash_access.o: ../src/bsp/flash_access.c ../src/app/main.h \
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_animate/led_animate.h:
 ../src/bsp/board_init_common.h:
 ../src/bsp/stmicro/stm32l4/board_specific/board_specific.h:
-../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/board_init_spudglo_v7.h:
+../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/board_init_spudglo_v6.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_color/led_ctrl_color.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_color/led_color.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/button/button_access.h:
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_brightness/led_ctrl_brightness.h:
+../src/lib/util/version.h:
 ../src/bsp/flash_access.h:
 ../sdk/FreeRTOS/Source/convenience/free_rtos_convenience.h:

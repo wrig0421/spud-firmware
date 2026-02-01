@@ -62,8 +62,8 @@ extern DMA_HandleTypeDef 	g_hdma_tim1_ch3;
 
 
 
-extern DMA_HandleTypeDef 	gh_dma_lpuart1_rx;
-extern DMA_HandleTypeDef 	gh_dma_lpuart1_tx;
+extern DMA_HandleTypeDef 	gh_dma_host_rx;
+extern DMA_HandleTypeDef 	gh_dma_host_tx;
 
 extern SemaphoreHandle_t 	g_dma_transfer_semaphore;
 extern TaskHandle_t 		g_button_press_handle;
@@ -163,6 +163,12 @@ void DebugMon_Handler(void)
 void USARTx_IRQHandler(void)
 {
   HAL_UART_IRQHandler(&gh_host_usart);
+}
+
+
+bool micro_in_isr(void)
+{
+	return SCB->ICSR & SCB_ICSR_VECTACTIVE_Msk;
 }
 
 
@@ -424,7 +430,7 @@ void vApplicationMallocFailedHook( void )
 
 void DMA2_Channel6_IRQHandler(void)
 {
-	HAL_DMA_IRQHandler(&gh_dma_lpuart1_tx);
+	HAL_DMA_IRQHandler(&gh_dma_host_tx);
 }
 
 
@@ -433,7 +439,7 @@ void DMA2_Channel6_IRQHandler(void)
   */
 void DMA2_Channel7_IRQHandler(void)
 {
-	HAL_DMA_IRQHandler(&gh_dma_lpuart1_rx);
+	HAL_DMA_IRQHandler(&gh_dma_host_rx);
 }
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

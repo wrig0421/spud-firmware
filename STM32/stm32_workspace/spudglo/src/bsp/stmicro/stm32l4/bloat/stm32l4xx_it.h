@@ -19,9 +19,12 @@
 #ifndef __STM32L4xx_IT_H
 #define __STM32L4xx_IT_H
 
+#include <stdbool.h>
 #ifdef __cplusplus
  extern "C" {
 #endif
+
+#include "stm32l4xx_hal.h"
 
 void NMI_Handler(void);
 void HardFault_Handler(void);
@@ -46,6 +49,7 @@ void TransferComplete_1(DMA_HandleTypeDef *DmaHandle);
 void TransferComplete_2(DMA_HandleTypeDef *DmaHandle);
 void TransferComplete_3(DMA_HandleTypeDef *DmaHandle);
 
+bool micro_in_isr(void);
 
 #ifdef __cplusplus
 }

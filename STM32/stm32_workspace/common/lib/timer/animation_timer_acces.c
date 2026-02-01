@@ -23,4 +23,4 @@ void animation_timer_access_reset(void)
 	{
 
 	}
-}
+};

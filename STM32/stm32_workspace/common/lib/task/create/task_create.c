@@ -11,6 +11,7 @@
 #include "task_button_press.h"
 #include "task_led_ctrl.h"
 #include "task_create.h"
+#include "task_pkt_process.h"
 #include "task_uart.h"
 
 
@@ -145,7 +146,10 @@ void task_create(void) {
 
 //#	if defined(ENABLE_UART)
 	task_uart_create();
+	task_pkt_process_create();
 //#	endif
+
+
 
 	//g_dma_transfer_handle = osThreadNew(task_dma_transfer, NULL, &g_task_dma_transfer_attributes);
 }

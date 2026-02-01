@@ -2,7 +2,7 @@
 
 #include "config.h"
 #if !defined(BOARD_INIT_SPUDGLO_V7_TIMER_CONFIG_H)
-#define BOARD_INIT_SPUDGLO_BABY_DINOSAUR_V1_TIMER_CONFIG_H
+#define BOARD_INIT_SPUDGLO_V7_TIMER_CONFIG_H
 
 typedef enum
 {

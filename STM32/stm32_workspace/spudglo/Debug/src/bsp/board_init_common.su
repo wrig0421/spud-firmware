@@ -1,4 +1,4 @@
 ../src/bsp/board_init_common.c:20:13:board_init_common_sysclk_init	192	static
 ../src/bsp/board_init_common.c:54:13:board_init_common_timer_init	4	static
 ../src/bsp/board_init_common.c:128:6:board_init_common_board_init	8	static
-../src/bsp/board_init_common.c:160:6:Error_Handler	4	static,ignoring_inline_asm
+../src/bsp/board_init_common.c:159:6:Error_Handler	4	static,ignoring_inline_asm

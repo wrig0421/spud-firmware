@@ -58,11 +58,12 @@ typedef enum
 
 typedef struct
 {
-    pkt_tag_e           tag;
-    pkt_var_e           var;
-    pkt_src_e           src;
-    pkt_status_e        status;
-    uint16_t            adrs;
+    pkt_tag_e           tag; // 1 B
+    pkt_var_e           var; // 1 B
+    pkt_src_e           src; // 1 B
+    pkt_status_e        status; // 1 B
+    uint16_t            adrs; // 2 B
+    uint16_t			dbg;
 } pkt_header_t;
 
 
@@ -105,14 +106,18 @@ typedef pkt_t   *p_pkt_t;
 
 
 void packet_queue_init(void);
-p_pkt_t pkt_dequeue_from_free(void);
-void pkt_enqueue_to_free(p_pkt_t pkt_handle);
-p_pkt_t pkt_dequeue_from_rx(void);
-void pkt_enqueue_to_rx(p_pkt_t pkt_handle);
-p_pkt_t pkt_dequeue_from_tx(void);
-void pkt_enqueue_to_tx(p_pkt_t pkt_handle);
-p_pkt_t pkt_dequeue_from_process(void);
-void pkt_enqueue_to_process(p_pkt_t pkt_handle);
+void pkt_dequeue_from_free(p_pkt_t p_pkt_handle);
+void pkt_enqueue_to_free(p_pkt_t p_pkt_handle);
+void pkt_dequeue_from_rx(p_pkt_t p_pkt_handle);
+void pkt_enqueue_to_rx(p_pkt_t p_pkt_handle);
+void pkt_dequeue_from_tx(p_pkt_t p_pkt_handle);
+void pkt_enqueue_to_tx(p_pkt_t p_pkt_handle);
+void pkt_dequeue_from_process(p_pkt_t p_pkt_handle);
+void pkt_enqueue_to_process(p_pkt_t p_pkt_handle);
+void pkt_parse_rx(p_pkt_t p_pkt_handle);
+void pkt_parse_tx(p_pkt_t p_pkt_handle);
+
+
 void pkt_parse_rx(p_pkt_t pkt_handle);
 void pkt_parse_tx(p_pkt_t pkt_handle);
 

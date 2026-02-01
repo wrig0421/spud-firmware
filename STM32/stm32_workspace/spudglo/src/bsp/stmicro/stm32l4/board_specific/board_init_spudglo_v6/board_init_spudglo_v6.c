@@ -76,5 +76,11 @@ bool board_init_specific_vbus_is_present(void)
 }
 
 
+void board_init_specific(void)
+{
+
+}
+
+
 #endif
 

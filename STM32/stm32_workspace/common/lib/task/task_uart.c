@@ -9,7 +9,8 @@
 #include "uart_access.h"
 #include "task_create.h"
 #include "task_uart.h"
-
+#include "pkt_queue.h"
+#include <limits.h>
 #include "free_rtos_convenience.h"
 
 
@@ -28,6 +29,8 @@ extern uint8_t g_tx_queue_buffer[FREE_QUEUE_DEPTH * sizeof(pkt_t)];
 extern uint32_t g_rx_queue_buffer_index;
 extern uint32_t g_tx_queue_buffer_index;
 
+
+uint8_t g_rx_new_buffer[100] = {0};
 void task_uart_create(void)
 {
 	g_task_uart_rx_handle = xTaskCreateStatic(task_uart_rx,
@@ -47,25 +50,14 @@ void task_uart_rx(void *argument)
 {
 	uint32_t notification = 0;
     p_pkt_t p_pkt;
-    // TODO use p_pkt
-    UNUSED(p_pkt);
 
+	uart_access_hal_host_rx();
     while (1)
     {
-		//HAL_UART_Transmit(&g_uart_handle_config[UART_CONFIG_BUS_HOST], g_rx_queue_buffer, 10, 5000);
-//		HAL_UART_Transmit_DMA(&g_uart_handle_config[bus],
-//							 g_rx_queue_buffer,
-//							 10);
-//
-//		HAL_UART_Receive_DMA(&g_uart_handle_config[bus],
-//							 g_rx_queue_buffer + g_rx_queue_buffer_index * PKT_SIZE_BYTES,
-//							 10);//PKT_SIZE_BYTES);
-//    	HAL_UART_Transmit(&g_uart_handle_config[UART_CONFIG_BUS_HOST], g_rx_queue_buffer, 10, 5000);
-    	HAL_UART_Receive(&g_uart_handle_config[UART_CONFIG_BUS_HOST],
-					     g_rx_queue_buffer, 10, 5000);
-//        xTaskNotifyWait(0, 0, &notification, portMAX_DELAY);
-        free_rtos_delay_ms(3000);
-		// did we get a pkt?  do something with the pkt.
+    	// block on queue.  This will only be filled when a pkt has been received.
+    	pkt_queue_host_rx_parse(); // this will block.  the task_notify I don't think is needed.
+    	// pkt is parsed in above function.
+    	// now need to parse pkt.
     }
 }
 

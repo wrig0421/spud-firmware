@@ -106,6 +106,7 @@
 "./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/board_init_spudglo_v6.o"
 "./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/gpio/board_spudglo_v6_gpio_config.o"
 "./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/spi/board_spudglo_v6_spi_config.o"
+"./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/timer/board_spudglo_v6_timer_config.o"
 "./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/uart/board_spudglo_v6_uart_config.o"
 "./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/board_init_spudglo_v7.o"
 "./src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/button/board_spudglo_v7_button_config.o"

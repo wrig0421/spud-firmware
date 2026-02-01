@@ -1,4 +1,6 @@
 
+
+#include <stdbool.h>
 #include "FreeRTOS.h"
 #include "task.h"
 #include "free_rtos_convenience.h"
@@ -17,4 +19,10 @@ void vApplicationStackOverflowHook( TaskHandle_t xTask,
      * or pxCurrentTCB if pcTaskName has itself been corrupted. */
     ( void ) xTask;
     ( void ) pcTaskName;
+}
+
+
+bool free_rtos_scheduler_has_been_started(void)
+{
+	return (xTaskGetSchedulerState() == taskSCHEDULER_NOT_STARTED) ? false : true;
 }

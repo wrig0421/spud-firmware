@@ -136,7 +136,6 @@ void board_init_common_board_init(void)
 
     // setup gpio
     gpio_config_hal_setup();
-
     // setup i2c, spi, uart if present
     board_init_peripheral_setup();
 

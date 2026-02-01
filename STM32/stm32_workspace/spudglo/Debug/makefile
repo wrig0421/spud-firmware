@@ -1,6 +1,6 @@
 ################################################################################
 # Automatically-generated file. Do not edit!
-# Toolchain: GNU Tools for STM32 (12.3.rel1)
+# Toolchain: GNU Tools for STM32 (13.3.rel1)
 ################################################################################
 
 -include ../makefile.init
@@ -19,6 +19,7 @@ RM := rm -rf
 -include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/button/subdir.mk
 -include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/subdir.mk
 -include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/uart/subdir.mk
+-include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/timer/subdir.mk
 -include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/spi/subdir.mk
 -include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/gpio/subdir.mk
 -include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/subdir.mk

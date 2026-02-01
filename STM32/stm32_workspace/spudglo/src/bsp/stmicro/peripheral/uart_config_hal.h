@@ -59,4 +59,6 @@ void uart_config_hal_setup(void);
 uart_handle_t uart_config_host_handle(void);
 uart_handle_t uart_config_esp8266_handle(void);
 
+uint8_t* uart_config_host_rx_buffer(void);
+
 #endif

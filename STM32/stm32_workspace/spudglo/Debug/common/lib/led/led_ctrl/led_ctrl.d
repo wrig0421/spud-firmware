@@ -56,7 +56,7 @@ common/lib/led/led_ctrl/led_ctrl.o: \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h \
- ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/board_init_spudglo_v7.h \
+ ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/board_init_spudglo_v6.h \
  ../sdk/FreeRTOS/Source/convenience/free_rtos_convenience.h
 ../sdk/FreeRTOS/Source/include/FreeRTOS.h:
 ../src/app/FreeRTOSConfig.h:
@@ -117,5 +117,5 @@ common/lib/led/led_ctrl/led_ctrl.o: \
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h:
-../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/board_init_spudglo_v7.h:
+../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/board_init_spudglo_v6.h:
 ../sdk/FreeRTOS/Source/convenience/free_rtos_convenience.h:

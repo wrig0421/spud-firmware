@@ -15,37 +15,34 @@
 
 UART_HandleTypeDef g_uart_handle_config[NUM_UART_CONFIG_BUSES] =
 {
-		[UART_CONFIG_BUS_HOST] =
-		{
-			.Instance = LPUART1,
-			.Init.BaudRate = 9600,
-			.Init.WordLength = UART_WORDLENGTH_8B,
-			.Init.StopBits = UART_STOPBITS_1,
-			.Init.Parity = UART_PARITY_NONE,
-			.Init.Mode           = UART_MODE_TX_RX,
-			.Init.HwFlowCtl      = UART_HWCONTROL_NONE,
-			.Init.OverSampling = UART_OVERSAMPLING_16,
-			.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE,
-			.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT,
-			.AdvancedInit.OverrunDisable = UART_ADVFEATURE_RXOVERRUNDISABLE_INIT|UART_ADVFEATURE_DMADISABLEONERROR_INIT,
-			.AdvancedInit.DMADisableonRxError = UART_ADVFEATURE_DMA_DISABLEONRXERROR
-		},
-		[UART_CONFIG_BUS_ESP8266] =
-		{
-			.Instance = USART1,
-			.Init.BaudRate = 9600,
-			.Init.WordLength = UART_WORDLENGTH_8B,
-			.Init.StopBits = UART_STOPBITS_1,
-			.Init.Parity = UART_PARITY_NONE,
-			.Init.Mode           = UART_MODE_TX_RX,
-			.Init.HwFlowCtl      = UART_HWCONTROL_NONE,
-			.Init.OverSampling = UART_OVERSAMPLING_16,
-			.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE,
+	[UART_CONFIG_BUS_HOST] =
+	{
+		.Instance = LPUART1,
+		.Init.BaudRate = 19200,
+		.Init.WordLength = UART_WORDLENGTH_8B,
+		.Init.StopBits = UART_STOPBITS_1,
+		.Init.Parity = UART_PARITY_NONE,
+		.Init.Mode           = UART_MODE_TX_RX,
+		.Init.HwFlowCtl      = UART_HWCONTROL_NONE,
+		.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE,
+		.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT
+	},
+	[UART_CONFIG_BUS_ESP8266] =
+	{
+		.Instance = USART1,
+		.Init.BaudRate = 9600,
+		.Init.WordLength = UART_WORDLENGTH_8B,
+		.Init.StopBits = UART_STOPBITS_1,
+		.Init.Parity = UART_PARITY_NONE,
+		.Init.Mode           = UART_MODE_TX_RX,
+		.Init.HwFlowCtl      = UART_HWCONTROL_NONE,
+		.Init.OverSampling = UART_OVERSAMPLING_16,
+		.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE,
 	//				.AdvancedInit.RxPinLevelInvert = UART_ADVFEATURE_RXINV_ENABLE,
-			.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT,
-			.AdvancedInit.OverrunDisable = UART_ADVFEATURE_RXOVERRUNDISABLE_INIT|UART_ADVFEATURE_DMADISABLEONERROR_INIT,
-			.AdvancedInit.DMADisableonRxError = UART_ADVFEATURE_DMA_DISABLEONRXERROR
-		}
+		.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT,
+		.AdvancedInit.OverrunDisable = UART_ADVFEATURE_RXOVERRUNDISABLE_INIT|UART_ADVFEATURE_DMADISABLEONERROR_INIT,
+		.AdvancedInit.DMADisableonRxError = UART_ADVFEATURE_DMA_DISABLEONRXERROR
+	}
 };
 
 
@@ -99,7 +96,7 @@ const uart_access_id_e g_usart1_chips[] =
 uint16_t g_uart_num_chips_per_bus[NUM_UART_CONFIG_BUSES] =
 {
 	[UART_CONFIG_BUS_HOST] = LPUART1_NUM_CHIPS,
-	[UART_CONFIG_BUS_ESP8266] = USART1_NUM_CHIPS
+	[UART_CONFIG_BUS_ESP8266] = 0
 };
 
 
