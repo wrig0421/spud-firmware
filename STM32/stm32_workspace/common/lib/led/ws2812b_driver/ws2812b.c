@@ -17,15 +17,12 @@
 #include "timer_access_hal.h"
 #include "task_notify.h"
 
-extern float g_max_current_ratio;
 extern TIM_HandleTypeDef 	g_tim1_handle_config;
 
 // below hard coded 2880 because WS2812B_RESET_TIME_CYCLES
 uint8_t g_pwm_data_strip_1[sizeof(ws2812b_led_t) * BITS_PER_BYTE * STRIP_1_LENGTH + WS2812B_RESET_TIME_CYCLES + 2*sizeof(uint32_t)];
 uint8_t g_pwm_data_strip_2[sizeof(ws2812b_led_t) * BITS_PER_BYTE * STRIP_2_LENGTH + WS2812B_RESET_TIME_CYCLES + 2*sizeof(uint32_t)];
 uint8_t g_pwm_data_strip_3[sizeof(ws2812b_led_t) * BITS_PER_BYTE * STRIP_3_LENGTH + WS2812B_RESET_TIME_CYCLES + 2*sizeof(uint32_t)];
-
-uint32_t g_reset_cycles = WS2812B_RESET_TIME_CYCLES;
 
 p_pwm_data_t gp_pwm_data_strip_1 = NULL;
 p_pwm_data_t gp_pwm_data_strip_2 = NULL;
@@ -99,9 +96,12 @@ uint16_t ws2812_get_strip_size(const strip_bit_e strip_bit)
  */
 void reset_ws2812b(void)
 {
-    HAL_TIM_PWM_Start_DMA(&g_tim1_handle_config, TIM_CHANNEL_1, g_pwm_reset, sizeof(g_pwm_reset));
-    HAL_TIM_PWM_Start_DMA(&g_tim1_handle_config, TIM_CHANNEL_2, g_pwm_reset, sizeof(g_pwm_reset));
-    HAL_TIM_PWM_Start_DMA(&g_tim1_handle_config, TIM_CHANNEL_3, g_pwm_reset, sizeof(g_pwm_reset));
+    HAL_TIM_PWM_Start_DMA(timer_config_get_handle(), TIM_CHANNEL_1,
+                          g_pwm_reset, sizeof(g_pwm_reset));
+    HAL_TIM_PWM_Start_DMA(timer_config_get_handle(), TIM_CHANNEL_2,
+                          g_pwm_reset, sizeof(g_pwm_reset));
+    HAL_TIM_PWM_Start_DMA(timer_config_get_handle(), TIM_CHANNEL_3,
+                          g_pwm_reset, sizeof(g_pwm_reset));
 }
 
 
@@ -210,7 +210,7 @@ uint16_t ws2812_get_number_of_active_strips_within_mask(const strip_mask_t strip
  * @return  uint16_t - Number of active LEDs WITHIN THE SET MASK!
  * @note    This represents the lengths...NOT the number of LEDs on currently.
  */
-uint16_t ws2812_get_num_active_animation_leds(const strip_mask_t strip_mask)
+uint16_t ws2812_get_num_leds_in_mask(const strip_mask_t strip_mask)
 {
 	uint16_t strip_size = 0;
 	if (STRIP_BIT_1 & strip_mask)
@@ -269,6 +269,7 @@ void ws2812b_set_led(const strip_mask_t strip_mask, const uint16_t led_num,
                      const color_t red, const color_t green, const color_t blue)
 {
     strip_num_e strip_num = ws2812_strip_bit_to_strip_num((strip_bit_e)strip_mask);
+    float led_ctrl_power_factor = led_ctrl_power_monitor_ratio();
     // allow multiple strip num to enter this function...
     if (strip_num >= STRIP_NUM_MAX_UNIQUE_STRIPS)
     {
@@ -278,60 +279,60 @@ void ws2812b_set_led(const strip_mask_t strip_mask, const uint16_t led_num,
                 if (ws2812_pixel_is_in_strip_range(STRIP_BIT_1, pixel))
                 {
                     (g_ws2812b_info[STRIP_NUM_1].p_led_strip + \
-                                    led_num)->red = red * g_max_current_ratio;
+                                    led_num)->red = red * led_ctrl_power_factor;
                     (g_ws2812b_info[STRIP_NUM_1].p_led_strip + \
-                                    led_num)->green = green * g_max_current_ratio;
+                                    led_num)->green = green * led_ctrl_power_factor;
                     (g_ws2812b_info[STRIP_NUM_1].p_led_strip + \
-                                    led_num)->blue = blue * g_max_current_ratio;
+                                    led_num)->blue = blue * led_ctrl_power_factor;
                 }
                 if (ws2812_pixel_is_in_strip_range(STRIP_BIT_2, pixel))
                 {
                     (g_ws2812b_info[STRIP_NUM_2].p_led_strip + \
-                                    led_num)->red = red * g_max_current_ratio;
+                                    led_num)->red = red * led_ctrl_power_factor;
                     (g_ws2812b_info[STRIP_NUM_2].p_led_strip + \
-                                    led_num)->green = green * g_max_current_ratio;
+                                    led_num)->green = green * led_ctrl_power_factor;
                     (g_ws2812b_info[STRIP_NUM_2].p_led_strip + \
-                                    led_num)->blue = blue * g_max_current_ratio;
+                                    led_num)->blue = blue * led_ctrl_power_factor;
                 }
             break;
             case STRIP_NUM_1_AND_3:
                 if (ws2812_pixel_is_in_strip_range(STRIP_BIT_1, pixel))
                 {
                     (g_ws2812b_info[STRIP_NUM_1].p_led_strip + \
-                                    led_num)->red = red * g_max_current_ratio;
+                                    led_num)->red = red * led_ctrl_power_factor;
                     (g_ws2812b_info[STRIP_NUM_1].p_led_strip + \
-                                    led_num)->green = green * g_max_current_ratio;
+                                    led_num)->green = green * led_ctrl_power_factor;
                     (g_ws2812b_info[STRIP_NUM_1].p_led_strip + \
-                                    led_num)->blue = blue * g_max_current_ratio;
+                                    led_num)->blue = blue * led_ctrl_power_factor;
                 }
                 if (ws2812_pixel_is_in_strip_range(STRIP_BIT_3, pixel))
                 {
                     (g_ws2812b_info[STRIP_NUM_3].p_led_strip + \
-                                    led_num)->red = red * g_max_current_ratio;
+                                    led_num)->red = red * led_ctrl_power_factor;
                     (g_ws2812b_info[STRIP_NUM_3].p_led_strip + \
-                                    led_num)->green = green * g_max_current_ratio;
+                                    led_num)->green = green * led_ctrl_power_factor;
                     (g_ws2812b_info[STRIP_NUM_3].p_led_strip + \
-                                    led_num)->blue = blue * g_max_current_ratio;
+                                    led_num)->blue = blue * led_ctrl_power_factor;
                 }
             break;
             case STRIP_NUM_2_AND_3:
                 if (ws2812_pixel_is_in_strip_range(STRIP_BIT_2, pixel))
                 {
                     (g_ws2812b_info[STRIP_NUM_2].p_led_strip + \
-                                    led_num)->red = red * g_max_current_ratio;
+                                    led_num)->red = red * led_ctrl_power_factor;
                     (g_ws2812b_info[STRIP_NUM_2].p_led_strip + \
-                                    led_num)->green = green * g_max_current_ratio;
+                                    led_num)->green = green * led_ctrl_power_factor;
                     (g_ws2812b_info[STRIP_NUM_2].p_led_strip + \
-                                    led_num)->blue = blue * g_max_current_ratio;
+                                    led_num)->blue = blue * led_ctrl_power_factor;
                 }
                 if (ws2812_pixel_is_in_strip_range(STRIP_BIT_3, pixel))
                 {
                     (g_ws2812b_info[STRIP_NUM_3].p_led_strip + \
-                                    led_num)->red = red * g_max_current_ratio;
+                                    led_num)->red = red * led_ctrl_power_factor;
                     (g_ws2812b_info[STRIP_NUM_3].p_led_strip + \
-                                    led_num)->green = green * g_max_current_ratio;
+                                    led_num)->green = green * led_ctrl_power_factor;
                     (g_ws2812b_info[STRIP_NUM_3].p_led_strip + \
-                                    led_num)->blue = blue * g_max_current_ratio;
+                                    led_num)->blue = blue * led_ctrl_power_factor;
                 }
             break;
             case STRIP_NUM_ALL_SET:
@@ -340,11 +341,11 @@ void ws2812b_set_led(const strip_mask_t strip_mask, const uint16_t led_num,
                     if (ws2812_pixel_is_in_strip_range(ws2812_strip_num_to_strip_bit(strip_num), pixel))
                     {
                         (g_ws2812b_info[strip_num].p_led_strip + \
-                                        led_num)->red = red * g_max_current_ratio;
+                                        led_num)->red = red * led_ctrl_power_factor;
                         (g_ws2812b_info[strip_num].p_led_strip + \
-                                        led_num)->green = green * g_max_current_ratio;
+                                        led_num)->green = green * led_ctrl_power_factor;
                         (g_ws2812b_info[strip_num].p_led_strip + \
-                                        led_num)->blue = blue * g_max_current_ratio;
+                                        led_num)->blue = blue * led_ctrl_power_factor;
                     }
                 }
             break;
@@ -359,32 +360,40 @@ void ws2812b_set_led(const strip_mask_t strip_mask, const uint16_t led_num,
         if (ws2812_pixel_is_in_strip_range(STRIP_BIT_2, pixel))
         {
             (g_ws2812b_info[strip_num].p_led_strip + \
-                            led_num)->red = red * g_max_current_ratio;
+                            led_num)->red = red * led_ctrl_power_factor;
             (g_ws2812b_info[strip_num].p_led_strip + \
-                            led_num)->green = green * g_max_current_ratio;
+                            led_num)->green = green * led_ctrl_power_factor;
             (g_ws2812b_info[strip_num].p_led_strip + \
-                            led_num)->blue = blue * g_max_current_ratio;
+                            led_num)->blue = blue * led_ctrl_power_factor;
         }
 
     }
 }
 
 
-
+/**
+ * @brief   Start timer DMA transfer for the passed strip_bit
+ * @param   strip_bit - strip_bit_e value representing strip[s]
+ * @return  void
+ * @note    This is only functional with single threaded approach.  Multiple
+ *          strips being controlled at the same time resulted in flickering
+ *          within the strips.  For now... This function will only operate
+ *          with STRIP_BIT_1, STRIP_BIT_2, STRIP_BIT_3 values.
+ */
 void ws2812b_dma_transfer(strip_bit_e strip_bit)
 {
+    bool first_pass = true;
 	static bool timer_channel_started[3] = {false, false, false};
-	bool first_pass = true;
 	task_notification_value_format_t task_notification_value;
 	task_notification_value.value = 0;
-    strip_num_e strip_num = ws2812_strip_bit_to_strip_num(strip_bit);
     uint32_t timer_channel = 0;
+    strip_num_e strip_num = ws2812_strip_bit_to_strip_num(strip_bit);
     switch (strip_bit)
     {
     	case STRIP_BIT_1: timer_channel = TIM_CHANNEL_1; break;
     	case STRIP_BIT_2: timer_channel = TIM_CHANNEL_2; break;
     	case STRIP_BIT_3: timer_channel = TIM_CHANNEL_3; break;
-    	default: break;
+    	default: return;
     }
     if (first_pass)
     {
@@ -395,23 +404,35 @@ void ws2812b_dma_transfer(strip_bit_e strip_bit)
     {
         do
         {
-        	// one at a time approach??
-        	xTaskNotifyWait(0, (uint32_t)task_notification_value.value, (uint32_t *)&task_notification_value.value, portMAX_DELAY);
-            // all transfers must be complete before we start another transfer!
-            if (task_notification_value.entity_bits.strip_1) timer_channel_started[STRIP_NUM_1] = false;
-            if (task_notification_value.entity_bits.strip_2) timer_channel_started[STRIP_NUM_2] = false;
-            if (task_notification_value.entity_bits.strip_3) timer_channel_started[STRIP_NUM_3] = false;
+            // flicker observed with multiple strips going at once.  Code below
+            // enforces only one strip at a time. So we are enforcing that all
+            // transfers must be complete before starting another!
+        	xTaskNotifyWait(0, (uint32_t)task_notification_value.value,
+        	                (uint32_t *)&task_notification_value.value,
+        	                portMAX_DELAY);
+            if (task_notification_value.entity_bits.strip_1)
+            {
+                timer_channel_started[STRIP_NUM_1] = false;
+            }
+            if (task_notification_value.entity_bits.strip_2)
+            {
+                timer_channel_started[STRIP_NUM_2] = false;
+            }
+            if (task_notification_value.entity_bits.strip_3)
+            {
+                timer_channel_started[STRIP_NUM_3] = false;
+            }
         } while (timer_channel_started[STRIP_NUM_1] || \
         		 timer_channel_started[STRIP_NUM_2] || \
 				 timer_channel_started[STRIP_NUM_3]);
-        // wait for notification from all transfers
-        // no more transfers occurgin!
         transfer_begin:
-			while (HAL_OK != timer_access_hal_start_timer(&g_tim1_handle_config, timer_channel, \
+			while (HAL_OK != timer_access_hal_start_timer(&g_tim1_handle_config,
+			                                              timer_channel, \
 														 (uint32_t *)g_ws2812b_info[strip_num].p_pwm_data, \
 														 (g_ws2812b_info[strip_num].led_strip_length * BITS_PER_BYTE * \
 																 sizeof(ws2812b_led_t)) + WS2812B_RESET_TIME_CYCLES))
 			{
+			    // retry every 10 ms to free up CPU time!
 				free_rtos_delay_ms(10);
 			}
 			timer_channel_started[strip_num] = true;
@@ -419,25 +440,46 @@ void ws2812b_dma_transfer(strip_bit_e strip_bit)
 }
 
 
-bool ws2812b_strip_set_in_mask(const strip_mask_t strip_mask,
+/**
+ * @brief   Check if the strip num is set within the passed mask
+ * @param   strip_mask - strip_mask_t value representing strip[s]
+ * @param   strip_num - strip_num_e value representing strip[s] to check
+ * @return  bool - true if passed strip_num is set in strip_mask, else false.
+ */
+bool ws2812b_strip_is_set_in_mask(const strip_mask_t strip_mask,
                                strip_num_e strip_num)
 {
     return (strip_mask & ws2812_strip_num_to_strip_bit(strip_num));
 }
 
 
+/**
+ * @brief   Show strip #1
+ * @param   void
+ * @return  void
+ */
 void ws2812b_show_strip_one(void)
 {
 	ws2812b_show(STRIP_BIT_1);
 }
 
 
+/**
+ * @brief   Show strip #2
+ * @param   void
+ * @return  void
+ */
 void ws2812b_show_strip_two(void)
 {
 	ws2812b_show(STRIP_BIT_2);
 }
 
 
+/**
+ * @brief   Show strip #3
+ * @param   void
+ * @return  void
+ */
 void ws2812b_show_strip_three(void)
 {
 	ws2812b_show(STRIP_BIT_3);
@@ -445,9 +487,13 @@ void ws2812b_show_strip_three(void)
 
 
 /**
- * @brief   Show the strip(s)
- * @param   strip_mask: bit vector. 1 = show, 0 = don't
+ * @brief   Push out the data stored in buffer to the strip within strip_mask
+ * @param   strip_mask_t value representing strip[s]
  * @return  void
+ * @note    This function individually checks for all possible bit settings.
+ *          Individually the buffers are filled and started per strip.  This is
+ *          done due to a finding that parallel timer DMA operations resulted in
+ *          unwanted flicker!  This needs further debug!
  */
 void ws2812b_show(const strip_mask_t strip_mask)
 {
@@ -469,7 +515,19 @@ void ws2812b_show(const strip_mask_t strip_mask)
 }
 
 
-
+/**
+ * @brief   Initialize the strip buffers.
+ * @param   void
+ * @return  void
+ * @note    This function will allocate space for all strips regardless of use.
+ *          Static allocation globally and filled dynamically.  Note, that the
+ *          arrays could be allocated on an as need basis but easier to work
+ *          with downstream code having all allocated and defined.
+ * @note    Power montor initialization occurs in this function.  This calculates
+ *          a factor to apply to each individual LED color to maintain a certain
+ *          current level.  This is a coarse method of current control through
+ *          FW.  The particular method uses worst case current draw per LED.
+ */
 void ws2812b_init(void)
 {
 	gp_pwm_data_strip_1 = NULL;

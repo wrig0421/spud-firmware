@@ -32,6 +32,9 @@ typedef struct
 } timer_config_t;
 
 
+typedef timer_config_t* p_timer_config_t;
+
+
 void timer_config_hal_setup(void);
 
 

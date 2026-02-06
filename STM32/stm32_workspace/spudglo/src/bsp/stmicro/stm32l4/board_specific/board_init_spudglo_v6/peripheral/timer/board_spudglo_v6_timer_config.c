@@ -19,6 +19,7 @@ TIM_HandleTypeDef 	g_tim1_handle_config =
     .Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE
 };
 
+
 const timer_config_t g_tim_config[NUM_TIMER_ACCESS_TIMER_INSTANCES] =
 {
 	[TIMER_ACCESS_TIMER_INSTANCE_1_CHANNEL_1] =
@@ -44,6 +45,11 @@ const timer_config_t g_tim_config[NUM_TIMER_ACCESS_TIMER_INSTANCES] =
 //	},
 };
 
+
+const p_timer_config_t timer_config_get_handle(void)
+{
+    return &g_tim_config[TIMER_ACCESS_TIMER_INSTANCE_1_CHANNEL_1];
+}
 
 
 

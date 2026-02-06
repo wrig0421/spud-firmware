@@ -102,7 +102,7 @@ void led_animate_set_pixel(const strip_mask_t strip_mask, const uint16_t pixel,
                     strip_num++)
     {
         strip_bit = ws2812_strip_num_to_strip_bit(strip_num);
-        if (ws2812b_strip_set_in_mask(strip_num) && \
+        if (ws2812b_strip_is_set_in_mask(strip_num) && \
                         ws2812_pixel_is_in_strip_range(strip_bit, pixel))
         {
             ws2812b_set_led(strip_bit, pixel, led_color->color_rgb.red,
@@ -541,7 +541,7 @@ void led_animate_sparkle_only_random_color(const strip_mask_t mask, const bool f
 	led_color_t led_color;
 	float percent_to_fill = 0.7;
 	uint16_t strip_size = ws2812_led_get_max_strip_size_in_mask(mask);
-	uint16_t num_active_leds = ws2812_get_num_active_animation_leds(mask);
+	uint16_t num_active_leds = ws2812_get_num_leds_in_mask(mask);
      // not used but not worth creating a unique function IMO
 	for (uint16_t iii = 0; iii < (percent_to_fill * (float)num_active_leds); iii++)
 	{

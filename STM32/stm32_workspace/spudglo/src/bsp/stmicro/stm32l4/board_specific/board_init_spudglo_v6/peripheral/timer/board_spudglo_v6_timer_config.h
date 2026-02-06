@@ -4,6 +4,8 @@
 #if !defined(BOARD_INIT_SPUDGLO_V6_TIMER_CONFIG_H)
 #define BOARD_INIT_SPUDGLO_V6_TIMER_CONFIG_H
 
+#include "timer_config_hal.h"
+
 typedef enum
 {
 	TIMER_ACCESS_TIMER_INSTANCE_1_FIRST,
@@ -22,6 +24,6 @@ typedef enum
 //	NUM_TIMER_ACCESS_TIMER_INSTANCES
 //} timer_access_timer_instances_e;
 
-
+const p_timer_config_t timer_config_get_handle(void);
 
 #endif
