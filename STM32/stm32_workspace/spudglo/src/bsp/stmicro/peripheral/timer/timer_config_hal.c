@@ -72,11 +72,11 @@ void timer_config_hal_setup(void)
 
     }
 
-    HAL_NVIC_SetPriority(DMA1_Channel2_IRQn, 0, 0);
+    HAL_NVIC_SetPriority(DMA1_Channel2_IRQn, 5, 0);
     HAL_NVIC_EnableIRQ(DMA1_Channel2_IRQn);
-    HAL_NVIC_SetPriority(DMA1_Channel3_IRQn, 0, 0);
+    HAL_NVIC_SetPriority(DMA1_Channel3_IRQn, 5, 0);
     HAL_NVIC_EnableIRQ(DMA1_Channel3_IRQn);
-    HAL_NVIC_SetPriority(DMA1_Channel7_IRQn, 0, 0);
+    HAL_NVIC_SetPriority(DMA1_Channel7_IRQn, 5, 0);
     HAL_NVIC_EnableIRQ(DMA1_Channel7_IRQn);
 
 }

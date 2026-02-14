@@ -36,12 +36,9 @@ typedef struct
 		uint8_t flat_interrupt_status;
 	};
 } led_ctrl_interrupt_status_t;
-#pragma pack()
-
-
 typedef led_ctrl_interrupt_status_t* p_led_ctrl_interrupt_status_t;
 
-#pragma pack(1)
+
 typedef struct
 {
 	union
@@ -58,9 +55,8 @@ typedef struct
 	bool major_interrupt_flag;
 	bool major_interrupt_transition_cmplt_flag;
 } led_ctrl_interrupt_info_t;
-#pragma pack()
 
-#pragma pack(1)
+
 typedef struct
 {
 	led_ctrl_state_info_t		led_state_info;
@@ -72,10 +68,7 @@ typedef struct
 #pragma pack()
 
 
-
-
 void led_ctrl_timer_callback(TimerHandle_t timer_handle);
-
 bool led_ctrl_delay(const strip_mask_t mask, const uint32_t time_ms);
 void led_ctrl_init(void);
 

@@ -8,7 +8,7 @@
 ../src/bsp/flash_info.c:506:13:flash_info_rand_re_seed	1
 ../src/bsp/flash_info.c:513:6:flash_info_init	4
 ../src/bsp/flash_info.c:537:6:flash_info_led_color_is_enabled	56
-../src/bsp/flash_info.c:634:6:flash_info_led_state_is_enabled	28
+../src/bsp/flash_info.c:634:6:flash_info_led_state_is_enabled	22
 ../src/bsp/flash_info.c:691:6:flash_info_brightness_level_is_enabled	19
 ../src/bsp/flash_info.c:753:6:flash_info_speed_is_enabled	19
 ../src/bsp/flash_info.c:815:9:flash_info_num_strips	1

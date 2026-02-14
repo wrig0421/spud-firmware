@@ -13,14 +13,13 @@ void animation_timer_access_callback(TimerHandle_t h_timer)
 
     // trigger animation change.
     led_animate_force_exit_stimulus();
-
 }
 
 
 void animation_timer_access_reset(void)
 {
-	if (xTimerReset(g_led_ctrl_timer_handle, 10) == pdPASS)
+	if (xTimerReset(g_led_ctrl_timer_handle, 10) != pdPASS)
 	{
-
+	    while (1);
 	}
 };

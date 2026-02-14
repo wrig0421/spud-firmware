@@ -6,6 +6,13 @@
 
 extern led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS];
 
+/**
+ * @brief   Adjust brightness one position.
+ * @param   mask - enabled strips to check if button press effects.
+ * @return  void
+ * @note    This function is meant to be called only after the user initiates
+ *          brightness change with remote control!
+ */
 void led_ctrl_brightness_adjust(const strip_mask_t mask)
 {
 	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);

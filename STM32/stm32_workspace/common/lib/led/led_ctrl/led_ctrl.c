@@ -12,9 +12,16 @@
 #include "task_button_press.h"
 
 #define LED_CTRL_MASTER_STATE_TIME_MS	180000
-
 extern TimerHandle_t g_led_ctrl_timer_handle;
 
+
+/**
+ * @brief   Start animation timer.
+ * @param   void
+ * @return  void
+ * @note    Each animation is displayed for LED_CTRL_MASTER_STATE_TIME_MS.
+ *          Specifically, each is displayed for this amount of time in demo mode.
+ */
 void led_ctrl_timer_start(void)
 {
 	xTimerStart(g_led_ctrl_timer_handle, LED_CTRL_MASTER_STATE_TIME_MS);
@@ -40,6 +47,12 @@ void timer_led_ctrl_callback(TimerHandle_t timer_handle)
 }
 
 
+/**
+ * @brief   Check if button press occurred pertinent to the passed mask.
+ * @param   mask - enabled strips to check if button press effects.
+ * @return  bool - true if interrupt occured else false.
+ * @note    Function returns false for case that ENABLE_BUTTON is not defined.
+ */
 static bool led_ctrl_interrupt_occurred(const strip_mask_t mask)
 {
 #	if defined(ENABLE_BUTTON)
@@ -50,10 +63,19 @@ static bool led_ctrl_interrupt_occurred(const strip_mask_t mask)
 }
 
 
+/**
+ * @brief   Function to delay an amount of time.
+ * @param   mask - enabled strips to check if button press effects.
+ * @param   time_ms - time to delay
+ * @return  bool - true if interrupt occured else false.
+ * @note    If interrupt occured then the function may not delay the full
+ *          amount of time.
+ */
 bool led_ctrl_delay(const strip_mask_t mask, const uint32_t time_ms)
 {
     uint32_t ms_count = 0;
     uint32_t ticks = 0;
+
     if (!time_ms) return false;
 
     ticks = time_ms / portTICK_PERIOD_MS;
@@ -65,45 +87,5 @@ bool led_ctrl_delay(const strip_mask_t mask, const uint32_t time_ms)
     }
     return false;
 }
-
-
-uint32_t g_animation_iteration_count[MAX_NUM_STRIPS][NUM_LED_STATES][NUM_LED_SPEEDS];
-#define LED_ANIMATE_DYNAMIC_TIME_MS 	1
-#define LED_ANIMATE_ANIMATION_TIME_SEC	90
-#define LED_ANIMATE_ANIMATION_TIME_MS	LED_ANIMATE_ANIMATION_TIME_SEC * 1000
-uint32_t g_animation_time_ms[NUM_LED_SPEEDS] =
-{
-	[LED_SPEED_1000P] = LED_ANIMATE_ANIMATION_TIME_MS,
-	[LED_SPEED_500P] = LED_ANIMATE_ANIMATION_TIME_MS,
-	[LED_SPEED_100P] = LED_ANIMATE_ANIMATION_TIME_MS * 2,
-	[LED_SPEED_50P] = LED_ANIMATE_ANIMATION_TIME_MS * 2,
-	[LED_SPEED_25P] = LED_ANIMATE_ANIMATION_TIME_MS * 3,
-};
-
-
-// fixed time for the animations
-// different times for speed is ok.
-// need to ensure number of LEDs defined fits in the time alloted...
-
-
-// WORST CASE ANIMATION TIME
-#define LED_CTRL_WORST_CASE_DYNAMIC_ANIMATION_TIME 	(((LARGEST_LED_STRIP_SIZE / 10) + 1) * 2)
-#define LED_CTRL_WORST_CASE_STATIC_ANIMATION_TIME	(LARGEST_LED_STRIP_SIZE * 2.0f * (256.0f / 2.0f) * 2.0f)
-#define LED_CTRL_WORST_CASE_TOTAL_ANIMATION_TIME  	((uint32_t)(LED_CTRL_WORST_CASE_DYNAMIC_ANIMATION_TIME + LED_CTRL_WORST_CASE_STATIC_ANIMATION_TIME))
-#define LED_CTRL_MINIMUM_ANIMATION_LOOPS			3
-
-uint32_t g_worst_case_dynamic_animation_time = 0;
-uint32_t g_worst_case_static_animation_time = 0;
-uint32_t g_worst_case_between_animation_time = 0;
-
-
-extern led_ctrl_state_iterations_t g_task_led_ctrl_state_iterations[NUM_LED_STATES];
-
-typedef struct
-{
-	uint32_t dynamic_ms;
-	uint32_t static_ms;
-	uint32_t between_ms;
-} led_animate_ctrl_time_t;
 
 

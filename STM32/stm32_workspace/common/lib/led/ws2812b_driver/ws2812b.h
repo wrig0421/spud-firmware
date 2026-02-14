@@ -5,7 +5,6 @@
 #include <stdbool.h>
 #include "config.h"
 
-
 #define WS2812B_TIM_FREQ_MHZ                48
 #define WS2812B_TIM_TIME_CYCLES             (float)(1.0f / WS2812B_TIM_FREQ_MHZ)
 
@@ -20,8 +19,7 @@
 #define WS2812B_T0L_TIME_NANOSECONDS        850.0f
 #define WS2812B_T1L_TIME_NANOSECONDS        450.0f
 #define WS2812B_TIME_CUSHION_NANOSECONDS    150.0f
-
-
+//
 // WS2812B reset time is >= 50 us
 // WS2812B_RESET_TIME_
 
@@ -30,7 +28,6 @@
 
 typedef uint8_t color_t;
 typedef uint16_t strip_mask_t; // 16 strips max..
-
 
 typedef enum
 {
@@ -88,9 +85,6 @@ typedef struct
     color_t blue;
     color_t green;
     color_t red;
-//    color_t red;
-//    color_t green;
-//    color_t blue;
 } ws2812b_led_t;
 typedef ws2812b_led_t* p_ws2812b_led_t;
 typedef uint8_t* p_pwm_data_t;
@@ -107,23 +101,23 @@ typedef struct
 #pragma pack(0)
 
 
-//typedef uint16_t* p_pwm_data_t;
-
-
-void reset_ws2812b(void);
-strip_num_e ws2812_strip_bit_to_num(strip_bit_e strip_bit);
-strip_num_e ws2812_strip_bit_to_strip_num(strip_bit_e strip_bit);
-void ws2812b_dma_transfer(strip_bit_e strip_bit);
-
+bool ws2812_pixel_is_in_strip_range(const strip_bit_e strip_bit,
+                                    const uint16_t pixel);
 uint16_t ws2812_get_strip_size(const strip_bit_e strip_bit);
-uint16_t ws2812_get_number_of_active_strips(const strip_mask_t strip_mask);
-uint16_t ws2812_get_num_active_animation_leds(const strip_mask_t strip_mask);
-uint16_t ws2812_led_get_max_strip_size(const strip_mask_t strip_mask);
-bool ws2812_pixel_is_in_strip_range(const strip_bit_e strip_bit, const uint16_t pixel);
-void ws2812b_set_led(const strip_bit_e strip_bit, const uint16_t led_num, const color_t red, const color_t green,
-                     const color_t blue);
+void reset_ws2812b(void);
+strip_num_e ws2812_strip_mask_to_strip_num(const strip_mask_t strip_mask);
+strip_num_e ws2812_strip_bit_to_strip_num(const strip_bit_e strip_bit);
+strip_bit_e ws2812_strip_num_to_strip_bit(strip_num_e strip_num);
+uint16_t ws2812_get_number_of_active_strips_within_mask(const strip_mask_t
+                                                        strip_mask);
+uint16_t ws2812_get_num_leds_in_mask(const strip_mask_t strip_mask);
+uint16_t ws2812_led_get_max_strip_size_in_mask(const strip_mask_t strip_mask);
+void ws2812b_set_led(const strip_mask_t strip_mask, const uint16_t led_num,
+                     const color_t red, const color_t green, const color_t blue);
+void ws2812b_dma_transfer(strip_bit_e strip_bit);
 void ws2812b_fill_pwm_buffer_strip(strip_bit_e strip_bit);
-void ws2812b_reset(void);
+bool ws2812b_strip_is_set_in_mask(const strip_mask_t strip_mask,
+                                  strip_num_e strip_num);
 void ws2812b_show_strip_one(void);
 void ws2812b_show_strip_two(void);
 void ws2812b_show_strip_three(void);

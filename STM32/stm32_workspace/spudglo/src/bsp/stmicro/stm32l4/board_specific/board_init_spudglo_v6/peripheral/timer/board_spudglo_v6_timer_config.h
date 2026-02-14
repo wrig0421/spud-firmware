@@ -4,14 +4,15 @@
 #if !defined(BOARD_INIT_SPUDGLO_V6_TIMER_CONFIG_H)
 #define BOARD_INIT_SPUDGLO_V6_TIMER_CONFIG_H
 
+#include "ws2812b.h"
 #include "timer_config_hal.h"
 
 typedef enum
 {
 	TIMER_ACCESS_TIMER_INSTANCE_1_FIRST,
 	TIMER_ACCESS_TIMER_INSTANCE_1_CHANNEL_1 = TIMER_ACCESS_TIMER_INSTANCE_1_FIRST,
-//	TIMER_ACCESS_TIMER_INSTANCE_1_CHANNEL_2,
-//	TIMER_ACCESS_TIMER_INSTANCE_1_CHANNEL_3,
+	TIMER_ACCESS_TIMER_INSTANCE_1_CHANNEL_2,
+	TIMER_ACCESS_TIMER_INSTANCE_1_CHANNEL_3,
 	NUM_TIMER_ACCESS_TIMER_INSTANCES
 } timer_access_timer_instances_e;
 //
@@ -24,6 +25,6 @@ typedef enum
 //	NUM_TIMER_ACCESS_TIMER_INSTANCES
 //} timer_access_timer_instances_e;
 
-const p_timer_config_t timer_config_get_handle(void);
+const p_timer_config_t timer_config_get_handle(strip_bit_e strip_bit);
 
 #endif

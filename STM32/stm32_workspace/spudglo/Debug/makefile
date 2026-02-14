@@ -22,6 +22,7 @@ RM := rm -rf
 -include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/timer/subdir.mk
 -include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/spi/subdir.mk
 -include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/gpio/subdir.mk
+-include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/button/subdir.mk
 -include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/subdir.mk
 -include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/peripheral/uart/subdir.mk
 -include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/peripheral/spi/subdir.mk

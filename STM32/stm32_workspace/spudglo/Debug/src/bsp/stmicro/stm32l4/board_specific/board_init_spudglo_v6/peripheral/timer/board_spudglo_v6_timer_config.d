@@ -55,7 +55,8 @@ src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/timer/bo
  ../src/bsp/board_init_common.h \
  ../src/bsp/stmicro/stm32l4/board_specific/board_specific.h \
  ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/board_init_spudglo_v6.h \
- ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/timer/board_spudglo_v6_timer_config.h
+ ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/timer/board_spudglo_v6_timer_config.h \
+ /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/ws2812b_driver/ws2812b.h
 ../src/app/config.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
 ../src/bsp/stmicro/stm32l4/bloat/stm32l4xx_hal_conf.h:
@@ -116,3 +117,4 @@ src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/timer/bo
 ../src/bsp/stmicro/stm32l4/board_specific/board_specific.h:
 ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/board_init_spudglo_v6.h:
 ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/timer/board_spudglo_v6_timer_config.h:
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/ws2812b_driver/ws2812b.h:

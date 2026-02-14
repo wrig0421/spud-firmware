@@ -5,12 +5,12 @@
  *      Author: spud
  */
 
-#ifndef CURRENT_MONITOR_H
-#define CURRENT_MONITOR_H
+#if !defined(LED_CTRL_POWER_H)
+#define LED_CTRL_POWER_H
 #include <stdint.h>
 
 void led_ctrl_power_monitor_set(float value);
 float led_ctrl_power_monitor_ratio(void);
 void led_ctrl_power_monitor_init(void);
 
-#endif /* CURRENT_MONITOR_H */
+#endif /* LED_CTRL_POWER_H */

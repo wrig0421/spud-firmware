@@ -204,47 +204,25 @@ static void task_led_iterate(led_state_e led_state, strip_mask_t mask)
 			case LED_STATE_SOLID_COLOR:
 				led_animate_solid_custom_color(mask, led_color_to_hex_code(*p_led_color));
 			break;
-//			case LED_STATE_SPARKLE_NO_FILL:
-////				led_animate_turn_all_pixels_off();
-//				led_animate_sparkle_only_random_color(mask, false, p_led_state_inner_animation_delay_ms);//random(0, 50));
-//			break;
+			case LED_STATE_SPARKLE_NO_FILL:
+//				led_animate_turn_all_pixels_off();
+				led_animate_sparkle_only_random_color(mask, false, p_led_state_inner_animation_delay_ms);//random(0, 50));
+			break;
 			case LED_STATE_SPARKLE_FILL:
 				led_animate_sparkle_only_random_color(mask, true, p_led_state_inner_animation_delay_ms);
 			break;
 			case LED_STATE_RAINBOW_CYCLE:
 				led_animate_rainbow_cycle(mask, p_led_state_inner_animation_delay_ms);//10);
 			break;
-//			case LED_STATE_THEATER_CHASE:
-//				led_animate_theater_chase(mask, p_led_color, p_led_state_inner_animation_delay_ms);
-//			break;
-//			case LED_STATE_THEATER_CHASE_RAINBOW:
-//				led_animate_theater_chase_rainbow(mask, p_led_state_inner_animation_delay_ms);
-//			break;
+			case LED_STATE_THEATER_CHASE:
+				led_animate_theater_chase(mask, p_led_color, p_led_state_inner_animation_delay_ms);
+			break;
+			case LED_STATE_THEATER_CHASE_RAINBOW:
+				led_animate_theater_chase_rainbow(mask, p_led_state_inner_animation_delay_ms);
+			break;
 			case LED_STATE_FADE_IN_AND_OUT:
 				led_animate_fade_in_fade_out(mask, p_led_color, p_led_state_inner_animation_delay_ms);
 			break;
-
-//			case LED_STATE_STARBURST_MODE_1:
-//				led_animate_starburst(mask, p_led_color, p_led_state_inner_animation_delay_ms, LED_ANIMATE_STARBURTS_MODE_1, false);
-//			break;
-//			case LED_STATE_STARBURST_MODE_2:
-//				led_animate_starburst(mask, p_led_color, p_led_state_inner_animation_delay_ms, LED_ANIMATE_STARBURTS_MODE_2, false);
-//			break;
-//			case LED_STATE_STARBURST_RANDOM_MODE_1:
-//				led_animate_starburst(mask, p_led_color, p_led_state_inner_animation_delay_ms, LED_ANIMATE_STARBURTS_MODE_1, true);
-//			break;
-//			case LED_STATE_STARBURST_RANDOM_MODE_2:
-//				led_animate_starburst(mask, p_led_color, p_led_state_inner_animation_delay_ms, LED_ANIMATE_STARBURTS_MODE_2, true);
-//			break;
-//			case LED_STATE_STARBURST_RANDOM_MODE_1_ZABINSKI:
-//				led_animate_starburst(mask, p_led_color, p_led_state_inner_animation_delay_ms, LED_ANIMATE_STARBURTS_MODE_1, true);
-//			break;
-//			case LED_STATE_STARBURST_RANDOM_MODE_2_ZABINSKI:
-//				led_animate_starburst(mask, p_led_color, p_led_state_inner_animation_delay_ms, LED_ANIMATE_STARBURTS_MODE_2, true);
-//			break;
-//			case LED_STATE_HEARTBEAT:
-//				led_animate_heart_beat(mask, p_led_color, p_led_state_inner_animation_delay_ms);
-//			break;
 
 			// the two states below were enabled for the fall sign!!
 //			case LED_STATE_FIXED_ASSORTED_COLOR:
@@ -254,17 +232,17 @@ static void task_led_iterate(led_state_e led_state, strip_mask_t mask)
 //				led_animate_random_assorted_color(mask);
 //			break;
 
-			case LED_STATE_TWINKLE:
-				led_animate_turn_all_pixels_off_in_strip(mask);
-				led_animate_twinkle(mask, p_led_color, (uint32_t)((float)NUM_LEDS * (float)0.9), p_led_state_inner_animation_delay_ms, false);
-			break;
+//			case LED_STATE_TWINKLE:
+//				led_animate_turn_all_pixels_off_in_strip(mask);
+//				led_animate_twinkle(mask, p_led_color, (uint32_t)((float)NUM_LEDS * (float)0.9), p_led_state_inner_animation_delay_ms, false);
+//			break;
 
-#			if	defined(ENABLE_LED_STATE_TWO_COLOR)
-				case LED_STATE_TWO_COLOR:
-					//led_animate_set_all_pixels_hex_color(STRIP_BIT_1, g_color_hex_codes[g_two_color_outer]);
-					led_animate_set_all_pixels_hex_color(STRIP_BIT_2, g_color_hex_codes[g_two_color_inner]);
-				break;
-#			endif
+//#			if	defined(ENABLE_LED_STATE_TWO_COLOR)
+//				case LED_STATE_TWO_COLOR:
+//					//led_animate_set_all_pixels_hex_color(STRIP_BIT_1, g_color_hex_codes[g_two_color_outer]);
+//					led_animate_set_all_pixels_hex_color(STRIP_BIT_2, g_color_hex_codes[g_two_color_inner]);
+//				break;
+//#			endif
 //			case LED_STATE_SRW_DEBUG:
 //				led_animate_srw_debug();
 ////#				if defined(ENABLE_STRIP_1)
@@ -278,17 +256,11 @@ static void task_led_iterate(led_state_e led_state, strip_mask_t mask)
 ////#				endif
 //			break;
 			default:
+			    while (1);
 			break;
 		}
 	}
 }
-
-
-uint16_t task_led_state_max_iterations(const strip_mask_t mask, led_state_e led_state)
-{
-	return g_task_led_ctrl_state_iterations[led_state].led_state_max_iteration[g_task_led_ctrl[ws2812_strip_bit_to_strip_num(mask)].led_speed];
-}
-
 
 uint16_t task_led_state_inner_animation_delay_ms(const strip_mask_t mask, led_state_e led_state)
 {
@@ -376,7 +348,7 @@ void task_led_3_ctrl(void *argument)
 
 void task_led_sync_ctrl(void *argument)
 {
-	//rv8803_write_current_tod();
+    reset_ws2812b();
 	led_animate_turn_all_pixels_off();
 	while (1)
 	{

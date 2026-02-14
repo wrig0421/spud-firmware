@@ -7,6 +7,7 @@
 #include "timer_config_hal.h"
 #include "gpio_config_hal_specific.h"
 #include "timer_config_hal_specific.h"
+#include "ws2812b.h"
 
 TIM_HandleTypeDef 	g_tim1_handle_config =
 {
@@ -29,26 +30,41 @@ const timer_config_t g_tim_config[NUM_TIMER_ACCESS_TIMER_INSTANCES] =
 		.pin.timer_alt_func = GPIO_AF1_TIM1,
 		.handle = &g_tim1_handle_config,
 	},
-//	[TIMER_ACCESS_TIMER_INSTANCE_1_CHANNEL_2] =
-//	{
-//		.pin.timer_pin = TIMER_INSTANCE_1_CHANNEL_2,
-//		.pin.timer_port = TIMER_PORT,
-//		.pin.timer_alt_func = GPIO_AF1_TIM1,
-//		.handle = &g_tim1_handle_config,
-//	},
-//	[TIMER_ACCESS_TIMER_INSTANCE_1_CHANNEL_3] =
-//	{
-//		.pin.timer_pin = TIMER_INSTANCE_1_CHANNEL_3,
-//		.pin.timer_port = TIMER_PORT,
-//		.pin.timer_alt_func = GPIO_AF1_TIM1,
-//		.handle = &g_tim1_handle_config,
-//	},
+	[TIMER_ACCESS_TIMER_INSTANCE_1_CHANNEL_2] =
+	{
+		.pin.timer_pin = GPIO_PIN_TIM1_CH2,
+		.pin.timer_port = GPIO_PORT_A,
+		.pin.timer_alt_func = GPIO_AF1_TIM1,
+		.handle = &g_tim1_handle_config,
+	},
+	[TIMER_ACCESS_TIMER_INSTANCE_1_CHANNEL_3] =
+	{
+		.pin.timer_pin = GPIO_PIN_TIM1_CH3,
+		.pin.timer_port = GPIO_PORT_A,
+		.pin.timer_alt_func = GPIO_AF1_TIM1,
+		.handle = &g_tim1_handle_config,
+	},
 };
 
 
-const p_timer_config_t timer_config_get_handle(void)
+const p_timer_config_t timer_config_get_handle(strip_bit_e strip_bit)
 {
-    return &g_tim_config[TIMER_ACCESS_TIMER_INSTANCE_1_CHANNEL_1];
+    switch (strip_bit)
+    {
+        case STRIP_BIT_1:
+            return &g_tim_config[TIMER_ACCESS_TIMER_INSTANCE_1_CHANNEL_1];
+        break;
+        case STRIP_BIT_2:
+            return &g_tim_config[TIMER_ACCESS_TIMER_INSTANCE_1_CHANNEL_2];
+        break;
+        case STRIP_BIT_3:
+            return &g_tim_config[TIMER_ACCESS_TIMER_INSTANCE_1_CHANNEL_3];
+        break;
+        default:
+            while (1);
+        break;
+
+    }
 }
 
 

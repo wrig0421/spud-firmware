@@ -1,7 +1,7 @@
 // move all of the debug functions here.  Perhaps even the specific LED driving functions move here also?
 
 
-
+#if 0
 
 bool g_clear_and_show_all_pixels = false;
 bool g_show_all_pixels = false;
@@ -585,7 +585,7 @@ void led_animate_static_harley_color(const strip_mask_t mask,
 
 
 
-
+#endif
 
 
 

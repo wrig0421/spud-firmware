@@ -6,6 +6,13 @@
 
 extern led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS];
 
+
+/**
+ * @brief   Return speed "factor" for enabled strips in passed mask.
+ * @param   mask - enabled strips to check if button press effects.
+ * @return  speed factor [float].
+ * @note    100% speed is represented by 1.0f.
+ */
 float led_ctrl_speed(const strip_mask_t mask)
 {
     float speed_factor = 0.0;
@@ -22,6 +29,11 @@ float led_ctrl_speed(const strip_mask_t mask)
 }
 
 
+/**
+ * @brief   Adjust the speed by one increment for enabled stirps in passed mask.
+ * @param   mask - enabled strips to check if button press effects.
+ * @return  void
+ */
 void led_ctrl_speed_adjust(const strip_mask_t mask)
 {
 	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
@@ -35,11 +47,13 @@ void led_ctrl_speed_adjust(const strip_mask_t mask)
 	}
 }
 
-
+/**
+ * @brief   Reset the animation speed for enabled strips in passed mask.
+ * @param   mask - enabled strips to check if button press effects.
+ * @return  void
+ * @note    Speed is reset to 100% by default.
+ */
 void led_ctrl_speed_reset(const strip_mask_t mask)
 {
 	g_task_led_ctrl[ws2812_strip_bit_to_strip_num(mask)].led_speed = LED_SPEED_100P;
 }
-
-
-

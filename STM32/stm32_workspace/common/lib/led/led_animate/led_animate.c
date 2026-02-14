@@ -102,7 +102,7 @@ void led_animate_set_pixel(const strip_mask_t strip_mask, const uint16_t pixel,
                     strip_num++)
     {
         strip_bit = ws2812_strip_num_to_strip_bit(strip_num);
-        if (ws2812b_strip_is_set_in_mask(strip_num) && \
+        if (ws2812b_strip_is_set_in_mask(strip_mask, strip_num) && \
                         ws2812_pixel_is_in_strip_range(strip_bit, pixel))
         {
             ws2812b_set_led(strip_bit, pixel, led_color->color_rgb.red,
@@ -124,10 +124,6 @@ void led_animate_set_all_pixels(const strip_mask_t strip_mask, led_color_t* led_
 {
     uint16_t strip_size = 0;
     strip_bit_e strip_bit = STRIP_BIT_NONE;
-
-
-
-
 
     for (strip_num_e strip_num = STRIP_NUM_1;
                     strip_num < STRIP_NUM_MAX_UNIQUE_STRIPS;
@@ -274,6 +270,7 @@ void led_animate_turn_all_pixels_off_in_strip(const strip_mask_t mask)
 
 void led_animate_force_exit_stimulus(void)
 {
+    // in MASTER DEMO state this will force next animation to display!
 	if (LED_CTRL_STATE_MASTER_DEMO == \
 	                task_led_master_state((strip_mask_t)STRIP_BIT_ALL_SET))
 	{
@@ -474,31 +471,29 @@ void led_animate_strobe(const strip_mask_t mask, const led_color_e* p_color,
 void led_animate_twinkle(const strip_mask_t mask, const led_color_e* p_color, const uint16_t count,
                          uint16_t* p_delay_ms, const bool only_one)
 {
-	uint16_t delay_copy = (uint16_t)(*p_delay_ms);
-	uint32_t time_start = xTaskGetTickCount();
-	uint16_t strip_size = ws2812_led_get_max_strip_size_in_mask(mask);
-    led_color_t led_color;
-    led_color.color_hex = led_color_to_hex_code(*p_color);
-    for (int iii = 0; iii < count; iii++)
-    {
-		if (led_animate_check_for_animation_exit_stimulus(mask, &led_color,
-		                                                  p_color))
-        {
-            return;
-        }
-        led_animate_set_pixel(mask, random_num(0, strip_size), &led_color);
-        led_animate_show_strip(mask);
-//        led_ctrl_delay(mask, 5);
-        led_ctrl_delay(mask, delay_copy);
-        if (only_one)
-		{
-        	led_color.color_hex = LED_COLOR_HEX_BLACK;
-        	led_animate_set_all_pixels_and_show(mask, &led_color);
-		}
-    }
-	g_time_differences[LED_STATE_TWINKLE] = xTaskGetTickCount() - time_start;
-
-    //led_ctrl_delay(mask, speed_delay);
+//	uint16_t delay_copy = (uint16_t)(*p_delay_ms);
+//	uint32_t time_start = xTaskGetTickCount();
+//	uint16_t strip_size = ws2812_led_get_max_strip_size_in_mask(mask);
+//    led_color_t led_color;
+//    led_color.color_hex = led_color_to_hex_code(*p_color);
+//    for (int iii = 0; iii < count; iii++)
+//    {
+//		if (led_animate_check_for_animation_exit_stimulus(mask, &led_color,
+//		                                                  p_color))
+//        {
+//            return;
+//        }
+//        led_animate_set_pixel(mask, random_num(0, strip_size), &led_color);
+//        led_animate_show_strip(mask);
+////        led_ctrl_delay(mask, 5);
+//        led_ctrl_delay(mask, delay_copy);
+//        if (only_one)
+//		{
+//        	led_color.color_hex = LED_COLOR_HEX_BLACK;
+//        	led_animate_set_all_pixels_and_show(mask, &led_color);
+//		}
+//    }
+//	g_time_differences[LED_STATE_TWINKLE] = xTaskGetTickCount() - time_start;
 }
 
 

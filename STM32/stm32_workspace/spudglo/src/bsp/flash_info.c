@@ -676,12 +676,12 @@ void flash_info_led_state_is_enabled(const strip_mask_t strip_mask, led_state_e 
 			case LED_STATE_THEATER_CHASE_RAINBOW: 		ret_val[iii] = p_strip_n_state_generic->chase_rainbow; 			break;
 
 			case LED_STATE_FADE_IN_AND_OUT: 			ret_val[iii] = p_strip_n_state_generic->fade; 					break;
-			case LED_STATE_TWINKLE: 					ret_val[iii] = p_strip_n_state_generic->twinkle; 				break;
-			case LED_STATE_RUNNING_LIGHTS: 				ret_val[iii] = p_strip_n_state_generic->running_lights; 		break;
-			case LED_STATE_FIRE: 						ret_val[iii] = p_strip_n_state_generic->fire; 					break;
-			case LED_STATE_METEOR: 						ret_val[iii] = p_strip_n_state_generic->meteor;		 			break;
-			case LED_STATE_STROBE: 						ret_val[iii] = p_strip_n_state_generic->strobe; 				break;
-			case LED_STATE_FADE_IN_AND_OUT_RANDOM: 		ret_val[iii] = p_strip_n_state_generic->fade; 					break;
+//			case LED_STATE_TWINKLE: 					ret_val[iii] = p_strip_n_state_generic->twinkle; 				break;
+//			case LED_STATE_RUNNING_LIGHTS: 				ret_val[iii] = p_strip_n_state_generic->running_lights; 		break;
+//			case LED_STATE_FIRE: 						ret_val[iii] = p_strip_n_state_generic->fire; 					break;
+//			case LED_STATE_METEOR: 						ret_val[iii] = p_strip_n_state_generic->meteor;		 			break;
+//			case LED_STATE_STROBE: 						ret_val[iii] = p_strip_n_state_generic->strobe; 				break;
+//			case LED_STATE_FADE_IN_AND_OUT_RANDOM: 		ret_val[iii] = p_strip_n_state_generic->fade; 					break;
 			default: while (1); break;
 		}
 	}

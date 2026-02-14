@@ -7,6 +7,11 @@
 
 extern led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS];
 
+/**
+ * @brief   Reset animation count for enabled strips in passed mask.
+ * @param   mask - enabled strips to check if button press effects.
+ * @return  void
+ */
 void led_state_ctrl_iteration_reset(const strip_mask_t mask)
 {
 	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
@@ -14,6 +19,12 @@ void led_state_ctrl_iteration_reset(const strip_mask_t mask)
 }
 
 
+/**
+ * @brief   Set "sub state" to a "random" selection
+ * @param   cur_state - current sub state enabled.
+ * @return  "random sub state" for enabled strips in mask.
+ * @note    THIS DOES NOT SET THE STATE FOR ANY STRIPS.
+ */
 led_state_e led_state_ctrl_random_state(const led_state_e cur_state)
 {
     led_state_e state = (led_state_e)(random_num(LED_STATE_FIRST, NUM_LED_STATES));
@@ -26,6 +37,11 @@ led_state_e led_state_ctrl_random_state(const led_state_e cur_state)
 }
 
 
+/**
+ * @brief   Return the current "sub state" for enabled strips in mask.
+ * @param   mask - enabled strips to check if button press effects.
+ * @return  current "sub state" for enabled strips in mask.
+ */
 led_state_e led_state_ctrl_state(const strip_mask_t mask)
 {
 	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
@@ -33,6 +49,12 @@ led_state_e led_state_ctrl_state(const strip_mask_t mask)
 }
 
 
+/**
+ * @brief   Adjust the current "sub state" for enabled strips in mask.
+ * @param   mask - enabled strips to check if button press effects.
+ * @return  true if iterated through all possible states and resetting back to
+ *          the first.
+ */
 bool led_state_ctrl_adjust_state(const strip_mask_t mask)
 {
 	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
@@ -50,6 +72,11 @@ bool led_state_ctrl_adjust_state(const strip_mask_t mask)
 }
 
 
+/**
+ * @brief   Force fixed master state for the enabled strips in passed mask.
+ * @param   mask - enabled strips to check if button press effects.
+ * @return  void
+ */
 void led_state_ctrl_force_fixed_state(const strip_mask_t mask)
 {
 	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
@@ -57,6 +84,13 @@ void led_state_ctrl_force_fixed_state(const strip_mask_t mask)
 }
 
 
+/**
+ * @brief   Force master demo state for the enabled strips in passed mask.
+ * @param   mask - enabled strips to check if button press effects.
+ * @return  void
+ * @note    First state is always reset as the default... May want to make this
+ *          random??
+ */
 void led_state_ctrl_force_demo(const strip_mask_t mask)
 {
 	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
@@ -66,6 +100,11 @@ void led_state_ctrl_force_demo(const strip_mask_t mask)
 }
 
 
+/**
+ * @brief   Return the "master" state.  Demo or Fixed.
+ * @param   mask - enabled strips to check if button press effects.
+ * @return  master_state -  enumerated type with DEMO or FIXED option.
+ */
 led_ctrl_state_master_e led_state_ctrl_master_state(const strip_mask_t mask)
 {
 	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
@@ -73,64 +112,17 @@ led_ctrl_state_master_e led_state_ctrl_master_state(const strip_mask_t mask)
 }
 
 
+/**
+ * @brief   Force display animation passed for strips enabled in mask.
+ * @param   mask - enabled strips to check if button press effects.
+ * @return  led_state -  state to force show.
+ * @note    Reset the current ieration count as well...
+ */
 void led_state_ctrl_force_state(const strip_mask_t mask, led_state_e led_state)
 {
 	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
 	g_task_led_ctrl[strip_num].led_state_info.led_state = led_state; // set first state
 	g_task_led_ctrl[strip_num].led_state_info.led_state_current_iteration = 0; // set first state
 }
-
-
-void led_state_ctrl_color_decrement_inner_color(void)
-{
-//	if (LED_COLOR_FIRST == g_two_color_inner)
-//	{
-//		g_two_color_inner = LED_COLOR_LAST;
-//	}
-//	else
-//	{
-//		g_two_color_inner = (led_color_e) (g_two_color_inner - 1);
-//	}
-}
-
-
-void led_state_ctrl_color_decrement_outer_color(void)
-{
-//	if (LED_COLOR_FIRST == g_two_color_outer)
-//	{
-//		g_two_color_outer = LED_COLOR_LAST;
-//	}
-//	else
-//	{
-//		g_two_color_outer = (led_color_e) (g_two_color_outer - 1);
-//	}
-}
-
-
-void led_state_ctrl_color_increment_inner_color(void)
-{
-//	if (LED_COLOR_LAST == g_two_color_inner)
-//	{
-//		g_two_color_inner = LED_COLOR_FIRST;
-//	}
-//	else
-//	{
-//		g_two_color_inner = (led_color_e) (g_two_color_inner + 1);
-//	}
-}
-
-
-void led_state_ctrl_color_increment_outer_color(void)
-{
-//	if (LED_COLOR_LAST == g_two_color_outer)
-//	{
-//		g_two_color_outer = LED_COLOR_FIRST;
-//	}
-//	else
-//	{
-//		g_two_color_outer = (led_color_e) (g_two_color_outer + 1);
-//	}
-}
-
 
 
