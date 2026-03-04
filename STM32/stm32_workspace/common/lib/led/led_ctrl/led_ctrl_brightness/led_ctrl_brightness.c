@@ -4,7 +4,7 @@
 #include "led_ctrl.h"
 #include "led_ctrl_brightness.h"
 
-extern led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS];
+extern led_ctrl_t g_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS];
 
 /**
  * @brief   Adjust brightness one position.
@@ -16,20 +16,24 @@ extern led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS];
 void led_ctrl_brightness_adjust(const strip_mask_t mask)
 {
 	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
-    if (LED_BRIGHTNESS_FIRST == g_task_led_ctrl[strip_num].led_brightness)
+	// LED brightness update linearly.  No random select.  User will press button
+	// to advance the brightness.
+    if (LED_BRIGHTNESS_FIRST == led_ctrl_read_strip_brightness(mask))
 	{
-    	g_task_led_ctrl[strip_num].led_brightness = LED_BRIGHTNESS_LAST;
+        led_ctrl_write_strip_brightness(mask, LED_BRIGHTNESS_LAST);
 	}
     else
 	{
-    	g_task_led_ctrl[strip_num].led_brightness = (led_brightness_e) (g_task_led_ctrl[strip_num].led_brightness - 1);
+        led_ctrl_write_strip_brightness(mask, (led_brightness_e)(led_ctrl_read_strip_brightness(mask) - 1));
 	}
-    switch (g_task_led_ctrl[strip_num].led_brightness)
+    // led brightness variable has been updated!
+    switch (led_ctrl_read_strip_brightness(mask))
     {
-        case LED_BRIGHTNESS_100_PERCENT: led_ctrl_power_monitor_set(1.0f); break;
-//        case LED_BRIGHTNESS_50_PERCENT: led_ctrl_power_monitor_set(0.5f); break;
-        case LED_BRIGHTNESS_25_PERCENT: led_ctrl_power_monitor_set(0.25f); break;
-        case LED_BRIGHTNESS_1_PERCENT: led_ctrl_power_monitor_set(0.01f); break;
-        default: break;
+        // settings below are capped at the calculated absolute max!
+        case LED_BRIGHTNESS_100_PERCENT:    led_ctrl_power_monitor_set(1.0f);   break;
+        case LED_BRIGHTNESS_50_PERCENT:     led_ctrl_power_monitor_set(0.5f);   break;
+        case LED_BRIGHTNESS_25_PERCENT:     led_ctrl_power_monitor_set(0.25f);  break;
+        case LED_BRIGHTNESS_1_PERCENT:      led_ctrl_power_monitor_set(0.01f);  break;
+        default:                                                                break;
     }
 }

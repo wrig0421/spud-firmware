@@ -17,17 +17,17 @@ void led_animate_srw_debug(void)
 //      if (g_clear_and_show_all_pixels)
 //      {
 //          g_clear_and_show_all_pixels = false;
-//          led_ctrl_delay(mask, 250);
+//          led_ctrl_time_delay(mask, 250);
 //          led_animate_turn_all_pixels_off();
 //      }
 //      if (g_show_all_pixels)
 //      {
 //          g_show_all_pixels = false;
 //          led_animate_turn_all_pixels_off();
-//          led_ctrl_delay(mask, 250);
+//          led_ctrl_time_delay(mask, 250);
 //          led_animate_set_pixels_in_range(mask, g_start_pixel, g_stop_pixel, LED_COLOR_HEX_BLUE);
 //      }
-//      led_ctrl_delay(mask, 100);
+//      led_ctrl_time_delay(mask, 100);
 //  }
 
 
@@ -78,7 +78,7 @@ void led_animate_srw_debug(void)
         led_animate_set_pixels_in_range_uint32(mask, 517, 529, random_color);
         random_color = random_num(0, UINT24_MAX);
         led_animate_set_pixels_in_range_uint32(mask, 530, 579, random_color);
-        led_ctrl_delay(mask, 1500);
+        led_ctrl_time_delay(mask, 1500);
 
 //      random_color = random_num(0, UINT24_MAX);
 //      led_animate_set_pixels_in_range_uint32(mask, 0, 292, random_color);
@@ -87,21 +87,21 @@ void led_animate_srw_debug(void)
 //      led_animate_set_pixels_in_range(mask, 459, 475, LED_COLOR_HEX_SPRING_GREEN);
 //      led_animate_set_pixels_in_range(mask, 476, 516, LED_COLOR_HEX_SPRING_GREEN);
 //      led_animate_set_pixels_in_range(mask, 530, 579, LED_COLOR_HEX_LAWN_GREEN);
-//      led_ctrl_delay(mask, 3000);
+//      led_ctrl_time_delay(mask, 3000);
 //      random_color = random_num(0, UINT24_MAX);
 //      led_animate_set_pixels_in_range_uint32(mask, 0, 292, random_color);
 //      led_animate_set_pixels_in_range(mask, 428, 458, LED_COLOR_HEX_CHARCOAL);
 //      led_animate_set_pixels_in_range(mask, 459, 475, LED_COLOR_HEX_WHITE);
 //      led_animate_set_pixels_in_range(mask, 476, 516, LED_COLOR_HEX_SPRING_GREEN);
 //      led_animate_set_pixels_in_range(mask, 530, 579, LED_COLOR_HEX_LAWN_GREEN);
-//      led_ctrl_delay(mask, 3000);
+//      led_ctrl_time_delay(mask, 3000);
 //      random_color = random_num(0, UINT24_MAX);
 //      led_animate_set_pixels_in_range_uint32(mask, 0, 292, random_color);
 //      led_animate_set_pixels_in_range(mask, 428, 458, LED_COLOR_HEX_SPRING_GREEN);
 //      led_animate_set_pixels_in_range(mask, 459, 475, LED_COLOR_HEX_CHARCOAL);
 //      led_animate_set_pixels_in_range(mask, 476, 516, LED_COLOR_HEX_WHITE);
 //      led_animate_set_pixels_in_range(mask, 530, 579, LED_COLOR_HEX_YELLOW);
-//      led_ctrl_delay(mask, 3000);
+//      led_ctrl_time_delay(mask, 3000);
     }
 
     // a function to determine start/stop of LEDs
@@ -185,7 +185,7 @@ void led_animate_starburst_zabinski(const strip_mask_t mask,
                                           &led_color);
                 }
                 led_animate_show_strip(mask);
-                led_ctrl_delay(mask, delay_copy);
+                led_ctrl_time_delay(mask, delay_copy);
             }
             for (uint16_t iii = short_leg; iii < short_leg + long_leg; iii++)
             {
@@ -219,7 +219,7 @@ void led_animate_starburst_zabinski(const strip_mask_t mask,
                                           &led_color);
                 }
                 led_animate_show_strip(mask);
-                led_ctrl_delay(mask, delay_copy);
+                led_ctrl_time_delay(mask, delay_copy);
             }
         }
         else if (LED_ANIMATE_STARBURTS_MODE_2 == mode)
@@ -262,7 +262,7 @@ void led_animate_starburst_zabinski(const strip_mask_t mask,
                                           &led_color);
                 }
                 led_animate_show_strip(mask);
-                led_ctrl_delay(mask, delay_copy);
+                led_ctrl_time_delay(mask, delay_copy);
             }
             for (uint16_t iii = short_leg; iii < long_leg; iii++)
             {
@@ -298,7 +298,7 @@ void led_animate_starburst_zabinski(const strip_mask_t mask,
                                           &led_color);
                 }
                 led_animate_show_strip(mask);
-                led_ctrl_delay(mask, delay_copy);
+                led_ctrl_time_delay(mask, delay_copy);
             }
         }
     }
@@ -337,7 +337,7 @@ void led_animate_determine_number_pixels_in_strip(const strip_mask_t mask)
         {
             g_dbg_num_pixels_turn_off_all_pixels = false;
             led_animate_turn_all_pixels_off();
-            led_ctrl_delay(mask, 5000);
+            led_ctrl_time_delay(mask, 5000);
         }
         else
         {
@@ -345,7 +345,7 @@ void led_animate_determine_number_pixels_in_strip(const strip_mask_t mask)
                                                      g_dbg_pixel_start,
                                                      g_dbg_pixel_stop,
                                                      LED_COLOR_HEX_DARK_MAGENTA);
-            led_ctrl_delay(mask, 2000);
+            led_ctrl_time_delay(mask, 2000);
         }
     } while ((!g_dbg_num_pixels_complete));
     g_dbg_num_pixels_complete = false;
@@ -420,7 +420,7 @@ void led_animate_starburst(const strip_mask_t mask,
                 led_animate_set_pixel(mask, strip_size - 1 - yyy, &led_color);
             }
             led_animate_show_strip(mask);
-            led_ctrl_delay(mask, delay_copy);
+            led_ctrl_time_delay(mask, delay_copy);
         }
         for (uint16_t iii = short_leg; iii < short_leg + long_leg; iii++)
         {
@@ -452,7 +452,7 @@ void led_animate_starburst(const strip_mask_t mask,
                 led_animate_set_pixel(mask, strip_size - 1 - iii, &led_color);
             }
             led_animate_show_strip(mask);
-            led_ctrl_delay(mask, delay_copy);
+            led_ctrl_time_delay(mask, delay_copy);
         }
     }
     else if (LED_ANIMATE_STARBURTS_MODE_2 == mode)
@@ -491,7 +491,7 @@ void led_animate_starburst(const strip_mask_t mask,
                 led_animate_set_pixel(mask, strip_half - 1 - iii, &led_color);
             }
             led_animate_show_strip(mask);
-            led_ctrl_delay(mask, delay_copy);
+            led_ctrl_time_delay(mask, delay_copy);
         }
         for (uint16_t iii = short_leg; iii < long_leg; iii++)
         {
@@ -523,7 +523,7 @@ void led_animate_starburst(const strip_mask_t mask,
                 led_animate_set_pixel(mask, strip_half - 1 - iii, &led_color);
             }
             led_animate_show_strip(mask);
-            led_ctrl_delay(mask, delay_copy);
+            led_ctrl_time_delay(mask, delay_copy);
         }
     }
 }

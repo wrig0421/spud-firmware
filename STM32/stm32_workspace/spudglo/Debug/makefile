@@ -43,6 +43,7 @@ RM := rm -rf
 -include src/bsp/stmicro/peripheral/uart/subdir.mk
 -include src/bsp/stmicro/peripheral/timer/subdir.mk
 -include src/bsp/stmicro/peripheral/spi/subdir.mk
+-include src/bsp/stmicro/peripheral/rng/subdir.mk
 -include src/bsp/stmicro/peripheral/i2c/subdir.mk
 -include src/bsp/stmicro/peripheral/gpio/subdir.mk
 -include src/bsp/stmicro/peripheral/button/subdir.mk
@@ -63,15 +64,18 @@ RM := rm -rf
 -include common/lib/semaphore/subdir.mk
 -include common/lib/peripheral/uart/subdir.mk
 -include common/lib/peripheral/spi/subdir.mk
+-include common/lib/peripheral/rng/subdir.mk
 -include common/lib/peripheral/i2c/subdir.mk
 -include common/lib/peripheral/gpio/subdir.mk
 -include common/lib/peripheral/button/subdir.mk
 -include common/lib/led/ws2812b_driver/subdir.mk
+-include common/lib/led/led_state/subdir.mk
+-include common/lib/led/led_ctrl/led_ctrl_time/subdir.mk
 -include common/lib/led/led_ctrl/led_ctrl_state/subdir.mk
 -include common/lib/led/led_ctrl/led_ctrl_speed/subdir.mk
--include common/lib/led/led_ctrl/led_ctrl_setup/subdir.mk
 -include common/lib/led/led_ctrl/led_ctrl_power/subdir.mk
 -include common/lib/led/led_ctrl/led_ctrl_pause/subdir.mk
+-include common/lib/led/led_ctrl/led_ctrl_interrupt/subdir.mk
 -include common/lib/led/led_ctrl/led_ctrl_color/subdir.mk
 -include common/lib/led/led_ctrl/led_ctrl_brightness/subdir.mk
 -include common/lib/led/led_ctrl/subdir.mk

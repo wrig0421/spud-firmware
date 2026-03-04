@@ -34,7 +34,7 @@
 
 #define					SWITCH_TURN_OFF_TIME_MILLISECONDS						10000
 #define 				SWITCH_MAJOR_STATE_CHANGE_TIME_MILLISECONDS				5000
-extern led_ctrl_t 		g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS];
+extern led_ctrl_t 		g_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS];
 uint32_t 				g_button_press_timestamp[NUM_BUTTONS][NUM_TIMESTAMPS] 	= {0};
 uint32_t 				g_task_button_press_button_count[NUM_BUTTONS] 			= {0};
 extern TaskHandle_t 	g_led_strip_1_ctrl_handle;
@@ -48,20 +48,20 @@ bool task_button_press_interrupt_occurred(const strip_mask_t mask)
 
 	// todo!!!! revisit this.  This is a major hack..
 	//  check for either minor or major flag interrupt
-	return (g_task_led_ctrl[strip_num].led_interrupt_info.major_interrupt_flag || \
-			g_task_led_ctrl[strip_num].led_interrupt_info.minor_interrupt_flag);
+	return (g_led_ctrl[strip_num].led_interrupt_info.major_interrupt_flag || \
+			g_led_ctrl[strip_num].led_interrupt_info.minor_interrupt_flag);
 }
 
 
 bool task_button_press_major_interupt_occurred(void)
 {
-	return g_task_led_ctrl[STRIP_NUM_1].led_interrupt_info.major_interrupt_flag;
+	return g_led_ctrl[STRIP_NUM_1].led_interrupt_info.major_interrupt_flag;
 }
 
 
 bool task_button_press_minor_interupt_occurred(void)
 {
-	return g_task_led_ctrl[STRIP_NUM_1].led_interrupt_info.minor_interrupt_flag;
+	return g_led_ctrl[STRIP_NUM_1].led_interrupt_info.minor_interrupt_flag;
 }
 
 
@@ -91,18 +91,18 @@ static void task_button_press_ctrl_set_interrupt_flag(const strip_mask_t mask, b
 	if (major_interrupt)
 	{
 		// force major interrupt transition complete flag to false
-		g_task_led_ctrl[strip_num].led_interrupt_info.major_interrupt_transition_cmplt_flag = false;
+		g_led_ctrl[strip_num].led_interrupt_info.major_interrupt_transition_cmplt_flag = false;
 		// set major interrupt flag to true
-		g_task_led_ctrl[strip_num].led_interrupt_info.major_interrupt_flag = true;
+		g_led_ctrl[strip_num].led_interrupt_info.major_interrupt_flag = true;
 		// record major interrupt status in generic variable
-		interrupt_status = &g_task_led_ctrl[strip_num].led_interrupt_info.major.interrupt_status;
+		interrupt_status = &g_led_ctrl[strip_num].led_interrupt_info.major.interrupt_status;
 	}
 	else
 	{
 		// set minor interrupt flag to true
-		g_task_led_ctrl[strip_num].led_interrupt_info.minor_interrupt_flag = true;
+		g_led_ctrl[strip_num].led_interrupt_info.minor_interrupt_flag = true;
 		// record minor interrupt status in generic variable
-		interrupt_status = &g_task_led_ctrl[strip_num].led_interrupt_info.minor.interrupt_status;
+		interrupt_status = &g_led_ctrl[strip_num].led_interrupt_info.minor.interrupt_status;
 	}
 	// set interrupt flag pertaining to the button
 	switch (btn)
@@ -154,16 +154,16 @@ bool task_button_press_check_interrupts(const strip_mask_t mask)
 	*pb_interrupt_flag = false;
 	bit_mask |= ((1 << NUM_BUTTONS)) - 1;
 
-	bool* pb_major_interrupt_transition_cmplt_flag = &g_task_led_ctrl[strip_num].led_interrupt_info.major_interrupt_transition_cmplt_flag;
+	bool* pb_major_interrupt_transition_cmplt_flag = &g_led_ctrl[strip_num].led_interrupt_info.major_interrupt_transition_cmplt_flag;
 
 	// check if major interrupt occurred
-	if (g_task_led_ctrl[strip_num].led_interrupt_info.major_interrupt_flag)
+	if (g_led_ctrl[strip_num].led_interrupt_info.major_interrupt_flag)
 	{
 		b_interrupt_occurred = true;
 		// save major interrupt status
-		p_interrupt_status = &g_task_led_ctrl[strip_num].led_interrupt_info.major.interrupt_status;
+		p_interrupt_status = &g_led_ctrl[strip_num].led_interrupt_info.major.interrupt_status;
 		// save major interrupt flag
-		pb_interrupt_flag = &g_task_led_ctrl[strip_num].led_interrupt_info.major_interrupt_flag;
+		pb_interrupt_flag = &g_led_ctrl[strip_num].led_interrupt_info.major_interrupt_flag;
 		// set a flag to indicate that a major state interrupt has occured
         return_val = true;
         // wait for major_interrupt_transition_cmplt_flag to clear.
@@ -177,13 +177,13 @@ bool task_button_press_check_interrupts(const strip_mask_t mask)
 
 	}
 	// else check if minor interrupt occurred
-	else if (g_task_led_ctrl[strip_num].led_interrupt_info.minor_interrupt_flag)
+	else if (g_led_ctrl[strip_num].led_interrupt_info.minor_interrupt_flag)
 	{
 		b_interrupt_occurred = true;
 		// save major interrupt status
-		p_interrupt_status = &g_task_led_ctrl[strip_num].led_interrupt_info.minor.interrupt_status;
+		p_interrupt_status = &g_led_ctrl[strip_num].led_interrupt_info.minor.interrupt_status;
 		// save minor interrupt flag
-		pb_interrupt_flag = &g_task_led_ctrl[strip_num].led_interrupt_info.minor_interrupt_flag;
+		pb_interrupt_flag = &g_led_ctrl[strip_num].led_interrupt_info.minor_interrupt_flag;
 	}
 	if (b_interrupt_occurred)
 	{
@@ -204,7 +204,7 @@ bool task_button_press_check_interrupts(const strip_mask_t mask)
 		}
 		if (LED_CTRL_INTERRUPT_BIT_PAUSE_BRIGHTNESS & p_interrupt_status->flat_interrupt_status)
 		{
-			if (g_task_led_ctrl[strip_num].led_interrupt_info.minor_interrupt_flag)
+			if (g_led_ctrl[strip_num].led_interrupt_info.minor_interrupt_flag)
 			{
 				// wait for the pause flag to reset
 				while (p_interrupt_status->bits.pause_brightness)
@@ -252,10 +252,10 @@ void task_button_press(void *argument)
     led_color_hex_code_e color = LED_COLOR_HEX_BLACK;
     IRQn_Type irq_type = 0;
 	strip_num_e strip_num = STRIP_NUM_1;
-	bool* pb_major_interrupt_flag = &g_task_led_ctrl[strip_num].led_interrupt_info.major_interrupt_flag;
-	bool* pb_major_interrupt_transition_cmplt_flag = &g_task_led_ctrl[strip_num].led_interrupt_info.major_interrupt_transition_cmplt_flag;
+	bool* pb_major_interrupt_flag = &g_led_ctrl[strip_num].led_interrupt_info.major_interrupt_flag;
+	bool* pb_major_interrupt_transition_cmplt_flag = &g_led_ctrl[strip_num].led_interrupt_info.major_interrupt_transition_cmplt_flag;
 
-	bool* pb_minor_interrupt_flag = &g_task_led_ctrl[strip_num].led_interrupt_info.minor_interrupt_flag;
+	bool* pb_minor_interrupt_flag = &g_led_ctrl[strip_num].led_interrupt_info.minor_interrupt_flag;
 
     while (1)
     {
@@ -338,7 +338,7 @@ void task_button_press(void *argument)
 				vTaskSuspend(g_led_strip_1_ctrl_handle);
 #endif
 				// major state change.  Store the color denoting the transition.
-				color = led_color_major_state_change_color(btn);
+				color = led_ctrl_color_major_state_change_color(btn);
 				switch (btn)
 				{
 					case BUTTON_A:
@@ -407,7 +407,7 @@ void task_button_press(void *argument)
 						{
 							gb_standard_a_button = false;
 							led_ctrl_speed_adjust(STRIP_BIT_ALL_SET);
-							led_ctrl_speed_adjust(STRIP_BIT_2);
+//							led_ctrl_speed_adjust(STRIP_BIT_2);
 
 						}
 					break;
@@ -418,15 +418,15 @@ void task_button_press(void *argument)
 						{
 							// master state is demo, change to fixed master state.
 							led_state_ctrl_force_fixed_state(STRIP_BIT_ALL_SET);
-							led_state_ctrl_force_fixed_state(STRIP_BIT_2);
+//							led_state_ctrl_force_fixed_state(STRIP_BIT_2);
 
 						}
 						g_led_animate_exit_stimulus = true;
 						led_state_ctrl_iteration_reset(STRIP_BIT_ALL_SET);
-						led_state_ctrl_iteration_reset(STRIP_BIT_2);
+//						led_state_ctrl_iteration_reset(STRIP_BIT_2);
 
 						led_state_ctrl_adjust_state(STRIP_BIT_ALL_SET);
-						led_state_ctrl_adjust_state(STRIP_BIT_2);
+//						led_state_ctrl_adjust_state(STRIP_BIT_2);
 
 
 					break;
@@ -437,20 +437,20 @@ void task_button_press(void *argument)
 						{
 							// master color state is demo... change to fixed master state!
 							led_ctrl_color_master_state_force_fixed(STRIP_BIT_ALL_SET);
-							led_ctrl_color_master_state_force_fixed(STRIP_BIT_2);
+//							led_ctrl_color_master_state_force_fixed(STRIP_BIT_2);
 						}
 						else
 						{
 							// master color state is fixed.  Adjust the color.
 							led_ctrl_color_adjust(STRIP_BIT_ALL_SET);
-							led_ctrl_color_adjust(STRIP_BIT_2);
+//							led_ctrl_color_adjust(STRIP_BIT_2);
 
 						}
 					break;
 					case BUTTON_D:
 						// 'D' is pause.
 						led_ctrl_pause(STRIP_BIT_ALL_SET);
-						led_ctrl_pause(STRIP_BIT_2);
+//						led_ctrl_pause(STRIP_BIT_2);
 
 					break;
 					default:

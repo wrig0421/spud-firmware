@@ -23,3 +23,16 @@ void animation_timer_access_reset(void)
 	    while (1);
 	}
 };
+
+
+/**
+ * @brief   Start animation timer.
+ * @param   void
+ * @return  void
+ * @note    Each animation is displayed for LED_CTRL_MASTER_STATE_TIME_MS.
+ *          Specifically, each is displayed for this amount of time in demo mode.
+ */
+void led_ctrl_timer_start(void)
+{
+    xTimerStart(g_led_ctrl_timer_handle, LED_CTRL_MASTER_STATE_TIME_MS);
+}

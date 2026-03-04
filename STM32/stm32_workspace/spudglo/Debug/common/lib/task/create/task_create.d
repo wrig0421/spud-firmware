@@ -37,6 +37,7 @@ common/lib/task/create/task_create.o: \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c_ex.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr_ex.h \
+ ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rng.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc_ex.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h \
@@ -55,6 +56,7 @@ common/lib/task/create/task_create.o: \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_led_ctrl.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_brightness/led_ctrl_brightness.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_state/led_ctrl_state.h \
+ /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_state/led_state.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_speed/led_ctrl_speed.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/create/task_create.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_pkt_process.h \
@@ -100,6 +102,7 @@ common/lib/task/create/task_create.o: \
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c_ex.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr_ex.h:
+../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rng.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc_ex.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h:
@@ -118,6 +121,7 @@ common/lib/task/create/task_create.o: \
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_led_ctrl.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_brightness/led_ctrl_brightness.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_state/led_ctrl_state.h:
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_state/led_state.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_speed/led_ctrl_speed.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/create/task_create.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_pkt_process.h:

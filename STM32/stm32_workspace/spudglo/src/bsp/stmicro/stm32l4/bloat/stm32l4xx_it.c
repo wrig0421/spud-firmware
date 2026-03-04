@@ -23,7 +23,7 @@
 #include "task.h"
 #include "FreeRTOSConfig.h"
 #include "stm32l4xx_it.h"
-//#include "stm32l4xx_hal.h"
+#include "stm32l4xx_hal.h"
 #include "config.h"
 #include "board_init_common.h"
 
@@ -40,6 +40,7 @@
 #include "uart_config_hal_specific.h"
 #include "uart_config_hal.h"
 #include "task_notify.h"
+#include "rng_config_hal.h"
 
 #if defined(ENABLE_STRIP_1)
 	extern TaskHandle_t 		g_led_strip_1_ctrl_handle;
@@ -61,6 +62,8 @@ extern DMA_HandleTypeDef 	g_hdma_tim1_ch2;
 extern DMA_HandleTypeDef 	g_hdma_tim1_ch3;
 extern DMA_HandleTypeDef 	gh_dma_host_rx;
 extern DMA_HandleTypeDef 	gh_dma_host_tx;
+extern RNG_HandleTypeDef    g_rng_handle;
+extern uint32_t g_random_number;
 
 extern SemaphoreHandle_t 	g_dma_transfer_semaphore;
 extern TaskHandle_t 		g_button_press_handle;
@@ -436,6 +439,12 @@ void DMA2_Channel6_IRQHandler(void)
 void DMA2_Channel7_IRQHandler(void)
 {
 	HAL_DMA_IRQHandler(&gh_dma_host_rx);
+}
+
+
+void RNG_IRQHandler(void)
+{
+    HAL_RNG_IRQHandler(&g_rng_handle);
 }
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

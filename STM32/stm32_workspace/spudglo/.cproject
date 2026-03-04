@@ -58,6 +58,7 @@
 									<listOptionValue builtIn="false" value="../src/bsp/stmicro/peripheral/button"/>
 									<listOptionValue builtIn="false" value="../src/bsp/stmicro/peripheral/gpio"/>
 									<listOptionValue builtIn="false" value="../src/bsp/stmicro/peripheral/i2c"/>
+									<listOptionValue builtIn="false" value="../src/bsp/stmicro/peripheral/rng"/>
 									<listOptionValue builtIn="false" value="../src/bsp/stmicro/peripheral/spi"/>
 									<listOptionValue builtIn="false" value="../src/bsp/stmicro/peripheral/uart"/>
 									<listOptionValue builtIn="false" value="../src/bsp/stmicro/peripheral/timer"/>
@@ -87,6 +88,7 @@
 									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/peripheral/button&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/peripheral/gpio&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/peripheral/i2c&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/peripheral/rng&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/peripheral/spi&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/peripheral/uart&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/peripheral/timer&quot;"/>
@@ -120,13 +122,14 @@
 									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/led/led_ctrl&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/led/led_ctrl/led_ctrl_brightness&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/led/led_ctrl/led_ctrl_color&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/led/led_ctrl/led_ctrl_interrupt&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/led/led_ctrl/led_ctrl_pause&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/led/led_ctrl/led_ctrl_setup&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/led/led_ctrl/led_ctrl_power&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/led/led_ctrl/led_ctrl_speed&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/led/led_ctrl/led_ctrl_state&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/led/led_ctrl/led_ctrl_power&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/led/led_animate&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/led/led_color&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/led/led_state&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/common/lib/peripheral/i2c/sensors&quot;"/>
 									<listOptionValue builtIn="false" value="../sdk/FreeRTOS/Source/convenience"/>
 									<listOptionValue builtIn="false" value="../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card"/>

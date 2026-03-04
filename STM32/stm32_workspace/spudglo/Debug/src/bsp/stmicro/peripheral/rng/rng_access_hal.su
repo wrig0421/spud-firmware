@@ -1,0 +1,3 @@
+../src/bsp/stmicro/peripheral/rng/rng_access_hal.c:9:6:rng_access_hal_generate_random_number	8	static
+../src/bsp/stmicro/peripheral/rng/rng_access_hal.c:14:10:rng_access_hal_read_random_number	4	static
+../src/bsp/stmicro/peripheral/rng/rng_access_hal.c:20:10:rng_access_hal_read_and_generate_random_number	16	static

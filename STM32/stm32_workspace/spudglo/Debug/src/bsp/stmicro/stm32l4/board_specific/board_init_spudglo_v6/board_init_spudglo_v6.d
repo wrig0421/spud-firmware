@@ -27,6 +27,7 @@ src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/board_init_spudglo_
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c_ex.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr_ex.h \
+ ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rng.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc_ex.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h \
@@ -78,6 +79,7 @@ src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/board_init_spudglo_
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c_ex.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr_ex.h:
+../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rng.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc_ex.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h:

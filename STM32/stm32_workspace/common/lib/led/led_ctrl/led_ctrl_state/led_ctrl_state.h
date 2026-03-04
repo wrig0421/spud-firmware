@@ -5,6 +5,7 @@
 #include "config.h"
 #include <stdint.h>
 #include "ws2812b.h"
+#include "led_state.h"
 #include "led_ctrl_speed.h"
 
 typedef enum
@@ -41,47 +42,20 @@ typedef struct
 } led_animate_state_t;
 
 
-typedef enum
+typedef struct
 {
-	LED_STATE_FIRST = 0,					// 0
-	LED_STATE_SPELL = LED_STATE_FIRST, 		// 0
-	//LED_STATE_MINT_NOHBZ,
-	LED_STATE_WHITE_COLOR,					// 1
-	LED_STATE_SOLID_COLOR,					// 2
-	LED_STATE_SPARKLE_NO_FILL, 				// 3
-    LED_STATE_SPARKLE_FILL,					// 4
-    LED_STATE_RAINBOW_CYCLE, 				// 5
-    LED_STATE_THEATER_CHASE, 				// 6
-    LED_STATE_THEATER_CHASE_RAINBOW, 		// 7
-    LED_STATE_FADE_IN_AND_OUT,
-//    LED_STATE_HEARTBEAT,// 8
-//	LED_STATE_TWINKLE, 						// 9
-//    LED_STATE_RUNNING_LIGHTS,				// 10
-//    LED_STATE_FIRE,							// 11
-//	LED_STATE_METEOR,						// 12
-//	LED_STATE_STROBE,						// 13
-//	LED_STATE_FADE_IN_AND_OUT_RANDOM,		// 14
-	LED_STATE_LAST = LED_STATE_FADE_IN_AND_OUT,
-	NUM_LED_STATES,							// 15
-	LED_STATE_SRW_DEBUG,					// 16 this is technically out of range..
-} led_state_e;
+    uint16_t                    animation_delay_per_inner_loop_ms;
+    uint16_t                    animation_delay_per_outer_loop_ms;
+} led_ctrl_state_parameters_t;
 
 
 typedef struct
 {
-	led_ctrl_state_master_e		led_state_master;
-	led_state_e					led_state;
-	uint16_t					led_state_current_iteration;
+	led_ctrl_state_master_e		            led_state_master;
+	led_state_e			                    led_state;
+	uint16_t					            led_state_current_iteration;
+	const led_ctrl_state_parameters_t*      led_ctrl_state_param;
 } led_ctrl_state_info_t;
-
-
-typedef struct
-{
-	uint16_t				led_state_max_iteration[NUM_LED_SPEEDS];
-	uint16_t				led_state_inner_animation_delay_ms[NUM_LED_SPEEDS];
-	uint16_t				led_state_between_animation_delay_ms[NUM_LED_SPEEDS];
-	bool					led_state_allow_black_color;
-} led_ctrl_state_iterations_t;
 
 
 void led_state_ctrl_iteration_reset(const strip_mask_t mask);

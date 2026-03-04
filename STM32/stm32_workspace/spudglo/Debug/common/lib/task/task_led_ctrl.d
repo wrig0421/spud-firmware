@@ -27,6 +27,7 @@ common/lib/task/task_led_ctrl.o: \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c_ex.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr_ex.h \
+ ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rng.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc_ex.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h \
@@ -48,6 +49,7 @@ common/lib/task/task_led_ctrl.o: \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_led_ctrl.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_brightness/led_ctrl_brightness.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_state/led_ctrl_state.h \
+ /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_state/led_state.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_speed/led_ctrl_speed.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_animate/led_animate.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/uart/uart_access.h \
@@ -69,7 +71,10 @@ common/lib/task/task_led_ctrl.o: \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl.h \
  ../sdk/FreeRTOS/Source/include/timers.h \
  ../sdk/FreeRTOS/Source/include/task.h \
- /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/sensor_third_party/rv8803/rv8803.h
+ /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_interrupt/led_ctrl_interrupt.h \
+ /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_pause/led_ctrl_pause.h \
+ /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/sensor_third_party/rv8803/rv8803.h \
+ /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/rng/rng_access.h
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
 ../src/bsp/stmicro/stm32l4/bloat/stm32l4xx_hal_conf.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h:
@@ -99,6 +104,7 @@ common/lib/task/task_led_ctrl.o: \
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c_ex.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr_ex.h:
+../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rng.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc_ex.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h:
@@ -121,6 +127,7 @@ common/lib/task/task_led_ctrl.o: \
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_led_ctrl.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_brightness/led_ctrl_brightness.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_state/led_ctrl_state.h:
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_state/led_state.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_speed/led_ctrl_speed.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_animate/led_animate.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/uart/uart_access.h:
@@ -146,4 +153,7 @@ common/lib/task/task_led_ctrl.o: \
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl.h:
 ../sdk/FreeRTOS/Source/include/timers.h:
 ../sdk/FreeRTOS/Source/include/task.h:
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_interrupt/led_ctrl_interrupt.h:
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_pause/led_ctrl_pause.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/sensor_third_party/rv8803/rv8803.h:
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/rng/rng_access.h:

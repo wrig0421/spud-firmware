@@ -5,10 +5,13 @@
 
 #include "FreeRTOS.h"
 #include "timers.h"
-#include "led_ctrl_state.h"
-#include "led_ctrl_color.h"
-#include "led_ctrl_speed.h"
 #include "led_ctrl_brightness.h"
+#include "led_ctrl_color.h"
+#include "led_ctrl_interrupt.h"
+#include "led_ctrl_pause.h"
+#include "led_ctrl_power.h"
+#include "led_ctrl_speed.h"
+#include "led_ctrl_state.h"
 
 typedef enum
 {
@@ -23,53 +26,20 @@ typedef enum
 #pragma pack(1)
 typedef struct
 {
-	union
-	{
-		struct
-		{
-			uint8_t state 				: 1;
-			uint8_t color 				: 1;
-			uint8_t speed 				: 1;
-			uint8_t pause_brightness	: 1;
-			uint8_t rsvd  				: 4;
-		} bits;
-		uint8_t flat_interrupt_status;
-	};
-} led_ctrl_interrupt_status_t;
-typedef led_ctrl_interrupt_status_t* p_led_ctrl_interrupt_status_t;
+    led_brightness_e            led_ctrl_brightness;
+    led_ctrl_color_info_t       led_ctrl_color_info;
+    led_ctrl_pause_state_e      led_ctrl_pause_state;
+    led_ctrl_power_factor_t     led_ctrl_power_factor;
+    led_speed_e                 led_ctrl_speed;
+	led_ctrl_state_info_t		led_ctrl_state_info;
+	led_ctrl_interrupt_info_t	led_ctrl_interrupt_info;
 
-
-typedef struct
-{
-	union
-	{
-		led_ctrl_interrupt_status_t 	interrupt_status;
-		uint8_t 						interrupt_status_flat;
-	} minor;
-	bool minor_interrupt_flag;
-	union
-	{
-		led_ctrl_interrupt_status_t 	interrupt_status;
-		uint8_t 						interrupt_status_flat;
-	} major;
-	bool major_interrupt_flag;
-	bool major_interrupt_transition_cmplt_flag;
-} led_ctrl_interrupt_info_t;
-
-
-typedef struct
-{
-	led_ctrl_state_info_t		led_state_info;
-	led_ctrl_color_info_t		led_color_info;
-	led_ctrl_interrupt_info_t	led_interrupt_info;
-	led_speed_e					led_speed;
-	led_brightness_e			led_brightness;
 } led_ctrl_t;
 #pragma pack()
 
 
 void led_ctrl_timer_callback(TimerHandle_t timer_handle);
-bool led_ctrl_delay(const strip_mask_t mask, const uint32_t time_ms);
+bool led_ctrl_time_delay(const strip_mask_t mask, const uint32_t time_ms);
 void led_ctrl_init(void);
 
 

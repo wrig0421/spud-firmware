@@ -76,3 +76,5 @@ void led_ctrl_power_monitor_init(void)
 
     g_absolute_max_power_factor = g_max_power_factor;
 }
+
+

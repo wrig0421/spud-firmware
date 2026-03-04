@@ -1,12 +1,10 @@
 // SRW
-
+#include <stdbool.h>
 #include "numbers.h"
 #include "led_ctrl.h"
 #include "led_color.h"
 #include "led_ctrl_color.h"
-
-extern led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS];
-extern led_color_hex_code_e g_color_hex_codes[NUM_COLORS];
+#include "rng_access.h"
 
 
 /**
@@ -16,8 +14,7 @@ extern led_color_hex_code_e g_color_hex_codes[NUM_COLORS];
  */
 led_color_master_state_e led_ctrl_color_master_state(const strip_mask_t mask)
 {
-	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
-    return g_task_led_ctrl[strip_num].led_color_info.led_color_master;
+    return led_ctrl_read_color_master_state(mask);
 }
 
 
@@ -28,8 +25,7 @@ led_color_master_state_e led_ctrl_color_master_state(const strip_mask_t mask)
  */
 void led_ctrl_color_master_state_force_demo(const strip_mask_t mask)
 {
-	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
-	g_task_led_ctrl[strip_num].led_color_info.led_color_master = LED_COLOR_MASTER_STATE_DEMO;
+    led_ctrl_write_color_master_state(mask, LED_COLOR_MASTER_STATE_DEMO);
 }
 
 
@@ -40,9 +36,8 @@ void led_ctrl_color_master_state_force_demo(const strip_mask_t mask)
  */
 void led_ctrl_color_master_state_force_fixed(const strip_mask_t mask)
 {
-	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
-	g_task_led_ctrl[strip_num].led_color_info.led_color_master = LED_COLOR_MASTER_STATE_FIXED;
-	g_task_led_ctrl[strip_num].led_color_info.led_color = LED_COLOR_FIRST;
+    led_ctrl_write_color_master_state(mask, LED_COLOR_MASTER_STATE_FIXED);
+    led_ctrl_write_color(mask, LED_COLOR_FIRST);
 }
 
 
@@ -54,8 +49,7 @@ void led_ctrl_color_master_state_force_fixed(const strip_mask_t mask)
  */
 void led_ctrl_color_reset(const strip_mask_t mask)
 {
-	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
-	g_task_led_ctrl[strip_num].led_color_info.led_color = LED_COLOR_FIRST;
+    led_ctrl_write_color(mask, LED_COLOR_FIRST);
 }
 
 
@@ -68,14 +62,14 @@ bool led_ctrl_color_adjust(const strip_mask_t mask)
 {
     bool return_val = false;
 	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
-    if (LED_COLOR_LAST == g_task_led_ctrl[strip_num].led_color_info.led_color)
+    if (LED_COLOR_LAST == led_ctrl_read_color(mask))
     {
-    	g_task_led_ctrl[strip_num].led_color_info.led_color = LED_COLOR_FIRST;
+        led_ctrl_write_color(LED_COLOR_FIRST);
         return_val = true;
     }
     else
 	{
-    	g_task_led_ctrl[strip_num].led_color_info.led_color = (led_color_e) (g_task_led_ctrl[strip_num].led_color_info.led_color + 1);
+        led_ctrl_write_color(mask, led_ctrl_read_color(mask) + 1);
 	}
     return return_val;
 }
@@ -86,10 +80,22 @@ bool led_ctrl_color_adjust(const strip_mask_t mask)
  * @param   mask - enabled strips to check if button press effects.
  * @return  Enumerated type for the enabled color for enabled strip[s] in mask.
  */
-led_color_e led_ctrl_color(const strip_mask_t mask)
+led_color_e led_ctrl_color_read_active_color(const strip_mask_t mask)
 {
-	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
-    return g_task_led_ctrl[strip_num].led_color_info.led_color;
+    return led_ctrl_read_active_color(mask);
+}
+
+
+void led_ctrl_color_write_active_color(const strip_mask_t mask, led_color_e led_color)
+{
+    led_ctrl_write_active_color(mask, led_color);
+}
+
+
+bool led_ctrl_color_active_color_is_black(const strip_mask_t mask)
+{
+    return (led_ctrl_color_read_active_color(mask) == \
+                    LED_COLOR_BLACK) ? true : false;
 }
 
 
@@ -98,10 +104,9 @@ led_color_e led_ctrl_color(const strip_mask_t mask)
  * @param   mask - enabled strips to check if button press effects.
  * @return  Hex value for the enabled color for enabled strip[s] in mask.
  */
-led_color_hex_code_e led_ctrl_color_hex(const strip_mask_t mask)
+led_color_hex_code_e led_ctrl_color_read_active_color_hex(const strip_mask_t mask)
 {
-	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
-    return g_color_hex_codes[g_task_led_ctrl[strip_num].led_color_info.led_color];
+	return led_ctrl_read_active_color_hex(strip_mask);
 }
 
 
@@ -111,10 +116,9 @@ led_color_hex_code_e led_ctrl_color_hex(const strip_mask_t mask)
  * @param   mask - enabled strips to check if button press effects.
  * @return  Hex value for the enabled red color for enabled strip[s] in mask.
  */
-uint8_t led_ctrl_color_red_hex(const strip_mask_t mask)
+uint8_t led_ctrl_color_read_active_red_hex(const strip_mask_t mask)
 {
-	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
-    return (((g_color_hex_codes[g_task_led_ctrl[strip_num].led_color_info.led_color] & 0xFF0000) >> 16));// / led_ctrl_power_monitor_ratio());
+    return led_ctrl_read_color_rgb_red_hex(mask);
 }
 
 
@@ -124,10 +128,9 @@ uint8_t led_ctrl_color_red_hex(const strip_mask_t mask)
  * @param   mask - enabled strips to check if button press effects.
  * @return  Hex value for the enabled green color for enabled strip[s] in mask.
  */
-uint8_t led_ctrl_color_green_hex(const strip_mask_t mask)
+uint8_t led_ctrl_color_read_active_green_hex(const strip_mask_t mask)
 {
-	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
-    return (((g_color_hex_codes[g_task_led_ctrl[strip_num].led_color_info.led_color] & 0x00FF00) >> 8));// / led_ctrl_power_monitor_ratio());
+    return led_ctrl_read_color_rgb_green_hex(mask);
 }
 
 
@@ -137,10 +140,9 @@ uint8_t led_ctrl_color_green_hex(const strip_mask_t mask)
  * @param   mask - enabled strips to check if button press effects.
  * @return  Hex value for the enabled blue color for enabled strip[s] in mask.
  */
-uint8_t led_ctrl_color_blue_hex(const strip_mask_t mask)
+uint8_t led_ctrl_color_read_active_blue_hex(const strip_mask_t mask)
 {
-	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
-    return ((g_color_hex_codes[g_task_led_ctrl[strip_num].led_color_info.led_color] & 0x0000FF));// / led_ctrl_power_monitor_ratio());
+    return led_ctrl_read_color_rgb_blue_hex(mask);
 }
 
 
@@ -150,58 +152,36 @@ uint8_t led_ctrl_color_blue_hex(const strip_mask_t mask)
  * @return  Hex value for the enabled blue color for enabled strip[s] in mask.
  * @note    Color must be defined!  LUT used!
  */
-led_color_hex_code_e led_ctrl_color_to_hex(const led_color_e color)
+led_color_hex_code_e led_ctrl_color_enum_to_hex(const led_color_e color)
 {
-    return g_color_hex_codes[color];
+    return led_color_enum_to_hex_code(color);
 }
 
 
-/**
- * @brief   Return enumerated color value after "random" selection.
- * @param   p_color - reference to color.
- * @return  "Random" enumerated color value.
- * @note    This function makes sure that the current color is not returned.
- */
-led_color_e led_ctrl_color_random_input(led_color_e* p_color)
+led_color_e led_ctrl_color_randomize_active_color(const strip_mask_t mask)
 {
-    led_color_e color = (led_color_e)(random_num(0, NUM_COLORS));
-    if (*p_color == color)
+    strip_num_e strip_num = ws2812_strip_mask_to_strip_num(mask);
+    led_color_e led_color = LED_COLOR_BLACK;
+    do
     {
-        if ((LED_COLOR_LAST) == color) *p_color = (led_color_e)(color - 1);
-        else *p_color = (led_color_e)(color + 1);
-    }
-    else
-    {
-        *p_color = color;
-    }
-    return color;
+        led_color = (led_color_e)(rng_access_read_and_generate_random_number() % NUM_COLORS);
+    } while (led_ctrl_read_color(mask) == led_color);
+
+    led_ctrl_write_color(mask, led_color);
+    return led_color; // not always used but nice to return if needed.
 }
 
 
-/**
- * @brief   Return enumerated color value after "random" selection.
- * @param   mask - enabled strips to check if button press effects.
- * @return  "Random" enumerated color value.
- * @note    This function does not take into account currently enabled color[s].
- */
-led_color_e led_ctrl_color_random(const strip_mask_t mask)
+led_color_hex_code_e led_ctrl_color_major_state_change_color(button_e btn)
 {
-	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
-    led_color_e color = (led_color_e)(random_num(0, NUM_COLORS));
-    if (g_task_led_ctrl[strip_num].led_color_info.led_color == color)
+    switch (btn)
     {
-        if (LED_COLOR_LAST == color)
-		{
-        	g_task_led_ctrl[strip_num].led_color_info.led_color = (led_color_e)(color - 1);
-		}
-        else
-		{
-        	g_task_led_ctrl[strip_num].led_color_info.led_color = (led_color_e)(color + 1);
-		}
+        case BUTTON_A: return LED_COLOR_MAJOR_STATE_CHANGE_SPEED;
+        case BUTTON_B: return LED_COLOR_MAJOR_STATE_CHANGE_STATE;
+        case BUTTON_C: return LED_COLOR_MAJOR_STATE_CHANGE_COLOR;
+        case BUTTON_D: return LED_COLOR_MAJOR_STATE_CHANGE_BRIGHTNESS;
+        default: while (1);
     }
-    else
-    {
-    	g_task_led_ctrl[strip_num].led_color_info.led_color = color;
-    }
-    return color;
 }
+
+

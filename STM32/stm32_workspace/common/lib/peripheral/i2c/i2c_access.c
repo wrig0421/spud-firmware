@@ -8,11 +8,11 @@
 #include "i2c_config_hal.h"
 #include "i2c_access.h"
 
-	i2c_access_chip_address_e 	chip_address;
-	uint16_t 					chip_memory_address;
-	uint16_t					chip_memory_address_width_bytes;
-	uint8_t*					tx_rx_buffer;
-	uint16_t					num_byte_to_tx_rx;
+i2c_access_chip_address_e 	chip_address;
+uint16_t 					chip_memory_address;
+uint16_t					chip_memory_address_width_bytes;
+uint8_t*					tx_rx_buffer;
+uint16_t					num_byte_to_tx_rx;
 
 typedef enum
 {

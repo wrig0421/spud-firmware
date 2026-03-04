@@ -33,12 +33,12 @@ void task_led_ctrl_set_skip_adjust_parameters(bool skip);
 bool task_led_ctrl_skip_adjust_parameters(void);
 void task_led_ctrl_clear_skip_adjust_parameters(void);
 
-
+void task_led_ctrl_random_initial_state(const strip_mask_t mask);
 void task_led_1_ctrl(void *argument);
 void task_led_2_ctrl(void *argument);
 void task_led_3_ctrl(void *argument);
 void task_led_sync_ctrl(void *argument);
-
+bool led_ctrl_color_current_is_black(const strip_mask_t mask);
 
 
 

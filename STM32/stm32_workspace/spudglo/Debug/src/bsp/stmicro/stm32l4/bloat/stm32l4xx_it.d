@@ -27,6 +27,7 @@ src/bsp/stmicro/stm32l4/bloat/stm32l4xx_it.o: \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c_ex.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr_ex.h \
+ ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rng.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc_ex.h \
  ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h \
@@ -66,7 +67,9 @@ src/bsp/stmicro/stm32l4/bloat/stm32l4xx_it.o: \
  ../src/bsp/stmicro/peripheral/uart/uart_config_hal_specific.h \
  ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/uart/board_spudglo_v6_uart_config.h \
  ../src/bsp/stmicro/peripheral/uart_config_hal.h \
- /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_notify.h
+ /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_notify.h \
+ ../src/bsp/stmicro/peripheral/rng/rng_config_hal.h \
+ /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/rng/rng_access.h
 ../src/app/main.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
 ../src/bsp/stmicro/stm32l4/bloat/stm32l4xx_hal_conf.h:
@@ -97,6 +100,7 @@ src/bsp/stmicro/stm32l4/bloat/stm32l4xx_it.o: \
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c_ex.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr_ex.h:
+../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rng.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc_ex.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h:
@@ -139,3 +143,5 @@ src/bsp/stmicro/stm32l4/bloat/stm32l4xx_it.o: \
 ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/uart/board_spudglo_v6_uart_config.h:
 ../src/bsp/stmicro/peripheral/uart_config_hal.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_notify.h:
+../src/bsp/stmicro/peripheral/rng/rng_config_hal.h:
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/rng/rng_access.h:

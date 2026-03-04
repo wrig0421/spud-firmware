@@ -30,15 +30,18 @@ common/lib/led/led_color \
 common/lib/led/led_ctrl \
 common/lib/led/led_ctrl/led_ctrl_brightness \
 common/lib/led/led_ctrl/led_ctrl_color \
+common/lib/led/led_ctrl/led_ctrl_interrupt \
 common/lib/led/led_ctrl/led_ctrl_pause \
 common/lib/led/led_ctrl/led_ctrl_power \
-common/lib/led/led_ctrl/led_ctrl_setup \
 common/lib/led/led_ctrl/led_ctrl_speed \
 common/lib/led/led_ctrl/led_ctrl_state \
+common/lib/led/led_ctrl/led_ctrl_time \
+common/lib/led/led_state \
 common/lib/led/ws2812b_driver \
 common/lib/peripheral/button \
 common/lib/peripheral/gpio \
 common/lib/peripheral/i2c \
+common/lib/peripheral/rng \
 common/lib/peripheral/spi \
 common/lib/peripheral/uart \
 common/lib/semaphore \
@@ -59,6 +62,7 @@ src/bsp \
 src/bsp/stmicro/peripheral/button \
 src/bsp/stmicro/peripheral/gpio \
 src/bsp/stmicro/peripheral/i2c \
+src/bsp/stmicro/peripheral/rng \
 src/bsp/stmicro/peripheral/spi \
 src/bsp/stmicro/peripheral/timer \
 src/bsp/stmicro/peripheral/uart \

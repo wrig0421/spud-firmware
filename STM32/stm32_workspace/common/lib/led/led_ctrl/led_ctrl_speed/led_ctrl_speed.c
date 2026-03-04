@@ -4,9 +4,6 @@
 #include "led_ctrl.h"
 #include "led_ctrl_speed.h"
 
-extern led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS];
-
-
 /**
  * @brief   Return speed "factor" for enabled strips in passed mask.
  * @param   mask - enabled strips to check if button press effects.
@@ -16,14 +13,14 @@ extern led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS];
 float led_ctrl_speed(const strip_mask_t mask)
 {
     float speed_factor = 0.0;
-    switch(g_task_led_ctrl[ws2812_strip_bit_to_strip_num(mask)].led_speed)
+    switch (led_ctrl_read_speed(mask))
     {
-        case LED_SPEED_1000P: speed_factor = 10.0f; break;
-        case LED_SPEED_500P: speed_factor = 5.0f; break;
-        case LED_SPEED_100P: speed_factor = 1.0f; break;
-        case LED_SPEED_50P: speed_factor = 0.5f; break;
-        case LED_SPEED_25P: speed_factor = 0.25f; break;
-        default: break;
+        case LED_SPEED_1000P:   speed_factor = 10.0f;   break;
+        case LED_SPEED_500P:    speed_factor = 5.0f;    break;
+        case LED_SPEED_100P:    speed_factor = 1.0f;    break;
+        case LED_SPEED_50P:     speed_factor = 0.5f;    break;
+        case LED_SPEED_25P:     speed_factor = 0.25f;   break;
+        default:                                        break;
     }
     return speed_factor;
 }
@@ -36,14 +33,14 @@ float led_ctrl_speed(const strip_mask_t mask)
  */
 void led_ctrl_speed_adjust(const strip_mask_t mask)
 {
-	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
-    if (LED_SPEED_FIRST == g_task_led_ctrl[strip_num].led_speed)
+
+    if (LED_SPEED_FIRST == led_ctrl_read_speed(mask))
 	{
-    	g_task_led_ctrl[strip_num].led_speed = LED_SPEED_LAST;
+        led_ctrl_write_speed(mask, LED_SPEED_LAST);
 	}
     else
 	{
-    	g_task_led_ctrl[strip_num].led_speed = (led_speed_e) (g_task_led_ctrl[strip_num].led_speed - 1);
+        led_ctrl_write_speed(mask, (led_ctrl_read_speed(mask) - 1));
 	}
 }
 
@@ -55,5 +52,17 @@ void led_ctrl_speed_adjust(const strip_mask_t mask)
  */
 void led_ctrl_speed_reset(const strip_mask_t mask)
 {
-	g_task_led_ctrl[ws2812_strip_bit_to_strip_num(mask)].led_speed = LED_SPEED_100P;
+    led_ctrl_write_speed(LED_SPEED_100P);
+}
+
+
+void led_ctrl_speed_read_speed(const strip_mask_t mask)
+{
+    return led_ctrl_read_speed(mask);
+}
+
+
+void led_ctrl_speed_write_speed(const strip_mask_t mask, led_speed_e led_speed)
+{
+    led_ctrl_write_speed(mask, led_speed);
 }

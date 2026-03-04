@@ -398,6 +398,8 @@ HAL_StatusTypeDef HAL_RCC_DeInit(void)
   * @note   Transition HSE Bypass to HSE On and HSE On to HSE Bypass are not
   *         supported by this macro. User should request a transition to HSE Off
   *         first and then HSE On or HSE Bypass.
+  * @note   If HSE failed to start, HSE should be disabled before recalling
+            HAL_RCC_OscConfig().
   * @retval HAL status
   */
 HAL_StatusTypeDef HAL_RCC_OscConfig(RCC_OscInitTypeDef  *RCC_OscInitStruct)
@@ -1092,7 +1094,7 @@ HAL_StatusTypeDef HAL_RCC_OscConfig(RCC_OscInitTypeDef  *RCC_OscInitStruct)
   *         (for more details refer to section above "Initialization/de-initialization functions")
   * @retval None
   */
-HAL_StatusTypeDef HAL_RCC_ClockConfig(RCC_ClkInitTypeDef  *RCC_ClkInitStruct, uint32_t FLatency)
+HAL_StatusTypeDef HAL_RCC_ClockConfig(const RCC_ClkInitTypeDef  *RCC_ClkInitStruct, uint32_t FLatency)
 {
   uint32_t tickstart;
 #if defined(STM32L4P5xx) || defined(STM32L4Q5xx) || \
@@ -1318,7 +1320,7 @@ HAL_StatusTypeDef HAL_RCC_ClockConfig(RCC_ClkInitTypeDef  *RCC_ClkInitStruct, ui
   *            @arg @ref RCC_MCO1SOURCE_SYSCLK  system  clock selected as MCO source
   *            @arg @ref RCC_MCO1SOURCE_MSI  MSI clock selected as MCO source
   *            @arg @ref RCC_MCO1SOURCE_HSI  HSI clock selected as MCO source
-  *            @arg @ref RCC_MCO1SOURCE_HSE  HSE clock selected as MCO sourcee
+  *            @arg @ref RCC_MCO1SOURCE_HSE  HSE clock selected as MCO source
   *            @arg @ref RCC_MCO1SOURCE_PLLCLK  main PLL clock selected as MCO source
   *            @arg @ref RCC_MCO1SOURCE_LSI  LSI clock selected as MCO source
   *            @arg @ref RCC_MCO1SOURCE_LSE  LSE clock selected as MCO source
@@ -1852,7 +1854,11 @@ static HAL_StatusTypeDef RCC_SetFlashLatencyFromMSIRange(uint32_t msirange)
         /* MSI 8Mhz */
         latency = FLASH_LATENCY_1; /* 1WS */
       }
-      /* else MSI < 8Mhz default FLASH_LATENCY_0 0WS */
+      else
+      {
+        /* else MSI < 8Mhz default FLASH_LATENCY_0 0WS */
+        /* nothing to do */
+      }
     }
 #endif
   }

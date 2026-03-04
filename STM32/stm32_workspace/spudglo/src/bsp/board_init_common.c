@@ -16,6 +16,7 @@
 #include "button_config_hal_specific.h"
 #include "timer_config_hal.h"
 #include "i2c_config_hal.h"
+#include "rng_config_hal.h"
 
 static void board_init_common_sysclk_init(void)
 {
@@ -24,13 +25,18 @@ static void board_init_common_sysclk_init(void)
     RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
 
     HAL_PWR_EnableBkUpAccess();
-    __HAL_RCC_LSEDRIVE_CONFIG(RCC_LSEDRIVE_LOW);
+//    __HAL_RCC_LSEDRIVE_CONFIG(RCC_LSEDRIVE_LOW);
 
     // enable HSE & LSI.
     // some SpudGlo boards have LSE option.  For now only using LSI.
-    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE|RCC_OSCILLATORTYPE_LSI;
+    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE | RCC_OSCILLATORTYPE_LSI | RCC_OSCILLATORTYPE_HSI48;
     RCC_OscInitStruct.HSEState = RCC_HSE_ON;
-    RCC_OscInitStruct.LSEState = RCC_LSI_ON;
+    RCC_OscInitStruct.LSIState = RCC_LSI_ON;
+    RCC_OscInitStruct.HSI48State = RCC_HSI48_ON;
+
+    // HSI48 for RNG only...
+//    RCC_OscInitStruct.HSI48State = RCC_HSI48_ON;
+
     RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
     if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK) while(1);
 
@@ -129,7 +135,7 @@ void board_init_common_board_init(void)
 {
 	// TODO replace the random seed with a flash read that will
 	// see the random color
-    srand(time(0));
+//    srand(time(0));
 
     HAL_Init();
     board_init_common_sysclk_init();
@@ -138,6 +144,8 @@ void board_init_common_board_init(void)
     gpio_config_hal_setup();
     // setup i2c, spi, uart if present
     board_init_peripheral_setup();
+
+    rng_config_hal_setup();
 
     // setup timers on board
     board_init_common_timer_init();

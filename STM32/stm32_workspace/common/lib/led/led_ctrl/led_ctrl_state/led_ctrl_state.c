@@ -5,7 +5,111 @@
 #include "led_ctrl.h"
 #include "led_ctrl_state.h"
 
-extern led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS];
+extern led_ctrl_t g_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS];
+
+
+const led_ctrl_state_parameters_t g_led_ctrl_state_iterations[NUM_LED_STATES] =
+{
+    [LED_STATE_SPELL] =
+    {
+        .led_state_inner_animation_delay_ms[LED_SPEED_1000P]        = 0,
+        .led_state_inner_animation_delay_ms[LED_SPEED_500P]         = 20,
+        .led_state_inner_animation_delay_ms[LED_SPEED_100P]         = 66,
+        .led_state_inner_animation_delay_ms[LED_SPEED_50P]          = 132,
+        .led_state_inner_animation_delay_ms[LED_SPEED_25P]          = 250,
+    },
+    [LED_STATE_WHITE_COLOR] =
+    {
+        .led_state_between_animation_delay_ms[LED_SPEED_1000P]      = 10000,
+        .led_state_between_animation_delay_ms[LED_SPEED_500P]       = 10000,
+        .led_state_between_animation_delay_ms[LED_SPEED_100P]       = 10000,
+        .led_state_between_animation_delay_ms[LED_SPEED_50P]        = 10000,
+        .led_state_between_animation_delay_ms[LED_SPEED_25P]        = 10000,
+    },
+    [LED_STATE_SOLID_COLOR] =
+    {
+        .led_state_between_animation_delay_ms[LED_SPEED_1000P]      = 5000,
+        .led_state_between_animation_delay_ms[LED_SPEED_500P]       = 5000,
+        .led_state_between_animation_delay_ms[LED_SPEED_100P]       = 5000,
+        .led_state_between_animation_delay_ms[LED_SPEED_50P]        = 5000,
+        .led_state_between_animation_delay_ms[LED_SPEED_25P]        = 5000,
+    },
+    [LED_STATE_SPARKLE_NO_FILL] =
+    {
+        .led_state_inner_animation_delay_ms[LED_SPEED_1000P]        = 0,
+        .led_state_inner_animation_delay_ms[LED_SPEED_500P]         = 20,
+        .led_state_inner_animation_delay_ms[LED_SPEED_100P]         = 150,
+        .led_state_inner_animation_delay_ms[LED_SPEED_50P]          = 132,
+        .led_state_inner_animation_delay_ms[LED_SPEED_25P]          = 250,
+    },
+    [LED_STATE_SPARKLE_FILL] =
+    {
+        .led_state_inner_animation_delay_ms[LED_SPEED_1000P]        = 0,
+        .led_state_inner_animation_delay_ms[LED_SPEED_500P]         = 20,
+        .led_state_inner_animation_delay_ms[LED_SPEED_100P]         = 66,
+        .led_state_inner_animation_delay_ms[LED_SPEED_50P]          = 132,
+        .led_state_inner_animation_delay_ms[LED_SPEED_25P]          = 250,
+    },
+    [LED_STATE_RAINBOW_CYCLE] =
+    {
+        .led_state_inner_animation_delay_ms[LED_SPEED_1000P]        = 0,
+        .led_state_inner_animation_delay_ms[LED_SPEED_500P]         = 20,
+        .led_state_inner_animation_delay_ms[LED_SPEED_100P]         = 66,
+        .led_state_inner_animation_delay_ms[LED_SPEED_50P]          = 132,
+        .led_state_inner_animation_delay_ms[LED_SPEED_25P]          = 250,
+    },
+    [LED_STATE_THEATER_CHASE] =
+    {
+        .led_state_inner_animation_delay_ms[LED_SPEED_1000P]        = 10,
+        .led_state_inner_animation_delay_ms[LED_SPEED_500P]         = 45,
+        .led_state_inner_animation_delay_ms[LED_SPEED_100P]         = 66,
+        .led_state_inner_animation_delay_ms[LED_SPEED_50P]          = 132,
+        .led_state_inner_animation_delay_ms[LED_SPEED_25P]          = 250,
+    },
+    [LED_STATE_THEATER_CHASE_RAINBOW] =
+    {
+        .led_state_inner_animation_delay_ms[LED_SPEED_1000P]        = 10,
+        .led_state_inner_animation_delay_ms[LED_SPEED_500P]         = 45,
+        .led_state_inner_animation_delay_ms[LED_SPEED_100P]         = 66,
+        .led_state_inner_animation_delay_ms[LED_SPEED_50P]          = 132,
+        .led_state_inner_animation_delay_ms[LED_SPEED_25P]          = 250,
+    },
+    [LED_STATE_FADE_IN_AND_OUT] =
+    {
+        .led_state_inner_animation_delay_ms[LED_SPEED_1000P]        = 10,
+        .led_state_inner_animation_delay_ms[LED_SPEED_500P]         = 45,
+        .led_state_inner_animation_delay_ms[LED_SPEED_100P]         = 66,
+        .led_state_inner_animation_delay_ms[LED_SPEED_50P]          = 132,
+        .led_state_inner_animation_delay_ms[LED_SPEED_25P]          = 250,
+    },
+//  [LED_STATE_HEARTBEAT] =
+//  {
+//      .led_state_inner_animation_delay_ms[LED_SPEED_1000P]        = 50,
+//      .led_state_inner_animation_delay_ms[LED_SPEED_500P]         = 100,
+//      .led_state_inner_animation_delay_ms[LED_SPEED_100P]     = 150,
+//      .led_state_inner_animation_delay_ms[LED_SPEED_50P]      = 200,
+//      .led_state_inner_animation_delay_ms[LED_SPEED_25P]          = 250,
+//  },
+//  [LED_STATE_TWINKLE] =
+//  {
+//      .led_state_inner_animation_delay_ms[LED_SPEED_1000P]        = 0,
+//      .led_state_inner_animation_delay_ms[LED_SPEED_500P]         = 50,
+//      .led_state_inner_animation_delay_ms[LED_SPEED_100P]         = 100,
+//      .led_state_inner_animation_delay_ms[LED_SPEED_50P]          = 150,
+//      .led_state_inner_animation_delay_ms[LED_SPEED_25P]          = 200,
+//  },
+//# if (NUM_ACTIVE_STRIPS > 1) && defined(ENABLE_LED_STATE_TWO_COLOR)
+//      [LED_STATE_TWO_COLOR] =
+//      {
+//          .led_state_between_animation_delay_ms[LED_SPEED_1000P]  = 5000,
+//          .led_state_between_animation_delay_ms[LED_SPEED_500P]   = 5000,
+//          .led_state_between_animation_delay_ms[LED_SPEED_100P]   = 5000,
+//          .led_state_between_animation_delay_ms[LED_SPEED_50P]    = 5000,
+//          .led_state_between_animation_delay_ms[LED_SPEED_25P]    = 5000,
+//      }
+//#   endif
+};
+
 
 /**
  * @brief   Reset animation count for enabled strips in passed mask.
@@ -14,8 +118,7 @@ extern led_ctrl_t g_task_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS];
  */
 void led_state_ctrl_iteration_reset(const strip_mask_t mask)
 {
-	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
-	g_task_led_ctrl[strip_num].led_state_info.led_state_current_iteration = 0;
+	led_ctrl_write_state_current_iteration(mask, 0);
 }
 
 
@@ -37,6 +140,19 @@ led_state_e led_state_ctrl_random_state(const led_state_e cur_state)
 }
 
 
+led_state_e led_ctrl_state_randomize_active_state(const strip_mask_t mask)
+{
+    led_state_e led_state = led_ctrl_read_active_state(mask);
+    do
+    {
+        led_state = (led_state_e)(rng_access_read_and_generate_random_number() % NUM_LED_STATES);
+    } while (led_ctrl_read_active_state(mask) == led_state);
+
+    led_ctrl_write_active_state(mask, led_state);
+    return led_state; // not always used but nice to return if needed.
+}
+
+
 /**
  * @brief   Return the current "sub state" for enabled strips in mask.
  * @param   mask - enabled strips to check if button press effects.
@@ -44,8 +160,7 @@ led_state_e led_state_ctrl_random_state(const led_state_e cur_state)
  */
 led_state_e led_state_ctrl_state(const strip_mask_t mask)
 {
-	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
-    return g_task_led_ctrl[strip_num].led_state_info.led_state;
+    return led_ctrl_read_active_state(mask);
 }
 
 
@@ -59,14 +174,15 @@ bool led_state_ctrl_adjust_state(const strip_mask_t mask)
 {
 	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
     bool return_val = false;
-    if (LED_STATE_LAST == g_task_led_ctrl[strip_num].led_state_info.led_state)
+
+    if (LED_STATE_LAST == led_ctrl_read_active_state(mask))
     {
-        g_task_led_ctrl[strip_num].led_state_info.led_state = LED_STATE_FIRST;
+        led_ctrl_write_active_state(mask, LED_STATE_FIRST);
         return_val = true;
     }
     else
 	{
-    	g_task_led_ctrl[strip_num].led_state_info.led_state = (led_state_e) (g_task_led_ctrl[strip_num].led_state_info.led_state + 1);
+        led_ctrl_write_active_state(mask, (led_ctrl_read_active_state(mask) + 1));
 	}
     return return_val;
 }
@@ -79,8 +195,7 @@ bool led_state_ctrl_adjust_state(const strip_mask_t mask)
  */
 void led_state_ctrl_force_fixed_state(const strip_mask_t mask)
 {
-	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
-	g_task_led_ctrl[strip_num].led_state_info.led_state_master = LED_CTRL_STATE_MASTER_FIXED;
+    led_ctrl_write_master_state(mask, LED_CTRL_STATE_MASTER_FIXED);
 }
 
 
@@ -93,10 +208,9 @@ void led_state_ctrl_force_fixed_state(const strip_mask_t mask)
  */
 void led_state_ctrl_force_demo(const strip_mask_t mask)
 {
-	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
-	g_task_led_ctrl[strip_num].led_state_info.led_state_master = LED_CTRL_STATE_MASTER_DEMO;
-	g_task_led_ctrl[strip_num].led_state_info.led_state = LED_STATE_FIRST; // set first state
-	g_task_led_ctrl[strip_num].led_state_info.led_state_current_iteration = 0; // set first state
+    led_ctrl_write_master_state(mask, LED_CTRL_STATE_MASTER_DEMO);
+    led_ctrl_write_active_state(mask, LED_STATE_FIRST);
+    led_ctrl_write_state_current_iteration(mask, 0);
 }
 
 
@@ -107,8 +221,7 @@ void led_state_ctrl_force_demo(const strip_mask_t mask)
  */
 led_ctrl_state_master_e led_state_ctrl_master_state(const strip_mask_t mask)
 {
-	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
-    return g_task_led_ctrl[strip_num].led_state_info.led_state_master;
+    return led_ctrl_read_master_state(mask);
 }
 
 
@@ -120,9 +233,8 @@ led_ctrl_state_master_e led_state_ctrl_master_state(const strip_mask_t mask)
  */
 void led_state_ctrl_force_state(const strip_mask_t mask, led_state_e led_state)
 {
-	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
-	g_task_led_ctrl[strip_num].led_state_info.led_state = led_state; // set first state
-	g_task_led_ctrl[strip_num].led_state_info.led_state_current_iteration = 0; // set first state
+    led_ctrl_write_active_state(mask, led_state);
+    led_ctrl_write_state_current_iteration(mask, 0);
 }
 
 

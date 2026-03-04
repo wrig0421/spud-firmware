@@ -859,21 +859,17 @@ typedef struct
 
 typedef struct
 {
-  __IO uint32_t CR1;         /*!< USART Control register 1,                 Address offset: 0x00 */
-  __IO uint32_t CR2;         /*!< USART Control register 2,                 Address offset: 0x04 */
-  __IO uint32_t CR3;         /*!< USART Control register 3,                 Address offset: 0x08 */
-  __IO uint32_t BRR;         /*!< USART Baud rate register,                 Address offset: 0x0C */
-  __IO uint16_t GTPR;        /*!< USART Guard time and prescaler register,  Address offset: 0x10 */
-  uint16_t  RESERVED2;       /*!< Reserved, 0x12                                                 */
-  __IO uint32_t RTOR;        /*!< USART Receiver Time Out register,         Address offset: 0x14 */
-  __IO uint16_t RQR;         /*!< USART Request register,                   Address offset: 0x18 */
-  uint16_t  RESERVED3;       /*!< Reserved, 0x1A                                                 */
-  __IO uint32_t ISR;         /*!< USART Interrupt and status register,      Address offset: 0x1C */
-  __IO uint32_t ICR;         /*!< USART Interrupt flag Clear register,      Address offset: 0x20 */
-  __IO uint16_t RDR;         /*!< USART Receive Data register,              Address offset: 0x24 */
-  uint16_t  RESERVED4;       /*!< Reserved, 0x26                                                 */
-  __IO uint16_t TDR;         /*!< USART Transmit Data register,             Address offset: 0x28 */
-  uint16_t  RESERVED5;       /*!< Reserved, 0x2A                                                 */
+  __IO uint32_t CR1;         /*!< USART Control register 1,                    Address offset: 0x00 */
+  __IO uint32_t CR2;         /*!< USART Control register 2,                    Address offset: 0x04 */
+  __IO uint32_t CR3;         /*!< USART Control register 3,                    Address offset: 0x08 */
+  __IO uint32_t BRR;         /*!< USART Baud rate register,                    Address offset: 0x0C */
+  __IO uint32_t GTPR;        /*!< USART Guard time and prescaler register,     Address offset: 0x10 */
+  __IO uint32_t RTOR;        /*!< USART Receiver Time Out register,            Address offset: 0x14 */
+  __IO uint32_t RQR;         /*!< USART Request register,                      Address offset: 0x18 */
+  __IO uint32_t ISR;         /*!< USART Interrupt and status register,         Address offset: 0x1C */
+  __IO uint32_t ICR;         /*!< USART Interrupt flag Clear register,         Address offset: 0x20 */
+  __IO uint32_t RDR;         /*!< USART Receive Data register,                 Address offset: 0x24 */
+  __IO uint32_t TDR;         /*!< USART Transmit Data register,                Address offset: 0x28 */
 } USART_TypeDef;
 
 /**
@@ -934,7 +930,7 @@ typedef struct
 #define SRAM1_SIZE_MAX        (0x0000C000UL) /*!< maximum SRAM1 size (up to 48 KBytes) */
 #define SRAM2_SIZE            (0x00004000UL) /*!< SRAM2 size (16 KBytes) */
 
-#define FLASH_SIZE_DATA_REGISTER ((uint32_t)0x1FFF75E0)
+#define FLASH_SIZE_DATA_REGISTER (0x1FFF75E0UL)
 
 #define FLASH_SIZE               (((((*((uint32_t *)FLASH_SIZE_DATA_REGISTER)) & (0x0000FFFFU)) == 0x0000FFFFU)) ? (0x100U << 10U) : \
                                   (((*((uint32_t *)FLASH_SIZE_DATA_REGISTER)) & (0x0000FFFFU)) << 10U))
@@ -1168,7 +1164,7 @@ typedef struct
 /******************************************************************************/
 
 /*
- * @brief Specific device feature definitions (not present on all devices in the STM32L4 serie)
+ * @brief Specific device feature definitions (not present on all devices in the STM32L4 series)
  */
 /* Note: No specific macro feature on this device */
 
@@ -5812,7 +5808,7 @@ typedef struct
 /*                                                                            */
 /******************************************************************************/
 /*
- * @brief Specific device feature definitions (not present on all devices in the STM32L4 serie)
+ * @brief Specific device feature definitions (not present on all devices in the STM32L4 series)
  */
 #define DAC_CHANNEL2_SUPPORT                           /*!< DAC feature available only on specific devices: DAC channel 2 available */
 
@@ -9164,7 +9160,7 @@ typedef struct
 /*                                                                            */
 /******************************************************************************/
 /*
-* @brief Specific device feature definitions  (not present on all devices in the STM32L4 serie)
+* @brief Specific device feature definitions  (not present on all devices in the STM32L4 series)
 */
 #define RCC_PLLSAI1_SUPPORT
 #define RCC_PLLP_SUPPORT
@@ -11450,9 +11446,6 @@ typedef struct
 #define SDMMC_STA_DATAEND_Pos           (8U)
 #define SDMMC_STA_DATAEND_Msk           (0x1UL << SDMMC_STA_DATAEND_Pos)       /*!< 0x00000100 */
 #define SDMMC_STA_DATAEND               SDMMC_STA_DATAEND_Msk                  /*!<Data end (data counter, SDIDCOUNT, is zero)   */
-#define SDMMC_STA_STBITERR_Pos          (9U)
-#define SDMMC_STA_STBITERR_Msk          (0x1UL << SDMMC_STA_STBITERR_Pos)      /*!< 0x00000200 */
-#define SDMMC_STA_STBITERR              SDMMC_STA_STBITERR_Msk                 /*!<Start bit not detected on all data signals in wide bus mode */
 #define SDMMC_STA_DBCKEND_Pos           (10U)
 #define SDMMC_STA_DBCKEND_Msk           (0x1UL << SDMMC_STA_DBCKEND_Pos)       /*!< 0x00000400 */
 #define SDMMC_STA_DBCKEND               SDMMC_STA_DBCKEND_Msk                  /*!<Data block sent/received (CRC check passed)   */
@@ -11492,6 +11485,11 @@ typedef struct
 #define SDMMC_STA_SDIOIT_Pos            (22U)
 #define SDMMC_STA_SDIOIT_Msk            (0x1UL << SDMMC_STA_SDIOIT_Pos)        /*!< 0x00400000 */
 #define SDMMC_STA_SDIOIT                SDMMC_STA_SDIOIT_Msk                   /*!<SDIO interrupt received                       */
+
+/* Legacy Defines */
+#define SDMMC_STA_STBITERR_Pos          (9U)
+#define SDMMC_STA_STBITERR_Msk          (0x1UL << SDMMC_STA_STBITERR_Pos)      /*!< 0x00000200 */
+#define SDMMC_STA_STBITERR              SDMMC_STA_STBITERR_Msk                 /*!<Start bit not detected on all data signals in wide bus mode */
 
 /*******************  Bit definition for SDMMC_ICR register  *******************/
 #define SDMMC_ICR_CCRCFAILC_Pos         (0U)
@@ -12870,7 +12868,7 @@ typedef struct
 
 /*******************  Bit definition for TIM_CCR5 register  *******************/
 #define TIM_CCR5_CCR5_Pos         (0U)
-#define TIM_CCR5_CCR5_Msk         (0xFFFFFFFFUL << TIM_CCR5_CCR5_Pos)          /*!< 0xFFFFFFFF */
+#define TIM_CCR5_CCR5_Msk         (0xFFFFUL << TIM_CCR5_CCR5_Pos)              /*!< 0x0000FFFF */
 #define TIM_CCR5_CCR5             TIM_CCR5_CCR5_Msk                            /*!<Capture/Compare 5 Value */
 #define TIM_CCR5_GC5C1_Pos        (29U)
 #define TIM_CCR5_GC5C1_Msk        (0x1UL << TIM_CCR5_GC5C1_Pos)                /*!< 0x20000000 */
@@ -13964,7 +13962,7 @@ typedef struct
 /******************************************************************************/
 
 /*
-* @brief Specific device feature definitions (not present on all devices in the STM32L4 serie)
+* @brief Specific device feature definitions (not present on all devices in the STM32L4 series)
 */
 #define USART_TCBGT_SUPPORT
 

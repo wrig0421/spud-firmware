@@ -561,6 +561,8 @@ void ws2812b_init(void)
 	gp_pwm_data_strip_1 = NULL;
 	gp_pwm_data_strip_2 = NULL;
 	gp_pwm_data_strip_3 = NULL;
+
+
 	// should only need to memset the ending once... Nothing else should touch it if things working!
 	memset(g_pwm_data_strip_1 + sizeof(ws2812b_led_t) * BITS_PER_BYTE * STRIP_1_LENGTH, 0, WS2812B_RESET_TIME_CYCLES + 2 * sizeof(uint32_t));
 	memset(g_pwm_data_strip_2 + sizeof(ws2812b_led_t) * BITS_PER_BYTE * STRIP_2_LENGTH, 0, WS2812B_RESET_TIME_CYCLES + 2 * sizeof(uint32_t));

@@ -57,9 +57,7 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define wkuppp_Pin GPIO_PIN_0
-#define wkuppp_GPIO_Port GPIOA
-#define wkuppp_EXTI_IRQn EXTI0_IRQn
+
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
