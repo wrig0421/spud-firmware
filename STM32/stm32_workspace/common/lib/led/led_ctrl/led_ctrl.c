@@ -48,6 +48,7 @@ led_ctrl_t g_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS] =
             .led_state                      = LED_STATE_RAINBOW_CYCLE,
             .led_state_current_iteration    = 0
         },
+		// time delay set at init
     },
     [STRIP_NUM_2] =
     {
@@ -75,6 +76,7 @@ led_ctrl_t g_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS] =
             .led_state                      = LED_STATE_RAINBOW_CYCLE,
             .led_state_current_iteration    = 0
         },
+		// time delay set at init
     },
     [STRIP_NUM_3] =
     {
@@ -102,6 +104,8 @@ led_ctrl_t g_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS] =
             .led_state                      = LED_STATE_RAINBOW_CYCLE,
             .led_state_current_iteration    = 0
         },
+		// time delay set at init
+
     },
     [STRIP_NUM_ALL_SET] =
     {
@@ -129,6 +133,8 @@ led_ctrl_t g_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS] =
             .led_state                      = LED_STATE_RAINBOW_CYCLE,
             .led_state_current_iteration    = 0
         },
+		// time delay set at init
+
     }
 // multiple strips that ARE NOT ALL are not supported at this time...
 };
@@ -228,6 +234,13 @@ bool led_ctrl_read_minor_interrupt_flag(const strip_mask_t mask)
 }
 
 
+bool* led_ctrl_read_minor_interrupt_flag_ref(const strip_mask_t mask)
+{
+    strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
+    return &g_led_ctrl[strip_num].led_ctrl_interrupt_info.minor_interrupt_flag;
+}
+
+
 led_ctrl_interrupt_status_t led_ctrl_read_major_interrupt_status(const strip_mask_t mask)
 {
     strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
@@ -239,6 +252,27 @@ bool led_ctrl_read_major_interrupt_flag(const strip_mask_t mask)
 {
     strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
     return g_led_ctrl[strip_num].led_ctrl_interrupt_info.major_interrupt_flag;
+}
+
+
+bool* led_ctrl_read_major_interrupt_flag_ref(const strip_mask_t mask)
+{
+    strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
+    return &g_led_ctrl[strip_num].led_ctrl_interrupt_info.major_interrupt_flag;
+}
+
+
+led_ctrl_color_info_t  led_ctrl_read_color_info(const strip_mask_t mask)
+{
+    strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
+    return g_led_ctrl[strip_num].led_ctrl_color_info;
+}
+
+
+led_ctrl_color_info_t* led_ctrl_read_color_info_ref(const strip_mask_t mask)
+{
+    strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
+    return &g_led_ctrl[strip_num].led_ctrl_color_info;
 }
 
 
@@ -330,5 +364,40 @@ led_ctrl_state_info_t* led_ctrl_read_state_info(const strip_mask_t mask)
     strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
     return &g_led_ctrl[strip_num].led_ctrl_state_info;
 }
+
+
+led_ctrl_time_delay_t* led_ctrl_read_time_delay_ref(const strip_mask_t mask)
+{
+    strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
+    return &g_led_ctrl[strip_num].led_ctrl_time_delay; // return first entry reference
+}
+
+
+uint16_t led_ctrl_read_time_delay_inner_loop(const strip_mask_t mask, led_state_e state, led_speed_e speed)
+{
+    strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
+    return g_led_ctrl[strip_num].led_ctrl_time_delay.inner_animation_loop_delay_ms[state][speed]; // return first entry reference
+}
+
+uint16_t* led_ctrl_read_time_delay_inner_loop_ref(const strip_mask_t mask, led_state_e state, led_speed_e speed)
+{
+    strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
+    return &g_led_ctrl[strip_num].led_ctrl_time_delay.inner_animation_loop_delay_ms[state][speed]; // return first entry reference
+}
+
+
+uint16_t led_ctrl_read_time_delay_outer_loop(const strip_mask_t mask, led_state_e state, led_speed_e speed)
+{
+    strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
+    return g_led_ctrl[strip_num].led_ctrl_time_delay.outer_animation_loop_delay_ms[state][speed]; // return first entry reference
+}
+
+
+uint16_t* led_ctrl_read_time_delay_outer_loop_ref(const strip_mask_t mask, led_state_e state, led_speed_e speed)
+{
+    strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
+    return &g_led_ctrl[strip_num].led_ctrl_time_delay.outer_animation_loop_delay_ms[state][speed]; // return first entry reference
+}
+
 
 

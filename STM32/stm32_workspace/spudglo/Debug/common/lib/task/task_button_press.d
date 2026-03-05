@@ -70,10 +70,12 @@ common/lib/task/task_button_press.o: \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_interrupt/led_ctrl_interrupt.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_pause/led_ctrl_pause.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_power/led_ctrl_power.h \
+ /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_time/led_ctrl_time.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_notify.h \
  ../sdk/FreeRTOS/Source/convenience/free_rtos_convenience.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/create/task_create.h \
- ../src/bsp/stmicro/peripheral/button/button_config_hal_specific.h
+ ../src/bsp/stmicro/peripheral/button/button_config_hal_specific.h \
+ ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/button/board_spudglo_v6_button_config.h
 ../src/app/config.h:
 ../src/app/main.h:
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
@@ -149,7 +151,9 @@ common/lib/task/task_button_press.o: \
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_interrupt/led_ctrl_interrupt.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_pause/led_ctrl_pause.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_power/led_ctrl_power.h:
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_time/led_ctrl_time.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_notify.h:
 ../sdk/FreeRTOS/Source/convenience/free_rtos_convenience.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/create/task_create.h:
 ../src/bsp/stmicro/peripheral/button/button_config_hal_specific.h:
+../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/button/board_spudglo_v6_button_config.h:

@@ -57,6 +57,7 @@ src/bsp/board_init_common.o: ../src/bsp/board_init_common.c \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_speed/led_ctrl_speed.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_state/led_ctrl_state.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_state/led_state.h \
+ /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_time/led_ctrl_time.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_animate/led_animate.h \
  ../src/bsp/board_init_common.h \
  ../src/bsp/stmicro/stm32l4/board_specific/board_specific.h \
@@ -69,6 +70,7 @@ src/bsp/board_init_common.o: ../src/bsp/board_init_common.c \
  ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/gpio/board_spudglo_v6_gpio_config.h \
  ../src/bsp/stmicro/peripheral/button/button_config_hal.h \
  ../src/bsp/stmicro/peripheral/button/button_config_hal_specific.h \
+ ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/button/board_spudglo_v6_button_config.h \
  ../src/bsp/stmicro/peripheral/timer/timer_config_hal.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/timer/animation_timer_access.h \
  ../src/bsp/stmicro/peripheral/i2c/i2c_config_hal.h \
@@ -137,6 +139,7 @@ src/bsp/board_init_common.o: ../src/bsp/board_init_common.c \
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_speed/led_ctrl_speed.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_state/led_ctrl_state.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_state/led_state.h:
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_time/led_ctrl_time.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_animate/led_animate.h:
 ../src/bsp/board_init_common.h:
 ../src/bsp/stmicro/stm32l4/board_specific/board_specific.h:
@@ -149,6 +152,7 @@ src/bsp/board_init_common.o: ../src/bsp/board_init_common.c \
 ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/gpio/board_spudglo_v6_gpio_config.h:
 ../src/bsp/stmicro/peripheral/button/button_config_hal.h:
 ../src/bsp/stmicro/peripheral/button/button_config_hal_specific.h:
+../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/button/board_spudglo_v6_button_config.h:
 ../src/bsp/stmicro/peripheral/timer/timer_config_hal.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/timer/animation_timer_access.h:
 ../src/bsp/stmicro/peripheral/i2c/i2c_config_hal.h:

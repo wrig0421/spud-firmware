@@ -253,8 +253,8 @@ void task_button_press(void *argument)
     IRQn_Type irq_type = 0;
 	strip_num_e strip_num = STRIP_NUM_1;
 
-	bool pb_major_interrupt_flag = led_ctrl_read_major_interrupt_flag(STRIP_BIT_ALL_SET);
-	bool pb_minor_interrupt_flag = led_ctrl_read_minor_interrupt_flag(STRIP_BIT_ALL_SET);
+	bool* pb_major_interrupt_flag = led_ctrl_read_minor_interrupt_flag_ref(STRIP_BIT_ALL_SET);
+	bool* pb_minor_interrupt_flag = led_ctrl_read_major_interrupt_flag_ref(STRIP_BIT_ALL_SET);
 
 //	bool* pb_major_interrupt_flag = &g_led_ctrl[strip_num].led_ctrl_interrupt_info.major_interrupt_flag;
 	bool* pb_major_interrupt_transition_cmplt_flag = &g_led_ctrl[strip_num].led_ctrl_interrupt_info.major_interrupt_transition_cmplt_flag;

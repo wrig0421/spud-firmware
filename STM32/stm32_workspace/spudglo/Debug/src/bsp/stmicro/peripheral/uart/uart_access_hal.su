@@ -1,6 +1,6 @@
 ../src/bsp/stmicro/peripheral/uart/uart_access_hal.c:31:6:USART1_IRQHandler	4	static
 ../src/bsp/stmicro/peripheral/uart/uart_access_hal.c:40:6:HAL_UART_TxCpltCallback	16	static
-../src/bsp/stmicro/peripheral/uart/uart_access_hal.c:47:6:HAL_UART_RxCpltCallback	32	static
+../src/bsp/stmicro/peripheral/uart/uart_access_hal.c:47:6:HAL_UART_RxCpltCallback	16	static
 ../src/bsp/stmicro/peripheral/uart/uart_access_hal.c:80:6:uart_access_hal_host_rx	16	static
 ../src/bsp/stmicro/peripheral/uart/uart_access_hal.c:89:6:uart_access_hal_host_tx	4	static
 ../src/bsp/stmicro/peripheral/uart/uart_access_hal.c:96:6:uart_access_hal_write_and_read_block	24	static

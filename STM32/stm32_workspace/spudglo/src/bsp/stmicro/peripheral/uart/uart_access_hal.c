@@ -46,34 +46,34 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
-    BaseType_t xHigherPriorityTaskWoken;
-    bool isr_active = micro_in_isr() ? true : false;
-
-    if (huart == &g_uart_handle_config[UART_CONFIG_BUS_HOST])
-    {
-    	// UART DMA pkt received from hose.  Enqueue a response back.
-    	// enqueue the received pkt to the host queue
-    	if (isr_active)
-    	{
-			xQueueSendToBackFromISR(pkt_queue_handle_host_rx(),
-									uart_config_host_rx_buffer(),
-									&xHigherPriorityTaskWoken);
-    	}
-    	else
-    	{
-    		xQueueSendToBack(pkt_queue_handle_host_rx(),
-    						uart_config_host_rx_buffer(),
-							portMAX_DELAY);
-    	}
-    	// Restart the UART DMA here for the next pkt! The buffer here will just wrap.
-		HAL_UART_Receive_DMA(uart_config_host_handle(),
-							g_rx_queue_buffer + ((g_rx_queue_buffer_index++ * sizeof(pkt_t)) % UART_PKT_BUFFER_SIZE_BYTES),
-							PKT_SIZE_BYTES);
-		// the pkt_queue is sufficient notification.
-//		// notify the host rx task that pkt received...
-//		xTaskNotifyFromISR(g_task_uart_rx_handle, TASK_NOTIFICATION_HOST_UART_PKT_RECEIVED,
-//						   eSetValueWithOverwrite, &xHigherPriorityTaskWoken);
-    }
+//    BaseType_t xHigherPriorityTaskWoken;
+//    bool isr_active = micro_in_isr() ? true : false;
+//
+//    if (huart == &g_uart_handle_config[UART_CONFIG_BUS_HOST])
+//    {
+//    	// UART DMA pkt received from hose.  Enqueue a response back.
+//    	// enqueue the received pkt to the host queue
+//    	if (isr_active)
+//    	{
+//			xQueueSendToBackFromISR(pkt_queue_handle_host_rx(),
+//									uart_config_host_rx_buffer(),
+//									&xHigherPriorityTaskWoken);
+//    	}
+//    	else
+//    	{
+//    		xQueueSendToBack(pkt_queue_handle_host_rx(),
+//    						uart_config_host_rx_buffer(),
+//							portMAX_DELAY);
+//    	}
+//    	// Restart the UART DMA here for the next pkt! The buffer here will just wrap.
+//		HAL_UART_Receive_DMA(uart_config_host_handle(),
+//							g_rx_queue_buffer + ((g_rx_queue_buffer_index++ * sizeof(pkt_t)) % UART_PKT_BUFFER_SIZE_BYTES),
+//							PKT_SIZE_BYTES);
+//		// the pkt_queue is sufficient notification.
+////		// notify the host rx task that pkt received...
+////		xTaskNotifyFromISR(g_task_uart_rx_handle, TASK_NOTIFICATION_HOST_UART_PKT_RECEIVED,
+////						   eSetValueWithOverwrite, &xHigherPriorityTaskWoken);
+//    }
 }
 
 

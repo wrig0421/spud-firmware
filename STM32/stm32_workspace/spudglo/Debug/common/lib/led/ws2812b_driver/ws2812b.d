@@ -58,6 +58,12 @@ common/lib/led/ws2812b_driver/ws2812b.o: \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/timer/animation_timer_access.h \
  ../sdk/FreeRTOS/Source/include/timers.h \
  ../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h \
+ ../src/bsp/stmicro/peripheral/timer/timer_config_hal_specific.h \
+ ../src/bsp/board_init_common.h \
+ ../src/bsp/stmicro/stm32l4/board_specific/board_specific.h \
+ ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/board_init_spudglo_v6.h \
+ ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/timer/board_spudglo_v6_timer_config.h \
+ /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/ws2812b_driver/ws2812b.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_notify.h
 ../sdk/FreeRTOS/Source/include/FreeRTOS.h:
 ../src/app/FreeRTOSConfig.h:
@@ -121,4 +127,10 @@ common/lib/led/ws2812b_driver/ws2812b.o: \
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/timer/animation_timer_access.h:
 ../sdk/FreeRTOS/Source/include/timers.h:
 ../sdk/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h:
+../src/bsp/stmicro/peripheral/timer/timer_config_hal_specific.h:
+../src/bsp/board_init_common.h:
+../src/bsp/stmicro/stm32l4/board_specific/board_specific.h:
+../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/board_init_spudglo_v6.h:
+../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/timer/board_spudglo_v6_timer_config.h:
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/ws2812b_driver/ws2812b.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_notify.h:

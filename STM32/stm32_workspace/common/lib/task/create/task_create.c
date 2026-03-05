@@ -142,10 +142,10 @@ void task_create(void) {
 				&g_button_press_buffer);
 #	endif
 
-#	if defined(ENABLE_UART)
-        task_uart_create();
-        task_pkt_process_create();
-#	endif
+//#	if defined(ENABLE_UART)
+//        task_uart_create();
+//        task_pkt_process_create();
+//#	endif
 
 
 

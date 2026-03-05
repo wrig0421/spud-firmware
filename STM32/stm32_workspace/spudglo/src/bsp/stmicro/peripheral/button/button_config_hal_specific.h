@@ -10,6 +10,8 @@
 #	include "board_spudglo_v7_button_config.h"
 #elif defined(BOARD_SPUDGLO_BUSINESS_CARD)
 #	include "board_spudglo_business_card_button_config.h"
+#elif defined(BOARD_SPUDGLO_V6P0)
+#	include "board_spudglo_v6_button_config.h"
 #else
 // Do nothing...no other boards have I2C access...
 #endif

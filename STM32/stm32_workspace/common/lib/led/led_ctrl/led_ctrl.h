@@ -13,6 +13,7 @@
 #include "led_ctrl_power.h"
 #include "led_ctrl_speed.h"
 #include "led_ctrl_state.h"
+#include "led_ctrl_time.h"
 
 typedef enum
 {
@@ -29,11 +30,12 @@ typedef struct
 {
     led_brightness_e            led_ctrl_brightness;
     led_ctrl_color_info_t       led_ctrl_color_info;
+	led_ctrl_interrupt_info_t	led_ctrl_interrupt_info;
     led_ctrl_pause_state_e      led_ctrl_pause_state;
     led_ctrl_power_factor_t     led_ctrl_power_factor;
     led_speed_e                 led_ctrl_speed;
 	led_ctrl_state_info_t		led_ctrl_state_info;
-	led_ctrl_interrupt_info_t	led_ctrl_interrupt_info;
+	led_ctrl_time_delay_t		led_ctrl_time_delay;
 
 } led_ctrl_t;
 #pragma pack()
@@ -54,8 +56,12 @@ void led_ctrl_write_pause_state(const strip_mask_t mask, bool pause_enable);
 led_ctrl_interrupt_info_t* led_ctrl_read_interrupt_info(const strip_mask_t mask);
 led_ctrl_interrupt_status_t led_ctrl_read_minor_interrupt_status(const strip_mask_t mask);
 bool led_ctrl_read_minor_interrupt_flag(const strip_mask_t mask);
+bool* led_ctrl_read_minor_interrupt_flag_ref(const strip_mask_t mask);
 led_ctrl_interrupt_status_t led_ctrl_read_major_interrupt_status(const strip_mask_t mask);
 bool led_ctrl_read_major_interrupt_flag(const strip_mask_t mask);
+bool* led_ctrl_read_major_interrupt_flag_ref(const strip_mask_t mask);
+led_ctrl_color_info_t  led_ctrl_read_color_info(const strip_mask_t mask);
+led_ctrl_color_info_t* led_ctrl_read_color_info_ref(const strip_mask_t mask);
 led_color_master_state_e led_ctrl_read_color_master_state(const strip_mask_t mask);
 void led_ctrl_write_color_master_state(const strip_mask_t mask,
                                        led_color_master_state_e master_state);
@@ -71,5 +77,11 @@ led_brightness_e led_ctrl_read_strip_brightness(const strip_mask_t mask);
 void led_ctrl_write_strip_brightness(const strip_mask_t mask,
                                      led_brightness_e led_brightness);
 led_ctrl_state_info_t* led_ctrl_read_state_info(const strip_mask_t);
+led_ctrl_time_delay_t* led_ctrl_read_time_delay_ref(const strip_mask_t mask);
+uint16_t led_ctrl_read_time_delay_inner_loop(const strip_mask_t mask, led_state_e state, led_speed_e speed);
+uint16_t* led_ctrl_read_time_delay_inner_loop_ref(const strip_mask_t mask, led_state_e state, led_speed_e speed);
+uint16_t led_ctrl_read_time_delay_outer_loop(const strip_mask_t mask, led_state_e state, led_speed_e speed);
+uint16_t* led_ctrl_read_time_delay_outer_loop_ref(const strip_mask_t mask, led_state_e state, led_speed_e speed);
+
 
 #endif

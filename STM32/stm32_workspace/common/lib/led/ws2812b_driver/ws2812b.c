@@ -15,6 +15,8 @@
 #include <string.h>
 #include "free_rtos_convenience.h"
 #include "timer_access_hal.h"
+
+#include "timer_config_hal_specific.h"
 #include "task_notify.h"
 
 extern TIM_HandleTypeDef 	g_tim1_handle_config;
@@ -104,11 +106,11 @@ uint16_t ws2812_get_strip_size(const strip_bit_e strip_bit)
 void reset_ws2812b(void)
 {
 #   if defined(ENABLE_STRIP_1)
-        HAL_TIM_PWM_Start_DMA(timer_config_get_handle(STRIP_BIT_1), TIM_CHANNEL_1,
+        HAL_TIM_PWM_Start_DMA(timer_config_get_handle(STRIP_BIT_1)->handle, TIM_CHANNEL_1,
                               g_pwm_reset, sizeof(g_pwm_reset));
 #   endif
 #   if defined(ENABLE_STRIP_2)
-        HAL_TIM_PWM_Start_DMA(timer_config_get_handle(STRIP_BIT_2), TIM_CHANNEL_2,
+        HAL_TIM_PWM_Start_DMA(timer_config_get_handle(STRIP_BIT_2)->handle, TIM_CHANNEL_2,
                               g_pwm_reset, sizeof(g_pwm_reset));
 #   endif
 #   if defined(ENABLE_STRIP_3)

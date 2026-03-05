@@ -37,7 +37,7 @@ void led_ctrl_color_master_state_force_demo(const strip_mask_t mask)
 void led_ctrl_color_master_state_force_fixed(const strip_mask_t mask)
 {
     led_ctrl_write_color_master_state(mask, LED_COLOR_MASTER_STATE_FIXED);
-    led_ctrl_write_color(mask, LED_COLOR_FIRST);
+    led_ctrl_write_active_color(mask, LED_COLOR_FIRST);
 }
 
 
@@ -49,7 +49,7 @@ void led_ctrl_color_master_state_force_fixed(const strip_mask_t mask)
  */
 void led_ctrl_color_reset(const strip_mask_t mask)
 {
-    led_ctrl_write_color(mask, LED_COLOR_FIRST);
+	led_ctrl_write_active_color(mask, LED_COLOR_FIRST);
 }
 
 
@@ -64,12 +64,12 @@ bool led_ctrl_color_adjust(const strip_mask_t mask)
 	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
     if (LED_COLOR_LAST == led_ctrl_read_color(mask))
     {
-        led_ctrl_write_color(LED_COLOR_FIRST);
+    	led_ctrl_write_active_color(LED_COLOR_FIRST);
         return_val = true;
     }
     else
 	{
-        led_ctrl_write_color(mask, led_ctrl_read_color(mask) + 1);
+    	led_ctrl_write_active_color(mask, led_ctrl_read_color(mask) + 1);
 	}
     return return_val;
 }

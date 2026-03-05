@@ -1,4 +1,6 @@
 // SRW
+#include "config.h"
+#if defined(ENABLE_UART)
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdint.h>
@@ -15,5 +17,5 @@ void uart_access_host_tx(void)
 {
 	uart_access_hal_host_tx();
 }
-
+#endif
 

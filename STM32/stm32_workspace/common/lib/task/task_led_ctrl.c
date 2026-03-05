@@ -116,11 +116,11 @@ static void task_led_ctrl_adjust_parameters(const strip_mask_t mask)
 		return;
 	}
 	bool skip_color_check = false;
-	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
-	led_ctrl_state_info_t *task_led_ctrl_state_info = led_ctrl_read_state_info(strip_mask);
+//	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
+	led_ctrl_state_info_t *task_led_ctrl_state_info = led_ctrl_read_state_info(mask);
 
-    led_ctrl_color_info_t *led_ctrl_color_info = &g_led_ctrl[strip_num].led_color_info;
-	led_speed_e led_speed = led_ctrl_speed_read_speed(strip_mask);
+    led_ctrl_color_info_t *led_ctrl_color_info = led_ctrl_read_color_info_ref(mask);
+//	led_speed_e led_speed = led_ctrl_speed_read_speed(mask);
 
 //	led_ctrl_state_iterations_t *task_led_ctrl_state_iterations = &g_led_ctrl_state_iterations[task_led_ctrl_state_info->led_state];
 //	uint16_t max_animation_iteration_count = g_animation_iteration_count[strip_num][task_led_ctrl_state_info->led_state][led_speed];
@@ -185,8 +185,8 @@ uint32_t g_time_diff = 0;
 static void task_led_iterate(led_state_e led_state, strip_mask_t mask)
 {
 	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
-	uint16_t *p_led_state_inner_animation_delay_ms = \
-			&g_led_ctrl_state_iterations[g_led_ctrl[strip_num].led_state_info.led_state].led_state_inner_animation_delay_ms[g_led_ctrl[strip_num].led_speed];
+
+	uint16_t *p_led_state_inner_animation_delay_ms = led_ctrl_read_time_delay_inner_loop_ref(mask, led_state, led_ctrl_read_speed(mask));
 
 	led_color_e led_color = led_ctrl_color_read_active_color(mask);
 	if (0)

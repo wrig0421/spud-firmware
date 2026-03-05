@@ -1,4 +1,7 @@
 // SRW
+
+#include "config.h"
+#if defined(ENABLE_UART)
 #include "FreeRTOSConfig.h"
 #include "FreeRTOS.h"
 #include "task.h"
@@ -79,3 +82,5 @@ void task_uart_tx(void *argument)
 //        xTaskNotifyWait(0, 0, &notification, portMAX_DELAY);
     }
 }
+
+#endif
