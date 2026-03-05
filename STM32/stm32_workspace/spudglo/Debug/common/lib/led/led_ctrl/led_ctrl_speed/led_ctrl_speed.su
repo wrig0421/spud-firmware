@@ -1,0 +1,5 @@
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_speed/led_ctrl_speed.c:13:7:led_ctrl_speed	24	static
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_speed/led_ctrl_speed.c:34:6:led_ctrl_speed_adjust	16	static
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_speed/led_ctrl_speed.c:53:6:led_ctrl_speed_reset	16	static
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_speed/led_ctrl_speed.c:59:13:led_ctrl_speed_read_speed	16	static
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_speed/led_ctrl_speed.c:65:6:led_ctrl_speed_write_speed	16	static

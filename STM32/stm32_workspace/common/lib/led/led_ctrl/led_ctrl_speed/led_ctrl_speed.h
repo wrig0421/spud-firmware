@@ -22,9 +22,8 @@ typedef enum
 float led_ctrl_speed(const strip_mask_t mask);
 void led_ctrl_speed_adjust(const strip_mask_t mask);
 void led_ctrl_speed_reset(const strip_mask_t mask);
-void led_ctrl_speed_read_speed(const strip_mask_t mask);
+led_speed_e led_ctrl_speed_read_speed(const strip_mask_t mask);
 void led_ctrl_speed_write_speed(const strip_mask_t mask, led_speed_e led_speed);
-
 
 
 #endif

@@ -6,6 +6,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include "numbers.h"
+#include "led_color.h"
 #include "task_led_ctrl.h"
 #include "button_access.h"
 
@@ -120,7 +121,7 @@ led_color_hex_code_e led_color_enum_to_hex_code(led_color_e led_color)
 }
 
 
-led_color_e g_led_color_hex_to_enum_lookup(led_color_hex_code_e led_color_hex)
+led_color_e led_color_hex_to_enum(led_color_hex_code_e led_color_hex)
 {
     return g_led_color_enum_to_hex_lookup[led_color_hex];
 }

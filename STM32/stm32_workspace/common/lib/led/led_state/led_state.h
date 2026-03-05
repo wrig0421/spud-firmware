@@ -3,7 +3,7 @@
  * @author SpudGlo LLC
  ***********************************/
 #if !defined(LED_STATE_H)
-#define LED_COLOR_H
+#define LED_STATE_H
 #include <limits.h>
 #include "ws2812b.h"
 

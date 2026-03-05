@@ -106,7 +106,7 @@ bool led_ctrl_color_active_color_is_black(const strip_mask_t mask)
  */
 led_color_hex_code_e led_ctrl_color_read_active_color_hex(const strip_mask_t mask)
 {
-	return led_ctrl_read_active_color_hex(strip_mask);
+	return led_ctrl_read_active_color_hex(mask);
 }
 
 
@@ -155,6 +155,12 @@ uint8_t led_ctrl_color_read_active_blue_hex(const strip_mask_t mask)
 led_color_hex_code_e led_ctrl_color_enum_to_hex(const led_color_e color)
 {
     return led_color_enum_to_hex_code(color);
+}
+
+
+led_color_e led_ctrl_color_hex_to_enum(const led_color_hex_code_e color)
+{
+    return led_color_hex_to_enum(color);
 }
 
 

@@ -2,7 +2,9 @@
 #if !defined(LED_CTRL_INTERRUPT_H)
 #define LED_CTRL_INTERRUPT_H
 
-
+#include <stdint.h>
+#include <stdbool.h>
+#include "ws2812b.h"
 #pragma pack(1)
 typedef struct
 {

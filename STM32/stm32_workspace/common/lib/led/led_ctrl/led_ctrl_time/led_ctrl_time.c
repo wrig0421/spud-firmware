@@ -2,6 +2,8 @@
 
 #include "numbers.h"
 #include "ws2812b.h"
+#include "FreeRTOS.h"
+#include "portmacro.h"
 #include "led_ctrl_time.h"
 
 

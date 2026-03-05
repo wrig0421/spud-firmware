@@ -2,10 +2,10 @@
 #include <animation_timer_access.h>
 #include <stdbool.h>
 #include "stm32l4xx_hal.h"
+#include "animation_timer_create.h"
 #include "led_animate.h"
 
-extern TimerHandle_t g_led_ctrl_timer_handle;
-
+#define LED_CTRL_MASTER_STATE_TIME_MS   180000
 
 void animation_timer_access_callback(TimerHandle_t h_timer)
 {
@@ -18,7 +18,7 @@ void animation_timer_access_callback(TimerHandle_t h_timer)
 
 void animation_timer_access_reset(void)
 {
-	if (xTimerReset(g_led_ctrl_timer_handle, 10) != pdPASS)
+	if (xTimerReset(animation_timer_return_handle(), 10) != pdPASS)
 	{
 	    while (1);
 	}
@@ -34,5 +34,5 @@ void animation_timer_access_reset(void)
  */
 void led_ctrl_timer_start(void)
 {
-    xTimerStart(g_led_ctrl_timer_handle, LED_CTRL_MASTER_STATE_TIME_MS);
+    xTimerStart(animation_timer_return_handle(), LED_CTRL_MASTER_STATE_TIME_MS);
 }

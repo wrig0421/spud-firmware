@@ -52,11 +52,11 @@ void led_ctrl_speed_adjust(const strip_mask_t mask)
  */
 void led_ctrl_speed_reset(const strip_mask_t mask)
 {
-    led_ctrl_write_speed(LED_SPEED_100P);
+    led_ctrl_write_speed(mask, LED_SPEED_100P);
 }
 
 
-void led_ctrl_speed_read_speed(const strip_mask_t mask)
+led_speed_e led_ctrl_speed_read_speed(const strip_mask_t mask)
 {
     return led_ctrl_read_speed(mask);
 }

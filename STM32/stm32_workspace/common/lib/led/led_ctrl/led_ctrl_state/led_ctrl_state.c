@@ -3,112 +3,113 @@
 #include "numbers.h"
 #include "ws2812b.h"
 #include "led_ctrl.h"
+#include "rng_access.h"
 #include "led_ctrl_state.h"
 
 extern led_ctrl_t g_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS];
 
 
-const led_ctrl_state_parameters_t g_led_ctrl_state_iterations[NUM_LED_STATES] =
-{
-    [LED_STATE_SPELL] =
-    {
-        .led_state_inner_animation_delay_ms[LED_SPEED_1000P]        = 0,
-        .led_state_inner_animation_delay_ms[LED_SPEED_500P]         = 20,
-        .led_state_inner_animation_delay_ms[LED_SPEED_100P]         = 66,
-        .led_state_inner_animation_delay_ms[LED_SPEED_50P]          = 132,
-        .led_state_inner_animation_delay_ms[LED_SPEED_25P]          = 250,
-    },
-    [LED_STATE_WHITE_COLOR] =
-    {
-        .led_state_between_animation_delay_ms[LED_SPEED_1000P]      = 10000,
-        .led_state_between_animation_delay_ms[LED_SPEED_500P]       = 10000,
-        .led_state_between_animation_delay_ms[LED_SPEED_100P]       = 10000,
-        .led_state_between_animation_delay_ms[LED_SPEED_50P]        = 10000,
-        .led_state_between_animation_delay_ms[LED_SPEED_25P]        = 10000,
-    },
-    [LED_STATE_SOLID_COLOR] =
-    {
-        .led_state_between_animation_delay_ms[LED_SPEED_1000P]      = 5000,
-        .led_state_between_animation_delay_ms[LED_SPEED_500P]       = 5000,
-        .led_state_between_animation_delay_ms[LED_SPEED_100P]       = 5000,
-        .led_state_between_animation_delay_ms[LED_SPEED_50P]        = 5000,
-        .led_state_between_animation_delay_ms[LED_SPEED_25P]        = 5000,
-    },
-    [LED_STATE_SPARKLE_NO_FILL] =
-    {
-        .led_state_inner_animation_delay_ms[LED_SPEED_1000P]        = 0,
-        .led_state_inner_animation_delay_ms[LED_SPEED_500P]         = 20,
-        .led_state_inner_animation_delay_ms[LED_SPEED_100P]         = 150,
-        .led_state_inner_animation_delay_ms[LED_SPEED_50P]          = 132,
-        .led_state_inner_animation_delay_ms[LED_SPEED_25P]          = 250,
-    },
-    [LED_STATE_SPARKLE_FILL] =
-    {
-        .led_state_inner_animation_delay_ms[LED_SPEED_1000P]        = 0,
-        .led_state_inner_animation_delay_ms[LED_SPEED_500P]         = 20,
-        .led_state_inner_animation_delay_ms[LED_SPEED_100P]         = 66,
-        .led_state_inner_animation_delay_ms[LED_SPEED_50P]          = 132,
-        .led_state_inner_animation_delay_ms[LED_SPEED_25P]          = 250,
-    },
-    [LED_STATE_RAINBOW_CYCLE] =
-    {
-        .led_state_inner_animation_delay_ms[LED_SPEED_1000P]        = 0,
-        .led_state_inner_animation_delay_ms[LED_SPEED_500P]         = 20,
-        .led_state_inner_animation_delay_ms[LED_SPEED_100P]         = 66,
-        .led_state_inner_animation_delay_ms[LED_SPEED_50P]          = 132,
-        .led_state_inner_animation_delay_ms[LED_SPEED_25P]          = 250,
-    },
-    [LED_STATE_THEATER_CHASE] =
-    {
-        .led_state_inner_animation_delay_ms[LED_SPEED_1000P]        = 10,
-        .led_state_inner_animation_delay_ms[LED_SPEED_500P]         = 45,
-        .led_state_inner_animation_delay_ms[LED_SPEED_100P]         = 66,
-        .led_state_inner_animation_delay_ms[LED_SPEED_50P]          = 132,
-        .led_state_inner_animation_delay_ms[LED_SPEED_25P]          = 250,
-    },
-    [LED_STATE_THEATER_CHASE_RAINBOW] =
-    {
-        .led_state_inner_animation_delay_ms[LED_SPEED_1000P]        = 10,
-        .led_state_inner_animation_delay_ms[LED_SPEED_500P]         = 45,
-        .led_state_inner_animation_delay_ms[LED_SPEED_100P]         = 66,
-        .led_state_inner_animation_delay_ms[LED_SPEED_50P]          = 132,
-        .led_state_inner_animation_delay_ms[LED_SPEED_25P]          = 250,
-    },
-    [LED_STATE_FADE_IN_AND_OUT] =
-    {
-        .led_state_inner_animation_delay_ms[LED_SPEED_1000P]        = 10,
-        .led_state_inner_animation_delay_ms[LED_SPEED_500P]         = 45,
-        .led_state_inner_animation_delay_ms[LED_SPEED_100P]         = 66,
-        .led_state_inner_animation_delay_ms[LED_SPEED_50P]          = 132,
-        .led_state_inner_animation_delay_ms[LED_SPEED_25P]          = 250,
-    },
-//  [LED_STATE_HEARTBEAT] =
-//  {
-//      .led_state_inner_animation_delay_ms[LED_SPEED_1000P]        = 50,
-//      .led_state_inner_animation_delay_ms[LED_SPEED_500P]         = 100,
-//      .led_state_inner_animation_delay_ms[LED_SPEED_100P]     = 150,
-//      .led_state_inner_animation_delay_ms[LED_SPEED_50P]      = 200,
-//      .led_state_inner_animation_delay_ms[LED_SPEED_25P]          = 250,
-//  },
-//  [LED_STATE_TWINKLE] =
-//  {
-//      .led_state_inner_animation_delay_ms[LED_SPEED_1000P]        = 0,
-//      .led_state_inner_animation_delay_ms[LED_SPEED_500P]         = 50,
-//      .led_state_inner_animation_delay_ms[LED_SPEED_100P]         = 100,
-//      .led_state_inner_animation_delay_ms[LED_SPEED_50P]          = 150,
-//      .led_state_inner_animation_delay_ms[LED_SPEED_25P]          = 200,
-//  },
-//# if (NUM_ACTIVE_STRIPS > 1) && defined(ENABLE_LED_STATE_TWO_COLOR)
-//      [LED_STATE_TWO_COLOR] =
-//      {
-//          .led_state_between_animation_delay_ms[LED_SPEED_1000P]  = 5000,
-//          .led_state_between_animation_delay_ms[LED_SPEED_500P]   = 5000,
-//          .led_state_between_animation_delay_ms[LED_SPEED_100P]   = 5000,
-//          .led_state_between_animation_delay_ms[LED_SPEED_50P]    = 5000,
-//          .led_state_between_animation_delay_ms[LED_SPEED_25P]    = 5000,
-//      }
-//#   endif
-};
+//const led_ctrl_state_parameters_t g_led_ctrl_state_iterations[NUM_LED_STATES] =
+//{
+//    [LED_STATE_SPELL] =
+//    {
+//        .led_state_inner_animation_delay_ms[LED_SPEED_1000P]        = 0,
+//        .led_state_inner_animation_delay_ms[LED_SPEED_500P]         = 20,
+//        .led_state_inner_animation_delay_ms[LED_SPEED_100P]         = 66,
+//        .led_state_inner_animation_delay_ms[LED_SPEED_50P]          = 132,
+//        .led_state_inner_animation_delay_ms[LED_SPEED_25P]          = 250,
+//    },
+//    [LED_STATE_WHITE_COLOR] =
+//    {
+//        .led_state_between_animation_delay_ms[LED_SPEED_1000P]      = 10000,
+//        .led_state_between_animation_delay_ms[LED_SPEED_500P]       = 10000,
+//        .led_state_between_animation_delay_ms[LED_SPEED_100P]       = 10000,
+//        .led_state_between_animation_delay_ms[LED_SPEED_50P]        = 10000,
+//        .led_state_between_animation_delay_ms[LED_SPEED_25P]        = 10000,
+//    },
+//    [LED_STATE_SOLID_COLOR] =
+//    {
+//        .led_state_between_animation_delay_ms[LED_SPEED_1000P]      = 5000,
+//        .led_state_between_animation_delay_ms[LED_SPEED_500P]       = 5000,
+//        .led_state_between_animation_delay_ms[LED_SPEED_100P]       = 5000,
+//        .led_state_between_animation_delay_ms[LED_SPEED_50P]        = 5000,
+//        .led_state_between_animation_delay_ms[LED_SPEED_25P]        = 5000,
+//    },
+//    [LED_STATE_SPARKLE_NO_FILL] =
+//    {
+//        .led_state_inner_animation_delay_ms[LED_SPEED_1000P]        = 0,
+//        .led_state_inner_animation_delay_ms[LED_SPEED_500P]         = 20,
+//        .led_state_inner_animation_delay_ms[LED_SPEED_100P]         = 150,
+//        .led_state_inner_animation_delay_ms[LED_SPEED_50P]          = 132,
+//        .led_state_inner_animation_delay_ms[LED_SPEED_25P]          = 250,
+//    },
+//    [LED_STATE_SPARKLE_FILL] =
+//    {
+//        .led_state_inner_animation_delay_ms[LED_SPEED_1000P]        = 0,
+//        .led_state_inner_animation_delay_ms[LED_SPEED_500P]         = 20,
+//        .led_state_inner_animation_delay_ms[LED_SPEED_100P]         = 66,
+//        .led_state_inner_animation_delay_ms[LED_SPEED_50P]          = 132,
+//        .led_state_inner_animation_delay_ms[LED_SPEED_25P]          = 250,
+//    },
+//    [LED_STATE_RAINBOW_CYCLE] =
+//    {
+//        .led_state_inner_animation_delay_ms[LED_SPEED_1000P]        = 0,
+//        .led_state_inner_animation_delay_ms[LED_SPEED_500P]         = 20,
+//        .led_state_inner_animation_delay_ms[LED_SPEED_100P]         = 66,
+//        .led_state_inner_animation_delay_ms[LED_SPEED_50P]          = 132,
+//        .led_state_inner_animation_delay_ms[LED_SPEED_25P]          = 250,
+//    },
+//    [LED_STATE_THEATER_CHASE] =
+//    {
+//        .led_state_inner_animation_delay_ms[LED_SPEED_1000P]        = 10,
+//        .led_state_inner_animation_delay_ms[LED_SPEED_500P]         = 45,
+//        .led_state_inner_animation_delay_ms[LED_SPEED_100P]         = 66,
+//        .led_state_inner_animation_delay_ms[LED_SPEED_50P]          = 132,
+//        .led_state_inner_animation_delay_ms[LED_SPEED_25P]          = 250,
+//    },
+//    [LED_STATE_THEATER_CHASE_RAINBOW] =
+//    {
+//        .led_state_inner_animation_delay_ms[LED_SPEED_1000P]        = 10,
+//        .led_state_inner_animation_delay_ms[LED_SPEED_500P]         = 45,
+//        .led_state_inner_animation_delay_ms[LED_SPEED_100P]         = 66,
+//        .led_state_inner_animation_delay_ms[LED_SPEED_50P]          = 132,
+//        .led_state_inner_animation_delay_ms[LED_SPEED_25P]          = 250,
+//    },
+//    [LED_STATE_FADE_IN_AND_OUT] =
+//    {
+//        .led_state_inner_animation_delay_ms[LED_SPEED_1000P]        = 10,
+//        .led_state_inner_animation_delay_ms[LED_SPEED_500P]         = 45,
+//        .led_state_inner_animation_delay_ms[LED_SPEED_100P]         = 66,
+//        .led_state_inner_animation_delay_ms[LED_SPEED_50P]          = 132,
+//        .led_state_inner_animation_delay_ms[LED_SPEED_25P]          = 250,
+//    },
+////  [LED_STATE_HEARTBEAT] =
+////  {
+////      .led_state_inner_animation_delay_ms[LED_SPEED_1000P]        = 50,
+////      .led_state_inner_animation_delay_ms[LED_SPEED_500P]         = 100,
+////      .led_state_inner_animation_delay_ms[LED_SPEED_100P]     = 150,
+////      .led_state_inner_animation_delay_ms[LED_SPEED_50P]      = 200,
+////      .led_state_inner_animation_delay_ms[LED_SPEED_25P]          = 250,
+////  },
+////  [LED_STATE_TWINKLE] =
+////  {
+////      .led_state_inner_animation_delay_ms[LED_SPEED_1000P]        = 0,
+////      .led_state_inner_animation_delay_ms[LED_SPEED_500P]         = 50,
+////      .led_state_inner_animation_delay_ms[LED_SPEED_100P]         = 100,
+////      .led_state_inner_animation_delay_ms[LED_SPEED_50P]          = 150,
+////      .led_state_inner_animation_delay_ms[LED_SPEED_25P]          = 200,
+////  },
+////# if (NUM_ACTIVE_STRIPS > 1) && defined(ENABLE_LED_STATE_TWO_COLOR)
+////      [LED_STATE_TWO_COLOR] =
+////      {
+////          .led_state_between_animation_delay_ms[LED_SPEED_1000P]  = 5000,
+////          .led_state_between_animation_delay_ms[LED_SPEED_500P]   = 5000,
+////          .led_state_between_animation_delay_ms[LED_SPEED_100P]   = 5000,
+////          .led_state_between_animation_delay_ms[LED_SPEED_50P]    = 5000,
+////          .led_state_between_animation_delay_ms[LED_SPEED_25P]    = 5000,
+////      }
+////#   endif
+//};
 
 
 /**
@@ -235,6 +236,12 @@ void led_state_ctrl_force_state(const strip_mask_t mask, led_state_e led_state)
 {
     led_ctrl_write_active_state(mask, led_state);
     led_ctrl_write_state_current_iteration(mask, 0);
+}
+
+
+led_ctrl_state_info_t* led_ctrl_state_read_info(const strip_mask_t mask)
+{
+    return led_ctrl_read_state_info(mask);
 }
 
 

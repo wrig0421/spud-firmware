@@ -3,6 +3,7 @@
 #include "FreeRTOS.h"
 #include "timers.h"
 #include "portmacro.h"
+#include "numbers.h"
 
 #include "led_ctrl.h"
 #include "task_button_press.h"
@@ -11,8 +12,9 @@
 #include "led_ctrl_speed.h"
 #include "task_button_press.h"
 #include "led_ctrl_brightness.h"
+#include "led_ctrl.h"
+#include "led_color.h"
 
-#define LED_CTRL_MASTER_STATE_TIME_MS	180000
 extern TimerHandle_t g_led_ctrl_timer_handle;
 
 // global arrays guaranteed to be 0 filled... Only filling in parameters below
@@ -46,7 +48,6 @@ led_ctrl_t g_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS] =
             .led_state                      = LED_STATE_RAINBOW_CYCLE,
             .led_state_current_iteration    = 0
         },
-        .led_ctrl_state_parameters          = g_led_ctrl_state_iterations
     },
     [STRIP_NUM_2] =
     {
@@ -74,7 +75,6 @@ led_ctrl_t g_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS] =
             .led_state                      = LED_STATE_RAINBOW_CYCLE,
             .led_state_current_iteration    = 0
         },
-        .led_ctrl_state_parameters          = g_led_ctrl_state_iterations
     },
     [STRIP_NUM_3] =
     {
@@ -102,7 +102,6 @@ led_ctrl_t g_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS] =
             .led_state                      = LED_STATE_RAINBOW_CYCLE,
             .led_state_current_iteration    = 0
         },
-        .led_ctrl_state_parameters          = g_led_ctrl_state_iterations
     },
     [STRIP_NUM_ALL_SET] =
     {
@@ -130,7 +129,6 @@ led_ctrl_t g_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS] =
             .led_state                      = LED_STATE_RAINBOW_CYCLE,
             .led_state_current_iteration    = 0
         },
-        .led_ctrl_state_parameters          = g_led_ctrl_state_iterations
     }
 // multiple strips that ARE NOT ALL are not supported at this time...
 };
@@ -176,6 +174,7 @@ uint16_t led_ctrl_read_state_current_iteration(const strip_mask_t mask)
 void led_ctrl_write_state_current_iteration(const strip_mask_t mask,
                                             uint16_t value)
 {
+    strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
     g_led_ctrl[strip_num].led_ctrl_state_info.led_state_current_iteration = value;
 }
 
@@ -254,28 +253,28 @@ void led_ctrl_write_color_master_state(const strip_mask_t mask,
                                        led_color_master_state_e master_state)
 {
     strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
-    g_led_ctrl[strip_num].led_color_info.led_color_master = master_state;
+    g_led_ctrl[strip_num].led_ctrl_color_info.led_color_master = master_state;
 }
 
 
 led_color_e led_ctrl_read_active_color(const strip_mask_t mask)
 {
     strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
-    return g_led_ctrl[strip_num].led_color_info.led_color;
+    return g_led_ctrl[strip_num].led_ctrl_color_info.led_color.led_color;
 }
 
 
 void led_ctrl_write_active_color(const strip_mask_t mask, led_color_e led_color)
 {
     strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
-    g_led_ctrl[strip_num].led_color_info.led_color = led_color;
+    g_led_ctrl[strip_num].led_ctrl_color_info.led_color.led_color = led_color;
 }
 
 
 led_color_hex_code_e led_ctrl_read_active_color_hex(const strip_mask_t mask)
 {
     strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
-    return g_led_ctrl[strip_num].led_color_info.led_color_hex_code;
+    return g_led_ctrl[strip_num].led_ctrl_color_info.led_color.led_color_hex_code;
 }
 
 
@@ -283,14 +282,14 @@ void led_ctrl_write_active_color_hex(const strip_mask_t mask,
                                    led_color_hex_code_e led_color_hex_code)
 {
     strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
-    g_led_ctrl[strip_num].led_color_info.led_color_hex_code = led_color_hex_code;
+    g_led_ctrl[strip_num].led_ctrl_color_info.led_color.led_color_hex_code = led_color_hex_code;
 }
 
 
 uint8_t led_ctrl_read_color_rgb_red_hex(const strip_mask_t mask)
 {
     strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
-    return ((g_led_ctrl[strip_num].led_color_info.led_color_hex_code & 0xFF0000) \
+    return ((g_led_ctrl[strip_num].led_ctrl_color_info.led_color.led_color_hex_code & 0xFF0000) \
                     >> (2 * BITS_PER_BYTE));
 }
 
@@ -298,7 +297,7 @@ uint8_t led_ctrl_read_color_rgb_red_hex(const strip_mask_t mask)
 uint8_t led_ctrl_read_color_rgb_green_hex(const strip_mask_t mask)
 {
     strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
-    return ((g_led_ctrl[strip_num].led_color_info.led_color_hex_code & 0x00FF00) \
+    return ((g_led_ctrl[strip_num].led_ctrl_color_info.led_color.led_color_hex_code & 0x00FF00) \
                     >> (1 * BITS_PER_BYTE));
 }
 
@@ -306,7 +305,7 @@ uint8_t led_ctrl_read_color_rgb_green_hex(const strip_mask_t mask)
 uint8_t led_ctrl_read_color_rgb_blue_hex(const strip_mask_t mask)
 {
     strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
-    return ((g_led_ctrl[strip_num].led_color_info.led_color_hex_code & 0x0000FF) \
+    return ((g_led_ctrl[strip_num].led_ctrl_color_info.led_color.led_color_hex_code & 0x0000FF) \
                     >> (0 * BITS_PER_BYTE));
 }
 
@@ -326,20 +325,10 @@ void led_ctrl_write_strip_brightness(const strip_mask_t mask,
 }
 
 
-/**
- * @brief   Check if button press occurred pertinent to the passed mask.
- * @param   mask - enabled strips to check if button press effects.
- * @return  bool - true if interrupt occured else false.
- * @note    Function returns false for case that ENABLE_BUTTON is not defined.
- */
-static bool led_ctrl_interrupt_occurred(const strip_mask_t mask)
+led_ctrl_state_info_t* led_ctrl_read_state_info(const strip_mask_t mask)
 {
-#	if defined(ENABLE_BUTTON)
-		return task_button_press_interrupt_occurred(mask);
-#	else
-		return false;
-#	endif
+    strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
+    return &g_led_ctrl[strip_num].led_ctrl_state_info;
 }
-
 
 

@@ -124,7 +124,7 @@ void led_animate_starburst_zabinski(const strip_mask_t mask,
     led_color_t led_color_1;
     led_color_t led_color_2;
 
-    led_color.color_hex = led_color_to_hex_code(*p_color);
+    led_color.led_color_hex_code = led_ctrl_color_enum_to_hex(*p_color);
     uint16_t delay_copy = (uint16_t)(*p_delay_ms);
 
     uint16_t short_leg = 0;
@@ -163,7 +163,7 @@ void led_animate_starburst_zabinski(const strip_mask_t mask,
                     }
                     else if (g_task_notification_value.stimulus_bits.color)
                     {
-                        led_color.color_hex = led_color_to_hex_code(*p_color);
+                        led_color.led_color_hex_code = led_ctrl_color_enum_to_hex(*p_color);
                     }
                     else if (led_animate_need_to_adjust_speed())
                     {
@@ -197,7 +197,7 @@ void led_animate_starburst_zabinski(const strip_mask_t mask,
                     }
                     else if (g_task_notification_value.stimulus_bits.color)
                     {
-                        led_color.color_hex = led_color_to_hex_code(*p_color);
+                        led_color.led_color_hex_code = led_ctrl_color_enum_to_hex(*p_color);
                     }
                     else if (led_animate_need_to_adjust_speed())
                     {
@@ -234,7 +234,7 @@ void led_animate_starburst_zabinski(const strip_mask_t mask,
                     }
                     else if (g_task_notification_value.stimulus_bits.color)
                     {
-                        led_color.color_hex = led_color_to_hex_code(*p_color);
+                        led_color.led_color_hex_code = led_ctrl_color_enum_to_hex(*p_color);
                     }
                     else if (led_animate_need_to_adjust_speed())
                     {
@@ -274,7 +274,7 @@ void led_animate_starburst_zabinski(const strip_mask_t mask,
                     }
                     else if (g_task_notification_value.stimulus_bits.color)
                     {
-                        led_color.color_hex = led_color_to_hex_code(*p_color);
+                        led_color.led_color_hex_code = led_ctrl_color_enum_to_hex(*p_color);
                     }
                     else if (led_animate_need_to_adjust_speed())
                     {
@@ -369,7 +369,7 @@ void led_animate_starburst(const strip_mask_t mask,
         led_color_2.color_hex = random_num(0, UINT24_MAX);
     }
 
-    led_color.color_hex = led_color_to_hex_code(*p_color);
+    led_color.led_color_hex_code = led_ctrl_color_enum_to_hex(*p_color);
     uint16_t delay_copy = (uint16_t)(*p_delay_ms);
 
     uint16_t short_leg = 0;
@@ -400,7 +400,7 @@ void led_animate_starburst(const strip_mask_t mask,
                 }
                 else if (g_task_notification_value.stimulus_bits.color)
                 {
-                    led_color.color_hex = led_color_to_hex_code(*p_color);
+                    led_color.led_color_hex_code = led_ctrl_color_enum_to_hex(*p_color);
                 }
                 else if (led_animate_need_to_adjust_speed())
                 {
@@ -432,7 +432,7 @@ void led_animate_starburst(const strip_mask_t mask,
                 }
                 else if (g_task_notification_value.stimulus_bits.color)
                 {
-                    led_color.color_hex = led_color_to_hex_code(*p_color);
+                    led_color.led_color_hex_code = led_ctrl_color_enum_to_hex(*p_color);
                 }
                 else if (led_animate_need_to_adjust_speed())
                 {
@@ -467,7 +467,7 @@ void led_animate_starburst(const strip_mask_t mask,
                 }
                 else if (g_task_notification_value.stimulus_bits.color)
                 {
-                    led_color.color_hex = led_color_to_hex_code(*p_color);
+                    led_color.led_color_hex_code = led_ctrl_color_enum_to_hex(*p_color);
                 }
                 else if (led_animate_need_to_adjust_speed())
                 {
@@ -503,7 +503,7 @@ void led_animate_starburst(const strip_mask_t mask,
                 }
                 else if (g_task_notification_value.stimulus_bits.color)
                 {
-                    led_color.color_hex = led_color_to_hex_code(*p_color);
+                    led_color.led_color_hex_code = led_ctrl_color_enum_to_hex(*p_color);
                 }
                 else if (led_animate_need_to_adjust_speed())
                 {
@@ -535,14 +535,14 @@ void led_animate_static_harley_color(const strip_mask_t mask,
 {
     led_color_t led_color;
 //  led_color_e led_color_dummy = LED_COLOR_NONE;
-    led_color.color_hex = led_color_to_hex_code(*p_color);
+    led_color.led_color_hex_code = led_ctrl_color_enum_to_hex(*p_color);
 //  if (led_animate_check_for_animation_exit_stimulus(mask, &led_color, &led_color_dummy)) return;
     // handle bar + forks
     led_animate_set_pixels_in_range_skip_interrupt_check(mask, 0, 16,
                                                          LED_COLOR_HEX_WHITE);
     // bottom frame
     led_animate_set_pixels_in_range_skip_interrupt_check(mask, 17, 36,
-                                                         led_color.color_hex);
+                                                         led_color.led_color_hex_code);
     // shifter?
     led_animate_set_pixels_in_range_skip_interrupt_check(mask, 37, 40,
                                                          LED_COLOR_HEX_WHITE);
@@ -551,7 +551,7 @@ void led_animate_static_harley_color(const strip_mask_t mask,
                                                          LED_COLOR_HEX_WHITE);
     // near seat frame
     led_animate_set_pixels_in_range_skip_interrupt_check(mask, 70, 77,
-                                                         led_color.color_hex);
+                                                         led_color.led_color_hex_code);
     // rear tire
     led_animate_set_pixels_in_range_skip_interrupt_check(mask, 78, 99,
                                                          LED_COLOR_HEX_DEBUG);
@@ -563,16 +563,16 @@ void led_animate_static_harley_color(const strip_mask_t mask,
                                                          LED_COLOR_HEX_SADDLE_BROWN);
     // rear fender
     led_animate_set_pixels_in_range_skip_interrupt_check(mask, 120, 133,
-                                                         led_color.color_hex);
+                                                         led_color.led_color_hex_code);
     // gas tank
     led_animate_set_pixels_in_range_skip_interrupt_check(mask, 134, 150,
-                                                         led_color.color_hex);
+                                                         led_color.led_color_hex_code);
     // light
     led_animate_set_pixels_in_range_skip_interrupt_check(mask, 151, 154,
                                                          LED_COLOR_HEX_YELLOW);
     // front fender
     led_animate_set_pixels_in_range_skip_interrupt_check(mask, 155, 163,
-                                                         led_color.color_hex);
+                                                         led_color.led_color_hex_code);
     // front tire
     led_animate_set_pixels_in_range_skip_interrupt_check(mask, 164, 191,
                                                          LED_COLOR_HEX_DEBUG);

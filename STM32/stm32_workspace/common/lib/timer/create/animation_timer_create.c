@@ -26,4 +26,7 @@ void animation_timer_create(void)
 }
 
 
-
+TimerHandle_t animation_timer_return_handle(void)
+{
+    return g_led_ctrl_timer_handle;
+}

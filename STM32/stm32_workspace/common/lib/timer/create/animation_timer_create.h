@@ -10,4 +10,6 @@
 void animation_timer_create(void);
 void animation_timer_reset(void);
 
+TimerHandle_t animation_timer_return_handle(void);
+
 #endif // TIMER_CREATE_H

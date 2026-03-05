@@ -4,17 +4,15 @@
  ***********************************/
 #if !defined(LED_COLOR_H)
 #define LED_COLOR_H
-#include <limits.h>
+//#include <limits.h>
 #include "ws2812b.h"
 #include "button_access.h"
-
 
 typedef enum
 {
     LED_COLOR_MASTER_STATE_DEMO,
     LED_COLOR_MASTER_STATE_FIXED
 } led_color_master_state_e;
-
 
 typedef enum
 {
@@ -122,7 +120,7 @@ typedef enum
 	LED_COLOR_HEX_PLUM			= 0x8E4585,
 	LED_COLOR_HEX_PINK			= 0xFFC0CB,
 	LED_COLOR_HEX_DEEP_PINK		= 0xE75480,
-	LED_COLOR_HEX_LAST_VALUE	= UINT32_MAX - 1,
+	LED_COLOR_HEX_LAST_VALUE	= LED_COLOR_HEX_WHITE,
 } led_color_hex_code_e;
 
 
@@ -150,6 +148,5 @@ typedef enum
 } led_color_major_state_change_e;
 
 led_color_hex_code_e led_color_enum_to_hex_code(led_color_e led_color);
-led_color_e g_led_color_hex_to_enum_lookup(led_color_hex_code_e led_color_hex);
-
+led_color_e led_color_hex_to_enum(led_color_hex_code_e led_color_hex);
 #endif
