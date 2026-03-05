@@ -52,13 +52,13 @@ const p_timer_config_t timer_config_get_handle(strip_bit_e strip_bit)
     switch (strip_bit)
     {
         case STRIP_BIT_1:
-            return &g_tim_config[TIMER_ACCESS_TIMER_INSTANCE_1_CHANNEL_1];
+            return (const p_timer_config_t)&g_tim_config[TIMER_ACCESS_TIMER_INSTANCE_1_CHANNEL_1];
         break;
         case STRIP_BIT_2:
-            return &g_tim_config[TIMER_ACCESS_TIMER_INSTANCE_1_CHANNEL_2];
+            return (const p_timer_config_t)&g_tim_config[TIMER_ACCESS_TIMER_INSTANCE_1_CHANNEL_2];
         break;
         case STRIP_BIT_3:
-            return &g_tim_config[TIMER_ACCESS_TIMER_INSTANCE_1_CHANNEL_3];
+            return (const p_timer_config_t)&g_tim_config[TIMER_ACCESS_TIMER_INSTANCE_1_CHANNEL_3];
         break;
         default:
             while (1);

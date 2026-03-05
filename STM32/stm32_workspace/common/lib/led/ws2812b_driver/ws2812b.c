@@ -20,7 +20,7 @@
 #include "task_notify.h"
 
 extern TIM_HandleTypeDef 	g_tim1_handle_config;
-#define WS2812B_RESET_TIME_CYCLES   2880 // ?
+//#define WS2812B_RESET_TIME_CYCLES   2880 // ?
 
 // below hard coded 2880 because WS2812B_RESET_TIME_CYCLES
 uint8_t g_pwm_data_strip_1[sizeof(ws2812b_led_t) * BITS_PER_BYTE * \
@@ -393,12 +393,6 @@ void ws2812b_dma_transfer(strip_bit_e strip_bit)
         first_pass = false;
         goto transfer_begin;
     }
-//    if (!((timer_channel_started[STRIP_NUM_1] && \
-//                    timer_channel_started[STRIP_NUM_2] && \
-//                    timer_channel_started[STRIP_NUM_3])))
-//    {
-//    	goto transfer_begin;
-//    }
     else
     {
         do

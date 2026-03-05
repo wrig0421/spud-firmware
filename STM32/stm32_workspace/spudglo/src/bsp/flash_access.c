@@ -107,7 +107,7 @@ void flash_access_erase_slot(flash_info_sub_block_t sub_block)
 
 	/* Fill EraseInit structure*/
 	EraseInitStruct.TypeErase   = FLASH_TYPEERASE_PAGES;
-	EraseInitStruct.Page        = FLASH_SUB_BLOCK_CONFIG_PAGE_START;
+	EraseInitStruct.Page        = flash_erase_start_page_number;
 	EraseInitStruct.Banks       = FLASH_BANK_1;
 	EraseInitStruct.NbPages     = 1;
 

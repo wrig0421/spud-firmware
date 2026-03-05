@@ -25,7 +25,7 @@ void task_pkt_process_create(void)
 // rx from computer
 void task_pkt_process(void *argument)
 {
-    p_pkt_t p_pkt;
+    p_pkt_t p_pkt = NULL;
     while (1)
     {
     	pkt_queue_dequeue_pkt_from_process(p_pkt); // blocking

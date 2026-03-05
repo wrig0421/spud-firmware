@@ -60,19 +60,19 @@ bool* led_ctrl_read_minor_interrupt_flag_ref(const strip_mask_t mask);
 led_ctrl_interrupt_status_t led_ctrl_read_major_interrupt_status(const strip_mask_t mask);
 bool led_ctrl_read_major_interrupt_flag(const strip_mask_t mask);
 bool* led_ctrl_read_major_interrupt_flag_ref(const strip_mask_t mask);
-led_ctrl_color_info_t  led_ctrl_read_color_info(const strip_mask_t mask);
-led_ctrl_color_info_t* led_ctrl_read_color_info_ref(const strip_mask_t mask);
-led_color_master_state_e led_ctrl_read_color_master_state(const strip_mask_t mask);
-void led_ctrl_write_color_master_state(const strip_mask_t mask,
+led_ctrl_color_info_t  led_ctrl_read_active_color_info(const strip_mask_t mask);
+led_ctrl_color_info_t* led_ctrl_read_active_color_info_ref(const strip_mask_t mask);
+led_color_master_state_e led_ctrl_read_active_color_master_state(const strip_mask_t mask);
+void led_ctrl_write_active_color_master_state(const strip_mask_t mask,
                                        led_color_master_state_e master_state);
 led_color_e led_ctrl_read_active_color(const strip_mask_t mask);
 void led_ctrl_write_active_color(const strip_mask_t mask, led_color_e led_color);
 led_color_hex_code_e led_ctrl_read_active_color_hex(const strip_mask_t mask);
 void led_ctrl_write_active_color_hex(const strip_mask_t mask,
                                    led_color_hex_code_e led_color_hex_code);
-uint8_t led_ctrl_read_color_rgb_red_hex(const strip_mask_t mask);
-uint8_t led_ctrl_read_color_rgb_green_hex(const strip_mask_t mask);
-uint8_t led_ctrl_read_color_rgb_blue_hex(const strip_mask_t mask);
+uint8_t led_ctrl_read_active_color_rgb_red_hex(const strip_mask_t mask);
+uint8_t led_ctrl_read_active_color_rgb_green_hex(const strip_mask_t mask);
+uint8_t led_ctrl_read_active_color_rgb_blue_hex(const strip_mask_t mask);
 led_brightness_e led_ctrl_read_strip_brightness(const strip_mask_t mask);
 void led_ctrl_write_strip_brightness(const strip_mask_t mask,
                                      led_brightness_e led_brightness);

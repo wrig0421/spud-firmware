@@ -20,11 +20,11 @@ typedef enum
 led_state_e task_led_current_led_state(const strip_mask_t mask);
 
 uint16_t task_led_state_max_iterations(const strip_mask_t mask, led_state_e led_state);
-uint16_t task_led_state_inner_animation_delay_ms(const strip_mask_t mask, led_state_e led_state);
+//uint16_t led_ctrl_read_time_delay_inner_loop(const strip_mask_t mask, led_state_e led_state);
 uint16_t task_led_state_between_animation_delay_ms(const strip_mask_t mask, led_state_e led_state);
 uint16_t task_led_state_allows_black_color(const strip_mask_t mask, led_state_e led_state);
 led_brightness_e task_led_brightness(const strip_mask_t mask);
-led_ctrl_state_master_e task_led_master_state(const strip_mask_t mask);
+led_ctrl_state_master_e led_ctrl_read_master_state(const strip_mask_t mask);
 led_ctrl_state_master_e task_led_state(const strip_mask_t mask);
 uint16_t task_led_state_current_iteration(const strip_mask_t mask);
 led_state_e task_led_current_led_state(const strip_mask_t mask);

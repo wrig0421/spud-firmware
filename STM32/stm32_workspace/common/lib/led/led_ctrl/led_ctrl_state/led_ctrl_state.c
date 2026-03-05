@@ -70,7 +70,7 @@ led_state_e led_state_ctrl_state(const strip_mask_t mask)
  */
 bool led_state_ctrl_adjust_state(const strip_mask_t mask)
 {
-	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
+//	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
     bool return_val = false;
 
     if (LED_STATE_LAST == led_ctrl_read_active_state(mask))

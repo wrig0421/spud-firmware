@@ -14,7 +14,7 @@
  */
 led_color_master_state_e led_ctrl_color_master_state(const strip_mask_t mask)
 {
-    return led_ctrl_read_color_master_state(mask);
+    return led_ctrl_read_active_color_master_state(mask);
 }
 
 
@@ -25,7 +25,7 @@ led_color_master_state_e led_ctrl_color_master_state(const strip_mask_t mask)
  */
 void led_ctrl_color_master_state_force_demo(const strip_mask_t mask)
 {
-    led_ctrl_write_color_master_state(mask, LED_COLOR_MASTER_STATE_DEMO);
+    led_ctrl_write_active_color_master_state(mask, LED_COLOR_MASTER_STATE_DEMO);
 }
 
 
@@ -36,7 +36,7 @@ void led_ctrl_color_master_state_force_demo(const strip_mask_t mask)
  */
 void led_ctrl_color_master_state_force_fixed(const strip_mask_t mask)
 {
-    led_ctrl_write_color_master_state(mask, LED_COLOR_MASTER_STATE_FIXED);
+    led_ctrl_write_active_color_master_state(mask, LED_COLOR_MASTER_STATE_FIXED);
     led_ctrl_write_active_color(mask, LED_COLOR_FIRST);
 }
 
@@ -61,15 +61,15 @@ void led_ctrl_color_reset(const strip_mask_t mask)
 bool led_ctrl_color_adjust(const strip_mask_t mask)
 {
     bool return_val = false;
-	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
-    if (LED_COLOR_LAST == led_ctrl_read_color(mask))
+//	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
+    if (LED_COLOR_LAST == led_ctrl_read_active_color(mask))
     {
-    	led_ctrl_write_active_color(LED_COLOR_FIRST);
+    	led_ctrl_write_active_color(mask, LED_COLOR_FIRST);
         return_val = true;
     }
     else
 	{
-    	led_ctrl_write_active_color(mask, led_ctrl_read_color(mask) + 1);
+    	led_ctrl_write_active_color(mask, led_ctrl_read_active_color(mask) + 1);
 	}
     return return_val;
 }
@@ -118,7 +118,7 @@ led_color_hex_code_e led_ctrl_color_read_active_color_hex(const strip_mask_t mas
  */
 uint8_t led_ctrl_color_read_active_red_hex(const strip_mask_t mask)
 {
-    return led_ctrl_read_color_rgb_red_hex(mask);
+    return led_ctrl_read_active_color_rgb_red_hex(mask);
 }
 
 
@@ -130,7 +130,7 @@ uint8_t led_ctrl_color_read_active_red_hex(const strip_mask_t mask)
  */
 uint8_t led_ctrl_color_read_active_green_hex(const strip_mask_t mask)
 {
-    return led_ctrl_read_color_rgb_green_hex(mask);
+    return led_ctrl_read_active_color_rgb_green_hex(mask);
 }
 
 
@@ -142,7 +142,7 @@ uint8_t led_ctrl_color_read_active_green_hex(const strip_mask_t mask)
  */
 uint8_t led_ctrl_color_read_active_blue_hex(const strip_mask_t mask)
 {
-    return led_ctrl_read_color_rgb_blue_hex(mask);
+    return led_ctrl_read_active_color_rgb_blue_hex(mask);
 }
 
 
@@ -166,14 +166,14 @@ led_color_e led_ctrl_color_hex_to_enum(const led_color_hex_code_e color)
 
 led_color_e led_ctrl_color_randomize_active_color(const strip_mask_t mask)
 {
-    strip_num_e strip_num = ws2812_strip_mask_to_strip_num(mask);
+//    strip_num_e strip_num = ws2812_strip_mask_to_strip_num(mask);
     led_color_e led_color = LED_COLOR_BLACK;
     do
     {
         led_color = (led_color_e)(rng_access_read_and_generate_random_number() % NUM_COLORS);
-    } while (led_ctrl_read_color(mask) == led_color);
+    } while (led_ctrl_read_active_color(mask) == led_color);
 
-    led_ctrl_write_color(mask, led_color);
+    led_ctrl_write_active_color(mask, led_color);
     return led_color; // not always used but nice to return if needed.
 }
 

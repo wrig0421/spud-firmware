@@ -270,7 +270,7 @@ void led_animate_force_exit_stimulus(void)
 {
     // in MASTER DEMO state this will force next animation to display!
 	if (LED_CTRL_STATE_MASTER_DEMO == \
-	                task_led_master_state((strip_mask_t)STRIP_BIT_ALL_SET))
+	                led_ctrl_read_master_state((strip_mask_t)STRIP_BIT_ALL_SET))
 	{
 		g_led_animate_exit_stimulus = true;
 	}
@@ -393,8 +393,8 @@ void led_animate_only_spell_word(const strip_mask_t mask,
         led_animate_set_pixel(mask, iii, &led_color);
         led_animate_show_strip(mask);
  		led_ctrl_time_delay(mask,
- 		                    task_led_state_inner_animation_delay_ms(mask,
- 		                                                            LED_STATE_SPELL));
+ 		                    led_ctrl_read_time_delay_inner_loop(mask, LED_STATE_SPELL,
+ 		                    		led_ctrl_read_speed(mask)));
 	}
 }
 
@@ -787,8 +787,8 @@ void led_animate_heart_beat(const strip_mask_t mask, const led_color_e* p_color,
 			}
         	else if (led_animate_need_to_adjust_speed())
 			{
-        		delay_copy = task_led_state_inner_animation_delay_ms(mask,
-        		                                                     LED_STATE_RAINBOW_CYCLE);
+         		delay_copy = led_ctrl_time_delay(mask,
+         				led_ctrl_read_time_delay_inner_loop(mask, LED_STATE_RAINBOW_CYCLE, led_ctrl_read_speed(mask)));
 				led_animate_clear_adjust_speed();
 			}
         }
@@ -813,8 +813,8 @@ void led_animate_heart_beat(const strip_mask_t mask, const led_color_e* p_color,
 			}
         	else if (led_animate_need_to_adjust_speed())
 			{
-        		delay_copy = task_led_state_inner_animation_delay_ms(mask,
-        		                                                     LED_STATE_RAINBOW_CYCLE);
+        		delay_copy = led_ctrl_time_delay(mask,
+        		         				led_ctrl_read_time_delay_inner_loop(mask, LED_STATE_RAINBOW_CYCLE, led_ctrl_read_speed(mask)));
 				led_animate_clear_adjust_speed();
 			}
         }
@@ -842,8 +842,8 @@ void led_animate_heart_beat(const strip_mask_t mask, const led_color_e* p_color,
 			}
         	else if (led_animate_need_to_adjust_speed())
 			{
-        		delay_copy = task_led_state_inner_animation_delay_ms(mask,
-        		                                                     LED_STATE_RAINBOW_CYCLE);
+        		delay_copy = led_ctrl_time_delay(mask,
+        		         				led_ctrl_read_time_delay_inner_loop(mask, LED_STATE_RAINBOW_CYCLE, led_ctrl_read_speed(mask)));
 				led_animate_clear_adjust_speed();
 			}
         }
@@ -868,8 +868,8 @@ void led_animate_heart_beat(const strip_mask_t mask, const led_color_e* p_color,
 			}
         	else if (led_animate_need_to_adjust_speed())
 			{
-        		delay_copy = task_led_state_inner_animation_delay_ms(mask,
-        		                                                     LED_STATE_RAINBOW_CYCLE);
+        		delay_copy = led_ctrl_time_delay(mask,
+        		         				led_ctrl_read_time_delay_inner_loop(mask, LED_STATE_RAINBOW_CYCLE, led_ctrl_read_speed(mask)));
 				led_animate_clear_adjust_speed();
 			}
         }

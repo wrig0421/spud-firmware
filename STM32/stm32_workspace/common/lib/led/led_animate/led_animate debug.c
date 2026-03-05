@@ -167,7 +167,7 @@ void led_animate_starburst_zabinski(const strip_mask_t mask,
                     }
                     else if (led_animate_need_to_adjust_speed())
                     {
-                        delay_copy = task_led_state_inner_animation_delay_ms(mask,
+                        delay_copy = led_ctrl_read_time_delay_inner_loop(mask,
                                                                              LED_STATE_RAINBOW_CYCLE);
                         led_animate_clear_adjust_speed();
                     }
@@ -201,7 +201,7 @@ void led_animate_starburst_zabinski(const strip_mask_t mask,
                     }
                     else if (led_animate_need_to_adjust_speed())
                     {
-                        delay_copy = task_led_state_inner_animation_delay_ms(mask,
+                        delay_copy = led_ctrl_read_time_delay_inner_loop(mask,
                                                                              LED_STATE_RAINBOW_CYCLE);
                         led_animate_clear_adjust_speed();
                     }
@@ -238,7 +238,7 @@ void led_animate_starburst_zabinski(const strip_mask_t mask,
                     }
                     else if (led_animate_need_to_adjust_speed())
                     {
-                        delay_copy = task_led_state_inner_animation_delay_ms(mask,
+                        delay_copy = led_ctrl_read_time_delay_inner_loop(mask,
                                                                              LED_STATE_RAINBOW_CYCLE);
                         led_animate_clear_adjust_speed();
                     }
@@ -278,7 +278,7 @@ void led_animate_starburst_zabinski(const strip_mask_t mask,
                     }
                     else if (led_animate_need_to_adjust_speed())
                     {
-                        delay_copy = task_led_state_inner_animation_delay_ms(mask,
+                        delay_copy = led_ctrl_read_time_delay_inner_loop(mask,
                                                                              LED_STATE_RAINBOW_CYCLE);
                         led_animate_clear_adjust_speed();
                     }
@@ -404,7 +404,7 @@ void led_animate_starburst(const strip_mask_t mask,
                 }
                 else if (led_animate_need_to_adjust_speed())
                 {
-                    delay_copy = task_led_state_inner_animation_delay_ms(mask,
+                    delay_copy = led_ctrl_read_time_delay_inner_loop(mask,
                                                                          LED_STATE_RAINBOW_CYCLE);
                     led_animate_clear_adjust_speed();
                 }
@@ -436,7 +436,7 @@ void led_animate_starburst(const strip_mask_t mask,
                 }
                 else if (led_animate_need_to_adjust_speed())
                 {
-                    delay_copy = task_led_state_inner_animation_delay_ms(mask,
+                    delay_copy = led_ctrl_read_time_delay_inner_loop(mask,
                                                                          LED_STATE_RAINBOW_CYCLE);
                     led_animate_clear_adjust_speed();
                 }
@@ -471,7 +471,7 @@ void led_animate_starburst(const strip_mask_t mask,
                 }
                 else if (led_animate_need_to_adjust_speed())
                 {
-                    delay_copy = task_led_state_inner_animation_delay_ms(mask,
+                    delay_copy = led_ctrl_read_time_delay_inner_loop(mask,
                                                                          LED_STATE_RAINBOW_CYCLE);
                     led_animate_clear_adjust_speed();
                 }
@@ -507,7 +507,7 @@ void led_animate_starburst(const strip_mask_t mask,
                 }
                 else if (led_animate_need_to_adjust_speed())
                 {
-                    delay_copy = task_led_state_inner_animation_delay_ms(mask,
+                    delay_copy = led_ctrl_read_time_delay_inner_loop(mask,
                                                                          LED_STATE_RAINBOW_CYCLE);
                     led_animate_clear_adjust_speed();
                 }

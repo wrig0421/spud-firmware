@@ -262,28 +262,28 @@ bool* led_ctrl_read_major_interrupt_flag_ref(const strip_mask_t mask)
 }
 
 
-led_ctrl_color_info_t  led_ctrl_read_color_info(const strip_mask_t mask)
+led_ctrl_color_info_t  led_ctrl_read_active_color_info(const strip_mask_t mask)
 {
     strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
     return g_led_ctrl[strip_num].led_ctrl_color_info;
 }
 
 
-led_ctrl_color_info_t* led_ctrl_read_color_info_ref(const strip_mask_t mask)
+led_ctrl_color_info_t* led_ctrl_read_active_color_info_ref(const strip_mask_t mask)
 {
     strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
     return &g_led_ctrl[strip_num].led_ctrl_color_info;
 }
 
 
-led_color_master_state_e led_ctrl_read_color_master_state(const strip_mask_t mask)
+led_color_master_state_e led_ctrl_read_active_color_master_state(const strip_mask_t mask)
 {
     strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
     return g_led_ctrl[strip_num].led_ctrl_color_info.led_color_master;
 }
 
 
-void led_ctrl_write_color_master_state(const strip_mask_t mask,
+void led_ctrl_write_active_color_master_state(const strip_mask_t mask,
                                        led_color_master_state_e master_state)
 {
     strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
@@ -320,7 +320,7 @@ void led_ctrl_write_active_color_hex(const strip_mask_t mask,
 }
 
 
-uint8_t led_ctrl_read_color_rgb_red_hex(const strip_mask_t mask)
+uint8_t led_ctrl_read_active_color_rgb_red_hex(const strip_mask_t mask)
 {
     strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
     return ((g_led_ctrl[strip_num].led_ctrl_color_info.led_color.led_color_hex_code & 0xFF0000) \
@@ -328,7 +328,7 @@ uint8_t led_ctrl_read_color_rgb_red_hex(const strip_mask_t mask)
 }
 
 
-uint8_t led_ctrl_read_color_rgb_green_hex(const strip_mask_t mask)
+uint8_t led_ctrl_read_active_color_rgb_green_hex(const strip_mask_t mask)
 {
     strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
     return ((g_led_ctrl[strip_num].led_ctrl_color_info.led_color.led_color_hex_code & 0x00FF00) \
@@ -336,7 +336,7 @@ uint8_t led_ctrl_read_color_rgb_green_hex(const strip_mask_t mask)
 }
 
 
-uint8_t led_ctrl_read_color_rgb_blue_hex(const strip_mask_t mask)
+uint8_t led_ctrl_read_active_color_rgb_blue_hex(const strip_mask_t mask)
 {
     strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
     return ((g_led_ctrl[strip_num].led_ctrl_color_info.led_color.led_color_hex_code & 0x0000FF) \

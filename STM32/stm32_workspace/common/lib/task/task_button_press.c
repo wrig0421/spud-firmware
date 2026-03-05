@@ -239,15 +239,15 @@ led_color_e g_led_color_dummy = LED_COLOR_BROWN;
 void task_button_press(void *argument)
 {
 	uint32_t off_val = 0;
-	static bool button_gate_open = false;
-	static bool first_pass = true;
+//	static bool button_gate_open = false;
+//	static bool first_pass = true;
 	// variable to track the button press time
 	uint32_t timestamp_button_press_ms = 0;
 	// variable to track the button release time
 	uint32_t timestamp_button_release_ms = 0;
 	// variable to track the button active time
 	uint32_t button_active_time_ms = 0;
-	uint32_t zabinski_return_val = 0;
+//	uint32_t zabinski_return_val = 0;
 	button_e btn = BUTTON_INVALID;
     led_color_hex_code_e color = LED_COLOR_HEX_BLACK;
     IRQn_Type irq_type = 0;

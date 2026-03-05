@@ -15,7 +15,7 @@ extern led_ctrl_t g_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS];
  */
 void led_ctrl_brightness_adjust(const strip_mask_t mask)
 {
-	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
+//	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
 	// LED brightness update linearly.  No random select.  User will press button
 	// to advance the brightness.
     if (LED_BRIGHTNESS_FIRST == led_ctrl_read_strip_brightness(mask))
