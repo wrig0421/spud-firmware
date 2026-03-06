@@ -204,10 +204,10 @@ led_brightness_e flash_info_brightness_enabled_on_strip(strip_bit_e strip_bit)
 		{
 			led_brightness = LED_BRIGHTNESS_100_PERCENT;
 		}
-		else if (strip_brightness_mask.brightness_75p)
-		{
-			led_brightness = LED_BRIGHTNESS_75_PERCENT;
-		}
+//		else if (strip_brightness_mask.brightness_75p)
+//		{
+//			led_brightness = LED_BRIGHTNESS_75_PERCENT;
+//		}
 		else if (strip_brightness_mask.brightness_50p)
 		{
 			led_brightness = LED_BRIGHTNESS_50_PERCENT;
@@ -218,7 +218,7 @@ led_brightness_e flash_info_brightness_enabled_on_strip(strip_bit_e strip_bit)
 		}
 		else if (strip_brightness_mask.brightness_1p)
 		{
-			led_brightness = LED_BRIGHTNESS_1_PERCENT;
+			led_brightness = LED_BRIGHTNESS_10_PERCENT;
 		}
 		else
 		{
@@ -726,10 +726,10 @@ void flash_info_brightness_level_is_enabled(const strip_mask_t strip_mask, led_b
 		{
 			led_brightness_enabled[iii] = LED_BRIGHTNESS_100_PERCENT;
 		}
-		else if (p_strip_n_brightness_generic->brightness_75p)
-		{
-			led_brightness_enabled[iii] = LED_BRIGHTNESS_75_PERCENT;
-		}
+//		else if (p_strip_n_brightness_generic->brightness_75p)
+//		{
+//			led_brightness_enabled[iii] = LED_BRIGHTNESS_75_PERCENT;
+//		}
 		else if (p_strip_n_brightness_generic->brightness_50p)
 		{
 			led_brightness_enabled[iii] = LED_BRIGHTNESS_50_PERCENT;
@@ -740,7 +740,7 @@ void flash_info_brightness_level_is_enabled(const strip_mask_t strip_mask, led_b
 		}
 		else if (p_strip_n_brightness_generic->brightness_1p)
 		{
-			led_brightness_enabled[iii] = LED_BRIGHTNESS_1_PERCENT;
+			led_brightness_enabled[iii] = LED_BRIGHTNESS_10_PERCENT;
 		}
 		else if(p_strip_n_brightness_generic->rsvd0)
 		{

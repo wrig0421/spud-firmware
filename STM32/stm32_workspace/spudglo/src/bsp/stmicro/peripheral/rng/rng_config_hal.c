@@ -24,6 +24,7 @@ void rng_config_hal_setup(void)
     __HAL_RCC_RNG_CLK_ENABLE();
 
     HAL_NVIC_SetPriority(RNG_IRQn, 5, 0);
+//    HAL_NVIC_SetPriority(RNG_IRQn, 10, 0);
     HAL_NVIC_EnableIRQ(RNG_IRQn);
 
     if (HAL_RNG_Init(&g_rng_handle) != HAL_OK)
@@ -31,5 +32,5 @@ void rng_config_hal_setup(void)
         while (1);
     }
 
-    rng_access_generate_random_number();
+//    rng_access_generate_random_number();
 }

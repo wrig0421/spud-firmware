@@ -97,7 +97,7 @@ uint16_t ws2812_get_strip_size(const strip_bit_e strip_bit)
     return g_ws2812b_info[strip_num].led_strip_length;
 }
 
-
+bool g_reset_ws2812b = false;
 /**
  * @brief   Reset LED strip >= 50 microseconds of 0
  * @param   void
@@ -105,6 +105,7 @@ uint16_t ws2812_get_strip_size(const strip_bit_e strip_bit)
  */
 void reset_ws2812b(void)
 {
+    g_reset_ws2812b = true;
 #   if defined(ENABLE_STRIP_1)
         HAL_TIM_PWM_Start_DMA(timer_config_get_handle(STRIP_BIT_1)->handle, TIM_CHANNEL_1,
                               g_pwm_reset, sizeof(g_pwm_reset));
@@ -363,6 +364,7 @@ void ws2812b_set_led(const strip_mask_t strip_mask, const uint16_t led_num,
     }
 }
 
+extern task_notification_value_format_t g_dma_transfer_notification_value;
 
 /**
  * @brief   Start timer DMA transfer for the passed strip_bit
@@ -377,8 +379,8 @@ void ws2812b_dma_transfer(strip_bit_e strip_bit)
 {
 	static bool timer_channel_started[3] = {false, false, false};
 	static bool first_pass = true;
-	task_notification_value_format_t task_notification_value;
-	task_notification_value.value = 0;
+//	task_notification_value_format_t task_notification_value;
+//	task_notification_value.value = 0;
     uint32_t timer_channel = 0;
     strip_num_e strip_num = ws2812_strip_bit_to_strip_num(strip_bit);
     switch (strip_bit)
@@ -388,36 +390,115 @@ void ws2812b_dma_transfer(strip_bit_e strip_bit)
     	case STRIP_BIT_3: timer_channel = TIM_CHANNEL_3; break;
     	default: return;
     }
-    if (first_pass)
+    if (first_pass) //|| g_reset_ws2812b)
     {
         first_pass = false;
+        g_reset_ws2812b = false;
         goto transfer_begin;
     }
     else
     {
-        do
-        {
+
+
             // flicker observed with multiple strips going at once.  Code below
             // enforces only one strip at a time. So we are enforcing that all
             // transfers must be complete before starting another!
-        	xTaskNotifyWait(0, (uint32_t)task_notification_value.value,
-        	                (uint32_t *)&task_notification_value.value,
-        	                portMAX_DELAY);
-            if (task_notification_value.entity_bits.strip_1)
-            {
-                timer_channel_started[STRIP_NUM_1] = false;
-            }
-            if (task_notification_value.entity_bits.strip_2)
-            {
-                timer_channel_started[STRIP_NUM_2] = false;
-            }
-            if (task_notification_value.entity_bits.strip_3)
-            {
-                timer_channel_started[STRIP_NUM_3] = false;
-            }
-        } while (timer_channel_started[STRIP_NUM_1] || \
-        		 timer_channel_started[STRIP_NUM_2] || \
-				 timer_channel_started[STRIP_NUM_3]);
+//            xTaskNotifyWait(0, (uint32_t)task_notification_value.value,
+//                            (uint32_t *)&task_notification_value.value,
+//                            portMAX_DELAY);
+//            while (g_dma_transfer_notification_value.entity_bits.strip_1 && \
+//                            !g_dma_transfer_notification_value.stimulus_bits.dma_cmplt)
+//            {
+//                free_rtos_delay_ms(10);
+//            }
+//            timer_channel_started[STRIP_NUM_1] = false;
+//            g_dma_transfer_notification_value.entity_bits.strip_1 = false;
+//            g_dma_transfer_notification_value.stimulus_bits.dma_cmplt = false;
+//            while (g_dma_transfer_notification_value.entity_bits.strip_2 && \
+//                            !g_dma_transfer_notification_value.stimulus_bits.dma_cmplt)
+//            {
+//               free_rtos_delay_ms(10);
+//            }
+//            timer_channel_started[STRIP_NUM_2] = false;
+//            g_dma_transfer_notification_value.entity_bits.strip_2 = false;
+//            g_dma_transfer_notification_value.stimulus_bits.dma_cmplt = false;
+//
+//            while (g_dma_transfer_notification_value.entity_bits.strip_3 && \
+//                            !g_dma_transfer_notification_value.stimulus_bits.dma_cmplt)
+//            {
+//               free_rtos_delay_ms(10);
+//            }
+//            timer_channel_started[STRIP_NUM_3] = false;
+//            g_dma_transfer_notification_value.entity_bits.strip_3 = false;
+//            g_dma_transfer_notification_value.stimulus_bits.dma_cmplt = false;
+
+        if (timer_channel_started[STRIP_NUM_1])
+        {
+            timer_channel_started[STRIP_NUM_1] = false;
+            while (!g_dma_transfer_notification_value.entity_bits.strip_1) free_rtos_delay_ms(10);
+            g_dma_transfer_notification_value.entity_bits.strip_1 = false;
+        }
+        if (timer_channel_started[STRIP_NUM_2])
+        {
+            timer_channel_started[STRIP_NUM_2] = false;
+            while (!g_dma_transfer_notification_value.entity_bits.strip_2) free_rtos_delay_ms(10);
+            g_dma_transfer_notification_value.entity_bits.strip_2 = false;
+        }
+        if (timer_channel_started[STRIP_NUM_3])
+        {
+            timer_channel_started[STRIP_NUM_3] = false;
+            while (!g_dma_transfer_notification_value.entity_bits.strip_3) free_rtos_delay_ms(10);
+            g_dma_transfer_notification_value.entity_bits.strip_3 = false;
+        }
+//
+//        while (timer_channel_started[STRIP_NUM_1] || \
+//                        timer_channel_started[STRIP_NUM_2] || \
+//                        timer_channel_started[STRIP_NUM_3])
+//        {
+//            if (g_dma_transfer_notification_value.entity_bits.strip_1)
+//            {
+//                timer_channel_started[STRIP_NUM_1] = false;
+//                g_dma_transfer_notification_value.entity_bits.strip_1 = false;
+//            }
+//            if (g_dma_transfer_notification_value.entity_bits.strip_1)
+//            {
+//                timer_channel_started[STRIP_NUM_2] = false;
+//                g_dma_transfer_notification_value.entity_bits.strip_2 = false;
+//            }
+//            if (g_dma_transfer_notification_value.entity_bits.strip_1)
+//            {
+//                timer_channel_started[STRIP_NUM_3] = false;
+//                g_dma_transfer_notification_value.entity_bits.strip_3 = false;
+//            }
+//            free_rtos_delay_ms(1);
+//        }
+
+//        do
+//        {
+//            // flicker observed with multiple strips going at once.  Code below
+//            // enforces only one strip at a time. So we are enforcing that all
+//            // transfers must be complete before starting another!
+////        	xTaskNotifyWait(0, (uint32_t)task_notification_value.value,
+////        	                (uint32_t *)&task_notification_value.value,
+////        	                portMAX_DELAY);
+//            if (task_notification_value.entity_bits.strip_1)
+//            {
+//                timer_channel_started[STRIP_NUM_1] = false;
+//                task_notification_value.entity_bits.strip_1 = false;
+//            }
+//            if (task_notification_value.entity_bits.strip_2)
+//            {
+//                timer_channel_started[STRIP_NUM_2] = false;
+//                task_notification_value.entity_bits.strip_2 = false;
+//            }
+//            if (task_notification_value.entity_bits.strip_3)
+//            {
+//                timer_channel_started[STRIP_NUM_3] = false;
+//                task_notification_value.entity_bits.strip_3 = false;
+//            }
+//        } while (timer_channel_started[STRIP_NUM_1] || \
+//        		 timer_channel_started[STRIP_NUM_2] || \
+//				 timer_channel_started[STRIP_NUM_3]);
         transfer_begin:
 			while (HAL_OK != timer_access_hal_start_timer(&g_tim1_handle_config,
 			                                              timer_channel, \

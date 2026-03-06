@@ -314,59 +314,59 @@ void TransferComplete_3(DMA_HandleTypeDef *DmaHandle)
 }
 
 
+task_notification_value_format_t g_dma_transfer_notification_value;
 
 void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim)
 {
     BaseType_t xHigherPriorityTaskWoken = pdFALSE;
 	TaskHandle_t *p_task_handle = NULL;
-	task_notification_value_format_t task_notification_value =
-	{
-		// set DMA CMPLT [common] in IRQ
-		.stimulus_bits.dma_cmplt = true
-	};
+	g_dma_transfer_notification_value.value = 0;
+//	g_dma_transfer_notification_value.stimulus_bits.dma_cmplt = true;
+
     switch (htim->Channel)
     {
         case HAL_TIM_ACTIVE_CHANNEL_1:
-#		     if defined(ENABLE_STRIP_1)
+#          if defined(ENABLE_STRIP_1)
                 // set task_handle to strip 1 task
                 p_task_handle = &g_led_strip_1_ctrl_handle;
                 // set flag indicating strip_1 is reason for dma cmplt
-                task_notification_value.entity_bits.strip_1 = true;
-#		    endif
+                g_dma_transfer_notification_value.entity_bits.strip_1 = true;
+#         endif
         break;
         case HAL_TIM_ACTIVE_CHANNEL_2:
-#		    if defined(ENABLE_STRIP_2)
+#         if defined(ENABLE_STRIP_2)
                 // set task_handle to strip 2 task
                 p_task_handle = &g_led_strip_2_ctrl_handle;
                 // set flag indicating strip_2 is reason for dma cmplt
-                task_notification_value.entity_bits.strip_2 = true;
-#		    endif
+                g_dma_transfer_notification_value.entity_bits.strip_2 = true;
+#         endif
         break;
         case HAL_TIM_ACTIVE_CHANNEL_3:
-#		    if defined(ENABLE_STRIP_3)
+#         if defined(ENABLE_STRIP_3)
                 // set task_handle to strip 3 task
                 p_task_handle = &g_led_strip_3_ctrl_handle;
                 // set flag indicating strip_3 is reason for dma cmplt
-                task_notification_value.entity_bits.strip_3 = true;
-#		    endif
+                g_dma_transfer_notification_value.entity_bits.strip_3 = true;
+#         endif
         break;
         default:
             // how did we get here?  set task_handle to null and entity to false
-//				task_handle = NULL;
-            task_notification_value.flat_entity = false;
+//                task_handle = NULL;
+            g_dma_transfer_notification_value.flat_entity = false;
         break;
     }
 #   if defined(ENABLE_LED_STRIP_SYNC)
         // set task_handle to sync task
         p_task_handle =  &g_led_strip_sync_ctrl_handle;
         // set flag indicating sync task
-        task_notification_value.entity_bits.strip_sync = true;
+        g_dma_transfer_notification_value.entity_bits.strip_sync = true;
 #   endif
 
     switch (htim->Channel)
     {
         case HAL_TIM_ACTIVE_CHANNEL_1:
             HAL_TIM_PWM_Stop_DMA(htim, TIM_CHANNEL_1);
+
 //            gb_dma_cmplt_strip_1 = true;
         break;
         case HAL_TIM_ACTIVE_CHANNEL_2:
@@ -380,8 +380,75 @@ void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim)
         default:
         break;
     }
-    xTaskNotifyFromISR(*p_task_handle, task_notification_value.value,
-                       eSetValueWithOverwrite, &xHigherPriorityTaskWoken);
+    g_dma_transfer_notification_value.stimulus_bits.dma_cmplt = true;
+
+//    xTaskNotifyFromISR(*p_task_handle, task_notification_value.value,
+//                       eSetValueWithOverwrite, &xHigherPriorityTaskWoken);
+
+//
+//	task_notification_value_format_t task_notification_value =
+//	{
+//		// set DMA CMPLT [common] in IRQ
+//		.stimulus_bits.dma_cmplt = true
+//	};
+//    switch (htim->Channel)
+//    {
+//        case HAL_TIM_ACTIVE_CHANNEL_1:
+//#		     if defined(ENABLE_STRIP_1)
+//                // set task_handle to strip 1 task
+//                p_task_handle = &g_led_strip_1_ctrl_handle;
+//                // set flag indicating strip_1 is reason for dma cmplt
+//                task_notification_value.entity_bits.strip_1 = true;
+//#		    endif
+//        break;
+//        case HAL_TIM_ACTIVE_CHANNEL_2:
+//#		    if defined(ENABLE_STRIP_2)
+//                // set task_handle to strip 2 task
+//                p_task_handle = &g_led_strip_2_ctrl_handle;
+//                // set flag indicating strip_2 is reason for dma cmplt
+//                task_notification_value.entity_bits.strip_2 = true;
+//#		    endif
+//        break;
+//        case HAL_TIM_ACTIVE_CHANNEL_3:
+//#		    if defined(ENABLE_STRIP_3)
+//                // set task_handle to strip 3 task
+//                p_task_handle = &g_led_strip_3_ctrl_handle;
+//                // set flag indicating strip_3 is reason for dma cmplt
+//                task_notification_value.entity_bits.strip_3 = true;
+//#		    endif
+//        break;
+//        default:
+//            // how did we get here?  set task_handle to null and entity to false
+////				task_handle = NULL;
+//            task_notification_value.flat_entity = false;
+//        break;
+//    }
+//#   if defined(ENABLE_LED_STRIP_SYNC)
+//        // set task_handle to sync task
+//        p_task_handle =  &g_led_strip_sync_ctrl_handle;
+//        // set flag indicating sync task
+//        task_notification_value.entity_bits.strip_sync = true;
+//#   endif
+//
+//    switch (htim->Channel)
+//    {
+//        case HAL_TIM_ACTIVE_CHANNEL_1:
+//            HAL_TIM_PWM_Stop_DMA(htim, TIM_CHANNEL_1);
+////            gb_dma_cmplt_strip_1 = true;
+//        break;
+//        case HAL_TIM_ACTIVE_CHANNEL_2:
+//            HAL_TIM_PWM_Stop_DMA(htim, TIM_CHANNEL_2);
+////            gb_dma_cmplt_strip_2 = true;
+//        break;
+//        case HAL_TIM_ACTIVE_CHANNEL_3:
+//            HAL_TIM_PWM_Stop_DMA(htim, TIM_CHANNEL_3);
+////            gb_dma_cmplt_strip_3 = true;
+//        break;
+//        default:
+//        break;
+//    }
+//    xTaskNotifyFromISR(*p_task_handle, task_notification_value.value,
+//                       eSetValueWithOverwrite, &xHigherPriorityTaskWoken);
 }
 
 
@@ -446,5 +513,7 @@ void RNG_IRQHandler(void)
 {
     HAL_RNG_IRQHandler(&g_rng_handle);
 }
+
+
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

@@ -7,7 +7,7 @@
 
 #include "FreeRTOSConfig.h"
 
-#define TASK_CREATE_STACK_SIZE_STANDARD		(2 * configMINIMAL_STACK_SIZE)
+#define TASK_CREATE_STACK_SIZE_STANDARD		(4 * configMINIMAL_STACK_SIZE)
 
 typedef enum
 {

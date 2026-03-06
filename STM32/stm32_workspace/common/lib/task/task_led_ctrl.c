@@ -127,6 +127,10 @@ static void task_led_ctrl_adjust_parameters(const strip_mask_t mask)
 //	p_led_ctrl_interrupt_status_t p_interrupt_status;
 	led_state_e led_state_random = LED_STATE_FIRST;
 	task_led_ctrl_state_info->led_state_current_iteration++;
+	if (0 < led_ctrl_outer_delay_ms(led_ctrl_read_active_state(mask), led_ctrl_read_speed(mask)))
+	{
+	    led_ctrl_time_delay(mask, led_ctrl_outer_delay_ms(led_ctrl_read_active_state(mask), led_ctrl_read_speed(mask)));
+	}
 //    if (0 < (task_led_ctrl_state_iterations->led_state_between_animation_delay_ms[led_speed]))
 //    {
 //    	led_ctrl_time_delay(mask, task_led_ctrl_state_iterations->led_state_between_animation_delay_ms[led_speed]);
@@ -151,33 +155,15 @@ static void task_led_ctrl_adjust_parameters(const strip_mask_t mask)
     		                                    % NUM_LED_STATES);
     		}
     		task_led_ctrl_state_info->led_state = led_state_random;
-//            if (NUM_LED_STATES == task_led_ctrl_state_info->led_state) task_led_ctrl_state_info->led_state = LED_STATE_FIRST;
             task_led_ctrl_state_info->led_state_current_iteration = 0;
         }
     }
     if ((!skip_color_check) && (LED_COLOR_MASTER_STATE_DEMO == led_ctrl_color_info->led_color_master))
 	{
-        // look up the strips and set the color based on the strip!
-//#		if defined(ENABLE_LED_STATE_TWO_COLOR)
-//			if (LED_STATE_TWO_COLOR == task_led_ctrl_state_info->led_state)
-//			{
-//				while (LED_COLOR_BLACK == led_ctrl_color_random_input(&g_two_color_inner));
-//				while (LED_COLOR_BLACK == led_ctrl_color_random_input(&g_two_color_outer));
-//			}
-//			else if (!task_led_ctrl_state_iterations->led_state_allow_black_color)
-//#		else
-//			if (!task_led_ctrl_state_iterations->led_state_allow_black_color)
-//#		endif
-//			{
-			    do
-			    {
-			        led_ctrl_color_randomize_active_color(mask);
-			    } while (led_ctrl_color_active_color_is_black(mask));
-//			}
-//			else
-//			{
-//			    led_ctrl_color_randomize_active_color(mask);
-//			}
+        do
+        {
+            led_ctrl_color_randomize_active_color(mask);
+        } while (led_ctrl_color_active_color_is_black(mask));
 	}
 }
 
@@ -186,7 +172,7 @@ static void task_led_iterate(led_state_e led_state, strip_mask_t mask)
 {
 //	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
 
-	uint16_t *p_led_state_inner_animation_delay_ms = led_ctrl_read_time_delay_inner_loop_ref(mask, led_state, led_ctrl_read_speed(mask));
+	uint16_t *p_led_state_inner_animation_delay_ms = led_ctrl_inner_delay_ms_ref(led_state, led_ctrl_read_speed(mask));
 
 	led_color_e led_color = led_ctrl_color_read_active_color(mask);
 	if (0)

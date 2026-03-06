@@ -218,7 +218,7 @@ typedef union
 	struct
 	{
 		uint8_t 				brightness_100p : 1;
-		uint8_t 				brightness_75p  : 1;
+//		uint8_t 				brightness_75p  : 1;
 		uint8_t 				brightness_50p  : 1;
 		uint8_t 				brightness_25p  : 1;
 		uint8_t 				brightness_1p   : 1;

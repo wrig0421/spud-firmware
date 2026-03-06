@@ -31,6 +31,7 @@
 #include "led_animate.h"
 #include "task_create.h"
 #include "button_config_hal_specific.h"
+#include "timer_access_hal.h"
 
 #define					SWITCH_TURN_OFF_TIME_MILLISECONDS						10000
 #define 				SWITCH_MAJOR_STATE_CHANGE_TIME_MILLISECONDS				5000
@@ -153,6 +154,7 @@ bool task_button_press_check_interrupts(const strip_mask_t mask)
 	bool* pb_interrupt_flag = NULL;
 	*pb_interrupt_flag = false;
 	bit_mask |= ((1 << NUM_BUTTONS)) - 1;
+	uint32_t notification_value = 0;
 
 	bool* pb_major_interrupt_transition_cmplt_flag = &g_led_ctrl[strip_num].led_ctrl_interrupt_info.major_interrupt_transition_cmplt_flag;
 
@@ -166,12 +168,33 @@ bool task_button_press_check_interrupts(const strip_mask_t mask)
 		pb_interrupt_flag = &g_led_ctrl[strip_num].led_ctrl_interrupt_info.major_interrupt_flag;
 		// set a flag to indicate that a major state interrupt has occured
         return_val = true;
+
+//        xTaskNotifyWait(0, notification_value, (uint32_t *)&notification_value, portMAX_DELAY);
+
         // wait for major_interrupt_transition_cmplt_flag to clear.
-        while (!(*pb_major_interrupt_transition_cmplt_flag))
-		{
+//        while (!(*pb_major_interrupt_transition_cmplt_flag))
+//		{
+            // turn off all LEDs for 500 ms
+//            led_animate_turn_all_pixels_off();
+//            free_rtos_delay_ms(500);
+            *pb_interrupt_flag = false;
+//            reset_ws2812b();
+//            for (uint8_t iii = 0; iii < 3; iii++)
+//            {
+//                // flash the LEDs to signal a master state change.
+//                // turn on all LEDs for 500 ms
+//                led_animate_solid_custom_color(STRIP_BIT_ALL_SET,
+//                                               notification_value);
+////                led_animate_set_all_pixels_hex_color(STRIP_BIT_ALL_SET,
+////                                                     notification_value);
+//                free_rtos_delay_ms(500);
+//                // turn off all LEDs for 500 ms
+//                led_animate_turn_all_pixels_off();
+//                free_rtos_delay_ms(500);
+//            }
         	// check every 50 ms for the major state change signal to clear.
         	free_rtos_delay_ms(50);
-		}
+//		}
         // clear the flag for the next go
         *pb_major_interrupt_transition_cmplt_flag = false;
 
@@ -207,11 +230,16 @@ bool task_button_press_check_interrupts(const strip_mask_t mask)
 			if (g_led_ctrl[strip_num].led_ctrl_interrupt_info.minor_interrupt_flag)
 			{
 				// wait for the pause flag to reset
-				while (p_interrupt_status->bits.pause_brightness)
-				{
-					// check for the flag to clear every 50 ms.
-					free_rtos_delay_ms(50);
-				}
+			    while (led_ctrl_read_pause_state(mask))
+			    {
+			        // check for the flag to clear every 50 ms.
+                    free_rtos_delay_ms(50);
+			    }
+//				while (p_interrupt_status->bits.pause_brightness)
+//				{
+//					// check for the flag to clear every 50 ms.
+//					free_rtos_delay_ms(50);
+//				}
 			}
 			p_interrupt_status->bits.pause_brightness = false;
 		}
@@ -220,17 +248,7 @@ bool task_button_press_check_interrupts(const strip_mask_t mask)
     return return_val;
 }
 
-typedef enum
-{
-	STARBURST_ANIMATION_0,
-	STARBURST_ANIMATION_1,
-	NUM_STARBURST_ANIMATIONS
-} starburst_animation_e;
-
-starburst_animation_e g_starburst_animation = STARBURST_ANIMATION_0;
-
 bool gb_standard_a_button = false;
-led_color_e g_led_color_dummy = LED_COLOR_BROWN;
 /**
  * @brief   Task to control all button press action
  * @param   *arguments: UNUSED!!
@@ -252,9 +270,10 @@ void task_button_press(void *argument)
     led_color_hex_code_e color = LED_COLOR_HEX_BLACK;
     IRQn_Type irq_type = 0;
 	strip_num_e strip_num = STRIP_NUM_1;
+	uint32_t notification_value = 0;
 
-	bool* pb_major_interrupt_flag = led_ctrl_read_minor_interrupt_flag_ref(STRIP_BIT_ALL_SET);
-	bool* pb_minor_interrupt_flag = led_ctrl_read_major_interrupt_flag_ref(STRIP_BIT_ALL_SET);
+	bool* pb_major_interrupt_flag = led_ctrl_read_major_interrupt_flag_ref(STRIP_BIT_ALL_SET);
+	bool* pb_minor_interrupt_flag = led_ctrl_read_minor_interrupt_flag_ref(STRIP_BIT_ALL_SET);
 
 //	bool* pb_major_interrupt_flag = &g_led_ctrl[strip_num].led_ctrl_interrupt_info.major_interrupt_flag;
 	bool* pb_major_interrupt_transition_cmplt_flag = &g_led_ctrl[strip_num].led_ctrl_interrupt_info.major_interrupt_transition_cmplt_flag;
@@ -291,18 +310,18 @@ void task_button_press(void *argument)
         // calculate the approximate time in ms that button is pressed.
         button_active_time_ms = timestamp_button_release_ms - timestamp_button_press_ms;
 
-        // a hack below for Keefe wedding... Power up white.  If any button held for 10 seconds or longer on first power up go into demo mode.
 		irq_type = button_config_button_to_irq(btn);
+        // a hack below for Keefe wedding... Power up white.  If any button held for 10 seconds or longer on first power up go into demo mode.
 
 //        if (button_gate_open)
 //        {
 			if (SWITCH_TURN_OFF_TIME_MILLISECONDS < button_active_time_ms)
 			{
-#if defined(ENABLE_LED_STRIP_SYNC)
-				vTaskSuspend(g_led_strip_sync_ctrl_handle);
-#else
-				vTaskSuspend(g_led_strip_1_ctrl_handle);
-#endif
+//#if defined(ENABLE_LED_STRIP_SYNC)
+//				vTaskSuspend(g_led_strip_sync_ctrl_handle);
+//#else
+//				vTaskSuspend(g_led_strip_1_ctrl_handle);
+//#endif
 				led_animate_turn_all_pixels_off();
 				// re-enable the interrupt
 				HAL_NVIC_SetPriority(irq_type, 24, 0);
@@ -341,6 +360,9 @@ void task_button_press(void *argument)
 #else
 				vTaskSuspend(g_led_strip_1_ctrl_handle);
 #endif
+//				timer_access_hal_stop_timer();
+//				reset_ws2812b();
+//				timer_access_hal_stop_timer();
 				// major state change.  Store the color denoting the transition.
 				color = led_ctrl_color_major_state_change_color(btn);
 				switch (btn)
@@ -348,34 +370,47 @@ void task_button_press(void *argument)
 					case BUTTON_A:
 						// `A` button is speed.  Reset the speed to the default value.
 						led_ctrl_speed_reset(STRIP_BIT_ALL_SET);
-						led_ctrl_speed_reset(STRIP_BIT_2);
+//                        led_ctrl_speed_reset(STRIP_BIT_1);
+//						led_ctrl_speed_reset(STRIP_BIT_2);
 					break;
 					case BUTTON_B:
 						// `B` button is animation.  Reset the iteration count and also reset the master state to demo!
 						led_state_ctrl_iteration_reset(STRIP_BIT_ALL_SET);
-						led_state_ctrl_iteration_reset(STRIP_BIT_2);
+//                        led_state_ctrl_iteration_reset(STRIP_BIT_1);
+//						led_state_ctrl_iteration_reset(STRIP_BIT_2);
 						led_state_ctrl_force_demo(STRIP_BIT_ALL_SET); // enter demo state
-						led_state_ctrl_force_demo(STRIP_BIT_2); // enter demo state
+//                        led_state_ctrl_force_demo(STRIP_BIT_1); // enter demo state
+//						led_state_ctrl_force_demo(STRIP_BIT_2); // enter demo state
 					break;
 					case BUTTON_C:
 						// `C` button is color.  Reset the color master state back to demo mode.
 						// don't change iteration count.  Simply go to color demo mode.
 						led_ctrl_color_master_state_force_demo(STRIP_BIT_ALL_SET);
-						led_ctrl_color_master_state_force_demo(STRIP_BIT_2);
+//                        led_ctrl_color_master_state_force_demo(STRIP_BIT_1);
+//						led_ctrl_color_master_state_force_demo(STRIP_BIT_2);
 
 					break;
 					case BUTTON_D:
 						// `D` button is brightness.  Adjust the brightness and also clear pause if for some reason we are paused.
 						led_ctrl_brightness_adjust(STRIP_BIT_ALL_SET);
-						led_ctrl_brightness_adjust(STRIP_BIT_2);
+//                        led_ctrl_brightness_adjust(STRIP_BIT_1);
+//						led_ctrl_brightness_adjust(STRIP_BIT_2);
 
-						led_ctrl_pause(STRIP_BIT_ALL_SET);
-						led_ctrl_pause(STRIP_BIT_2);
+//						led_ctrl_pause(STRIP_BIT_ALL_SET);
+//                        led_ctrl_pause(STRIP_BIT_1);
+//						led_ctrl_pause(STRIP_BIT_2);
 					break;
 					default:
 					break;
 				}
-				// turn off all LEDs for 500 ms
+				notification_value = color;
+                // notify task to switch LED colors...
+//                xTaskNotify(g_led_strip_sync_ctrl_handle, notification_value,
+//                            eSetValueWithOverwrite);
+//
+//                taskYIELD();
+
+//				// turn off all LEDs for 500 ms
 				led_animate_turn_all_pixels_off();
 				free_rtos_delay_ms(500);
 				for (uint8_t iii = 0; iii < 3; iii++)
@@ -392,12 +427,12 @@ void task_button_press(void *argument)
 				// re-enable the button interrupt
 				HAL_NVIC_SetPriority(irq_type, 24, 0);
 				HAL_NVIC_EnableIRQ(irq_type);
-				*pb_major_interrupt_flag = false;
-				*pb_major_interrupt_transition_cmplt_flag = true;
+//				*pb_major_interrupt_flag = false;
+//				*pb_major_interrupt_transition_cmplt_flag = true;
 #if defined(ENABLE_LED_STRIP_SYNC)
-				vTaskSuspend(g_led_strip_sync_ctrl_handle);
+				vTaskResume(g_led_strip_sync_ctrl_handle);
 #else
-				vTaskSuspend(g_led_strip_1_ctrl_handle);
+				vTaskResume(g_led_strip_1_ctrl_handle);
 #endif
 			}
 			else
@@ -441,15 +476,15 @@ void task_button_press(void *argument)
 						{
 							// master color state is demo... change to fixed master state!
 							led_ctrl_color_master_state_force_fixed(STRIP_BIT_ALL_SET);
-//							led_ctrl_color_master_state_force_fixed(STRIP_BIT_2);
 						}
-						else
-						{
+                        led_ctrl_color_adjust(STRIP_BIT_ALL_SET);
+//						else
+//						{
 							// master color state is fixed.  Adjust the color.
-							led_ctrl_color_adjust(STRIP_BIT_ALL_SET);
+//							led_ctrl_color_adjust(STRIP_BIT_ALL_SET);
 //							led_ctrl_color_adjust(STRIP_BIT_2);
 
-						}
+//						}
 					break;
 					case BUTTON_D:
 						// 'D' is pause.

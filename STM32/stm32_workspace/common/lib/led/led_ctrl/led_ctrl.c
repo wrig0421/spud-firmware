@@ -4,6 +4,7 @@
 #include "timers.h"
 #include "portmacro.h"
 #include "numbers.h"
+#include <string.h>
 
 #include "led_ctrl.h"
 #include "task_button_press.h"
@@ -16,6 +17,8 @@
 #include "led_color.h"
 
 extern TimerHandle_t g_led_ctrl_timer_handle;
+extern const uint16_t g_led_ctrl_time_delay_inner_loop[NUM_LED_STATES][NUM_LED_SPEEDS];
+extern const uint16_t g_led_ctrl_time_delay_outer_loop[NUM_LED_STATES][NUM_LED_SPEEDS];
 
 // global arrays guaranteed to be 0 filled... Only filling in parameters below
 // if they are non zero!
@@ -48,6 +51,7 @@ led_ctrl_t g_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS] =
             .led_state                      = LED_STATE_RAINBOW_CYCLE,
             .led_state_current_iteration    = 0
         },
+//        .led_ctrl_time_delay.inner_animation_loop_delay_ms = (const uint16_t *)&g_led_ctrl_time_delay_inner_loop
 		// time delay set at init
     },
     [STRIP_NUM_2] =
@@ -138,6 +142,30 @@ led_ctrl_t g_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS] =
     }
 // multiple strips that ARE NOT ALL are not supported at this time...
 };
+
+
+uint16_t led_ctrl_inner_delay_ms(led_state_e state, led_speed_e speed)
+{
+    return (uint16_t)g_led_ctrl_time_delay_inner_loop[state][speed];
+}
+
+
+uint16_t* led_ctrl_inner_delay_ms_ref(led_state_e state, led_speed_e speed)
+{
+    return &g_led_ctrl_time_delay_inner_loop[state][speed];
+}
+
+
+uint16_t led_ctrl_outer_delay_ms(led_state_e state, led_speed_e speed)
+{
+    return (uint16_t)g_led_ctrl_time_delay_outer_loop[state][speed];
+}
+
+
+uint16_t* led_ctrl_outer_delay_ms_ref(led_state_e state, led_speed_e speed)
+{
+    return &g_led_ctrl_time_delay_outer_loop[state][speed];
+}
 
 
 led_ctrl_state_master_e led_ctrl_read_master_state(const strip_mask_t mask)
@@ -365,39 +393,39 @@ led_ctrl_state_info_t* led_ctrl_read_state_info(const strip_mask_t mask)
     return &g_led_ctrl[strip_num].led_ctrl_state_info;
 }
 
-
-led_ctrl_time_delay_t* led_ctrl_read_time_delay_ref(const strip_mask_t mask)
-{
-    strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
-    return &g_led_ctrl[strip_num].led_ctrl_time_delay; // return first entry reference
-}
-
-
-uint16_t led_ctrl_read_time_delay_inner_loop(const strip_mask_t mask, led_state_e state, led_speed_e speed)
-{
-    strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
-    return g_led_ctrl[strip_num].led_ctrl_time_delay.inner_animation_loop_delay_ms[state][speed]; // return first entry reference
-}
-
-uint16_t* led_ctrl_read_time_delay_inner_loop_ref(const strip_mask_t mask, led_state_e state, led_speed_e speed)
-{
-    strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
-    return &g_led_ctrl[strip_num].led_ctrl_time_delay.inner_animation_loop_delay_ms[state][speed]; // return first entry reference
-}
-
-
-uint16_t led_ctrl_read_time_delay_outer_loop(const strip_mask_t mask, led_state_e state, led_speed_e speed)
-{
-    strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
-    return g_led_ctrl[strip_num].led_ctrl_time_delay.outer_animation_loop_delay_ms[state][speed]; // return first entry reference
-}
-
-
-uint16_t* led_ctrl_read_time_delay_outer_loop_ref(const strip_mask_t mask, led_state_e state, led_speed_e speed)
-{
-    strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
-    return &g_led_ctrl[strip_num].led_ctrl_time_delay.outer_animation_loop_delay_ms[state][speed]; // return first entry reference
-}
+//
+//led_ctrl_time_delay_t* led_ctrl_read_time_delay_ref(const strip_mask_t mask)
+//{
+//    strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
+//    return &g_led_ctrl[strip_num].led_ctrl_time_delay; // return first entry reference
+//}
+//
+//
+//const uint16_t led_ctrl_read_time_delay_inner_loop(const strip_mask_t mask, led_state_e state, led_speed_e speed)
+//{
+//    strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
+//    return g_led_ctrl[strip_num].led_ctrl_time_delay.inner_animation_loop_delay_ms[state][speed]; // return first entry reference
+//}
+//
+//const uint16_t* led_ctrl_read_time_delay_inner_loop_ref(const strip_mask_t mask, led_state_e state, led_speed_e speed)
+//{
+//    strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
+//    return &g_led_ctrl[strip_num].led_ctrl_time_delay.inner_animation_loop_delay_ms[state][speed]; // return first entry reference
+//}
+//
+//
+//const uint16_t led_ctrl_read_time_delay_outer_loop(const strip_mask_t mask, led_state_e state, led_speed_e speed)
+//{
+//    strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
+//    return g_led_ctrl[strip_num].led_ctrl_time_delay.outer_animation_loop_delay_ms[state][speed]; // return first entry reference
+//}
+//
+//
+//const uint16_t* led_ctrl_read_time_delay_outer_loop_ref(const strip_mask_t mask, led_state_e state, led_speed_e speed)
+//{
+//    strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
+//    return &g_led_ctrl[strip_num].led_ctrl_time_delay.outer_animation_loop_delay_ms[state][speed]; // return first entry reference
+//}
 
 
 

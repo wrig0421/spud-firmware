@@ -108,7 +108,7 @@ void task_create(void) {
 #	if defined(ENABLE_LED_STRIP_SYNC)
 
     	g_led_strip_sync_ctrl_handle = xTaskCreateStatic(task_led_sync_ctrl, "task_strip_sync", TASK_CREATE_STACK_SIZE_STANDARD,
-														NULL, tskIDLE_PRIORITY, g_task_led_sync_stack, &g_task_led_sync_buffer);
+														NULL, tskIDLE_PRIORITY + 1, g_task_led_sync_stack, &g_task_led_sync_buffer);
 
 #	elif (1 == NUM_ACTIVE_STRIPS)
 

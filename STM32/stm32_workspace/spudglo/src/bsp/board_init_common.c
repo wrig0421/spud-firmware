@@ -17,6 +17,7 @@
 #include "timer_config_hal.h"
 #include "i2c_config_hal.h"
 #include "rng_config_hal.h"
+#include "button_access.h"
 
 static void board_init_common_sysclk_init(void)
 {
@@ -157,6 +158,8 @@ void board_init_common_board_init(void)
 
     // setup any board specific items
     board_init_specific();
+
+    button_access_setup();
 }
 
 

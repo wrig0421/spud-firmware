@@ -33,7 +33,7 @@ void led_ctrl_brightness_adjust(const strip_mask_t mask)
         case LED_BRIGHTNESS_100_PERCENT:    led_ctrl_power_monitor_set(1.0f);   break;
         case LED_BRIGHTNESS_50_PERCENT:     led_ctrl_power_monitor_set(0.5f);   break;
         case LED_BRIGHTNESS_25_PERCENT:     led_ctrl_power_monitor_set(0.25f);  break;
-        case LED_BRIGHTNESS_1_PERCENT:      led_ctrl_power_monitor_set(0.01f);  break;
+        case LED_BRIGHTNESS_10_PERCENT:     led_ctrl_power_monitor_set(0.10f);  break;
         default:                                                                break;
     }
 }

@@ -17,6 +17,7 @@ void led_ctrl_pause(const strip_mask_t mask)
 
     if (pause_enable_disable) led_ctrl_write_pause_state(mask, true);
     else led_ctrl_write_pause_state(mask, false);
+    pause_enable_disable ^= 1;
 }
 
 
