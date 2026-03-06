@@ -366,6 +366,8 @@ void ws2812b_set_led(const strip_mask_t strip_mask, const uint16_t led_num,
 
 extern task_notification_value_format_t g_dma_transfer_notification_value;
 
+
+bool timer_channel_started[3] = {false, false, false};
 /**
  * @brief   Start timer DMA transfer for the passed strip_bit
  * @param   strip_bit - strip_bit_e value representing strip[s]
@@ -375,9 +377,9 @@ extern task_notification_value_format_t g_dma_transfer_notification_value;
  *          within the strips.  For now... This function will only operate
  *          with STRIP_BIT_1, STRIP_BIT_2, STRIP_BIT_3 values.
  */
+// FUNCTION BELOW ABSOLUTELY NEEDS TO BE A SEPARATE TASK
 void ws2812b_dma_transfer(strip_bit_e strip_bit)
 {
-	static bool timer_channel_started[3] = {false, false, false};
 	static bool first_pass = true;
 //	task_notification_value_format_t task_notification_value;
 //	task_notification_value.value = 0;
@@ -390,6 +392,7 @@ void ws2812b_dma_transfer(strip_bit_e strip_bit)
     	case STRIP_BIT_3: timer_channel = TIM_CHANNEL_3; break;
     	default: return;
     }
+    semaphore_take(SEMAPHORE_DMA_TRANSFER);
     if (first_pass) //|| g_reset_ws2812b)
     {
         first_pass = false;
@@ -398,56 +401,35 @@ void ws2812b_dma_transfer(strip_bit_e strip_bit)
     }
     else
     {
-
-
-            // flicker observed with multiple strips going at once.  Code below
-            // enforces only one strip at a time. So we are enforcing that all
-            // transfers must be complete before starting another!
-//            xTaskNotifyWait(0, (uint32_t)task_notification_value.value,
-//                            (uint32_t *)&task_notification_value.value,
-//                            portMAX_DELAY);
-//            while (g_dma_transfer_notification_value.entity_bits.strip_1 && \
-//                            !g_dma_transfer_notification_value.stimulus_bits.dma_cmplt)
-//            {
-//                free_rtos_delay_ms(10);
-//            }
-//            timer_channel_started[STRIP_NUM_1] = false;
-//            g_dma_transfer_notification_value.entity_bits.strip_1 = false;
-//            g_dma_transfer_notification_value.stimulus_bits.dma_cmplt = false;
-//            while (g_dma_transfer_notification_value.entity_bits.strip_2 && \
-//                            !g_dma_transfer_notification_value.stimulus_bits.dma_cmplt)
-//            {
-//               free_rtos_delay_ms(10);
-//            }
-//            timer_channel_started[STRIP_NUM_2] = false;
-//            g_dma_transfer_notification_value.entity_bits.strip_2 = false;
-//            g_dma_transfer_notification_value.stimulus_bits.dma_cmplt = false;
-//
-//            while (g_dma_transfer_notification_value.entity_bits.strip_3 && \
-//                            !g_dma_transfer_notification_value.stimulus_bits.dma_cmplt)
-//            {
-//               free_rtos_delay_ms(10);
-//            }
-//            timer_channel_started[STRIP_NUM_3] = false;
-//            g_dma_transfer_notification_value.entity_bits.strip_3 = false;
-//            g_dma_transfer_notification_value.stimulus_bits.dma_cmplt = false;
-
+        // check each individually below!!!
         if (timer_channel_started[STRIP_NUM_1])
         {
             timer_channel_started[STRIP_NUM_1] = false;
-            while (!g_dma_transfer_notification_value.entity_bits.strip_1) free_rtos_delay_ms(10);
+            while (!g_dma_transfer_notification_value.entity_bits.strip_1)
+            {
+                taskYIELD();
+                free_rtos_delay_ms(10);
+            }
             g_dma_transfer_notification_value.entity_bits.strip_1 = false;
         }
         if (timer_channel_started[STRIP_NUM_2])
         {
             timer_channel_started[STRIP_NUM_2] = false;
-            while (!g_dma_transfer_notification_value.entity_bits.strip_2) free_rtos_delay_ms(10);
+            while (!g_dma_transfer_notification_value.entity_bits.strip_2)
+            {
+                taskYIELD();
+                free_rtos_delay_ms(10);
+            }
             g_dma_transfer_notification_value.entity_bits.strip_2 = false;
         }
         if (timer_channel_started[STRIP_NUM_3])
         {
             timer_channel_started[STRIP_NUM_3] = false;
-            while (!g_dma_transfer_notification_value.entity_bits.strip_3) free_rtos_delay_ms(10);
+            while (!g_dma_transfer_notification_value.entity_bits.strip_3)
+            {
+                taskYIELD();
+                free_rtos_delay_ms(10);
+            }
             g_dma_transfer_notification_value.entity_bits.strip_3 = false;
         }
 //
@@ -511,6 +493,7 @@ void ws2812b_dma_transfer(strip_bit_e strip_bit)
 			}
 			timer_channel_started[strip_num] = true;
     }
+    semaphore_give(SEMAPHORE_DMA_TRANSFER);
 }
 
 

@@ -147,6 +147,7 @@ bool led_ctrl_time_delay(const strip_mask_t mask, const uint32_t time_ms)
 
     while (ms_count++ < ticks)
     {
+        taskYIELD();
         free_rtos_delay_ms(portTICK_PERIOD_MS);
         if (led_ctrl_interrupt_major_or_minor_flag_set(mask)) return true;
     }

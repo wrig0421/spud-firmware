@@ -25,6 +25,9 @@ uint8_t led_ctrl_color_read_active_blue_hex(const strip_mask_t mask);
 led_color_hex_code_e led_ctrl_color_enum_to_hex(const led_color_e color);
 led_color_e led_ctrl_color_randomize_active_color(const strip_mask_t mask);
 led_color_hex_code_e led_ctrl_color_major_state_change_color(button_e btn);
+led_color_e led_ctrl_color_random(const strip_mask_t mask);
+
+
 
 #endif
 

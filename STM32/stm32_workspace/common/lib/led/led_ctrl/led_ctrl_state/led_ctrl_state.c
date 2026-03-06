@@ -73,16 +73,19 @@ bool led_state_ctrl_adjust_state(const strip_mask_t mask)
 //	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
     bool return_val = false;
 
-    if (LED_STATE_LAST == led_ctrl_read_active_state(mask))
-    {
-        led_ctrl_write_active_state(mask, LED_STATE_FIRST);
-        return_val = true;
-    }
-    else
-	{
-        led_ctrl_write_active_state(mask, (led_ctrl_read_active_state(mask) + 1));
-	}
-    return return_val;
+
+    led_ctrl_state_randomize_active_state(mask);
+    return true;
+//    if (LED_STATE_LAST == led_ctrl_read_active_state(mask))
+//    {
+//        led_ctrl_write_active_state(mask, LED_STATE_FIRST);
+//        return_val = true;
+//    }
+//    else
+//	{
+//        led_ctrl_write_active_state(mask, (led_ctrl_read_active_state(mask) + 1));
+//	}
+//    return return_val;
 }
 
 

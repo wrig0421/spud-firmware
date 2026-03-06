@@ -1,3 +1,2 @@
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/timer/animation_timer_acces.c:10:6:animation_timer_access_callback	2
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/timer/animation_timer_acces.c:19:6:animation_timer_access_reset	2
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/timer/animation_timer_acces.c:35:6:led_ctrl_timer_start	1
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/timer/animation_timer_acces.c:9:6:animation_timer_access_callback	2
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/timer/animation_timer_acces.c:22:6:animation_timer_access_reset	2

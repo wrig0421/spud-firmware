@@ -88,5 +88,7 @@ const uint16_t* led_ctrl_read_time_delay_inner_loop_ref(const strip_mask_t mask,
 const uint16_t led_ctrl_read_time_delay_outer_loop(const strip_mask_t mask, led_state_e state, led_speed_e speed);
 const uint16_t* led_ctrl_read_time_delay_outer_loop_ref(const strip_mask_t mask, led_state_e state, led_speed_e speed);
 
+void led_ctrl_write_major_interrupt_flag(const strip_mask_t mask, bool enable);
+void led_ctrl_write_minor_interrupt_flag(const strip_mask_t mask, bool enable);
 
 #endif

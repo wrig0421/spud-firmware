@@ -320,7 +320,12 @@ void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim)
 {
     BaseType_t xHigherPriorityTaskWoken = pdFALSE;
 	TaskHandle_t *p_task_handle = NULL;
-	g_dma_transfer_notification_value.value = 0;
+	static bool first_pass = true;
+	if (first_pass)
+	{
+	    first_pass = false;
+	    g_dma_transfer_notification_value.value = 0;
+	}
 //	g_dma_transfer_notification_value.stimulus_bits.dma_cmplt = true;
 
     switch (htim->Channel)
@@ -352,6 +357,7 @@ void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim)
         default:
             // how did we get here?  set task_handle to null and entity to false
 //                task_handle = NULL;
+            while (1);
             g_dma_transfer_notification_value.flat_entity = false;
         break;
     }

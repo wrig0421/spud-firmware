@@ -77,7 +77,7 @@ led_ctrl_t g_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS] =
         .led_ctrl_state_info                =
         {
             .led_state_master               = LED_CTRL_STATE_MASTER_DEMO,
-            .led_state                      = LED_STATE_RAINBOW_CYCLE,
+            .led_state                      = LED_STATE_SOLID_COLOR,
             .led_state_current_iteration    = 0
         },
 		// time delay set at init
@@ -287,6 +287,20 @@ bool* led_ctrl_read_major_interrupt_flag_ref(const strip_mask_t mask)
 {
     strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
     return &g_led_ctrl[strip_num].led_ctrl_interrupt_info.major_interrupt_flag;
+}
+
+
+void led_ctrl_write_major_interrupt_flag(const strip_mask_t mask, bool enable)
+{
+    strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
+    g_led_ctrl[strip_num].led_ctrl_interrupt_info.major_interrupt_flag = enable;
+}
+
+
+void led_ctrl_write_minor_interrupt_flag(const strip_mask_t mask, bool enable)
+{
+    strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
+    g_led_ctrl[strip_num].led_ctrl_interrupt_info.minor_interrupt_flag = enable;
 }
 
 

@@ -28,6 +28,8 @@
 #include "rv8803.h"
 #include "rng_access.h"
 #include "led_ctrl_speed.h"
+#include "free_rtos_convenience.h"
+
 #include <string.h>
 extern UART_HandleTypeDef      gh_host_usart;
 
@@ -51,6 +53,10 @@ uint16_t g_start = 0;
 uint16_t g_stop = 10;
 bool g_clear = false;
 
+extern TaskHandle_t g_led_strip_1_ctrl_handle;
+extern TaskHandle_t g_led_strip_2_ctrl_handle;
+extern TaskHandle_t g_led_strip_3_ctrl_handle;
+extern TaskHandle_t g_led_strip_sync_ctrl_handle;
 
 typedef enum
 {
@@ -115,6 +121,7 @@ static void task_led_ctrl_adjust_parameters(const strip_mask_t mask)
 		task_led_ctrl_clear_skip_adjust_parameters();
 		return;
 	}
+
 	bool skip_color_check = false;
 //	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
 	led_ctrl_state_info_t *task_led_ctrl_state_info = led_ctrl_read_state_info(mask);
@@ -142,9 +149,9 @@ static void task_led_ctrl_adjust_parameters(const strip_mask_t mask)
 //	}
     if (LED_CTRL_STATE_MASTER_DEMO == (task_led_ctrl_state_info->led_state_master))
     {
-    	if (led_animate_exit_stimulus_flag())
+    	if (led_animate_exit_stimulus_flag(mask))
 		{
-    		led_animate_clear_exit_stimulus();
+    		led_animate_clear_exit_stimulus(mask);
     		led_state_random = (led_state_e) \
     		                (rng_access_read_and_generate_random_number() \
                                             % NUM_LED_STATES);
@@ -168,6 +175,8 @@ static void task_led_ctrl_adjust_parameters(const strip_mask_t mask)
 }
 
 uint32_t g_time_diff = 0;
+
+uint32_t g_iteration_count_solid_color = 0;
 static void task_led_iterate(led_state_e led_state, strip_mask_t mask)
 {
 //	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
@@ -181,6 +190,7 @@ static void task_led_iterate(led_state_e led_state, strip_mask_t mask)
 		// mask to control do the second strip here...
 		mask = (strip_mask_t)STRIP_BIT_2;
 	}
+
 	if (1)//(flash_info_animation_enabled(g_led_ctrl.led_state))
 	{
 		switch(led_state)
@@ -192,7 +202,16 @@ static void task_led_iterate(led_state_e led_state, strip_mask_t mask)
 				led_animate_solid_custom_color(mask, LED_COLOR_HEX_WHITE);
 			break;
 			case LED_STATE_SOLID_COLOR:
-				led_animate_solid_custom_color(mask, led_color_enum_to_hex_code(led_color));
+
+			    if (xTaskGetCurrentTaskHandle() == g_led_strip_2_ctrl_handle)
+			    {
+			        // do the custom LED colors here..
+			        led_animate_static_snowmobile_color(mask);
+			    }
+			    else
+			    {
+			        led_animate_solid_custom_color(mask, led_color_enum_to_hex_code(led_color));
+			    }
 			break;
 			case LED_STATE_SPARKLE_NO_FILL:
 //				led_animate_turn_all_pixels_off();
@@ -250,6 +269,7 @@ static void task_led_iterate(led_state_e led_state, strip_mask_t mask)
 			break;
 		}
 	}
+	taskYIELD();
 }
 
 
@@ -258,11 +278,17 @@ void task_led_1_ctrl(void *argument)
     led_animate_turn_all_pixels_off_in_strip(STRIP_BIT_1);
     led_ctrl_state_randomize_active_state(STRIP_BIT_1);
     led_ctrl_color_randomize_active_color(STRIP_BIT_1);
+
     while (1)
     {
+//        while (1)
+//        {
+//            free_rtos_delay_ms(500);
+//        }
         task_led_iterate(led_ctrl_read_active_state(STRIP_BIT_1), STRIP_BIT_1);
         task_led_ctrl_adjust_parameters(STRIP_BIT_1);
     }
+    while (1);
 }
 
 
@@ -276,6 +302,7 @@ void task_led_2_ctrl(void *argument)
 		task_led_iterate(led_ctrl_read_active_state(STRIP_BIT_2), STRIP_BIT_2);
 		task_led_ctrl_adjust_parameters(STRIP_BIT_2);
 	}
+	while (1);
 }
 
 

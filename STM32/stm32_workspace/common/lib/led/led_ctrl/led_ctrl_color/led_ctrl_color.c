@@ -181,6 +181,14 @@ led_color_e led_ctrl_color_randomize_active_color(const strip_mask_t mask)
 }
 
 
+led_color_e led_ctrl_color_random(const strip_mask_t mask)
+{
+    led_color_e led_color = LED_COLOR_BLACK;
+    led_color = (led_color_e)(rng_access_read_and_generate_random_number() % NUM_COLORS);
+    return led_color;
+}
+
+
 led_color_hex_code_e led_ctrl_color_major_state_change_color(button_e btn)
 {
     switch (btn)

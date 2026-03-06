@@ -39,6 +39,8 @@ extern led_ctrl_t 		g_led_ctrl[NUM_SUPPORTED_STRIP_COMBOS];
 uint32_t 				g_button_press_timestamp[NUM_BUTTONS][NUM_TIMESTAMPS] 	= {0};
 uint32_t 				g_task_button_press_button_count[NUM_BUTTONS] 			= {0};
 extern TaskHandle_t 	g_led_strip_1_ctrl_handle;
+extern TaskHandle_t     g_led_strip_2_ctrl_handle;
+
 extern TaskHandle_t 	g_led_strip_sync_ctrl_handle;
 extern bool g_led_animate_exit_stimulus;
 
@@ -271,6 +273,7 @@ void task_button_press(void *argument)
     IRQn_Type irq_type = 0;
 	strip_num_e strip_num = STRIP_NUM_1;
 	uint32_t notification_value = 0;
+	static uint8_t pause_enable_disable = 1;
 
 	bool* pb_major_interrupt_flag = led_ctrl_read_major_interrupt_flag_ref(STRIP_BIT_ALL_SET);
 	bool* pb_minor_interrupt_flag = led_ctrl_read_minor_interrupt_flag_ref(STRIP_BIT_ALL_SET);
@@ -317,11 +320,12 @@ void task_button_press(void *argument)
 //        {
 			if (SWITCH_TURN_OFF_TIME_MILLISECONDS < button_active_time_ms)
 			{
-//#if defined(ENABLE_LED_STRIP_SYNC)
-//				vTaskSuspend(g_led_strip_sync_ctrl_handle);
-//#else
-//				vTaskSuspend(g_led_strip_1_ctrl_handle);
-//#endif
+#if defined(ENABLE_LED_STRIP_SYNC)
+				vTaskSuspend(g_led_strip_sync_ctrl_handle);
+#else
+				vTaskSuspend(g_led_strip_1_ctrl_handle);
+                vTaskSuspend(g_led_strip_2_ctrl_handle);
+#endif
 				led_animate_turn_all_pixels_off();
 				// re-enable the interrupt
 				HAL_NVIC_SetPriority(irq_type, 24, 0);
@@ -333,7 +337,18 @@ void task_button_press(void *argument)
 			{
 				// button active for long enough to signal major state transition
 				*pb_major_interrupt_flag = true;
+				led_ctrl_write_major_interrupt_flag(STRIP_BIT_ALL_SET, true);
+                led_ctrl_write_major_interrupt_flag(STRIP_BIT_1, true);
+                led_ctrl_write_major_interrupt_flag(STRIP_BIT_2, true);
+                led_ctrl_write_major_interrupt_flag(STRIP_BIT_3, true);
+
+
 				*pb_major_interrupt_transition_cmplt_flag = false;
+
+				led_ctrl_write_minor_interrupt_flag(STRIP_BIT_ALL_SET, false);
+                led_ctrl_write_minor_interrupt_flag(STRIP_BIT_1, false);
+                led_ctrl_write_minor_interrupt_flag(STRIP_BIT_2, false);
+                led_ctrl_write_minor_interrupt_flag(STRIP_BIT_3, false);
 				*pb_minor_interrupt_flag = false;
 			}
 			else
@@ -343,12 +358,28 @@ void task_button_press(void *argument)
 					gb_standard_a_button = true;
 				}
 				// button pressed, signal minor interrupt
-				*pb_major_interrupt_flag = false;
+				led_ctrl_write_major_interrupt_flag(STRIP_BIT_ALL_SET, false);
+                led_ctrl_write_major_interrupt_flag(STRIP_BIT_1, false);
+                led_ctrl_write_major_interrupt_flag(STRIP_BIT_2, false);
+                led_ctrl_write_major_interrupt_flag(STRIP_BIT_3, false);
+
 				*pb_major_interrupt_transition_cmplt_flag = false;
-				*pb_minor_interrupt_flag = true;
+
+                led_ctrl_write_minor_interrupt_flag(STRIP_BIT_ALL_SET, true);
+                led_ctrl_write_minor_interrupt_flag(STRIP_BIT_1, true);
+                led_ctrl_write_minor_interrupt_flag(STRIP_BIT_2, true);
+                led_ctrl_write_minor_interrupt_flag(STRIP_BIT_3, true);
+
+//                *pb_major_interrupt_flag = false;
+//                *pb_major_interrupt_transition_cmplt_flag = false;
+//				*pb_minor_interrupt_flag = true;
 			}
 			// set flag to signal that a button interrupt was received!  For now all strips will action on the button
 			task_button_press_ctrl_set_interrupt_flag(STRIP_BIT_ALL_SET, task_led_ctrl_button_to_isr(btn), *pb_major_interrupt_flag);
+            task_button_press_ctrl_set_interrupt_flag(STRIP_BIT_1, task_led_ctrl_button_to_isr(btn), *pb_major_interrupt_flag);
+            task_button_press_ctrl_set_interrupt_flag(STRIP_BIT_2, task_led_ctrl_button_to_isr(btn), *pb_major_interrupt_flag);
+
+
 			// store the IRQ associated with the button.
 			irq_type = button_config_button_to_irq(btn);
 			// check if the button was held down longer than SWITCH_MAJOR_STATE_CHANGE_TIME_MILLISECONDS
@@ -359,6 +390,7 @@ void task_button_press(void *argument)
 				vTaskSuspend(g_led_strip_sync_ctrl_handle);
 #else
 				vTaskSuspend(g_led_strip_1_ctrl_handle);
+                vTaskSuspend(g_led_strip_2_ctrl_handle);
 #endif
 //				timer_access_hal_stop_timer();
 //				reset_ws2812b();
@@ -370,31 +402,31 @@ void task_button_press(void *argument)
 					case BUTTON_A:
 						// `A` button is speed.  Reset the speed to the default value.
 						led_ctrl_speed_reset(STRIP_BIT_ALL_SET);
-//                        led_ctrl_speed_reset(STRIP_BIT_1);
-//						led_ctrl_speed_reset(STRIP_BIT_2);
+                        led_ctrl_speed_reset(STRIP_BIT_1);
+						led_ctrl_speed_reset(STRIP_BIT_2);
 					break;
 					case BUTTON_B:
 						// `B` button is animation.  Reset the iteration count and also reset the master state to demo!
 						led_state_ctrl_iteration_reset(STRIP_BIT_ALL_SET);
-//                        led_state_ctrl_iteration_reset(STRIP_BIT_1);
-//						led_state_ctrl_iteration_reset(STRIP_BIT_2);
+                        led_state_ctrl_iteration_reset(STRIP_BIT_1);
+						led_state_ctrl_iteration_reset(STRIP_BIT_2);
 						led_state_ctrl_force_demo(STRIP_BIT_ALL_SET); // enter demo state
-//                        led_state_ctrl_force_demo(STRIP_BIT_1); // enter demo state
-//						led_state_ctrl_force_demo(STRIP_BIT_2); // enter demo state
+                        led_state_ctrl_force_demo(STRIP_BIT_1); // enter demo state
+						led_state_ctrl_force_demo(STRIP_BIT_2); // enter demo state
 					break;
 					case BUTTON_C:
 						// `C` button is color.  Reset the color master state back to demo mode.
 						// don't change iteration count.  Simply go to color demo mode.
 						led_ctrl_color_master_state_force_demo(STRIP_BIT_ALL_SET);
-//                        led_ctrl_color_master_state_force_demo(STRIP_BIT_1);
-//						led_ctrl_color_master_state_force_demo(STRIP_BIT_2);
+                        led_ctrl_color_master_state_force_demo(STRIP_BIT_1);
+						led_ctrl_color_master_state_force_demo(STRIP_BIT_2);
 
 					break;
 					case BUTTON_D:
 						// `D` button is brightness.  Adjust the brightness and also clear pause if for some reason we are paused.
 						led_ctrl_brightness_adjust(STRIP_BIT_ALL_SET);
-//                        led_ctrl_brightness_adjust(STRIP_BIT_1);
-//						led_ctrl_brightness_adjust(STRIP_BIT_2);
+                        led_ctrl_brightness_adjust(STRIP_BIT_1);
+						led_ctrl_brightness_adjust(STRIP_BIT_2);
 
 //						led_ctrl_pause(STRIP_BIT_ALL_SET);
 //                        led_ctrl_pause(STRIP_BIT_1);
@@ -418,6 +450,7 @@ void task_button_press(void *argument)
 					// flash the LEDs to signal a master state change.
 					// turn on all LEDs for 500 ms
 					led_animate_set_all_pixels_hex_color(STRIP_BIT_ALL_SET, color);
+                    led_animate_set_all_pixels_hex_color(STRIP_BIT_1, color);
 					led_animate_set_all_pixels_hex_color(STRIP_BIT_2, color);
 					free_rtos_delay_ms(500);
 					// turn off all LEDs for 500 ms
@@ -433,6 +466,8 @@ void task_button_press(void *argument)
 				vTaskResume(g_led_strip_sync_ctrl_handle);
 #else
 				vTaskResume(g_led_strip_1_ctrl_handle);
+                vTaskResume(g_led_strip_2_ctrl_handle);
+
 #endif
 			}
 			else
@@ -446,6 +481,9 @@ void task_button_press(void *argument)
 						{
 							gb_standard_a_button = false;
 							led_ctrl_speed_adjust(STRIP_BIT_ALL_SET);
+                            led_ctrl_speed_adjust(STRIP_BIT_1);
+                            led_ctrl_speed_adjust(STRIP_BIT_2);
+
 //							led_ctrl_speed_adjust(STRIP_BIT_2);
 
 						}
@@ -457,14 +495,21 @@ void task_button_press(void *argument)
 						{
 							// master state is demo, change to fixed master state.
 							led_state_ctrl_force_fixed_state(STRIP_BIT_ALL_SET);
+                            led_state_ctrl_force_fixed_state(STRIP_BIT_1);
+                            led_state_ctrl_force_fixed_state(STRIP_BIT_2);
+
 //							led_state_ctrl_force_fixed_state(STRIP_BIT_2);
 
 						}
 						g_led_animate_exit_stimulus = true;
 						led_state_ctrl_iteration_reset(STRIP_BIT_ALL_SET);
-//						led_state_ctrl_iteration_reset(STRIP_BIT_2);
+						led_state_ctrl_iteration_reset(STRIP_BIT_1);
+                        led_state_ctrl_iteration_reset(STRIP_BIT_2);
 
 						led_state_ctrl_adjust_state(STRIP_BIT_ALL_SET);
+                        led_state_ctrl_adjust_state(STRIP_BIT_1);
+                        led_state_ctrl_adjust_state(STRIP_BIT_2);
+
 //						led_state_ctrl_adjust_state(STRIP_BIT_2);
 
 
@@ -476,8 +521,15 @@ void task_button_press(void *argument)
 						{
 							// master color state is demo... change to fixed master state!
 							led_ctrl_color_master_state_force_fixed(STRIP_BIT_ALL_SET);
+                            led_ctrl_color_master_state_force_fixed(STRIP_BIT_1);
+                            led_ctrl_color_master_state_force_fixed(STRIP_BIT_2);
+
+
 						}
                         led_ctrl_color_adjust(STRIP_BIT_ALL_SET);
+                        led_ctrl_color_adjust(STRIP_BIT_1);
+                        led_ctrl_color_adjust(STRIP_BIT_2);
+
 //						else
 //						{
 							// master color state is fixed.  Adjust the color.
@@ -488,7 +540,19 @@ void task_button_press(void *argument)
 					break;
 					case BUTTON_D:
 						// 'D' is pause.
-						led_ctrl_pause(STRIP_BIT_ALL_SET);
+					    if (pause_enable_disable)
+					    {
+                            led_ctrl_pause_enable(STRIP_BIT_ALL_SET);
+                            led_ctrl_pause_enable(STRIP_BIT_1);
+                            led_ctrl_pause_enable(STRIP_BIT_2);
+					    }
+					    else
+					    {
+					        led_ctrl_pause_disable(STRIP_BIT_ALL_SET);
+					        led_ctrl_pause_disable(STRIP_BIT_1);
+					        led_ctrl_pause_disable(STRIP_BIT_2);
+					    }
+					    pause_enable_disable ^= 1;
 //						led_ctrl_pause(STRIP_BIT_2);
 
 					break;

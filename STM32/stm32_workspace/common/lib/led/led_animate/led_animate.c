@@ -27,7 +27,7 @@ extern uint16_t g_all_strip_mask;
 extern task_notification_value_format_t g_task_notification_value;
 extern TaskHandle_t 	g_button_press_handle;
 
-bool g_led_animate_exit_stimulus = false;
+//bool g_led_animate_exit_stimulus = false;
 
 bool g_led_animate_adjust_speed = false;
 
@@ -79,8 +79,11 @@ void led_animate_show_strip(const strip_mask_t strip_mask)
 {
 
     if (STRIP_BIT_1 & strip_mask) ws2812b_show_strip_one();
+    taskYIELD();
     if (STRIP_BIT_2 & strip_mask) ws2812b_show_strip_two();
+    taskYIELD();
     if (STRIP_BIT_3 & strip_mask) ws2812b_show_strip_three();
+    taskYIELD();
 }
 
 
@@ -203,7 +206,7 @@ void led_animate_set_pixels_in_range_skip_interrupt_check(const strip_mask_t mas
         ws2812b_set_led(mask, yyy, led_color.color_rgb.red,
                         led_color.color_rgb.green, led_color.color_rgb.blue);
 	}
-	led_animate_show_strip(mask);
+//	led_animate_show_strip(mask);
 }
 
 
@@ -272,26 +275,31 @@ void led_animate_turn_all_pixels_off_in_strip(const strip_mask_t mask)
 }
 
 
-void led_animate_force_exit_stimulus(void)
+bool g_led_animate_exit_stimulus[STRIP_NUM_MAX_UNIQUE_STRIPS] = {0, 0, 0};
+
+void led_animate_force_exit_stimulus(const strip_mask_t mask)
 {
-    // in MASTER DEMO state this will force next animation to display!
-	if (LED_CTRL_STATE_MASTER_DEMO == \
-	                led_ctrl_read_master_state((strip_mask_t)STRIP_BIT_ALL_SET))
-	{
-		g_led_animate_exit_stimulus = true;
-	}
+    strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
+    if (LED_CTRL_STATE_MASTER_DEMO == \
+                    led_ctrl_read_master_state((strip_mask_t)mask))
+    {
+        g_led_animate_exit_stimulus[strip_num] = true;
+    }
 }
 
 
-void led_animate_clear_exit_stimulus(void)
+
+void led_animate_clear_exit_stimulus(const strip_mask_t mask)
 {
-	g_led_animate_exit_stimulus = false;
+    strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
+    g_led_animate_exit_stimulus[strip_num] = false;
 }
 
 
-bool led_animate_exit_stimulus_flag(void)
+bool led_animate_exit_stimulus_flag(const strip_mask_t mask)
 {
-	return g_led_animate_exit_stimulus;
+    strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
+	return g_led_animate_exit_stimulus[strip_num];
 }
 
 
@@ -299,12 +307,13 @@ bool led_animate_check_for_animation_exit_stimulus(const strip_mask_t mask,
                                                    led_color_t *p_led_color,
 												   const led_color_e* p_color)
 {
+    strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
 //	strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
 	bool return_val = false;
-	if (g_led_animate_exit_stimulus)
+	if (g_led_animate_exit_stimulus[strip_num])
 	{
 		return_val = true;
-		led_animate_clear_exit_stimulus();
+//		led_animate_clear_exit_stimulus(mask);
 		led_animate_turn_all_pixels_off_in_strip((strip_mask_t)mask);
 		animation_timer_access_reset();
 	}
@@ -895,6 +904,172 @@ void led_animate_heart_beat(const strip_mask_t mask, const led_color_e* p_color,
 	led_ctrl_time_delay(mask, delay_between_animations);
 }
 
+
+void led_animate_static_snowmobile_color(const strip_mask_t mask)
+{
+    // snowmobile!!
+    // tail to engine               0 -> 34
+    // bottom of engine cover       35 -> 41
+    // hood                         42 -> 56
+    // windscreen                   57 -> 74
+    // nuts hit this                75 -> 85
+    // rail under seat assembly     86 -> 107
+    // track                        108 -> 112
+    // wheel # 1                    113 -> 123
+    // track                        124 -> 145
+    // upper wheel                  146 -> 149
+    // track                        150 -> 156
+    // wheel #2                     157 -> 163
+    // wheel #3                     157 -> 171
+    // ski                          172 -> 210
+    // fork                         211 -> 224
+    // hood slide                   225 -> 257 // treating as one piece!
+    // hood handle?                 258 -> 266
+    // head light                   267 -> 270
+    // handle bars                  271 -> 279
+    // connecting piece from hood   280 -> 281
+    // seat top                     282 -> 301
+    // seat strip                   302 -> 306
+
+    led_color_t led_color;
+    led_color.led_color = led_ctrl_read_active_color(mask);
+    led_color.led_color_hex_code = led_color_enum_to_hex_code(led_color.led_color);
+
+    // track                        124 -> 145
+    // upper wheel                  146 -> 149
+    // track                        150 -> 156
+    // wheel #2                     157 -> 163
+    // wheel #3                     164 -> 171
+    // ski                          172 -> 210
+    // fork                         211 -> 224
+    // hood slide                   225 -> 257 // treating as one piece!
+    // hood handle?                 258 -> 266
+    // head light                   267 -> 270
+    // handle bars                  271 -> 279
+    // connecting piece from hood   280 -> 281
+    // seat top                     282 -> 301
+    // seat strip                   302 -> 306
+
+    // snowmobile!!
+    // tail to engine               0 -> 34
+    // bottom of engine cover       35 -> 41
+    // hood                         42 -> 56
+    // windscreen                   57 -> 74
+    // nuts hit this                75 -> 85
+    // rail under seat assembly     86 -> 107
+
+    // tail to engine
+    led_animate_set_pixels_in_range_skip_interrupt_check(mask, 0, 34,
+                                                         LED_COLOR_HEX_GRAY);
+    // bottom of engine cover
+    led_animate_set_pixels_in_range_skip_interrupt_check(mask, 35, 41,
+                                                         led_color.led_color_hex_code);
+    // hood
+    led_animate_set_pixels_in_range_skip_interrupt_check(mask, 42, 56,
+                                                         led_color.led_color_hex_code);
+    // windscreen
+    led_animate_set_pixels_in_range_skip_interrupt_check(mask, 57, 74,
+                                                         LED_COLOR_HEX_GRAY);
+    // nuts hit this
+    led_animate_set_pixels_in_range_skip_interrupt_check(mask, 75, 85,
+                                                         led_color.led_color_hex_code);
+    // rail under seat assembly
+    led_animate_set_pixels_in_range_skip_interrupt_check(mask, 86, 107,
+                                                         LED_COLOR_HEX_DARK_GRAY);
+    // track
+    led_animate_set_pixels_in_range_skip_interrupt_check(mask, 108, 112,
+                                                         LED_COLOR_HEX_GRAY);
+    // wheel # 1
+    led_animate_set_pixels_in_range_skip_interrupt_check(mask, 113, 123,
+                                                         LED_COLOR_HEX_CHARCOAL);
+    // track
+    led_animate_set_pixels_in_range_skip_interrupt_check(mask, 124, 145,
+                                                         LED_COLOR_HEX_GRAY);
+    // upper wheel
+    led_animate_set_pixels_in_range_skip_interrupt_check(mask, 146, 149,
+                                                         LED_COLOR_HEX_CHARCOAL);
+    // track
+    led_animate_set_pixels_in_range_skip_interrupt_check(mask, 150, 156,
+                                                         LED_COLOR_HEX_GRAY);
+    // wheel #2 + #3
+    led_animate_set_pixels_in_range_skip_interrupt_check(mask, 157, 171,
+                                                         LED_COLOR_HEX_CHARCOAL);
+    // ski
+    led_animate_set_pixels_in_range_skip_interrupt_check(mask, 172, 210,
+                                                         led_color.led_color_hex_code);
+    // fork
+    led_animate_set_pixels_in_range_skip_interrupt_check(mask, 211, 224,
+                                                         LED_COLOR_HEX_GRAY);
+    // hood slide
+    led_animate_set_pixels_in_range_skip_interrupt_check(mask, 225, 257,
+                                                         led_color.led_color_hex_code);
+    //  hood handle?
+    led_animate_set_pixels_in_range_skip_interrupt_check(mask, 258, 266,
+                                                         LED_COLOR_HEX_GRAY);
+    // head light
+    led_animate_set_pixels_in_range_skip_interrupt_check(mask, 267, 270,
+                                                         LED_COLOR_HEX_WHITE);
+    // handle bars
+    led_animate_set_pixels_in_range_skip_interrupt_check(mask, 271, 279,
+                                                         LED_COLOR_HEX_GRAY);
+    // connecting piece from hood
+    led_animate_set_pixels_in_range_skip_interrupt_check(mask, 280, 281,
+                                                         led_color.led_color_hex_code);
+    // seat top
+    led_animate_set_pixels_in_range_skip_interrupt_check(mask, 282, 301,
+                                                         led_color.led_color_hex_code);
+    // seat strip
+    led_animate_set_pixels_in_range_skip_interrupt_check(mask, 302, 307,
+                                                         led_color.led_color_hex_code);
+
+    led_animate_show_strip(mask);
+}
+
+
+uint16_t g_num_pixels = 0;
+uint16_t g_dbg_pixel_start = 0;
+uint16_t g_dbg_pixel_stop = 10;
+bool g_dbg_num_flag = false;
+bool g_dbg_num_pixels_turn_off_all_pixels;
+bool g_dbg_num_pixels_complete = false;
+void led_animate_determine_number_pixels_in_strip(const strip_mask_t mask)
+{
+    // morinville bike
+    // rear tire                78 -> 99
+    // rear brake               100 -> 112
+    // seat                     113 -> 125  BROWN
+    // rear fender              126 -> 133
+    // gas tank                 134 -> 150
+    // light                    151 -> 154
+    // front fender             155 -> 163
+    // front tire               164 -> 191
+    // front brake              192 -> 208
+
+
+
+    led_animate_turn_all_pixels_off();
+
+    do
+    {
+        // strip 1 is motorcycle
+
+        if (g_dbg_num_pixels_turn_off_all_pixels)
+        {
+            g_dbg_num_pixels_turn_off_all_pixels = false;
+            led_animate_turn_all_pixels_off();
+            led_ctrl_time_delay(mask, 5000);
+        }
+        else
+        {
+            led_animate_set_pixels_in_range_and_show(mask,
+                                                     g_dbg_pixel_start,
+                                                     g_dbg_pixel_stop,
+                                                     LED_COLOR_HEX_DARK_MAGENTA);
+            led_ctrl_time_delay(mask, 2000);
+        }
+    } while ((!g_dbg_num_pixels_complete));
+    g_dbg_num_pixels_complete = false;
+}
 
 
 

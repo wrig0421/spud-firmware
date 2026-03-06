@@ -8,4 +8,8 @@
 #include "ws2812b.h"
 #include "led_ctrl_color.h"
 
+void led_animate_static_snowmobile_color(const strip_mask_t mask,
+                                         const led_color_e* p_color);
+
+
 #endif
