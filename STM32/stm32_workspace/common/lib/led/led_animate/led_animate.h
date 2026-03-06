@@ -83,5 +83,8 @@ void led_animate_determine_number_pixels_in_strip(const strip_mask_t mask);
 
 void led_animate_static_snowmobile_color(const strip_mask_t mask);
 
+void led_animate_clear_state_change(const strip_mask_t mask);
+void led_animate_force_state_change(const strip_mask_t mask);
+bool led_animate_read_state_change(const strip_mask_t mask);
 
 #endif

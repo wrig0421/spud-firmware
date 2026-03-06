@@ -288,6 +288,28 @@ void led_animate_force_exit_stimulus(const strip_mask_t mask)
 }
 
 
+bool g_force_state_change[STRIP_NUM_MAX_UNIQUE_STRIPS] = {0, 0, 0};
+
+void led_animate_force_state_change(const strip_mask_t mask)
+{
+    strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
+    g_force_state_change[strip_num] = true;
+}
+
+
+void led_animate_clear_state_change(const strip_mask_t mask)
+{
+    strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
+    g_force_state_change[strip_num] = false;
+}
+
+
+bool led_animate_read_state_change(const strip_mask_t mask)
+{
+    strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
+    return g_force_state_change[strip_num];
+}
+
 
 void led_animate_clear_exit_stimulus(const strip_mask_t mask)
 {
@@ -313,7 +335,7 @@ bool led_animate_check_for_animation_exit_stimulus(const strip_mask_t mask,
 	if (g_led_animate_exit_stimulus[strip_num])
 	{
 		return_val = true;
-//		led_animate_clear_exit_stimulus(mask);
+		led_animate_clear_exit_stimulus(mask);
 		led_animate_turn_all_pixels_off_in_strip((strip_mask_t)mask);
 		animation_timer_access_reset();
 	}

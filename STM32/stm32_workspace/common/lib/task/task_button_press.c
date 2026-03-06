@@ -42,7 +42,7 @@ extern TaskHandle_t 	g_led_strip_1_ctrl_handle;
 extern TaskHandle_t     g_led_strip_2_ctrl_handle;
 
 extern TaskHandle_t 	g_led_strip_sync_ctrl_handle;
-extern bool g_led_animate_exit_stimulus;
+extern bool g_led_animate_exit_stimulus[STRIP_NUM_MAX_UNIQUE_STRIPS];
 
 
 bool task_button_press_interrupt_occurred(const strip_mask_t mask)
@@ -501,7 +501,10 @@ void task_button_press(void *argument)
 //							led_state_ctrl_force_fixed_state(STRIP_BIT_2);
 
 						}
-						g_led_animate_exit_stimulus = true;
+						g_led_animate_exit_stimulus[STRIP_NUM_1] = true;
+                        g_led_animate_exit_stimulus[STRIP_NUM_2] = true;
+                        g_led_animate_exit_stimulus[STRIP_NUM_3] = true;
+
 						led_state_ctrl_iteration_reset(STRIP_BIT_ALL_SET);
 						led_state_ctrl_iteration_reset(STRIP_BIT_1);
                         led_state_ctrl_iteration_reset(STRIP_BIT_2);

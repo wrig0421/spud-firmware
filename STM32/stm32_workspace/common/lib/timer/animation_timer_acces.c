@@ -14,6 +14,12 @@ void animation_timer_access_callback(TimerHandle_t h_timer)
     led_animate_force_exit_stimulus(STRIP_BIT_1);
     led_animate_force_exit_stimulus(STRIP_BIT_2);
     led_animate_force_exit_stimulus(STRIP_BIT_3);
+
+
+    led_animate_force_state_change(STRIP_BIT_1);
+    led_animate_force_state_change(STRIP_BIT_2);
+    led_animate_force_state_change(STRIP_BIT_3);
+
 //    led_animate_force_exit_stimulus(STIP_BIT_ALL_SET);
 
 }

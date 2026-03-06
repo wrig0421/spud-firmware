@@ -149,9 +149,10 @@ static void task_led_ctrl_adjust_parameters(const strip_mask_t mask)
 //	}
     if (LED_CTRL_STATE_MASTER_DEMO == (task_led_ctrl_state_info->led_state_master))
     {
-    	if (led_animate_exit_stimulus_flag(mask))
+    	if (led_animate_exit_stimulus_flag(mask) || led_animate_read_state_change(mask))
 		{
     		led_animate_clear_exit_stimulus(mask);
+    		led_animate_clear_state_change(mask);
     		led_state_random = (led_state_e) \
     		                (rng_access_read_and_generate_random_number() \
                                             % NUM_LED_STATES);
