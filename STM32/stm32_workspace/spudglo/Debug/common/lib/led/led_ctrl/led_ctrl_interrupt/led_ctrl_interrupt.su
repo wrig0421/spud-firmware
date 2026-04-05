@@ -3,4 +3,13 @@
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_interrupt/led_ctrl_interrupt.c:19:6:led_ctrl_interrupt_read_minor_interrupt_flag	16	static
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_interrupt/led_ctrl_interrupt.c:25:29:led_ctrl_interrupt_read_major_interrupt_status	16	static
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_interrupt/led_ctrl_interrupt.c:31:6:led_ctrl_interrupt_read_major_interrupt_flag	16	static
-/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_interrupt/led_ctrl_interrupt.c:37:6:led_ctrl_interrupt_major_or_minor_flag_set	16	static
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_interrupt/led_ctrl_interrupt.c:37:7:led_ctrl_interrupt_read_major_interrupt_flag_ref	16	static
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_interrupt/led_ctrl_interrupt.c:43:6:led_ctrl_interrupt_major_or_minor_flag_set	16	static
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_interrupt/led_ctrl_interrupt.c:50:6:led_ctrl_interrupt_minor_state_flag_is_set	16	static
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_interrupt/led_ctrl_interrupt.c:56:7:led_ctrl_interrupt_minor_state_flag_ref	16	static
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_interrupt/led_ctrl_interrupt.c:62:6:led_ctrl_interrupt_minor_color_flag_is_set	16	static
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_interrupt/led_ctrl_interrupt.c:68:7:led_ctrl_interrupt_minor_color_flag_ref	16	static
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_interrupt/led_ctrl_interrupt.c:74:6:led_ctrl_interrupt_minor_speed_flag_is_set	16	static
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_interrupt/led_ctrl_interrupt.c:80:7:led_ctrl_interrupt_minor_speed_flag_ref	16	static
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_interrupt/led_ctrl_interrupt.c:86:6:led_ctrl_interrupt_minor_pause_flag_is_set	16	static
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_interrupt/led_ctrl_interrupt.c:92:7:led_ctrl_interrupt_minor_pause_flag_ref	16	static
