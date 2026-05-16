@@ -21,11 +21,11 @@ const gpio_config_t g_gpio_config[NUM_GPIO_PINS] =
         .port = GPIO_PORT_C,
         .mode = GPIO_CONFIG_MODE_ALTERNATE_FUNCTION // LPUART1
     },
-    [GPIO_PIOC_PIN_2] = // NC
+    [GPIO_PIOC_PIN_2] = //
     {
-        .pin = GPIO_PIOC_PIN_2,
+        .pin = GPIO_PIN_V_BUTTON,
         .port = GPIO_PORT_C,
-        .mode = GPIO_CONFIG_MODE_INPUT_PULLDOWN
+        .mode = GPIO_CONFIG_MODE_ALTERNATE_FUNCTION
     },
     [GPIO_PIOC_PIN_3] = //NC
     {
@@ -56,18 +56,19 @@ const gpio_config_t g_gpio_config[NUM_GPIO_PINS] =
     },
     [GPIO_PIOC_PIN_7] =
     {
-        .pin = GPIO_PIN_LVL_DIR,
-        .port = GPIO_PORT_C,
-        .mode = GPIO_CONFIG_MODE_OUTPUT_PUSHPULL,
-        .lvl = GPIO_CONFIG_OUTPUT_LVL_SET
-    },
-    [GPIO_PIOC_PIN_8] =
-    {
         .pin = GPIO_PIN_LVL_EN,
         .port = GPIO_PORT_C,
         .mode = GPIO_CONFIG_MODE_OUTPUT_PUSHPULL,
         .lvl = GPIO_CONFIG_OUTPUT_LVL_RESET
     },
+    [GPIO_PIOC_PIN_8] =
+    {
+        .pin = GPIO_PIN_LVL_DIR,
+        .port = GPIO_PORT_C,
+        .mode = GPIO_CONFIG_MODE_OUTPUT_PUSHPULL,
+        .lvl = GPIO_CONFIG_OUTPUT_LVL_SET
+    },
+
     [GPIO_PIOC_PIN_9] = // NC
     {
         .pin = GPIO_PIOC_PIN_9,
@@ -111,7 +112,7 @@ const gpio_config_t g_gpio_config[NUM_GPIO_PINS] =
     {
         .pin = GPIO_PIOC_PIN_15,
         .port = GPIO_PORT_C,
-        .mode = GPIO_CONFIG_MODE_NO_SETTING
+        .mode = GPIO_CONFIG_MODE_INPUT_PULLDOWN
     },
 
     // PORT A pins!!!
@@ -124,11 +125,12 @@ const gpio_config_t g_gpio_config[NUM_GPIO_PINS] =
         .interrupt_edge = GPIO_CONFIG_INTERRUPT_EDGE_FALLING,
         .irqn = EXTI0_IRQn
     },
-    [GPIO_PIOA_PIN_1] = // NC
+    [GPIO_PIOA_PIN_1] =
     {
-        .pin = GPIO_PIOA_PIN_1,
+        .pin = GPIO_PIN_RV_8803_CLK_EN,
         .port = GPIO_PORT_A,
-        .mode = GPIO_CONFIG_MODE_INPUT_PULLDOWN
+        .mode = GPIO_CONFIG_MODE_OUTPUT_PUSHPULL,
+        .lvl = GPIO_CONFIG_OUTPUT_LVL_SET
     },
     [GPIO_PIOA_PIN_2] =
     {
@@ -159,15 +161,15 @@ const gpio_config_t g_gpio_config[NUM_GPIO_PINS] =
     },
     [GPIO_PIOA_PIN_6] = // NC
     {
-        .pin = GPIO_PIOA_PIN_6,
+        .pin = GPIO_PIN_XR_GPIO,
         .port = GPIO_PORT_A,
-        .mode = GPIO_CONFIG_MODE_INPUT_PULLDOWN
+        .mode = GPIO_CONFIG_MODE_INPUT_FLOAT
     },
     [GPIO_PIOA_PIN_7] = // NC
     {
-        .pin = GPIO_PIOA_PIN_7,
+        .pin = GPIO_PIN_VBUS_PRESENT,
         .port = GPIO_PORT_A,
-        .mode = GPIO_CONFIG_MODE_INPUT_PULLDOWN
+        .mode = GPIO_CONFIG_MODE_INPUT_FLOAT
     },
     [GPIO_PIOA_PIN_8] =
     {
@@ -227,9 +229,9 @@ const gpio_config_t g_gpio_config[NUM_GPIO_PINS] =
     },
     [GPIO_PIOB_PIN_1] = // NC
     {
-        .pin = GPIO_PIOB_PIN_1,
+        .pin = GPIO_PIN_RV_8803_INT_N,
         .port = GPIO_PORT_B,
-        .mode = GPIO_CONFIG_MODE_INPUT_PULLDOWN
+        .mode = GPIO_CONFIG_MODE_INPUT_FLOAT
     },
     [GPIO_PIOB_PIN_2] = // NC
     {
@@ -281,15 +283,15 @@ const gpio_config_t g_gpio_config[NUM_GPIO_PINS] =
     },
     [GPIO_PIOB_PIN_10] = // NC
     {
-        .pin = GPIO_PIOB_PIN_10,
+        .pin = GPIO_PIN_I2C2_SCL,
         .port = GPIO_PORT_B,
-        .mode = GPIO_CONFIG_MODE_INPUT_PULLDOWN
+        .mode = GPIO_CONFIG_MODE_ALTERNATE_FUNCTION
     },
     [GPIO_PIOB_PIN_11] = // NC
     {
-        .pin = GPIO_PIOB_PIN_11,
+        .pin = GPIO_PIN_I2C2_SDA,
         .port = GPIO_PORT_B,
-        .mode = GPIO_CONFIG_MODE_INPUT_PULLDOWN
+        .mode = GPIO_CONFIG_MODE_ALTERNATE_FUNCTION
     },
     [GPIO_PIOB_PIN_12] = // NC
     {

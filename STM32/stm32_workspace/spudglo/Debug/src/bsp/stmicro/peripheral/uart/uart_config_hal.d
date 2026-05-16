@@ -44,8 +44,8 @@ src/bsp/stmicro/peripheral/uart/uart_config_hal.o: \
  ../src/bsp/stmicro/peripheral/uart/uart_config_hal_specific.h \
  ../src/app/config.h ../src/bsp/board_init_common.h \
  ../src/bsp/stmicro/stm32l4/board_specific/board_specific.h \
- ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/board_init_spudglo_v6.h \
- ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/uart/board_spudglo_v6_uart_config.h \
+ ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/board_init_spudglo_v7.h \
+ ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/uart/board_spudglo_v7_uart_config.h \
  ../sdk/FreeRTOS/Source/convenience/free_rtos_convenience.h
 ../sdk/STM32l4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
 ../src/bsp/stmicro/stm32l4/bloat/stm32l4xx_hal_conf.h:
@@ -94,6 +94,6 @@ src/bsp/stmicro/peripheral/uart/uart_config_hal.o: \
 ../src/app/config.h:
 ../src/bsp/board_init_common.h:
 ../src/bsp/stmicro/stm32l4/board_specific/board_specific.h:
-../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/board_init_spudglo_v6.h:
-../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/uart/board_spudglo_v6_uart_config.h:
+../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/board_init_spudglo_v7.h:
+../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/uart/board_spudglo_v7_uart_config.h:
 ../sdk/FreeRTOS/Source/convenience/free_rtos_convenience.h:
