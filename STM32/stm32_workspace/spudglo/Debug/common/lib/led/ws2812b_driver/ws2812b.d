@@ -61,8 +61,8 @@ common/lib/led/ws2812b_driver/ws2812b.o: \
  ../src/bsp/stmicro/peripheral/timer/timer_config_hal_specific.h \
  ../src/bsp/board_init_common.h \
  ../src/bsp/stmicro/stm32l4/board_specific/board_specific.h \
- ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/board_init_spudglo_v6.h \
- ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/timer/board_spudglo_v6_timer_config.h \
+ ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_baby_dinosaur_v1/board_init_spudglo_baby_dinosaur_v1.h \
+ ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_baby_dinosaur_v1/peripheral/timer/board_spudglo_baby_dinosaur_v1_timer_config.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/ws2812b_driver/ws2812b.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_notify.h
 ../sdk/FreeRTOS/Source/include/FreeRTOS.h:
@@ -130,7 +130,7 @@ common/lib/led/ws2812b_driver/ws2812b.o: \
 ../src/bsp/stmicro/peripheral/timer/timer_config_hal_specific.h:
 ../src/bsp/board_init_common.h:
 ../src/bsp/stmicro/stm32l4/board_specific/board_specific.h:
-../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/board_init_spudglo_v6.h:
-../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/timer/board_spudglo_v6_timer_config.h:
+../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_baby_dinosaur_v1/board_init_spudglo_baby_dinosaur_v1.h:
+../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_baby_dinosaur_v1/peripheral/timer/board_spudglo_baby_dinosaur_v1_timer_config.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/ws2812b_driver/ws2812b.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/task_notify.h:

@@ -159,7 +159,9 @@ void board_init_common_board_init(void)
     // setup any board specific items
     board_init_specific();
 
-    button_access_setup();
+#   if defined(ENABLE_BUTTON)
+        button_access_setup();
+#   endif
 }
 
 

@@ -39,8 +39,8 @@ src/bsp/stmicro/peripheral/timer/timer_config_hal.o: \
  ../src/bsp/stmicro/peripheral/timer/timer_config_hal_specific.h \
  ../src/app/config.h ../src/bsp/board_init_common.h \
  ../src/bsp/stmicro/stm32l4/board_specific/board_specific.h \
- ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/board_init_spudglo_v6.h \
- ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/timer/board_spudglo_v6_timer_config.h \
+ ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_baby_dinosaur_v1/board_init_spudglo_baby_dinosaur_v1.h \
+ ../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_baby_dinosaur_v1/peripheral/timer/board_spudglo_baby_dinosaur_v1_timer_config.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/ws2812b_driver/ws2812b.h \
  ../src/bsp/stmicro/peripheral/timer/timer_config_hal.h \
  /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/timer/animation_timer_access.h \
@@ -99,8 +99,8 @@ src/bsp/stmicro/peripheral/timer/timer_config_hal.o: \
 ../src/app/config.h:
 ../src/bsp/board_init_common.h:
 ../src/bsp/stmicro/stm32l4/board_specific/board_specific.h:
-../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/board_init_spudglo_v6.h:
-../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/timer/board_spudglo_v6_timer_config.h:
+../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_baby_dinosaur_v1/board_init_spudglo_baby_dinosaur_v1.h:
+../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_baby_dinosaur_v1/peripheral/timer/board_spudglo_baby_dinosaur_v1_timer_config.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/ws2812b_driver/ws2812b.h:
 ../src/bsp/stmicro/peripheral/timer/timer_config_hal.h:
 /Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/timer/animation_timer_access.h:
