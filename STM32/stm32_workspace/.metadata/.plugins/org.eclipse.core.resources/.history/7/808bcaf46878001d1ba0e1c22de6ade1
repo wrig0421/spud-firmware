@@ -1,0 +1,79 @@
+// SRW
+#include <stdlib.h>
+#include <stdbool.h>
+#include <stdint.h>
+
+#include "main.h"
+#include "cmsis_os.h"
+#include "FreeRTOS.h"
+#include "task.h"
+
+#include "board_init_common.h"
+#include "board_specific.h"
+#include "cmsis_os.h"
+#include "adafruit_soundboard.h"
+#include "task_mn_wild.h"
+
+
+typedef enum
+{
+   TASK_MN_WILD_STATE_IDLE = 0,
+   TASK_MN_WILD_STATE_PLAY
+} task_mn_wild_state_e;
+
+
+task_mn_wild_state_e g_task_mn_wild_state = TASK_MN_WILD_STATE_IDLE;
+
+
+static void task_mn_wild_init(void)
+{
+    board_init_green_led_on();
+    adafruit_soundboard_disable_relay(ADAFRUIT_SOUNDBOARD_RELAY_SOUND_CTRL);
+    adafruit_soundboard_disable_relay(ADAFRUIT_SOUNDBOARD_RELAY_LIGHT_CTRL);
+    adafruit_soundboard_power_enable();
+    osDelay(500);
+    adafruit_soundboard_reset_disable();
+    osDelay(200);
+    adafruit_soundboard_init();
+    board_init_green_led_off();
+}
+
+
+void task_mn_wild(void *argument)
+{
+    uint32_t button_pressed_bit = 0;
+    task_mn_wild_init();
+
+    while (1)
+    {
+        // TODO add debounce for the switch!
+        //xTaskNotifyWait(0, button_pressed_bit, &button_pressed_bit, portMAX_DELAY);
+        adafruit_soundboard_enable_relay(ADAFRUIT_SOUNDBOARD_RELAY_SOUND_CTRL);
+        osDelay(500);
+        // intending to use Basic trigger - Tnn.WAV or Tnn.OGG
+        // trigger once to play the file from the beginning to the end
+        adafruit_soundboard_trigger_enable(ADAFRUIT_SOUNDBOARD_TRIG_0);
+        osDelay(100);
+        adafruit_soundboard_trigger_disable(ADAFRUIT_SOUNDBOARD_TRIG_0);
+        osDelay(100);
+        adafruit_soundboard_enable_relay(ADAFRUIT_SOUNDBOARD_RELAY_LIGHT_CTRL);
+        board_init_red_led_on();
+        while (!adafruit_soundboard_is_playing_audio()); // start
+        board_init_red_led_off();
+        while (adafruit_soundboard_is_playing_audio())
+        {
+            board_init_green_led_on();
+            osDelay(100);
+            board_init_green_led_off();
+            osDelay(900);
+        }
+
+        adafruit_soundboard_disable_relay(ADAFRUIT_SOUNDBOARD_RELAY_SOUND_CTRL);
+        osDelay(100);
+        adafruit_soundboard_disable_relay(ADAFRUIT_SOUNDBOARD_RELAY_LIGHT_CTRL);
+        osDelay(100);
+
+
+        osDelay(10000);
+    }
+}

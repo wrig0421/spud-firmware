@@ -21,9 +21,12 @@ C_DEPS :=
 
 # Every subdirectory with source files must be described here
 SUBDIRS := \
+fw_common/lib/adafruit_soundboard \
 fw_common/lib/animate_led \
 fw_common/lib/color_led \
 fw_common/lib/current_monitor \
+fw_common/lib/queue \
+fw_common/lib/semaphore \
 fw_common/lib/task \
 fw_common/lib/ws2812b_driver \
 sdk/FreeRTOS/Source/CMSIS_RTOS_V2 \
@@ -35,6 +38,7 @@ src/bsp \
 src/bsp/board_specific/board_init_spud_glo_v1 \
 src/bsp/board_specific/board_init_spud_glo_v2 \
 src/bsp/board_specific/board_init_spud_glo_v3 \
+src/bsp/board_specific/board_init_spud_glo_v4 \
 src \
 src/stm32_bloat \
 startup \

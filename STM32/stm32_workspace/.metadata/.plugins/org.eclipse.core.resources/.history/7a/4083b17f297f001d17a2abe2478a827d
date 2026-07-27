@@ -1,0 +1,98 @@
+// SRW
+#include <stdlib.h>
+#include <stdbool.h>
+#include <stdint.h>
+
+#include "main.h"
+#include "cmsis_os.h"
+#include "FreeRTOS.h"
+#include "task.h"
+#include "stm32l4xx_hal.h"
+#include "board_common.h"
+#include "board_init_common.h"
+#include "board_specific.h"
+#include "cmsis_os.h"
+#include "adafruit_soundboard.h"
+#include "task_mn_wild.h"
+
+
+typedef enum
+{
+   TASK_MN_WILD_STATE_IDLE = 0,
+   TASK_MN_WILD_STATE_PLAY
+} task_mn_wild_state_e;
+
+
+task_mn_wild_state_e g_task_mn_wild_state = TASK_MN_WILD_STATE_IDLE;
+
+
+static void task_mn_wild_init(void)
+{
+    board_init_green_led_on();
+    adafruit_soundboard_reset_disable();
+//    board_init_setup_gpio_input_no_pull(PIN_PORT_A, PIN_ADAFRUIT_TRIG_0);
+//    board_init_setup_gpio_input_no_pull(PIN_PORT_A, PIN_ADAFRUIT_TRIG_1);
+//    board_init_setup_gpio_input_no_pull(PIN_PORT_A, PIN_ADAFRUIT_TRIG_2);
+//    board_init_setup_gpio_input_no_pull(PIN_PORT_A, PIN_ADAFRUIT_TRIG_3);
+//    board_init_setup_gpio_input_no_pull(PIN_PORT_A, PIN_ADAFRUIT_TRIG_4);
+//    board_init_setup_gpio_input_no_pull(PIN_PORT_C, PIN_ADAFRUIT_TRIG_5);
+//    board_init_setup_gpio_input_no_pull(PIN_PORT_B, PIN_ADAFRUIT_TRIG_6);
+//    board_init_setup_gpio_input_no_pull(PIN_PORT_B, PIN_ADAFRUIT_TRIG_7);
+//    board_init_setup_gpio_input_no_pull(PIN_PORT_B, PIN_ADAFRUIT_TRIG_8);
+//    board_init_setup_gpio_input_no_pull(PIN_PORT_B, PIN_ADAFRUIT_TRIG_9);
+//    board_init_setup_gpio_input_no_pull(PIN_PORT_C, PIN_ADAFRUIT_TRIG_10);
+
+    osDelay(1000);
+    adafruit_soundboard_power_enable();
+    adafruit_soundboard_disable_relay(ADAFRUIT_SOUNDBOARD_RELAY_SOUND_CTRL);
+    adafruit_soundboard_disable_relay(ADAFRUIT_SOUNDBOARD_RELAY_LIGHT_CTRL);
+
+    osDelay(1000);
+    adafruit_soundboard_reset_enable();
+    osDelay(200);
+    adafruit_soundboard_reset_disable();
+    osDelay(200);
+    adafruit_soundboard_init();
+    board_init_green_led_off();
+}
+
+
+void task_mn_wild(void *argument)
+{
+    uint32_t button_pressed_bit = 0;
+    task_mn_wild_init();
+
+    while (1)
+    {
+        // TODO add debounce for the switch!
+        //xTaskNotifyWait(0, button_pressed_bit, &button_pressed_bit, portMAX_DELAY);
+        adafruit_soundboard_enable_relay(ADAFRUIT_SOUNDBOARD_RELAY_SOUND_CTRL);
+        osDelay(1000);
+        // intending to use Basic trigger - Tnn.WAV or Tnn.OGG
+        // trigger once to play the file from the beginning to the end
+        adafruit_soundboard_trigger_enable(ADAFRUIT_SOUNDBOARD_TRIG_1);
+        osDelay(5000);
+        adafruit_soundboard_trigger_disable(ADAFRUIT_SOUNDBOARD_TRIG_1);
+        osDelay(5000);
+        adafruit_soundboard_enable_relay(ADAFRUIT_SOUNDBOARD_RELAY_LIGHT_CTRL);
+        osDelay(1000);
+        board_init_red_led_on();
+        //while (!adafruit_soundboard_is_playing_audio()); // start
+        board_init_red_led_off();
+        while (adafruit_soundboard_is_playing_audio())
+        {
+            board_init_green_led_on();
+            osDelay(100);
+            board_init_green_led_off();
+            osDelay(900);
+        }
+
+        adafruit_soundboard_disable_relay(ADAFRUIT_SOUNDBOARD_RELAY_SOUND_CTRL);
+        osDelay(1000);
+        adafruit_soundboard_disable_relay(ADAFRUIT_SOUNDBOARD_RELAY_LIGHT_CTRL);
+        osDelay(1000);
+
+
+        osDelay(1000);
+    }
+}

@@ -1,0 +1,2 @@
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/rng/rng_access.c:12:6:rng_access_generate_random_number	8	static
+/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/rng/rng_access.c:18:10:rng_access_read_and_generate_random_number	8	static

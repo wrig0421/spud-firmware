@@ -1,0 +1,4 @@
+../src/bsp/stmicro/peripheral/gpio/gpio_config_hal.c:134:11:gpio_config_irqn_lookup	2
+../src/bsp/stmicro/peripheral/gpio/gpio_config_hal.c:147:8:gpio_config_port_lookup	1
+../src/bsp/stmicro/peripheral/gpio/gpio_config_hal.c:153:10:gpio_config_pin_lookup	1
+../src/bsp/stmicro/peripheral/gpio/gpio_config_hal.c:159:6:gpio_config_hal_setup	17

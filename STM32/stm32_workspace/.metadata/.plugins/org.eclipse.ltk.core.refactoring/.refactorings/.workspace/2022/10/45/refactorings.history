@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Delete resource &apos;small_led_driver/src/config,h&apos;" deleteContents="false" description="Delete resource &apos;small_led_driver/src/config,h&apos;" element1="/small_led_driver/src/config,h" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1667157320233"/>
+</session>

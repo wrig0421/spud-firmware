@@ -1,0 +1,79 @@
+/***********************************
+ * @file   animate_led.h
+ * @author SpudGlo LLC
+ ***********************************/
+#if !defined(GPIO_ACCESS_H)
+#define GPIO_ACCESS_H
+
+
+typedef enum
+{
+	GPIO_ACCESS_PIOA_PIN0,
+	GPIO_ACCESS_PIOA_PIN1,
+	GPIO_ACCESS_PIOA_PIN2,
+	GPIO_ACCESS_PIOA_PIN3,
+	GPIO_ACCESS_PIOA_PIN4,
+	GPIO_ACCESS_PIOA_PIN5,
+	GPIO_ACCESS_PIOA_PIN6,
+	GPIO_ACCESS_PIOA_PIN7,
+	GPIO_ACCESS_PIOA_PIN8,
+	GPIO_ACCESS_PIOA_PIN9,
+	GPIO_ACCESS_PIOA_PIN10,
+	GPIO_ACCESS_PIOA_PIN11,
+	GPIO_ACCESS_PIOA_PIN12,
+	GPIO_ACCESS_PIOA_PIN13,
+	GPIO_ACCESS_PIOA_PIN14,
+	GPIO_ACCESS_PIOA_PIN15,
+
+	GPIO_ACCESS_PIOB_PIN0,
+	GPIO_ACCESS_PIOB_PIN1,
+	GPIO_ACCESS_PIOB_PIN2,
+	GPIO_ACCESS_PIOB_PIN3,
+	GPIO_ACCESS_PIOB_PIN4,
+	GPIO_ACCESS_PIOB_PIN5,
+	GPIO_ACCESS_PIOB_PIN6,
+	GPIO_ACCESS_PIOB_PIN7,
+	GPIO_ACCESS_PIOB_PIN8,
+	GPIO_ACCESS_PIOB_PIN9,
+	GPIO_ACCESS_PIOB_PIN10,
+	GPIO_ACCESS_PIOB_PIN11,
+	GPIO_ACCESS_PIOB_PIN12,
+	GPIO_ACCESS_PIOB_PIN13,
+	GPIO_ACCESS_PIOB_PIN14,
+	GPIO_ACCESS_PIOB_PIN15,
+
+	GPIO_ACCESS_PIOC_PIN0,
+	GPIO_ACCESS_PIOC_PIN1,
+	GPIO_ACCESS_PIOC_PIN2,
+	GPIO_ACCESS_PIOC_PIN3,
+	GPIO_ACCESS_PIOC_PIN4,
+	GPIO_ACCESS_PIOC_PIN5,
+	GPIO_ACCESS_PIOC_PIN6,
+	GPIO_ACCESS_PIOC_PIN7,
+	GPIO_ACCESS_PIOC_PIN8,
+	GPIO_ACCESS_PIOC_PIN9,
+	GPIO_ACCESS_PIOC_PIN10,
+	GPIO_ACCESS_PIOC_PIN11,
+	GPIO_ACCESS_PIOC_PIN12,
+	GPIO_ACCESS_PIOC_PIN13,
+	GPIO_ACCESS_PIOC_PIN14,
+	GPIO_ACCESS_PIOC_PIN15,
+
+	GPIO_ACCESS_PIOD_PIN2,
+
+	GPIO_ACCESS_PIOH_PIN0,
+	GPIO_ACCESS_PIOH_PIN1,
+//	GPIO_ACCESS_PIOH_PIN2,
+	GPIO_ACCESS_PIOH_PIN3,
+
+} gpio_access_pin_e;
+
+void gpio_access_write_pin_low(gpio_access_pin_e pin);
+void gpio_access_write_pin_high(gpio_access_pin_e pin);
+void gpio_access_pin_is_high(gpio_access_pin_e pin);
+void gpio_access_pin_is_low(gpio_access_pin_e pin);
+void gpio_access_enable_internal_pulldown(gpio_access_pin_e pin);
+void gpio_access_enable_internal_pullup(gpio_access_pin_e pin);
+void gpio_access_enable_analog_mode(gpio_access_pin_e pin);
+
+#endif

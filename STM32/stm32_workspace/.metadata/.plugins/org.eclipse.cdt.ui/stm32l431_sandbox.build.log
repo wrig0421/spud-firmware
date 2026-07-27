@@ -1,0 +1,10 @@
+15:28:17 **** Incremental Build of configuration Debug for project stm32l431_sandbox ****
+make -j7 all 
+arm-none-eabi-size   stm32l431_sandbox.elf 
+   text	   data	    bss	    dec	    hex	filename
+   6252	     20	   1572	   7844	   1ea4	stm32l431_sandbox.elf
+Finished building: default.size.stdout
+ 
+
+15:28:18 Build Finished. 0 errors, 0 warnings. (took 257ms)
+

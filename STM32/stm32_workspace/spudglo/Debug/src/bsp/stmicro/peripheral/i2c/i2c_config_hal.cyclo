@@ -1,0 +1,4 @@
+../src/bsp/stmicro/peripheral/i2c/i2c_config_hal.c:11:21:i2c_config_bus_handle_lookup_from_chip_id	4
+../src/bsp/stmicro/peripheral/i2c/i2c_config_hal.c:27:18:i2c_config_bus_lookup_from_chip_id	4
+../src/bsp/stmicro/peripheral/i2c/i2c_config_hal.c:43:6:i2c_config_hal_setup	9
+../src/bsp/stmicro/peripheral/i2c/i2c_config_hal.c:118:14:i2c_config_chip_id_to_bus_handle	1

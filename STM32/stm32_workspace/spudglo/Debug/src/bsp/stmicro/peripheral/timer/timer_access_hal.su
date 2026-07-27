@@ -1,0 +1,2 @@
+../src/bsp/stmicro/peripheral/timer/timer_access_hal.c:11:19:timer_access_hal_start_timer	24	static
+../src/bsp/stmicro/peripheral/timer/timer_access_hal.c:24:6:timer_access_hal_stop_timer	8	static

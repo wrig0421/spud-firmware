@@ -1,0 +1,112 @@
+################################################################################
+# Automatically-generated file. Do not edit!
+# Toolchain: GNU Tools for STM32 (14.3.rel1)
+################################################################################
+
+# Add inputs and outputs from these tool invocations to the build variables 
+C_SRCS += \
+../sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal.c \
+../sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_adc.c \
+../sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_adc_ex.c \
+../sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.c \
+../sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c \
+../sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma_ex.c \
+../sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_exti.c \
+../sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash.c \
+../sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c \
+../sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ramfunc.c \
+../sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_gpio.c \
+../sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_i2c.c \
+../sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_i2c_ex.c \
+../sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_pwr.c \
+../sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_pwr_ex.c \
+../sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rcc.c \
+../sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rcc_ex.c \
+../sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rng.c \
+../sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rng_ex.c \
+../sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc.c \
+../sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.c \
+../sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_spi.c \
+../sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_spi_ex.c \
+../sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim.c \
+../sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim_ex.c \
+../sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_uart.c \
+../sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_uart_ex.c \
+../sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_usart.c \
+../sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_usart_ex.c 
+
+OBJS += \
+./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal.o \
+./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_adc.o \
+./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_adc_ex.o \
+./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.o \
+./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.o \
+./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma_ex.o \
+./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_exti.o \
+./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash.o \
+./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.o \
+./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ramfunc.o \
+./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_gpio.o \
+./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_i2c.o \
+./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_i2c_ex.o \
+./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_pwr.o \
+./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_pwr_ex.o \
+./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rcc.o \
+./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rcc_ex.o \
+./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rng.o \
+./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rng_ex.o \
+./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc.o \
+./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.o \
+./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_spi.o \
+./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_spi_ex.o \
+./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim.o \
+./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim_ex.o \
+./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_uart.o \
+./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_uart_ex.o \
+./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_usart.o \
+./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_usart_ex.o 
+
+C_DEPS += \
+./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal.d \
+./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_adc.d \
+./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_adc_ex.d \
+./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.d \
+./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.d \
+./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma_ex.d \
+./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_exti.d \
+./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash.d \
+./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.d \
+./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ramfunc.d \
+./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_gpio.d \
+./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_i2c.d \
+./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_i2c_ex.d \
+./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_pwr.d \
+./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_pwr_ex.d \
+./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rcc.d \
+./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rcc_ex.d \
+./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rng.d \
+./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rng_ex.d \
+./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc.d \
+./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.d \
+./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_spi.d \
+./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_spi_ex.d \
+./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim.d \
+./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim_ex.d \
+./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_uart.d \
+./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_uart_ex.d \
+./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_usart.d \
+./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_usart_ex.d 
+
+
+# Each subdirectory must supply rules for building sources it contributes
+sdk/STM32L4xx_HAL_Driver/Src/%.o sdk/STM32L4xx_HAL_Driver/Src/%.su sdk/STM32L4xx_HAL_Driver/Src/%.cyclo: ../sdk/STM32L4xx_HAL_Driver/Src/%.c sdk/STM32L4xx_HAL_Driver/Src/subdir.mk
+	arm-none-eabi-gcc "$<" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L431xx -c -I../startup -I../src -I../src/app -I../src/bsp -I../src/bsp/peripheral -I../src/bsp/stmicro -I../src/bsp/stmicro/peripheral -I../src/bsp/stmicro/peripheral/button -I../src/bsp/stmicro/peripheral/gpio -I../src/bsp/stmicro/peripheral/i2c -I../src/bsp/stmicro/peripheral/rng -I../src/bsp/stmicro/peripheral/spi -I../src/bsp/stmicro/peripheral/uart -I../src/bsp/stmicro/peripheral/timer -I../src/bsp/stmicro/stm32l4 -I../src/bsp/stmicro/stm32l4/bloat -I../src/bsp/stmicro/stm32l4/board_specific -I../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v3 -I../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v4 -I../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5 -I../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/peripheral -I../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/peripheral/i2c -I../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/peripheral/spi -I../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/peripheral/uart -I../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/peripheral/timer -I../src/lib/flash -I../src/lib/util -I../sdk/FreeRTOS/Source/CMSIS_RTOS_V2 -I../sdk/CMSIS/Device/ST/STM32L4xx/Include -I../sdk/STM32l4xx_HAL_Driver/Inc -I../sdk/STM32l4xx_HAL_Driver/Inc/Legacy -I../sdk/FreeRTOS/Source -I../sdk/FreeRTOS/Source/include -I../sdk/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../sdk/CMSIS/Include -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/ws2812b_driver" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/button" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/gpio" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/i2c" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/rng" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/spi" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/uart" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/timer" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/semaphore" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/task/create" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/pkt" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/queue" -I../src/task -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/wifi" -I../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v4/peripheral/button -I../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v4/peripheral/gpio -I../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v4/peripheral/i2c -I../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v4/peripheral/spi -I../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v4/peripheral/uart -I../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v4/peripheral/timer -I../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral -I../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/button -I../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/gpio -I../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/i2c -I../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/periphera/spi -I../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/uart -I../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v6/peripheral/timer -I../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral -I../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/button -I../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/gpio -I../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/i2c -I../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/spi -I../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/uart -I../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/timer -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_brightness" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_color" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_interrupt" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_pause" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_power" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_speed" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_state" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_ctrl/led_ctrl_time" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_animate" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_color" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/led/led_state" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/peripheral/i2c/sensors" -I../sdk/FreeRTOS/Source/convenience -I../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card -I../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/peripheral -I../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/peripheral/gpio -I../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/peripheral/i2c -I../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/peripheral//spi -I../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/peripheral/uart -I../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/peripheral/button -I../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/peripheral/timer -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/api" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/api/pkt" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/api/queue" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/sensor_third_party" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/sensor_third_party/adafruit_soundboard" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/sensor_third_party/rv8803" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/sensor_third_party/wifi" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/timer/create" -I"/Users/spud/Documents/GitHub/Spud_code_collection/STM32/stm32_workspace/common/lib/timer" -I../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_baby_dinosaur_v1 -I../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_baby_dinosaur_v1/peripheral -I../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_baby_dinosaur_v1/peripheral/gpio -I../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_baby_dinosaur_v1/peripheral/uart -I../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_baby_dinosaur_v1/peripheral/timer -O0 -ffunction-sections -fdata-sections -Wall -Wno-missing-braces -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "$@"
+
+clean: clean-sdk-2f-STM32L4xx_HAL_Driver-2f-Src
+
+clean-sdk-2f-STM32L4xx_HAL_Driver-2f-Src:
+	-$(RM) ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal.cyclo ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal.d ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal.o ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal.su ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_adc.cyclo ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_adc.d ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_adc.o ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_adc.su ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_adc_ex.cyclo ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_adc_ex.d ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_adc_ex.o ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_adc_ex.su ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.cyclo ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.d ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.o ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.su ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.cyclo ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.d ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.o ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.su ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma_ex.cyclo ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma_ex.d ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma_ex.o ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma_ex.su ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_exti.cyclo ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_exti.d ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_exti.o ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_exti.su ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash.cyclo ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash.d ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash.o ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash.su ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.cyclo ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.d ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.o ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.su ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ramfunc.cyclo ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ramfunc.d ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ramfunc.o ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ramfunc.su ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_gpio.cyclo ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_gpio.d ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_gpio.o ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_gpio.su ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_i2c.cyclo ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_i2c.d ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_i2c.o ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_i2c.su ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_i2c_ex.cyclo ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_i2c_ex.d ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_i2c_ex.o ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_i2c_ex.su ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_pwr.cyclo ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_pwr.d ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_pwr.o ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_pwr.su ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_pwr_ex.cyclo ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_pwr_ex.d ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_pwr_ex.o ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_pwr_ex.su ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rcc.cyclo ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rcc.d ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rcc.o ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rcc.su ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rcc_ex.cyclo ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rcc_ex.d ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rcc_ex.o ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rcc_ex.su ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rng.cyclo ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rng.d ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rng.o ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rng.su ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rng_ex.cyclo ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rng_ex.d ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rng_ex.o ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rng_ex.su ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc.cyclo ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc.d ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc.o ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc.su ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.cyclo ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.d ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.o ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.su ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_spi.cyclo ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_spi.d ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_spi.o ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_spi.su ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_spi_ex.cyclo ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_spi_ex.d ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_spi_ex.o ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_spi_ex.su ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim.cyclo ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim.d ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim.o ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim.su ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim_ex.cyclo ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim_ex.d ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim_ex.o ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim_ex.su ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_uart.cyclo ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_uart.d ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_uart.o ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_uart.su ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_uart_ex.cyclo ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_uart_ex.d ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_uart_ex.o ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_uart_ex.su ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_usart.cyclo ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_usart.d
+	-$(RM) ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_usart.o ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_usart.su ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_usart_ex.cyclo ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_usart_ex.d ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_usart_ex.o ./sdk/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_usart_ex.su
+
+.PHONY: clean-sdk-2f-STM32L4xx_HAL_Driver-2f-Src
+

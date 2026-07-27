@@ -1,0 +1,6 @@
+serial_com.c:52:6:serial_com_init_spi	1
+serial_com.c:63:6:serial_com_init_usart	2
+serial_com.c:77:6:serial_com_init_iic	1
+serial_com.c:83:6:serial_com_init_all	1
+serial_com.c:94:6:task_serial_com_usart_rx	1
+serial_com.c:103:6:task_serial_com_usart_tx	1
