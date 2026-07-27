@@ -109,9 +109,9 @@ const gpio_config_t g_gpio_config[NUM_GPIO_PINS] =
 		.port = GPIO_PORT_C,
 		.mode = GPIO_CONFIG_MODE_NO_SETTING
 	},
-	[GPIO_PIOC_PIN_15] = // OSC_32K INPUT SIGNAL!!!
+	[GPIO_PIOC_PIN_15] = // ERROR!!!!!! THIS INPUT S CONNECTED TO OUTPUT...
 	{
-		.pin = GPIO_PIOC_PIN_15,
+		.pin = GPIO_PIN_RV_8803_CLK_OUT,
 		.port = GPIO_PORT_C,
 		.mode = GPIO_CONFIG_MODE_NO_SETTING
 	},

@@ -1,4 +1,4 @@
 ../src/bsp/board_init_common.c:22:13:board_init_common_sysclk_init	5
 ../src/bsp/board_init_common.c:61:13:board_init_common_timer_init	1
 ../src/bsp/board_init_common.c:135:6:board_init_common_board_init	1
-../src/bsp/board_init_common.c:170:6:Error_Handler	1
+../src/bsp/board_init_common.c:172:6:Error_Handler	1

@@ -2,7 +2,8 @@
  * @file   animate_led.c
  * @author SpudGlo LLC
  ***********************************/
-
+#include "config.h"
+#if defined(ENABLE_BUTTON)
 
 #include "button_access_hal.h"
 #include "button_config_hal.h"
@@ -38,3 +39,4 @@ bool button_access_button_is_low(button_e btn)
 	return button_access_hal_button_is_low(btn);
 }
 
+#endif

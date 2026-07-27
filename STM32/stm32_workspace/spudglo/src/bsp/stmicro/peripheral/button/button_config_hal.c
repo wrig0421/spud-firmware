@@ -1,7 +1,9 @@
 // SRW
 #include "stm32l4xx_hal.h"
-#include "button_config_hal.h"
+#include "config.h"
+#if defined(ENABLE_BUTTON)
 
+#include "button_config_hal.h"
 
 extern const button_config_t g_button_config[NUM_BUTTONS];
 
@@ -49,4 +51,4 @@ void button_config_irq_handler(void)
 //	HAL_GPIO_EXTI_IRQHandler(g_button_config[btn].irqn);
 }
 
-
+#endif

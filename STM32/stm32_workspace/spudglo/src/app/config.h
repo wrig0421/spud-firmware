@@ -22,8 +22,10 @@
 
 // define the board
 //#define BOARD_SPUDGLO_BUSINESS_CARD
-//#define	BOARD_SPUDGLO_BABY_DINOSAUR_V1P0
-#define BOARD_SPUDGLO_V7P0
+#define	BOARD_SPUDGLO_BABY_DINOSAUR_V1P0
+//#define BOARD_SPUDGLO_MINI_V1P0
+//#define BOARD_SPUDGLO_V8P0
+//#define BOARD_SPUDGLO_V7P0
 //#define BOARD_SPUDGLO_V6P0
 //#define BOARD_SPUDGLO_V5P0
 //#define BOARD_SPUDGLO_V4P3
@@ -32,7 +34,6 @@
 //#define BOARD_SPUD_GLO_V3
 //#define BOARD_SPUD_GLO_V2
 //#define BOARD_SPUD_GLO_V1
-//#define BOARD_MN_WILD_SOUND
 
 #if defined(BOARD_SPUDGLO_BABY_DINOSAUR_V1P0)
 #	define BOARD_SPUDGLO_BABY_DINOSAUR_V1
@@ -56,17 +57,17 @@
 //#elif defined(ENABLE_ZABINSKI_TABLE_TOP)
 //#	define STRIP_1_LENGTH	376  // bar 302// biker dude 500// MN summit 214 // HELLO SPRING STRIP 1 = 459      //492// playstation controller! - 390// vice city 432// shucmacher - 636// skull sign=200 // 151 for SWENSON SIGN /// FLYNN FARM SIGN = 166!!
 //#else
-#define STRIP_1_LENGTH			111//82// 78 // 78 real good for globe
+#define STRIP_1_LENGTH			84//82// 78 // 78 real good for globe
 //#	define STRIP_1_LENGTH		208 // 600 is tis the season sign  // bar 302// biker dude 500// MN summit 214 // HELLO SPRING STRIP 1 = 459      //492// playstation controller! - 390// vice city 432// shucmacher - 636// skull sign=200 // 151 for SWENSON SIGN /// FLYNN FARM SIGN = 166!!
 //#endif
 //#define STRIP_1_LENGTH      374 //238    115  // bar 302// biker dude 500// MN summit 214 // HELLO SPRING STRIP 1 = 459      //492// playstation controller! - 390// vice city 432// shucmacher - 636// skull sign=200 // 151 for SWENSON SIGN /// FLYNN FARM SIGN = 166!!
-#define STRIP_2_LENGTH      	307// bar 220 // HELLO SPRING STRIP 2 = 156
+#define STRIP_2_LENGTH      	0// bar 220 // HELLO SPRING STRIP 2 = 156
 #define STRIP_3_LENGTH      	0 //20
 
 #define MAX_NUM_STRIPS			3
 //#define ENABLE_LED_STRIP_SYNC
 
-#define ENABLE_BUTTON
+//#define ENABLE_BUTTON
 
 #if defined(STRIP_3_LENGTH) && (0 < STRIP_3_LENGTH)
 	#define ENABLE_STRIP_1
