@@ -1,3 +1,0 @@
-../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/button/board_spudglo_v7_button_config.c:111:11:button_config_button_to_irq	16	static
-../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/button/board_spudglo_v7_button_config.c:124:10:button_config_irq_to_button	16	static
-../src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v7/peripheral/button/board_spudglo_v7_button_config.c:137:10:button_config_button_pin	16	static

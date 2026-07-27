@@ -77,6 +77,10 @@ src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/peripher
 src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/peripheral/i2c \
 src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/peripheral/spi \
 src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/peripheral/uart \
+src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_mini_v1 \
+src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_mini_v1/peripheral/gpio \
+src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_mini_v1/peripheral/timer \
+src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_mini_v1/peripheral/uart \
 src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v3 \
 src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5 \
 src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/peripheral/gpio \
@@ -102,11 +106,6 @@ src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v8/peripheral/i2c \
 src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v8/peripheral/spi \
 src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v8/peripheral/timer \
 src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v8/peripheral/uart \
-src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v9 \
-src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v9/peripheral/button \
-src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v9/peripheral/gpio \
-src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v9/peripheral/timer \
-src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v9/peripheral/uart \
 src/lib/util \
 startup \
 

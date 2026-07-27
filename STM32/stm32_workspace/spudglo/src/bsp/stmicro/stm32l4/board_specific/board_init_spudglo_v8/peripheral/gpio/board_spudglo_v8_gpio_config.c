@@ -104,7 +104,7 @@ const gpio_config_t g_gpio_config[NUM_GPIO_PINS] =
     },
     [GPIO_PIOC_PIN_14] = // OSC_32K INPUT SIGNAL!!!
     {
-        .pin = GPIO_PIOC_PIN_14,
+        .pin = GPIO_PIN_RV_8803_CLK_OUT,
         .port = GPIO_PORT_C,
         .mode = GPIO_CONFIG_MODE_NO_SETTING
     },
@@ -215,9 +215,10 @@ const gpio_config_t g_gpio_config[NUM_GPIO_PINS] =
     },
     [GPIO_PIOA_PIN_15] = // PROGRAMMING SIGNAL!
     {
-        .pin = GPIO_PIOA_PIN_15,
+        .pin = GPIO_PIN_BLUE_LED,
         .port = GPIO_PORT_A,
-        .mode = GPIO_CONFIG_MODE_NO_SETTING
+        .mode = GPIO_CONFIG_MODE_OUTPUT_PUSHPULL,
+        .lvl = GPIO_CONFIG_OUTPUT_LVL_RESET
     },
 
     // PORTB pins!!!
@@ -241,15 +242,17 @@ const gpio_config_t g_gpio_config[NUM_GPIO_PINS] =
     },
     [GPIO_PIOB_PIN_3] = // PROGRAMMING SIGNAL
     {
-        .pin = GPIO_PIOB_PIN_3,
+        .pin = GPIO_PIN_GREEN_LED,
         .port = GPIO_PORT_B,
-        .mode = GPIO_CONFIG_MODE_NO_SETTING
+        .mode = GPIO_CONFIG_MODE_OUTPUT_PUSHPULL,
+        .lvl = GPIO_CONFIG_OUTPUT_LVL_RESET
     },
     [GPIO_PIOB_PIN_4] = // PROGRAMMING SIGNAL
     {
-        .pin = GPIO_PIOB_PIN_4,
-        .port = GPIO_PORT_B,
-        .mode = GPIO_CONFIG_MODE_NO_SETTING
+		.pin = GPIO_PIN_RED_LED,
+		.port = GPIO_PORT_B,
+		.mode = GPIO_CONFIG_MODE_OUTPUT_PUSHPULL,
+		.lvl = GPIO_CONFIG_OUTPUT_LVL_RESET
     },
     [GPIO_PIOB_PIN_5] = // NC
     {

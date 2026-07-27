@@ -11,11 +11,6 @@ RM := rm -rf
 -include sources.mk
 -include startup/subdir.mk
 -include src/lib/util/subdir.mk
--include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v9/peripheral/uart/subdir.mk
--include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v9/peripheral/timer/subdir.mk
--include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v9/peripheral/gpio/subdir.mk
--include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v9/peripheral/button/subdir.mk
--include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v9/subdir.mk
 -include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v8/peripheral/uart/subdir.mk
 -include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v8/peripheral/timer/subdir.mk
 -include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v8/peripheral/spi/subdir.mk
@@ -41,6 +36,10 @@ RM := rm -rf
 -include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/peripheral/gpio/subdir.mk
 -include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v5/subdir.mk
 -include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_v3/subdir.mk
+-include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_mini_v1/peripheral/uart/subdir.mk
+-include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_mini_v1/peripheral/timer/subdir.mk
+-include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_mini_v1/peripheral/gpio/subdir.mk
+-include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_mini_v1/subdir.mk
 -include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/peripheral/uart/subdir.mk
 -include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/peripheral/spi/subdir.mk
 -include src/bsp/stmicro/stm32l4/board_specific/board_init_spudglo_business_card/peripheral/i2c/subdir.mk
