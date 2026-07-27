@@ -156,92 +156,62 @@ bool task_button_press_check_interrupts(const strip_mask_t mask)
 	bool* pb_interrupt_flag = NULL;
 	*pb_interrupt_flag = false;
 	bit_mask |= ((1 << NUM_BUTTONS)) - 1;
-	uint32_t notification_value = 0;
 
 	bool* pb_major_interrupt_transition_cmplt_flag = &g_led_ctrl[strip_num].led_ctrl_interrupt_info.major_interrupt_transition_cmplt_flag;
 
 	// check if major interrupt occurred
-	if (g_led_ctrl[strip_num].led_ctrl_interrupt_info.major_interrupt_flag)
+	if (led_ctrl_interrupt_read_major_interrupt_flag(mask))
 	{
 		b_interrupt_occurred = true;
 		// save major interrupt status
-		p_interrupt_status = &g_led_ctrl[strip_num].led_ctrl_interrupt_info.major.interrupt_status;
+		p_interrupt_status = led_ctrl_interrupt_read_major_interrupt_status(mask)                             ;
 		// save major interrupt flag
-		pb_interrupt_flag = &g_led_ctrl[strip_num].led_ctrl_interrupt_info.major_interrupt_flag;
+		pb_interrupt_flag = led_ctrl_interrupt_read_major_interrupt_flag_ref(mask);
 		// set a flag to indicate that a major state interrupt has occured
         return_val = true;
 
-//        xTaskNotifyWait(0, notification_value, (uint32_t *)&notification_value, portMAX_DELAY);
-
-        // wait for major_interrupt_transition_cmplt_flag to clear.
-//        while (!(*pb_major_interrupt_transition_cmplt_flag))
-//		{
-            // turn off all LEDs for 500 ms
-//            led_animate_turn_all_pixels_off();
-//            free_rtos_delay_ms(500);
-            *pb_interrupt_flag = false;
-//            reset_ws2812b();
-//            for (uint8_t iii = 0; iii < 3; iii++)
-//            {
-//                // flash the LEDs to signal a master state change.
-//                // turn on all LEDs for 500 ms
-//                led_animate_solid_custom_color(STRIP_BIT_ALL_SET,
-//                                               notification_value);
-////                led_animate_set_all_pixels_hex_color(STRIP_BIT_ALL_SET,
-////                                                     notification_value);
-//                free_rtos_delay_ms(500);
-//                // turn off all LEDs for 500 ms
-//                led_animate_turn_all_pixels_off();
-//                free_rtos_delay_ms(500);
-//            }
-        	// check every 50 ms for the major state change signal to clear.
-        	free_rtos_delay_ms(50);
-//		}
-        // clear the flag for the next go
-        *pb_major_interrupt_transition_cmplt_flag = false;
+        *pb_interrupt_flag = false;
 
 	}
 	// else check if minor interrupt occurred
-	else if (g_led_ctrl[strip_num].led_ctrl_interrupt_info.minor_interrupt_flag)
+	else if (led_ctrl_interrupt_minor_state_flag_is_set(mask))
 	{
 		b_interrupt_occurred = true;
 		// save major interrupt status
-		p_interrupt_status = &g_led_ctrl[strip_num].led_ctrl_interrupt_info.minor.interrupt_status;
+        p_interrupt_status = led_ctrl_interrupt_read_minor_interrupt_status(mask)                             ;
 		// save minor interrupt flag
-		pb_interrupt_flag = &g_led_ctrl[strip_num].led_ctrl_interrupt_info.minor_interrupt_flag;
+        pb_interrupt_flag = led_ctrl_interrupt_read_minor_interrupt_flag_ref(mask);
 	}
+
 	if (b_interrupt_occurred)
 	{
-		if (LED_CTRL_INTERRUPT_BIT_STATE & p_interrupt_status->flat_interrupt_status)
+		if (p_interrupt_status->bits.state)
 		{
-			task_led_ctrl_set_skip_adjust_parameters(true);
+		    // clear the timer here and iterations.  Does iteration count matter anymore?
+//			task_led_ctrl_set_skip_adjust_parameters(true);
 			p_interrupt_status->bits.state = false;
 			return_val = true;
 		}
-		if (LED_CTRL_INTERRUPT_BIT_COLOR & p_interrupt_status->flat_interrupt_status)
+		if (p_interrupt_status->bits.color)
 		{
+		    // why no color adjust here???
 			p_interrupt_status->bits.color = false;
 		}
-		if (LED_CTRL_INTERRUPT_BIT_SPEED & p_interrupt_status->flat_interrupt_status)
+		if (p_interrupt_status->bits.speed)
 		{
-			led_animate_set_adjust_speed(true);
+//			led_animate_set_adjust_speed(true);
 			p_interrupt_status->bits.speed = false;
 		}
-		if (LED_CTRL_INTERRUPT_BIT_PAUSE_BRIGHTNESS & p_interrupt_status->flat_interrupt_status)
+		if (p_interrupt_status->bits.pause_brightness)
 		{
 			if (g_led_ctrl[strip_num].led_ctrl_interrupt_info.minor_interrupt_flag)
 			{
-				// wait for the pause flag to reset
-			    while (led_ctrl_read_pause_state(mask))
-			    {
-			        // check for the flag to clear every 50 ms.
-                    free_rtos_delay_ms(50);
-			    }
-//				while (p_interrupt_status->bits.pause_brightness)
-//				{
-//					// check for the flag to clear every 50 ms.
-//					free_rtos_delay_ms(50);
-//				}
+//				// wait for the pause flag to reset
+//			    while (led_ctrl_read_pause_state(mask))
+//			    {
+//			        // check for the flag to clear every 50 ms.
+//                    free_rtos_delay_ms(50);
+//			    }
 			}
 			p_interrupt_status->bits.pause_brightness = false;
 		}
@@ -337,18 +307,10 @@ void task_button_press(void *argument)
 			{
 				// button active for long enough to signal major state transition
 				*pb_major_interrupt_flag = true;
-				led_ctrl_write_major_interrupt_flag(STRIP_BIT_ALL_SET, true);
-                led_ctrl_write_major_interrupt_flag(STRIP_BIT_1, true);
-                led_ctrl_write_major_interrupt_flag(STRIP_BIT_2, true);
-                led_ctrl_write_major_interrupt_flag(STRIP_BIT_3, true);
-
+				led_ctrl_write_major_interrupt_flag_for_all_strips(true);
 
 				*pb_major_interrupt_transition_cmplt_flag = false;
-
-				led_ctrl_write_minor_interrupt_flag(STRIP_BIT_ALL_SET, false);
-                led_ctrl_write_minor_interrupt_flag(STRIP_BIT_1, false);
-                led_ctrl_write_minor_interrupt_flag(STRIP_BIT_2, false);
-                led_ctrl_write_minor_interrupt_flag(STRIP_BIT_3, false);
+				led_ctrl_write_minor_interrupt_flag_for_all_strips(false);
 				*pb_minor_interrupt_flag = false;
 			}
 			else
@@ -467,6 +429,7 @@ void task_button_press(void *argument)
 #else
 				vTaskResume(g_led_strip_1_ctrl_handle);
                 vTaskResume(g_led_strip_2_ctrl_handle);
+                vTaskResume(g_led_strip_3_ctrl_handle);
 
 #endif
 			}
@@ -548,12 +511,28 @@ void task_button_press(void *argument)
                             led_ctrl_pause_enable(STRIP_BIT_ALL_SET);
                             led_ctrl_pause_enable(STRIP_BIT_1);
                             led_ctrl_pause_enable(STRIP_BIT_2);
-					    }
+                            // suspend the tasks here?
+#                           if defined(ENABLE_LED_STRIP_SYNC)
+                                vTaskSuspend(g_led_strip_sync_ctrl_handle);
+#                           else
+                                vTaskSuspend(g_led_strip_1_ctrl_handle);
+                                vTaskSuspend(g_led_strip_2_ctrl_handle);
+                                vTaskSuspend(g_led_strip_2_ctrl_handle);
+#                           endif
+                        }
 					    else
 					    {
 					        led_ctrl_pause_disable(STRIP_BIT_ALL_SET);
 					        led_ctrl_pause_disable(STRIP_BIT_1);
 					        led_ctrl_pause_disable(STRIP_BIT_2);
+
+#                           if defined(ENABLE_LED_STRIP_SYNC)
+					            vTaskResume(g_led_strip_sync_ctrl_handle);
+#                           else
+					            vTaskResume(g_led_strip_1_ctrl_handle);
+                                vTaskResume(g_led_strip_2_ctrl_handle);
+                                vTaskResume(g_led_strip_2_ctrl_handle);
+#                           endif
 					    }
 					    pause_enable_disable ^= 1;
 //						led_ctrl_pause(STRIP_BIT_2);

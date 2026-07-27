@@ -297,6 +297,28 @@ void led_ctrl_write_major_interrupt_flag(const strip_mask_t mask, bool enable)
 }
 
 
+void led_ctrl_write_major_interrupt_flag_for_all_strips(bool enable)
+{
+    strip_num_e strip_num = STRIP_NUM_INVALID;
+    for (strip_num_e strip_num = STRIP_NUM_1; strip_num < STRIP_NUM_MAX_UNIQUE_STRIPS; strip_num++)
+    {
+        led_ctrl_write_major_interrupt_flag(ws2812_strip_bit_to_strip_num(mask), enable);
+    }
+    led_ctrl_write_major_interrupt_flag(STRIP_BIT_ALL_SET, enable);
+}
+
+
+void led_ctrl_write_minor_interrupt_flag_for_all_strips(bool enable)
+{
+    strip_num_e strip_num = STRIP_NUM_INVALID;
+    for (strip_num_e strip_num = STRIP_NUM_1; strip_num < STRIP_NUM_MAX_UNIQUE_STRIPS; strip_num++)
+    {
+        led_ctrl_write_minor_interrupt_flag(ws2812_strip_bit_to_strip_num(mask), enable);
+    }
+    led_ctrl_write_minor_interrupt_flag(STRIP_BIT_ALL_SET, enable);
+}
+
+
 void led_ctrl_write_minor_interrupt_flag(const strip_mask_t mask, bool enable)
 {
     strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
@@ -405,6 +427,63 @@ led_ctrl_state_info_t* led_ctrl_read_state_info(const strip_mask_t mask)
 {
     strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
     return &g_led_ctrl[strip_num].led_ctrl_state_info;
+}
+
+
+bool led_ctrl_minor_interrupt_state_flag_is_set(const strip_mask_t mask)
+{
+    strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
+    return g_led_ctrl[strip_num].led_ctrl_interrupt_info.minor.state;
+}
+
+
+bool* led_ctrl_minor_interrupt_state_flag_ref(const strip_mask_t mask)
+{
+    strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
+    return &g_led_ctrl[strip_num].led_ctrl_interrupt_info.minor.state;
+}
+
+
+
+bool led_ctrl_minor_interrupt_color_flag_is_set(const strip_mask_t mask)
+{
+    strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
+    return g_led_ctrl[strip_num].led_ctrl_interrupt_info.minor.color;
+}
+
+
+bool* led_ctrl_minor_interrupt_color_flag_ref(const strip_mask_t mask)
+{
+    strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
+    return &g_led_ctrl[strip_num].led_ctrl_interrupt_info.minor.color;
+}
+
+
+bool led_ctrl_minor_interrupt_speed_flag_is_set(const strip_mask_t mask)
+{
+    strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
+    return g_led_ctrl[strip_num].led_ctrl_interrupt_info.minor.speed;
+}
+
+
+bool* led_ctrl_minor_interrupt_speed_flag_ref(const strip_mask_t mask)
+{
+    strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
+    return &g_led_ctrl[strip_num].led_ctrl_interrupt_info.minor.speed;
+}
+
+
+bool led_ctrl_minor_interrupt_pause_flag_is_set(const strip_mask_t mask)
+{
+    strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
+    return g_led_ctrl[strip_num].led_ctrl_interrupt_info.minor.pause_brightness;
+}
+
+
+bool* led_ctrl_minor_interrupt_pause_flag_ref(const strip_mask_t mask)
+{
+    strip_num_e strip_num = ws2812_strip_bit_to_strip_num(mask);
+    return &g_led_ctrl[strip_num].led_ctrl_interrupt_info.minor.pause_brightness;
 }
 
 //

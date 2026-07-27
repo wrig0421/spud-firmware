@@ -82,6 +82,13 @@ led_brightness_e led_ctrl_read_strip_brightness(const strip_mask_t mask);
 void led_ctrl_write_strip_brightness(const strip_mask_t mask,
                                      led_brightness_e led_brightness);
 led_ctrl_state_info_t* led_ctrl_read_state_info(const strip_mask_t);
+
+bool led_ctrl_minor_interrupt_state_flag_is_set(const strip_mask_t mask);
+bool led_ctrl_minor_interrupt_color_flag_is_set(const strip_mask_t mask);
+bool led_ctrl_minor_interrupt_speed_flag_is_set(const strip_mask_t mask);
+bool led_ctrl_minor_interrupt_pause_flag_is_set(const strip_mask_t mask);
+
+
 led_ctrl_time_delay_t* led_ctrl_read_time_delay_ref(const strip_mask_t mask);
 const uint16_t led_ctrl_read_time_delay_inner_loop(const strip_mask_t mask, led_state_e state, led_speed_e speed);
 const uint16_t* led_ctrl_read_time_delay_inner_loop_ref(const strip_mask_t mask, led_state_e state, led_speed_e speed);
