@@ -28,20 +28,20 @@ const timer_config_t g_tim_config[NUM_TIMER_ACCESS_TIMER_INSTANCES] =
 		.pin.timer_alt_func = GPIO_AF1_TIM1,
 		.handle = &g_tim1_handle_config,
 	},
-//	[TIMER_ACCESS_TIMER_INSTANCE_1_CHANNEL_2] =
-//	{
-//		.pin.timer_pin = TIMER_INSTANCE_1_CHANNEL_2,
-//		.pin.timer_port = TIMER_PORT,
-//		.pin.timer_alt_func = GPIO_AF1_TIM1,
-//		.handle = &g_tim1_handle_config,
-//	},
-//	[TIMER_ACCESS_TIMER_INSTANCE_1_CHANNEL_3] =
-//	{
-//		.pin.timer_pin = TIMER_INSTANCE_1_CHANNEL_3,
-//		.pin.timer_port = TIMER_PORT,
-//		.pin.timer_alt_func = GPIO_AF1_TIM1,
-//		.handle = &g_tim1_handle_config,
-//	},
+	[TIMER_ACCESS_TIMER_INSTANCE_1_CHANNEL_2] =
+	{
+		.pin.timer_pin = GPIO_PIN_TIM1_CH2,
+		.pin.timer_port = GPIO_PORT_A,
+		.pin.timer_alt_func = GPIO_AF1_TIM1,
+		.handle = &g_tim1_handle_config,
+	},
+	[TIMER_ACCESS_TIMER_INSTANCE_1_CHANNEL_3] =
+	{
+		.pin.timer_pin = GPIO_PIN_TIM1_CH3,
+		.pin.timer_port = GPIO_PORT_A,
+		.pin.timer_alt_func = GPIO_AF1_TIM1,
+		.handle = &g_tim1_handle_config,
+	}
 };
 
 
